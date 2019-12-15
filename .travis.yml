@@ -48,17 +48,15 @@ jobs:
         - chmod +x /tmp/terraform
         - sudo mv /tmp/terraform /usr/local/bin/ 
         - export PATH="~/bin:$PATH"
-        - terraform init
 
-
-      script: terraform plan ./staging
+      script: terraform plan ./staging/
 
       deploy:
         - provider: script
           skip_cleanup: true
-          script: terraform apply .terraform
+          script: terraform apply ./staging/
           on:
-            branch: master
+            branch: release
 
 notifications:
   email:
