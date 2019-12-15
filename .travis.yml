@@ -56,7 +56,8 @@ jobs:
           skip_cleanup: true
           script: terraform apply ./staging/
           on:
-            branch: release
+            all_branches: true
+            condition: $TRAVIS_BRANCH =~ ^(develop|release)$
 
 notifications:
   email:
