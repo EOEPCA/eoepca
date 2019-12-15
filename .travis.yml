@@ -49,7 +49,7 @@ jobs:
         - sudo mv /tmp/terraform /usr/local/bin/ 
         - export PATH="~/bin:$PATH"
 
-      script: terraform plan ./staging/
+      script: terraform init && terraform plan ./staging/
 
       deploy:
         - provider: script
