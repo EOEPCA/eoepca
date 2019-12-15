@@ -19,7 +19,7 @@ sleep 60
 
 # Various debug statements
 
-debug=false
+debug=true
 
 if ($debug == "true"); then
 
