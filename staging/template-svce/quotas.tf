@@ -1,0 +1,11 @@
+resource "kubernetes_resource_quota" "batch-job" {
+  metadata {
+    name = "batch-job"
+	namespace = "eo-user-compute"
+  }
+  spec {
+    hard = {
+      pods = 10
+    }
+  }
+}
