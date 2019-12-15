@@ -7,12 +7,11 @@ services:
 
 jobs:
   include:
-    - stage: staging
+    - stage: test
 
       branch:
         only:
         - develop
-        - release 
 
       # Need to install the JDK to build the Java Integration Tests
       jdk: openjdk10
@@ -49,15 +48,14 @@ jobs:
         - sudo mv /tmp/terraform /usr/local/bin/ 
         - export PATH="~/bin:$PATH"
 
-      script: terraform init ./staging/ && terraform plan ./staging/
+      script: terraform init ./test/ && terraform plan ./test/
 
       deploy:
         - provider: script
           skip_cleanup: true
-          script: terraform apply ./staging/
+          script: travis/test.sh
           on:
-            all_branches: true
-            condition: $TRAVIS_BRANCH =~ ^(develop|release)$
+            branches: develop
 
 notifications:
   email:
