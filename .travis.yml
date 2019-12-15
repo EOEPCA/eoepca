@@ -55,7 +55,7 @@ jobs:
           skip_cleanup: true
           script: travis/test.sh
           on:
-            branches: develop
+            branch: develop
 
 notifications:
   email:
