@@ -48,7 +48,7 @@ jobs:
         - sudo mv /tmp/terraform /usr/local/bin/ 
         - export PATH="~/bin:$PATH"
 
-      script: terraform init ./test/ && terraform plan ./test/
+      script: terraform init ./test/ -input=false 
 
       deploy:
         - provider: script

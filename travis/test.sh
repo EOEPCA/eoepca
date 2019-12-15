@@ -7,7 +7,7 @@ set -euov pipefail
 
 
 # Create the K8S environment
-terraform apply ./test
+terraform apply ./test -input=false -auto-approve
 # Database username and password are from Travis environment variables..for simplicity.  Travis secretes or Helm templates may be better.
 # kubectl create secret generic db-user-pass --from-literal=db_username=$DB_USER --from-literal=db_password=$DB_PASSWORD --namespace=eo-services
 
