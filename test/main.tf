@@ -1,5 +1,5 @@
 provider "kubernetes" {
-  host = "https://192.168.99.100:8443"
+  host = "https://10.30.0.75:8443"
 }
 
 module "template-svce" {
