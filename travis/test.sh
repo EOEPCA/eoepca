@@ -5,9 +5,11 @@ set -euov pipefail
 # Not supported in travis (xenial)
 # shopt -s inherit_errexit
 
+# local host machine's minikube VM IP
+minikubeIP=$(minikube ip)
 
 # Create the K8S environment
-terraform apply -input=false -auto-approve ./test
+terraform apply -var="minikube-ip=${minikubeIP}" -input=false -auto-approve ./test
 # Database username and password are from Travis environment variables..for simplicity.  Travis secretes or Helm templates may be better.
 # kubectl create secret generic db-user-pass --from-literal=db_username=$DB_USER --from-literal=db_password=$DB_PASSWORD --namespace=eo-services
 
@@ -48,8 +50,6 @@ fi
 
 
 echo Testing connectivity with the services
-# local host machine's minikube VM IP
-minikubeIP=$(minikube ip)
 templateSvcNodePort=$(kubectl get service --namespace=eo-services template-svce --output=jsonpath='{.spec.ports[0].nodePort}')
 revProxyNodePort=$(kubectl get svc --namespace=eo-services frontend --output=jsonpath='{.spec.ports[0].nodePort}')
 
