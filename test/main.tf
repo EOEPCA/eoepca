@@ -4,7 +4,6 @@ variable "minikube-ip" {
 }
 
 provider "kubernetes" {
-  host = var.minikube-ip
 }
 
 module "template-svce" {
