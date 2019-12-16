@@ -6,7 +6,7 @@ set -euov pipefail
 # shopt -s inherit_errexit
 
 # local host machine's minikube VM IP
-minikubeIP=$(kubectl cluster-info | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
+minikubeIP=$(kubectl cluster-info | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\:[0-9]{1,4}')
 
 # Create the K8S environment
 terraform apply -var="minikube-ip=${minikubeIP}" -input=false -auto-approve ./test
