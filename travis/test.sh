@@ -9,7 +9,7 @@ set -euov pipefail
 minikubeIP=$(kubectl cluster-info | sed 's/\r$//' | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\:[0-9]{1,4}')
 
 # Create the K8S environment
-terraform apply -var="minikube-ip=${minikubeIP}" -input=false -auto-approve ./test
+terraform apply -input=false -auto-approve ./test
 # Database username and password are from Travis environment variables..for simplicity.  Travis secretes or Helm templates may be better.
 # kubectl create secret generic db-user-pass --from-literal=db_username=$DB_USER --from-literal=db_password=$DB_PASSWORD --namespace=eo-services
 
