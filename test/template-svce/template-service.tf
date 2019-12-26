@@ -57,22 +57,22 @@ resource "kubernetes_deployment" "template-service-deployment" {
           env {
             name = "DB_USERNAME"
 	    value = "user"
-            # value_from {
-	    #  secret_key_ref {
-            #    name = "db-user-pass"
-	    #    key = "db_username"
-	    #  }
-            #}
+            value_from {
+	      secret_key_ref {
+                name = "db-user-pass"
+	        key = "db_username"
+	      }
+            }
           }
           env {
             name = "DB_PASSWORD"
 	    value = "passwd"
-            #value_from {
-	    #  secret_key_ref {
-	    #    name = "db-user-pass"
-            #    key = "db_password"
-	    #  }
-	    #}
+            value_from {
+	      secret_key_ref {
+	        name = "db-user-pass"
+                key = "db_password"
+	      }
+	    }
           }
         }
       }
