@@ -5,14 +5,8 @@ set -euov pipefail
 # Not supported in travis (xenial)
 # shopt -s inherit_errexit
 
-# local host machine's minikube VM IP
-minikubeIP=$(kubectl cluster-info | sed 's/\r$//' | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\:[0-9]{1,4}')
-
 # Create the K8S environment
 terraform apply -input=false -auto-approve -var='db_username=$DB_USER' -var='db_password=$DB_PASSWORD' ./test
-
-# wait for k8S and pods to start-up
-sleep 60
 
 # Various debug statements
 debug=true
@@ -42,6 +36,9 @@ templateSvcNodePort=$(kubectl get service --namespace=eo-services template-svce 
 revProxyNodePort=$(kubectl get svc --namespace=eo-services frontend --output=jsonpath='{.spec.ports[0].nodePort}')
 
 if ($debug == "true"); then
+    # local host machine's minikube VM IP
+    minikubeIP=$(kubectl cluster-info | sed 's/\r$//' | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\:[0-9]{1,4}')
+
     # Both the micro-service and reverse proxy are exposed as node ports for testing purposes
     # curl echoes both ports to check connectivity.  The second set echoes the server headers should report nginx and javalin
     curl http://${minikubeIP}:${revProxyNodePort}/search | jq '.'
