@@ -9,3 +9,13 @@ variable "amis" {
     "eu-west-1" = "ami-60349919"
   }
 }
+
+variable "db_username" {
+  type = string
+  default = "a_module_user"
+}
+
+variable "db_password" {
+  type = string
+  default = "a_module_user's_password"
+}
