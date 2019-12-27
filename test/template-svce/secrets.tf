@@ -5,8 +5,8 @@ resource "kubernetes_secret" "db-user-pass" {
   }
 
   data = {
-    db_username = var.db_username
-    db_password = var.db_password
+    username = var.db_username
+    password = var.db_password
   }
 
   type = "kubernetes.io/basic-auth"
