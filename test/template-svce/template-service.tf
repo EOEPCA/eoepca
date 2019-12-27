@@ -55,18 +55,16 @@ resource "kubernetes_deployment" "template-service-deployment" {
           }
 		  
           env {
-            name = "DB_USERNAME"
-	    value = "user"
+            name = "DB_USERNAME" # container specific environment variable name
             value_from {
 	      secret_key_ref {
-                name = "db-user-pass"
-	        key = "db_username"
+                name = "db-user-pass" # K8S secret name
+	        key = "db_username" # key within the secret
 	      }
             }
           }
           env {
             name = "DB_PASSWORD"
-	    value = "passwd"
             value_from {
 	      secret_key_ref {
 	        name = "db-user-pass"
