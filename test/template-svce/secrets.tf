@@ -5,9 +5,7 @@ resource "kubernetes_secret" "db-user-pass" {
   }
 
   data = {
-    username = var.db_username
     db_username = var.db_username
-    password = var.db_password
     db_password = var.db_password
   }
 
