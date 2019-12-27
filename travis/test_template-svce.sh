@@ -10,19 +10,12 @@ minikubeIP=$(kubectl cluster-info | sed 's/\r$//' | grep -oE '[0-9]{1,3}\.[0-9]{
 
 # Create the K8S environment
 terraform apply -input=false -auto-approve -var='db_username=$DB_USER' -var='db_password=$DB_PASSWORD' ./test
-# Database username and password are from Travis environment variables..for simplicity.  Travis secretes or Helm templates may be better.
-# kubectl create secret generic db-user-pass --from-literal=db_username=$DB_USER --from-literal=db_password=$DB_PASSWORD --namespace=eo-services
 
 # wait for k8S and pods to start-up
 sleep 60
 
-# Make sure created pod is scheduled and running.
-#- JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status};{end}{end}'; until kubectl -n default get pods -lapp=travis-example -o jsonpath="$JSONPATH" 2>&1 | grep -q "Ready=True"; do sleep 1;echo "waiting for travis-example deployment to be available"; kubectl get pods -n default; done
-
 # Various debug statements
-
 debug=true
-
 if ($debug == "true"); then
 
     # View cluster (kubectl) config in ~/.kube/config
@@ -35,10 +28,7 @@ if ($debug == "true"); then
     #- kubectl logs -lapp=catalogue-service --all-containers=true
     kubectl logs --namespace=eo-services deployment/template-service-deployment --all-containers=true
     kubectl logs --namespace=eo-services deployment/frontend --all-containers=true
-    #- kubectl expose deployment catalogue-service-deployment --name=cat-svce2 --port=8083 --target-port=7000 --type=NodePort
-    #- kubectl get svc cat-svce
     kubectl get service --namespace=eo-services template-svce -o json
-
     kubectl describe deployment --namespace=eo-services template-service-deployment
     kubectl describe service --namespace=eo-services template-svce
     kubectl describe service --namespace=eo-services frontend
@@ -46,8 +36,6 @@ if ($debug == "true"); then
     echo Cluster IP of template-svce is $clusterIP
 
 fi
-
-
 
 echo Testing connectivity with the services
 templateSvcNodePort=$(kubectl get service --namespace=eo-services template-svce --output=jsonpath='{.spec.ports[0].nodePort}')
@@ -62,14 +50,6 @@ if ($debug == "true"); then
     curl -si http://${minikubeIP}:${templateSvcNodePort}/search
 fi
 
-echo Running integration tests
-# Environment variables used by the Java integration tests if set
-export SEARCH_SERVICE_HOST=${minikubeIP}
-export SEARCH_SERVICE_PORT=${revProxyNodePort}
-# ./gradlew integrationTest
-
-sleep 60
-
 kubectl logs --namespace=eo-services deployment/frontend --all-containers=true
 kubectl logs --namespace=eo-services deployment/template-service-deployment --all-containers=true
 
@@ -83,10 +63,6 @@ if ($debug == "true"); then
     kubectl describe deployments --namespace=eo-user-compute
     kubectl describe services    --namespace=eo-user-compute
     kubectl describe jobs        --namespace=eo-user-compute
-
-    #kubectl describe jobs/pi --namespace=eo-user-compute
-    #kubectl describe job pi   --namespace=eo-user-compute
-
     kubectl describe quota --namespace=eo-user-compute
 fi
 
@@ -96,6 +72,5 @@ kubectl describe job pi   --namespace=eo-user-compute
 kubectl describe pv
 kubectl describe pvc --namespace=eo-user-compute
 kubectl get storageclass
-
 
 kubectl logs --namespace=eo-user-compute job/pi --all-containers=true
