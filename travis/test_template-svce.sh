@@ -9,7 +9,7 @@ set -euov pipefail
 terraform apply -input=false -auto-approve -var='db_username=$DB_USER' -var='db_password=$DB_PASSWORD' ./test
 
 # Various debug statements
-debug=true
+debug=false
 if ($debug == "true"); then
 
     # View cluster (kubectl) config in ~/.kube/config
@@ -22,29 +22,33 @@ if ($debug == "true"); then
     #- kubectl logs -lapp=catalogue-service --all-containers=true
     kubectl logs --namespace=eo-services deployment/template-service-deployment --all-containers=true
     kubectl logs --namespace=eo-services deployment/frontend --all-containers=true
-    kubectl get service --namespace=eo-services template-svce -o json
+    kubectl get service --namespace=eo-services template-service -o json
     kubectl describe deployment --namespace=eo-services template-service-deployment
-    kubectl describe service --namespace=eo-services template-svce
+    kubectl describe service --namespace=eo-services template-service
     kubectl describe service --namespace=eo-services frontend
-    clusterIP=$(kubectl get svc --namespace=eo-services template-svce -o json | jq -r '.spec.clusterIP')
-    echo Cluster IP of template-svce is $clusterIP
 
 fi
 
 echo Testing connectivity with the services
-templateSvcNodePort=$(kubectl get service --namespace=eo-services template-svce --output=jsonpath='{.spec.ports[0].nodePort}')
-revProxyNodePort=$(kubectl get svc --namespace=eo-services frontend --output=jsonpath='{.spec.ports[0].nodePort}')
+clusterIP=$(kubectl get svc --namespace=eo-services template-service -o json | jq -r '.spec.clusterIP')
+templateSvcNodePort=$(kubectl get service --namespace=eo-services template-service --output=jsonpath='{.spec.ports[0].port}')
+
+echo Cluster IP of template-service is ${clusterIP}:${templateSvcNodePort}
+revProxyIP=$(kubectl get svc --namespace=eo-services frontend -o json | jq -r '.spec.clusterIP')
+revProxyNodePort=$(kubectl get svc --namespace=eo-services frontend --output=jsonpath='{.spec.ports[0].port}')
+
+echo Cluster IP of frontend is ${revProxyIP}:${revProxyNodePort}
 
 if ($debug == "true"); then
     # local host machine's minikube VM IP
-    minikubeIP=$(kubectl cluster-info | sed 's/\r$//' | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\:[0-9]{1,4}')
-
+    minikubeIP=$(kubectl cluster-info | sed 's/\r$//' | grep 'master' | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\:[0-9]{1,4}')
+    echo "MiniKupe Master IP is ${minikubeIP}"
     # Both the micro-service and reverse proxy are exposed as node ports for testing purposes
     # curl echoes both ports to check connectivity.  The second set echoes the server headers should report nginx and javalin
-    curl http://${minikubeIP}:${revProxyNodePort}/search | jq '.'
-    curl http://${minikubeIP}:${templateSvcNodePort}/search | jq '.'
-    curl -si http://${minikubeIP}:${revProxyNodePort}/search
-    curl -si http://${minikubeIP}:${templateSvcNodePort}/search
+    curl http://${revProxyIP}:${revProxyNodePort}/search | jq '.'
+    curl http://${clusterIP}:${templateSvcNodePort}/search | jq '.'
+    curl -si http://${revProxyIP}:${revProxyNodePort}/search
+    curl -si http://${clusterIP}:${templateSvcNodePort}/search
 fi
 
 kubectl logs --namespace=eo-services deployment/frontend --all-containers=true
@@ -63,11 +67,7 @@ if ($debug == "true"); then
     kubectl describe quota --namespace=eo-user-compute
 fi
 
-kubectl describe job pi   --namespace=eo-user-compute
-
 # Debug Persistent Volumes, PV Claims and Storage Classes
 kubectl describe pv
 kubectl describe pvc --namespace=eo-user-compute
 kubectl get storageclass
-
-kubectl logs --namespace=eo-user-compute job/pi --all-containers=true

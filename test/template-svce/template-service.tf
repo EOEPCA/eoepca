@@ -18,6 +18,9 @@ resource "kubernetes_service" "template-service" {
 	  protocol = "TCP"
     }
   }
+  timeouts {
+    create = "3m"
+  }
 }
 
 resource "kubernetes_deployment" "template-service-deployment" {
@@ -59,7 +62,7 @@ resource "kubernetes_deployment" "template-service-deployment" {
             value_from {
 	      secret_key_ref {
                 name = "db-user-pass" # K8S secret name
-	        key = "db_username" # key within the secret
+	        key = "username" # key within the secret
 	      }
             }
           }
@@ -68,12 +71,15 @@ resource "kubernetes_deployment" "template-service-deployment" {
             value_from {
 	      secret_key_ref {
 	        name = "db-user-pass"
-                key = "db_password"
+                key = "password"
 	      }
 	    }
           }
         }
       }
     }
+  }
+  timeouts {
+    create = "3m"
   }
 }
