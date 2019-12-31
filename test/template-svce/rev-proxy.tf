@@ -47,7 +47,7 @@ resource "kubernetes_deployment" "frontend" {
 
     template {
       metadata {
-        labels = {
+       labels = {
           app = "template-service"
 		  tier = "frontend"
         }
@@ -80,5 +80,8 @@ resource "kubernetes_deployment" "frontend" {
 		}
       }
     }
+  }
+  timeouts {
+    create = "2m"
   }
 }

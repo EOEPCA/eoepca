@@ -80,6 +80,9 @@ resource "kubernetes_deployment" "template-service-deployment" {
     }
   }
   timeouts {
-    create = "3m"
+    create = "2m"
   }
+  depends_on = [
+    kubernetes_secret.db-user-pass, 
+  ]
 }
