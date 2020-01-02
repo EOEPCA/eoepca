@@ -50,7 +50,7 @@ jobs:
       deploy:
         - provider: script
           skip_cleanup: true
-          script: travis/test_template-svce.sh
+          script: sh travis/test_template-svce.sh
           on:
             branch: develop
 
