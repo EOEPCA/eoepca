@@ -8,4 +8,7 @@ resource "kubernetes_resource_quota" "batch-job" {
       pods = 10
     }
   }
+  depends_on = [
+    kubernetes_namespace.eo-user-compute,
+  ]
 }

@@ -1,12 +1,13 @@
 #!/bin/bash
 
 # fail fast settings from https://dougrichardson.org/2018/08/03/fail-fast-bash-scripting.html
-set -euov pipefail
+#set -euov pipefail
 # Not supported in travis (xenial)
 # shopt -s inherit_errexit
 
 # Create the K8S environment
-terraform apply -input=false -auto-approve -var='db_username=$DB_USER' -var='db_password=$DB_PASSWORD' ./test
+cd terraform/test
+terraform apply -input=false -auto-approve -var='db_username=$DB_USER' -var='db_password=$DB_PASSWORD' 
 
 # Various debug statements
 debug=false
