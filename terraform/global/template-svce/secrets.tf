@@ -10,4 +10,6 @@ resource "kubernetes_secret" "db-user-pass" {
   }
 
   type = "kubernetes.io/basic-auth"
+  depends_on = [
+    kubernetes_namespace.eo-services,                                                                                                              ]
 }

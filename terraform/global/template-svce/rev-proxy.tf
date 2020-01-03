@@ -1,18 +1,21 @@
 resource "kubernetes_config_map" "nginx-config" {
   metadata {
     name = "nginx-config"
-	namespace = "eo-services"
+    namespace = "eo-services"
   }
 
   data = {   
     "nginx.conf" = "${file("${path.module}/nginx.cfg")}"
   }
+  depends_on = [
+    kubernetes_namespace.eo-services,
+  ]
 }
 
 resource "kubernetes_service" "frontend" {
   metadata {
     name = "frontend"
-	namespace = "eo-services"
+    namespace = "eo-services"
   }
   spec {
     selector = {
@@ -27,12 +30,14 @@ resource "kubernetes_service" "frontend" {
 
     type = "NodePort"
   }
+  depends_on = [
+    kubernetes_namespace.eo-services,                                                                                                              ]
 }
 
 resource "kubernetes_deployment" "frontend" {
   metadata {
     name = "frontend"
-	namespace = "eo-services"
+    namespace = "eo-services"
   }
 
   spec {
@@ -84,4 +89,6 @@ resource "kubernetes_deployment" "frontend" {
   timeouts {
     create = "2m"
   }
+  depends_on = [
+    kubernetes_namespace.eo-services,                                                                                                              ]
 }

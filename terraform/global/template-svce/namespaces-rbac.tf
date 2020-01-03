@@ -25,19 +25,25 @@ resource "kubernetes_service_account" "bob-the-builder" {
   }
   
   automount_service_account_token = true  
+  depends_on = [
+    kubernetes_namespace.eo-services,
+  ]
 }
 
 resource "kubernetes_role" "eo-power-user" {
   metadata {
     namespace = "eo-services"
-	name = "eo-power-user"
+    name = "eo-power-user"
   }
 
   rule {
     api_groups     = ["", "extensions", "apps", "batch"]
     resources      = ["deployments", "replicasets", "pods", "jobs"]
     verbs          = ["get", "list", "watch", "create", "update", "patch", "delete"]
-  }
+  } 
+  depends_on = [
+    kubernetes_namespace.eo-services,
+  ]
 }
 
 resource "kubernetes_role_binding" "bob-the-builder-binding" {
@@ -55,6 +61,8 @@ resource "kubernetes_role_binding" "bob-the-builder-binding" {
     name      = "bob-the-builder"
     namespace = "eo-services"
   }
+  depends_on = [
+    kubernetes_namespace.eo-services,                                                                                                              ]
 }
 
 resource "kubernetes_role" "eo-power-user2" {
@@ -68,6 +76,9 @@ resource "kubernetes_role" "eo-power-user2" {
     resources      = ["jobs"]
     verbs          = ["get", "list", "watch", "create", "update", "patch", "delete"]
   }
+  depends_on = [
+    kubernetes_namespace.eo-user-compute,
+  ]
 }
 
 resource "kubernetes_role_binding" "bob-the-builder-binding2" {
@@ -85,6 +96,9 @@ resource "kubernetes_role_binding" "bob-the-builder-binding2" {
     name      = "bob-the-builder"
     namespace = "eo-services"
   }
+  depends_on = [
+    kubernetes_namespace.eo-user-compute,
+  ]
 }
 
 resource "kubernetes_cluster_role" "volume-reader" {

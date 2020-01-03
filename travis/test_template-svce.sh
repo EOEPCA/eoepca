@@ -6,10 +6,10 @@ set -euov pipefail
 # shopt -s inherit_errexit
 
 # Create the K8S environment
-terraform apply -input=false -auto-approve -var='db_username=$DB_USER' -var='db_password=$DB_PASSWORD' ./test
+cd ${TRAVIS_BUILD_DIR}/terraform/test && terraform apply -input=false -auto-approve -var='db_username=$DB_USER' -var='db_password=$DB_PASSWORD' 
 
 # Various debug statements
-debug=false
+debug=true
 if ($debug == "true"); then
 
     # View cluster (kubectl) config in ~/.kube/config

@@ -45,12 +45,12 @@ jobs:
         - sudo mv /tmp/terraform /usr/local/bin/ 
         - export PATH="~/bin:$PATH"
 
-      script: terraform init -input=false ./test
+      script: cd terraform/test && terraform init -input=false
 
       deploy:
         - provider: script
           skip_cleanup: true
-          script: travis/test_template-svce.sh
+          script: ${TRAVIS_BUILD_DIR}/travis/test_template-svce.sh
           on:
             branch: develop
 

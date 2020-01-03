@@ -1,7 +1,7 @@
 resource "kubernetes_service" "template-service" {
   metadata {
     name = "template-service"
-	namespace = "eo-services"
+    namespace = "eo-services"
   }
   spec {
     type = "NodePort"
@@ -21,6 +21,8 @@ resource "kubernetes_service" "template-service" {
   timeouts {
     create = "3m"
   }
+  depends_on = [
+    kubernetes_namespace.eo-services,                                                                                                              ]
 }
 
 resource "kubernetes_deployment" "template-service-deployment" {
@@ -83,6 +85,6 @@ resource "kubernetes_deployment" "template-service-deployment" {
     create = "2m"
   }
   depends_on = [
-    kubernetes_secret.db-user-pass, 
+    kubernetes_secret.db-user-pass, kubernetes_namespace.eo-services,
   ]
 }
