@@ -6,8 +6,7 @@ set -euov pipefail
 # shopt -s inherit_errexit
 
 # Create the K8S environment
-cd ../terraform/test
-terraform apply -input=false -auto-approve -var='db_username=$DB_USER' -var='db_password=$DB_PASSWORD' 
+cd terraform/test && terraform apply -input=false -auto-approve -var='db_username=$DB_USER' -var='db_password=$DB_PASSWORD' 
 
 # Various debug statements
 debug=false
