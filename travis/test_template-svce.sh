@@ -10,6 +10,7 @@ cd ${TRAVIS_BUILD_DIR}/terraform/test && terraform apply -input=false -auto-appr
 
 # Various debug statements
 debug=true
+
 if ($debug == "true"); then
 
     # View cluster (kubectl) config in ~/.kube/config
@@ -29,32 +30,30 @@ if ($debug == "true"); then
 
 fi
 
+echo Testing connectivity with the infrastructure
+# local host machine's minikube VM IP
+minikubeIP=$(kubectl cluster-info | sed 's/\r$//' | grep 'master' | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\:[0-9]{1,4}')
+echo "MiniKube Master IP is ${minikubeIP}"
+
 echo Testing connectivity with the services
 clusterIP=$(kubectl get svc --namespace=eo-services template-service -o json | jq -r '.spec.clusterIP')
 templateSvcNodePort=$(kubectl get service --namespace=eo-services template-service --output=jsonpath='{.spec.ports[0].port}')
-
 echo Cluster IP of template-service is ${clusterIP}:${templateSvcNodePort}
 revProxyIP=$(kubectl get svc --namespace=eo-services frontend -o json | jq -r '.spec.clusterIP')
 revProxyNodePort=$(kubectl get svc --namespace=eo-services frontend --output=jsonpath='{.spec.ports[0].port}')
-
 echo Cluster IP of frontend is ${revProxyIP}:${revProxyNodePort}
 
-if ($debug == "true"); then
-    # local host machine's minikube VM IP
-    minikubeIP=$(kubectl cluster-info | sed 's/\r$//' | grep 'master' | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\:[0-9]{1,4}')
-    echo "MiniKupe Master IP is ${minikubeIP}"
-    # Both the micro-service and reverse proxy are exposed as node ports for testing purposes
-    # curl echoes both ports to check connectivity.  The second set echoes the server headers should report nginx and javalin
-    curl http://${revProxyIP}:${revProxyNodePort}/search | jq '.'
-    curl http://${clusterIP}:${templateSvcNodePort}/search | jq '.'
-    curl -si http://${revProxyIP}:${revProxyNodePort}/search
-    curl -si http://${clusterIP}:${templateSvcNodePort}/search
-fi
-
-kubectl logs --namespace=eo-services deployment/frontend --all-containers=true
-kubectl logs --namespace=eo-services deployment/template-service-deployment --all-containers=true
+# Both the micro-service and reverse proxy are exposed as node ports for testing purposes
+# curl echoes both ports to check connectivity.  The second set echoes the server headers should report nginx and javalin
+curl http://${revProxyIP}:${revProxyNodePort}/search | jq '.'
+curl http://${clusterIP}:${templateSvcNodePort}/search | jq '.'
+curl -si http://${revProxyIP}:${revProxyNodePort}/search
+curl -si http://${clusterIP}:${templateSvcNodePort}/search
 
 if ($debug == "true"); then
+    kubectl logs --namespace=eo-services deployment/frontend --all-containers=true
+    kubectl logs --namespace=eo-services deployment/template-service-deployment --all-containers=true
+    
     # Namespace: eo-services
     kubectl describe deployments --namespace=eo-services
     kubectl describe services    --namespace=eo-services
@@ -65,9 +64,9 @@ if ($debug == "true"); then
     kubectl describe services    --namespace=eo-user-compute
     kubectl describe jobs        --namespace=eo-user-compute
     kubectl describe quota --namespace=eo-user-compute
-fi
 
-# Debug Persistent Volumes, PV Claims and Storage Classes
-kubectl describe pv
-kubectl describe pvc --namespace=eo-user-compute
-kubectl get storageclass
+    # Debug Persistent Volumes, PV Claims and Storage Classes
+    kubectl describe pv
+    kubectl describe pvc --namespace=eo-user-compute
+    kubectl get storageclass
+fi
