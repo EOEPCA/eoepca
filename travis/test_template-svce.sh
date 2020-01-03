@@ -9,7 +9,7 @@ set -euov pipefail
 cd ${TRAVIS_BUILD_DIR}/terraform/test && terraform apply -input=false -auto-approve -var='db_username=$DB_USER' -var='db_password=$DB_PASSWORD' 
 
 # Various debug statements
-debug=false
+debug=true
 if ($debug == "true"); then
 
     # View cluster (kubectl) config in ~/.kube/config
