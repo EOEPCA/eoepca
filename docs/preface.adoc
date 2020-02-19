@@ -1,0 +1,22 @@
+
+{project-name}
+_{doc-title}_
+{doc-num}
+
+[cols="^1,^1"]
+|===
+| *COMMENTS and ISSUES* +
+If you would like to raise comments or issues on this document, please do so by raising an Issue at the following URL https://github.com/EOEPCA/{component-github-name}/issues.
+| *PDF* +
+This document is available in PDF format link:EOEPCA-{component-github-name}.pdf[here^].
+| *EUROPEAN SPACE AGENCY CONTRACT REPORT* +
+The work described in this report was done under ESA contract. Responsibility for the contents resides in the author or organisation that prepared it.
+| *TELESPAZIO VEGA UK Ltd* +
+350 Capability Green, Luton, Bedfordshire, LU1 3LU, United Kingdom. +
+Tel: +44 (0)1582 399000 +
+http://telespazio-vega.com/[www.telespazio-vega.com]
+|===
+
+include::amendment-history.adoc[]
+
+<<<

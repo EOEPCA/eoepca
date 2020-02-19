@@ -54,6 +54,9 @@ jobs:
           on:
             branch: develop
 
+import:
+  - docs/.travis.yml
+
 notifications:
   email:
     recipients:
