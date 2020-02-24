@@ -10,6 +10,9 @@ variable "db_password" {
 
 provider "kubernetes" {
   # When no host is specified this provider reads ~./kube/config
+  load_config_file = "false"
+
+  host = "localhost"
 }
 
 module "template-svce" {

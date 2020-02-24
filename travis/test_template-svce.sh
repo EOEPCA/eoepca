@@ -5,6 +5,9 @@ set -euov pipefail
 # Not supported in travis (xenial)
 # shopt -s inherit_errexit
 
+# Check presence of environment variables
+TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-.}"
+
 # Create the K8S environment
 cd ${TRAVIS_BUILD_DIR}/terraform/test && terraform apply -input=false -auto-approve -var='db_username=$DB_USER' -var='db_password=$DB_PASSWORD' 
 
