@@ -58,6 +58,7 @@ import:
   - docs/.travis.yml
 
 notifications:
+  slack: eoepca:Msk9hjQKAbwSYcVWiepenPim
   email:
     recipients:
       - a.person@acme.com
