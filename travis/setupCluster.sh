@@ -32,6 +32,7 @@ sudo chmod o+r ${HOME}/.kube/config
 sudo chmod -R o+r ${HOME}/.minikube/
 
 echo "##### Installing Terraform version $TF_VER"
+sudo apt-get install unzip
 curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/${TF_VER}/terraform_${TF_VER}_linux_amd64.zip
 unzip /tmp/terraform.zip -d /tmp
 chmod +x /tmp/terraform
