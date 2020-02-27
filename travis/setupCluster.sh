@@ -29,6 +29,7 @@ JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.ty
 kubectl cluster-info
 
 sudo chmod o+r ${HOME}/.kube/config
+sudo chmod -R o+r ${HOME}/.minikube/
 
 echo "##### Installing Terraform version $TF_VER"
 curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/${TF_VER}/terraform_${TF_VER}_linux_amd64.zip
