@@ -19,12 +19,12 @@ jobs:
 
       before_script: sudo sh travis/setupCluster.sh
 
-      script: cd terraform/test && terraform init -input=false
+      script: cd terraform/test && sudo terraform init -input=false
 
       deploy:
         - provider: script
           skip_cleanup: true
-          script: ${TRAVIS_BUILD_DIR}/travis/test_template-svce.sh
+          script: sudo sh ${TRAVIS_BUILD_DIR}/travis/test_template-svce.sh
           on:
             branch: develop
 
