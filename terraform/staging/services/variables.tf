@@ -7,11 +7,11 @@ default = "eo1.small"
 }
 
 variable "ssh_key_file" {
-default = "~/.ssh/id_rsa.terraform"
+default = "~/.ssh/cloud.key"
 }
 
 variable "ssh_user_name" {
-default = "root"
+default = "eouser"
 }
 
 variable "external_network_name" {

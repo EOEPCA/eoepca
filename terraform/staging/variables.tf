@@ -7,11 +7,11 @@ variable "user_name" {
 }
 
 variable "tenant_id" {
-  default = "34d50b6d6afc43208f1db3b23fbf51b9"
+  default = "b1ad850657884a0a9d3a2bf847b755a9"
 }
 
 variable "tenant_name" {
-  default = "cloud_13658 project_without_eo"
+  default = "eoepca"
 }
 
 variable "user_domain_name" {

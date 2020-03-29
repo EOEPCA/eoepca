@@ -1,0 +1,11 @@
+---
+    - name: EOEPCA staging environment
+      hosts: all
+      become: yes
+
+      vars:
+        kubernetes_allow_pods_on_master: true
+  
+      roles:
+      - geerlingguy.docker
+      - geerlingguy.kubernetes
