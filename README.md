@@ -44,18 +44,19 @@
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
 
-* [About the Project](#about-the-project)
-  * [Built With](#built-with)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
-  * [Testing](#testing)
-* [Usage](#usage)
-* [Roadmap](#roadmap)
-* [Contributing](#contributing)
-* [License](#license)
-* [Contact](#contact)
-* [Acknowledgements](#acknowledgements)
+- [Table of Contents](#table-of-contents)
+- [About The Project](#about-the-project)
+  - [Built With](#built-with)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Testing](#testing)
+- [Usage](#usage)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+- [Acknowledgements](#acknowledgements)
 
 
 
@@ -68,14 +69,13 @@ Here's a blank template to get started:
 **To avoid retyping too much info. Do a search and replace with your text editor for the following:**
 `template-svce`, `twitter_handle`, `email`
 
-
 ### Built With
 
 * [Terraform](https://terraform.io/)
+* [Ansible](https://ansible.com)
 * [Kubernetes](https://kubernetes.io)
 * [Minikube](https://github.com/kubernetes/minikube)
-
-
+* [Docker](https://docker.com)
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -86,15 +86,33 @@ To get a local copy up and running follow these simple steps.
 
 Things you need to use the software and how to install them.
 * [Terraform](https://terraform.io/) 
-* [Minikube](https://github.com/kubernetes/minikube)
+* [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
 ### Installation
 
-TBW
+- Local environment - It creates a testing environment in a Minikube cluster deployed on the local machine  
+1. `cd terraform/test`
+2. `terraform init`
+3. `terraform apply --auto-approve`
+
+- Staging environment - It creates a testing environment on an Openstack environment provided by a Network-of-Resources provider (e.g. a DIAS platform)
+1. [Register yourself into openstack provider and obtain cloud.key for access]
+2. [Obtain detailed credential for accessing the environment and modify terraform/staging/variables.tf with this information]
+3. `cd terraform/staging`
+4. `terraform init`
+5. `terraform apply --auto-approve`
+6. [Output is master IP]
+7. [Modify provisioning/hosts file to include the obtained master IP address]
+8. `ansible-playbook provisioning/playbook.yml --inventory provisioning/hosts --limit masters --user eouser --private-key ~/.ssh/cloud.key`
+9. [TODO: remote installation of kubernetes cluster]
+10. [This needs ssh-ing into the master node, downloading the source code repository and terraforming it locally]
  
 ### Testing
 
-TBW
+Once installed, developers can deploy environments for these pipelines:
+- local test: executing `sh travis/test_template-service.sh` will create the test environment, deploy a sample service and perform simple acceptance tests on that service.
+
+- [TODO] remote integration: executing `sh travis/stage_template-service.sh` will create the staging environment, deploy a sample service and perform simple acceptance tests on that service. 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
