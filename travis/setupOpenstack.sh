@@ -7,7 +7,8 @@ sudo apt-get update
 sudo sh -c 'DEBIAN_FRONTEND=noninteractive && apt-get install python3 python3-pip' 
 
 echo "##### Install python requirement #####"
-sudo pip3 install -r terraform/NoR/requirements.txt
+sudo -H pip3 install -r terraform/NoR/requirements.txt
+sudo -H pip3 install python-openstackclient
 
 echo "##### Set CreoDIAS credentials #####"
 /bin/bash ./terraform/NoR/openrc.sh
