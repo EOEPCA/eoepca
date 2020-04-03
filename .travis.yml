@@ -26,17 +26,17 @@ jobs:
             branch: develop
 
     - stage: deploy on network of resources
-        if: branch = develop and env(operation) = deploy_nor
+      if: branch = develop and env(operation) = deploy_nor
 
-        dist: bionic
-        before_script:
-        script: sh ${TRAVIS_BUILD_DIR}/travis/setupOpenstack.sh
-        deploy:
-          - provider: script
-            skip_cleanup: true
-            script: cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && terraform apply -auto-approve -var-file=inventory/cf2-kube/cluster.tfvars openstack/
-            on:
-              branch: develop
+      dist: bionic
+      before_script:
+      script: sh ${TRAVIS_BUILD_DIR}/travis/setupOpenstack.sh
+      deploy:
+        - provider: script
+          skip_cleanup: true
+          script: cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && terraform apply -auto-approve -var-file=inventory/cf2-kube/cluster.tfvars openstack/
+          on:
+            branch: develop
 
     - stage: undeploy from network of resources
       if: branch = develop and env(operation) = undeploy_nor
