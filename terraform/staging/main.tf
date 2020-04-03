@@ -1,27 +1,17 @@
-# Configure the OpenStack Provider
+# Configure the Kubernetes provider
 
-variable "password" {
-  type = string
+provider "kubernetes" {
+  load_config_file = "false"
+
+  host = "45.130.29.109:16443"
+
+  client_certificate     = file("~/.minikube/certs/cert.pem")
+  client_key             = file("~/.minikube/certs/key.pem")
+  cluster_ca_certificate = file("~/.minikube/certs/ca.pem")
 }
 
-provider "openstack" {
-  auth_url = var.auth_url
-  user_name = var.user_name
-  password = var.password
-  tenant_id = var.tenant_id
-  tenant_name = var.tenant_name
-  project_domain_name = var.tenant_name
-  user_domain_name = var.user_domain_name
-  region = var.region
-}
-
-# Create a computing node with Ubuntu 16.04 LTS
-module "k8s_cluster" {
-  source = "./services"
-  master_nodes = 1
-  worker_nodes = 1
-}
-
-output "k8s_master" {
-  value = module.k8s_cluster.address
+module "template-service" {
+  source = "../global/template-svce"
+  db_username = "one"
+  db_password = "another"
 }
