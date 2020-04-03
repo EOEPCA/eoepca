@@ -30,7 +30,10 @@ jobs:
 
       dist: bionic
       before_script: sudo sh travis/setupOpenstack.sh
-      script: sudo sh -c 'cd terraform/NoR/ && terraform apply -auto-approve -var-file=./inventory/cf2-kube/cluster.tfvars ./openstack/'
+      script: 
+        - "cd terraform/NoR/"
+        - "sudo terraform apply -auto-approve -var-file=./inventory/cf2-kube/cluster.tfvars ./openstack/""
+      
       deploy:
         - provider: script
           skip_cleanup: true
@@ -43,7 +46,9 @@ jobs:
       
       dist: bionic
       before_script: sudo sh travis/setupOpenstack.sh
-      script: sudo sh -c 'cd terraform/NoR/ && terraform destroy -auto-approve ./openstack/'
+      script: 
+        - "cd terraform/NoR/"
+        - "sudo terraform destroy -auto-approve ./openstack/""
       deploy:
         - provider: script
           skip_cleanup: true
