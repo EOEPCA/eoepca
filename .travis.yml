@@ -30,7 +30,7 @@ jobs:
 
       dist: bionic
       before_script: sudo sh travis/setupOpenstack.sh
-      script: sudo sh -c "cd terraform/NoR/ && terraform apply -auto-approve -var-file=inventory/cf2-kube/cluster.tfvars openstack"
+      script: sudo sh -c "cd terraform/NoR/ && terraform apply -auto-approve openstack"
       after_script: echo "Testing..."
 
     - stage: undeploy from network of resources
