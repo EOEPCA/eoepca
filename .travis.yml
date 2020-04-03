@@ -30,7 +30,7 @@ jobs:
 
       dist: bionic
       before_script: sudo sh travis/setupOpenstack.sh
-      script: sudo sh -c "cd terraform/NoR/ && terraform apply -auto-approve openstack"
+      script: sudo sh -c 'cd terraform/NoR/ && terraform apply -var-file="cluster.tfvars" -auto-approve openstack'
       after_script: echo "Testing..."
 
     - stage: undeploy from network of resources
@@ -38,7 +38,7 @@ jobs:
       
       dist: bionic
       before_script: sudo sh travis/setupOpenstack.sh
-      script: sudo sh -c "cd terraform/NoR/ && terraform destroy -auto-approve openstack"
+      script: sudo sh -c 'cd terraform/NoR/ && terraform destroy -var-file="cluster.tfvars" -auto-approve openstack'
       after_script: echo "Undeployed openstack environment"
                 
 
