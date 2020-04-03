@@ -29,8 +29,8 @@ jobs:
       if: branch = develop and env(operation) = deploy_nor
 
       dist: bionic
-      before_script: sudo sh ${TRAVIS_BUILD_DIR}/travis/setupOpenstack.sh
-      script: sudo sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && terraform apply -auto-approve -var-file=inventory/cf2-kube/cluster.tfvars openstack/'
+      before_script: sudo sh travis/setupOpenstack.sh
+      script: sudo sh -c 'cd terraform/NoR/ && terraform apply -auto-approve -var-file=./inventory/cf2-kube/cluster.tfvars ./openstack/'
       deploy:
         - provider: script
           skip_cleanup: true
@@ -42,8 +42,8 @@ jobs:
       if: branch = develop and env(operation) = undeploy_nor
       
       dist: bionic
-      before_script: sudo sh ${TRAVIS_BUILD_DIR}/travis/setupOpenstack.sh
-      script: sudo sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && terraform destroy -auto-approve openstack/'
+      before_script: sudo sh travis/setupOpenstack.sh
+      script: sudo sh -c 'cd terraform/NoR/ && terraform destroy -auto-approve ./openstack/'
       deploy:
         - provider: script
           skip_cleanup: true
