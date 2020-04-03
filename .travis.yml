@@ -30,29 +30,16 @@ jobs:
 
       dist: bionic
       before_script: sudo sh travis/setupOpenstack.sh
-      script: sudo sh -c "cd terraform/NoR/ && pwd " 
-      # terraform apply -auto-approve -var-file=./inventory/cf2-kube/cluster.tfvars ./openstack/"
-
-      
-      deploy:
-        - provider: script
-          skip_cleanup: true
-          script: # Kubernetes deployment script
-          on:
-            branch: develop
+      script: sudo sh -c "cd terraform/NoR/ && terraform apply -auto-approve -var-file=inventory/cf2-kube/cluster.tfvars openstack"
+      after_script: echo "Testing..."
 
     - stage: undeploy from network of resources
       if: branch = develop and env(operation) = undeploy_nor
       
       dist: bionic
       before_script: sudo sh travis/setupOpenstack.sh
-      script: sudo sh -c "cd terraform/NoR/ && terraform destroy -auto-approve ./openstack/"
-      deploy:
-        - provider: script
-          skip_cleanup: true
-          script: 
-          on:
-            branch: develop
+      script: sudo sh -c "cd terraform/NoR/ && terraform destroy -auto-approve openstack"
+      after_script: echo "Undeployed openstack environment"
                 
 
 import:
