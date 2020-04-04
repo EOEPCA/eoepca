@@ -14,7 +14,7 @@ jobs:
       # We need the systemd for the kubeadm and it's default from 16.04+
       dist: xenial
 
-      before_script: sudo sh travis/setupCluster.sh
+      before_script: sudo sh travis/setupMinikube.sh
 
       script: cd terraform/test && terraform init -input=false
 
