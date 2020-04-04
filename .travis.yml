@@ -29,16 +29,16 @@ jobs:
       if: branch = develop and env(operation) = deploy_nor
 
       dist: bionic
-      before_script: sudo sh travis/setupOpenstack.sh
-      script: sudo sh -c 'cd terraform/NoR/ && terraform apply -var-file="cluster.tfvars" -auto-approve openstack'
-      after_script: echo "Testing..."
+      before_script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && sh setupOpenstack.sh'
+      script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && terraform apply -auto-approve -var-file=cluster.tfvars contrib/terraform/openstack'
+      after_script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR && sh setupKubernetes.sh'
 
     - stage: undeploy from network of resources
       if: branch = develop and env(operation) = undeploy_nor
       
       dist: bionic
-      before_script: sudo sh travis/setupOpenstack.sh
-      script: sudo sh -c 'cd terraform/NoR/ && terraform destroy -var-file="cluster.tfvars" -auto-approve openstack'
+      before_script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && sh setupOpenstack.sh'
+      script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && terraform destroy -var-file=cluster.tfvars -auto-approve contrib/terraform/openstack'
       after_script: echo "Undeployed openstack environment"
                 
 
