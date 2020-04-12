@@ -11,7 +11,7 @@ sudo -H pip3 install -r requirements.txt
 sudo -H pip3 install python-openstackclient
 
 echo "##### Set CreoDIAS credentials #####"
-/bin/bash ./openrc.sh
+. ./openrc.sh
 ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -q -N ""
 
 echo "##### Installing Terraform version $TF_VER"
