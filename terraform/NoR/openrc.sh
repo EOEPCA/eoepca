@@ -26,7 +26,7 @@ unset OS_TENANT_NAME
 # performing the action as the **user**.
 export OS_USERNAME="jose.ramos@telespazio.com"
 # With Keystone you pass the keystone password.
-if [ -z "$OS_PASSWORD_INPUT" ]; then
+if [ ! -v "$OS_PASSWORD_INPUT" ]; then
   echo "Please enter your OpenStack Password for project $OS_PROJECT_NAME as user $OS_USERNAME: "
   read -sr OS_PASSWORD_INPUT
   export OS_PASSWORD_INPUT=$OS_PASSWORD_INPUT
