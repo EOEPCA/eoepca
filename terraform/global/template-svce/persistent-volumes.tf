@@ -19,6 +19,7 @@ resource "kubernetes_persistent_volume" "pv-sample-eo-data-1" {
 	    path = "/mnt"
 	  }
     }
+    storage_class_name = ""
   }
 }
 
@@ -44,6 +45,7 @@ resource "kubernetes_persistent_volume" "pv-sample-eo-data-2" {
 	    path = "/mnt"
 	  }
     }
+    storage_class_name = ""
   }
 }
 

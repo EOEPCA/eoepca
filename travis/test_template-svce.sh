@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # fail fast settings from https://dougrichardson.org/2018/08/03/fail-fast-bash-scripting.html
-# set -euov pipefail
+set -euov pipefail
 # Not supported in travis (xenial)
 # shopt -s inherit_errexit
 
