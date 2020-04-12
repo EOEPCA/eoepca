@@ -28,8 +28,8 @@ export OS_USERNAME="jose.ramos@telespazio.com"
 # With Keystone you pass the keystone password.
 if [ ! -v "$OS_PASSWORD_INPUT" ]; then
   echo "Please enter your OpenStack Password for project $OS_PROJECT_NAME as user $OS_USERNAME: "
-  read -sr OS_PASSWORD_INPUT
-  export OS_PASSWORD_INPUT=$OS_PASSWORD_INPUT
+  read -sr PASSWORD
+  export OS_PASSWORD=${PASSWORD}
 fi
 
 # If your configuration has multiple regions, we set that information here.

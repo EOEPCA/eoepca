@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Install minikube and kubectl
 TF_VER=0.12.24
 
