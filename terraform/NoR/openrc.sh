@@ -29,7 +29,7 @@ export OS_USERNAME="jose.ramos@telespazio.com"
 if [ -z "$OS_PASSWORD_INPUT" ]; then
   echo "Please enter your OpenStack Password for project $OS_PROJECT_NAME as user $OS_USERNAME: "
   read -sr OS_PASSWORD_INPUT
-  export OS_PASSWORD=$OS_PASSWORD_INPUT
+  export OS_PASSWORD_INPUT=$OS_PASSWORD_INPUT
 fi
 
 # If your configuration has multiple regions, we set that information here.
