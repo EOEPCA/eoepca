@@ -1,5 +1,3 @@
 .terraform/
 terraform.tfstate
 terraform.tfstate.backup
-terraform/staging/terraform.tfvars
-terraform/NoR/.terraform.tfstate.*
