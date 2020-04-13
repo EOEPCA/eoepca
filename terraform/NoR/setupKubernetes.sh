@@ -1,4 +1,10 @@
 #!/bin/bash
+
+echo "##### Install Ansible #####"
+sudo apt install --yes software-properties-common
+sudo apt-add-repository --yes --update ppa:ansible/ansible
+sudo apt install ansible
+
 echo "##### Install Kubernetes cluster through Bastion node #####"
 
 echo "##### Configure access to network #####"
