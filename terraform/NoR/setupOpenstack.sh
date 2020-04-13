@@ -26,15 +26,14 @@ cd inventory/cf2-kube
 terraform init -input=false contrib/terraform/openstack
 
 PARAM="$1"
-if [ -z "$PARAM" ] 
-then
+if [ -z "$PARAM" ]; then
 	OP="apply"
 else
     OP="$1"
 fi
-if [ "$1" == "apply" ]
+if [ "$1" == "apply" ]; then
 	terraform apply -auto-approve -var-file=cluster.tfvars contrib/terraform/openstack
 fi
-if [ "$1" == "destroy" ]
+if [ "$1" == "destroy" ]; then
     terraform destroy -auto-approve -var-file=cluster.tfvars contrib/terraform/openstack
 fi
