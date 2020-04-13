@@ -4,7 +4,12 @@ TF_VER=0.12.24
 
 echo "##### Update apt-get and install Python3 #####"
 sudo apt-get update
-sudo sh -c 'DEBIAN_FRONTEND=noninteractive && apt-get install python3 python3-pip' 
+sudo sh -c 'DEBIAN_FRONTEND=noninteractive && apt-get install python3 python3-pip'
+
+echo "##### Install Ansible #####"
+sudo apt install software-properties-common
+sudo apt-add-repository --yes --update ppa:ansible/ansible
+sudo apt install ansible
 
 echo "##### Install python requirement #####"
 sudo -H pip3 install -r requirements.txt
