@@ -24,4 +24,17 @@ sudo mv /tmp/terraform /usr/local/bin/
 echo "##### Deploying Openstack environment"
 cd inventory/cf2-kube
 terraform init -input=false contrib/terraform/openstack
-#terraform apply -auto-approve -var-file=cluster.tfvars contrib/terraform/openstack
+
+PARAM="$1"
+if [ -z "$PARAM" ] 
+then
+	OP="apply"
+else
+    OP="$1"
+fi
+if [ "$1" == "apply" ]
+	terraform apply -auto-approve -var-file=cluster.tfvars contrib/terraform/openstack
+fi
+if [ "$1" == "destroy" ]
+    terraform destroy -auto-approve -var-file=cluster.tfvars contrib/terraform/openstack
+fi
