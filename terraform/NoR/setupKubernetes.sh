@@ -2,6 +2,7 @@
 
 echo "##### Install Ansible #####"
 sudo -H pip3 install setuptools
+sudo -H pip3 install netaddr
 sudo -H pip3 install ansible
 
 echo "##### Install Kubernetes cluster through Bastion node #####"
