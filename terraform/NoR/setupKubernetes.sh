@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "##### Install Ansible #####"
-pip3 install --user ansible
+sudo pip3 install --user ansible
 
 echo "##### Install Kubernetes cluster through Bastion node #####"
 
