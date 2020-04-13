@@ -30,7 +30,8 @@ jobs:
 
       dist: bionic
       before_script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && sh setupOpenstack.sh'
-      script: sh setupKubernetes.sh
+      script: terraform apply -var-file=cluster.tfvars -auto-approve ./contrib/terraform/openstack
+      after_script: sh setupKubernetes.sh
 
     - stage: undeploy from network of resources
       if: branch = develop and env(operation) = undeploy_nor
