@@ -25,15 +25,17 @@ echo "##### Deploying Openstack environment"
 cd inventory/cf2-kube
 terraform init -input=false contrib/terraform/openstack
 
-PARAM="$1"
-if [ -z "$PARAM" ]; then
-	OP="apply"
-else
-    OP="$1"
-fi
-if [ "$1" == "apply" ]; then
-	terraform apply -auto-approve -var-file=cluster.tfvars contrib/terraform/openstack
-fi
-if [ "$1" == "destroy" ]; then
-    terraform destroy -auto-approve -var-file=cluster.tfvars contrib/terraform/openstack
-fi
+while [ "$1" != "" ]; do
+    case $1 in
+        -a | --apply )          terraform apply -auto-approve -var-file=cluster.tfvars contrib/terraform/openstack
+                                ;;
+        -d | --destroy )        terraform destroy -auto-approve -var-file=cluster.tfvars contrib/terraform/openstack
+                                ;;
+        -h | --help )           #usage
+                                exit
+                                ;;
+        * )                     #usage
+                                exit 1
+    esac
+    shift
+done

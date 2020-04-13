@@ -29,14 +29,14 @@ jobs:
       if: branch = develop and env(operation) = deploy_nor
 
       dist: bionic
-      before_script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && sh setupOpenstack.sh apply'
+      before_script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && sh setupOpenstack.sh --apply'
       script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && sh setupKubernetes.sh'
 
     - stage: undeploy from network of resources
       if: branch = develop and env(operation) = undeploy_nor
       
       dist: bionic
-      script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && sh setupOpenstack.sh destroy'
+      script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && sh setupOpenstack.sh --destroy'
                 
 
 import:
