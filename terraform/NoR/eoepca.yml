@@ -13,7 +13,7 @@
   vars:
     ansible_connection: local
 
-- hosts: bastion[0]
+- hosts: bastion
   gather_facts: False
   vars:
     DB_USER: user
@@ -45,5 +45,7 @@
           db_password: "{{ DB_PASSWORD }}"
         state: present
         force_init: true
+      register: terraform_result
+    - debug: var=terraform_result.stdout_lines
         
   

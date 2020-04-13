@@ -7,7 +7,7 @@ sudo apt-get update
 sudo sh -c 'DEBIAN_FRONTEND=noninteractive && apt-get install python3 python3-pip'
 
 echo "##### Install Ansible #####"
-sudo apt install software-properties-common
+sudo apt install --yes software-properties-common
 sudo apt-add-repository --yes --update ppa:ansible/ansible
 sudo apt install ansible
 
@@ -17,7 +17,7 @@ sudo -H pip3 install python-openstackclient
 
 echo "##### Set CreoDIAS credentials #####"
 . ./openrc.sh
-ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -q -N ""
+echo -e 'y\n' | ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -q -N "" 
 
 echo "##### Installing Terraform version $TF_VER"
 sudo apt-get install unzip

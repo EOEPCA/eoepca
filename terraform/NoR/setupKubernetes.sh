@@ -16,6 +16,3 @@ ansible-playbook --flush-cache --become -i inventory/cf2-kube/hosts cluster.yml
 
 echo "##### Configure access to Kubernetes cluster through Bastion #####"
 ansible-playbook --flush-cache --become -i inventory/cf2-kube/hosts bastion.yml
-
-echo "##### Deploy sample EOEPCA system on cluster #####"
-ansible-playbook --flush-cache --become -i inventory/cf2-kube/hosts eoepca.yml
