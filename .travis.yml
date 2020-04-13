@@ -30,7 +30,7 @@ jobs:
 
       dist: bionic
       before_script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && sh setupOpenstack.sh'
-      script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/inventory/cf2-kube && ../../openrc.sh && terraform apply -var-file=cluster.tfvars -auto-approve contrib/terraform/openstack'
+      script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/inventory/cf2-kube && sh ../../openrc.sh && terraform apply -var-file=cluster.tfvars -auto-approve contrib/terraform/openstack'
       after_script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && setupKubernetes.sh'
 
     - stage: undeploy from network of resources
@@ -38,7 +38,7 @@ jobs:
       
       dist: bionic
       before_script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && sh setupOpenstack.sh'
-      script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/inventory/cf2-kube && ../../openrc.sh && terraform destroy -var-file=cluster.tfvars -auto-approve ./contrib/terraform/openstack'
+      script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/inventory/cf2-kube && sh ../../openrc.sh && terraform destroy -var-file=cluster.tfvars -auto-approve ./contrib/terraform/openstack'
       after_script: echo "Undeployed openstack environment"
                 
 
