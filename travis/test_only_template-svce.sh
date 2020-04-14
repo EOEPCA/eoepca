@@ -1,16 +1,5 @@
 #!/bin/bash
 
-# fail fast settings from https://dougrichardson.org/2018/08/03/fail-fast-bash-scripting.html
-# set -euov pipefail
-# Not supported in travis (xenial)
-# shopt -s inherit_errexit
-
-# Check presence of environment variables
-TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-.}"
-
-# Create the K8S environment
-cd ${TRAVIS_BUILD_DIR}/terraform/test && terraform apply -input=false -auto-approve -var='db_username=$DB_USER' -var='db_password=$DB_PASSWORD' 
-
 # Various debug statements
 debug=false
 
@@ -39,19 +28,14 @@ minikubeIP=$(kubectl cluster-info | sed 's/\r$//' | grep 'master' | grep -oE '[0
 echo "MiniKube Master IP is ${minikubeIP}"
 
 echo Testing connectivity with the services
-clusterIP=$(kubectl get svc --namespace=eo-services template-service -o json | jq -r '.spec.clusterIP')
-templateSvcNodePort=$(kubectl get service --namespace=eo-services template-service --output=jsonpath='{.spec.ports[0].port}')
-echo Cluster IP of template-service is ${clusterIP}:${templateSvcNodePort}
-revProxyIP=$(kubectl get svc --namespace=eo-services frontend -o json | jq -r '.spec.clusterIP')
+revProxyIP=$(kubectl get svc --namespace=eo-services frontend -o json | jq -r '.status.loadBalancer.ingress[0].ip')
 revProxyNodePort=$(kubectl get svc --namespace=eo-services frontend --output=jsonpath='{.spec.ports[0].port}')
 echo Cluster IP of frontend is ${revProxyIP}:${revProxyNodePort}
 
 # Both the micro-service and reverse proxy are exposed as node ports for testing purposes
 # curl echoes both ports to check connectivity.  The second set echoes the server headers should report nginx and javalin
 curl http://${revProxyIP}:${revProxyNodePort}/search | jq '.'
-curl http://${clusterIP}:${templateSvcNodePort}/search | jq '.'
 curl -si http://${revProxyIP}:${revProxyNodePort}/search
-curl -si http://${clusterIP}:${templateSvcNodePort}/search
 
 if ($debug == "true"); then
     kubectl logs --namespace=eo-services deployment/frontend --all-containers=true

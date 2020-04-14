@@ -24,19 +24,6 @@ jobs:
           script: sh ${TRAVIS_BUILD_DIR}/travis/test_template-svce.sh
           on:
             branch: develop
-
-    - stage: deploy on network of resources
-      if: branch = develop and env(operation) = deploy_nor
-
-      dist: bionic
-      before_script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && sh setupOpenstack.sh --apply'
-      script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && sh setupKubernetes.sh'
-
-    - stage: undeploy from network of resources
-      if: branch = develop and env(operation) = undeploy_nor
-      
-      dist: bionic
-      script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && sh setupOpenstack.sh --destroy'
     
     - stage: deploy EOEPCA on network of resources
       if: branch = develop and env(operation) = deploy_eoepca

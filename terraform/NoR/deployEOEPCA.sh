@@ -1,9 +1,16 @@
 #!/bin/bash
 echo "##### Configure access to network #####"
-cd inventory/cf2-kube
-BASTION_IP=`terraform output -json | jq ".bastion_fips.value | .[]"`
+if [ -z "$BASTION_IP" ]; then
+  cd inventory/cf2-kube
+  BASTION_IP=`terraform output -json | jq ".bastion_fips.value | .[]"`
+  cd ../..
+fi
 
-cd ../..
+if [ ! -z "$PRIVATE_KEY_DATA" ]; then
+  rm ~/.ssh/id_rsa
+  touch ~/.ssh/id_rsa
+  echo $PRIVATE_KEY_DATA >> ~/.ssh/id_rsa
+fi
 rm kubernetes_hosts
 touch kubernetes_hosts
 echo "[bastion]" >> kubernetes_hosts

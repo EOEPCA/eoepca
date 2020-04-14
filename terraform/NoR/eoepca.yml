@@ -20,6 +20,11 @@
     DB_PASSWORD: password
   
   tasks:
+    - name: Install jq
+      apt:
+        name: jq
+        state: present
+      become: yes
     - name: "Create Terraform directory"
       file:
         path: /home/eouser/eoepca/terraform
@@ -46,6 +51,17 @@
         state: present
         force_init: true
       register: terraform_result
-    - debug: var=terraform_result.stdout_lines
-        
+    
+    - name: "Transfer Acceptance testing code"
+      copy:
+        src: ../../travis/test_only_template-svce.sh
+        dest: /home/eouser/eoepca/travis/
+        owner: eouser
+    - name: "Execute acceptance tests"
+      shell: sh test_only_template-svce.sh
+      args:
+        chdir: /home/eouser/eoepca/travis
+      register: test_result
+    - debug: var=test_result.stdout_lines
+       
   
