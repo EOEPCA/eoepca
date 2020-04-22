@@ -26,7 +26,7 @@ jobs:
             branch: develop
     
     - stage: deploy EOEPCA on network of resources
-      if: branch = develop and env(operation) = deploy_eoepca
+      if: branch = release
 
       dist: bionic
       script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/staging/ && sh deployEOEPCA.sh'

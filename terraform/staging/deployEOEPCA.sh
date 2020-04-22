@@ -8,12 +8,5 @@ fi
 
 curl $REMOTE_STATE_FILE -o creodias.tfstate
 
-echo "##### Configure access to network #####"
-if [ ! -z "$PRIVATE_KEY_DATA" ]; then
-  rm ~/.ssh/id_rsa
-  touch ~/.ssh/id_rsa
-  echo $PRIVATE_KEY_DATA >> ~/.ssh/id_rsa
-fi
-
 echo "##### Deploy sample EOEPCA system on cluster #####"
-ansible-playbook --private-key ~/.ssh/id_rsa -u eouser -i inventory/cf2-kube/hosts eoepca.yml
+ansible-playbook --vault-password-file=.vault_pass -i inventory/cf2-kube/hosts eoepca.yml
