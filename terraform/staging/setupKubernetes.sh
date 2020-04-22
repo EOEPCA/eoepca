@@ -16,9 +16,18 @@ echo "Bastion IP is ${BASTION_IP}"
 sed -i 's/\openstack_lbaas_subnet_id: \".*\"/openstack_lbaas_subnet_id: '${SUBNET_ID}'/g' group_vars/all/openstack.yml
 sed -i 's/\# openstack_lbaas_subnet_id/openstack_lbaas_subnet_id/g' group_vars/all/openstack.yml
 
+echo "##### Obtaining list of hosts from remote state storage #####"
+if [ -z "$REMOTE_STATE_FILE" ]; then
+    echo "Please input the remote state file location:  "
+    read -r REMOTE_FILE
+    export REMOTE_STATE_FILE=${REMOTE_FILE} 
+fi
+
+curl $REMOTE_STATE_FILE -o creodias.tfstate
+
 echo "##### Deploy Kubernetes cluster #####"
 cd ../..
-ansible-playbook --flush-cache --become -i inventory/cf2-kube/hosts cluster.yml
+ansible-playbook --become -i inventory/cf2-kube/hosts cluster.yml
 
 echo "##### Configure access to Kubernetes cluster through Bastion #####"
-ansible-playbook --flush-cache --become -i inventory/cf2-kube/hosts bastion.yml
+ansible-playbook --vault-password-file=.vault_pass --become -i inventory/cf2-kube/hosts bastion.yml

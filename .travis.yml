@@ -29,7 +29,7 @@ jobs:
       if: branch = develop and env(operation) = deploy_eoepca
 
       dist: bionic
-      script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/NoR/ && sh deployEOEPCA.sh'
+      script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/staging/ && sh deployEOEPCA.sh'
 
 import:
   - docs/.travis.yml
