@@ -1,0 +1,44 @@
+sudo: required
+language: java
+install: true
+
+services:
+  - docker
+
+jobs:
+  include:
+    - stage: test
+      if: branch = develop and env(operation) = local
+
+      # Minikube installation taken from: https://github.com/LiliC/travis-minikube/blob/minikube-30-kube-1.12/.travis.yml
+      # We need the systemd for the kubeadm and it's default from 16.04+
+      dist: xenial
+
+      before_script: sudo sh travis/setupMinikube.sh
+
+      script: cd terraform/test && terraform init -input=false
+
+      deploy:
+        - provider: script
+          skip_cleanup: true
+          script: sh ${TRAVIS_BUILD_DIR}/travis/test_template-svce.sh
+          on:
+            branch: develop
+    
+    - stage: deploy EOEPCA on network of resources
+      if: branch = release
+
+      dist: bionic
+      script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/staging/ && sh deployEOEPCA.sh'
+
+import:
+  - docs/.travis.yml
+
+notifications:
+  slack: eoepca:Msk9hjQKAbwSYcVWiepenPim
+  email:
+    recipients:
+      - a.person @acme.com
+      - a.n.other@acme.com
+    on_success: never # default: change
+    on_failure: never # default: always

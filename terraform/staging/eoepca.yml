@@ -1,0 +1,67 @@
+---
+- hosts: localhost
+  gather_facts: false
+  become: no
+  tasks:
+    - name: "Check ansible version >=2.7.8"
+      assert:
+        msg: "Ansible must be v2.7.8 or higher"
+        that:
+          - ansible_version.string is version("2.7.8", ">=")
+      tags:
+        - check
+  vars:
+    ansible_connection: local
+
+- hosts: bastion
+  gather_facts: False
+  vars:
+    DB_USER: user
+    DB_PASSWORD: password
+  
+  tasks:
+    - name: Install jq
+      apt:
+        name: jq
+        state: present
+      become: yes
+    - name: "Create Terraform directory"
+      file:
+        path: /home/eouser/eoepca/terraform
+        state: directory
+        owner: eouser
+        mode: '0755'
+
+    - name: "Transfer global Terraform Infrastructure as Code"
+      copy:
+        src: ../global
+        dest: /home/eouser/eoepca/terraform/
+        owner: eouser
+    - name: "Transfer test Terraform Infrastructure as Code"
+      copy:
+        src: ../test
+        dest: /home/eouser/eoepca/terraform/
+        owner: eouser
+    - name: "Terraforming from bastion host"
+      terraform:
+        project_path: './eoepca/terraform/test'
+        variables:
+          db_username: "{{ DB_USER }}"
+          db_password: "{{ DB_PASSWORD }}"
+        state: present
+        force_init: true
+      register: terraform_result
+    
+    - name: "Transfer Acceptance testing code"
+      copy:
+        src: ../../travis/test_only_template-svce.sh
+        dest: /home/eouser/eoepca/travis/
+        owner: eouser
+    - name: "Execute acceptance tests"
+      shell: sh test_only_template-svce.sh
+      args:
+        chdir: /home/eouser/eoepca/travis
+      register: test_result
+    - debug: var=test_result.stdout_lines
+       
+  

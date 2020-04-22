@@ -1,0 +1,90 @@
+---
+- hosts: localhost
+  gather_facts: false
+  become: no
+  tasks:
+    - name: "Check ansible version >=2.7.8"
+      assert:
+        msg: "Ansible must be v2.7.8 or higher"
+        that:
+          - ansible_version.string is version("2.7.8", ">=")
+      tags:
+        - check
+  vars:
+    ansible_connection: local
+
+- hosts: bastion[0]
+  gather_facts: False
+  vars:
+    TF_VER: 0.12.24
+    my_secret: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      34666163396264306365313565393931373933343035313432633537396561386435363863316265
+      3236656234616361623063333933646262663064383939640a363739373432363035313533663361
+      34643361663066663063346333303266396564333032623630643033316163356163646431393162
+      6563306235653531340a643235666366353130613139663763353866656530306264343764363631
+      65393639373939326162396462336439666566336562356331393531323665623463
+  
+  tasks:
+    - name: print the secure variable
+      debug:
+        var: my_secret
+
+    - name: "Create the .kube directory if it does not exist"
+      file:
+        path: /home/eouser/.kube/
+        state: directory
+        owner: eouser
+        mode: '0755'
+
+    - name: "Copy file kubernetes config file"
+      copy:
+        src: inventory/cf2-kube/artifacts/admin.conf
+        dest: /home/eouser/.kube/config
+        owner: eouser
+        mode: '0644'
+
+    - name: "Download kubectl v1.18.0"
+      get_url:
+        url: https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/linux/amd64/kubectl
+        dest: /usr/local/bin/kubectl
+        mode: +x 
+
+    - name: "Download Terraform"
+      get_url:
+        url: https://releases.hashicorp.com/terraform/{{TF_VER}}/terraform_{{TF_VER}}_linux_amd64.zip
+        dest: /tmp/terraform.zip
+
+    - name: "Install Terraform"
+      unarchive:
+        src: /tmp/terraform.zip
+        dest: /usr/local/bin
+        remote_src: yes
+        mode: +x
+
+    - name: Change password for eouser
+      user:
+        name: eouser
+        state: present
+        update_password: always
+        password: "{{ my_secret | hash('sha512') }}"
+        shell: /bin/bash
+      
+    - name: Allow username/password access for eouser account
+      blockinfile:
+        path: /etc/ssh/sshd_config
+        block: |
+          Match User eouser
+            PasswordAuthentication yes
+        create: yes
+      register: access_allowed
+    - name: Kill open ssh sessions - ansible should log back in on next task
+      shell: |
+        ps -ef | grep sshd | grep `whoami` | awk "{print 'kill -9', $2}" | sh
+      async: 0
+      poll: 0
+      become: yes
+      when: access_allowed | changed
+    
+    - name: waiting for server to come back
+      local_action: wait_for host={{ inventory_hostname }} state=started
