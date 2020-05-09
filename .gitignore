@@ -3,3 +3,6 @@
 *.tfstate.backup
 *.retry
 vault_pass_file
+*.pem
+*.crt
+*.key
