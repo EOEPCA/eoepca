@@ -69,6 +69,8 @@ resource "kubernetes_stateful_set" "oxtrust" {
       }
 
       spec {
+        automount_service_account_token = true
+        
         volume {
           name = "oxtrust-logs"
 

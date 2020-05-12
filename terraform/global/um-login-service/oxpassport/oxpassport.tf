@@ -9,8 +9,6 @@ resource "kubernetes_config_map" "oxpassport_cm" {
     GLUU_LDAP_URL = "opendj:1636"
     GLUU_MAX_RAM_FRACTION = "1"
     GLUU_SECRET_ADAPTER = "kubernetes"
-    GLUU_SECRET_KUBERNETES_USE_KUBE_CONFIG = "true"
-    GLUU_CONFIG_KUBERNETES_USE_KUBE_CONFIG = "true"
   }
 }
 
@@ -65,7 +63,10 @@ resource "kubernetes_deployment" "oxpassport" {
       }
 
       spec {
+        automount_service_account_token = true
+
         container {
+          
           name  = "oxpassport"
           image = "gluufederation/oxpassport:4.1.1_01"
 

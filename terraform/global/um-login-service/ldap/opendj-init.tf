@@ -82,6 +82,8 @@ resource "kubernetes_stateful_set" "opendj_init" {
       }
 
       spec {
+        automount_service_account_token = true
+        
         volume {
           name = "opendj-config"
 

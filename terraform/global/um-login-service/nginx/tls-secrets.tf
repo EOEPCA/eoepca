@@ -3,7 +3,7 @@ resource "null_resource" "tls-secrets" {
     command = <<EOT
     ../global/um-login-service/nginx/tls-secrets.sh
 EOT
-  }
+  } # until kubectl get pods | grep "config-init" | grep "Completed"; do sleep 1; done
 }
 
 data "template_file" "dhparam_pem" {

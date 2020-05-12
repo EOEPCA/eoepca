@@ -1,7 +1,7 @@
 # Install minikube and kubectl
 K8S_VER=v1.12.0
 TF_VER=0.12.16
-MINIKUBE_VER=v0.30.0
+MINIKUBE_VER=v1.9.1
 
 # Make root mounted as rshared to fix kube-dns issues.
 mount --make-rshared /

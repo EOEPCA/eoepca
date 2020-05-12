@@ -16,6 +16,8 @@ resource "kubernetes_job" "config_init_load_job" {
           }
         }
 
+        automount_service_account_token = true
+
         container {
           name  = "config-init-load"
           image = "gluufederation/config-init:4.1.1_02"
@@ -37,14 +39,6 @@ resource "kubernetes_job" "config_init_load_job" {
             value = "kubernetes"
           }
           
-          env {
-            name = "GLUU_SECRET_KUBERNETES_USE_KUBE_CONFIG"
-            value = "true"
-          }
-          env {
-            name = "GLUU_CONFIG_KUBERNETES_USE_KUBE_CONFIG"
-            value = "true"
-          }
 
           volume_mount {
             name       = "config-cm"

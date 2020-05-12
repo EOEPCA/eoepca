@@ -10,6 +10,7 @@ resource "kubernetes_job" "um_login_persistence" {
       metadata {}
 
       spec {
+        automount_service_account_token = true
         container {
           name  = "um-login-persistence"
           image = "eoepca/um-login-persistence:latest"
@@ -42,15 +43,6 @@ resource "kubernetes_job" "um_login_persistence" {
           env {
             name  = "GLUU_OXTRUST_CONFIG_GENERATION"
             value = "false"
-          }
-
-          env {
-            name = "GLUU_SECRET_KUBERNETES_USE_KUBE_CONFIG"
-            value = "true"
-          }
-          env {
-            name = "GLUU_CONFIG_KUBERNETES_USE_KUBE_CONFIG"
-            value = "true"
           }
 
           env {
