@@ -8,7 +8,7 @@ module "ldap" {
     source = "./ldap"
 }
 
-# Enable Ingress
+# # Enable Ingress
 module "nginx" {
     source = "./nginx"
     nginx_ip = var.nginx_ip

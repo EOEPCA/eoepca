@@ -45,6 +45,15 @@ resource "kubernetes_job" "um_login_persistence" {
           }
 
           env {
+            name = "GLUU_SECRET_KUBERNETES_USE_KUBE_CONFIG"
+            value = "true"
+          }
+          env {
+            name = "GLUU_CONFIG_KUBERNETES_USE_KUBE_CONFIG"
+            value = "true"
+          }
+
+          env {
             name  = "GLUU_CACHE_TYPE"
             value = "NATIVE_PERSISTENCE"
           }

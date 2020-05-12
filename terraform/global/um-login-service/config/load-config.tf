@@ -36,11 +36,21 @@ resource "kubernetes_job" "config_init_load_job" {
             name  = "GLUU_SECRET_ADAPTER"
             value = "kubernetes"
           }
+          
+          env {
+            name = "GLUU_SECRET_KUBERNETES_USE_KUBE_CONFIG"
+            value = "true"
+          }
+          env {
+            name = "GLUU_CONFIG_KUBERNETES_USE_KUBE_CONFIG"
+            value = "true"
+          }
 
           volume_mount {
             name       = "config-cm"
             mount_path = "/opt/config-init/db/generate.json"
             sub_path   = "generate.json"
+            mount_propagation = "HostToContainer"
           }
         }
 

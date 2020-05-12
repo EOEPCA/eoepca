@@ -7,7 +7,7 @@ EOT
 }
 
 data "template_file" "dhparam_pem" {
-  template = "${file("./dhparam.pem")}"
+  template = file("./dhparam.pem")
 }
 
 resource "kubernetes_secret" "tls-dhparam" {
@@ -30,8 +30,8 @@ resource "kubernetes_secret" "tls-certificate" {
   }
 
   data = {
-    "tls.crt" = "./ingress.crt"
-    "tls.key" = "./ingress.key"
+    "tls.crt" = file("./ingress.crt")
+    "tls.key" = file("./ingress.key")
   }
 
   type = "kubernetes.io/tls"
