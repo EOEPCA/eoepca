@@ -14,14 +14,14 @@ jobs:
       # We need the systemd for the kubeadm and it's default from 16.04+
       dist: xenial
 
-      before_script: sudo sh travis/setupMinikube.sh
+      before_script: sudo sh ./travis/setupMinikube.sh
 
-      script: cd terraform/test && terraform init -input=false
+      script: ./terraform/test/deployEOEPCA.sh 
 
       deploy:
         - provider: script
           skip_cleanup: true
-          script: sh ${TRAVIS_BUILD_DIR}/travis/test_template-svce.sh
+          script: sh ./travis/acceptanceTest.sh 
           on:
             branch: develop
     
