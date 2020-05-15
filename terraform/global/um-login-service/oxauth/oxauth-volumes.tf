@@ -3,10 +3,6 @@ resource "kubernetes_persistent_volume_claim" "oxauth_logs_volume_claim" {
     name = "oxauth-logs-volume-claim"
   }
 
-  timeouts {
-    create = "15m"
-  }
-
   spec {
     access_modes = ["ReadWriteOnce"]
 
@@ -29,10 +25,6 @@ resource "kubernetes_persistent_volume_claim" "oxauth_logs_volume_claim" {
 resource "kubernetes_persistent_volume_claim" "oxauth_lib_ext_volume_claim" {
   metadata {
     name = "oxauth-lib-ext-volume-claim"
-  }
-
-  timeouts {
-    create = "15m"
   }
 
   spec {
@@ -59,10 +51,6 @@ resource "kubernetes_persistent_volume_claim" "oxauth_custom_static_volume_claim
     name = "oxauth-custom-static-volume-claim"
   }
 
-  timeouts {
-    create = "15m"
-  }
-
   spec {
     access_modes = ["ReadWriteOnce"]
 
@@ -85,10 +73,6 @@ resource "kubernetes_persistent_volume_claim" "oxauth_custom_static_volume_claim
 resource "kubernetes_persistent_volume_claim" "oxauth_custom_pages_volume_claim" {
   metadata {
     name = "oxauth-custom-pages-volume-claim"
-  }
-
-  timeouts {
-    create = "15m"
   }
 
   spec {
@@ -119,10 +103,6 @@ resource "kubernetes_persistent_volume" "oxauth_logs" {
     }
   }
 
-  timeouts {
-    create = "15m"
-  }
-
   spec {
     capacity = {
       storage = "10M"
@@ -148,9 +128,6 @@ resource "kubernetes_persistent_volume" "oxauth_lib_ext" {
     }
   }
 
-  timeouts {
-    create = "15m"
-  }
 
   spec {
     capacity = {
@@ -177,10 +154,6 @@ resource "kubernetes_persistent_volume" "oxauth_custom_static" {
     }
   }
 
-  timeouts {
-    create = "15m"
-  }
-
   spec {
     capacity = {
       storage = "10M"
@@ -204,10 +177,6 @@ resource "kubernetes_persistent_volume" "oxauth_custom_pages" {
     labels = {
       oxauth = "custom-pages"
     }
-  }
-
-  timeouts {
-    create = "15m"
   }
 
   spec {

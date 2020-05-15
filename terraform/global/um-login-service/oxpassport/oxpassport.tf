@@ -3,6 +3,8 @@ resource "kubernetes_config_map" "oxpassport_cm" {
     name = "oxpassport-cm"
   }
 
+  depends_on = [ null_resource.waitfor-persistence ]
+
   data = {
     DOMAIN = var.hostname
     GLUU_CONFIG_ADAPTER = "kubernetes"
@@ -20,6 +22,8 @@ resource "kubernetes_service" "oxpassport" {
       app = "oxpassport"
     }
   }
+
+  depends_on = [ null_resource.waitfor-persistence ]
 
   spec {
     port {

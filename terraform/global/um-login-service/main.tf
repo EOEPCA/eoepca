@@ -3,17 +3,17 @@ module "config" {
   source = "./config"
 }
 
-# # Apply LDAP
-# module "ldap" {
-#     source = "./ldap"
-# }
+# Apply LDAP
+module "ldap" {
+    source = "./ldap"
+}
 
-# # # Enable Ingress
-# module "nginx" {
-#     source = "./nginx"
-#     nginx_ip = var.nginx_ip
-#     hostname = var.hostname
-# }
+# Enable Ingress
+module "nginx" {
+    source = "./nginx"
+    nginx_ip = var.nginx_ip
+    hostname = var.hostname
+}
 
 # module "oxauth" {
 #     source = "./oxauth"

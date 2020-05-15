@@ -3,6 +3,8 @@ resource "kubernetes_network_policy" "opendj_np" {
     name = "opendj-np"
   }
 
+  depends_on = [ null_resource.waitfor-config-init ]
+
   spec {
     pod_selector {
       match_labels = {

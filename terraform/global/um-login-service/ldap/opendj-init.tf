@@ -3,6 +3,8 @@ resource "kubernetes_config_map" "opendj_init_cm" {
     name = "opendj-init-cm"
   }
 
+  depends_on = [ null_resource.waitfor-config-init ]
+
   data = {
     GLUU_CONFIG_ADAPTER = "kubernetes"
 
@@ -22,6 +24,8 @@ resource "kubernetes_service" "opendj" {
       app = "opendj"
     }
   }
+
+  depends_on = [ null_resource.waitfor-config-init ]
 
   spec {
     port {
@@ -56,7 +60,7 @@ resource "kubernetes_service" "opendj" {
       app = "opendj"
     }
 
-    cluster_ip = "None"
+    cluster_ip = "None" ## it was  "10.96.0.2"
   }
 }
 
@@ -64,6 +68,8 @@ resource "kubernetes_stateful_set" "opendj_init" {
   metadata {
     name = "opendj-init"
   }
+
+  depends_on = [ null_resource.waitfor-config-init ]
 
   spec {
     replicas = 1

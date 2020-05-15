@@ -3,6 +3,8 @@ resource "kubernetes_config_map" "oxtrust_cm" {
     name = "oxtrust-cm"
   }
 
+  depends_on = [ null_resource.waitfor-persistence ]
+
   data = {
     DOMAIN = var.hostname
 
@@ -26,6 +28,8 @@ resource "kubernetes_service" "oxtrust" {
       app = "oxtrust"
     }
   }
+
+  depends_on = [ null_resource.waitfor-persistence ]
 
   spec {
     port {

@@ -3,10 +3,6 @@ resource "kubernetes_persistent_volume_claim" "oxtrust_logs_volume_claim" {
     name = "oxtrust-logs-volume-claim"
   }
 
-  timeouts {
-    create = "15m"
-  }
-
   spec {
     access_modes = ["ReadWriteOnce"]
 
@@ -31,9 +27,6 @@ resource "kubernetes_persistent_volume_claim" "oxtrust_lib_ext_volume_claim" {
     name = "oxtrust-lib-ext-volume-claim"
   }
 
-  timeouts {
-    create = "15m"
-  }
 
   spec {
     access_modes = ["ReadWriteOnce"]
@@ -59,10 +52,6 @@ resource "kubernetes_persistent_volume_claim" "oxtrust_custom_static_volume_clai
     name = "oxtrust-custom-static-volume-claim"
   }
 
-  timeouts {
-    create = "15m"
-  }
-
   spec {
     access_modes = ["ReadWriteOnce"]
 
@@ -85,10 +74,6 @@ resource "kubernetes_persistent_volume_claim" "oxtrust_custom_static_volume_clai
 resource "kubernetes_persistent_volume_claim" "oxtrust_custom_pages_volume_claim" {
   metadata {
     name = "oxtrust-custom-pages-volume-claim"
-  }
-
-  timeouts {
-    create = "15m"
   }
 
   spec {
@@ -119,10 +104,6 @@ resource "kubernetes_persistent_volume" "oxtrust_logs" {
     }
   }
 
-  timeouts {
-    create = "15m"
-  }
-
   spec {
     capacity = {
       storage = "10M"
@@ -145,10 +126,6 @@ resource "kubernetes_persistent_volume" "oxtrust_lib_ext" {
     labels = {
       oxtrust = "lib-ext"
     }
-  }
-
-  timeouts {
-    create = "15m"
   }
 
   spec {
@@ -176,10 +153,6 @@ resource "kubernetes_persistent_volume" "oxtrust_custom_static" {
     }
   }
 
-  timeouts {
-    create = "15m"
-  }
-
   spec {
     capacity = {
       storage = "10M"
@@ -203,10 +176,6 @@ resource "kubernetes_persistent_volume" "oxtrust_custom_pages" {
     labels = {
       oxtrust = "custom-pages"
     }
-  }
-
-  timeouts {
-    create = "15m"
   }
 
   spec {

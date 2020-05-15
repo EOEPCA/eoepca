@@ -3,10 +3,6 @@ resource "kubernetes_persistent_volume_claim" "config_volume_claim" {
     name = "config-volume-claim"
   }
 
-  timeouts {
-    create = "15m"
-  }
-
   spec {
     access_modes = ["ReadWriteOnce"]
 
@@ -34,11 +30,7 @@ resource "kubernetes_persistent_volume" "config" {
       config-init = "config"
     }
   }
-
-  timeouts {
-    create = "15m"
-  }
-
+  
   spec {
     capacity = {
       storage = "10M"

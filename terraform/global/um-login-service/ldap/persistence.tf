@@ -3,6 +3,8 @@ resource "kubernetes_job" "um_login_persistence" {
     name = "um-login-persistence"
   }
 
+  depends_on = [ null_resource.waitfor-opendj-init ]
+
   spec {
     backoff_limit = 1
 
@@ -11,6 +13,7 @@ resource "kubernetes_job" "um_login_persistence" {
 
       spec {
         automount_service_account_token = true
+
         container {
           name  = "um-login-persistence"
           image = "eoepca/um-login-persistence:latest"
@@ -32,7 +35,7 @@ resource "kubernetes_job" "um_login_persistence" {
 
           env {
             name  = "GLUU_LDAP_URL"
-            value = "opendj:1636"
+            value = "ldap:1636"
           }
 
           env {
@@ -54,6 +57,7 @@ resource "kubernetes_job" "um_login_persistence" {
         }
 
         restart_policy = "Never"
+        dns_policy = "Default"
       }
     }
   }

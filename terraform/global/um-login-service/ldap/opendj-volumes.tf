@@ -7,10 +7,6 @@ resource "kubernetes_persistent_volume" "opendj_config" {
     }
   }
 
-  timeouts {
-    create = "15m"
-  }
-
   spec {
     capacity = {
       storage = "100M"
@@ -35,10 +31,6 @@ resource "kubernetes_persistent_volume" "opendj_ldif" {
     labels = {
       opendj = "ldif"
     }
-  }
-
-  timeouts {
-    create = "15m"
   }
 
   spec {
@@ -67,10 +59,6 @@ resource "kubernetes_persistent_volume" "opendj_logs" {
     }
   }
 
-  timeouts {
-    create = "15m"
-  }
-
   spec {
     capacity = {
       storage = "100M"
@@ -95,10 +83,6 @@ resource "kubernetes_persistent_volume" "opendj_db" {
     labels = {
       opendj = "db"
     }
-  }
-
-  timeouts {
-    create = "15m"
   }
 
   spec {
@@ -127,10 +111,6 @@ resource "kubernetes_persistent_volume" "opendj_flag" {
     }
   }
 
-  timeouts {
-    create = "15m"
-  }
-
   spec {
     capacity = {
       storage = "100M"
@@ -151,10 +131,6 @@ resource "kubernetes_persistent_volume" "opendj_flag" {
 resource "kubernetes_persistent_volume_claim" "opendj_config_volume_claim" {
   metadata {
     name = "opendj-config-volume-claim"
-  }
-
-  timeouts {
-    create = "15m"
   }
 
   spec {
@@ -181,10 +157,6 @@ resource "kubernetes_persistent_volume_claim" "opendj_ldif_volume_claim" {
     name = "opendj-ldif-volume-claim"
   }
 
-  timeouts {
-    create = "15m"
-  }
-
   spec {
     access_modes = ["ReadWriteOnce"]
 
@@ -207,10 +179,6 @@ resource "kubernetes_persistent_volume_claim" "opendj_ldif_volume_claim" {
 resource "kubernetes_persistent_volume_claim" "opendj_logs_volume_claim" {
   metadata {
     name = "opendj-logs-volume-claim"
-  }
-
-  timeouts {
-    create = "15m"
   }
 
   spec {
@@ -237,10 +205,6 @@ resource "kubernetes_persistent_volume_claim" "opendj_db_volume_claim" {
     name = "opendj-db-volume-claim"
   }
 
-  timeouts {
-    create = "15m"
-  }
-
   spec {
     access_modes = ["ReadWriteOnce"]
 
@@ -263,10 +227,6 @@ resource "kubernetes_persistent_volume_claim" "opendj_db_volume_claim" {
 resource "kubernetes_persistent_volume_claim" "opendj_flag_volume_claim" {
   metadata {
     name = "opendj-flag-volume-claim"
-  }
-
-  timeouts {
-    create = "15m"
   }
 
   spec {

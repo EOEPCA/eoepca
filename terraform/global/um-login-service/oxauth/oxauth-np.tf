@@ -3,6 +3,8 @@ resource "kubernetes_network_policy" "oxauth_np" {
     name = "oxauth-np"
   }
 
+  depends_on = [ null_resource.waitfor-persistence ]
+  
   spec {
     pod_selector {
       match_labels = {
