@@ -13,6 +13,7 @@ DOCKER_PASSWORD="${DOCKER_PASSWORD:-none}"
 
 # Create the K8S environment
 cd ${TRAVIS_BUILD_DIR}/terraform/test 
+terraform init
 terraform apply --auto-approve  --var="dh_user_email=${DOCKER_EMAIL}" \
                                 --var="dh_user_name=${DOCKER_USERNAME}" \
                                 --var="dh_user_password=${DOCKER_PASSWORD}"
