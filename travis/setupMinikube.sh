@@ -1,7 +1,7 @@
 # Install minikube and kubectl
 K8S_VER=v1.12.0
 TF_VER=0.12.16
-MINIKUBE_VER=v0.30.0
+MINIKUBE_VER=v1.9.1
 
 # Make root mounted as rshared to fix kube-dns issues.
 mount --make-rshared /
@@ -16,7 +16,7 @@ chmod +x minikube
 mv minikube /usr/local/bin/
 
 echo "##### (Re)start Minikube cluster"
-minikube delete
+minikube delete --all --purge
 minikube start --vm-driver=none --bootstrapper=kubeadm --kubernetes-version=${K8S_VER} --extra-config=apiserver.authorization-mode=RBAC
 
 # Fix the kubectl context, as it's often stale.

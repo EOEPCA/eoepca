@@ -8,20 +8,20 @@ services:
 jobs:
   include:
     - stage: test
-      if: branch = develop and env(operation) = local
+      if: branch = develop
 
       # Minikube installation taken from: https://github.com/LiliC/travis-minikube/blob/minikube-30-kube-1.12/.travis.yml
       # We need the systemd for the kubeadm and it's default from 16.04+
       dist: xenial
 
-      before_script: sudo sh travis/setupMinikube.sh
+      before_script: sudo sh ./travis/setupMinikube.sh
 
-      script: cd terraform/test && terraform init -input=false
+      script: ./terraform/test/deployEOEPCA.sh 
 
       deploy:
         - provider: script
           skip_cleanup: true
-          script: sh ${TRAVIS_BUILD_DIR}/travis/test_template-svce.sh
+          script: sh ./travis/acceptanceTest.sh 
           on:
             branch: develop
     
