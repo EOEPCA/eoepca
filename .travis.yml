@@ -16,12 +16,12 @@ jobs:
 
       before_script: sudo sh ./travis/setupMinikube.sh
 
-      script: ./terraform/test/deployEOEPCA.sh 
+      script: sudo ./terraform/test/deployEOEPCA.sh 
 
       deploy:
         - provider: script
           skip_cleanup: true
-          script: sh ./travis/acceptanceTest.sh 
+          script: sudo sh ./travis/acceptanceTest.sh 
           on:
             branch: develop
     
