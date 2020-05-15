@@ -8,7 +8,7 @@ services:
 jobs:
   include:
     - stage: test
-      if: branch = develop and env(operation) = local
+      if: branch = develop
 
       # Minikube installation taken from: https://github.com/LiliC/travis-minikube/blob/minikube-30-kube-1.12/.travis.yml
       # We need the systemd for the kubeadm and it's default from 16.04+
