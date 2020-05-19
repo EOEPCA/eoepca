@@ -9,14 +9,16 @@ module "ldap" {
 }
 
 # Enable Ingress
-# module "nginx" {
-#     source = "./nginx"
-#     nginx_ip = var.nginx_ip
-#     hostname = var.hostname
-# }
+module "nginx" {
+    source = "./nginx"
+    nginx_ip = var.nginx_ip
+    hostname = var.hostname
+}
 
 # module "oxauth" {
 #     source = "./oxauth"
+#     nginx_ip = var.nginx_ip
+#     hostname = var.hostname
 # }
 
 # module "oxtrust" {

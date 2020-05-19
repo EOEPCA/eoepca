@@ -57,7 +57,6 @@ resource "kubernetes_job" "um_login_persistence" {
         }
 
         restart_policy = "Never"
-        dns_policy = "Default"
       }
     }
   }

@@ -60,7 +60,7 @@ resource "kubernetes_service" "opendj" {
       app = "opendj"
     }
 
-    cluster_ip = "None" ## it was  "10.96.0.2"
+    cluster_ip = "None"
   }
 }
 

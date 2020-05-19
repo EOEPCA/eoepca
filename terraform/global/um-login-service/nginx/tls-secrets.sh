@@ -1,8 +1,8 @@
 #!/bin/sh
 
-if [ ! -f dhparam.pem ]; then
+#if [ ! -f dhparam.pem ]; then
     openssl dhparam -out dhparam.pem 2048
-fi
+#fi
 
 # if [ ! -f ingress.crt ]; then
 #     kubectl get secret gluu -o json \

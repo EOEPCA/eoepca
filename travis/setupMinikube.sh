@@ -1,5 +1,5 @@
 # Install minikube and kubectl
-K8S_VER=v1.12.0
+K8S_VER=v1.13.0
 TF_VER=0.12.16
 MINIKUBE_VER=v1.9.1
 

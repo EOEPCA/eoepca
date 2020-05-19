@@ -38,6 +38,8 @@ resource "kubernetes_job" "config_init_load_job" {
             name  = "GLUU_SECRET_ADAPTER"
             value = "kubernetes"
           }
+
+   
           
 
           volume_mount {
