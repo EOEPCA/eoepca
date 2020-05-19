@@ -121,7 +121,12 @@ resource "kubernetes_persistent_volume" "opendj_flag" {
     persistent_volume_source {
       host_path {
         path = "/data/opendj/flag"
-        type = "DirectoryOrCreate" # From Terraform reference: Represents a directory on the host. Provisioned by a developer or tester. This is useful for single-node development and testing only! On-host storage is not supported in any way and WILL NOT WORK in a multi-node cluster. For more info see Kubernetes reference
+        type = "DirectoryOrCreate" 
+        # From Terraform reference: Represents a directory on the host. 
+        # Provisioned by a developer or tester. 
+        # This is useful for single-node development and testing only! 
+        # On-host storage is not supported in any way and WILL NOT WORK in a multi-node cluster. 
+        # For more info see Kubernetes reference
       }
     }
     storage_class_name = "standard"

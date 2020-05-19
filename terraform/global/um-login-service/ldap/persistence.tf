@@ -3,7 +3,7 @@ resource "kubernetes_job" "um_login_persistence" {
     name = "um-login-persistence"
   }
 
-  depends_on = [ null_resource.waitfor-opendj-init ]
+  depends_on = [ null_resource.waitfor-config-init, null_resource.waitfor-opendj-init ]
 
   spec {
     backoff_limit = 1
@@ -35,7 +35,7 @@ resource "kubernetes_job" "um_login_persistence" {
 
           env {
             name  = "GLUU_LDAP_URL"
-            value = "ldap:1636"
+            value = "opendj:1636"
           }
 
           env {

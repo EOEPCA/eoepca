@@ -11,5 +11,5 @@ resource "null_resource" "waitfor-config-init" {
     command = <<EOT
     until kubectl get pods | grep "config-init" | grep "Completed"; do echo "Waiting for config-init pod" && sleep 30; done
 EOT
-  } 
+  } # kubectl wait --for=condition=complete job/config-init-load-job --timeout=5m
 }
