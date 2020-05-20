@@ -1,6 +1,6 @@
 # Install minikube and kubectl
-K8S_VER=v1.12.0
-TF_VER=0.12.16
+K8S_VER=v1.13.0
+TF_VER=0.12.25
 MINIKUBE_VER=v1.9.1
 
 # Make root mounted as rshared to fix kube-dns issues.
@@ -16,8 +16,11 @@ chmod +x minikube
 mv minikube /usr/local/bin/
 
 echo "##### (Re)start Minikube cluster"
-minikube delete --all --purge
-minikube start --vm-driver=none --bootstrapper=kubeadm --kubernetes-version=${K8S_VER} --extra-config=apiserver.authorization-mode=RBAC
+export CHANGE_MINIKUBE_NONE_USER=true
+minikube delete --purge --all
+minikube start --mount-string='/data:/data' --vm-driver=none --bootstrapper=kubeadm --kubernetes-version=${K8S_VER} --extra-config=apiserver.authorization-mode=RBAC
+
+minikube addons enable ingress ## Substitute this for kubernetes deployment
 
 # Fix the kubectl context, as it's often stale.
 minikube update-context
@@ -30,6 +33,7 @@ kubectl cluster-info
 
 sudo chmod o+r ${HOME}/.kube/config
 sudo chmod -R o+r ${HOME}/.minikube/
+sudo chown -R $USER $HOME/.kube $HOME/.minikube
 
 echo "##### Installing Terraform version $TF_VER"
 sudo apt-get install unzip
