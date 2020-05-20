@@ -16,5 +16,5 @@ cd ${TRAVIS_BUILD_DIR}/terraform/test
 terraform init
 terraform apply --auto-approve  --var="dh_user_email=${DOCKER_EMAIL}" \
                                 --var="dh_user_name=${DOCKER_USERNAME}" \
-                                --var="dh_user_password=${DOCKER_PASSWORD} \
+                                --var="dh_user_password=${DOCKER_PASSWORD}" \
                                 --var="nginx_ip=`sudo minikube ip`" 
