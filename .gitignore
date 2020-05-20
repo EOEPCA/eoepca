@@ -4,6 +4,5 @@
 .terraform.tfstate.*
 *.retry
 vault_pass_file
-*.pem
 *.crt
 *.key

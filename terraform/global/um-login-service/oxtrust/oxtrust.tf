@@ -54,6 +54,8 @@ resource "kubernetes_stateful_set" "oxtrust" {
     }
   }
 
+   depends_on = [ kubernetes_service.oxtrust ]
+
   spec {
     replicas = 1
 
