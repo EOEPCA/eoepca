@@ -1,6 +1,7 @@
 .terraform/
 *.tfstate
 *.tfstate.backup
+.terraform.tfstate.*
 *.retry
 vault_pass_file
 *.pem

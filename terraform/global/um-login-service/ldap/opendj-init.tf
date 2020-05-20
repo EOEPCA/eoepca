@@ -7,11 +7,8 @@ resource "kubernetes_config_map" "opendj_init_cm" {
 
   data = {
     GLUU_CONFIG_ADAPTER = "kubernetes"
-
     GLUU_LDAP_ADVERTISE_ADRR = "opendj"
-
     GLUU_LDAP_AUTO_REPLICATE = "false"
-
     GLUU_SECRET_ADAPTER = "kubernetes"
   }
 }

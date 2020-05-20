@@ -2,12 +2,15 @@ resource "kubernetes_config_map" "oxauth_cm" {
   metadata {
     name = "oxauth-cm"
   }
+
+  depends_on = [ null_resource.waitfor-persistence ]
+  
   data = {
-    DOMAIN                   = var.hostname,
-    GLUU_CONFIG_ADAPTER      = "kubernetes",
-    GLUU_LDAP_URL            = "opendj:1636",
-    GLUU_MAX_RAM_FRACTION    = "1",
-    GLUU_SECRET_ADAPTER      = "kubernetes",
+    DOMAIN                   = var.hostname
+    GLUU_CONFIG_ADAPTER      = "kubernetes"
+    GLUU_LDAP_URL            = "opendj:1636"
+    GLUU_MAX_RAM_FRACTION    = "1"
+    GLUU_SECRET_ADAPTER      = "kubernetes"
     GLUU_SYNC_CASA_MANIFESTS = "false"
   }
 }
@@ -17,6 +20,9 @@ resource "kubernetes_service" "oxauth" {
     name   = "oxauth"
     labels = { app = "oxauth" }
   }
+
+  depends_on = [ null_resource.waitfor-persistence ]
+  
   spec {
     port {
       name = "oxauth"
@@ -31,6 +37,9 @@ resource "kubernetes_deployment" "oxauth" {
     name   = "oxauth"
     labels = { app = "oxauth" }
   }
+
+  depends_on = [ null_resource.waitfor-persistence ]
+  
   spec {
     replicas = 1
     selector {
@@ -41,6 +50,9 @@ resource "kubernetes_deployment" "oxauth" {
         labels = { app = "oxauth" }
       }
       spec {
+  
+        automount_service_account_token = true
+  
         volume {
           name = "oxauth-logs"
           persistent_volume_claim {
@@ -94,7 +106,7 @@ resource "kubernetes_deployment" "oxauth" {
           }
           image_pull_policy = "Always"
         }
-        host_alias {
+        host_aliases {
           ip        = var.nginx_ip
           hostnames = [ var.hostname ]
         }
