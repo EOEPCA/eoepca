@@ -24,7 +24,9 @@ resource "kubernetes_service" "oxtrust" {
     }
   }
 
-  depends_on = [ null_resource.waitfor-persistence ]
+  depends_on = [ null_resource.waitfor-persistence, kubernetes_persistent_volume.oxtrust_logs,
+                kubernetes_persistent_volume.oxtrust_lib_ext, kubernetes_persistent_volume.oxtrust_custom_static,
+                kubernetes_persistent_volume.oxtrust_custom_pages ]
 
   spec {
     port {
@@ -49,7 +51,9 @@ resource "kubernetes_stateful_set" "oxtrust" {
     }
   }
 
-   depends_on = [ kubernetes_service.oxtrust ]
+   depends_on = [ kubernetes_service.oxtrust, null_resource.waitfor-persistence, kubernetes_persistent_volume.oxtrust_logs,
+                kubernetes_persistent_volume.oxtrust_lib_ext, kubernetes_persistent_volume.oxtrust_custom_static,
+                kubernetes_persistent_volume.oxtrust_custom_pages ]
 
   spec {
     replicas = 1

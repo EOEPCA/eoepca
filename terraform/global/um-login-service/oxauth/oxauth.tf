@@ -21,7 +21,9 @@ resource "kubernetes_service" "oxauth" {
     labels = { app = "oxauth" }
   }
 
-  depends_on = [ null_resource.waitfor-persistence ]
+  depends_on = [ null_resource.waitfor-persistence, kubernetes_persistent_volume.oxauth_logs,
+                kubernetes_persistent_volume.oxauth_lib_ext, kubernetes_persistent_volume.oxauth_custom_static,
+                kubernetes_persistent_volume.oxauth_custom_pages ]
   
   spec {
     port {
@@ -29,6 +31,11 @@ resource "kubernetes_service" "oxauth" {
       port = 8080
     }
     selector = { app = "oxauth" }
+  }
+  provisioner "local-exec" {
+    command = <<EOT
+      until [ `kubectl logs service/oxauth | grep "Server:main: Started" | wc -l` -ge 1 ]; do echo "Waiting for service/oxauth" && sleep 30; done
+    EOT
   }
 }
 
@@ -38,7 +45,9 @@ resource "kubernetes_deployment" "oxauth" {
     labels = { app = "oxauth" }
   }
 
-  depends_on = [ null_resource.waitfor-persistence ]
+  depends_on = [ null_resource.waitfor-persistence, kubernetes_persistent_volume.oxauth_logs,
+                kubernetes_persistent_volume.oxauth_lib_ext, kubernetes_persistent_volume.oxauth_custom_static,
+                kubernetes_persistent_volume.oxauth_custom_pages ]
   
   spec {
     replicas = 1
