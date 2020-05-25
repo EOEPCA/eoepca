@@ -18,4 +18,4 @@ terraform apply --auto-approve  --var="dh_user_email=${DOCKER_EMAIL}" \
                                 --var="dh_user_name=${DOCKER_USERNAME}" \
                                 --var="dh_user_password=${DOCKER_PASSWORD}" \
                                 --var="nginx_ip=`sudo minikube ip`" \
-                                --var="hostname=test.eoepca.org"," 
+                                --var="hostname=test.eoepca.org"
