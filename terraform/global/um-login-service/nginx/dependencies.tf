@@ -1,11 +1,11 @@
 resource "null_resource" "waitfor-tls-secrets" {
   provisioner "local-exec" {
     command = <<EOT
-    kubectl wait --for=condition=complete job/config-init-load-job --timeout=10m
+    #until kubectl get pods | grep "config-init" | grep "Completed"; do echo "Waiting for config-init pod" && sleep 30; done
     
 EOT
   } 
-} # #until kubectl get pods | grep "config-init" | grep "Completed"; do echo "Waiting for config-init pod" && sleep 30; done
+} # kubectl wait --for=condition=complete job/config-init-load-job --timeout=10m
 # ../global/um-login-service/nginx/tls-secrets.sh
 
 resource "null_resource" "waitfor-persistence" {
