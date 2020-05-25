@@ -30,6 +30,6 @@ echo "eoepca-ades-core service is acccessible on ${kubeIP}:${ADES_PORT}"
 curl -s -L $kubeIP:$ADES_PORT/wps3/processes/argo -H "accept: application/json"
 
 echo \#2 um-login
-curl -XGET https://demoexample.gluu.org/.well-known/openid-configuration -k
-curl -XGET https://demoexample.gluu.org/.well-known/scim-configuration -k
+curl -XGET https://$kubeIP/.well-known/openid-configuration -k
+curl -XGET https://$kubeIP/.well-known/scim-configuration -k
 
