@@ -3,7 +3,10 @@ resource "kubernetes_job" "um_login_persistence" {
     name = "um-login-persistence"
   }
 
-  depends_on = [ null_resource.waitfor-config-init, null_resource.waitfor-opendj-init ]
+  depends_on = [ null_resource.waitfor-config-init, null_resource.waitfor-opendj-init, 
+                kubernetes_persistent_volume.opendj_config, kubernetes_persistent_volume.opendj_ldif,
+                kubernetes_persistent_volume.opendj_logs, kubernetes_persistent_volume.opendj_db,
+                kubernetes_persistent_volume.opendj_flag ]
 
   spec {
     backoff_limit = 1

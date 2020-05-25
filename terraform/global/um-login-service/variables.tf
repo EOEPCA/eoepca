@@ -5,5 +5,5 @@ variable "nginx_ip" {
 
 variable "hostname" {
     type = string
-    default = "demoexample.gluu.org"
+    default = "test.eoepca.org"
 }
