@@ -46,6 +46,8 @@ resource "kubernetes_deployment" "oxpassport" {
     }
   }
 
+  depends_on = [ null_resource.waitfor-persistence ]
+
   timeouts {
     create = "5m"
   }
@@ -86,7 +88,7 @@ resource "kubernetes_deployment" "oxpassport" {
 
           liveness_probe {
             http_get {
-              path = "/passport"
+              path = "/passport/token"
               port = "8090"
             }
 
@@ -96,7 +98,7 @@ resource "kubernetes_deployment" "oxpassport" {
 
           readiness_probe {
             http_get {
-              path = "/passport"
+              path = "/passport/token"
               port = "8090"
             }
 

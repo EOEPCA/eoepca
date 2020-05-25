@@ -30,11 +30,6 @@ resource "kubernetes_service" "oxauth" {
     }
     selector = { app = "oxauth" }
   }
-  provisioner "local-exec" {
-    command = <<EOT
-      until [ `kubectl logs service/oxauth | grep "Server:main: Started" | wc -l` -ge 1 ]; do echo "Waiting for service/oxauth" && sleep 30; done
-    EOT
-  }
 }
 
 resource "kubernetes_deployment" "oxauth" {

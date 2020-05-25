@@ -7,15 +7,10 @@ resource "kubernetes_config_map" "oxtrust_cm" {
 
   data = {
     DOMAIN = var.hostname
-
     GLUU_CONFIG_ADAPTER = "kubernetes"
-
     GLUU_LDAP_URL = "opendj:1636"
-
     GLUU_MAX_RAM_FRACTION = "1"
-
     GLUU_OXAUTH_BACKEND = "oxauth:8080"
-
     GLUU_SECRET_ADAPTER = "kubernetes"
   }
 }
