@@ -38,6 +38,11 @@ resource "kubernetes_service" "oxtrust" {
       app = "oxtrust"
     }
   }
+  provisioner "local-exec" {
+    command = <<EOT
+      until [ `kubectl logs service/oxtrust | grep "Server:main: Started" | wc -l` -ge 1 ]; do echo "Waiting for service/oxtrust" && sleep 30; done
+    EOT
+  }
 }
 
 resource "kubernetes_stateful_set" "oxtrust" {
