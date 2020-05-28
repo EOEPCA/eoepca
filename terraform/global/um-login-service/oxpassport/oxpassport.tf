@@ -86,25 +86,25 @@ resource "kubernetes_deployment" "oxpassport" {
             }
           }
 
-          liveness_probe {
-            http_get {
-              path = "/passport/token"
-              port = "8090"
-            }
+          # liveness_probe {
+          #   http_get {
+          #     path = "/passport/token"
+          #     port = "8090"
+          #   }
 
-            initial_delay_seconds = 30
-            period_seconds        = 30
-          }
+          #   initial_delay_seconds = 300
+          #   period_seconds        = 30
+          # }
 
-          readiness_probe {
-            http_get {
-              path = "/passport/token"
-              port = "8090"
-            }
+          # readiness_probe {
+          #   http_get {
+          #     path = "/passport/token"
+          #     port = "8090"
+          #   }
 
-            initial_delay_seconds = 25
-            period_seconds        = 25
-          }
+          #   initial_delay_seconds = 250
+          #   period_seconds        = 25
+          # }
 
           image_pull_policy = "Always"
         }

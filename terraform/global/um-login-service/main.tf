@@ -29,8 +29,8 @@ module "oxtrust" {
     hostname = var.hostname
 }
 
-# module "oxpassport" {
-#     source = "./oxpassport"
-#     nginx_ip = var.nginx_ip
-#     hostname = var.hostname
-# }
+module "oxpassport" {
+    source = "./oxpassport"
+    nginx_ip = var.nginx_ip
+    hostname = var.hostname
+}
