@@ -52,8 +52,8 @@ resource "kubernetes_secret" "tls-certificate" {
   }
 
   data = {
-    "tls.crt" = local_file.ingress_crt.filename
-    "tls.key" = local_file.ingress_key.filename
+    "tls.crt" = local_file.ingress_crt.content
+    "tls.key" = local_file.ingress_key.content
   }
 
   type = "kubernetes.io/tls"

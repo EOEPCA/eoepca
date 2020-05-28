@@ -24,7 +24,7 @@ resource "kubernetes_service" "oxtrust" {
     }
   }
 
-  depends_on = [ null_resource.waitfor-persistence, kubernetes_persistent_volume.oxtrust_logs,
+  depends_on = [ null_resource.waitfor-persistence, null_resource.waitfor-oxauth, kubernetes_persistent_volume.oxtrust_logs,
                 kubernetes_persistent_volume.oxtrust_lib_ext, kubernetes_persistent_volume.oxtrust_custom_static,
                 kubernetes_persistent_volume.oxtrust_custom_pages ]
 
@@ -37,11 +37,6 @@ resource "kubernetes_service" "oxtrust" {
     selector = {
       app = "oxtrust"
     }
-  }
-  provisioner "local-exec" {
-    command = <<EOT
-      until [ `kubectl logs service/oxtrust | grep "Server:main: Started" | wc -l` -ge 1 ]; do echo "Waiting for service/oxtrust" && sleep 30; done
-    EOT
   }
 }
 
