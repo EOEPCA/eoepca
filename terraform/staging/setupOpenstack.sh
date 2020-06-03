@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Install minikube and kubectl
-TF_VER=0.12.24
 
 echo "##### Update apt-get and install Python3 #####"
 sudo apt-get update
@@ -14,13 +13,6 @@ sudo -H pip3 install python-openstackclient
 echo "##### Set CreoDIAS credentials #####"
 ./openrc.sh
 echo -e 'y\n' | ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -q -N "" 
-
-echo "##### Installing Terraform version $TF_VER"
-sudo apt-get install unzip
-curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/${TF_VER}/terraform_${TF_VER}_linux_amd64.zip
-unzip -o /tmp/terraform.zip -d /tmp
-chmod +x /tmp/terraform
-sudo mv /tmp/terraform /usr/local/bin/
 
 echo "##### Deploying Openstack environment"
 cd inventory/cf2-kube

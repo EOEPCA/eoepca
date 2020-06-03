@@ -29,13 +29,13 @@
   <p align="center">
     EOEPCA Reference Implementation - System
     <br />
-    <a href="https://github.com/EOEPCA/template-svce"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/EOEPCA/eoepca"><strong>Explore the docs »</strong></a>
     <br />
-    <a href="https://github.com/EOEPCA/template-svce">View Demo</a>
+    <a href="https://github.com/EOEPCA/eoepca">View Demo</a>
     ·
-    <a href="https://github.com/EOEPCA/template-svce/issues">Report Bug</a>
+    <a href="https://github.com/EOEPCA/eoepca/issues">Report Bug</a>
     ·
-    <a href="https://github.com/EOEPCA/template-svce/issues">Request Feature</a>
+    <a href="https://github.com/EOEPCA/eoepca/issues">Request Feature</a>
   </p>
 </p>
 
@@ -90,21 +90,35 @@ Things you need to use the software and how to install them.
 
 ### Installation
 
-- Local environment - It creates a testing environment in a Minikube cluster deployed on the local machine  
-1. `cd terraform/test`
-2. `terraform init`
-3. `terraform apply --auto-approve`
+*Local environment*
 
-- Staging environment - It creates a testing environment on an Openstack environment provided by a Network-of-Resources provider (e.g. a DIAS platform)
+It creates a testing environment in a Minikube cluster deployed on the local machine  
+1. `cd terraform/test`
+2. Define needed environment variables:
+- `export DOCKER_EMAIL=[Email of te account with access to the Dockerhub EOEPCA repository`
+- `export DOCKER_USERNAME=[User name of te account with access to the Dockerhub EOEPCA repository`
+- `export DOCKER_PASSWORD=[Password of te account with access to the Dockerhub EOEPCA repository`
+3. `./deployEOEPCA.sh`
+
+This will create a system accesible from local node at https://test.eoepca.org
+
+
+*Staging environment*
+
+It creates a testing environment on an Openstack environment provided by a Network-of-Resources provider (e.g. a DIAS platform)
 1. [Register yourself into openstack provider and obtain cloud.key for access]
 2. [Obtain detailed credential for accessing the environment and modify terraform/staging/openrc.sh with this information]
 3. `cd terraform/staging`
 4. `source openrc.sh` [You may be asked for the password if not already set]
 5. `./setupOpenstack.sh --apply` [or --destroy to remove]
 6. `./setupKubernetes.sh`
+- You would be asked of VAULT_PASSWORD environment variable. Ask your EOEPCA admin if you don't have it.
 
-Once yo uhave the underlying openstack/kubernetes environment, you can proceed to deploy the EOEPCA system itself. Use this call:
+Once you have the underlying openstack/kubernetes environment, you can proceed to deploy the EOEPCA system itself. Use this call:
+
 7. `./deployEOEPCA.sh`
+
+This will deploy an EOEPCA system reachable over the internet at https://staging.eoepca.org
 
 ### Testing
 
@@ -184,7 +198,7 @@ Project Link: [https://github.com/EOEPCA/eoepca](https://github.com/EOEPCA/eoepc
 ## Acknowledgements
 
 * []()
-* []()
+* Deployment of Kubernetes staging environment over an Openstack infrastructure is based on the [kubespray](https://github.com/kubernetes-sigs/kubespray) project
 * README.md is based on [this template](https://github.com/othneildrew/Best-README-Template) by [Othneil Drew](https://github.com/othneildrew).
 
 
