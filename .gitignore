@@ -7,3 +7,7 @@ vault_pass_file
 *.pem
 *.crt
 *.key
+
+log.html
+output.xml
+report.html
