@@ -16,10 +16,13 @@
 - hosts: bastion
   gather_facts: False
   vars:
-    DB_USER: user
-    DB_PASSWORD: password
+    docker_email : ((asasd))
+    docker_username: ((user))
+    docker_password : ((password)) # TODO
   
   tasks:
+    - shell: kubectl config view --minify | grep server | cut -f 2- -d ":" | tr -d " "
+      register: lb_ip
     - name: Install jq
       apt:
         name: jq
@@ -39,15 +42,18 @@
         owner: eouser
     - name: "Transfer test Terraform Infrastructure as Code"
       copy:
-        src: ../test
+        src: ../staging
         dest: /home/eouser/eoepca/terraform/
         owner: eouser
     - name: "Terraforming from bastion host"
       terraform:
-        project_path: './eoepca/terraform/test'
+        project_path: './eoepca/terraform/staging'
         variables:
-          db_username: "{{ DB_USER }}"
-          db_password: "{{ DB_PASSWORD }}"
+          docker_email: "{{ DOCKER_EMAIL }}"
+          docker_username: "{{ DOCKER_USERNAME }}"
+          docker_password: "{{ DOCKER_PASSWORD }}"
+          lb_ip: lb_ip.stdout
+          hostname: "staging.eoepca.org"
         state: present
         force_init: true
       register: terraform_result

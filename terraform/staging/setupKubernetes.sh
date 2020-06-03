@@ -54,4 +54,4 @@ cd ../..
 ansible-playbook --become -i inventory/cf2-kube/hosts cluster.yml
 
 echo "##### Configure access to Kubernetes cluster through Bastion #####"
-ansible-playbook --vault-password-file=.vault_pass_bash --become -i inventory/cf2-kube/hosts bastion.yml
+ansible-playbook --vault-password-file=.vault_pass --become -i inventory/cf2-kube/hosts bastion.yml
