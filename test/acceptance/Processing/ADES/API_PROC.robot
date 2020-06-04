@@ -22,6 +22,13 @@ API_PROC deploy process
   Sleep  3  Waiting for process deploy process to complete asynchronously
   API_PROC Is Deployed  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0
 
+API_PROC execute process
+  ${location}=  API_PROC Execute Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json
+  Sleep  3  Waiting for process execution to start
+  ${job_id}=  API_PROC Get Job ID From Location  ${location}
+  API_PROC Check Job Exists  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  ${job_id}
+  API_PROC Check Job Status Success  ${ADES_BASE_URL}  ${location}
+
 API_PROC undeploy Process
   API_PROC Undeploy Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_undeploy.json
   Sleep  3  Waiting for process undeploy process to complete asynchronously
@@ -92,3 +99,29 @@ API_PROC Processes Are Expected
   [Arguments]  ${base_url}  ${path_prefix}  ${expected_process_names}
   ${processes}=  API_PROC Get Process List  ${base_url}  ${path_prefix}
   Lists Should Be Equal  ${processes}  ${expected_process_names}  ignore_order=True
+
+API_PROC Execute Process
+  [Arguments]  ${base_url}  ${path_prefix}  ${process_name}  ${filename}
+  Create Session  ades  ${base_url}  verify=True
+  ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json
+  ${file_data}=  Get Binary File  ${filename}
+  ${resp}=  Post Request  ades  ${path_prefix}/processes/eo_metadata_generation_1_0/jobs  headers=${headers}  data=${file_data}
+  Status Should Be  201  ${resp}
+  [Return]  ${resp.headers["Location"]}
+
+API_PROC Get Job ID From Location
+  [Arguments]  ${location}
+  ${job_id}=  Evaluate  $location.split("/")[-1]
+  [Return]  ${job_id}
+
+API_PROC Check Job Exists
+  [Arguments]  ${base_url}  ${path_prefix}  ${job_id}
+  Log  zzz job_id is ${job_id}  console=True
+
+API_PROC Check Job Status Success
+  [Arguments]  ${base_url}  ${location}
+  Create Session  ades  ${base_url}  verify=True
+  ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json
+  ${resp}=  Get Request  ades  ${location}  headers=${headers}
+  Status Should Be  200  ${resp}
+  Should Match  ${resp.json()["status"]}  "successful"
