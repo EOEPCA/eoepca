@@ -13,18 +13,18 @@
 export OS_AUTH_URL=https://cf2.cloudferro.com:5000/v3
 # With the addition of Keystone we have standardized on the term **project**
 # as the entity that owns the resources.
-export OS_PROJECT_ID=b1ad850657884a0a9d3a2bf847b755a9
+export OS_PROJECT_ID=43ff957d8a4e494d8980970bb594c608
 export OS_PROJECT_NAME="eoepca"
-export OS_USER_DOMAIN_NAME="cloud_13658"
+export OS_USER_DOMAIN_NAME="cloud_13907"
 if [ -z "$OS_USER_DOMAIN_NAME" ]; then unset OS_USER_DOMAIN_NAME; fi
-export OS_PROJECT_DOMAIN_ID="c99a5e2cd24c448cb4954cfd0a4efaaa"
+export OS_PROJECT_DOMAIN_ID="043feb3017b6499c8fd060f6b32c2689"
 if [ -z "$OS_PROJECT_DOMAIN_ID" ]; then unset OS_PROJECT_DOMAIN_ID; fi
 # unset v2.0 items in case set
 unset OS_TENANT_ID
 unset OS_TENANT_NAME
 # In addition to the owning entity (tenant), OpenStack stores the entity
 # performing the action as the **user**.
-export OS_USERNAME="jose.ramos@telespazio.com"
+export OS_USERNAME="Jose Ramos"
 # With Keystone you pass the keystone password.
 if [ -z  "$OS_PASSWORD" ]; then
   echo "Please enter your OpenStack Password for project $OS_PROJECT_NAME as user $OS_USERNAME: "

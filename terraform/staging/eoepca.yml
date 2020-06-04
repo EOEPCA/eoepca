@@ -16,10 +16,13 @@
 - hosts: bastion
   gather_facts: False
   vars:
-    DB_USER: user
-    DB_PASSWORD: password
+    docker_email : ((asasd))
+    docker_username: ((user))
+    docker_password : ((password)) # TODO
   
   tasks:
+    - shell: kubectl config view --minify | grep server | cut -f 2- -d ":" | tr -d " "
+      register: lb_ip
     - name: Install jq
       apt:
         name: jq
@@ -46,19 +49,22 @@
       terraform:
         project_path: './eoepca/terraform/test'
         variables:
-          db_username: "{{ DB_USER }}"
-          db_password: "{{ DB_PASSWORD }}"
+          dh_user_email: "{{ DOCKER_EMAIL }}"
+          dh_user_name: "{{ DOCKER_USERNAME }}"
+          dh_user_password: "{{ DOCKER_PASSWORD }}"
+          nginx_ip: lb_ip.stdout
+          hostname: "staging.eoepca.org"
         state: present
         force_init: true
       register: terraform_result
     
     - name: "Transfer Acceptance testing code"
       copy:
-        src: ../../travis/test_only_template-svce.sh
+        src: ../../travis/acceptanceTest.sh
         dest: /home/eouser/eoepca/travis/
         owner: eouser
     - name: "Execute acceptance tests"
-      shell: sh test_only_template-svce.sh
+      shell: sh acceptance.sh
       args:
         chdir: /home/eouser/eoepca/travis
       register: test_result

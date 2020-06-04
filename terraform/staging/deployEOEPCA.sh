@@ -1,12 +1,11 @@
 #!/bin/bash
-echo "##### Obtaining list of hosts from remote state storage #####"
-if [ -z "$REMOTE_STATE_FILE" ]; then
-    echo "Please input the remote state file location:  "
-    read -r REMOTE_FILE
-    export REMOTE_STATE_FILE=${REMOTE_FILE} 
+if [ -z  "$VAULT_PASSWORD" ]; then
+  echo "Please enter your Ansible Vault Password : "
+  read -sr PASSWORD
+  export VAULT_PASSWORD=${PASSWORD}
 fi
 
-curl $REMOTE_STATE_FILE -o creodias.tfstate
-
 echo "##### Deploy sample EOEPCA system on cluster #####"
-ansible-playbook --vault-password-file=.vault_pass -i inventory/cf2-kube/hosts eoepca.yml
+ansible-playbook -v --vault-password-file=.vault_pass \
+                  --extra-vars "DOCKER_EMAIL=$DOCKER_EMAIL DOCKER_USERNAME=$DOCKER_USERNAME DOCKER_PASSWORD=$DOCKER_PASSWORD" \
+                  -i inventory/cf2-kube/hosts eoepca.yml
