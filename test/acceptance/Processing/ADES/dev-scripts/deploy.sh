@@ -10,7 +10,7 @@ URL_HOST="$1"
 if [ -z "$URL_HOST" ]; then URL_HOST="localhost:7777"; fi
 
 echo "Deploy..."
-curl -v -L -X POST "http://localhost:7777/wps3/processes/eoepcaadesdeployprocess/jobs" \
+curl -v -L -X POST "http://${URL_HOST}/wps3/processes/eoepcaadesdeployprocess/jobs" \
   -H "accept: application/json" \
   -H "Prefer: respond-async" \
   -H "Content-Type: application/json" \
