@@ -42,17 +42,17 @@
         owner: eouser
     - name: "Transfer test Terraform Infrastructure as Code"
       copy:
-        src: ../staging
+        src: ../test
         dest: /home/eouser/eoepca/terraform/
         owner: eouser
     - name: "Terraforming from bastion host"
       terraform:
-        project_path: './eoepca/terraform/staging'
+        project_path: './eoepca/terraform/test'
         variables:
-          docker_email: "{{ DOCKER_EMAIL }}"
-          docker_username: "{{ DOCKER_USERNAME }}"
-          docker_password: "{{ DOCKER_PASSWORD }}"
-          lb_ip: lb_ip.stdout
+          dh_user_email: "{{ DOCKER_EMAIL }}"
+          dh_user_name: "{{ DOCKER_USERNAME }}"
+          dh_user_password: "{{ DOCKER_PASSWORD }}"
+          nginx_ip: lb_ip.stdout
           hostname: "staging.eoepca.org"
         state: present
         force_init: true
@@ -60,11 +60,11 @@
     
     - name: "Transfer Acceptance testing code"
       copy:
-        src: ../../travis/test_only_template-svce.sh
+        src: ../../travis/acceptanceTest.sh
         dest: /home/eouser/eoepca/travis/
         owner: eouser
     - name: "Execute acceptance tests"
-      shell: sh test_only_template-svce.sh
+      shell: sh acceptance.sh
       args:
         chdir: /home/eouser/eoepca/travis
       register: test_result

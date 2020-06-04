@@ -6,4 +6,6 @@ if [ -z  "$VAULT_PASSWORD" ]; then
 fi
 
 echo "##### Deploy sample EOEPCA system on cluster #####"
-ansible-playbook --vault-password-file=.vault_pass -i inventory/cf2-kube/hosts eoepca.yml
+ansible-playbook -v --vault-password-file=.vault_pass \
+                  --extra-vars "DOCKER_EMAIL=$DOCKER_EMAIL DOCKER_USERNAME=$DOCKER_USERNAME DOCKER_PASSWORD=$DOCKER_PASSWORD" \
+                  -i inventory/cf2-kube/hosts eoepca.yml

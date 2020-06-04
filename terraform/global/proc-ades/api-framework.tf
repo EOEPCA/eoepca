@@ -47,7 +47,7 @@ resource "kubernetes_deployment" "eoepca-ades-core-deployment" {
           name = "dockerhub-imagepullsecret"
         }
         container {
-          image = "eoepca/eoepca-ades-core:travis_develop_8"
+          image = "eoepca/eoepca-ades-core:travis_develop_25"
           name  = "eoepca-ades-core"
           port {
             container_port = 7777
