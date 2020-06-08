@@ -6,10 +6,6 @@ import socket
 import time
 import json
 
-if path.exists('1'):
-    
-        os.system('rm -rf 1 2 3 4')
-
 #Request a resource without access_token
 #Returns a ticket to user for the token retrieval
 def get_ticket(config):
@@ -65,7 +61,7 @@ def get_acces_token(config, ticket, id_token):
 
 
 def update_config_token(access_token):
-    os.system('sed -i "/_TOKEN}=/c\${RPT_TOKEN}='+access_token+'" ./../../Processing/ADES/ADES.resource')
+    os.system('sed -i "/_TOKEN}=/c\${RPT_TOKEN}=  '+access_token+'" ./../../Processing/ADES/ADES.resource')
     
 #Retreives the resource specifying the acces_token
 def get_resource(access_token):
@@ -76,11 +72,11 @@ def get_resource(access_token):
     time.sleep(5)
     o.close()
 
-    with open('4','r+') as m:
-        for i in m:
-            a =''.join(i)
-            if 'TestPEP' in a:
-                return a
+    with open('4','r+') as f:
+        for i in f:
+            joinedStr =''.join(i)
+            if 'TestPEP' in joinedStr:
+                return joinedStr
         
             
 
@@ -92,27 +88,18 @@ def main():
     
 
     if not path.exists('1'):
-        t=get_ticket(config)
+        ticket=get_ticket(config)
         print('ticket: ')
-        print(t)
-        i=get_id_token(config)
+        print(ticket)
+        id_token=get_id_token(config)
         print('id_token: ')
-        print(i)
-        a=get_acces_token(config, t, i)
+        print(id_token)
+        valid=get_acces_token(config, ticket, id_token)
         print('acces_token: ')
-        print(a)
-        if a:
-            update_config_token(a)
-            
-            os.system('rm -rf 1 2 3 4')
-        #r=get_resource(a)
-        #print('resource: ')
-        #print(r)
-        # if r:
-        #     print('Success')
-        #     os.system('rm -rf 1 2 3 4 ADES config config.py custom_oidc.py custom_uma.py main.py nohup.out requirements.txt __pycache__')
+        print(valid)
+        if valid:
+            update_config_token(valid)
 
- 
 main()
 
 

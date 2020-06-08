@@ -9,34 +9,27 @@ Suite Setup  API_PROC Suite Setup  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  ${
 *** Variables ***
 ${API_PROC_PATH_PREFIX}=  /wps3
 
-
 *** Test Cases ***
 API_PROC service is alive
-  API_PROC Request Token Processes Valid  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  ${RPT_TOKEN}
-
-API_PROC resource is retrieved
-  API_PROC Request Token Processes Valid ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  ${RPT_TOKEN}
-
-PI_PROC resource is not retrieved
-  API_PROC Request Token Processes Invalid ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}
+  API_PROC Request Processes Valid  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  ${RPT_TOKEN}
 
 API_PROC available processes
-  API_PROC Processes Are Expected  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  ${INITIAL_PROCESS_NAMES}
+  API_PROC Processes Are Expected  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  ${INITIAL_PROCESS_NAMES}  ${RPT_TOKEN}
 
 API_PROC deploy process
-  API_PROC Deploy Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0.json
+  API_PROC Deploy Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0.json  ${RPT_TOKEN}
   Sleep  3  Waiting for process deploy process to complete asynchronously
   API_PROC Is Deployed  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0
 
 API_PROC execute process
-  ${location}=  API_PROC Execute Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json
+  ${location}=  API_PROC Execute Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json  ${RPT_TOKEN}
   Sleep  3  Waiting for process execution to start
   ${job_id}=  API_PROC Get Job ID From Location  ${location}
   API_PROC Check Job Exists  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  ${job_id}
   API_PROC Check Job Status Success  ${ADES_BASE_URL}  ${location}
 
 API_PROC undeploy Process
-  API_PROC Undeploy Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_undeploy.json
+  API_PROC Undeploy Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_undeploy.json  ${RPT_TOKEN}
   Sleep  3  Waiting for process undeploy process to complete asynchronously
   API_PROC Is Not Deployed  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0
 
@@ -50,8 +43,10 @@ API_PROC Suite Setup
 API_PROC Request Processes
   [Arguments]  ${base_url}  ${path_prefix}  ${token}
   Create Session  ades  ${base_url}  verify=True
-  ${headers}=  Create Dictionary  accept=application/json  Authorization=Bearer ${token}
+  ${headers}=  Create Dictionary  accept=application/json  authorization=Bearer ${token}
+  Log  ${headers}
   ${resp}=  Get Request  ades  ${path_prefix}/processes  headers=${headers}
+  Log  ${resp}
   [Return]  ${resp}
 
 API_PROC Request Processes Valid
@@ -60,37 +55,18 @@ API_PROC Request Processes Valid
   Status Should Be  200  ${resp}
   [Return]  ${resp}
 
-API_PROC Request Token Processes
-  [Arguments]  ${base_url}  ${path_prefix}  ${token}
-  Create Session  ades  ${base_url}  verify=True
-  ${headers}=  Create Dictionary  Authorization=Bearer ${token}
-  ${resp}=  Get Request  ades  ${path_prefix}/processes  headers=${headers}
-  [Return]  ${resp}
-
-API_PROC Request Token Processes Valid
-  [Arguments]  ${base_url}  ${path_prefix}  ${token}
-  ${resp}=  API_PROC Request Token Processes  ${base_url}  ${path_prefix}  ${token}
-  Status Should Be  200  ${resp}
-  [Return]  ${resp}
-
-API_PROC Request Token Processes Invalid
-  [Arguments]  ${base_url}  ${path_prefix}  ${token}
-  ${resp}=  API_PROC Request Token Processes  ${base_url}  ${path_prefix}  ${token}
-  Status Should Be  401  ${resp}
-  [Return]  ${resp}
-
 API_PROC Deploy Process
   [Arguments]  ${base_url}  ${path_prefix}  ${process_name}  ${filename}  ${token}
   Create Session  ades  ${base_url}  verify=True
-  ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json  Authorization=Bearer ${token}
+  ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json  authorization=Bearer ${token}
   ${file_data}=  Get Binary File  ${filename}
   ${resp}=  Post Request  ades  ${path_prefix}/processes/eoepcaadesdeployprocess/jobs  headers=${headers}  data=${file_data}
   Status Should Be  201  ${resp}
 
 API_PROC Undeploy Process
-  [Arguments]  ${base_url}  ${path_prefix}  ${process_name}  ${filename}  ${token}
+  [Arguments]  ${base_url}  ${path_prefix}  ${process_name}  ${filename}  ${token} 
   Create Session  ades  ${base_url}  verify=True
-  ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json  Authorization=Bearer ${token}
+  ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json  authorization=Bearer ${token}
   ${file_data}=  Get Binary File  ${filename}
   ${resp}=  Post Request  ades  ${path_prefix}/processes/eoepcaadesundeployprocess/jobs  headers=${headers}  data=${file_data}
   Status Should Be  201  ${resp}
@@ -128,7 +104,7 @@ API_PROC Processes Are Expected
 API_PROC Execute Process
   [Arguments]  ${base_url}  ${path_prefix}  ${process_name}  ${filename}  ${token}
   Create Session  ades  ${base_url}  verify=True
-  ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json  Authorization=Bearer ${token}
+  ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json  authorization=Bearer ${token}
   ${file_data}=  Get Binary File  ${filename}
   ${resp}=  Post Request  ades  ${path_prefix}/processes/eo_metadata_generation_1_0/jobs  headers=${headers}  data=${file_data}
   Status Should Be  201  ${resp}
@@ -146,7 +122,7 @@ API_PROC Check Job Exists
 API_PROC Check Job Status Success
   [Arguments]  ${base_url}  ${location}  ${token}
   Create Session  ades  ${base_url}  verify=True
-  ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json  Authorization=Bearer ${token}
+  ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json  authorization=Bearer ${token}
   ${resp}=  Get Request  ades  ${location}  headers=${headers}
   Status Should Be  200  ${resp}
   Should Match  ${resp.json()["status"]}  "successful"
