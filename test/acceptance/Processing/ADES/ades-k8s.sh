@@ -46,7 +46,43 @@ spec:
   selector:
     app: ades
   type: LoadBalancer
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: eoepca-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  hostPath:
+    path: "/mnt/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: eoepca-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 3Gi
 EOF
 }
 
 ades-yml | kubectl $ACTION -f -
+
+# argo
+argo_version="v2.8.1"
+kubectl create namespace argo
+kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo/${argo_version}/manifests/install.yaml
+kubectl create rolebinding default-admin --clusterrole=admin --serviceaccount=default:default
+
