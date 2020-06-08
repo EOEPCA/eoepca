@@ -6,25 +6,14 @@ import socket
 import time
 import json
 
-
-
 if path.exists('1'):
     
         os.system('rm -rf 1 2 3 4')
 
-#Generates environtment to simulate the resource server
-
-subprocess.check_call(["pip", "install",'-r', './requirements.txt'])
-#os.system('nohup python3 -m http.server 9000 &')
-os.system('nohup python3 main.py &')
-
-
-#wait until the service is runing
-time.sleep(20)
 #Request a resource without access_token
 #Returns a ticket to user for the token retrieval
-def get_ticket():
-    ip=subprocess.check_output(['hostname','-i']).strip().decode()+':5566'
+def get_ticket(config):
+    ip=config['hostname']+ ':32125'
     if not path.exists('1'):
         f = open("1", "w+")
         process=subprocess.Popen(['./CLI/request-resource.sh', '-s', ip,'-r','/pep/ADES'], stderr = f)
@@ -74,6 +63,10 @@ def get_acces_token(config, ticket, id_token):
                 access_token = a[a.find('access_token')+15:a.find('token_type')-3]
     return access_token
 
+
+def update_config_token(access_token):
+    os.system('sed -i "/_TOKEN}=/c\${RPT_TOKEN}='+access_token+'" ./../../Processing/ADES/ADES.resource')
+    
 #Retreives the resource specifying the acces_token
 def get_resource(access_token):
     
@@ -99,15 +92,19 @@ def main():
     
 
     if not path.exists('1'):
-        #t=get_ticket()
-        #print('ticket: ')
-        #print(t)
+        t=get_ticket(config)
+        print('ticket: ')
+        print(t)
         i=get_id_token(config)
         print('id_token: ')
         print(i)
-        #a=get_acces_token(config, t, i)
-        #print('acces_token: ')
-        #print(a)
+        a=get_acces_token(config, t, i)
+        print('acces_token: ')
+        print(a)
+        if a:
+            update_config_token(a)
+            
+            os.system('rm -rf 1 2 3 4')
         #r=get_resource(a)
         #print('resource: ')
         #print(r)
