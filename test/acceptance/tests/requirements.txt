@@ -1,0 +1,8 @@
+eoepca-scim==2.5.0
+eoepca-uma==0.2.1
+eoepca-oidc==0.0.2
+WellKnownHandler==0.2.0
+requests==2.23.0
+Flask==1.1.2
+pyjwkest==1.4.2
+pycrypto==2.6.1
