@@ -1,0 +1,14 @@
+{
+  "argopath": "/apis/argoproj.io/v1alpha1",
+  "k8Url": "http://localhost:2746",
+  "argoUrl": "http://argo-server.argo:2746",
+  "stage": {
+    "in": {
+      "docker": "eoepca/proc-ades-stagein:latest"
+    },
+    "out": {
+      "docker": "eoepca/proc-ades-stageout:latest",
+      "webdav_endpoint": "https://nx10438.your-storageshare.de/remote.php/dav/files/eoepca-demo-storage"
+    }
+  }
+}
