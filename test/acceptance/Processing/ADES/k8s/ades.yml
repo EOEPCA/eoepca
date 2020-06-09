@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ades
+  name: ades
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ades
+  template:
+    metadata:
+      labels:
+        app: ades
+    spec:
+      containers:
+        - image: eoepca/proc-ades
+          name: ades
+        - image: rconway/kubeproxy
+          name: kubeproxy
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ades
+  name: ades
+spec:
+  ports:
+    - port: 7777
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: ades
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: eoepca-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  hostPath:
+    path: "/mnt/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: eoepca-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 3Gi
