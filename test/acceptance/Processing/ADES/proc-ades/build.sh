@@ -6,5 +6,5 @@ BIN_DIR="$(pwd)"
 
 trap "cd '${ORIG_DIR}'" EXIT
 
-docker build -t rconway/proc-ades .
-docker push rconway/proc-ades
+docker build -t eoepca/proc-ades:localkube .
+docker push eoepca/proc-ades:localkube

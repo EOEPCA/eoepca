@@ -15,7 +15,7 @@ spec:
         app: ades
     spec:
       containers:
-        - image: rconway/proc-ades
+        - image: eoepca/proc-ades:localkube
           name: ades
         - image: rconway/kubeproxy
           name: kubeproxy
@@ -28,12 +28,12 @@ metadata:
   name: ades
 spec:
   ports:
-    - port: 7777
+    - port: 80
       protocol: TCP
       targetPort: 80
   selector:
     app: ades
-  type: LoadBalancer
+  type: NodePort
 ---
 apiVersion: v1
 kind: PersistentVolume
