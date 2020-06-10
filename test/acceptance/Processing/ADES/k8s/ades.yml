@@ -50,7 +50,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
   hostPath:
-    path: "/mnt/data"
+    path: "/tmp/eoepca-data"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
