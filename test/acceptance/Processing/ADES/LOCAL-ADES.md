@@ -10,6 +10,12 @@ Assumes running on ubuntu.
 sudo apt install snapd
 ```
 
+### Install microk8s
+
+```
+sudo snap install microk8s --classic
+```
+
 ### Add current user to the group...
 
 ```
