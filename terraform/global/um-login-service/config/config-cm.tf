@@ -4,7 +4,7 @@ resource "kubernetes_config_map" "config-cm" {
   }
 
   data = {
-    "generate.json" = file("${path.module}/generate.json")
+    "generate.json" = file("${path.module}/generate.json") ### TODO CHANGE HOSTNAME
   }
 
   provisioner "local-exec" {

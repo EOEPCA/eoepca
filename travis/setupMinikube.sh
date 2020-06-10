@@ -17,6 +17,7 @@ mv minikube /usr/local/bin/
 
 echo "##### (Re)start Minikube cluster"
 export CHANGE_MINIKUBE_NONE_USER=true
+rm -rf /data
 minikube delete --purge --all
 minikube start --mount-string='/data:/data' --vm-driver=none --bootstrapper=kubeadm --kubernetes-version=${K8S_VER} --extra-config=apiserver.authorization-mode=RBAC
 

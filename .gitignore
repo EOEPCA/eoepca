@@ -11,3 +11,4 @@ vault_pass_file
 log.html
 output.xml
 report.html
+terraform/test/dhparam.pem

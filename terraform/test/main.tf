@@ -8,6 +8,12 @@ module "um-login-service" {
   hostname = var.hostname
 }
 
+module "um-pep-engine" {
+  source = "../global/um-pep-engine"
+  nginx_ip = var.nginx_ip
+  hostname = var.hostname
+}
+
 variable "nginx_ip" {
   type = string
 }

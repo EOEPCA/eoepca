@@ -1,191 +1,193 @@
-resource "kubernetes_network_policy" "opendj_np" {
-  metadata {
-    name = "opendj-np"
-  }
+## ONLY FOR LOCAL TEST DEPLOYMENTS
 
-  depends_on = [ null_resource.waitfor-config-init ]
+# resource "kubernetes_network_policy" "opendj_np" {
+#   metadata {
+#     name = "opendj-np"
+#   }
 
-  spec {
-    pod_selector {
-      match_labels = {
-        app = "opendj"
-      }
-    }
+#   depends_on = [ null_resource.waitfor-config-init ]
 
-    ingress {
-      ports {
-        protocol = "TCP"
-        port     = "1636"
-      }
+#   spec {
+#     pod_selector {
+#       match_labels = {
+#         app = "opendj"
+#       }
+#     }
 
-      ports {
-        protocol = "TCP"
-        port     = "8989"
-      }
+#     ingress {
+#       ports {
+#         protocol = "TCP"
+#         port     = "1636"
+#       }
 
-      ports {
-        protocol = "TCP"
-        port     = "4444"
-      }
+#       ports {
+#         protocol = "TCP"
+#         port     = "8989"
+#       }
 
-      from {
-        pod_selector {
-          match_labels = {
-            app = "opendj"
-          }
-        }
-      }
-    }
+#       ports {
+#         protocol = "TCP"
+#         port     = "4444"
+#       }
 
-    ingress {
-      ports {
-        protocol = "TCP"
-        port     = "1636"
-      }
+#       from {
+#         pod_selector {
+#           match_labels = {
+#             app = "opendj"
+#           }
+#         }
+#       }
+#     }
 
-      from {
-        pod_selector {
-          match_labels = {
-            app = "oxauth"
-          }
-        }
-      }
-    }
+#     ingress {
+#       ports {
+#         protocol = "TCP"
+#         port     = "1636"
+#       }
 
-    ingress {
-      ports {
-        protocol = "TCP"
-        port     = "1636"
-      }
+#       from {
+#         pod_selector {
+#           match_labels = {
+#             app = "oxauth"
+#           }
+#         }
+#       }
+#     }
 
-      from {
-        pod_selector {
-          match_labels = {
-            app = "oxtrust"
-          }
-        }
-      }
-    }
+#     ingress {
+#       ports {
+#         protocol = "TCP"
+#         port     = "1636"
+#       }
 
-    ingress {
-      ports {
-        protocol = "TCP"
-        port     = "1636"
-      }
+#       from {
+#         pod_selector {
+#           match_labels = {
+#             app = "oxtrust"
+#           }
+#         }
+#       }
+#     }
 
-      from {
-        pod_selector {
-          match_labels = {
-            app = "cr-rotate"
-          }
-        }
-      }
-    }
+#     ingress {
+#       ports {
+#         protocol = "TCP"
+#         port     = "1636"
+#       }
 
-    ingress {
-      ports {
-        protocol = "TCP"
-        port     = "1636"
-      }
+#       from {
+#         pod_selector {
+#           match_labels = {
+#             app = "cr-rotate"
+#           }
+#         }
+#       }
+#     }
 
-      from {
-        pod_selector {
-          match_labels = {
-            app = "key-rotation"
-          }
-        }
-      }
-    }
+#     ingress {
+#       ports {
+#         protocol = "TCP"
+#         port     = "1636"
+#       }
 
-    ingress {
-      ports {
-        protocol = "TCP"
-        port     = "1636"
-      }
+#       from {
+#         pod_selector {
+#           match_labels = {
+#             app = "key-rotation"
+#           }
+#         }
+#       }
+#     }
 
-      from {
-        pod_selector {
-          match_labels = {
-            app = "oxpassport"
-          }
-        }
-      }
-    }
+#     ingress {
+#       ports {
+#         protocol = "TCP"
+#         port     = "1636"
+#       }
 
-    ingress {
-      ports {
-        protocol = "TCP"
-        port     = "1636"
-      }
+#       from {
+#         pod_selector {
+#           match_labels = {
+#             app = "oxpassport"
+#           }
+#         }
+#       }
+#     }
 
-      from {
-        pod_selector {
-          match_labels = {
-            app = "ldapbrowser"
-          }
-        }
-      }
-    }
+#     ingress {
+#       ports {
+#         protocol = "TCP"
+#         port     = "1636"
+#       }
 
-    ingress {
-      ports {
-        protocol = "TCP"
-        port     = "1636"
-      }
+#       from {
+#         pod_selector {
+#           match_labels = {
+#             app = "ldapbrowser"
+#           }
+#         }
+#       }
+#     }
 
-      from {
-        pod_selector {
-          match_labels = {
-            app = "oxshibboleth"
-          }
-        }
-      }
-    }
+#     ingress {
+#       ports {
+#         protocol = "TCP"
+#         port     = "1636"
+#       }
 
-    egress {
-      ports {
-        protocol = "TCP"
-        port     = "1636"
-      }
+#       from {
+#         pod_selector {
+#           match_labels = {
+#             app = "oxshibboleth"
+#           }
+#         }
+#       }
+#     }
 
-      ports {
-        protocol = "TCP"
-        port     = "4444"
-      }
+#     egress {
+#       ports {
+#         protocol = "TCP"
+#         port     = "1636"
+#       }
 
-      ports {
-        protocol = "TCP"
-        port     = "8989"
-      }
+#       ports {
+#         protocol = "TCP"
+#         port     = "4444"
+#       }
 
-      to {
-        pod_selector {
-          match_labels = {
-            app = "opendj"
-          }
-        }
-      }
-    }
+#       ports {
+#         protocol = "TCP"
+#         port     = "8989"
+#       }
 
-    egress {
-      ports {
-        protocol = "TCP"
-        port     = "443"
-      }
+#       to {
+#         pod_selector {
+#           match_labels = {
+#             app = "opendj"
+#           }
+#         }
+#       }
+#     }
 
-      ports {
-        protocol = "UDP"
-        port     = "53"
-      }
+#     egress {
+#       ports {
+#         protocol = "TCP"
+#         port     = "443"
+#       }
 
-      to {
-        ip_block {
-          cidr = "0.0.0.0/0"
-        }
-      }
-    }
+#       ports {
+#         protocol = "UDP"
+#         port     = "53"
+#       }
 
-    policy_types = ["Ingress", "Egress"]
-  }
-}
+#       to {
+#         ip_block {
+#           cidr = "0.0.0.0/0"
+#         }
+#       }
+#     }
+
+#     policy_types = ["Ingress", "Egress"]
+#   }
+# }
 

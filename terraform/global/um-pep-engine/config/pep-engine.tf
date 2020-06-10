@@ -5,7 +5,7 @@ resource "kubernetes_config_map" "pep_engine_cm" {
 
   data = {
     PEP_REALM                    = "eoepca"
-    PEP_AUTH_SERVER_URL          = "https://eoepca-dev.deimos-space.com"
+    PEP_AUTH_SERVER_URL          = var.hostname
     PEP_PROXY_ENDPOINT           = "/pep"
     PEP_SERVICE_HOST             = "0.0.0.0"
     PEP_SERVICE_PORT             = "5566"
@@ -23,7 +23,7 @@ resource "kubernetes_service" "pep-engine" {
     labels = { app = "pep-engine" }
   }
 
-  depends_on = [ kubernetes_persistent_volume.pep_engine_logs,
+  depends_on = [ null_resource.waitfor-persistence, kubernetes_persistent_volume.pep_engine_logs,
                 kubernetes_persistent_volume.pep_engine_lib_ext, kubernetes_persistent_volume.pep_engine_custom_static,
                 kubernetes_persistent_volume.pep_engine_custom_pages ]
   
@@ -46,7 +46,7 @@ resource "kubernetes_deployment" "pep-engine" {
     labels = { app = "pep-engine" }
   }
 
-  depends_on = [ kubernetes_persistent_volume.pep_engine_logs,
+  depends_on = [ null_resource.waitfor-persistence, kubernetes_persistent_volume.pep_engine_logs,
                 kubernetes_persistent_volume.pep_engine_lib_ext, kubernetes_persistent_volume.pep_engine_custom_static,
                 kubernetes_persistent_volume.pep_engine_custom_pages ]
   

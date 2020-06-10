@@ -1,135 +1,137 @@
-resource "kubernetes_network_policy" "oxtrust_np" {
-  metadata {
-    name = "oxtrust-np"
-  }
+## ONLY FOR LOCAL TEST DEPLOYMENTS
 
-  spec {
-    pod_selector {
-      match_labels = {
-        app = "oxtrust"
-      }
-    }
+# resource "kubernetes_network_policy" "oxtrust_np" {
+#   metadata {
+#     name = "oxtrust-np"
+#   }
 
-    ingress {
-      ports {
-        protocol = "TCP"
-        port     = "8080"
-      }
+#   spec {
+#     pod_selector {
+#       match_labels = {
+#         app = "oxtrust"
+#       }
+#     }
 
-      from {
-        ip_block {
-          cidr = "198.168.0.0/16"
-        }
-      }
-    }
+#     ingress {
+#       ports {
+#         protocol = "TCP"
+#         port     = "8080"
+#       }
 
-    ingress {
-      ports {
-        protocol = "TCP"
-        port     = "8080"
-      }
+#       from {
+#         ip_block {
+#           cidr = "198.168.0.0/16"
+#         }
+#       }
+#     }
 
-      from {
-        pod_selector {
-          match_labels = {
-            app = "oxpassport"
-          }
-        }
-      }
-    }
+#     ingress {
+#       ports {
+#         protocol = "TCP"
+#         port     = "8080"
+#       }
 
-    ingress {
-      ports {
-        protocol = "TCP"
-        port     = "8080"
-      }
+#       from {
+#         pod_selector {
+#           match_labels = {
+#             app = "oxpassport"
+#           }
+#         }
+#       }
+#     }
 
-      from {
-        pod_selector {
-          match_labels = {
-            app = "oxshibboleth"
-          }
-        }
-      }
-    }
+#     ingress {
+#       ports {
+#         protocol = "TCP"
+#         port     = "8080"
+#       }
 
-    ingress {
-      ports {
-        protocol = "TCP"
-        port     = "8080"
-      }
+#       from {
+#         pod_selector {
+#           match_labels = {
+#             app = "oxshibboleth"
+#           }
+#         }
+#       }
+#     }
 
-      from {
-        pod_selector {
-          match_labels = {
-            app = "cr-rotate"
-          }
-        }
-      }
-    }
+#     ingress {
+#       ports {
+#         protocol = "TCP"
+#         port     = "8080"
+#       }
 
-    egress {
-      ports {
-        protocol = "TCP"
-        port     = "8080"
-      }
+#       from {
+#         pod_selector {
+#           match_labels = {
+#             app = "cr-rotate"
+#           }
+#         }
+#       }
+#     }
 
-      to {
-        pod_selector {
-          match_labels = {
-            app = "oxauth"
-          }
-        }
-      }
-    }
+#     egress {
+#       ports {
+#         protocol = "TCP"
+#         port     = "8080"
+#       }
 
-    egress {
-      ports {
-        protocol = "TCP"
-        port     = "1636"
-      }
+#       to {
+#         pod_selector {
+#           match_labels = {
+#             app = "oxauth"
+#           }
+#         }
+#       }
+#     }
 
-      to {
-        pod_selector {
-          match_labels = {
-            app = "opendj"
-          }
-        }
-      }
-    }
+#     egress {
+#       ports {
+#         protocol = "TCP"
+#         port     = "1636"
+#       }
 
-    egress {
-      ports {
-        protocol = "TCP"
-        port     = "443"
-      }
+#       to {
+#         pod_selector {
+#           match_labels = {
+#             app = "opendj"
+#           }
+#         }
+#       }
+#     }
 
-      ports {
-        protocol = "UDP"
-        port     = "53"
-      }
+#     egress {
+#       ports {
+#         protocol = "TCP"
+#         port     = "443"
+#       }
 
-      to {
-        ip_block {
-          cidr = "0.0.0.0/0"
-        }
-      }
-    }
+#       ports {
+#         protocol = "UDP"
+#         port     = "53"
+#       }
 
-    egress {
-      ports {
-        protocol = "TCP"
-        port     = "6379"
-      }
+#       to {
+#         ip_block {
+#           cidr = "0.0.0.0/0"
+#         }
+#       }
+#     }
 
-      to {
-        ip_block {
-          cidr = "198.168.0.0/16"
-        }
-      }
-    }
+#     egress {
+#       ports {
+#         protocol = "TCP"
+#         port     = "6379"
+#       }
 
-    policy_types = ["Ingress", "Egress"]
-  }
-}
+#       to {
+#         ip_block {
+#           cidr = "198.168.0.0/16"
+#         }
+#       }
+#     }
+
+#     policy_types = ["Ingress", "Egress"]
+#   }
+# }
 
