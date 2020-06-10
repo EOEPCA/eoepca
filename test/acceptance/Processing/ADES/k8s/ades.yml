@@ -17,7 +17,7 @@ spec:
       containers:
         - image: eoepca/proc-ades:localkube
           name: ades
-        - image: rconway/kubeproxy
+        - image: eoepca/kubeproxy
           name: kubeproxy
 ---
 apiVersion: v1
