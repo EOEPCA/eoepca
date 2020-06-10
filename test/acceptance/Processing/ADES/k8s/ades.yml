@@ -15,7 +15,7 @@ spec:
         app: ades
     spec:
       containers:
-        - image: eoepca/proc-ades
+        - image: rconway/proc-ades
           name: ades
         - image: rconway/kubeproxy
           name: kubeproxy

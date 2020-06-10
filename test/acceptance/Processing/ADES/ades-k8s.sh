@@ -10,6 +10,23 @@ trap "cd '${ORIG_DIR}'" EXIT
 ACTION=$1
 if [ -z "$ACTION" ]; then ACTION="apply"; fi
 
+# webdav secret
+function eoepcawebdavsecret() {
+  webdav_user="eoepca"
+  webdav_password="telespazio"
+  cat - <<EOF
+apiVersion: v1
+kind: Secret
+metadata:
+  name: eoepcawebdavsecret
+type: Opaque
+data:
+  username: $(echo -n $webdav_user | base64)
+  password: $(echo -n $webdav_password | base64)
+EOF
+}
+eoepcawebdavsecret | kubectl $ACTION -f -
+
 # argo
 # argo_version="v2.8.1"
 # kubectl create namespace argo
