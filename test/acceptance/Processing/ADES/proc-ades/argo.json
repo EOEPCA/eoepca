@@ -8,7 +8,7 @@
     },
     "out": {
       "docker": "eoepca/proc-ades-stageout:latest",
-      "webdav_endpoint": "https://nx10438.your-storageshare.de/remote.php/dav/files/eoepca-demo-storage"
+      "webdav_endpoint": "http://workspace/remote.php/dav/files/eoepca/"
     }
   }
 }

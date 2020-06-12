@@ -27,6 +27,9 @@ EOF
 }
 eoepcawebdavsecret | kubectl $ACTION -f -
 
+# storage
+kubectl $ACTION -f k8s/storage.yml
+
 # argo
 # argo_version="v2.8.1"
 # kubectl create namespace argo
@@ -38,3 +41,6 @@ kubectl $ACTION -f k8s/default-admin-role.yml
 
 # ADES
 kubectl $ACTION -f k8s/ades.yml
+
+# Workspace - *WORKAROUND* - needed by ADES for outputs
+kubectl $ACTION -f k8s/workspace.yml

@@ -1,43 +1,29 @@
 # Setup local Kubernetes (microk8s) with ADES deployment
 
-## Setup microk8s
+## Setup local Kubernetes cluster
 
-Assumes running on ubuntu.
+Argo relies upon a Kubernetes cluster that uses `docker` as the container runtime. Therefore be careful to confirm this is the case, as common kubernetes distributions are are known to use alternatives, such as `containerd`.
 
-### Ensure snap is installed...
+This description establishes a local k8s cluster using `minikube`, which uses `docker` as the container runtime by default - noting that other runtimes can be selected with minikube (containerd, crio), https://minikube.sigs.k8s.io/docs/handbook/config/#runtime-configuration.
 
-```
-sudo apt install snapd
-```
-
-### Install microk8s
+### Install kubectl
 
 ```
-sudo snap install microk8s --classic
-```
-
-### Add current user to the group...
+./test/bin/setup-kubectl.sh
 
 ```
-sudo usermod -a -G microk8s $USER
-```
-*Probably have to logout/in to take effect.*
 
-### Enable microk8s core extensions...
+### Install minikube
 
 ```
-microk8s enable dns ingress
-```
+./test/bin/setup-minikube.sh
 
-### Configure kubectl with the microk8s config...
-
-```
-microk8s config >$HOME/.kube/config
 ```
 
 ### Post Checks
 
 ```
+kubectl version
 kubectl get all
 kubectl get all -A
 ```
