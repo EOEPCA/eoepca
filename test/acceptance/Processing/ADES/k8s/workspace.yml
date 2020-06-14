@@ -15,9 +15,9 @@ spec:
         app: workspace
     spec:
       volumes:
-        - name: vol-eoepca-pvc
+        - name: vol-workspace-pvc
           persistentVolumeClaim:
-            claimName: eoepca-pvc
+            claimName: workspace-pvc
       containers:
         - image: nextcloud:19
           name: nextcloud
@@ -30,10 +30,9 @@ spec:
               value: "telespazio"
             - name: NEXTCLOUD_TRUSTED_DOMAINS
               value: '"*"'
-          # volumeMounts:
-          #   - mountPath: "/var/www/html"
-          #     name: vol-eoepca-pvc
-          #     subPath: workspace
+          volumeMounts:
+            - mountPath: "/var/www/html"
+              name: vol-workspace-pvc
 ---
 apiVersion: v1
 kind: Service

@@ -7,11 +7,11 @@ metadata:
 spec:
   storageClassName: manual
   capacity:
-    storage: 10Gi
+    storage: 5Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/tmp/eoepca-data"
+    path: "/mnt/eoepca/ades"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -23,4 +23,4 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi
+      storage: 3Gi
