@@ -17,7 +17,7 @@ sudo chmod 777 $KUBE_DATA
 # curl -sfL https://get.k3s.io | sh -s -
 # - force use of docker for container runtime (the default is containerd)
 curl -sfL https://get.k3s.io | sh -s - --docker
-sudo systemctl enable k3s
+# sudo systemctl enable k3s
 
 # Setup kube config
 mkdir -p $HOME/.kube

@@ -26,7 +26,6 @@ API_PROC execute process
   ${location}=  API_PROC Execute Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json
   Sleep  3  Waiting for process execution to start
   ${job_id}=  API_PROC Get Job ID From Location  ${location}
-  API_PROC Check Job Exists  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  ${job_id}
   API_PROC Check Job Status Success  ${ADES_BASE_URL}  ${location}
 
 API_PROC undeploy Process
@@ -114,14 +113,17 @@ API_PROC Get Job ID From Location
   ${job_id}=  Evaluate  $location.split("/")[-1]
   [Return]  ${job_id}
 
-API_PROC Check Job Exists
-  [Arguments]  ${base_url}  ${path_prefix}  ${job_id}
-  Log  zzz job_id is ${job_id}  console=True
-
 API_PROC Check Job Status Success
   [Arguments]  ${base_url}  ${location}
   Create Session  ades  ${base_url}  verify=True
   ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json
-  ${resp}=  Get Request  ades  ${location}  headers=${headers}
-  Status Should Be  200  ${resp}
-  Should Match  ${resp.json()["status"]}  "successful"
+  FOR  ${index}  IN RANGE  100
+    Sleep  5  Loop wait for processing execution completion
+    ${resp}=  Get Request  ades  ${location}  headers=${headers}
+    Status Should Be  200  ${resp}
+    ${status}=  Set Variable  ${resp.json()["status"]}
+    Exit For Loop If  "${status}" != "running"
+  END
+  Should Match  ${resp.json()["status"]}  successful
+  Should Match  ${resp.json()["message"]}  Done
+  Should Match  ${resp.json()["progress"]}  100
