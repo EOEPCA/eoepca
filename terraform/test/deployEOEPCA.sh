@@ -10,11 +10,11 @@ if [ -z "$ACTION" ]; then ACTION="apply"; fi
 
 # Check presence of environment variables
 TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-.}"
-DOCKER_EMAIL="${DOCKER_EMAIL:-none@eoepca.systemteam@telespazio.com}"
-DOCKER_USERNAME="${DOCKER_USERNAME:-eoepcaci}"
-DOCKER_PASSWORD="${DOCKER_PASSWORD:-eoepcaBu1ld3r}"
-WSPACE_USERNAME="${WSPACE_USERNAME:-eoepca}"
-WSPACE_PASSWORD="${WSPACE_PASSWORD:-telespazio}"
+DOCKER_EMAIL="${DOCKER_EMAIL:-none@none.com}"
+DOCKER_USERNAME="${DOCKER_USERNAME:-none}"
+DOCKER_PASSWORD="${DOCKER_PASSWORD:-none}"
+WSPACE_USERNAME="${WSPACE_USERNAME:-none}"
+WSPACE_PASSWORD="${WSPACE_PASSWORD:-none}"
 
 # CLUSTER_NODE_IP=$(sudo minikube ip)
 CLUSTER_NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
@@ -29,4 +29,4 @@ terraform $ACTION \
   --var="wspace_user_name=${WSPACE_USERNAME}" \
   --var="wspace_user_password=${WSPACE_PASSWORD}" \
   --var="nginx_ip=${CLUSTER_NODE_IP}" \
-  --var="hostname=ractest.eoepca.org"
+  --var="hostname=something.eoepca.org"
