@@ -8,6 +8,9 @@
 ACTION=$1
 if [ -z "$ACTION" ]; then ACTION="apply"; fi
 
+AUTO_APPROVE=
+if [ "$ACTION" = "apply" ]; then AUTO_APPROVE="--auto-approve"; fi
+
 # Check presence of environment variables
 TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-.}"
 DOCKER_EMAIL="${DOCKER_EMAIL:-none@none.com}"
@@ -23,6 +26,7 @@ CLUSTER_NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].
 cd ${TRAVIS_BUILD_DIR}/terraform/test 
 terraform init
 terraform $ACTION \
+  ${AUTO_APPROVE} \
   --var="dh_user_email=${DOCKER_EMAIL}" \
   --var="dh_user_name=${DOCKER_USERNAME}" \
   --var="dh_user_password=${DOCKER_PASSWORD}" \
