@@ -19,7 +19,7 @@ module "um-user-profile" {
   nginx_ip = var.nginx_ip
   hostname = var.hostname
 }  
- 
+  
 variable "nginx_ip" {
   type = string
 }
