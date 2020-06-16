@@ -21,7 +21,7 @@ resource "kubernetes_service" "oxauth" {
     labels = { app = "oxauth" }
   }
 
-  depends_on = [ null_resource.waitfor-persistence, kubernetes_persistent_volume.oxauth_logs,
+  depends_on = [ kubernetes_persistent_volume.oxauth_logs,
                 kubernetes_persistent_volume.oxauth_lib_ext, kubernetes_persistent_volume.oxauth_custom_static,
                 kubernetes_persistent_volume.oxauth_custom_pages ]
   
