@@ -1,7 +1,7 @@
 resource "null_resource" "waitfor-opendj-init" {
   provisioner "local-exec" {
     command = <<EOT
-    until kubectl logs opendj-init-0 | grep "Started listening for new connections on LDAPS Connection Handler"; do echo "Waiting for opendj-init0" && sleep 30; done
+    until kubectl logs opendj-init-0 | grep "The Directory Server has started successfully"; do echo "Waiting for opendj-init0" && sleep 30; done
 EOT
   } 
 }

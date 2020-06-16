@@ -3,7 +3,6 @@ resource "kubernetes_service" "eoepca-ades-core" {
     name = "eoepca-ades-core"
   }
   spec {
-    type = "NodePort"
 
     selector = {
       app  = "eoepca-ades-core"
@@ -16,6 +15,8 @@ resource "kubernetes_service" "eoepca-ades-core" {
       name        = "http"
       protocol    = "TCP"
     }
+
+    cluster_ip = "None"
   }
 }
 
