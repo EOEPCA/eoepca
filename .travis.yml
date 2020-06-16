@@ -29,8 +29,13 @@ jobs:
       if: branch = release
 
       dist: bionic
+
+      before_script: sh ./travis/setupRobot.sh
+
       script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/staging/ && sh deployEOEPCA.sh'
 
+      after_script: sh ./travis/acceptanceTest.sh 
+      
 import:
   - docs/.travis.yml
 
