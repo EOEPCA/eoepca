@@ -24,7 +24,7 @@ resource "kubernetes_service" "oxtrust" {
     }
   }
 
-  depends_on = [ null_resource.waitfor-persistence, null_resource.waitfor-oxauth, kubernetes_persistent_volume.oxtrust_logs,
+  depends_on = [ null_resource.waitfor-oxauth, kubernetes_persistent_volume.oxtrust_logs,
                 kubernetes_persistent_volume.oxtrust_lib_ext, kubernetes_persistent_volume.oxtrust_custom_static,
                 kubernetes_persistent_volume.oxtrust_custom_pages ]
 
