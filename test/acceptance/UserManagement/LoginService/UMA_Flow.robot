@@ -11,17 +11,24 @@ Library  SSHLibrary
 ${UMA_PATH_PREFIX}=  /wps3
 ${PATH_TO_RESOURCE}=  pep/ADES
 ${WELL_KNOWN_PATH}=  http://eoepca-dev.deimos-space.com/.well-known/uma2-configuration
-${TOKEN_ENDPOINT}=  https://eoepca-dev.deimos-space.com/oxauth/restv1/token
 ${USER}=  admin
 ${PWD}=  admin_Abcd1234%23
-${CLIENT_ID}=  be7d5fe9-4e60-4a84-a814-507e25687068
-${CLIENT_SECRET}=  a1a46378-eabc-4776-b95b-096f1dc215db
+#${CLIENT_ID}=  be7d5fe9-4e60-4a84-a814-507e25687068
+#${CLIENT_SECRET}=  a1a46378-eabc-4776-b95b-096f1dc215db
 
 *** Test Cases ***
+UMA Get Client from Conf
+  ${data}=  OperatingSystem.Get File  ./conf.json
+  ${json}=  Evaluate  json.loads('''${data}''')  json
+  ${g_client_id}=  Get From Dictionary  ${json}  client_id
+  ${g_client_secret}=  Get From Dictionary  ${json}  client_secret
+  Set Global Variable  ${g_client_id} 
+  Set Global Variable  ${g_client_secret} 
+  Log to console  ${g_client_secret}
+  Log to console  ${g_client_id}
 
-
-UMa Flow to Retrieve RPT 
-  UMA Flow Setup  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}  ${WELL_KNOWN_PATH}  ${USER}  ${PWD}  ${CLIENT_ID}  ${CLIENT_SECRET}
+UMA Flow to Retrieve RPT 
+  UMA Flow Setup  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}  ${WELL_KNOWN_PATH}  ${USER}  ${PWD}  ${g_client_id}  ${g_client_secret}
 
 UMA getEndpoints
   UMA Get Token Endpoint  ${WELL_KNOWN_PATH}
@@ -30,7 +37,7 @@ UMA Ticket Test
   UMA Get Ticket Valid  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}
 
 UMA Authenticate test
-  UMA Get ID Token Valid  ${ADES_BASE_URL}  ${WELL_KNOWN_PATH}  ${USER}  ${PWD}  ${CLIENT_ID}  ${CLIENT_SECRET}
+  UMA Get ID Token Valid  ${ADES_BASE_URL}  ${WELL_KNOWN_PATH}  ${USER}  ${PWD}  ${g_client_id}  ${g_client_secret}
 
 
 *** Keywords ***
@@ -129,12 +136,12 @@ UMA read resource
   [Arguments]  ${tkn}
   ${contents}=  OperatingSystem.Get File  ../../Processing/ADES/ADES.resource
   @{lines}=  Split to lines  ${contents}
-  Create File  ADES.resource
+  Create File  ../../Processing/ADES/ADES.resource
   FOR  ${line}  IN  @{lines}
     ${length}=  GetLength  ${line}
     ${match}  ${value}  Run Keyword And Ignore Error  Should Contain  ${line}  RPT_TOKEN
     ${RETURNVALUE}  Set Variable If  '${match}' == 'PASS'  ${True}  ${False}
-    Run Keyword if  ${RETURNVALUE} == False and ${length} != 0  Append To File  ADES.resource  ${line}\n
+    Run Keyword if  ${RETURNVALUE} == False and ${length} != 0  Append To File  ../../Processing/ADES/ADES.resource  ${line}\n
     Run Keyword if  ${RETURNVALUE} == True  UMA Write in Resource  ${tkn}
   END
   Log to console  Updated resource with the RPT Token
@@ -142,7 +149,7 @@ UMA read resource
 UMA Write in Resource
   [Arguments]  ${variable}
   ${i}=  Convert To String  ${\n}\${RPT_TOKEN}= ${space}${variable}
-  Append To File  ADES.resource  ${i}
+  Append To File  ../../Processing/ADES/ADES.resource  ${i}
 
 UMA Handler of Codes
   [Arguments]  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}  
