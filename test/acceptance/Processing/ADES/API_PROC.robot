@@ -18,7 +18,7 @@ API_PROC available processes
 
 API_PROC deploy process
   API_PROC Deploy Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0.json  ${RPT_TOKEN}
-  Sleep  3  Waiting for process deploy process to complete asynchronously
+  Sleep  60  Waiting for process deploy process to complete asynchronously
   API_PROC Is Deployed  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${RPT_TOKEN}
 
 API_PROC execute process
