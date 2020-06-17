@@ -23,6 +23,20 @@ jobs:
         - cd ./test/acceptance/Processing/ADES
         - robot .
 
+      after_success:
+        - echo '*** SUCCESS ***'
+
+      after_failure:
+        - echo '*** FAILED ***'
+        - cat log.html
+        - echo '*** END of LOG ***'
+
+      deploy:
+        - echo '*** DEPLOY ***'
+
+      after_script:
+        - echo '*** DONE ***'
+
     - stage: test
       if: branch = develop
 
@@ -32,15 +46,15 @@ jobs:
 
       before_script: sudo sh ./travis/setupMinikube.sh
 
-      script: sudo ./terraform/test/deployEOEPCA.sh 
+      script: sudo ./terraform/test/deployEOEPCA.sh
 
       deploy:
         - provider: script
           skip_cleanup: true
-          script: sudo sh ./travis/acceptanceTest.sh 
+          script: sudo sh ./travis/acceptanceTest.sh
           on:
             branch: develop
-    
+
     - stage: deploy EOEPCA on network of resources
       if: branch = release
 
@@ -50,8 +64,8 @@ jobs:
 
       script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/staging/ && sh deployEOEPCA.sh'
 
-      after_script: sh ./travis/acceptanceTest.sh 
-      
+      after_script: sh ./travis/acceptanceTest.sh
+
 import:
   - docs/.travis.yml
 
