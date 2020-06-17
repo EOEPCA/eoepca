@@ -19,18 +19,18 @@ API_PROC available processes
 API_PROC deploy process
   API_PROC Deploy Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0.json  ${RPT_TOKEN}
   Sleep  3  Waiting for process deploy process to complete asynchronously
-  API_PROC Is Deployed  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0
+  API_PROC Is Deployed  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${RPT_TOKEN}
 
 API_PROC execute process
   ${location}=  API_PROC Execute Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json  ${RPT_TOKEN}
   Sleep  3  Waiting for process execution to start
   ${job_id}=  API_PROC Get Job ID From Location  ${location}
-  API_PROC Check Job Status Success  ${ADES_BASE_URL}  ${location}
+  API_PROC Check Job Status Success  ${ADES_BASE_URL}  ${location}  ${RPT_TOKEN}
 
 API_PROC undeploy Process
   API_PROC Undeploy Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_undeploy.json  ${RPT_TOKEN}
   Sleep  3  Waiting for process undeploy process to complete asynchronously
-  API_PROC Is Not Deployed  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0
+  API_PROC Is Not Deployed  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${RPT_TOKEN}
 
 
 *** Keywords ***

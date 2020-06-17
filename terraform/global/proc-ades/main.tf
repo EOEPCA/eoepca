@@ -24,6 +24,8 @@ resource "kubernetes_deployment" "ades" {
       }
 
       spec {
+        automount_service_account_token = true
+
         container {
           name  = "ades"
           image = "eoepca/proc-ades:localkube"
@@ -51,7 +53,8 @@ resource "kubernetes_service" "ades" {
     port {
       protocol    = "TCP"
       port        = 80
-      target_port = "80"
+      target_port = 80
+      node_port = 32746
     }
 
     selector = {
