@@ -21,6 +21,7 @@ jobs:
         - echo ZZZ
         - sudo mv /etc/resolv.conf /etc/_resolv.conf
         - echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
+        - cat /etc/_resolv.conf | sudo tee -a /etc/resolv.conf
         - dig www.bbc.co.uk
 
       install:
