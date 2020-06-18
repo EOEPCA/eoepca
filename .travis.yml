@@ -16,17 +16,19 @@ jobs:
       language: minimal
 
       install:
-        - sudo sh ./travis/setupMinikube.sh
+        - ./test/bin/install-kubectl.sh
+        - ./test/bin/setup-minikube
+        - ./test/bin/install-terraform.sh
 
       before_script:
         - echo zzz
         - sleep 20
-        - sudo kubectl get all --all-namespaces
+        - kubectl get all -A
         - echo ZZZ
-        - sudo ./terraform/test/deployEOEPCA.sh
+        - ./terraform/test/deployEOEPCA.sh
         - echo zzz
         - sleep 20
-        - sudo kubectl get all --all-namespaces
+        - kubectl get all -A
         - echo ZZZ
         - sh ./travis/setupRobot.sh
 
