@@ -10,9 +10,6 @@ KUBE_DATA="/mnt/eoepca"
 
 mkdir -p $HOME/.local/bin
 # cluster data area
-mkdir -p $KUBE_DATA
-
-# cluster data area
 sudo mkdir -p $KUBE_DATA
 sudo chmod 777 $KUBE_DATA
 

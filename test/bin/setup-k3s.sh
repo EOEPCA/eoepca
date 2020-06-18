@@ -22,3 +22,7 @@ curl -sfL https://get.k3s.io | sh -s - --docker
 # Setup kube config
 mkdir -p $HOME/.kube
 sudo k3s kubectl config view --raw > $HOME/.kube/config
+
+# Wait for Kubernetes to be up and ready.
+echo "##### Waiting for kubernetes cluster to be ready"
+JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status};{end}{end}'; until kubectl get nodes -o jsonpath="$JSONPATH" 2>&1 | grep -q "Ready=True"; do sleep 1; done

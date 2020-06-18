@@ -17,7 +17,7 @@ jobs:
 
       install:
         - ./test/bin/install-kubectl.sh
-        - ./test/bin/setup-minikube.sh
+        - ./test/bin/setup-k3s.sh
         - ./test/bin/install-terraform.sh
 
       before_script:
