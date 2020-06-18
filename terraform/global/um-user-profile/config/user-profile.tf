@@ -165,7 +165,7 @@ resource "kubernetes_deployment" "user-profile" {
         }
         container {
           name  = "user-profile"
-          image = "eoepca/um-user-profile:test_2"
+          image = "eoepca/um-user-profile:latest"
           port {
             container_port = 5566
             name = "http-up"
@@ -197,7 +197,7 @@ resource "kubernetes_deployment" "user-profile" {
             name       = "user-profile-custom-static"
             mount_path = "/opt/gluu/jetty/user-profile/custom/static"
           }
-          image_pull_policy = "Never"
+          image_pull_policy = "Always"
         }
         host_aliases {
           ip        = var.nginx_ip
