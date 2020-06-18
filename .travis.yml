@@ -20,7 +20,7 @@ jobs:
         - sudo cat /etc/resolv.conf
         - echo ZZZ
         - sudo mv /etc/resolv.conf /etc/_resolv.conf
-        - sudo echo "nameserver 8.8.8.8" > /etc/resolv.conf
+        - echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
 
       install:
         - sudo sh ./travis/setupMinikube.sh
