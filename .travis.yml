@@ -14,11 +14,27 @@ jobs:
       if: branch = feature/EOEPCA-105
       dist: bionic
       language: minimal
+
+      before_install:
+        - echo zzz
+        - sudo cat /etc/resolv.conf
+        - echo ZZZ
+
       install:
         - sudo sh ./travis/setupMinikube.sh
+
       before_script:
+        - echo zzz
+        - sleep 20
+        - sudo kubectl get all --all-namespaces
+        - echo ZZZ
         - sudo ./terraform/test/deployEOEPCA.sh
+        - echo zzz
+        - sleep 20
+        - sudo kubectl get all --all-namespaces
+        - echo ZZZ
         - sh ./travis/setupRobot.sh
+
       script:
         - cd ./test/acceptance/Processing/ADES
         - robot .
