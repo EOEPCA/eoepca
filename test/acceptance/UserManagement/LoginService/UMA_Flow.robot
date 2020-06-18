@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation  Tests for the ADES OGC API Processes endpoint
+Documentation  Tests for the UMA Flow
 Resource  ../../Processing/ADES/ADES.resource
 Library  OperatingSystem
 Library  String
