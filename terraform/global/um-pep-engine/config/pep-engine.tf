@@ -6,14 +6,45 @@ resource "kubernetes_config_map" "pep_engine_cm" {
   data = {
     PEP_REALM                    = "eoepca"
     PEP_AUTH_SERVER_URL          = "https://eoepca-dev.deimos-space.com"
-    PEP_PROXY_ENDPOINT           = "/pep"
+    PEP_PROXY_ENDPOINT           = "/"
     PEP_SERVICE_HOST             = "0.0.0.0"
     PEP_SERVICE_PORT             = "5566"
     PEP_S_MARGIN_RPT_VALID       = "5"
     PEP_CHECK_SSL_CERTS          = "false"
     PEP_USE_THREADS              = "true"
     PEP_DEBUG_MODE               = "true"
-    PEP_RESOURCE_SERVER_ENDPOINT = "http://localhost:9000"
+    PEP_RESOURCE_SERVER_ENDPOINT = "http://eoepca-ades-core/"
+  }
+}
+
+
+
+
+resource "kubernetes_ingress" "gluu_ingress_pep_engine" {
+  metadata {
+    name = "gluu-ingress-pep-engine"
+
+    annotations = {
+      "kubernetes.io/ingress.class" = "nginx"
+      "nginx.ingress.kubernetes.io/ssl-redirect" = "false"
+    }
+  }
+
+  spec {
+    rule {
+      host =  var.hostname 
+
+      http {
+        path {
+          path = "/pep"
+
+          backend {
+            service_name = "pep-engine"
+            service_port = "5566"
+          }
+        }
+      }
+    }
   }
 }
 
@@ -23,18 +54,18 @@ resource "kubernetes_service" "pep-engine" {
     labels = { app = "pep-engine" }
   }
 
-  depends_on = [ kubernetes_persistent_volume.pep_engine_logs,
-                kubernetes_persistent_volume.pep_engine_lib_ext, kubernetes_persistent_volume.pep_engine_custom_static,
-                kubernetes_persistent_volume.pep_engine_custom_pages ]
-  
   spec {
+    type = "NodePort"
+
     port {
       name = "http-pep"
-      port = 80
+      port = 5566
+      target_port = 5566
     }
     port {
       name = "https-pep"
-      port = 443
+      port = 1025
+      target_port = 443
     }
     selector = { app = "pep-engine" }
   }
@@ -45,10 +76,6 @@ resource "kubernetes_deployment" "pep-engine" {
     name   = "pep-engine"
     labels = { app = "pep-engine" }
   }
-
-  depends_on = [ kubernetes_persistent_volume.pep_engine_logs,
-                kubernetes_persistent_volume.pep_engine_lib_ext, kubernetes_persistent_volume.pep_engine_custom_static,
-                kubernetes_persistent_volume.pep_engine_custom_pages ]
   
   spec {
     replicas = 1
@@ -91,7 +118,7 @@ resource "kubernetes_deployment" "pep-engine" {
           name  = "pep-engine"
           image = "eoepca/um-pep-engine:latest"
           port {
-            container_port = 80
+            container_port = 5566
             name = "http-pep"
           }
           port {

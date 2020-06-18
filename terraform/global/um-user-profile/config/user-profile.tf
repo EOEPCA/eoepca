@@ -9,6 +9,8 @@ resource "kubernetes_config_map" "user_profile_cm" {
     UP_SCOPES                   = "openid email user_name"
     UP_CLIENT_ID                = "a434a7f5-cabc-4b75-994d-d923eb768e49"
     UP_CLIENT_SECRET            = "XAAks9UMYAcjt7JeVgVuninIVVoQQv4W9pOkmEC4"
+    UP_CLIENT_ID_SCIM           = "1d6ce839-5cc4-4dda-a298-5b852a85d399"
+    UP_CLIENT_SECRET_SCIM       = "876f3d24-d902-4817-9328-db650ea170c4"
     UP_REDIRECT_URI             = "http://eoepca-dev.deimos-space.com/web_ui/oauth/callback"
     UP_POST_LOGOUT_REDIRECT_URI = "http://eoepca-dev.deimos-space.com/web_ui"
     UP_BASE_URI                 = "/web_ui"
@@ -163,7 +165,7 @@ resource "kubernetes_deployment" "user-profile" {
         }
         container {
           name  = "user-profile"
-          image = "eoepca/um-user-profile:latest"
+          image = "eoepca/um-user-profile:test_2"
           port {
             container_port = 5566
             name = "http-up"
@@ -195,7 +197,7 @@ resource "kubernetes_deployment" "user-profile" {
             name       = "user-profile-custom-static"
             mount_path = "/opt/gluu/jetty/user-profile/custom/static"
           }
-          image_pull_policy = "Always"
+          image_pull_policy = "Never"
         }
         host_aliases {
           ip        = var.nginx_ip
