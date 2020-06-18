@@ -17,18 +17,13 @@ ${PWD}=  admin_Abcd1234%23
 #${CLIENT_SECRET}=  a1a46378-eabc-4776-b95b-096f1dc215db
 
 *** Test Cases ***
-UMA Get Client from Conf
+UMA Get Client from Config File
   ${data}=  OperatingSystem.Get File  ./conf.json
   ${json}=  Evaluate  json.loads('''${data}''')  json
   ${g_client_id}=  Get From Dictionary  ${json}  client_id
   ${g_client_secret}=  Get From Dictionary  ${json}  client_secret
   Set Global Variable  ${g_client_id} 
-  Set Global Variable  ${g_client_secret} 
-  Log to console  ${g_client_secret}
-  Log to console  ${g_client_id}
-
-UMA Flow to Retrieve RPT 
-  UMA Flow Setup  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}  ${WELL_KNOWN_PATH}  ${USER}  ${PWD}  ${g_client_id}  ${g_client_secret}
+  Set Global Variable  ${g_client_secret}
 
 UMA getEndpoints
   UMA Get Token Endpoint  ${WELL_KNOWN_PATH}
@@ -39,6 +34,8 @@ UMA Ticket Test
 UMA Authenticate test
   UMA Get ID Token Valid  ${ADES_BASE_URL}  ${WELL_KNOWN_PATH}  ${USER}  ${PWD}  ${g_client_id}  ${g_client_secret}
 
+UMA Flow to Retrieve RPT 
+  UMA Flow Setup  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}  ${WELL_KNOWN_PATH}  ${USER}  ${PWD}  ${g_client_id}  ${g_client_secret}
 
 *** Keywords ***
 
@@ -144,7 +141,7 @@ UMA read resource
     Run Keyword if  ${RETURNVALUE} == False and ${length} != 0  Append To File  ../../Processing/ADES/ADES.resource  ${line}\n
     Run Keyword if  ${RETURNVALUE} == True  UMA Write in Resource  ${tkn}
   END
-  Log to console  Updated resource with the RPT Token
+  #Log to console  Updated resource with the RPT Token
 
 UMA Write in Resource
   [Arguments]  ${variable}
@@ -155,12 +152,12 @@ UMA Handler of Codes
   [Arguments]  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}  
   ${resp_ticket}=  UMA Get Ticket Valid  ${base_url}  ${token}  ${resource}
   ${ticket}=  UMA Get Ticket From Response  ${resp_ticket}
-  Log to console  The ticket is: 
-  Log to console  ${ticket}
+  #Log to console  The ticket is: 
+  #Log to console  ${ticket}
   ${id_token}=  UMA Get ID Token Valid  ${base_url}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
-  Log to console  The id_token is:
-  Log to console  ${id_token}
+  #Log to console  The id_token is:
+  #Log to console  ${id_token}
   ${access_token}=  UMA Get Access Token Valid  ${well_known}  ${ticket}  ${id_token}  ${client_id}  ${client_secret}
-  Log to console  The access_token is:
-  Log to console  ${access_token}
+  #Log to console  The access_token is:
+  #Log to console  ${access_token}
   [Return]  ${access_token}
