@@ -24,12 +24,13 @@ kubeIP=$(kubectl cluster-info | sed 's/\r$//' | grep 'master' | grep -oE '[0-9]{
 echo "Minikube or Kubernetes master IP is ${kubeIP}"
 
 echo Acceptance testing
-echo \#1 proc-ades
-ADES_PORT=$(kubectl get services/eoepca-ades-core -o go-template='{{(index .spec.ports 0).nodePort}}')
-echo "eoepca-ades-core service is acccessible on ${kubeIP}:${ADES_PORT}"
-curl -s -L $kubeIP:$ADES_PORT/wps3/processes/argo -H "accept: application/json"
+# echo \#1 proc-ades
+# ADES_PORT=$(kubectl get services/eoepca-ades-core -o go-template='{{(index .spec.ports 0).nodePort}}')
+# echo "eoepca-ades-core service is acccessible on ${kubeIP}:${ADES_PORT}"
+# curl -s -L $kubeIP:$ADES_PORT/wps3/processes/argo -H "accept: application/json"
+~/.local/bin/robot test/acceptance
 
-echo \#2 um-login
-curl -XGET https://${kubeIP}/.well-known/openid-configuration -k
-curl -XGET https://${kubeIP}/.well-known/scim-configuration -k
+# echo \#2 um-login
+# curl -XGET https://${kubeIP}/.well-known/openid-configuration -k
+# curl -XGET https://${kubeIP}/.well-known/scim-configuration -k
 
