@@ -118,8 +118,8 @@ API_PROC Check Job Status Success
   [Arguments]  ${base_url}  ${location}  ${token}
   Create Session  ades  ${base_url}  verify=True
   ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json  authorization=Bearer ${token}
-  FOR  ${index}  IN RANGE  100
-    Sleep  5  Loop wait for processing execution completion
+  FOR  ${index}  IN RANGE  40
+    Sleep  30  Loop wait for processing execution completion
     ${resp}=  Get Request  ades  ${location}  headers=${headers}
     Status Should Be  200  ${resp}
     ${status}=  Set Variable  ${resp.json()["status"]}
