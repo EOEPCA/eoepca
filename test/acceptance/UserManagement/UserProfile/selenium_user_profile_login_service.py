@@ -9,7 +9,8 @@ import json
 from json import load, dump
 import time
 from eoepca_scim import EOEPCA_Scim, ENDPOINT_AUTH_CLIENT_POST
-
+import logging
+logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 
 def load_config(config_path: str) -> dict:
     """
@@ -47,35 +48,34 @@ driver = webdriver.Chrome('/usr/local/bin/chromedriver',desired_capabilities=cap
 def user_profile_login(driver, config):
     hostname = config['hostname']
     driver.get(hostname+ '/web_ui')
-
+    print('---------------------------------------------------------------------------------------------')
     try:
-        
-        print('-----------------------------------------------------------------------------')
         #Sleep until credentials are processed
         element = WebDriverWait(driver, 10)
-        print('Main Page Title: ' + driver.title)
+        logging.info('Main Page Title: ' + driver.title)
         #Matches the login form elemnents
         sub = driver.find_element_by_xpath('//a[@href="/web_ui/login"]')
         sub.click()
         #Wait until the page is loaded
-        print('Logging in')
+        logging.info('Logging in')
         time.sleep(5)
-        print('-----------------------------------------------------------------------------')
+        print('---------------------------------------------------------------------------------------------')
     finally:
         if driver.title == 'oxAuth - Passport Login':
             #The main page's title matches the expected
-            print('Reached Login')
+            logging.info('Reached Login')
             normal_login(driver, config)
-            print('-----------------------------------------------------------------------------')
-            print('Inside User Profile and logged in')
+            print('---------------------------------------------------------------------------------------------')
+            logging.info('Inside User Profile and logged in')
             time.sleep(5)
-            print('Logging out...')
+            logging.info('Logging out...')
             from_user_profile_logout(driver)   
-            print('Success!')
-            print('-----------------------------------------------------------------------------')
+            print('---------------------------------------------------------------------------------------------')
+            logging.info('Success!')
+            print('---------------------------------------------------------------------------------------------')
         else:
             #Check if the message was unauthorized
-            print('Wrong Page not loaded, is the client running?')
+            logging.info('Wrong Page not loaded, is the client running?')
 
 
 
@@ -89,7 +89,7 @@ def normal_login(driver, config):
     try:
         #Sleep until credentials are processed
         element = WebDriverWait(driver, 4)
-        print('Redirected to the Login Service: ' + driver.title)
+        logging.info('Redirected to the Login Service: ' + driver.title)
         #Matches the login form elemnents
         u = driver.find_element_by_id("loginForm:username")
         p = driver.find_element_by_id("loginForm:password")
@@ -98,26 +98,26 @@ def normal_login(driver, config):
         u.send_keys(username)
         p.send_keys(password)
         submit.click()
-        print('Submit admin credentials')
+        logging.info('Submit admin credentials')
         #Wait until the Authorization is made
         time.sleep(3)
-        print('-----------------------------------------------------------------------------')
+        print('---------------------------------------------------------------------------------------------')
         
     finally:
-        print('Redirected to the User Profile Application: '+ driver.title)
+        logging.info('Redirected to the User Profile Application: '+ driver.title)
         if driver.title == 'EOEPCA User Profile':
             #The main page's title matches the expected
-            print('Reached Authentication')
+            logging.info('Reached Authentication')
             assert driver.title == 'EOEPCA User Profile'
         else:
             #Check if the message was unauthorized
             fail = driver.find_element_by_xpath('//li[@class="text-center"]')
-            print(fail.text)
-            print('Wrong User or Password')
+            logging.info(fail.text)
+            logging.info('Wrong User or Password')
         
 
 def from_user_profile_logout(driver):
-    print('-----------------------------------------------------------------------------')
+    print('---------------------------------------------------------------------------------------------')
     try:
         if driver.title == 'EOEPCA User Profile':
             #The main page's title matches the expected
@@ -126,11 +126,11 @@ def from_user_profile_logout(driver):
             #Wait until the page is loaded
             time.sleep(3)
         else:
-            print('Error in login')
+            logging.info('Error in login')
 
     finally:
-        print('Logged out')
-        print('Redirected to the Main Page Title: ' + driver.title)
+        logging.info('Logged out')
+        logging.info('Redirected to the Main Page Title: ' + driver.title)
         driver.find_element_by_xpath('//a[@href="/web_ui/login"]')
         
 
