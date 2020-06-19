@@ -10,7 +10,7 @@ addons:
 
 jobs:
   include:
-    - stage: minikube deploy and test (ADES only)
+    - stage: deploy to local kube and test (ADES only)
       if: branch = feature/EOEPCA-105
       dist: bionic
       language: minimal
@@ -21,15 +21,7 @@ jobs:
         - ./test/bin/install-terraform.sh
 
       before_script:
-        - echo zzz
-        - sleep 20
-        - kubectl get all -A
-        - echo ZZZ
         - ./terraform/test/deployEOEPCA.sh
-        - echo zzz
-        - sleep 20
-        - kubectl get all -A
-        - echo ZZZ
         - sh ./travis/setupRobot.sh
 
       script:
@@ -38,10 +30,14 @@ jobs:
 
       after_success:
         - echo '*** SUCCESS ***'
+        - cat log.html
+        - sleep 5
+        - echo '*** END of LOG ***'
 
       after_failure:
         - echo '*** FAILED ***'
         - cat log.html
+        - sleep 5
         - echo '*** END of LOG ***'
 
       deploy:
