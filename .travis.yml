@@ -7,6 +7,41 @@ services:
 
 jobs:
   include:
+    - stage: deploy to local kube and test (acceptance)
+      if: branch = EOEPCA-109-Contributions-to-User-Management-Demonstration-and-Test-Scenario
+      dist: bionic
+      language: minimal
+
+      install:
+        - ./test/bin/install-kubectl.sh
+        - ./test/bin/setup-k3s.sh
+        - ./test/bin/install-terraform.sh
+
+      before_script:
+        - ./terraform/test/deployEOEPCA.sh
+        - sh ./travis/setupRobot.sh
+
+      script:
+        - sh ./test/acceptance/acceptance_tests.sh
+
+      after_success:
+        - echo '*** SUCCESS ***'
+        - cat log.html
+        - sleep 5
+        - echo '*** END of LOG ***'
+
+      after_failure:
+        - echo '*** FAILED ***'
+        - cat log.html
+        - sleep 5
+        - echo '*** END of LOG ***'
+
+      deploy:
+        - echo '*** DEPLOY ***'
+
+      after_script:
+        - echo '*** DONE ***'
+
     - stage: test
       if: branch = develop
 
