@@ -12,15 +12,6 @@ jobs:
       dist: bionic
       language: minimal
 
-      install:
-        - ./test/bin/install-kubectl.sh
-        - ./test/bin/setup-k3s.sh
-        - ./test/bin/install-terraform.sh
-
-      before_script:
-        - ./terraform/test/deployEOEPCA.sh
-        - sh ./travis/setupRobot.sh
-
       script:
         - sh ./test/acceptance/acceptance_tests.sh
 
