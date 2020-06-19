@@ -11,10 +11,6 @@ Library  SSHLibrary
 ${UMA_PATH_PREFIX}=  /wps3
 ${PATH_TO_RESOURCE}=  pep/ADES
 ${WELL_KNOWN_PATH}=  http://eoepca-dev.deimos-space.com/.well-known/uma2-configuration
-${USER}=  admin
-${PWD}=  admin_Abcd1234%23
-#${CLIENT_ID}=  be7d5fe9-4e60-4a84-a814-507e25687068
-#${CLIENT_SECRET}=  a1a46378-eabc-4776-b95b-096f1dc215db
 
 *** Test Cases ***
 UMA Get Client from Config File
@@ -22,8 +18,12 @@ UMA Get Client from Config File
   ${json}=  Evaluate  json.loads('''${data}''')  json
   ${g_client_id}=  Get From Dictionary  ${json}  client_id
   ${g_client_secret}=  Get From Dictionary  ${json}  client_secret
+  ${USER}=  Get From Dictionary  ${json}  username
+  ${PWD}=  Get From Dictionary  ${json}  password
   Set Global Variable  ${g_client_id} 
   Set Global Variable  ${g_client_secret}
+  Set Global Variable  ${USER} 
+  Set Global Variable  ${PWD}
 
 UMA getEndpoints
   UMA Get Token Endpoint  ${WELL_KNOWN_PATH}
