@@ -1,10 +1,17 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-cd ./UserManagement/LoginService
-python3 test_main.py
+source $HOME/.local/robot/bin/activate
+pip install -r ./requirements.txt
+login_service="./UserManagement/LoginService"
+user_profile="./UserManagement/UserProfile"
+cd "$login_service"
+python3 registerClient.py
+robot UMA_Flow.robot
+cd -
+cd "$user_profile"
+robot LoginServiceInteraction.robot
 cd -
 cd ./Processing/ADES
-source $HOME/.local/robot/bin/activate
 robot WPS.robot
 robot API_PROC.robot
 deactivate
