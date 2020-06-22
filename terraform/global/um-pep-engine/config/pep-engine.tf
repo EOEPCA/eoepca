@@ -2,10 +2,12 @@ resource "kubernetes_config_map" "pep_engine_cm" {
   metadata {
     name = "um-pep-engine-config"
   }
+  
+  depends_on = [ null_resource.waitfor-login-service ]
 
   data = {
     PEP_REALM                    = "eoepca"
-    PEP_AUTH_SERVER_URL          = "https://eoepca-dev.deimos-space.com"
+    PEP_AUTH_SERVER_URL          = "https://${var.hostname}"
     PEP_PROXY_ENDPOINT           = "/"
     PEP_SERVICE_HOST             = "0.0.0.0"
     PEP_SERVICE_PORT             = "5566"
@@ -13,7 +15,7 @@ resource "kubernetes_config_map" "pep_engine_cm" {
     PEP_CHECK_SSL_CERTS          = "false"
     PEP_USE_THREADS              = "true"
     PEP_DEBUG_MODE               = "true"
-    PEP_RESOURCE_SERVER_ENDPOINT = "http://eoepca-ades-core/"
+    PEP_RESOURCE_SERVER_ENDPOINT = "http://ades/"
   }
 }
 
