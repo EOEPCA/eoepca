@@ -6,12 +6,14 @@ BIN_DIR="$(pwd)"
 
 trap "cd '${ORIG_DIR}'" EXIT
 
-KUBE_DATA="/mnt/eoepca"
-
 mkdir -p $HOME/.local/bin
-# cluster data area
-sudo mkdir -p $KUBE_DATA
-sudo chmod 777 $KUBE_DATA
+
+for KUBE_DATA in /mnt/eoepca /data
+do
+  echo Setting up volume directory: $KUBE_DATA
+  sudo mkdir -p $KUBE_DATA
+  sudo chmod 777 $KUBE_DATA
+done
 
 # install k3s and start
 # curl -sfL https://get.k3s.io | sh -s -
