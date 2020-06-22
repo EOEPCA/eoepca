@@ -2,10 +2,12 @@ resource "kubernetes_config_map" "pep_engine_cm" {
   metadata {
     name = "um-pep-engine-config"
   }
+  
+  depends_on = [ null_resource.waitfor-login-service ]
 
   data = {
     PEP_REALM                    = "eoepca"
-    PEP_AUTH_SERVER_URL          = "https://test.eoepca.org"
+    PEP_AUTH_SERVER_URL          = "https://${var.hostname}"
     PEP_PROXY_ENDPOINT           = "/"
     PEP_SERVICE_HOST             = "0.0.0.0"
     PEP_SERVICE_PORT             = "5566"

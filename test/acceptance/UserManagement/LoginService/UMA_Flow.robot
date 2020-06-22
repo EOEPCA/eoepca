@@ -10,7 +10,7 @@ Library  SSHLibrary
 *** Variables ***
 ${UMA_PATH_PREFIX}=  /wps3
 ${PATH_TO_RESOURCE}=  pep/ADES
-${WELL_KNOWN_PATH}=  http://test.eoepca.org/.well-known/uma2-configuration
+${WELL_KNOWN_PATH}=  https://test.eoepca.org/.well-known/uma2-configuration
 
 *** Test Cases ***
 UMA Get Client from Config File
