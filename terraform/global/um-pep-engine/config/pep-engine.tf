@@ -67,6 +67,7 @@ resource "kubernetes_service" "pep-engine" {
       name = "http-pep"
       port = 5566
       target_port = 5566
+      node_port = 31707
     }
     port {
       name = "https-pep"
