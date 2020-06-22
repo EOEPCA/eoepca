@@ -52,6 +52,7 @@
   - [Installation](#installation)
   - [Testing](#testing)
 - [Usage](#usage)
+- [Releases](#releases)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [License](#license)
@@ -152,6 +153,14 @@ ok: [45.130.30.38] => {
 Notice the Cluster IP of frontend. You may also test the API entrypoint yourself with:
   `curl http://[FRONTEND_IP]:[PORT]/search`
  
+
+<!-- Releases -->
+## Releases
+
+EOEPCA system releases are made to provide integrated deployments of the developed building blocks. The release history is as follows:
+
+* 22/06/2020 - [Release 0.1](release-notes/release-0.1.md)
+
 
 <!-- USAGE EXAMPLES -->
 ## Usage
