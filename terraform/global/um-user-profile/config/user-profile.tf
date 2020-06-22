@@ -2,15 +2,14 @@ resource "kubernetes_config_map" "user_profile_cm" {
   metadata {
     name = "um-user-profile-config"
   }
+  depends_on = [ null_resource.waitfor-login-service ]
 
   data = {
     UP_SSO_URL                  = var.hostname
     UP_TITLE                    = "EOEPCA User Profile"
     UP_SCOPES                   = "openid email user_name"
-    UP_CLIENT_ID                = "a434a7f5-cabc-4b75-994d-d923eb768e49"
-    UP_CLIENT_SECRET            = "XAAks9UMYAcjt7JeVgVuninIVVoQQv4W9pOkmEC4"
-    UP_REDIRECT_URI             = "http://eoepca-dev.deimos-space.com/web_ui/oauth/callback"
-    UP_POST_LOGOUT_REDIRECT_URI = "http://eoepca-dev.deimos-space.com/web_ui"
+    UP_REDIRECT_URI             = "http://${var.hostname}/web_ui/oauth/callback"
+    UP_POST_LOGOUT_REDIRECT_URI = "http://${var.hostname}/web_ui"
     UP_BASE_URI                 = "/web_ui"
     UP_OAUTH_CALLBACK_PATH      = "/oauth/callback"
     UP_LOGOUT_ENDPOINT          = "/logout"
@@ -163,7 +162,7 @@ resource "kubernetes_deployment" "user-profile" {
         }
         container {
           name  = "user-profile"
-          image = "eoepca/um-user-profile:latest"
+          image = "eoepca/um-user-profile:v0.1.1"
           port {
             container_port = 5566
             name = "http-up"

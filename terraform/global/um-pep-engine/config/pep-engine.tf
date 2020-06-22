@@ -2,18 +2,56 @@ resource "kubernetes_config_map" "pep_engine_cm" {
   metadata {
     name = "um-pep-engine-config"
   }
+  
+  depends_on = [ null_resource.waitfor-login-service ]
 
   data = {
     PEP_REALM                    = "eoepca"
+<<<<<<< HEAD
     PEP_AUTH_SERVER_URL          = var.hostname
     PEP_PROXY_ENDPOINT           = "/pep"
+=======
+    PEP_AUTH_SERVER_URL          = "https://${var.hostname}"
+    PEP_PROXY_ENDPOINT           = "/"
+>>>>>>> 216a3a65e988cf86d702ef9c78d207de9ea130bc
     PEP_SERVICE_HOST             = "0.0.0.0"
     PEP_SERVICE_PORT             = "5566"
     PEP_S_MARGIN_RPT_VALID       = "5"
     PEP_CHECK_SSL_CERTS          = "false"
     PEP_USE_THREADS              = "true"
     PEP_DEBUG_MODE               = "true"
-    PEP_RESOURCE_SERVER_ENDPOINT = "http://localhost:9000"
+    PEP_RESOURCE_SERVER_ENDPOINT = "http://ades/"
+  }
+}
+
+
+
+
+resource "kubernetes_ingress" "gluu_ingress_pep_engine" {
+  metadata {
+    name = "gluu-ingress-pep-engine"
+
+    annotations = {
+      "kubernetes.io/ingress.class" = "nginx"
+      "nginx.ingress.kubernetes.io/ssl-redirect" = "false"
+    }
+  }
+
+  spec {
+    rule {
+      host =  var.hostname 
+
+      http {
+        path {
+          path = "/pep"
+
+          backend {
+            service_name = "pep-engine"
+            service_port = "5566"
+          }
+        }
+      }
+    }
   }
 }
 
@@ -23,18 +61,25 @@ resource "kubernetes_service" "pep-engine" {
     labels = { app = "pep-engine" }
   }
 
+<<<<<<< HEAD
   depends_on = [ null_resource.waitfor-persistence, kubernetes_persistent_volume.pep_engine_logs,
                 kubernetes_persistent_volume.pep_engine_lib_ext, kubernetes_persistent_volume.pep_engine_custom_static,
                 kubernetes_persistent_volume.pep_engine_custom_pages ]
   
+=======
+>>>>>>> 216a3a65e988cf86d702ef9c78d207de9ea130bc
   spec {
+    type = "NodePort"
+
     port {
       name = "http-pep"
-      port = 80
+      port = 5566
+      target_port = 5566
     }
     port {
       name = "https-pep"
-      port = 443
+      port = 1025
+      target_port = 443
     }
     selector = { app = "pep-engine" }
   }
@@ -89,9 +134,9 @@ resource "kubernetes_deployment" "pep-engine" {
         }
         container {
           name  = "pep-engine"
-          image = "eoepca/um-pep-engine:latest"
+          image = "eoepca/um-pep-engine:v0.1"
           port {
-            container_port = 80
+            container_port = 5566
             name = "http-pep"
           }
           port {

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ades
+  name: ades
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ades
+  template:
+    metadata:
+      labels:
+        app: ades
+    spec:
+      containers:
+        - image: eoepca/proc-ades:localkube
+          name: ades
+        - image: eoepca/kubeproxy
+          name: kubeproxy
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ades
+  name: ades
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: ades
+  type: NodePort
