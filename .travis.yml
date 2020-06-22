@@ -5,15 +5,28 @@ install: true
 services:
   - docker
 
+addons:
+  chrome: stable
+
 jobs:
   include:
-    - stage: deploy to local kube and test (acceptance)
-      if: branch = EOEPCA-109-Contributions-to-User-Management-Demonstration-and-Test-Scenario
+    - stage: deploy to local kube and test (ADES only)
+      if: branch = feature/EOEPCA-105
       dist: bionic
       language: minimal
 
+      install:
+        - ./test/bin/install-kubectl.sh
+        - ./test/bin/setup-k3s.sh
+        - ./test/bin/install-terraform.sh
+
+      before_script:
+        - ./terraform/test/deployEOEPCA.sh
+        - sh ./travis/setupRobot.sh
+
       script:
-        - sh ./test/acceptance/acceptance_tests.sh
+        - cd ./test/acceptance/Processing/ADES
+        - robot .
 
       after_success:
         - echo '*** SUCCESS ***'
@@ -42,15 +55,15 @@ jobs:
 
       before_script: sudo sh ./travis/setupMinikube.sh
 
-      script: sudo ./terraform/test/deployEOEPCA.sh 
+      script: sudo ./terraform/test/deployEOEPCA.sh
 
       deploy:
         - provider: script
           skip_cleanup: true
-          script: sudo sh ./travis/acceptanceTest.sh 
+          script: sudo sh ./travis/acceptanceTest.sh
           on:
             branch: develop
-    
+
     - stage: deploy EOEPCA on network of resources
       if: branch = release
 
@@ -60,8 +73,8 @@ jobs:
 
       script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/staging/ && sh deployEOEPCA.sh'
 
-      after_script: sh ./travis/acceptanceTest.sh 
-      
+      after_script: sh ./travis/acceptanceTest.sh
+
 import:
   - docs/.travis.yml
 
