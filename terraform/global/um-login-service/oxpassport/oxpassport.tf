@@ -75,7 +75,7 @@ resource "kubernetes_deployment" "oxpassport" {
         container {
           
           name  = "oxpassport"
-          image = "gluufederation/oxpassport:4.1.1_01"
+          image = "eoepca/um-login-passport:latest"
 
           port {
             container_port = 8090

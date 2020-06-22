@@ -25,6 +25,7 @@ resource "kubernetes_service" "opendj" {
   depends_on = [ null_resource.waitfor-config-init ]
 
   spec {
+    
     port {
       name        = "ldaps"
       protocol    = "TCP"

@@ -49,16 +49,16 @@
         rsync_opts:
           - "--exclude=.terraform"
           - "--exclude=terraform.tfstate*"
-    - name: "Terraforming from bastion host"
-      shell: |
-          terraform init
-          terraform apply -auto-approve -var="dh_user_email={{ DOCKER_EMAIL }}" 
-                                        -var="dh_user_name={{ DOCKER_USERNAME }}" 
-                                        -var="dh_user_password={{ DOCKER_PASSWORD }}" 
-                                        -var="hostname=test.eoepca.org"
-      args:
-        chdir: /home/eouser/eoepca/terraform/test
-      register: terraform_result
+    # - name: "Terraforming from bastion host"
+    #   shell: |
+    #       terraform init
+    #       terraform apply -auto-approve -var="dh_user_email={{ DOCKER_EMAIL }}" 
+    #                                     -var="dh_user_name={{ DOCKER_USERNAME }}" 
+    #                                     -var="dh_user_password={{ DOCKER_PASSWORD }}" 
+    #                                     -var="hostname=test.eoepca.org"
+    #   args:
+    #     chdir: /home/eouser/eoepca/terraform/test
+    #   register: terraform_result
     # - name: "Terraforming from bastion host"
     #   terraform:
     #     project_path: './eoepca/terraform/test'
@@ -73,10 +73,13 @@
     #   register: terraform_result
     
     - name: "Transfer Acceptance testing code"
-      copy:
-        src: ../../travis/acceptanceTest.sh
-        dest: /home/eouser/eoepca/travis/
-        owner: eouser
+      synchronize:
+        src: '{{ playbook_dir }}/../../test'
+        dest: /home/eouser/eoepca/
+    - name: "Transfer Acceptance testing scripts"
+      synchronize:
+        src: '{{ playbook_dir }}/../../travis/'
+        dest: /home/eouser/eoepca/
     - name: "Execute acceptance tests"
       shell: sh acceptanceTest.sh
       args:

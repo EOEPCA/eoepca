@@ -19,7 +19,7 @@ resource "kubernetes_job" "um_login_persistence" {
 
         container {
           name  = "um-login-persistence"
-          image = "eoepca/um-login-persistence:latest"
+          image = "eoepca/um-login-persistence:v0.1"
 
           env {
             name  = "GLUU_CONFIG_ADAPTER"
@@ -54,6 +54,16 @@ resource "kubernetes_job" "um_login_persistence" {
           env {
             name  = "GLUU_CACHE_TYPE"
             value = "NATIVE_PERSISTENCE"
+          }
+
+          env {
+            name  = "LP_CLIENT_ID"
+            value = "59f1fed27153f631bc08"
+          }
+
+          env {
+            name  = "LP_CLIENT_SECRET"
+            value = "640baffac0948454c48de2505726f53d11adc8a6"
           }
 
           image_pull_policy = "Always"

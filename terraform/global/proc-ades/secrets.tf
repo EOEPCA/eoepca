@@ -10,6 +10,7 @@ locals {
 		}
 	}
 }
+
 resource "kubernetes_secret" "dockerhub-imagepullsecret" {
 	metadata {
 		name      = "dockerhub-imagepullsecret"
@@ -19,3 +20,18 @@ resource "kubernetes_secret" "dockerhub-imagepullsecret" {
 	}
 	type = "kubernetes.io/dockerconfigjson"
 }
+
+resource "kubernetes_secret" "eoepcawebdavsecret" {
+  metadata {
+    name = "eoepcawebdavsecret"
+  }
+
+  data = {
+    password = var.wspace_user_password
+
+    username = var.wspace_user_name
+  }
+
+  type = "Opaque"
+}
+
