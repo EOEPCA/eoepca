@@ -57,7 +57,7 @@ resource "kubernetes_service" "opendj" {
       app = "opendj"
     }
 
-    cluster_ip = "None"
+    # cluster_ip = "None" Defaults to ClusterIP
   }
 }
 

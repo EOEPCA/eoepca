@@ -21,8 +21,8 @@
     docker_password : ((password)) # TODO
   
   tasks:
-    - shell: kubectl config view --minify | grep server | cut -f 2- -d ":" | tr -d " "
-      register: lb_ip
+    # - shell: kubectl config view --minify | grep server | cut -f 2- -d ":" | tr -d " "
+    #   register: lb_ip
     - name: Install jq
       apt:
         name: jq
@@ -36,15 +36,19 @@
         mode: '0755'
 
     - name: "Transfer global Terraform Infrastructure as Code"
-      copy:
+      synchronize:
         src: ../global
         dest: /home/eouser/eoepca/terraform/
-        owner: eouser
+        rsync_opts:
+          - "--exclude=.terraform"
+          - "--exclude=terraform.tfstate*"
     - name: "Transfer test Terraform Infrastructure as Code"
-      copy:
+      synchronize:
         src: ../test
         dest: /home/eouser/eoepca/terraform/
-        owner: eouser
+        rsync_opts:
+          - "--exclude=.terraform"
+          - "--exclude=terraform.tfstate*"
     - name: "Terraforming from bastion host"
       terraform:
         project_path: './eoepca/terraform/test'
@@ -52,8 +56,8 @@
           dh_user_email: "{{ DOCKER_EMAIL }}"
           dh_user_name: "{{ DOCKER_USERNAME }}"
           dh_user_password: "{{ DOCKER_PASSWORD }}"
-          nginx_ip: lb_ip.stdout
-          hostname: "staging.eoepca.org"
+          # nginx_ip: lb_ip.stdout
+          hostname: "test.eoepca.org"
         state: present
         force_init: true
       register: terraform_result

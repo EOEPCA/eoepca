@@ -4,12 +4,11 @@ provider "kubernetes" {
 
 module "um-login-service" {
   source = "../global/um-login-service"
-  nginx_ip = var.nginx_ip
   hostname = var.hostname
 }
 
-variable "nginx_ip" {
-  type = string
+output "lb_address" {
+  value = module.um-login-service.lb_address
 }
 
 variable "hostname" {

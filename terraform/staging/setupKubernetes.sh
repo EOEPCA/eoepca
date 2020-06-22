@@ -1,9 +1,20 @@
 #!/bin/bash
 
+# exit when any command fails
+set -e
+
+# keep track of the last executed command
+trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
+# echo an error message before exiting
+trap 'echo "\"${last_command}\" command filed with exit code $?."' EXIT
+
 echo "##### Install Ansible #####"
 sudo -H pip3 install setuptools
 sudo -H pip3 install netaddr
 sudo -H pip3 install ansible
+
+echo "##### Install Swift client ####"
+sudo apt install -y python3-swiftclient
 
 echo "##### Install Kubernetes cluster through Bastion node #####"
 
@@ -22,36 +33,15 @@ if [ -z  "$VAULT_PASSWORD" ]; then
   export VAULT_PASSWORD=${PASSWORD}
 fi
 
-export OP_TOKEN=$(curl -s -i \
--H "Content-Type: application/json" \
--d "
-{ \"auth\": {
-\"identity\": {
-\"methods\": [\"password\"],
-\"password\": {
-\"user\": {
-\"name\": \"$OS_USERNAME\",
-\"domain\": { \"name\": \"$OS_USER_DOMAIN_NAME\" },
-\"password\": \"$OS_PASSWORD\"
-    }
-   }
-  },
-\"scope\": { \"project\": {
-\"name\": \"eoepca\",
-\"domain\": { \"id\": \"$OS_PROJECT_DOMAIN_ID\"
-     }
-    }
-   }
-  }
-}" \
-https://cf2.cloudferro.com:5000/v3/auth/tokens | grep Subject-Token |  awk '{printf $2}' | sed -e 's/[\r\n]//g') 
+rm -f creodias.tfstate 
 
-curl -s -o creodias.tfstate -H "X-Auth-Token: $OP_TOKEN" https://cf2.cloudferro.com:8080/swift/v1/AUTH_${OS_PROJECT_ID}/eoepca-staging-terraform-state/tfstate.tf
-
+swift auth
+swift download -o creodias.tfstate eoepca-staging-terraform-state tfstate.tf
 
 echo "##### Deploy Kubernetes cluster #####"
 cd ../..
-ansible-playbook --become -i inventory/cf2-kube/hosts cluster.yml
+rm -f ssh-bastion.conf
+ansible-playbook  --flush-cache  --become -i inventory/cf2-kube/hosts cluster.yml
 
 echo "##### Configure access to Kubernetes cluster through Bastion #####"
-ansible-playbook --vault-password-file=.vault_pass --become -i inventory/cf2-kube/hosts bastion.yml
+ansible-playbook --flush-cache  --vault-password-file=.vault_pass --become -i inventory/cf2-kube/hosts bastion.yml

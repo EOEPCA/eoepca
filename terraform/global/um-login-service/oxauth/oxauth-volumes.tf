@@ -6,6 +6,8 @@ resource "kubernetes_persistent_volume_claim" "oxauth_logs_volume_claim" {
   spec {
     access_modes = ["ReadWriteOnce"]
 
+    storage_class_name = "standard"
+
     selector {
       match_labels = {
         oxauth = "logs"
@@ -29,6 +31,8 @@ resource "kubernetes_persistent_volume_claim" "oxauth_lib_ext_volume_claim" {
 
   spec {
     access_modes = ["ReadWriteOnce"]
+
+    storage_class_name = "standard"
 
     selector {
       match_labels = {
@@ -54,6 +58,8 @@ resource "kubernetes_persistent_volume_claim" "oxauth_custom_static_volume_claim
   spec {
     access_modes = ["ReadWriteOnce"]
 
+    storage_class_name = "standard"
+
     selector {
       match_labels = {
         oxauth = "custom-static"
@@ -77,6 +83,8 @@ resource "kubernetes_persistent_volume_claim" "oxauth_custom_pages_volume_claim"
 
   spec {
     access_modes = ["ReadWriteOnce"]
+
+    storage_class_name = "standard"
 
     selector {
       match_labels = {

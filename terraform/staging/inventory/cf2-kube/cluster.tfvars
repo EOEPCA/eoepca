@@ -17,6 +17,7 @@ flavor_bastion = "14"  # eo1.xsmall
 
 # standalone etcds
 number_of_etcd = 0
+flavor_etcd = "20"
 
 # masters
 number_of_k8s_masters = 0
@@ -49,11 +50,11 @@ image_gfs = "Ubuntu 18.04 LTS"
 # networking
 network_name = "eoepca-network"
 
-external_net = "5a0a9ccb-69e0-4ddc-9563-b8d6ae9ef06c"
+external_net =  "31d7e67a-b30a-43f4-8b06-1667c70ba90d" # "5a0a9ccb-69e0-4ddc-9563-b8d6ae9ef06c"  #
 
 subnet_cidr = "172.16.0.0/24"
 
-floatingip_pool = "external2"
+floatingip_pool = "external3" #  "external2" # 
 
 bastion_allowed_remote_ips = ["0.0.0.0/0"]
 

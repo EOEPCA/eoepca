@@ -6,6 +6,8 @@ resource "kubernetes_persistent_volume_claim" "oxtrust_logs_volume_claim" {
   spec {
     access_modes = ["ReadWriteOnce"]
 
+    storage_class_name = "standard"
+
     selector {
       match_labels = {
         oxtrust = "logs"
@@ -31,6 +33,8 @@ resource "kubernetes_persistent_volume_claim" "oxtrust_lib_ext_volume_claim" {
   spec {
     access_modes = ["ReadWriteOnce"]
 
+    storage_class_name = "standard"
+
     selector {
       match_labels = {
         oxtrust = "lib-ext"
@@ -55,6 +59,8 @@ resource "kubernetes_persistent_volume_claim" "oxtrust_custom_static_volume_clai
   spec {
     access_modes = ["ReadWriteOnce"]
 
+    storage_class_name = "standard"
+
     selector {
       match_labels = {
         oxtrust = "custom-static"
@@ -78,6 +84,8 @@ resource "kubernetes_persistent_volume_claim" "oxtrust_custom_pages_volume_claim
 
   spec {
     access_modes = ["ReadWriteOnce"]
+
+    storage_class_name = "standard"
 
     selector {
       match_labels = {
