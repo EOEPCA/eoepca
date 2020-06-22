@@ -62,6 +62,7 @@ module "oxauth" {
 module "oxtrust" {
    source = "./oxtrust"
    nginx_ip = module.nginx-ingress-controller.lb_address # data.kubernetes_service.nginx-ingress-controller-ingress-nginx.load_balancer_ingress.0.hostname
+   hostname = var.hostname
 }
 
 module "oxpassport" {
