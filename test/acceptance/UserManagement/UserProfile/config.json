@@ -1,1 +1,5 @@
-{"hostname": "https://eoepca-dev.deimos-space.com/web_ui", "username": "admin", "password": "admin_Abcd1234#"}
+{
+  "hostname": "https://test.eoepca.org/web_ui",
+  "username": "admin",
+  "password": "admin_Abcd1234#"
+}
