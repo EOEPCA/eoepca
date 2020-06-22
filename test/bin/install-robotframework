@@ -21,6 +21,7 @@ mkdir -p $HOME/.local/bin \
 && python -m pip install -U docutils \
 && python -m pip install -U robotframework-requests \
 && python -m pip install -U robotframework-seleniumlibrary \
+&& python -m pip install -U robotframework-sshlibrary \
 && python -m pip install -U webdrivermanager \
 && deactivate
 
