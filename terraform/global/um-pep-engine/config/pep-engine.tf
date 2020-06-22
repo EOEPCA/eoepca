@@ -7,13 +7,8 @@ resource "kubernetes_config_map" "pep_engine_cm" {
 
   data = {
     PEP_REALM                    = "eoepca"
-<<<<<<< HEAD
     PEP_AUTH_SERVER_URL          = var.hostname
     PEP_PROXY_ENDPOINT           = "/pep"
-=======
-    PEP_AUTH_SERVER_URL          = "https://${var.hostname}"
-    PEP_PROXY_ENDPOINT           = "/"
->>>>>>> 216a3a65e988cf86d702ef9c78d207de9ea130bc
     PEP_SERVICE_HOST             = "0.0.0.0"
     PEP_SERVICE_PORT             = "5566"
     PEP_S_MARGIN_RPT_VALID       = "5"
@@ -61,13 +56,10 @@ resource "kubernetes_service" "pep-engine" {
     labels = { app = "pep-engine" }
   }
 
-<<<<<<< HEAD
   depends_on = [ null_resource.waitfor-persistence, kubernetes_persistent_volume.pep_engine_logs,
                 kubernetes_persistent_volume.pep_engine_lib_ext, kubernetes_persistent_volume.pep_engine_custom_static,
                 kubernetes_persistent_volume.pep_engine_custom_pages ]
   
-=======
->>>>>>> 216a3a65e988cf86d702ef9c78d207de9ea130bc
   spec {
     type = "NodePort"
 
