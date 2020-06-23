@@ -4,4 +4,5 @@ pip install -U \
   robotframework-requests \
   docutils \
   robotframework-seleniumlibrary \
+  robotframework-sshlibrary \
   webdrivermanager
