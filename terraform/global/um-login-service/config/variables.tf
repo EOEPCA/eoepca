@@ -5,3 +5,7 @@ variable "nginx_ip" {
 variable "hostname" {
     type = string
 }
+
+output "config-done" {
+  value = true
+}

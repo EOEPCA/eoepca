@@ -87,6 +87,7 @@ resource "kubernetes_stateful_set" "opendj_init" {
 
       spec {
         automount_service_account_token = true
+        node_name = "eoepca-k8s-node-nf-1" # FIXME
         
         volume {
           name = "opendj-config"

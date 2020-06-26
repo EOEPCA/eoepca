@@ -36,6 +36,7 @@ module "um-user-profile" {
   source = "../global/um-user-profile"
   nginx_ip = module.um-login-service.lb_address
   hostname = var.hostname
+  module_depends_on = [ module.um-login-service.um-login-service-up ]
 }  
 
 module "proc-ades" {
@@ -45,10 +46,12 @@ module "proc-ades" {
   dh_user_password = var.dh_user_password
   wspace_user_name = var.wspace_user_name
   wspace_user_password = var.wspace_user_password
+  module_depends_on = [ module.um-login-service.um-login-service-up, module.um-user-profile.um-user-profile-up ]
 }
 
 module "rm-workspace" {
   source = "../global/rm-workspace"
   wspace_user_name = var.wspace_user_name
   wspace_user_password = var.wspace_user_password
+  module_depends_on = [ module.proc-ades.proc-ades-up ]
 }

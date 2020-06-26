@@ -49,28 +49,17 @@
         rsync_opts:
           - "--exclude=.terraform"
           - "--exclude=terraform.tfstate*"
-    # - name: "Terraforming from bastion host"
-    #   shell: |
-    #       terraform init
-    #       terraform apply -auto-approve -var="dh_user_email={{ DOCKER_EMAIL }}" 
-    #                                     -var="dh_user_name={{ DOCKER_USERNAME }}" 
-    #                                     -var="dh_user_password={{ DOCKER_PASSWORD }}" 
-    #                                     -var="hostname=test.eoepca.org"
-    #   args:
-    #     chdir: /home/eouser/eoepca/terraform/test
-    #   register: terraform_result
-    # - name: "Terraforming from bastion host"
-    #   terraform:
-    #     project_path: './eoepca/terraform/test'
-    #     variables:
-    #       dh_user_email: "{{ DOCKER_EMAIL }}"
-    #       dh_user_name: "{{ DOCKER_USERNAME }}"
-    #       dh_user_password: "{{ DOCKER_PASSWORD }}"
-    #       # nginx_ip: lb_ip.stdout
-    #       hostname: "test.eoepca.org"
-    #     state: present
-    #     force_init: true
-    #   register: terraform_result
+    - name: "Terraforming from bastion host"
+      shell: |
+        export DOCKER_EMAIL="{{ DOCKER_EMAIL }}"
+        export DOCKER_USERNAME="{{ DOCKER_USERNAME }}"
+        export DOCKER_PASSWORD="{{ DOCKER_PASSWORD}}"
+        export WSPACE_USERNAME="{{ WSPACE_USERNAME }}"
+        export WSPACE_PASSWORD="{{ WSPACE_PASSWORD }}"
+        ./deployEOEPCA.sh apply
+      args:
+        chdir: /home/eouser/eoepca/terraform/test
+      register: terraform_result
     
     - name: "Transfer Acceptance testing code"
       synchronize:

@@ -73,6 +73,7 @@ resource "kubernetes_service" "workspace" {
       app = "workspace"
     }
   }
+  depends_on = [ var.module_depends_on ]
 
   spec {
     port {

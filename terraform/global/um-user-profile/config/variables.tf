@@ -5,3 +5,11 @@ variable "nginx_ip" {
 variable "hostname" {
     type = string
 }
+
+variable "config_module_depends_on" {
+  type = any
+}
+
+output "um-user-profile-up" {
+  value = true
+}

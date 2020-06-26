@@ -1,28 +1,4 @@
 # Install NGINX ingress controller
-#module "ingress-nginx" {
-#  source  = "essjayhch/ingress-nginx/kubernetes"
-#  version = "0.0.4"
-#}
-#
-#resource "null_resource" "waitfor-ingress" {
-#  provisioner "local-exec" {
-#    command = <<EOT
-#    while [ -z $external_ip ]; do echo "Waiting for end point..."; external_ip=$(kubectl get svc nginx-ingress-controller-ingress-nginx -n ingress-nginx --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}"); [ -z "$external_ip" ] && sleep 30; done; echo "End point ready-" && echo $external_ip; cf_export endpoint=$external_ip
-#EOT
-#  } 
-#}
-#
-#data "kubernetes_service" "nginx-ingress-controller-ingress-nginx" {
-#  metadata {
-#    name = "nginx-ingress-controller-ingress-nginx"
-#    namespace = "ingress-nginx"
-#  }
-#  depends_on = [ null_resource.waitfor-ingress ]
-#}
-#
-#output "lb_address" {
-#  value = data.kubernetes_service.nginx-ingress-controller-ingress-nginx.load_balancer_ingress.0.hostname
-#}
 
 module "nginx-ingress-controller" {
   source  = "byuoitav/nginx-ingress-controller/kubernetes"
@@ -37,36 +13,41 @@ output "lb_address" {
 # Apply config
 module "config" {
   source   = "./config"
-  nginx_ip = module.nginx-ingress-controller.lb_address # data.kubernetes_service.nginx-ingress-controller-ingress-nginx.load_balancer_ingress.0.hostname
+  nginx_ip = module.nginx-ingress-controller.lb_address
   hostname = var.hostname
 }
 
 # Apply LDAP
 module "ldap" {
  source = "./ldap"
+ module_depends_on = [ module.nginx-ingress-controller.lb_address, module.config.config-done ]
 }
 
 # Enable Ingress
 module "nginx" {
  source   = "./nginx"
- nginx_ip = module.nginx-ingress-controller.lb_address # data.kubernetes_service.nginx-ingress-controller-ingress-nginx.load_balancer_ingress.0.hostname
+ nginx_ip = module.nginx-ingress-controller.lb_address 
  hostname = var.hostname
+ module_depends_on = [ module.nginx-ingress-controller.lb_address, module.ldap.ldap-up ]
 }
 
 module "oxauth" {
  source   = "./oxauth"
- nginx_ip = module.nginx-ingress-controller.lb_address # data.kubernetes_service.nginx-ingress-controller-ingress-nginx.load_balancer_ingress.0.hostname
+ nginx_ip = module.nginx-ingress-controller.lb_address 
  hostname = var.hostname
+ module_depends_on = [ module.nginx-ingress-controller.lb_address, module.nginx.nginx-done, module.ldap.ldap-up, module.config.config-done ]
 }
 
 module "oxtrust" {
    source = "./oxtrust"
-   nginx_ip = module.nginx-ingress-controller.lb_address # data.kubernetes_service.nginx-ingress-controller-ingress-nginx.load_balancer_ingress.0.hostname
+   nginx_ip = module.nginx-ingress-controller.lb_address 
    hostname = var.hostname
+   module_depends_on = [ module.oxauth.oxauth-up ]
 }
 
 module "oxpassport" {
    source = "./oxpassport"
-   nginx_ip = module.nginx-ingress-controller.lb_address # data.kubernetes_service.nginx-ingress-controller-ingress-nginx.load_balancer_ingress.0.hostname
+   nginx_ip = module.nginx-ingress-controller.lb_address 
    hostname = var.hostname
+   module_depends_on = [ module.oxauth.oxauth-up, module.oxtrust.oxtrust-up ]
 }

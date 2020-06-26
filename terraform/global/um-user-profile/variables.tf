@@ -7,3 +7,11 @@ variable "hostname" {
     type = string
     default = "test.eoepca.org"
 }
+
+variable "module_depends_on" {
+    type = any
+}
+
+output "um-user-profile-up" {
+    value = module.config.um-user-profile-up
+}

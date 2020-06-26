@@ -48,6 +48,7 @@ resource "kubernetes_service" "ades" {
       app = "ades"
     }
   }
+  depends_on = [ var.module_depends_on ]
 
   spec {
     port {
