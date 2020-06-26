@@ -41,6 +41,12 @@ module "um-user-profile" {
   hostname = var.hostname
 }  
 
+module "mongo-sidecar" {
+  source = "../global/mongo-sidecar"
+  nginx_ip = var.nginx_ip
+  hostname = var.hostname
+}  
+
 module "proc-ades" {
   source = "../global/proc-ades"
   dh_user_email = var.dh_user_email
