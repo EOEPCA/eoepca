@@ -2,7 +2,7 @@ resource "kubernetes_config_map" "pep_engine_cm" {
   metadata {
     name = "um-pep-engine-config"
   }
-  
+
   depends_on = [ null_resource.waitfor-login-service ]
 
   data = {
@@ -18,9 +18,6 @@ resource "kubernetes_config_map" "pep_engine_cm" {
     PEP_RESOURCE_SERVER_ENDPOINT = "http://ades/"
   }
 }
-
-
-
 
 resource "kubernetes_ingress" "gluu_ingress_pep_engine" {
   metadata {
@@ -117,6 +114,12 @@ resource "kubernetes_deployment" "pep-engine" {
             claim_name = "pep-engine-custom-pages-volume-claim"
           }
         }
+        volume {
+          name = "mongo-persistent-storage"
+          persistent_volume_claim {
+            claim_name = "mongo-persistent-storage-volume-claim"
+          }
+        }
         container {
           name  = "pep-engine"
           image = "eoepca/um-pep-engine:v0.1"
@@ -151,6 +154,26 @@ resource "kubernetes_deployment" "pep-engine" {
           }
           image_pull_policy = "Always"
         }
+        container {
+          name  = "mongo"
+          image = "mongo"
+          port {
+            container_port = 27017
+            name = "http-rp"
+          }
+        
+          env_from {
+            config_map_ref {
+              name = "um-pep-engine-config"
+            }
+          }
+          volume_mount {
+            name       = "mongo-persistent-storage"
+            mount_path = "/data/db"
+          }
+          image_pull_policy = "Always"
+        }
+        
         host_aliases {
           ip        = var.nginx_ip
           hostnames = [ var.hostname ]
