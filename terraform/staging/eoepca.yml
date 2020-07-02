@@ -70,9 +70,9 @@
         src: '{{ playbook_dir }}/../../travis/'
         dest: /home/eouser/eoepca/
     - name: "Execute acceptance tests"
-      shell: sh acceptanceTest.sh
+      shell: sh ./travis/acceptanceTest.sh
       args:
-        chdir: /home/eouser/eoepca/travis
+        chdir: /home/eouser/eoepca/
       register: test_result
     - debug: var=test_result.stdout_lines
        

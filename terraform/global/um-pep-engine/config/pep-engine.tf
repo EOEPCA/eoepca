@@ -8,7 +8,7 @@ resource "kubernetes_config_map" "pep_engine_cm" {
   data = {
     PEP_REALM                    = "eoepca"
     PEP_AUTH_SERVER_URL          = var.hostname
-    PEP_PROXY_ENDPOINT           = "/pep"
+    PEP_PROXY_ENDPOINT           = "/"
     PEP_SERVICE_HOST             = "0.0.0.0"
     PEP_SERVICE_PORT             = "5566"
     PEP_S_MARGIN_RPT_VALID       = "5"
@@ -127,7 +127,7 @@ resource "kubernetes_deployment" "pep-engine" {
         }
         container {
           name  = "pep-engine"
-          image = "eoepca/um-pep-engine:v0.1"
+          image = "eoepca/um-pep-engine:v0.1.1"
           port {
             container_port = 5566
             name = "http-pep"

@@ -13,8 +13,8 @@
 export OS_AUTH_URL=https://cf2.cloudferro.com:5000/v3
 # With the addition of Keystone we have standardized on the term **project**
 # as the entity that owns the resources.
-export OS_PROJECT_ID=301d3bcedc46489f967ba4bf66f4f10b
-export OS_PROJECT_NAME="eoepca2"
+export OS_PROJECT_ID=43ff957d8a4e494d8980970bb594c608
+export OS_PROJECT_NAME="eoepca"
 export OS_USER_DOMAIN_NAME="cloud_13907"
 if [ -z "$OS_USER_DOMAIN_NAME" ]; then unset OS_USER_DOMAIN_NAME; fi
 export OS_PROJECT_DOMAIN_ID="043feb3017b6499c8fd060f6b32c2689"

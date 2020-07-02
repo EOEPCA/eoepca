@@ -3,7 +3,7 @@
 # openstack_blockstorage_ignore_volume_az: yes
 ## When OpenStack is used, if LBaaSv2 is available you can enable it with the following 2 variables.
 openstack_lbaas_enabled: True
-openstack_lbaas_subnet_id: "9a653d89-f085-4674-ab6e-9fcba16bb9ec"
+openstack_lbaas_subnet_id: "58f95191-5ff1-4568-a08c-58cab1b11e1b"
 ## To enable automatic floating ip provisioning, specify a subnet.
 # openstack_lbaas_floating_network_id: "Neutron network ID (not subnet ID) to get floating IP from, disabled by default"
 ## Override default LBaaS behavior

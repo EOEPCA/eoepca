@@ -41,7 +41,7 @@ swift download -o creodias.tfstate eoepca-staging-terraform-state tfstate.tf
 echo "##### Deploy Kubernetes cluster #####"
 cd ../..
 rm -f ssh-bastion.conf
-ansible-playbook  --flush-cache  --become -i inventory/cf2-kube/hosts cluster.yml
+ansible-playbook --flush-cache  --become -i inventory/cf2-kube/hosts cluster.yml
 
 echo "##### Configure access to Kubernetes cluster through Bastion #####"
 ansible-playbook --flush-cache  --vault-password-file=.vault_pass --become -i inventory/cf2-kube/hosts bastion.yml
