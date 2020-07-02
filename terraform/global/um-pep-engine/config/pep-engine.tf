@@ -71,6 +71,7 @@ resource "kubernetes_service" "pep-engine" {
   }
 }
 
+
 resource "kubernetes_deployment" "pep-engine" {
   metadata {
     name   = "pep-engine"
@@ -122,7 +123,8 @@ resource "kubernetes_deployment" "pep-engine" {
         }
         container {
           name  = "pep-engine"
-          image = "eoepca/um-pep-engine:v0.1"
+          image = "eoepca/um-pep-engine:v0.1.1"
+
           port {
             container_port = 5566
             name = "http-pep"
@@ -151,6 +153,10 @@ resource "kubernetes_deployment" "pep-engine" {
           volume_mount {
             name       = "pep-engine-custom-pages"
             mount_path = "/opt/gluu/jetty/pep-engine/custom/pages"
+          }
+          volume_mount {
+            name       = "mongo-persistent-storage"
+            mount_path = "/data/db"
           }
           image_pull_policy = "Always"
         }
