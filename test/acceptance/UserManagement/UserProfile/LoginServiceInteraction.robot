@@ -21,7 +21,8 @@ Log in to the User Profile through the Login Service
   ${options}=  Call Method  ${chrome_options}  to_capabilities      
   Open Browser  ${URL}  browser=chrome  desired_capabilities=${options}
   Set Browser Implicit Wait  5
-  LoginService Call Log in Button
+  ${title}=  Get Title
+  BuiltIn.Run Keyword If  "${title}"=="EOEPCA User Profile"  LoginService Call Log in Button
   LoginService Fill Credentials
   ${title}=  Get Title
   BuiltIn.Run Keyword If  "${title}"=="oxAuth"  LoginService Allow User
@@ -57,7 +58,7 @@ LoginService Fill Credentials
   Input Text  id=loginForm:username  admin
   Input Password  id=loginForm:password  admin_Abcd1234#
   Click Button  id=loginForm:loginButton
-  Set Browser Implicit Wait  5
+  Set Browser Implicit Wait  10
 
 LoginService Call Log out Button
   Title Should Be  EOEPCA User Profile
