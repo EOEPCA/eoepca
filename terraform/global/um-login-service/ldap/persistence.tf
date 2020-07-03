@@ -19,7 +19,7 @@ resource "kubernetes_job" "um_login_persistence" {
 
         container {
           name  = "um-login-persistence"
-          image = "eoepca/um-login-persistence:v0.1.1"
+          image = "eoepca/um-login-persistence:v0.1"
 
           env {
             name  = "GLUU_CONFIG_ADAPTER"

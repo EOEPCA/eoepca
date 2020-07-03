@@ -22,50 +22,6 @@ resource "kubernetes_persistent_volume_claim" "pep_engine_logs_volume_claim" {
   }
 }
 
-resource "kubernetes_persistent_volume" "mongo_persistent_storage" {
-  metadata {
-    name = "mongo-persistent-storage"
-
-    labels = {
-      pep-engine = "mongo-persistent-storage"
-    }
-  }
-
-  spec {
-    capacity = {
-      storage = "10M"
-    }
-
-    access_modes = ["ReadWriteMany"]
-
-    persistent_volume_source {
-      host_path {
-        path = "/data/db"
-      }
-    }
-    storage_class_name = "standard"
-  }
-}
-
-
-resource "kubernetes_persistent_volume_claim" "mongo_persistent_storage_volume_claim" {
-  metadata {
-    name = "mongo-persistent-storage-volume-claim"
-  }
-
-  spec {
-    access_modes = ["ReadWriteMany"]
-
-    resources {
-      requests = {
-        storage = "10M"
-      }
-    }
-
-    volume_name = "mongo-persistent-storage"
-  }
-}
-
 resource "kubernetes_persistent_volume_claim" "pep_engine_lib_ext_volume_claim" {
   metadata {
     name = "pep-engine-lib-ext-volume-claim"
