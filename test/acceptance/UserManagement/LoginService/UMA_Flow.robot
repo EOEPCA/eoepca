@@ -50,13 +50,15 @@ UMA Get Ticket
   Create Session  ades  ${base_url}  verify=True
   ${headers}=  Create Dictionary  authorization=Bearer ${token}
   ${resp}=  Get Request  ades  /${resource}  headers=${headers}
+  ${location_header}=  Get From Dictionary  ${resp.headers}  WWW-Authenticate
+  ${ticket}=  Fetch From Right  ${location_header}  ticket=
   [Return]  ${resp}  
 
 UMA Get Ticket Valid
   [Arguments]  ${base_url}  ${token}  ${resource}
   ${resp}=  UMA Get Ticket  ${base_url}  ${token}  ${resource}
+  Status Should Be  401  ${resp}
   [Return]  ${resp}
-
 
 UMA Get ID Token
   [Arguments]  ${base_url}  ${user}  ${pwd}  ${client_id}  ${client_secret}  ${token_endpoint}
@@ -146,19 +148,16 @@ UMA Write in Resource
   ${i}=  Convert To String  ${\n}\${RPT_TOKEN}= ${space}${variable}
   Append To File  ../../Processing/ADES/ADES.resource  ${i}
 
-UMA Get Resource 
-
-
 UMA Handler of Codes
   [Arguments]  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}  
   ${resp_ticket}=  UMA Get Ticket Valid  ${base_url}  ${token}  ${resource}
-  ${ticket}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Ticket From Response  ${resp_ticket}
+  ${ticket}=  UMA Get Ticket From Response  ${resp_ticket}
   #Log to console  The ticket is: 
   #Log to console  ${ticket}
   ${id_token}=  UMA Get ID Token Valid  ${base_url}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
   #Log to console  The id_token is:
   #Log to console  ${id_token}
-  ${access_token}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Access Token Valid  ${well_known}  ${ticket}  ${id_token}  ${client_id}  ${client_secret}
+  ${access_token}=  UMA Get Access Token Valid  ${well_known}  ${ticket}  ${id_token}  ${client_id}  ${client_secret}
   #Log to console  The access_token is:
   #Log to console  ${access_token}
   [Return]  ${access_token}

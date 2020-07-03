@@ -5,7 +5,6 @@ provider "kubernetes" {
 provider "kubectl" {
 }
 
-
 resource "kubernetes_role_binding" "default_admin" {
   metadata {
     name = "default-admin"
@@ -21,24 +20,6 @@ resource "kubernetes_role_binding" "default_admin" {
     api_group = "rbac.authorization.k8s.io"
     kind      = "ClusterRole"
     name      = "admin"
-  }
-}
-resource "kubernetes_cluster_role_binding" "default_view" {
- 
-  metadata {
-    name = "default-view"
-  }
-
-  role_ref {
-    api_group = "rbac.authorization.k8s.io"
-    kind      = "ClusterRole"
-    name      = "view"
-  }
-
-  subject {
-      kind      = "ServiceAccount"
-      name      = "default"
-      namespace = "default"
   }
 }
 
@@ -59,8 +40,6 @@ module "um-user-profile" {
   nginx_ip = var.nginx_ip
   hostname = var.hostname
 }  
-
-  
 
 module "proc-ades" {
   source = "../global/proc-ades"
