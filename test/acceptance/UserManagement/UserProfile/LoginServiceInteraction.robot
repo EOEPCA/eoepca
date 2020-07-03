@@ -23,6 +23,8 @@ Log in to the User Profile through the Login Service
   Set Browser Implicit Wait  5
   LoginService Call Log in Button
   LoginService Fill Credentials
+  ${title}=  Get Title
+  BuiltIn.Run Keyword If  "${title}"=="oxAuth"  LoginService Allow User
   LoginService Call Log out Button
   Title Should Be  EOEPCA User Profile
 
@@ -38,6 +40,12 @@ UMA Get Data from Config File
   Set Global Variable  ${USER} 
   Set Global Variable  ${PWD}
 
+LoginService Allow User
+  Title Should Be  oxAuth
+  Click Button  id=authorizeForm:allowButton
+  Set Browser Implicit Wait  5
+  #Capture Page Screenshot  
+
 LoginService Call Log in Button
   Title Should Be  EOEPCA User Profile
   Click Link    xpath=//a[@href="/web_ui/login"]
@@ -45,7 +53,7 @@ LoginService Call Log in Button
   #Capture Page Screenshot
 
 LoginService Fill Credentials
-  TItle Should Be  oxAuth - Passport Login
+  Title Should Be  oxAuth - Passport Login
   Input Text  id=loginForm:username  admin
   Input Password  id=loginForm:password  admin_Abcd1234#
   Click Button  id=loginForm:loginButton
