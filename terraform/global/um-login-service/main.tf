@@ -9,6 +9,21 @@ output "lb_address" {
   value = module.nginx-ingress-controller.lb_address
 }
 
+# resource "google_dns_managed_zone" "test" {
+#   name     = "test-zone"
+#   dns_name = "test.eoepca.org."
+# }
+
+# resource "google_dns_record_set" "test" {
+#   name = "${google_dns_managed_zone.test.dns_name}"
+#   type = "A"
+#   ttl  = 300
+
+#   managed_zone = google_dns_managed_zone.test.name
+
+#   rrdatas = [module.nginx-ingress-controller.lb_address]
+# }
+
 
 # Apply config
 module "config" {
