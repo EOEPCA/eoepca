@@ -67,7 +67,7 @@
         dest: /home/eouser/eoepca/
     - name: "Transfer Acceptance testing scripts"
       synchronize:
-        src: '{{ playbook_dir }}/../../travis/'
+        src: '{{ playbook_dir }}/../../travis'
         dest: /home/eouser/eoepca/
     - name: "Execute acceptance tests"
       shell: sh ./travis/acceptanceTest.sh
