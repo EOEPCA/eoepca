@@ -12,4 +12,5 @@ variable "module_depends_on" {
 
 output "oxpassport-up" {
   value = true
+  depends_on = [ kubernetes_service.oxpassport ]
 }

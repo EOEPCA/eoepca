@@ -12,4 +12,5 @@ variable "module_depends_on" {
 
 output "oxauth-up" {
   value = true
+  depends_on = [ kubernetes_service.oxauth ]
 }

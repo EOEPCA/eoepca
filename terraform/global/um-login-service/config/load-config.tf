@@ -2,6 +2,7 @@ resource "kubernetes_job" "config_init_load_job" {
   metadata {
     name = "config-init-load-job"
   }
+  depends_on = [ kubernetes_config_map.config-cm ]
 
   spec {
     template {
@@ -17,7 +18,7 @@ resource "kubernetes_job" "config_init_load_job" {
         }
 
         automount_service_account_token = true
-        node_name = "eoepca-k8s-node-nf-1" # FIXME
+        node_name = "eoepca-test-k8s-node-nf-1" # FIXME
 
         container {
           name  = "config-init-load"

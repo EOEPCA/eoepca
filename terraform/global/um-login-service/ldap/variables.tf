@@ -4,4 +4,5 @@ variable "module_depends_on" {
 
 output "ldap-up" {
   value = true
+  depends_on = [ kubernetes_service.opendj, kubernetes_job.um_login_persistence ]
 }

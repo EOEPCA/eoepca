@@ -29,4 +29,5 @@ variable module_depends_on {
 
 output "proc-ades-up" {
   value = true
+  depends_on = [ kubernetes_service.ades, kubectl_manifest.argo ]
 }

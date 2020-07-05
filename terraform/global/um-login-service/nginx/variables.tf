@@ -12,4 +12,5 @@ variable "module_depends_on" {
 
 output "nginx-done" {
   value = true
+  depends_on = [ kubernetes_ingress.gluu_ingress_scim_configuration ]
 }

@@ -14,4 +14,5 @@ variable "module_depends_on" {
 
 output "rm-workspace-up" {
   value = true
+  depends_on = [ kubernetes_service.workspace ]
 }

@@ -32,11 +32,18 @@ output "lb_address" {
   value = module.um-login-service.lb_address
 }
 
+module "um-pep-engine" {
+  source = "../global/um-pep-engine"
+  nginx_ip = module.um-login-service.lb_address[0]
+  hostname = var.hostname
+  module_depends_on = [ module.um-login-service ]
+}
+
 module "um-user-profile" {
   source = "../global/um-user-profile"
-  nginx_ip = module.um-login-service.lb_address
+  nginx_ip = module.um-login-service.lb_address[0]
   hostname = var.hostname
-  module_depends_on = [ module.um-login-service.um-login-service-up ]
+  module_depends_on = [ module.um-login-service, module.um-pep-engine ]
 }  
 
 module "proc-ades" {
@@ -46,12 +53,12 @@ module "proc-ades" {
   dh_user_password = var.dh_user_password
   wspace_user_name = var.wspace_user_name
   wspace_user_password = var.wspace_user_password
-  module_depends_on = [ module.um-login-service.um-login-service-up, module.um-user-profile.um-user-profile-up ]
+  module_depends_on = [ module.um-login-service, module.um-pep-engine, module.um-user-profile ]
 }
 
 module "rm-workspace" {
   source = "../global/rm-workspace"
   wspace_user_name = var.wspace_user_name
   wspace_user_password = var.wspace_user_password
-  module_depends_on = [ module.proc-ades.proc-ades-up ]
+  module_depends_on = [ module.proc-ades ]
 }

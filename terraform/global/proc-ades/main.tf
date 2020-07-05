@@ -6,6 +6,7 @@ resource "kubernetes_deployment" "ades" {
       app = "ades"
     }
   }
+  depends_on = [ var.module_depends_on, null_resource.waitfor-login-service ]
 
   spec {
     replicas = 1
@@ -48,7 +49,7 @@ resource "kubernetes_service" "ades" {
       app = "ades"
     }
   }
-  depends_on = [ var.module_depends_on ]
+  depends_on = [ var.module_depends_on, null_resource.waitfor-login-service ]
 
   spec {
     port {

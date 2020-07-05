@@ -14,4 +14,5 @@ variable "module_depends_on" {
 
 output "um-user-profile-up" {
     value = module.config.um-user-profile-up
+    depends_on = [ module.config ]
 }

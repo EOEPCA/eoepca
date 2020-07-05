@@ -1,5 +1,5 @@
 # your Kubernetes cluster name here
-cluster_name = "eoepca"
+cluster_name = "eoepca-test"
 
 # SSH key to use for access to nodes
 public_key_path = "~/.ssh/id_rsa.pub"
@@ -48,7 +48,7 @@ image_gfs = "Ubuntu 18.04 LTS"
 #flavor_gfs_node = "18"
 
 # networking
-network_name = "eoepca-network"
+network_name = "eoepca-test-network"
 
 external_net =  "31d7e67a-b30a-43f4-8b06-1667c70ba90d" # "5a0a9ccb-69e0-4ddc-9563-b8d6ae9ef06c"  #
 

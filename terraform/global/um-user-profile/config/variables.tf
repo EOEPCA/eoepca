@@ -12,4 +12,5 @@ variable "config_module_depends_on" {
 
 output "um-user-profile-up" {
   value = true
+  depends_on = [ kubernetes_service.user-profile ]
 }

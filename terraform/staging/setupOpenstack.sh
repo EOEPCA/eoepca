@@ -12,7 +12,12 @@ sudo -H pip3 install python-openstackclient
 
 echo "##### Set CreoDIAS credentials #####"
 ./openrc.sh
-echo -e 'y\n' | ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -q -N "" 
+
+echo "##### Generate keys for project #####"
+KEY=`grep "public_key_path" ./inventory/cf2-kube/cluster.tfvars | awk -F'"' '{print $2}'`
+KEY=${KEY%".pub"}
+KEY="${KEY/#\~/$HOME}"
+echo -e 'y\n' | ssh-keygen -b 2048 -t rsa -f $KEY -N "" 
 
 echo "##### Deploying Openstack environment"
 cd inventory/cf2-kube

@@ -8,4 +8,5 @@ variable "hostname" {
 
 output "config-done" {
   value = true
+  depends_on = [ kubernetes_job.config_init_load_job ]
 }
