@@ -21,8 +21,8 @@
     docker_password : ((password)) # TODO
   
   tasks:
-    - shell: kubectl config view --minify | grep server | cut -f 2- -d ":" | tr -d " "
-      register: lb_ip
+    # - shell: kubectl config view --minify | grep server | cut -f 2- -d ":" | tr -d " "
+    #   register: lb_ip
     - name: Install jq
       apt:
         name: jq
@@ -36,37 +36,43 @@
         mode: '0755'
 
     - name: "Transfer global Terraform Infrastructure as Code"
-      copy:
+      synchronize:
         src: ../global
         dest: /home/eouser/eoepca/terraform/
-        owner: eouser
+        rsync_opts:
+          - "--exclude=.terraform"
+          - "--exclude=terraform.tfstate*"
     - name: "Transfer test Terraform Infrastructure as Code"
-      copy:
+      synchronize:
         src: ../test
         dest: /home/eouser/eoepca/terraform/
-        owner: eouser
+        rsync_opts:
+          - "--exclude=.terraform"
+          - "--exclude=terraform.tfstate*"
     - name: "Terraforming from bastion host"
-      terraform:
-        project_path: './eoepca/terraform/test'
-        variables:
-          dh_user_email: "{{ DOCKER_EMAIL }}"
-          dh_user_name: "{{ DOCKER_USERNAME }}"
-          dh_user_password: "{{ DOCKER_PASSWORD }}"
-          nginx_ip: lb_ip.stdout
-          hostname: "staging.eoepca.org"
-        state: present
-        force_init: true
+      shell: |
+        export DOCKER_EMAIL="{{ DOCKER_EMAIL }}"
+        export DOCKER_USERNAME="{{ DOCKER_USERNAME }}"
+        export DOCKER_PASSWORD="{{ DOCKER_PASSWORD}}"
+        export WSPACE_USERNAME="{{ WSPACE_USERNAME }}"
+        export WSPACE_PASSWORD="{{ WSPACE_PASSWORD }}"
+        ./deployEOEPCA.sh apply
+      args:
+        chdir: /home/eouser/eoepca/terraform/test
       register: terraform_result
     
     - name: "Transfer Acceptance testing code"
-      copy:
-        src: ../../travis/acceptanceTest.sh
-        dest: /home/eouser/eoepca/travis/
-        owner: eouser
+      synchronize:
+        src: '{{ playbook_dir }}/../../test'
+        dest: /home/eouser/eoepca/
+    - name: "Transfer Acceptance testing scripts"
+      synchronize:
+        src: '{{ playbook_dir }}/../../travis'
+        dest: /home/eouser/eoepca/
     - name: "Execute acceptance tests"
-      shell: sh acceptance.sh
+      shell: sh ./travis/acceptanceTest.sh
       args:
-        chdir: /home/eouser/eoepca/travis
+        chdir: /home/eouser/eoepca/
       register: test_result
     - debug: var=test_result.stdout_lines
        

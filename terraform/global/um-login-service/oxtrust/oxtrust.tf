@@ -24,7 +24,7 @@ resource "kubernetes_service" "oxtrust" {
     }
   }
 
-  depends_on = [ null_resource.waitfor-oxauth, kubernetes_persistent_volume.oxtrust_logs,
+  depends_on = [ null_resource.waitfor-persistence, null_resource.waitfor-oxauth, kubernetes_persistent_volume.oxtrust_logs,
                 kubernetes_persistent_volume.oxtrust_lib_ext, kubernetes_persistent_volume.oxtrust_custom_static,
                 kubernetes_persistent_volume.oxtrust_custom_pages ]
 
@@ -75,6 +75,8 @@ resource "kubernetes_stateful_set" "oxtrust" {
 
       spec {
         automount_service_account_token = true
+
+        node_name = "eoepca-test-k8s-node-nf-1" ## FIXME
         
         volume {
           name = "oxtrust-logs"

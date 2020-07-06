@@ -25,6 +25,7 @@ resource "kubernetes_service" "opendj" {
   depends_on = [ null_resource.waitfor-config-init ]
 
   spec {
+    
     port {
       name        = "ldaps"
       protocol    = "TCP"
@@ -57,7 +58,7 @@ resource "kubernetes_service" "opendj" {
       app = "opendj"
     }
 
-    cluster_ip = "None"
+    # cluster_ip = "None" Defaults to ClusterIP
   }
 }
 
@@ -86,6 +87,7 @@ resource "kubernetes_stateful_set" "opendj_init" {
 
       spec {
         automount_service_account_token = true
+        node_name = "eoepca-test-k8s-node-nf-1" # FIXME
         
         volume {
           name = "opendj-config"

@@ -16,7 +16,7 @@
 - hosts: bastion[0]
   gather_facts: False
   vars:
-    TF_VER: 0.12.24
+    TF_VER: 0.12.25
     my_secret: !vault |
       $ANSIBLE_VAULT;1.1;AES256
       34666163396264306365313565393931373933343035313432633537396561386435363863316265

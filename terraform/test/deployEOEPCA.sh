@@ -50,5 +50,4 @@ terraform $ACTION \
   --var="dh_user_password=${DOCKER_PASSWORD}" \
   --var="wspace_user_name=${WSPACE_USERNAME}" \
   --var="wspace_user_password=${WSPACE_PASSWORD}" \
-  --var="nginx_ip=${CLUSTER_NODE_IP}" \
   --var="hostname=test.eoepca.org"

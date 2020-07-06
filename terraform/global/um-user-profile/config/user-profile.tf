@@ -2,7 +2,6 @@ resource "kubernetes_config_map" "user_profile_cm" {
   metadata {
     name = "um-user-profile-config"
   }
-  depends_on = [ null_resource.waitfor-login-service ]
 
   data = {
     UP_SSO_URL                  = var.hostname
@@ -97,6 +96,7 @@ resource "kubernetes_service" "user-profile" {
     name   = "user-profile"
     labels = { app = "user-profile" }
   }
+  depends_on = [ null_resource.waitfor-login-service ]
 
   spec {
     type = "NodePort"

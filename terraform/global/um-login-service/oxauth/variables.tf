@@ -5,3 +5,12 @@ variable "nginx_ip" {
 variable "hostname" {
     type = string
 }
+
+variable "module_depends_on" {
+  type = any
+}
+
+output "oxauth-up" {
+  value = true
+  depends_on = [ kubernetes_service.oxauth ]
+}

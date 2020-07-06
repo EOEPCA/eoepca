@@ -7,7 +7,7 @@ resource "kubernetes_config_map" "pep_engine_cm" {
 
   data = {
     PEP_REALM                    = "eoepca"
-    PEP_AUTH_SERVER_URL          = "https://${var.hostname}"
+    PEP_AUTH_SERVER_URL          = var.hostname
     PEP_PROXY_ENDPOINT           = "/"
     PEP_SERVICE_HOST             = "0.0.0.0"
     PEP_SERVICE_PORT             = "5566"
@@ -56,6 +56,10 @@ resource "kubernetes_service" "pep-engine" {
     labels = { app = "pep-engine" }
   }
 
+  depends_on = [ null_resource.waitfor-login-service, kubernetes_persistent_volume.pep_engine_logs,
+                kubernetes_persistent_volume.pep_engine_lib_ext, kubernetes_persistent_volume.pep_engine_custom_static,
+                kubernetes_persistent_volume.pep_engine_custom_pages ]
+  
   spec {
     type = "NodePort"
 
@@ -79,6 +83,10 @@ resource "kubernetes_deployment" "pep-engine" {
     name   = "pep-engine"
     labels = { app = "pep-engine" }
   }
+
+  depends_on = [ null_resource.waitfor-login-service, kubernetes_persistent_volume.pep_engine_logs,
+                kubernetes_persistent_volume.pep_engine_lib_ext, kubernetes_persistent_volume.pep_engine_custom_static,
+                kubernetes_persistent_volume.pep_engine_custom_pages ]
   
   spec {
     replicas = 1
@@ -119,7 +127,7 @@ resource "kubernetes_deployment" "pep-engine" {
         }
         container {
           name  = "pep-engine"
-          image = "eoepca/um-pep-engine:v0.1"
+          image = "eoepca/um-pep-engine:v0.1.1"
           port {
             container_port = 5566
             name = "http-pep"

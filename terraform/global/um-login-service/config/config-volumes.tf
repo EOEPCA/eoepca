@@ -5,6 +5,7 @@ resource "kubernetes_persistent_volume_claim" "config_volume_claim" {
 
   spec {
     access_modes = ["ReadWriteOnce"]
+    storage_class_name = "standard"
 
     selector {
       match_labels = {
@@ -51,5 +52,6 @@ resource "kubernetes_persistent_volume" "config" {
     }
     storage_class_name = "standard"
   }
+  
 }
 

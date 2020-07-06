@@ -22,3 +22,12 @@ variable "wspace_user_password" {
   type = string
   default = "password"
 }
+
+variable module_depends_on {
+  type = any
+}
+
+output "proc-ades-up" {
+  value = true
+  depends_on = [ kubernetes_service.ades, kubectl_manifest.argo ]
+}

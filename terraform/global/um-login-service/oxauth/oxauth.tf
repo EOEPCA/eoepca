@@ -21,7 +21,7 @@ resource "kubernetes_service" "oxauth" {
     labels = { app = "oxauth" }
   }
 
-  depends_on = [ kubernetes_persistent_volume.oxauth_logs,
+  depends_on = [ null_resource.waitfor-persistence, kubernetes_persistent_volume.oxauth_logs,
                 kubernetes_persistent_volume.oxauth_lib_ext, kubernetes_persistent_volume.oxauth_custom_static,
                 kubernetes_persistent_volume.oxauth_custom_pages ]
   
@@ -61,7 +61,7 @@ resource "kubernetes_deployment" "oxauth" {
       spec {
   
         automount_service_account_token = true
-  
+        node_name = "eoepca-test-k8s-node-nf-1" # FIXME
         volume {
           name = "oxauth-logs"
           persistent_volume_claim {

@@ -2,6 +2,7 @@ resource "kubernetes_job" "config_init_load_job" {
   metadata {
     name = "config-init-load-job"
   }
+  depends_on = [ kubernetes_config_map.config-cm ]
 
   spec {
     template {
@@ -17,6 +18,7 @@ resource "kubernetes_job" "config_init_load_job" {
         }
 
         automount_service_account_token = true
+        node_name = "eoepca-test-k8s-node-nf-1" # FIXME
 
         container {
           name  = "config-init-load"
@@ -38,10 +40,7 @@ resource "kubernetes_job" "config_init_load_job" {
             name  = "GLUU_SECRET_ADAPTER"
             value = "kubernetes"
           }
-
-   
           
-
           volume_mount {
             name       = "config-cm"
             mount_path = "/opt/config-init/db/generate.json"

@@ -32,10 +32,6 @@ variable "wspace_user_password" {
   type = string
   default = "password"
 }
-  
-variable "nginx_ip" {
-  type = string
-}
 
 variable "hostname" {
   type = string

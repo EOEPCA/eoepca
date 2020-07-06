@@ -11,5 +11,9 @@ vault_pass_file
 log.html
 output.xml
 report.html
+<<<<<<< HEAD
+terraform/test/dhparam.pem
+=======
 
 terraform/test/terraform-provider-kubectl
+>>>>>>> 216a3a65e988cf86d702ef9c78d207de9ea130bc
