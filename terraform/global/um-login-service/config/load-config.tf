@@ -18,7 +18,6 @@ resource "kubernetes_job" "config_init_load_job" {
         }
 
         automount_service_account_token = true
-        node_name = "eoepca-test-k8s-node-nf-1" # FIXME
 
         container {
           name  = "config-init-load"

@@ -70,7 +70,6 @@ resource "kubernetes_deployment" "oxpassport" {
 
       spec {
         automount_service_account_token = true
-        node_name = "eoepca-test-k8s-node-nf-1" # FIXME
 
         container {
           

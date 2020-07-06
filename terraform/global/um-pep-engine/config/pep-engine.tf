@@ -56,9 +56,7 @@ resource "kubernetes_service" "pep-engine" {
     labels = { app = "pep-engine" }
   }
 
-  depends_on = [ null_resource.waitfor-login-service, kubernetes_persistent_volume.pep_engine_logs,
-                kubernetes_persistent_volume.pep_engine_lib_ext, kubernetes_persistent_volume.pep_engine_custom_static,
-                kubernetes_persistent_volume.pep_engine_custom_pages ]
+  depends_on = [ null_resource.waitfor-login-service ]
   
   spec {
     type = "NodePort"
@@ -84,9 +82,7 @@ resource "kubernetes_deployment" "pep-engine" {
     labels = { app = "pep-engine" }
   }
 
-  depends_on = [ null_resource.waitfor-login-service, kubernetes_persistent_volume.pep_engine_logs,
-                kubernetes_persistent_volume.pep_engine_lib_ext, kubernetes_persistent_volume.pep_engine_custom_static,
-                kubernetes_persistent_volume.pep_engine_custom_pages ]
+  depends_on = [ null_resource.waitfor-login-service ]
   
   spec {
     replicas = 1
