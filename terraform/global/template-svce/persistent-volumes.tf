@@ -19,7 +19,7 @@ resource "kubernetes_persistent_volume" "pv-sample-eo-data-1" {
 	      path = "/mnt"
 	    }
     }
-    storage_class_name = "standard"
+    storage_class_name = "eoepca"
   }
 }
 
@@ -42,7 +42,7 @@ resource "kubernetes_persistent_volume" "pv-sample-eo-data-2" {
 	      path = "/mnt"
 	    }
     }
-    storage_class_name = "standard"
+    storage_class_name = "eoepca"
   }
 }
 
@@ -64,6 +64,6 @@ resource "kubernetes_persistent_volume" "pv-sample-eo-data-2" {
 #		    vol_id = "vol_1999"
 #	    }
 #	  }
-#    storage_class_name = "standard"
+#    storage_class_name = "eoepca"
 #  }
 #}

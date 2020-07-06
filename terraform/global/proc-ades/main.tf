@@ -25,17 +25,30 @@ resource "kubernetes_deployment" "ades" {
       }
 
       spec {
-        automount_service_account_token = true
+        volume {
+          name = "config"
+
+          config_map {
+            name = "ades-argo"
+          }
+        }
 
         container {
           name  = "ades"
-          image = "eoepca/proc-ades:localkube"
+          image = "eoepca/proc-ades:v0.1"
+
+          volume_mount {
+            name       = "config"
+            mount_path = "/opt/t2config/"
+          }
         }
 
         container {
           name  = "kubeproxy"
           image = "eoepca/kubeproxy"
         }
+
+        automount_service_account_token = true
       }
     }
   }
@@ -55,8 +68,8 @@ resource "kubernetes_service" "ades" {
     port {
       protocol    = "TCP"
       port        = 80
-      target_port = 80
-      node_port = 32746
+      target_port = "80"
+      node_port   = 32746
     }
 
     selector = {

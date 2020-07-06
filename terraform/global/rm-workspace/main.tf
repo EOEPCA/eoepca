@@ -26,10 +26,10 @@ resource "kubernetes_deployment" "workspace" {
 
       spec {
         volume {
-          name = "vol-workspace-pvc"
+          name = "vol-resman"
 
           persistent_volume_claim {
-            claim_name = "workspace-pvc"
+            claim_name = "eoepca-resman-pvc"
           }
         }
 
@@ -57,8 +57,9 @@ resource "kubernetes_deployment" "workspace" {
           }
 
           volume_mount {
-            name       = "vol-workspace-pvc"
+            name       = "vol-resman"
             mount_path = "/var/www/html"
+            sub_path   = "workspace"
           }
         }
       }
@@ -81,6 +82,7 @@ resource "kubernetes_service" "workspace" {
       protocol    = "TCP"
       port        = 80
       target_port = "80"
+      node_port   = "31999"
     }
 
     selector = {

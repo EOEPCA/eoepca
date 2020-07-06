@@ -21,9 +21,7 @@ resource "kubernetes_service" "oxauth" {
     labels = { app = "oxauth" }
   }
 
-  depends_on = [ null_resource.waitfor-persistence, kubernetes_persistent_volume.oxauth_logs,
-                kubernetes_persistent_volume.oxauth_lib_ext, kubernetes_persistent_volume.oxauth_custom_static,
-                kubernetes_persistent_volume.oxauth_custom_pages ]
+  depends_on = [ null_resource.waitfor-persistence ]
   
   spec {
     port {
@@ -45,9 +43,7 @@ resource "kubernetes_deployment" "oxauth" {
     labels = { app = "oxauth" }
   }
 
-  depends_on = [ null_resource.waitfor-persistence, kubernetes_persistent_volume.oxauth_logs,
-                kubernetes_persistent_volume.oxauth_lib_ext, kubernetes_persistent_volume.oxauth_custom_static,
-                kubernetes_persistent_volume.oxauth_custom_pages ]
+  depends_on = [ null_resource.waitfor-persistence ]
   
   spec {
     replicas = 1
@@ -61,31 +57,15 @@ resource "kubernetes_deployment" "oxauth" {
       spec {
   
         automount_service_account_token = true
-        node_name = "eoepca-test-k8s-node-nf-1" # FIXME
+        
         volume {
-          name = "oxauth-logs"
+          name = "vol-userman"
+
           persistent_volume_claim {
-            claim_name = "oxauth-logs-volume-claim"
+            claim_name = "eoepca-userman-pvc"
           }
         }
-        volume {
-          name = "oxauth-lib-ext"
-          persistent_volume_claim {
-            claim_name = "oxauth-lib-ext-volume-claim"
-          }
-        }
-        volume {
-          name = "oxauth-custom-static"
-          persistent_volume_claim {
-            claim_name = "oxauth-custom-static-volume-claim"
-          }
-        }
-        volume {
-          name = "oxauth-custom-pages"
-          persistent_volume_claim {
-            claim_name = "oxauth-custom-pages-volume-claim"
-          }
-        }
+
         container {
           name  = "oxauth"
           image = "gluufederation/oxauth:4.1.1_03"
@@ -98,20 +78,24 @@ resource "kubernetes_deployment" "oxauth" {
             }
           }
           volume_mount {
-            name       = "oxauth-logs"
+            name       = "vol-userman"
             mount_path = "/opt/gluu/jetty/oxauth/logs"
+            sub_path   = "oxauth/logs"
           }
           volume_mount {
-            name       = "oxauth-lib-ext"
+            name       = "vol-userman"
             mount_path = "/opt/gluu/jetty/oxauth/lib/ext"
+            sub_path   = "oxauth/lib/ext"
           }
           volume_mount {
-            name       = "oxauth-custom-static"
+            name       = "vol-userman"
             mount_path = "/opt/gluu/jetty/oxauth/custom/static"
+            sub_path   = "oxauth/custom/static"
           }
           volume_mount {
-            name       = "oxauth-custom-pages"
+            name       = "vol-userman"
             mount_path = "/opt/gluu/jetty/oxauth/custom/pages"
+            sub_path   = "oxauth/custom/pages"
           }
           image_pull_policy = "Always"
         }

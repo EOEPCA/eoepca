@@ -87,45 +87,12 @@ resource "kubernetes_stateful_set" "opendj_init" {
 
       spec {
         automount_service_account_token = true
-        node_name = "eoepca-test-k8s-node-nf-1" # FIXME
-        
-        volume {
-          name = "opendj-config"
-
-          persistent_volume_claim {
-            claim_name = "opendj-config-volume-claim"
-          }
-        }
 
         volume {
-          name = "opendj-ldif"
+          name = "vol-userman"
 
           persistent_volume_claim {
-            claim_name = "opendj-ldif-volume-claim"
-          }
-        }
-
-        volume {
-          name = "opendj-logs"
-
-          persistent_volume_claim {
-            claim_name = "opendj-logs-volume-claim"
-          }
-        }
-
-        volume {
-          name = "opendj-db"
-
-          persistent_volume_claim {
-            claim_name = "opendj-db-volume-claim"
-          }
-        }
-
-        volume {
-          name = "opendj-flag"
-
-          persistent_volume_claim {
-            claim_name = "opendj-flag-volume-claim"
+            claim_name = "eoepca-userman-pvc"
           }
         }
 
@@ -160,28 +127,33 @@ resource "kubernetes_stateful_set" "opendj_init" {
           }
 
           volume_mount {
-            name       = "opendj-config"
+            name       = "vol-userman"
             mount_path = "/opt/opendj/config"
+            sub_path   = "opendj/config"
           }
 
           volume_mount {
-            name       = "opendj-ldif"
+            name       = "vol-userman"
             mount_path = "/opt/opendj/ldif"
+            sub_path   = "opendj/ldif"
           }
 
           volume_mount {
-            name       = "opendj-logs"
+            name       = "vol-userman"
             mount_path = "/opt/opendj/logs"
+            sub_path   = "opendj/logs"
           }
 
           volume_mount {
-            name       = "opendj-db"
+            name       = "vol-userman"
             mount_path = "/opt/opendj/db"
+            sub_path   = "opendj/db"
           }
 
           volume_mount {
-            name       = "opendj-flag"
+            name       = "vol-userman"
             mount_path = "/flag"
+            sub_path   = "opendj/flag"
           }
 
           liveness_probe {

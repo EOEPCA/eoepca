@@ -107,7 +107,7 @@ API_PROC Execute Process
   ${file_data}=  Get Binary File  ${filename}
   ${resp}=  Post Request  ades  ${path_prefix}/processes/eo_metadata_generation_1_0/jobs  headers=${headers}  data=${file_data}
   Status Should Be  201  ${resp}
-  [Return]  ${resp.headers["Location"]}
+  [Return]  ${resp.headers["Location"].split("${base_url}")[-1]}
 
 API_PROC Get Job ID From Location
   [Arguments]  ${location}

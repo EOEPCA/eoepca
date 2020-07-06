@@ -14,9 +14,17 @@ spec:
       labels:
         app: ades
     spec:
+      automountServiceAccountToken: true
+      volumes:
+        - name: config
+          configMap:
+            name: ades-argo
       containers:
-        - image: eoepca/proc-ades:localkube
+        - image: eoepca/proc-ades:v0.1
           name: ades
+          volumeMounts:
+            - name: config
+              mountPath: /opt/t2config/
         - image: eoepca/kubeproxy
           name: kubeproxy
 ---
@@ -31,6 +39,7 @@ spec:
     - port: 80
       protocol: TCP
       targetPort: 80
+      nodePort: 32746
   selector:
     app: ades
   type: NodePort

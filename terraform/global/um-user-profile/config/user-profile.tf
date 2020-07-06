@@ -143,21 +143,10 @@ resource "kubernetes_deployment" "user-profile" {
           }
         }
         volume {
-          name = "user-profile-logs"
+          name = "vol-userman"
+
           persistent_volume_claim {
-            claim_name = "user-profile-logs-volume-claim"
-          }
-        }
-        volume {
-          name = "user-profile-lib-ext"
-          persistent_volume_claim {
-            claim_name = "user-profile-lib-ext-volume-claim"
-          }
-        }
-        volume {
-          name = "user-profile-custom-static"
-          persistent_volume_claim {
-            claim_name = "user-profile-custom-static-volume-claim"
+            claim_name = "eoepca-userman-pvc"
           }
         }
         container {
@@ -183,16 +172,9 @@ resource "kubernetes_deployment" "user-profile" {
             mount_propagation = "HostToContainer"
           }
           volume_mount {
-            name       = "user-profile-logs"
+            name       = "vol-userman"
             mount_path = "/opt/gluu/jetty/user-profile/logs"
-          }
-          volume_mount {
-            name       = "user-profile-lib-ext"
-            mount_path = "/opt/gluu/jetty/user-profile/lib/ext"
-          }
-          volume_mount {
-            name       = "user-profile-custom-static"
-            mount_path = "/opt/gluu/jetty/user-profile/custom/static"
+            sub_path   = "user-profile/logs"
           }
           image_pull_policy = "Always"
         }

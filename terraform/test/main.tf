@@ -23,6 +23,16 @@ resource "kubernetes_role_binding" "default_admin" {
   }
 }
 
+module "nfs-provisioner" {
+  source = "../global/nfs-provisioner"
+  nfs_server_address = var.nfs_server_address
+}
+
+module "storage" {
+  source = "../global/storage"
+  nfs_server_address = var.nfs_server_address
+}
+
 module "um-login-service" {
   source = "../global/um-login-service"
   hostname = var.hostname

@@ -100,31 +100,15 @@ resource "kubernetes_deployment" "pep-engine" {
       spec {
   
         automount_service_account_token = true
-  
+
         volume {
-          name = "pep-engine-logs"
+          name = "vol-userman"
+
           persistent_volume_claim {
-            claim_name = "pep-engine-logs-volume-claim"
+            claim_name = "eoepca-userman-pvc"
           }
         }
-        volume {
-          name = "pep-engine-lib-ext"
-          persistent_volume_claim {
-            claim_name = "pep-engine-lib-ext-volume-claim"
-          }
-        }
-        volume {
-          name = "pep-engine-custom-static"
-          persistent_volume_claim {
-            claim_name = "pep-engine-custom-static-volume-claim"
-          }
-        }
-        volume {
-          name = "pep-engine-custom-pages"
-          persistent_volume_claim {
-            claim_name = "pep-engine-custom-pages-volume-claim"
-          }
-        }
+
         container {
           name  = "pep-engine"
           image = "eoepca/um-pep-engine:v0.1.1"
@@ -142,20 +126,9 @@ resource "kubernetes_deployment" "pep-engine" {
             }
           }
           volume_mount {
-            name       = "pep-engine-logs"
+            name       = "vol-userman"
             mount_path = "/opt/gluu/jetty/pep-engine/logs"
-          }
-          volume_mount {
-            name       = "pep-engine-lib-ext"
-            mount_path = "/opt/gluu/jetty/pep-engine/lib/ext"
-          }
-          volume_mount {
-            name       = "pep-engine-custom-static"
-            mount_path = "/opt/gluu/jetty/pep-engine/custom/static"
-          }
-          volume_mount {
-            name       = "pep-engine-custom-pages"
-            mount_path = "/opt/gluu/jetty/pep-engine/custom/pages"
+            sub_path   = "pep-engine/logs"
           }
           image_pull_policy = "Always"
         }

@@ -76,6 +76,23 @@ module "compute" {
   network_id = "${module.network.router_id}"
 }
 
+module "nfs" {
+  source = "./modules/nfs"
+
+  image                                        = "${var.image}"
+  network_name                                 = "${var.network_name}"
+  floatingip_pool               = "${var.floatingip_pool}"
+  wait_for_floatingip                          = "${var.wait_for_floatingip}"
+  router_id                     = "${module.network.router_id}"
+  public_key_path                              = "${var.public_key_path}"
+  ssh_user                                     = "${var.ssh_user}"
+  network_id = "${module.network.router_id}"
+}
+
+output "nfs_ip_address" {
+  value = "${module.nfs.nfs_ip_address}"
+}
+
 output "private_subnet_id" {
   value = "${module.network.subnet_id}"
 }

@@ -36,3 +36,7 @@ variable "wspace_user_password" {
 variable "hostname" {
   type = string
 }
+
+variable "nfs_server_address" {
+  type = string
+}

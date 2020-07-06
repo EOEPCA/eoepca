@@ -3,15 +3,15 @@ resource "kubernetes_config_map" "oxtrust_cm" {
     name = "oxtrust-cm"
   }
 
-  depends_on = [ null_resource.waitfor-persistence ]
+  depends_on = [null_resource.waitfor-persistence]
 
   data = {
-    DOMAIN = var.hostname
-    GLUU_CONFIG_ADAPTER = "kubernetes"
-    GLUU_LDAP_URL = "opendj:1636"
+    DOMAIN                = var.hostname
+    GLUU_CONFIG_ADAPTER   = "kubernetes"
+    GLUU_LDAP_URL         = "opendj:1636"
     GLUU_MAX_RAM_FRACTION = "1"
-    GLUU_OXAUTH_BACKEND = "oxauth:8080"
-    GLUU_SECRET_ADAPTER = "kubernetes"
+    GLUU_OXAUTH_BACKEND   = "oxauth:8080"
+    GLUU_SECRET_ADAPTER   = "kubernetes"
   }
 }
 
@@ -24,9 +24,7 @@ resource "kubernetes_service" "oxtrust" {
     }
   }
 
-  depends_on = [ null_resource.waitfor-persistence, null_resource.waitfor-oxauth, kubernetes_persistent_volume.oxtrust_logs,
-                kubernetes_persistent_volume.oxtrust_lib_ext, kubernetes_persistent_volume.oxtrust_custom_static,
-                kubernetes_persistent_volume.oxtrust_custom_pages ]
+  depends_on = [null_resource.waitfor-persistence, null_resource.waitfor-oxauth]
 
   spec {
     port {
@@ -51,9 +49,7 @@ resource "kubernetes_stateful_set" "oxtrust" {
     }
   }
 
-   depends_on = [ kubernetes_service.oxtrust, null_resource.waitfor-persistence, kubernetes_persistent_volume.oxtrust_logs,
-                kubernetes_persistent_volume.oxtrust_lib_ext, kubernetes_persistent_volume.oxtrust_custom_static,
-                kubernetes_persistent_volume.oxtrust_custom_pages ]
+  depends_on = [kubernetes_service.oxtrust, null_resource.waitfor-persistence]
 
   spec {
     replicas = 1
@@ -76,37 +72,11 @@ resource "kubernetes_stateful_set" "oxtrust" {
       spec {
         automount_service_account_token = true
 
-        node_name = "eoepca-test-k8s-node-nf-1" ## FIXME
-        
         volume {
-          name = "oxtrust-logs"
+          name = "vol-userman"
 
           persistent_volume_claim {
-            claim_name = "oxtrust-logs-volume-claim"
-          }
-        }
-
-        volume {
-          name = "oxtrust-lib-ext"
-
-          persistent_volume_claim {
-            claim_name = "oxtrust-lib-ext-volume-claim"
-          }
-        }
-
-        volume {
-          name = "oxtrust-custom-static"
-
-          persistent_volume_claim {
-            claim_name = "oxtrust-custom-static-volume-claim"
-          }
-        }
-
-        volume {
-          name = "oxtrust-custom-pages"
-
-          persistent_volume_claim {
-            claim_name = "oxtrust-custom-pages-volume-claim"
+            claim_name = "eoepca-userman-pvc"
           }
         }
 
@@ -125,30 +95,34 @@ resource "kubernetes_stateful_set" "oxtrust" {
           }
 
           volume_mount {
-            name       = "oxtrust-logs"
+            name       = "vol-userman"
             mount_path = "/opt/gluu/jetty/identity/logs"
+            sub_path   = "oxtrust/logs"
           }
 
           volume_mount {
-            name       = "oxtrust-lib-ext"
+            name       = "vol-userman"
             mount_path = "/opt/gluu/jetty/identity/lib/ext"
+            sub_path   = "oxtrust/lib/ext"
           }
 
           volume_mount {
-            name       = "oxtrust-custom-static"
+            name       = "vol-userman"
             mount_path = "/opt/gluu/jetty/identity/custom/static"
+            sub_path   = "oxtrust/custom/static"
           }
 
           volume_mount {
-            name       = "oxtrust-custom-pages"
+            name       = "vol-userman"
             mount_path = "/opt/gluu/jetty/identity/custom/pages"
+            sub_path   = "oxtrust/custom/pages"
           }
 
           image_pull_policy = "Always"
         }
         host_aliases {
-          ip = var.nginx_ip
-          hostnames = [ var.hostname ]
+          ip        = var.nginx_ip
+          hostnames = [var.hostname]
         }
       }
     }
