@@ -45,14 +45,14 @@ output "lb_address" {
 
 module "um-pep-engine" {
   source = "../global/um-pep-engine"
-  nginx_ip = module.um-login-service.lb_address[0]
+  nginx_ip = module.um-login-service.lb_address
   hostname = var.hostname
   module_depends_on = [ module.um-login-service ]
 }
 
 module "um-user-profile" {
   source = "../global/um-user-profile"
-  nginx_ip = module.um-login-service.lb_address[0]
+  nginx_ip = module.um-login-service.lb_address
   hostname = var.hostname
   module_depends_on = [ module.um-login-service, module.um-pep-engine ]
 }  
