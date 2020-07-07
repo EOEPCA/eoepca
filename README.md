@@ -95,10 +95,13 @@ Things you need to use the software and how to install them.
 
 It creates a testing environment in a Minikube cluster deployed on the local machine  
 1. `cd terraform/test`
-2. Define needed environment variables:
-- `export DOCKER_EMAIL=[Email of te account with access to the Dockerhub EOEPCA repository`
-- `export DOCKER_USERNAME=[User name of te account with access to the Dockerhub EOEPCA repository`
-- `export DOCKER_PASSWORD=[Password of te account with access to the Dockerhub EOEPCA repository`
+2. Either edit and modify the variables values in deployEOEPCA.sh or define needed environment variables:
+- `export DOCKER_EMAIL=[Email of the account with access to the Dockerhub EOEPCA repository]`
+- `export DOCKER_USERNAME=[User name of the account with access to the Dockerhub EOEPCA repository]`
+- `export DOCKER_PASSWORD=[Password of the account with access to the Dockerhub EOEPCA repository]`
+- `export WSPACE_USERNAME=[User name of the account with access to the workspace]`
+- `export WSPACE_PASSWORD=[Password of the workspace account]`
+- `export NFS_SERVER_ADDRESS=[Address of the NFS server, in the internal subnet]`
 3. `./deployEOEPCA.sh`
 
 This will create a system accesible from local node at https://test.eoepca.org
@@ -115,44 +118,30 @@ It creates a testing environment on an Openstack environment provided by a Netwo
 6. `./setupKubernetes.sh`
 - You would be asked of VAULT_PASSWORD environment variable. Ask your EOEPCA admin if you don't have it.
 
-Once you have the underlying openstack/kubernetes environment, you can proceed to deploy the EOEPCA system itself. Use this call:
+Before the setupOpenstack step, you may want to configure you system environment. You may edit `./inventory/cf2-kube/cluster.tfvars` following the inline instructions.
+
+Once you have the underlying openstack/kubernetes environment, you can proceed to deploy the EOEPCA system itself. You should specify the same environment variables than in the local environment case (above). Use this call:
 
 7. `./deployEOEPCA.sh`
 
-This will deploy an EOEPCA system reachable over the internet at https://staging.eoepca.org
+This will deploy an EOEPCA system reachable over the internet at https://test.eoepca.org.
 
+You can alternatively comment the terraforming and test execution tasks in `eoepca.yml`, SSH into the bastion node and run the `eoepca/terraform/test/deployEOEPCA.sh` script from inside the machine to receive more feedbakc and debug any problems.
+
+---
+Remember to update the DNS tables so the domain could be reacheable from the internet
+
+---
 ### Testing
 
 Once installed, developers can deploy environments for these pipelines:
-- local test: executing `sh travis/test_template-service.sh` will create the test environment, deploy a sample service and perform simple acceptance tests on that service.
+- local test: 
+1. executing `setupMinikube.sh` will create the local environment, 
+2. `setupRobot.sh` will create the test environment, and 
+3. `sh travis/acceptanceTest.sh` will perform all acceptance tests on the deployed system running locally.
 
-- [TODO] remote integration: executing `sh travis/stage_template-service.sh` will create the staging environment, deploy a sample service and perform simple acceptance tests on that service.
-
-You would see a result similar to this:
-`Tuesday 14 April 2020  12:18:45 +0000 (0:00:02.246)       0:03:01.552 ********* 
-ok: [45.130.30.38] => {
-  "test_result.stdout_lines": [
-    "Testing connectivity with the infrastructure",
-    "MiniKube Master IP is 172.16.0.2:6443",
-    "Testing connectivity with the services",
-    "Cluster IP of frontend is 45.130.30.36:8081",
-    "{",
-      "  \"result\": \"search results\"",
-    "}",
-    "HTTP/1.1 200 OK",
-    "Server: nginx/1.7.9",
-    "Date: Tue, 14 Apr 2020 12:21:40 GMT",
-    "Content-Type: application/json",
-    "Content-Length: 27",
-    "Connection: keep-alive",
-    "",
-    "{\"result\":\"search results\"}"
-  ]
-}`
-
-Notice the Cluster IP of frontend. You may also test the API entrypoint yourself with:
-  `curl http://[FRONTEND_IP]:[PORT]/search`
- 
+- staging test: 
+1. executing `sh travis/acceptanceTest.sh` will perform all acceptance tests on the deployed system at http://test.eoepca.org.
 
 <!-- Releases -->
 ## Releases
