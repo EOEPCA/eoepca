@@ -33,6 +33,7 @@ module "config" {
   source   = "./config"
   nginx_ip = module.ingress.load_balancer_ip[0]
   hostname = var.hostname
+  config_file = var.config_file
 }
 
 # Apply LDAP

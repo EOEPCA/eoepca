@@ -36,6 +36,7 @@ module "storage" {
 module "um-login-service" {
   source = "../global/um-login-service"
   hostname = var.hostname
+  config_file = var.um-login-config_file
 }
 
 output "lb_address" {

@@ -40,3 +40,8 @@ variable "hostname" {
 variable "nfs_server_address" {
   type = string
 }
+
+variable "um-login-config_file" {
+  type = string
+  default = "um-login-config.json"
+}

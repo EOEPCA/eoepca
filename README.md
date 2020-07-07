@@ -91,18 +91,23 @@ Things you need to use the software and how to install them.
 
 ### Installation
 
-*Local environment*
+#### Configuration
 
-It creates a testing environment in a Minikube cluster deployed on the local machine  
-1. `cd terraform/test`
-2. Either edit and modify the variables values in deployEOEPCA.sh or define needed environment variables:
+Either edit and modify the variables values in deployEOEPCA.sh or define needed environment variables:
 - `export DOCKER_EMAIL=[Email of the account with access to the Dockerhub EOEPCA repository]`
 - `export DOCKER_USERNAME=[User name of the account with access to the Dockerhub EOEPCA repository]`
 - `export DOCKER_PASSWORD=[Password of the account with access to the Dockerhub EOEPCA repository]`
 - `export WSPACE_USERNAME=[User name of the account with access to the workspace]`
 - `export WSPACE_PASSWORD=[Password of the workspace account]`
 - `export NFS_SERVER_ADDRESS=[Address of the NFS server, in the internal subnet]`
-3. `./deployEOEPCA.sh`
+
+For the um-login-service, you may also want to edit variable in `um-login-config.json`. Note: Hostname must coincide with the passed environment variable of the same name.
+
+*Local environment*
+
+It creates a testing environment in a Minikube cluster deployed on the local machine  
+1. `cd terraform/test`
+2. `./deployEOEPCA.sh`
 
 This will create a system accesible from local node at https://test.eoepca.org
 

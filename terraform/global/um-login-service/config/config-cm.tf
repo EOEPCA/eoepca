@@ -1,7 +1,14 @@
+resource "local_file" "config_file" {
+  content = file(var.config_file)
+  filename = "${path.module}/generate.json"
+}
+
 resource "kubernetes_config_map" "config-cm" {
   metadata {
     name = "config-cm"
   }
+
+  depends_on = [ local_file.config_file ]
 
   data = {
     "generate.json" = file("${path.module}/generate.json") ### TODO CHANGE HOSTNAME
