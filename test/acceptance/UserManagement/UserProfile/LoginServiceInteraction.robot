@@ -26,8 +26,8 @@ Log in to the User Profile through the Login Service
   LoginService Fill Credentials
   ${title}=  Get Title
   BuiltIn.Run Keyword If  "${title}"=="oxAuth"  LoginService Allow User
+  BuiltIn.Run Keyword If  "${title}"=="oxAuth - Passport Login"  LoginService Fill Credentials
   LoginService Call Log out Button
-  Title Should Be  EOEPCA User Profile
 
 *** Keywords ***
 
@@ -43,7 +43,7 @@ UMA Get Data from Config File
 
 LoginService Allow User
   Title Should Be  oxAuth
-  Click Button  id=authorizeForm:allowButton
+  Click Link  xpath=//a[@id="authorizeForm:allowButton"]
   Set Browser Implicit Wait  5
   #Capture Page Screenshot  
 
