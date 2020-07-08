@@ -7,7 +7,7 @@ resource "kubernetes_config_map" "pep_engine_cm" {
 
   data = {
     PEP_REALM                    = "eoepca"
-    PEP_AUTH_SERVER_URL          = "${concat("http://", var.hostname)}"
+    PEP_AUTH_SERVER_URL          = "${join("", ["http://", var.hostname])}"
     PEP_PROXY_ENDPOINT           = "/"
     PEP_SERVICE_HOST             = "0.0.0.0"
     PEP_SERVICE_PORT             = "5566"

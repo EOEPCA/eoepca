@@ -32,7 +32,7 @@ Log in to the User Profile through the Login Service
 *** Keywords ***
 
 UMA Get Data from Config File
-  ${data}=  OperatingSystem.Get File  ./config.json
+  ${data}=  OperatingSystem.Get File   ${CURDIR}${/}config.json
   ${json}=  Evaluate  json.loads('''${data}''')  json
   ${URL}=  Get From Dictionary  ${json}  hostname
   ${USER}=  Get From Dictionary  ${json}  username

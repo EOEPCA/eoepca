@@ -1,6 +1,7 @@
 *** Settings ***
 Documentation  Tests for the UMA Flow
-Resource  ../../Processing/ADES/ADES.resource
+Library  Collections
+Library  RequestsLibrary
 Library  OperatingSystem
 Library  String
 Library  Process
@@ -14,7 +15,7 @@ ${WELL_KNOWN_PATH}=  https://test.eoepca.org/.well-known/uma2-configuration
 
 *** Test Cases ***
 UMA Get Client from Config File
-  ${data}=  OperatingSystem.Get File  ./conf.json
+  ${data}=  OperatingSystem.Get File  ${CURDIR}${/}conf.json
   ${json}=  Evaluate  json.loads('''${data}''')  json
   ${g_client_id}=  Get From Dictionary  ${json}  client_id
   ${g_client_secret}=  Get From Dictionary  ${json}  client_secret
@@ -42,7 +43,7 @@ UMA Flow to Retrieve RPT
 UMA Flow Setup
   [Arguments]  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
   ${tkn}=  UMA Handler of Codes  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
-  UMA read resource  ${tkn}
+  Set Global Variable  ${RPT_TOKEN}  ${tkn}
   [Return]  ${tkn} 
 
 UMA Get Ticket
@@ -70,7 +71,7 @@ UMA Get ID Token
 
 UMA Call Shell ID Token
   [Arguments]  ${endpoint}  ${client_id}  ${client_secret}
-  ${a}=  Run Process  sh  ./id.sh  -t  ${endpoint}  -i  ${client_id}  -p  ${client_secret}
+  ${a}=  Run Process  sh  ${CURDIR}${/}id.sh  -t  ${endpoint}  -i  ${client_id}  -p  ${client_secret}
   [Return]  ${a.stdout}
 
 UMA Get ID Token Valid
@@ -90,7 +91,7 @@ UMA Get Access Token
 
 UMA Call Shell Access Token
   [Arguments]  ${ticket}  ${token}  ${client_id}  ${client_secret}  ${token_endpoint}
-  ${a}=  Run Process  bash  ./rpt.sh  -S  -a  ${token_endpoint}  -t  ${ticket}  -i  ${client_id}  -p  ${client_secret}  -s  openid  -c  ${token}
+  ${a}=  Run Process  bash  ${CURDIR}${/}rpt.sh  -S  -a  ${token_endpoint}  -t  ${ticket}  -i  ${client_id}  -p  ${client_secret}  -s  openid  -c  ${token}
   [Return]  ${a.stdout}
 
 UMA Get Access Token Valid
@@ -126,26 +127,6 @@ UMA Get Access Token From Response
   ${json}=  Evaluate  json.loads('''${resp}''')  json
   ${access_token}=  Get From Dictionary  ${json}  access_token
   [Return]  ${access_token} 
-
-UMA read resource
-  [Arguments]  ${tkn}
-  ${contents}=  OperatingSystem.Get File  ../../Processing/ADES/ADES.resource
-  @{lines}=  Split to lines  ${contents}
-  Create File  ../../Processing/ADES/ADES.resource
-  FOR  ${line}  IN  @{lines}
-    ${length}=  GetLength  ${line}
-    ${match}  ${value}  Run Keyword And Ignore Error  Should Contain  ${line}  RPT_TOKEN
-    ${RETURNVALUE}  Set Variable If  '${match}' == 'PASS'  ${True}  ${False}
-    Run Keyword if  ${RETURNVALUE} == False and ${length} != 0  Append To File  ../../Processing/ADES/ADES.resource  ${line}\n
-    Run Keyword if  ${RETURNVALUE} == True  UMA Write in Resource  ${tkn}
-  END
-  #Log to console  Updated resource with the RPT Token
-
-UMA Write in Resource
-  [Arguments]  ${variable}
-  ${i}=  Convert To String  ${\n}\${RPT_TOKEN}= ${space}${variable}
-  Append To File  ../../Processing/ADES/ADES.resource  ${i}
-
 
 UMA Handler of Codes
   [Arguments]  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}  
