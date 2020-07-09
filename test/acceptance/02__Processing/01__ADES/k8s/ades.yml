@@ -25,7 +25,7 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /opt/t2config/
-        - image: eoepca/kubeproxy
+        - image: eoepca/kubeproxy:v0.1
           name: kubeproxy
 ---
 apiVersion: v1
