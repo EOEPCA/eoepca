@@ -20,6 +20,7 @@ jobs:
         # - ./test/bin/setup-k3s.sh
         # - ./test/bin/install-terraform.sh
         - sudo sh ./travis/setupMinikube.sh
+        - sudo sh ./test/nfs-server/nfs-setup.sh
 
       before_script:
         # - ./terraform/test/deployEOEPCA.sh
