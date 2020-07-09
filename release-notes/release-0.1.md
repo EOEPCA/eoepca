@@ -51,8 +51,8 @@ This section identifies the version of the building blocks components comprising
 
 ### Login Service
 
-* **um-login-persistence (version 0.1)**
-  * Image: eoepca/um-login-persistence:v0.1
+* **um-login-persistence (version 0.1.1)**
+  * Image: eoepca/um-login-persistence:v0.1.1
   * GitHub: https://github.com/EOEPCA/um-login-persistence
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/um-login-persistence
 
@@ -61,12 +61,12 @@ This section identifies the version of the building blocks components comprising
   * GitHub: https://github.com/EOEPCA/um-login-passport
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/um-login-passport
 
-* **um-pep-engine (version 0.1)**
-  * Image: eoepca/um-pep-engine:v0.1
+* **um-pep-engine (version 0.1.1)**
+  * Image: eoepca/um-pep-engine:v0.1.1
   * GitHub: https://github.com/EOEPCA/um-pep-engine
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/um-pep-engine
 
-* **um-user-profile (version 0.1)**
+* **um-user-profile (version 0.1.1)**
   * Image: eoepca/um-user-profile:v0.1.1
   * GitHub: https://github.com/EOEPCA/um-user-profile
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/um-user-profile
