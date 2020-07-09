@@ -5,15 +5,16 @@ install: true
 services:
   - docker
 
-addons:
-  chrome: stable
-
 jobs:
   include:
     - stage: deploy to local kube and test
       if: branch = release/v0.1
       dist: bionic
       language: minimal
+
+      before_install:
+        - sudo apt-get update
+        - sudo apt-get -y install -f
 
       install:
         # - ./test/bin/install-kubectl.sh
@@ -25,6 +26,7 @@ jobs:
       before_script:
         # - ./terraform/test/deployEOEPCA.sh
         - sudo ./terraform/test/deployEOEPCA.sh
+        - sudo apt-get -y install chromium-browser
         - sh ./travis/setupRobot.sh
 
       script:
