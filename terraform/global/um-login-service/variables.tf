@@ -1,6 +1,6 @@
 variable "hostname" {
     type = string
-    default = "test.eoepca.org"
+    default = "test.185.52.192.60.nip.io"
 }
 
 variable "config_file" {
