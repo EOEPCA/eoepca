@@ -56,8 +56,8 @@ This section identifies the version of the building blocks components comprising
   * GitHub: https://github.com/EOEPCA/um-login-persistence
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/um-login-persistence
 
-* **um-login-passport (version 0.1)**
-  * Image: eoepca/um-login-passport:latest
+* **um-login-passport (version 0.1.1)**
+  * Image: eoepca/um-login-passport:v0.1.1
   * GitHub: https://github.com/EOEPCA/um-login-passport
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/um-login-passport
 
