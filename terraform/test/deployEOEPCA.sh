@@ -22,12 +22,13 @@ if hash minikube 2>/dev/null; then MINIKUBE_IP=$(sudo minikube ip); fi
 
 # Check presence of environment variables
 TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-.}"
-DOCKER_EMAIL="${DOCKER_EMAIL:-none@none@none.com}"
+DOCKER_EMAIL="${DOCKER_EMAIL:-none@none.com}"
 DOCKER_USERNAME="${DOCKER_USERNAME:-none}"
 DOCKER_PASSWORD="${DOCKER_PASSWORD:-none}"
 WSPACE_USERNAME="${WSPACE_USERNAME:-none}"
 WSPACE_PASSWORD="${WSPACE_PASSWORD:-none}"
 NFS_SERVER_ADDRESS="${NFS_SERVER_ADDRESS:-${MINIKUBE_IP:-none}}"
+echo "Using NFS_SERVER_ADDRESS=${NFS_SERVER_ADDRESS}"
 
 # CLUSTER_NODE_IP=$(sudo minikube ip)
 CLUSTER_NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
@@ -55,4 +56,4 @@ terraform $ACTION \
   --var="wspace_user_name=${WSPACE_USERNAME}" \
   --var="wspace_user_password=${WSPACE_PASSWORD}" \
   --var="nfs_server_address=${NFS_SERVER_ADDRESS}" \
-  --var="hostname=test.eoepca.org"
+  --var="hostname=test.10.0.2.15.nip.io"

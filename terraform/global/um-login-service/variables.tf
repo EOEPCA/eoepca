@@ -1,6 +1,6 @@
 variable "hostname" {
-    type = string
-    default = "test.185.52.192.60.nip.io"
+  type    = string
+  default = "test.10.0.2.15.nip.io"
 }
 
 variable "config_file" {
@@ -8,6 +8,6 @@ variable "config_file" {
 }
 
 output "um-login-service-up" {
-  value = true
-  depends_on = [ module.config, module.ldap, module.nginx, module.oxauth, module.oxtrust, module.oxpassport ]
+  value      = true
+  depends_on = [module.config, module.ldap, module.nginx, module.oxauth, module.oxtrust, module.oxpassport]
 }
