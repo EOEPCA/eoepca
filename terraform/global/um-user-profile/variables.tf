@@ -5,7 +5,7 @@ variable "nginx_ip" {
 
 variable "hostname" {
   type    = string
-  default = "test.192.168.123.110.nip.io"
+  default = "test.185.52.192.60.nip.io"
 }
 
 variable "module_depends_on" {

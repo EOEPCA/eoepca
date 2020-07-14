@@ -56,4 +56,4 @@ terraform $ACTION \
   --var="wspace_user_name=${WSPACE_USERNAME}" \
   --var="wspace_user_password=${WSPACE_PASSWORD}" \
   --var="nfs_server_address=${NFS_SERVER_ADDRESS}" \
-  --var="hostname=test.192.168.123.110.nip.io"
+  --var="hostname=test.185.52.192.60.nip.io"

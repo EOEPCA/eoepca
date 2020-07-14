@@ -11,7 +11,7 @@ Library  SSHLibrary
 *** Variables ***
 ${UMA_PATH_PREFIX}=  /wps3
 ${PATH_TO_RESOURCE}=  pep/ADES
-${WELL_KNOWN_PATH}=  https://test.192.168.123.110.nip.io/.well-known/uma2-configuration
+${WELL_KNOWN_PATH}=  https://test.185.52.192.60.nip.io/.well-known/uma2-configuration
 
 *** Test Cases ***
 UMA Get Client from Config File
