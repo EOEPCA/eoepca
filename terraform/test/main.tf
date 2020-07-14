@@ -64,6 +64,7 @@ module "proc-ades" {
   dh_user_password = var.dh_user_password
   wspace_user_name = var.wspace_user_name
   wspace_user_password = var.wspace_user_password
+  hostname = var.hostname
   module_depends_on = [ module.um-login-service, module.um-pep-engine, module.um-user-profile ]
 }
 

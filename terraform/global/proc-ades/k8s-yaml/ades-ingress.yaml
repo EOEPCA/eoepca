@@ -7,7 +7,6 @@ spec:
   - host: ades.test.185.52.192.60.nip.io
     http:
       paths:
-      - path: /
-        backend:
+      - backend:
           serviceName: pep-engine
           servicePort: 5566
