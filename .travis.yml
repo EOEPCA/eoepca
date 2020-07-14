@@ -27,7 +27,7 @@ jobs:
         # - ./terraform/test/deployEOEPCA.sh
         - sudo ./terraform/test/deployEOEPCA.sh
         - sudo apt-get -y install chromium-browser
-        - sh ./travis/setupRobot.sh
+        - sh ./test/bin/install-robotframework
 
       script:
         - cd ./test/acceptance
