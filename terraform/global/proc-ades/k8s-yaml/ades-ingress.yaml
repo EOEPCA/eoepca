@@ -1,0 +1,13 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ades
+spec:
+  rules:
+  - host: ades.test.185.52.192.60.nip.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: pep-engine
+          servicePort: 5566

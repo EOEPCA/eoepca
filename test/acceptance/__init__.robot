@@ -4,5 +4,5 @@ Suite Setup  EOEPCA Suite Setup
 
 *** Keywords ***
 EOEPCA Suite Setup
-  Set Global Variable  ${ADES_BASE_URL}  http://test.192.168.123.110.nip.io:31707
+  Set Global Variable  ${ADES_BASE_URL}  http://ades.test.185.52.192.60.nip.io
   Set Global Variable  ${RPT_TOKEN}  0
