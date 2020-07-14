@@ -5,7 +5,7 @@ resource "kubernetes_ingress" "ades" {
 
   spec {
     rule {
-      host = var.hostname
+      host = join(".", ["ades", var.hostname])
 
       http {
         path {
