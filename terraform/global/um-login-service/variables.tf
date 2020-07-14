@@ -1,6 +1,6 @@
 variable "hostname" {
   type    = string
-  default = "test.10.0.2.15.nip.io"
+  default = "test.192.168.123.110.nip.io"
 }
 
 variable "config_file" {
