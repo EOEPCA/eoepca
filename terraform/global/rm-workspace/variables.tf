@@ -12,6 +12,10 @@ variable "module_depends_on" {
   type = any
 }
 
+variable "hostname" {
+    type = string
+}
+
 output "rm-workspace-up" {
   value = true
   depends_on = [ kubernetes_service.workspace ]

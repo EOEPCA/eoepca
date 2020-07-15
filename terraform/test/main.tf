@@ -69,5 +69,6 @@ module "rm-workspace" {
   source = "../global/rm-workspace"
   wspace_user_name = var.wspace_user_name
   wspace_user_password = var.wspace_user_password
+  hostname = var.hostname
   module_depends_on = [ module.proc-ades ]
 }
