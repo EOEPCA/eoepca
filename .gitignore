@@ -15,3 +15,4 @@ output.xml
 report.html
 terraform/test/dhparam.pem
 terraform/test/terraform-provider-kubectl
+no-floating.yml
