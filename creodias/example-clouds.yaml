@@ -1,0 +1,35 @@
+#----------
+# Example 'clouds.yaml' file
+# ==========================
+#----------
+# Possible file locations:
+# - ./clouds.yaml (i.e. the current directory)
+# - ~/.config/openstack/clouds.yaml
+# - /etc/openstack/clouds.yaml
+#----------
+# Set env to choose the cloud:
+# `export OS_CLOUD=ractest`
+#----------
+clouds:
+  ractest:
+    auth:
+      auth_url: https://cf2.cloudferro.com:5000/v3
+      username: "richard.conway@telespazio.com"
+      project_name: "ractest"
+      project_id: d86660d4a1a443579c71096771a8104c
+      user_domain_name: "cloud_13907"
+      password: "ZZZZZZZZZZZZZZ"
+    region_name: "RegionOne"
+    interface: "public"
+    identity_api_version: 3
+  ractest2:
+    auth:
+      auth_url: https://cf2.cloudferro.com:5000/v3
+      username: "richard.conway@telespazio.com"
+      project_name: "ractest2"
+      project_id: 1a0b0deebe774b7b84f147c47003559e
+      user_domain_name: "cloud_13907"
+      password: "ZZZZZZZZZZZZZZ"
+    region_name: "RegionOne"
+    interface: "public"
+    identity_api_version: 3
