@@ -1,18 +1,7 @@
-# Install NGINX ingress controller
-
-# module "ingress" {
-#   source  = "byuoitav/nginx-ingress-controller/kubernetes"
-#   version = "0.1.13"
-# }
-
-output "lb_address" {
-  value      = "185.52.192.60"
-  depends_on = [module.config, module.ldap, module.nginx, module.oxauth, module.oxpassport, module.oxtrust]
-}
 
 # resource "google_dns_managed_zone" "test" {
 #   name     = "test-zone"
-#   dns_name = "test.185.52.192.60.nip.io."
+#   dns_name = join("", [var.hostname, "."])
 # }
 
 # resource "google_dns_record_set" "test" {
@@ -22,14 +11,14 @@ output "lb_address" {
 
 #   managed_zone = google_dns_managed_zone.test.name
 
-#   rrdatas = [module.nginx-ingress-controller.lb_address]
+#   rrdatas = [var.nginx_ip]
 # }
 
 
 # Apply config
 module "config" {
   source      = "./config"
-  nginx_ip    = "185.52.192.60"
+  nginx_ip    = var.nginx_ip
   hostname    = var.hostname
   config_file = var.config_file
 }
@@ -43,28 +32,28 @@ module "ldap" {
 # Enable Ingress
 module "nginx" {
   source            = "./nginx"
-  nginx_ip          = "185.52.192.60"
+  nginx_ip          = var.nginx_ip
   hostname          = var.hostname
   module_depends_on = [module.ldap.ldap-up]
 }
 
 module "oxauth" {
   source            = "./oxauth"
-  nginx_ip          = "185.52.192.60"
+  nginx_ip          = var.nginx_ip
   hostname          = var.hostname
   module_depends_on = [module.nginx.nginx-done, module.ldap.ldap-up, module.config.config-done]
 }
 
 module "oxtrust" {
   source            = "./oxtrust"
-  nginx_ip          = "185.52.192.60"
+  nginx_ip          = var.nginx_ip
   hostname          = var.hostname
   module_depends_on = [module.oxauth.oxauth-up]
 }
 
 module "oxpassport" {
   source            = "./oxpassport"
-  nginx_ip          = "185.52.192.60"
+  nginx_ip          = var.nginx_ip
   hostname          = var.hostname
   module_depends_on = [module.oxauth.oxauth-up, module.oxtrust.oxtrust-up]
 }

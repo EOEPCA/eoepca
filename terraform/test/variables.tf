@@ -37,6 +37,10 @@ variable "hostname" {
   type = string
 }
 
+variable "public_ip" {
+  type = string
+}
+
 variable "nfs_server_address" {
   type = string
 }

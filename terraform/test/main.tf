@@ -35,24 +35,21 @@ module "storage" {
 
 module "um-login-service" {
   source = "../global/um-login-service"
+  nginx_ip = var.public_ip
   hostname = var.hostname
   config_file = var.um-login-config_file
 }
 
-output "lb_address" {
-  value = module.um-login-service.lb_address
-}
-
 module "um-pep-engine" {
   source = "../global/um-pep-engine"
-  nginx_ip = module.um-login-service.lb_address
+  nginx_ip = var.public_ip
   hostname = var.hostname
   module_depends_on = [ module.um-login-service ]
 }
 
 module "um-user-profile" {
   source = "../global/um-user-profile"
-  nginx_ip = module.um-login-service.lb_address
+  nginx_ip = var.public_ip
   hostname = var.hostname
   module_depends_on = [ module.um-login-service, module.um-pep-engine ]
 }  

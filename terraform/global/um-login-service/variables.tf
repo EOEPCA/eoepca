@@ -1,6 +1,9 @@
 variable "hostname" {
   type    = string
-  default = "test.185.52.192.60.nip.io"
+}
+
+variable "nginx_ip" {
+    type = string
 }
 
 variable "config_file" {

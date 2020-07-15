@@ -22,12 +22,14 @@ if hash minikube 2>/dev/null; then MINIKUBE_IP=$(sudo minikube ip); fi
 
 # Check presence of environment variables
 TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-.}"
+PUBLIC_IP="${PUBLIC_IP:-${MINIKUBE_IP:-none}}"
+NFS_SERVER_ADDRESS="${NFS_SERVER_ADDRESS:-${MINIKUBE_IP:-none}}"
 DOCKER_EMAIL="${DOCKER_EMAIL:-none@none.com}"
 DOCKER_USERNAME="${DOCKER_USERNAME:-none}"
 DOCKER_PASSWORD="${DOCKER_PASSWORD:-none}"
 WSPACE_USERNAME="${WSPACE_USERNAME:-none}"
 WSPACE_PASSWORD="${WSPACE_PASSWORD:-none}"
-NFS_SERVER_ADDRESS="${NFS_SERVER_ADDRESS:-${MINIKUBE_IP:-none}}"
+echo "Using PUBLIC_IP=${PUBLIC_IP}"
 echo "Using NFS_SERVER_ADDRESS=${NFS_SERVER_ADDRESS}"
 
 # CLUSTER_NODE_IP=$(sudo minikube ip)
@@ -56,4 +58,5 @@ terraform $ACTION \
   --var="wspace_user_name=${WSPACE_USERNAME}" \
   --var="wspace_user_password=${WSPACE_PASSWORD}" \
   --var="nfs_server_address=${NFS_SERVER_ADDRESS}" \
-  --var="hostname=test.185.52.192.60.nip.io"
+  --var="hostname=test.${PUBLIC_IP}.nip.io" \
+  --var="public_ip=${PUBLIC_IP}"
