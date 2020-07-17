@@ -17,15 +17,21 @@ resource "openstack_networking_secgroup_rule_v2" "egress_ipv6" {
   security_group_id = "${openstack_networking_secgroup_v2.lb.id}"
 }
 
-resource "openstack_networking_secgroup_rule_v2" "ingress_ipv4" {
+resource "openstack_networking_secgroup_rule_v2" "ingress_https" {
   direction         = "ingress"
   ethertype         = "IPv4"
+  protocol = "tcp"
+  port_range_min    = 443
+  port_range_max    = 443
   security_group_id = "${openstack_networking_secgroup_v2.lb.id}"
 }
 
-resource "openstack_networking_secgroup_rule_v2" "ingress_ipv6" {
+resource "openstack_networking_secgroup_rule_v2" "ingress_http" {
   direction         = "ingress"
-  ethertype         = "IPv6"
+  ethertype         = "IPv4"
+  protocol = "tcp"
+  port_range_min    = 80
+  port_range_max    = 80
   security_group_id = "${openstack_networking_secgroup_v2.lb.id}"
 }
 
@@ -112,25 +118,25 @@ resource "openstack_lb_members_v2" "http" {
   }
 }
 
-# # resource "openstack_lb_monitor_v2" "https_ping" {
-# #   count     = var.use_neutron
-# #   pool_id     = "${openstack_lb_pool_v2.https[count.index].id}"
-# #   type        = "PING"
-# #   delay       = 5
-# #   timeout     = 5
-# #   max_retries = 3
-# #   max_retries_down = 3
-# # }
+# resource "openstack_lb_monitor_v2" "https_ping" {
+#   count     = var.use_neutron
+#   pool_id     = "${openstack_lb_pool_v2.https[count.index].id}"
+#   type        = "PING"
+#   delay       = 5
+#   timeout     = 5
+#   max_retries = 3
+#   max_retries_down = 3
+# }
 
-# # resource "openstack_lb_monitor_v2" "http_ping" {
-# #   count     = var.use_neutron
-# #   pool_id     = "${openstack_lb_pool_v2.http[count.index].id}"
-# #   type        = "PING"
-# #   delay       = 5
-# #   timeout     = 5
-# #   max_retries = 3
-# #   max_retries_down = 3
-# # }
+# resource "openstack_lb_monitor_v2" "http_ping" {
+#   count     = var.use_neutron
+#   pool_id     = "${openstack_lb_pool_v2.http[count.index].id}"
+#   type        = "PING"
+#   delay       = 5
+#   timeout     = 5
+#   max_retries = 3
+#   max_retries_down = 3
+# }
 
 resource "openstack_networking_floatingip_v2" "loadbalancer" {
   count     = var.use_neutron
