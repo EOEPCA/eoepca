@@ -134,10 +134,6 @@ resource "openstack_compute_instance_v2" "bastion" {
     depends_on       = "${var.network_id}"
     use_access_ip    = "${var.use_access_ip}"
   }
-
-  provisioner "local-exec" {
-    command = "sed s/USER/${var.ssh_user}/ ansible_bastion_template.txt | sed s/BASTION_ADDRESS/${var.bastion_fips[0]}/ > no-floating.yml"
-  }
 }
 
 resource "openstack_compute_instance_v2" "bastion_custom_volume_size" {
@@ -170,10 +166,6 @@ resource "openstack_compute_instance_v2" "bastion_custom_volume_size" {
     depends_on       = "${var.network_id}"
     use_access_ip    = "${var.use_access_ip}"
   }
-
-  provisioner "local-exec" {
-    command = "sed s/USER/${var.ssh_user}/ ansible_bastion_template.txt | sed s/BASTION_ADDRESS/${var.bastion_fips[0]}/ > no-floating.yml"
-  }
 }
 
 resource "openstack_compute_instance_v2" "k8s_master" {
@@ -204,10 +196,6 @@ resource "openstack_compute_instance_v2" "k8s_master" {
     kubespray_groups = "etcd,kube-master,${var.supplementary_master_groups},k8s-cluster,vault"
     depends_on       = "${var.network_id}"
     use_access_ip    = "${var.use_access_ip}"
-  }
-
-  provisioner "local-exec" {
-    command = "sed s/USER/${var.ssh_user}/ ansible_bastion_template.txt | sed s/BASTION_ADDRESS/${element(concat(var.bastion_fips, var.k8s_master_fips), 0)}/ > no-floating.yml"
   }
 }
 
@@ -249,10 +237,6 @@ resource "openstack_compute_instance_v2" "k8s_master_custom_volume_size" {
     depends_on       = "${var.network_id}"
     use_access_ip    = "${var.use_access_ip}"
   }
-
-  provisioner "local-exec" {
-    command = "sed s/USER/${var.ssh_user}/ ansible_bastion_template.txt | sed s/BASTION_ADDRESS/${element(concat(var.bastion_fips, var.k8s_master_fips), 0)}/ > no-floating.yml"
-  }
 }
 
 resource "openstack_compute_instance_v2" "k8s_master_no_etcd" {
@@ -283,10 +267,6 @@ resource "openstack_compute_instance_v2" "k8s_master_no_etcd" {
     kubespray_groups = "kube-master,${var.supplementary_master_groups},k8s-cluster,vault"
     depends_on       = "${var.network_id}"
     use_access_ip    = "${var.use_access_ip}"
-  }
-
-  provisioner "local-exec" {
-    command = "sed s/USER/${var.ssh_user}/ ansible_bastion_template.txt | sed s/BASTION_ADDRESS/${element(concat(var.bastion_fips, var.k8s_master_fips), 0)}/ > no-floating.yml"
   }
 }
 
@@ -327,10 +307,6 @@ resource "openstack_compute_instance_v2" "k8s_master_no_etcd_custom_volume_size"
     kubespray_groups = "kube-master,${var.supplementary_master_groups},k8s-cluster,vault"
     depends_on       = "${var.network_id}"
     use_access_ip    = "${var.use_access_ip}"
-  }
-
-  provisioner "local-exec" {
-    command = "sed s/USER/${var.ssh_user}/ ansible_bastion_template.txt | sed s/BASTION_ADDRESS/${element(concat(var.bastion_fips, var.k8s_master_fips), 0)}/ > no-floating.yml"
   }
 }
 
@@ -572,10 +548,6 @@ resource "openstack_compute_instance_v2" "k8s_node" {
     depends_on       = "${var.network_id}"
     use_access_ip    = "${var.use_access_ip}"
   }
-
-  provisioner "local-exec" {
-    command = "sed s/USER/${var.ssh_user}/ ansible_bastion_template.txt | sed s/BASTION_ADDRESS/${element(concat(var.bastion_fips, var.k8s_node_fips), 0)}/ > no-floating.yml"
-  }
 }
 
 resource "openstack_compute_instance_v2" "k8s_node_custom_volume_size" {
@@ -615,10 +587,6 @@ resource "openstack_compute_instance_v2" "k8s_node_custom_volume_size" {
     kubespray_groups = "kube-node,k8s-cluster,${var.supplementary_node_groups}"
     depends_on       = "${var.network_id}"
     use_access_ip    = "${var.use_access_ip}"
-  }
-
-  provisioner "local-exec" {
-    command = "sed s/USER/${var.ssh_user}/ ansible_bastion_template.txt | sed s/BASTION_ADDRESS/${element(concat(var.bastion_fips, var.k8s_node_fips), 0)}/ > no-floating.yml"
   }
 }
 
