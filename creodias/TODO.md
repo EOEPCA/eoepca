@@ -9,7 +9,7 @@
   * Full VPN...<br>`sshuttle --dns -NHr eouser@185.52.192.70 192.168.123.0/24`
   * Simpler...<br>`sshuttle -r eouser@185.52.192.70 192.168.123.0/24`
 * Node setup for each node
-  * `ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null eouser@NODE-IP 'bash -s - eouser' <PATH/rke-node-setup.sh`
+  * `ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null eouser@NODE-IP 'bash -s - eouser' < PATH/rke-node-setup.sh`
   * Add `-J eouser@BASTION-IP` if sshuttle is NOT being used
   * **Can do these in parallel if being clever**
 * Setup `rke/cluster.yml` file with proper node IP values

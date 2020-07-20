@@ -406,6 +406,26 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip" {
     depends_on       = "${var.network_id}"
     use_access_ip    = "${var.use_access_ip}"
   }
+
+  connection {
+    type         = "ssh"
+    user         = "${var.ssh_user}"
+    private_key  = "${chomp(file(trimsuffix(var.public_key_path, ".pub")))}"
+    host         = "${self.access_ip_v4}"
+    bastion_host = var.bastion_fips[0]
+  }
+
+  provisioner "file" {
+    source      = "${path.module}/rke-node-setup.sh"
+    destination = "/tmp/rke-node-setup.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo chmod +x /tmp/rke-node-setup.sh",
+      "sudo /tmp/rke-node-setup.sh ${var.ssh_user}",
+    ]
+  }
 }
 
 resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip_custom_volume_size" {
@@ -618,6 +638,26 @@ resource "openstack_compute_instance_v2" "k8s_node_no_floating_ip" {
     kubespray_groups = "kube-node,k8s-cluster,no-floating,${var.supplementary_node_groups}"
     depends_on       = "${var.network_id}"
     use_access_ip    = "${var.use_access_ip}"
+  }
+
+  connection {
+    type         = "ssh"
+    user         = "${var.ssh_user}"
+    private_key  = "${chomp(file(trimsuffix(var.public_key_path, ".pub")))}"
+    host         = "${self.access_ip_v4}"
+    bastion_host = var.bastion_fips[0]
+  }
+
+  provisioner "file" {
+    source      = "${path.module}/rke-node-setup.sh"
+    destination = "/tmp/rke-node-setup.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo chmod +x /tmp/rke-node-setup.sh",
+      "sudo /tmp/rke-node-setup.sh ${var.ssh_user}",
+    ]
   }
 }
 

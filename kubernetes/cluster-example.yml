@@ -1,0 +1,41 @@
+nodes:
+    - address: 192.168.123.8
+      user: eouser
+      role:
+        - controlplane
+        - etcd
+    - address: 192.168.123.3
+      user: eouser
+      role:
+        - worker
+    - address: 192.168.123.5
+      user: eouser
+      role:
+        - worker
+
+ingress:
+    provider: none
+
+addons_include:
+  - ./ingress-nginx/ingress-nginx-rke-nodeport.yml
+
+# bastion_host:
+#   address: 185.52.192.70
+#   user: eouser
+
+# cloud_provider:
+#   name: openstack
+#   openstackCloudProvider:
+#     global:
+#       auth-url: https://cf2.cloudferro.com:5000/v3  # OS_AUTH_URL
+#       username: richard.conway@telespazio.com  # OS_USERNAME
+#       password: ZZZZZZZZZZZZZZ  # TODO - don't hard-code this
+#       tenant-id: d86660d4a1a443579c71096771a8104c  # OS_PROJECT_ID
+#       tenant-name: ractest  # OS_PROJECT_NAME
+#       # domain-id: 043feb3017b6499c8fd060f6b32c2689  # OS_PROJECT_DOMAIN_ID
+#       domain-name: cloud_13907  # OS_USER_DOMAIN_NAME
+#       region: RegionOne  # OS_REGION_NAME
+#     load_balancer:
+#       floating-network-id: 31d7e67a-b30a-43f4-8b06-1667c70ba90d
+#       subnet-id: 24abd928-b424-46dc-aaa9-a07989618bd8
+#       lb-method: ROUND_ROBIN
