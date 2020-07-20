@@ -6,4 +6,4 @@ ingress:
     provider: none
 
 addons_include:
-  - ./ingress-nginx/ingress-nginx-rke-nodeport.yml
+  - ./ingress-controller/ingress-nginx-nodeport.yml
