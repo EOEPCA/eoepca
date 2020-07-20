@@ -1,5 +1,5 @@
 provider "openstack" {
-  version = "~> 1.17"
+  version     = "~> 1.17"
   use_octavia = true
 }
 
@@ -78,13 +78,13 @@ module "compute" {
 }
 
 module "loadbalancer" {
-  source = "./modules/loadbalancer"
-  cluster_name                                 = "${var.cluster_name}"
-  network_id = "${module.network.network_id}"
-  k8s_node_ips                                = "${module.compute.k8s_node_ips}"
-  floatingip_pool               = "${var.floatingip_pool}"
+  source          = "./modules/loadbalancer"
+  cluster_name    = "${var.cluster_name}"
+  network_id      = "${module.network.network_id}"
+  k8s_node_ips    = "${module.compute.k8s_node_ips}"
+  floatingip_pool = "${var.floatingip_pool}"
   k8s_secgroup_id = "${module.compute.k8s_secgroup_id}"
-  use_neutron        = "${var.use_neutron}"
+  use_neutron     = "${var.use_neutron}"
 }
 
 output "private_subnet_id" {
@@ -121,4 +121,8 @@ output "k8s_master_ips" {
 
 output "k8s_node_ips" {
   value = "${module.compute.k8s_node_ips}"
+}
+
+output "nfs_ip_address" {
+  value = "${module.compute.nfs_ip_address}"
 }
