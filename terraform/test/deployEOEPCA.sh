@@ -17,23 +17,30 @@ if [ -z "$ACTION" ]; then ACTION="apply"; fi
 AUTO_APPROVE=
 if [ "$ACTION" = "apply" ]; then AUTO_APPROVE="--auto-approve"; fi
 
+# Scrape VM infrastructure topology from terraform outputs
+if hash terraform
+then
+  DEPLOYMENT_PUBLIC_IP="$(terraform output -state=../../creodias/terraform.tfstate -json | jq -r '.loadbalancer_fips.value[]')"
+  DEPLOYMENT_NFS_SERVER="$(terraform output -state=../../creodias/terraform.tfstate -json | jq -r '.nfs_ip_address.value')"
+fi
+
 # Note minikube ip in case we need it
-if hash minikube 2>/dev/null; then MINIKUBE_IP=$(sudo minikube ip); fi
+if hash minikube 2>/dev/null; then MINIKUBE_IP=$(minikube ip); fi
 
 # Check presence of environment variables
-TRAVIS_BUILD_DIR="${TRAVIS_BUILD_DIR:-.}"
-PUBLIC_IP="${PUBLIC_IP:-${MINIKUBE_IP:-none}}"
-NFS_SERVER_ADDRESS="${NFS_SERVER_ADDRESS:-${MINIKUBE_IP:-none}}"
-DOCKER_EMAIL="${DOCKER_EMAIL:-none@none.com}"
-DOCKER_USERNAME="${DOCKER_USERNAME:-none}"
-DOCKER_PASSWORD="${DOCKER_PASSWORD:-none}"
-WSPACE_USERNAME="${WSPACE_USERNAME:-none}"
-WSPACE_PASSWORD="${WSPACE_PASSWORD:-none}"
+#
+# If not supplied, try to derive IPs from Terraform (cloud infrastructure (preferred)), followed by minikube
+PUBLIC_IP="${PUBLIC_IP:-${DEPLOYMENT_PUBLIC_IP:-${MINIKUBE_IP:-none}}}"
+NFS_SERVER_ADDRESS="${NFS_SERVER_ADDRESS:-${DEPLOYMENT_NFS_SERVER:-${MINIKUBE_IP:-none}}}"
+#
+# Other details...
+DOCKER_EMAIL="${DOCKER_EMAIL:-none@eoepca.systemteam@telespazio.com}"
+DOCKER_USERNAME="${DOCKER_USERNAME:-eoepcaci}"
+DOCKER_PASSWORD="${DOCKER_PASSWORD:-eoepcaBu1ld3r}"
+WSPACE_USERNAME="${WSPACE_USERNAME:-eoepca}"
+WSPACE_PASSWORD="${WSPACE_PASSWORD:-telespazio}"
 echo "Using PUBLIC_IP=${PUBLIC_IP}"
 echo "Using NFS_SERVER_ADDRESS=${NFS_SERVER_ADDRESS}"
-
-# CLUSTER_NODE_IP=$(sudo minikube ip)
-CLUSTER_NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
 
 # Terraform plugins...
 #
