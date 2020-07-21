@@ -87,6 +87,10 @@ module "loadbalancer" {
   use_neutron     = "${var.use_neutron}"
 }
 
+output "subnet_cidr" {
+  value = "${var.subnet_cidr}"
+}
+
 output "private_subnet_id" {
   value = "${module.network.subnet_id}"
 }
