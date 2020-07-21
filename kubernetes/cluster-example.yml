@@ -1,27 +1,27 @@
 nodes:
-    - address: 192.168.123.8
-      user: eouser
-      role:
-        - controlplane
-        - etcd
-    - address: 192.168.123.3
-      user: eouser
-      role:
-        - worker
-    - address: 192.168.123.5
-      user: eouser
-      role:
-        - worker
+  - address: 192.168.123.2
+    user: eouser
+    role:
+      - controlplane
+      - etcd
+  - address: 192.168.123.8
+    user: eouser
+    role:
+      - worker
+  - address: 192.168.123.13
+    user: eouser
+    role:
+      - worker
 
 ingress:
-    provider: none
+  provider: none
 
 addons_include:
-  - ./ingress-nginx/ingress-nginx-rke-nodeport.yml
+  - ./ingress-controller/ingress-nginx-nodeport.yml
 
-# bastion_host:
-#   address: 185.52.192.70
-#   user: eouser
+bastion_host:
+  address: 185.52.192.68
+  user: eouser
 
 # cloud_provider:
 #   name: openstack
