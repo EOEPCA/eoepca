@@ -10,7 +10,6 @@ Library  Collections
 *** Test Cases ***
 
 Log in to the User Profile through the Login Service
-  UMA Get Data from Config File
   ${chrome_options} =  Evaluate  sys.modules['selenium.webdriver'].ChromeOptions()  sys, selenium.webdriver
   Call Method  ${chrome_options}  add_argument  headless
   Call Method  ${chrome_options}  add_argument  disable-gpu
@@ -19,7 +18,7 @@ Log in to the User Profile through the Login Service
   Call Method  ${chrome_options}  add_argument  no-sandbox
   Call Method  ${chrome_options}  add_argument  ignore-certificate-errors
   ${options}=  Call Method  ${chrome_options}  to_capabilities      
-  Open Browser  ${URL}  browser=chrome  desired_capabilities=${options}
+  Open Browser  ${UM_BASE_URL}/web_ui  browser=chrome  desired_capabilities=${options}
   Set Browser Implicit Wait  5
   ${title}=  Get Title
   BuiltIn.Run Keyword If  "${title}"=="EOEPCA User Profile"  LoginService Call Log in Button
@@ -30,16 +29,6 @@ Log in to the User Profile through the Login Service
   LoginService Call Log out Button
 
 *** Keywords ***
-
-UMA Get Data from Config File
-  ${data}=  OperatingSystem.Get File   ${CURDIR}${/}config.json
-  ${json}=  Evaluate  json.loads('''${data}''')  json
-  ${URL}=  Get From Dictionary  ${json}  hostname
-  ${USER}=  Get From Dictionary  ${json}  username
-  ${PWD}=  Get From Dictionary  ${json}  password
-  Set Global Variable  ${URL}
-  Set Global Variable  ${USER} 
-  Set Global Variable  ${PWD}
 
 LoginService Allow User
   Title Should Be  oxAuth

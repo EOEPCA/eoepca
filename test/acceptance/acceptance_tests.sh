@@ -1,28 +1,23 @@
 #!/usr/bin/env bash
 
-source $HOME/.local/robot/bin/activate
-pip install -r ./requirements.txt
+ORIG_DIR="$(pwd)"
+cd "$(dirname "$0")"
+BIN_DIR="$(pwd)"
+cd "${ORIG_DIR}"
 
-cd ./01__UserManagement/01__LoginService
-python3 registerClient.py
-cd -
+trap "cd '${ORIG_DIR}'" EXIT
 
-robot .
+function main() {
+  public_ip=$(terraform output -state=../../creodias/terraform.tfstate -json | jq -r '.loadbalancer_fips.value[]')
+  public_hostname="${public_ip}.nip.io"
+  echo "Using PUBLIC HOSTNAME: ${public_hostname}"
 
-# login_service="./UserManagement/LoginService"
-# user_profile="./UserManagement/UserProfile"
+  source $HOME/.local/robot/bin/activate
+  pip install -r ./requirements.txt
 
-# cd "$login_service"
-# python3 registerClient.py
-# robot UMA_Flow.robot
-# cd -
+  robot --variable PUBLIC_HOSTNAME:${public_hostname} .
 
-# cd "$user_profile"
-# robot LoginServiceInteraction.robot
-# cd -
+  deactivate
+}
 
-# cd ./Processing/ADES
-# robot WPS.robot
-# robot API_PROC.robot
-
-deactivate
+main

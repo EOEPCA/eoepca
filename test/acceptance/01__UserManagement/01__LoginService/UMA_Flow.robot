@@ -6,26 +6,16 @@ Library  OperatingSystem
 Library  String
 Library  Process
 Library  SSHLibrary
-
+Library  ../ScimClient.py  ${UM_BASE_URL}/
 
 *** Variables ***
+${UMA_USER}=  admin
+${UMA_PWD}=  admin_Abcd1234#
 ${UMA_PATH_PREFIX}=  /wps3
 ${PATH_TO_RESOURCE}=  pep/ADES
-${WELL_KNOWN_PATH}=  https://test.185.52.192.60.nip.io/.well-known/uma2-configuration
+${WELL_KNOWN_PATH}=  ${UM_BASE_URL}/.well-known/uma2-configuration
 
 *** Test Cases ***
-UMA Get Client from Config File
-  ${data}=  OperatingSystem.Get File  ${CURDIR}${/}conf.json
-  ${json}=  Evaluate  json.loads('''${data}''')  json
-  ${g_client_id}=  Get From Dictionary  ${json}  client_id
-  ${g_client_secret}=  Get From Dictionary  ${json}  client_secret
-  ${USER}=  Get From Dictionary  ${json}  username
-  ${PWD}=  Get From Dictionary  ${json}  password
-  Set Global Variable  ${g_client_id} 
-  Set Global Variable  ${g_client_secret}
-  Set Global Variable  ${USER} 
-  Set Global Variable  ${PWD}
-
 UMA getEndpoints
   UMA Get Token Endpoint  ${WELL_KNOWN_PATH}
 
@@ -33,10 +23,16 @@ UMA Ticket Test
   UMA Get Ticket Valid  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}
 
 UMA Authenticate test
-  UMA Get ID Token Valid  ${ADES_BASE_URL}  ${WELL_KNOWN_PATH}  ${USER}  ${PWD}  ${g_client_id}  ${g_client_secret}
+  ${resp}=  Scim Client Get Details
+  ${g_client_id}=  Get From Dictionary  ${resp}  client_id
+  ${g_client_secret}=  Get From Dictionary  ${resp}  client_secret
+  UMA Get ID Token Valid  ${ADES_BASE_URL}  ${WELL_KNOWN_PATH}  ${UMA_USER}  ${UMA_PWD}  ${g_client_id}  ${g_client_secret}
 
 UMA Flow to Retrieve RPT 
-  UMA Flow Setup  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}  ${WELL_KNOWN_PATH}  ${USER}  ${PWD}  ${g_client_id}  ${g_client_secret}
+  ${resp}=  Scim Client Get Details
+  ${g_client_id}=  Get From Dictionary  ${resp}  client_id
+  ${g_client_secret}=  Get From Dictionary  ${resp}  client_secret
+  UMA Flow Setup  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}  ${WELL_KNOWN_PATH}  ${UMA_USER}  ${UMA_PWD}  ${g_client_id}  ${g_client_secret}
 
 *** Keywords ***
 
