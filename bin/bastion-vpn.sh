@@ -9,8 +9,8 @@ trap "cd '${ORIG_DIR}'" EXIT
 function main() {
   if hash sshuttle 2>/dev/null
   then
-    bastion=$(terraform output -state=../creodias/terraform.tfstate -json | jq -r '.bastion_fips.value[]')
-    subnet=$(terraform output -state=../creodias/terraform.tfstate -json | jq -r '.subnet_cidr.value')
+    bastion=$(terraform output -state=../creodias/terraform.tfstate -json | jq -r '.bastion_fips.value[]' 2>/dev/null) || unset bastion
+    subnet=$(terraform output -state=../creodias/terraform.tfstate -json | jq -r '.subnet_cidr.value' 2>/dev/null) || unset subnet
     echo "Connecting to network ${subnet} via jump host ${bastion}"
     sshuttle "$@" -r "eouser@${bastion}" "${subnet}"
   else

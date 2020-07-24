@@ -20,12 +20,12 @@ if [ "$ACTION" = "apply" ]; then AUTO_APPROVE="--auto-approve"; fi
 # Scrape VM infrastructure topology from terraform outputs
 if hash terraform 2>/dev/null
 then
-  DEPLOYMENT_PUBLIC_IP="$(terraform output -state=../../creodias/terraform.tfstate -json | jq -r '.loadbalancer_fips.value[]')"
-  DEPLOYMENT_NFS_SERVER="$(terraform output -state=../../creodias/terraform.tfstate -json | jq -r '.nfs_ip_address.value')"
+  DEPLOYMENT_PUBLIC_IP="$(terraform output -state=../../creodias/terraform.tfstate -json | jq -r '.loadbalancer_fips.value[]' 2>/dev/null)" || unset DEPLOYMENT_PUBLIC_IP
+  DEPLOYMENT_NFS_SERVER="$(terraform output -state=../../creodias/terraform.tfstate -json | jq -r '.nfs_ip_address.value' 2>/dev/null)" || unset DEPLOYMENT_NFS_SERVER
 fi
 
 # Note minikube ip in case we need it
-if hash minikube 2>/dev/null; then MINIKUBE_IP=$(minikube ip); fi
+if hash minikube 2>/dev/null; then MINIKUBE_IP=$(minikube ip 2>/dev/null) || unset MINIKUBE_IP; fi
 
 # Check presence of environment variables
 #

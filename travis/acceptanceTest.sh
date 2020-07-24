@@ -19,13 +19,13 @@ fi
 
 echo Testing connectivity with the infrastructure
 # local host machine's minikube VM IP
-kubeIP=$(kubectl cluster-info | sed 's/\r$//' | grep 'master' | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
+kubeIP=$(kubectl cluster-info | sed 's/\r$//' | grep 'master' | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' 2>/dev/null) || unset kubeIP
 
 echo "Minikube or Kubernetes master IP is ${kubeIP}"
 
 echo Acceptance testing
 # echo \#1 proc-ades
-# ADES_PORT=$(kubectl get services/eoepca-ades-core -o go-template='{{(index .spec.ports 0).nodePort}}')
+# ADES_PORT=$(kubectl get services/eoepca-ades-core -o go-template='{{(index .spec.ports 0).nodePort}}' 2>/dev/null) || unset ADES_PORT
 # echo "eoepca-ades-core service is acccessible on ${kubeIP}:${ADES_PORT}"
 # curl -s -L $kubeIP:$ADES_PORT/wps3/processes/argo -H "accept: application/json"
 ~/.local/bin/robot test/acceptance

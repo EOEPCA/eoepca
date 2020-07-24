@@ -9,7 +9,7 @@ trap "cd '${ORIG_DIR}'" EXIT
 CLUSTER_YML_FILE="${1:-cluster.yml}"
 
 function master_nodes() {
-  master_nodes=$(terraform output -state=../creodias/terraform.tfstate -json | jq -r '.k8s_master_ips.value[]')
+  master_nodes=$(terraform output -state=../creodias/terraform.tfstate -json | jq -r '.k8s_master_ips.value[]' 2>/dev/null) || unset master_nodes
   for node in $master_nodes
   do
     cat - <<EOF
@@ -23,7 +23,7 @@ EOF
 }
 
 function worker_nodes() {
-  worker_nodes=$(terraform output -state=../creodias/terraform.tfstate -json | jq -r '.k8s_node_ips.value[]')
+  worker_nodes=$(terraform output -state=../creodias/terraform.tfstate -json | jq -r '.k8s_node_ips.value[]' 2>/dev/null) || unset worker_nodes
   for node in $worker_nodes
   do
     cat - <<EOF
@@ -36,7 +36,7 @@ EOF
 }
 
 function bastion_host() {
-  bastion=$(terraform output -state=../creodias/terraform.tfstate -json | jq -r '.bastion_fips.value[]')
+  bastion=$(terraform output -state=../creodias/terraform.tfstate -json | jq -r '.bastion_fips.value[]' 2>/dev/null) || unset bastion
   cat - <<EOF
 bastion_host:
   address: $bastion

@@ -40,7 +40,7 @@ function install_test_requirements() {
 }
 
 function run_acceptance_tests() {
-  public_ip=$(terraform output -state=../../creodias/terraform.tfstate -json | jq -r '.loadbalancer_fips.value[]')
+  public_ip=$(terraform output -state=../../creodias/terraform.tfstate -json | jq -r '.loadbalancer_fips.value[]' 2>/dev/null) || unset public_ip
   public_hostname="${public_ip}.nip.io"
   echo "INFO: Using PUBLIC HOSTNAME: ${public_hostname}"
 
