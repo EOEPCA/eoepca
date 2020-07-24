@@ -17,9 +17,9 @@ jobs:
         - sudo apt-get -y install -f
 
       install:
-        # - ./test/bin/install-kubectl.sh
+        # - ./bin/install-kubectl.sh
         # - ./test/bin/setup-k3s.sh
-        # - ./test/bin/install-terraform.sh
+        # - ./bin/install-terraform.sh
         - sudo sh ./travis/setupMinikube.sh
         - sudo sh ./test/nfs-server/nfs-setup.sh
 

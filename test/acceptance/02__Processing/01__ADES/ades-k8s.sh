@@ -3,7 +3,6 @@
 ORIG_DIR="$(pwd)"
 cd "$(dirname "$0")"
 BIN_DIR="$(pwd)"
-cd "${ORIG_DIR}"
 
 trap "cd '${ORIG_DIR}'" EXIT
 
