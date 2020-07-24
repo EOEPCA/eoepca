@@ -5,6 +5,7 @@ provider "kubernetes" {
 provider "kubectl" {
 }
 
+
 resource "kubernetes_role_binding" "default_admin" {
   metadata {
     name = "default-admin"
@@ -22,54 +23,61 @@ resource "kubernetes_role_binding" "default_admin" {
     name      = "admin"
   }
 }
+resource "kubernetes_cluster_role_binding" "default_view" {
+ 
+  metadata {
+    name = "default-view"
+  }
 
-module "nfs-provisioner" {
-  source = "../global/nfs-provisioner"
-  nfs_server_address = var.nfs_server_address
-}
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ClusterRole"
+    name      = "view"
+  }
 
-module "storage" {
-  source = "../global/storage"
-  nfs_server_address = var.nfs_server_address
+  subject {
+      kind      = "ServiceAccount"
+      name      = "default"
+      namespace = "default"
+  }
 }
 
 module "um-login-service" {
   source = "../global/um-login-service"
+  nginx_ip = var.nginx_ip
   hostname = var.hostname
-  config_file = var.um-login-config_file
-}
-
-output "lb_address" {
-  value = module.um-login-service.lb_address
 }
 
 module "um-pep-engine" {
   source = "../global/um-pep-engine"
-  nginx_ip = module.um-login-service.lb_address[0]
+  nginx_ip = var.nginx_ip
   hostname = var.hostname
-  module_depends_on = [ module.um-login-service ]
+}
+module "um-pdp-engine" {
+  source = "../global/um-pep-engine"
+  nginx_ip = var.nginx_ip
+  hostname = var.hostname
 }
 
 module "um-user-profile" {
   source = "../global/um-user-profile"
-  nginx_ip = module.um-login-service.lb_address[0]
+  nginx_ip = var.nginx_ip
   hostname = var.hostname
-  module_depends_on = [ module.um-login-service, module.um-pep-engine ]
 }  
 
-module "proc-ades" {
-  source = "../global/proc-ades"
-  dh_user_email = var.dh_user_email
-  dh_user_name = var.dh_user_name
-  dh_user_password = var.dh_user_password
-  wspace_user_name = var.wspace_user_name
-  wspace_user_password = var.wspace_user_password
-  module_depends_on = [ module.um-login-service, module.um-pep-engine, module.um-user-profile ]
-}
+  
 
-module "rm-workspace" {
-  source = "../global/rm-workspace"
-  wspace_user_name = var.wspace_user_name
-  wspace_user_password = var.wspace_user_password
-  module_depends_on = [ module.proc-ades ]
-}
+# module "proc-ades" {
+#   source = "../global/proc-ades"
+#   dh_user_email = var.dh_user_email
+#   dh_user_name = var.dh_user_name
+#   dh_user_password = var.dh_user_password
+#   wspace_user_name = var.wspace_user_name
+#   wspace_user_password = var.wspace_user_password
+# }
+
+# module "rm-workspace" {
+#   source = "../global/rm-workspace"
+#   wspace_user_name = var.wspace_user_name
+#   wspace_user_password = var.wspace_user_password
+# }

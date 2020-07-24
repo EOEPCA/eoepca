@@ -1,6 +1,6 @@
-resource "kubernetes_config_map" "pep_engine_cm" {
+resource "kubernetes_config_map" "pdp_engine_cm" {
   metadata {
-    name = "um-pep-engine-config"
+    name = "um-pdp-engine-config"
   }
 
   depends_on = [ null_resource.waitfor-login-service ]
@@ -19,9 +19,9 @@ resource "kubernetes_config_map" "pep_engine_cm" {
   }
 }
 
-resource "kubernetes_ingress" "gluu_ingress_pep_engine" {
+resource "kubernetes_ingress" "gluu_ingress_pdp_engine" {
   metadata {
-    name = "gluu-ingress-pep-engine"
+    name = "gluu-ingress-pdp-engine"
 
     annotations = {
       "kubernetes.io/ingress.class" = "nginx"
@@ -35,10 +35,10 @@ resource "kubernetes_ingress" "gluu_ingress_pep_engine" {
 
       http {
         path {
-          path = "/pep"
+          path = "/pdp"
 
           backend {
-            service_name = "pep-engine"
+            service_name = "pdp-engine"
             service_port = "5566"
           }
         }
@@ -47,72 +47,72 @@ resource "kubernetes_ingress" "gluu_ingress_pep_engine" {
   }
 }
 
-resource "kubernetes_service" "pep-engine" {
+resource "kubernetes_service" "pdp-engine" {
   metadata {
-    name   = "pep-engine"
-    labels = { app = "pep-engine" }
+    name   = "pdp-engine"
+    labels = { app = "pdp-engine" }
   }
 
   spec {
     type = "NodePort"
 
     port {
-      name = "http-pep"
+      name = "http-pdp"
       port = 5566
       target_port = 5566
       node_port = 31707
     }
     port {
-      name = "https-pep"
+      name = "https-pdp"
       port = 1025
       target_port = 443
     }
-    selector = { app = "pep-engine" }
+    selector = { app = "pdp-engine" }
   }
 }
 
 
-resource "kubernetes_deployment" "pep-engine" {
+resource "kubernetes_deployment" "pdp-engine" {
   metadata {
-    name   = "pep-engine"
-    labels = { app = "pep-engine" }
+    name   = "pdp-engine"
+    labels = { app = "pdp-engine" }
   }
   
   spec {
     replicas = 1
     selector {
-      match_labels = { app = "pep-engine" }
+      match_labels = { app = "pdp-engine" }
     }
     template {
       metadata {
-        labels = { app = "pep-engine" }
+        labels = { app = "pdp-engine" }
       }
       spec {
   
         automount_service_account_token = true
   
         volume {
-          name = "pep-engine-logs"
+          name = "pdp-engine-logs"
           persistent_volume_claim {
-            claim_name = "pep-engine-logs-volume-claim"
+            claim_name = "pdp-engine-logs-volume-claim"
           }
         }
         volume {
-          name = "pep-engine-lib-ext"
+          name = "pdp-engine-lib-ext"
           persistent_volume_claim {
-            claim_name = "pep-engine-lib-ext-volume-claim"
+            claim_name = "pdp-engine-lib-ext-volume-claim"
           }
         }
         volume {
-          name = "pep-engine-custom-static"
+          name = "pdp-engine-custom-static"
           persistent_volume_claim {
-            claim_name = "pep-engine-custom-static-volume-claim"
+            claim_name = "pdp-engine-custom-static-volume-claim"
           }
         }
         volume {
-          name = "pep-engine-custom-pages"
+          name = "pdp-engine-custom-pages"
           persistent_volume_claim {
-            claim_name = "pep-engine-custom-pages-volume-claim"
+            claim_name = "pdp-engine-custom-pages-volume-claim"
           }
         }
         volume {
@@ -122,41 +122,41 @@ resource "kubernetes_deployment" "pep-engine" {
           }
         }
         container {
-          name  = "pep-engine"
-          image = "eoepca/um-pep-engine:travis_120"
+          name  = "pdp-engine"
+          image = "eoepca/um-pdp-engine:travis_11"
 
           port {
             container_port = 5566
-            name = "http-pep"
+            name = "http-pdp"
           }
           port {
             container_port = 443
-            name = "https-pep"
+            name = "https-pdp"
           }
           env_from {
             config_map_ref {
-              name = "um-pep-engine-config"
+              name = "um-pdp-engine-config"
             }
           }
           volume_mount {
-            name       = "pep-engine-logs"
-            mount_path = "/opt/gluu/jetty/pep-engine/logs"
+            name       = "pdp-engine-logs"
+            mount_path = "/opt/gluu/jetty/pdp-engine/logs"
           }
           volume_mount {
-            name       = "pep-engine-lib-ext"
-            mount_path = "/opt/gluu/jetty/pep-engine/lib/ext"
+            name       = "pdp-engine-lib-ext"
+            mount_path = "/opt/gluu/jetty/pdp-engine/lib/ext"
           }
           volume_mount {
-            name       = "pep-engine-custom-static"
-            mount_path = "/opt/gluu/jetty/pep-engine/custom/static"
+            name       = "pdp-engine-custom-static"
+            mount_path = "/opt/gluu/jetty/pdp-engine/custom/static"
           }
           volume_mount {
-            name       = "pep-engine-custom-pages"
-            mount_path = "/opt/gluu/jetty/pep-engine/custom/pages"
+            name       = "pdp-engine-custom-pages"
+            mount_path = "/opt/gluu/jetty/pdp-engine/custom/pages"
           }
           volume_mount {
             name       = "mongo-persistent-storage"
-            mount_path = "/data/db/resource"
+            mount_path = "/data/db/policy"
           }
           image_pull_policy = "Always"
         }
@@ -170,12 +170,12 @@ resource "kubernetes_deployment" "pep-engine" {
         
           env_from {
             config_map_ref {
-              name = "um-pep-engine-config"
+              name = "um-pdp-engine-config"
             }
           }
           volume_mount {
             name       = "mongo-persistent-storage"
-            mount_path = "/data/db/resource"
+            mount_path = "/data/db/policy"
           }
           image_pull_policy = "Always"
         }
