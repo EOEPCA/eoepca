@@ -63,7 +63,7 @@ Alternatively the file can be copied to $HOME/.kube/config to establish it as th
 $ cp kube_config_cluster.yml ~/.kube/config
 ```
 
-NOTE that, in order to use kubectl from your local platform, it is necessary to establish a VPN to the bastion, as described in the [following section](#access_via_bastion_host). NOTE that this was not necessary during the `rke up` step due to the fact that RKE supports use of a bastion jump host via its configuration.
+NOTE that, in order to use kubectl from your local platform, it is necessary to establish a VPN to the bastion, as described in the [following section](#access-via-bastion-host). NOTE that this was not necessary during the `rke up` step due to the fact that RKE supports use of a bastion jump host via its configuration.
 
 ## Access via Bastion host
 
