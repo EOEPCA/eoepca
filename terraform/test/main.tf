@@ -31,6 +31,7 @@ module "nfs-provisioner" {
 module "storage" {
   source             = "../global/storage"
   nfs_server_address = var.nfs_server_address
+  storage_class = var.storage_class
 }
 
 module "um-login-service" {

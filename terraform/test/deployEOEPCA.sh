@@ -21,7 +21,9 @@ if [ "$ACTION" = "apply" ]; then AUTO_APPROVE="--auto-approve"; fi
 if hash terraform 2>/dev/null
 then
   DEPLOYMENT_PUBLIC_IP="$(terraform output -state=../../creodias/terraform.tfstate -json | jq -r '.loadbalancer_fips.value[]' 2>/dev/null)" || unset DEPLOYMENT_PUBLIC_IP
+  if [ "${DEPLOYMENT_PUBLIC_IP}" = "null" ]; then unset DEPLOYMENT_PUBLIC_IP; fi
   DEPLOYMENT_NFS_SERVER="$(terraform output -state=../../creodias/terraform.tfstate -json | jq -r '.nfs_ip_address.value' 2>/dev/null)" || unset DEPLOYMENT_NFS_SERVER
+  if [ "${DEPLOYMENT_NFS_SERVER}" = "null" ]; then unset DEPLOYMENT_NFS_SERVER; fi
 fi
 
 # Note minikube ip in case we need it
@@ -31,7 +33,8 @@ if hash minikube 2>/dev/null; then MINIKUBE_IP=$(minikube ip 2>/dev/null) || uns
 #
 # If not supplied, try to derive IPs from Terraform (cloud infrastructure (preferred)), followed by minikube
 PUBLIC_IP="${PUBLIC_IP:-${DEPLOYMENT_PUBLIC_IP:-${MINIKUBE_IP:-none}}}"
-NFS_SERVER_ADDRESS="${NFS_SERVER_ADDRESS:-${DEPLOYMENT_NFS_SERVER:-${MINIKUBE_IP:-none}}}"
+NFS_SERVER_ADDRESS="${NFS_SERVER_ADDRESS:-${DEPLOYMENT_NFS_SERVER:-none}}"
+if [ "${PUBLIC_IP}" = "none" ]; then echo "ERROR: invalid Public IP (${PUBLIC_IP}). Aborting..."; exit 1; fi
 #
 # Other details...
 DOCKER_EMAIL="${DOCKER_EMAIL:-none@none.com}"
@@ -41,6 +44,15 @@ WSPACE_USERNAME="${WSPACE_USERNAME:-eoepca}"
 WSPACE_PASSWORD="${WSPACE_PASSWORD:-telespazio}"
 echo "Using PUBLIC_IP=${PUBLIC_IP}"
 echo "Using NFS_SERVER_ADDRESS=${NFS_SERVER_ADDRESS}"
+
+# Storage class
+# If using minikube then set storage class to 'standard' (host storage OK for dev testing)
+if [ "${PUBLIC_IP}" = "${MINIKUBE_IP}" ]
+then
+  STORAGE_CLASS="${STORAGE_CLASS:-standard}"
+  echo "INFO: using minikube with IP ${MINIKUBE_IP} and storage class ${STORAGE_CLASS}"
+fi
+if [ -n "${STORAGE_CLASS}" ]; then VAR_STORAGE_CLASS="--var=storage_class=${STORAGE_CLASS}"; fi
 
 # Terraform plugins...
 #
@@ -65,5 +77,6 @@ terraform $ACTION \
   --var="wspace_user_name=${WSPACE_USERNAME}" \
   --var="wspace_user_password=${WSPACE_PASSWORD}" \
   --var="nfs_server_address=${NFS_SERVER_ADDRESS}" \
+  ${VAR_STORAGE_CLASS} \
   --var="hostname=test.${PUBLIC_IP}.nip.io" \
   --var="public_ip=${PUBLIC_IP}"

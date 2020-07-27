@@ -39,9 +39,20 @@ function install_test_requirements() {
   pip install -r ./requirements.txt
 }
 
+function deduce_public_ip() {
+  # Scrape VM infrastructure topology from terraform outputs
+  if hash terraform 2>/dev/null
+  then
+    DEPLOYMENT_PUBLIC_IP="$(terraform output -state=../../creodias/terraform.tfstate -json | jq -r '.loadbalancer_fips.value[]' 2>/dev/null)" || unset DEPLOYMENT_PUBLIC_IP
+    if [ "${DEPLOYMENT_PUBLIC_IP}" = "null" ]; then unset DEPLOYMENT_PUBLIC_IP; fi
+  fi
+  if hash minikube 2>/dev/null; then MINIKUBE_IP=$(minikube ip 2>/dev/null) || unset MINIKUBE_IP; fi
+  PUBLIC_IP="${PUBLIC_IP:-${DEPLOYMENT_PUBLIC_IP:-${MINIKUBE_IP:-none}}}"
+  if [ "${PUBLIC_IP}" = "none" ]; then echo "ERROR: invalid Public IP (${PUBLIC_IP}). Aborting..."; exit 1; fi
+}
+
 function run_acceptance_tests() {
-  public_ip=$(terraform output -state=../../creodias/terraform.tfstate -json | jq -r '.loadbalancer_fips.value[]' 2>/dev/null) || unset public_ip
-  public_hostname="${public_ip}.nip.io"
+  public_hostname="${PUBLIC_IP}.nip.io"
   echo "INFO: Using PUBLIC HOSTNAME: ${public_hostname}"
 
   echo "INFO: Invoking acceptance tests..."
@@ -52,6 +63,7 @@ function main() {
   setup_venv \
   && install_robot_framework \
   && install_test_requirements \
+  && deduce_public_ip \
   && run_acceptance_tests
 
   hash deactivate 2>/dev/null && deactivate

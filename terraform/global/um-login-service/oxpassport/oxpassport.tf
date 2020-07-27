@@ -49,7 +49,7 @@ resource "kubernetes_deployment" "oxpassport" {
   depends_on = [null_resource.waitfor-persistence]
 
   timeouts {
-    create = "5m"
+    create = "10m"
   }
 
   spec {
