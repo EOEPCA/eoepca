@@ -2,20 +2,13 @@ resource "kubernetes_config_map" "pdp_engine_cm" {
   metadata {
     name = "um-pdp-engine-config"
   }
-
-  depends_on = [ null_resource.waitfor-login-service ]
-
   data = {
-    PEP_REALM                    = "eoepca"
-    PEP_AUTH_SERVER_URL          = "https://${var.hostname}"
-    PEP_PROXY_ENDPOINT           = "/"
-    PEP_SERVICE_HOST             = "0.0.0.0"
-    PEP_SERVICE_PORT             = "5566"
-    PEP_S_MARGIN_RPT_VALID       = "5"
-    PEP_CHECK_SSL_CERTS          = "false"
-    PEP_USE_THREADS              = "true"
-    PEP_DEBUG_MODE               = "true"
-    PEP_RESOURCE_SERVER_ENDPOINT = "http://ades/"
+    PDP_AUTH_SERVER_URL          = "https://${var.hostname}"
+    PDP_PREFIX                   = "/"
+    PDP_HOST                     = "0.0.0.0"
+    PDP_PORT                     = "5567"
+    PDP_CHECK_SSL_CERTS          = "false"
+    PDP_DEBUG_MODE               = "true"
   }
 }
 
@@ -39,7 +32,7 @@ resource "kubernetes_ingress" "gluu_ingress_pdp_engine" {
 
           backend {
             service_name = "pdp-engine"
-            service_port = "5566"
+            service_port = "5567"
           }
         }
       }
@@ -58,9 +51,9 @@ resource "kubernetes_service" "pdp-engine" {
 
     port {
       name = "http-pdp"
-      port = 5566
-      target_port = 5566
-      node_port = 31707
+      port = 5567
+      target_port = 5567
+      node_port = 31708
     }
     port {
       name = "https-pdp"
@@ -123,10 +116,10 @@ resource "kubernetes_deployment" "pdp-engine" {
         }
         container {
           name  = "pdp-engine"
-          image = "eoepca/um-pdp-engine:travis_11"
+          image = "eoepca/um-pdp-engine:latest"
 
           port {
-            container_port = 5566
+            container_port = 5567
             name = "http-pdp"
           }
           port {
