@@ -17,9 +17,8 @@ mv minikube /usr/local/bin/
 
 echo "##### (Re)start Minikube cluster"
 export CHANGE_MINIKUBE_NONE_USER=true
-rm -rf /data
 minikube delete --purge --all
-minikube start --mount-string='/data:/data' --vm-driver=none --bootstrapper=kubeadm --kubernetes-version=${K8S_VER} --extra-config=apiserver.authorization-mode=RBAC
+minikube start --vm-driver=none --bootstrapper=kubeadm --kubernetes-version=${K8S_VER} --extra-config=apiserver.authorization-mode=RBAC
 
 minikube addons enable ingress ## Substitute this for kubernetes deployment
 

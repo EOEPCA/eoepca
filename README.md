@@ -1,9 +1,3 @@
-<!--
-*** 
-*** To avoid retyping too much info. Do a search and replace for the following:
-*** template-svce, twitter_handle, email
--->
-
 <!-- PROJECT SHIELDS -->
 <!--
 *** See the bottom of this document for the declaration of the reference variables
@@ -14,8 +8,9 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-![Build][build-shield]
+[![License][license-shield]][license-url]
+[![Build][build-shield]][build-url]
+
 
 <!-- PROJECT LOGO -->
 <br />
@@ -40,113 +35,89 @@
 </p>
 
 
-
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
 
 - [Table of Contents](#table-of-contents)
 - [About The Project](#about-the-project)
-  - [Built With](#built-with)
 - [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Testing](#testing)
-- [Usage](#usage)
+- [System Documentation](#system-documentation)
+- [Technical Domains](#technical-domains)
+  - [User Management](#user-management)
+  - [Processing and Chaining](#processing-and-chaining)
+  - [Resource Management](#resource-management)
 - [Releases](#releases)
-- [Roadmap](#roadmap)
-- [Contributing](#contributing)
+- [Issues](#issues)
 - [License](#license)
 - [Contact](#contact)
 - [Acknowledgements](#acknowledgements)
 
 
-
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+EO Exploitation Platform Common Architecture (EOEPCA)
 
-Here's a blank template to get started:
-**To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`template-svce`, `twitter_handle`, `email`
+The goal of the “Common Architecture” is to define and agree the technical interfaces for the future exploitation of Earth Observation data in a distributed environment. The Common Architecture will thus provide the interfaces to facilitate the federation of different EO resources into a “Network of EO Resources”. The “Common Architecture” will be defined using open interfaces that link the different resources (building blocks) so that a user can efficiently access and consume the disparate services of the “Network of EO Resources”.
 
-### Built With
+This repository represents the system integration of the building block that comprise the **Reference Implementation** of the Common Architecture.
 
-* [Terraform](https://terraform.io/)
-* [Ansible](https://ansible.com)
-* [Kubernetes](https://kubernetes.io)
-* [Minikube](https://github.com/kubernetes/minikube)
-* [Docker](https://docker.com)
+The system is designed for deployment to cloud infrastructure orchestrated by a Kubernetes cluster. We include here the automation required to provision, deploy and test the emerging EOEPCA system.
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get a local copy up and running follow these simple steps.
+The EOEPCA system deployment comprises several steps. Instructions are provided for both cloud deployment, and local deployment for development purposes.
 
-### Prerequisites
+The first step is to clone this repository to your local platform...
+```
+$ git clone --branch v0.1 git@github.com:EOEPCA/eoepca.git
+```
+NOTE that this clones the specific tag that is well tested. For the latest development branch the `--branch` option should be omitted.
 
-Things you need to use the software and how to install them.
-* [Terraform](https://terraform.io/) 
-* [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+Step | Cloud (OpenStack) | Local Developer
+-----|-------------------|----------------
+Infrastructure | [CREODIAS](./creodias/README.md) | n/a *(local developer platform)*
+Kubernetes Cluster | [Rancher Kubernetes Engine](./kubernetes/README.md) | [Minikube](./minikube/README.md)
+EOEPCA System Deployment | [Deploy with Terraform](./terraform/test/README.md) | [Deploy with Terraform](./terraform/test/README.md)
+Acceptance Test | [Run Test Suite](./test/acceptance/README.md) | [Run Test Suite](./test/acceptance/README.md)
 
-### Installation
+### Hostnames and DNS
 
-#### Configuration
+To ease development/testing, the EOEPCA deployment is configured to use host/service names that embed IP-addresses - which avoids the need to configure public nameservers, (as would be necessary for a production deployment). Our services are exposed through Kubernetes ingress rules that use name-based routing, and so simple IP-addresses are insufficient. Therefore, we exploit the services of [nip.io](https://nip.io/) that provides dynamic DNS in which the hostname->IP-adress mapping is embedded in the hostname.
 
-Either edit and modify the variables values in deployEOEPCA.sh or define needed environment variables:
-- `export DOCKER_EMAIL=[Email of the account with access to the Dockerhub EOEPCA repository]`
-- `export DOCKER_USERNAME=[User name of the account with access to the Dockerhub EOEPCA repository]`
-- `export DOCKER_PASSWORD=[Password of the account with access to the Dockerhub EOEPCA repository]`
-- `export WSPACE_USERNAME=[User name of the account with access to the workspace]`
-- `export WSPACE_PASSWORD=[Password of the workspace account]`
-- `export NFS_SERVER_ADDRESS=[Address of the NFS server, in the internal subnet]`
+Thus, we use host/service names of the form `<service-name>.<public-ip>.nip.io`, where the `<public-ip>` is the public-facing IP-address of the deployment. For cloud deployment the public IP is that of the cloud load-balancer, or for minikube it is the `minikube ip` - for example `workspace.172.17.0.3.nip.io`.
 
-For the um-login-service, you may also want to edit variable in `um-login-config.json`. Note: Hostname must coincide with the passed environment variable of the same name.
+The deployment scripts (linked in the above table) attempt to intelligently determine the public IP and so configure the service DNS names without intervention. For example, the output of CREODIAS infrastructure setup is interrogated to determine the IP-address of the public cloud load-balancer, which is then injected into the deployment configuration. Similarly for a local developer setup in which the minikube IP-address is used.
 
-*Local environment*
+## System Documentation
 
-It creates a testing environment in a Minikube cluster deployed on the local machine  
-1. `cd terraform/test`
-2. `./deployEOEPCA.sh`
-
-This will create a system accesible from local node at https://test.eoepca.org
+* [Use Case Analysis Document](https://eoepca.github.io/use-case-analysis/)
+* [Master System Design Document](https://eoepca.github.io/master-system-design/)
+* [Master System ICD Document](https://eoepca.github.io/master-system-icd/)
 
 
-*Staging environment*
+## Technical Domains
 
-It creates a testing environment on an Openstack environment provided by a Network-of-Resources provider (e.g. a DIAS platform)
-1. [Register yourself into openstack provider and obtain cloud.key for access]
-2. [Obtain detailed credential for accessing the environment and modify terraform/staging/openrc.sh with this information]
-3. `cd terraform/staging`
-4. `source openrc.sh` [You may be asked for the password if not already set]
-5. `./setupOpenstack.sh --apply` [or --destroy to remove]
-6. `./setupKubernetes.sh`
-- You would be asked of VAULT_PASSWORD environment variable. Ask your EOEPCA admin if you don't have it.
+### User Management
 
-Before the setupOpenstack step, you may want to configure you system environment. You may edit `./inventory/cf2-kube/cluster.tfvars` following the inline instructions.
+Building Block | Repository | Documentation
+---------------|------------|--------------
+Login Service | https://github.com/EOEPCA/um-login-service | https://eoepca.github.io/um-login-service/
+User Profile | https://github.com/EOEPCA/um-user-profile | https://eoepca.github.io/um-user-profile/
+Policy Enforcement Point (PEP) | https://github.com/EOEPCA/um-pep-engine | https://eoepca.github.io/um-pep-engine/
+Policy Decision Point (PDP) | https://github.com/EOEPCA/um-pep-engine | https://eoepca.github.io/um-pep-engine/
 
-Once you have the underlying openstack/kubernetes environment, you can proceed to deploy the EOEPCA system itself. You should specify the same environment variables than in the local environment case (above). Use this call:
+### Processing and Chaining
 
-7. `./deployEOEPCA.sh`
+Building Block | Repository | Documentation
+---------------|------------|--------------
+Application Deployment & Execution Service (ADES) | https://github.com/EOEPCA/proc-ades | https://eoepca.github.io/proc-ades/
 
-This will deploy an EOEPCA system reachable over the internet at https://test.eoepca.org.
+### Resource Management
 
-You can alternatively comment the terraforming and test execution tasks in `eoepca.yml`, SSH into the bastion node and run the `eoepca/terraform/test/deployEOEPCA.sh` script from inside the machine to receive more feedbakc and debug any problems.
+Not started yet
 
----
-Remember to update the DNS tables so the domain could be reacheable from the internet
-
----
-### Testing
-
-Once installed, developers can deploy environments for these pipelines:
-- local test: 
-1. executing `setupMinikube.sh` will create the local environment, 
-2. `setupRobot.sh` will create the test environment, and 
-3. `sh travis/acceptanceTest.sh` will perform all acceptance tests on the deployed system running locally.
-
-- staging test: 
-1. executing `sh travis/acceptanceTest.sh` will perform all acceptance tests on the deployed system at http://test.eoepca.org.
 
 <!-- Releases -->
 ## Releases
@@ -155,31 +126,10 @@ EOEPCA system releases are made to provide integrated deployments of the develop
 
 * 22/06/2020 - [Release 0.1](release-notes/release-0.1.md)
 
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-TBW
-
-<!-- ROADMAP -->
-## Roadmap
+<!-- ISSUES -->
+## Issues
 
 See the [open issues](https://github.com/EOEPCA/eoepca/issues) for a list of proposed features (and known issues).
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-
 
 <!-- LICENSE -->
 ## License
@@ -187,23 +137,16 @@ Contributions are what make the open source community such an amazing place to b
 Distributed under the Apache-2.0 License. See `LICENSE` for more information.
 
 
-
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email
-
-Project Link: [https://github.com/EOEPCA/eoepca](https://github.com/EOEPCA/eoepca)
-
+Project Link: [Project Home (https://eoepca.github.io/)](https://eoepca.github.io/)
 
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-* []()
-* Deployment of Kubernetes staging environment over an Openstack infrastructure is based on the [kubespray](https://github.com/kubernetes-sigs/kubespray) project
 * README.md is based on [this template](https://github.com/othneildrew/Best-README-Template) by [Othneil Drew](https://github.com/othneildrew).
-
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
@@ -219,4 +162,5 @@ Project Link: [https://github.com/EOEPCA/eoepca](https://github.com/EOEPCA/eoepc
 [license-shield]: https://img.shields.io/github/license/EOEPCA/eoepca.svg?style=flat-square
 [license-url]: https://github.com/EOEPCA/eoepca/blob/master/LICENSE
 [build-shield]: https://www.travis-ci.com/EOEPCA/eoepca.svg?branch=master
+[build-url]: https://travis-ci.com/github/EOEPCA/eoepca
 [product-screenshot]: images/screenshot.png

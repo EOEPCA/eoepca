@@ -1,18 +1,17 @@
 variable "nginx_ip" {
-    type = string
-    default = "0.0.0.0"
-} 
+  type    = string
+  default = "0.0.0.0"
+}
 
 variable "hostname" {
-    type = string
-    default = "test.eoepca.org"
+  type    = string
 }
 
 variable "module_depends_on" {
-    type = any
+  type = any
 }
 
 output "um-user-profile-up" {
-    value = module.config.um-user-profile-up
-    depends_on = [ module.config ]
+  value      = module.config.um-user-profile-up
+  depends_on = [module.config]
 }

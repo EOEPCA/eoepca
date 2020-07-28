@@ -37,11 +37,20 @@ variable "hostname" {
   type = string
 }
 
+variable "public_ip" {
+  type = string
+}
+
 variable "nfs_server_address" {
   type = string
 }
 
+variable "storage_class" {
+  type = string
+  default = "eoepca-nfs"
+}
+
 variable "um-login-config_file" {
   type = string
-  default = "um-login-config.json"
+  default = "um-login-config.json.tmpl"
 }

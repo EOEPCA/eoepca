@@ -28,14 +28,14 @@ number_of_k8s_masters_no_floating_ip = 1
 
 number_of_k8s_masters_no_floating_ip_no_etcd = 0
 
-flavor_k8s_master = "18"  # eo1.large
+flavor_k8s_master = "20"  # eo1.large
 
 # nodes
 number_of_k8s_nodes = 0
 
 number_of_k8s_nodes_no_floating_ip = 2
 
-flavor_k8s_node = "18"  # eo1.large
+flavor_k8s_node = "20"  # eo1.large
 
 # GlusterFS
 # either 0 or more than one

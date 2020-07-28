@@ -1,4 +1,5 @@
 resource "kubernetes_persistent_volume" "eoepca_proc_pv" {
+  count = "${var.nfs_server_address == "none" ? 0 : 1}"
   metadata {
     name = "eoepca-proc-pv"
     labels = {
@@ -28,7 +29,7 @@ resource "kubernetes_persistent_volume_claim" "eoepca_pvc" {
     }
   }
   spec {
-    storage_class_name = "eoepca-nfs"
+    storage_class_name = var.storage_class
     access_modes = ["ReadWriteMany"]
     resources {
       requests = {

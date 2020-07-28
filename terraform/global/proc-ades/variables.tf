@@ -23,6 +23,10 @@ variable "wspace_user_password" {
   default = "password"
 }
 
+variable "hostname" {
+    type = string
+}
+
 variable module_depends_on {
   type = any
 }

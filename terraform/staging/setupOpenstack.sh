@@ -8,10 +8,10 @@ sudo sh -c 'DEBIAN_FRONTEND=noninteractive && apt-get install python3 python3-pi
 
 echo "##### Install python requirement #####"
 sudo -H pip3 install -r requirements.txt
-sudo -H pip3 install python-openstackclient
+sudo -H pip3 install openstackclient
 
 echo "##### Set CreoDIAS credentials #####"
-./openrc.sh
+source ./openrc.sh
 
 echo "##### Generate keys for project #####"
 KEY=`grep "public_key_path" ./inventory/cf2-kube/cluster.tfvars | awk -F'"' '{print $2}'`
