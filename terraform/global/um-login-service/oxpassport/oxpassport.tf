@@ -3,14 +3,14 @@ resource "kubernetes_config_map" "oxpassport_cm" {
     name = "oxpassport-cm"
   }
 
-  depends_on = [ null_resource.waitfor-persistence ]
+  depends_on = [null_resource.waitfor-persistence]
 
   data = {
-    DOMAIN = var.hostname
-    GLUU_CONFIG_ADAPTER = "kubernetes"
-    GLUU_LDAP_URL = "opendj:1636"
+    DOMAIN                = var.hostname
+    GLUU_CONFIG_ADAPTER   = "kubernetes"
+    GLUU_LDAP_URL         = "opendj:1636"
     GLUU_MAX_RAM_FRACTION = "1"
-    GLUU_SECRET_ADAPTER = "kubernetes"
+    GLUU_SECRET_ADAPTER   = "kubernetes"
   }
 }
 
@@ -23,7 +23,7 @@ resource "kubernetes_service" "oxpassport" {
     }
   }
 
-  depends_on = [ null_resource.waitfor-persistence ]
+  depends_on = [null_resource.waitfor-persistence]
 
   spec {
     port {
@@ -46,10 +46,10 @@ resource "kubernetes_deployment" "oxpassport" {
     }
   }
 
-  depends_on = [ null_resource.waitfor-persistence ]
+  depends_on = [null_resource.waitfor-persistence]
 
   timeouts {
-    create = "5m"
+    create = "10m"
   }
 
   spec {
@@ -72,9 +72,9 @@ resource "kubernetes_deployment" "oxpassport" {
         automount_service_account_token = true
 
         container {
-          
+
           name  = "oxpassport"
-          image = "eoepca/um-login-passport:latest"
+          image = "eoepca/um-login-passport:v0.1.1"
 
           port {
             container_port = 8090
@@ -109,8 +109,8 @@ resource "kubernetes_deployment" "oxpassport" {
           image_pull_policy = "Always"
         }
         host_aliases {
-          ip = var.nginx_ip
-          hostnames = [ var.hostname ]
+          ip        = var.nginx_ip
+          hostnames = [var.hostname]
         }
       }
     }

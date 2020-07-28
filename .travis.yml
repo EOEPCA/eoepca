@@ -5,28 +5,33 @@ install: true
 services:
   - docker
 
-addons:
-  chrome: stable
-
 jobs:
   include:
-    - stage: deploy to local kube and test (ADES only)
-      if: branch = feature/EOEPCA-105
+    - stage: deploy to local kube and test
+      if: branch = release/v0.1
       dist: bionic
       language: minimal
 
+      before_install:
+        - sudo apt-get update
+        - sudo apt-get -y install -f
+
       install:
-        - ./test/bin/install-kubectl.sh
-        - ./test/bin/setup-k3s.sh
-        - ./test/bin/install-terraform.sh
+        # - ./bin/install-kubectl.sh
+        # - ./test/bin/setup-k3s.sh
+        # - ./bin/install-terraform.sh
+        - sudo sh ./travis/setupMinikube.sh
+        - sudo sh ./test/nfs-server/nfs-setup.sh
 
       before_script:
-        - ./terraform/test/deployEOEPCA.sh
-        - sh ./travis/setupRobot.sh
+        # - ./terraform/test/deployEOEPCA.sh
+        - sudo ./terraform/test/deployEOEPCA.sh
+        - sudo apt-get -y install chromium-browser
+        - sh ./test/bin/install-robotframework
 
       script:
-        - cd ./test/acceptance/Processing/ADES
-        - robot .
+        - cd ./test/acceptance
+        - ./acceptance_tests.sh
 
       after_success:
         - echo '*** SUCCESS ***'
@@ -77,12 +82,11 @@ jobs:
 
 import:
   - docs/.travis.yml
-
-notifications:
-  slack: eoepca:Msk9hjQKAbwSYcVWiepenPim
-  email:
-    recipients:
-      - a.person @acme.com
-      - a.n.other@acme.com
-    on_success: never # default: change
-    on_failure: never # default: always
+# notifications:
+#   slack: eoepca:Msk9hjQKAbwSYcVWiepenPim
+#   email:
+#     recipients:
+#       - a.person @acme.com
+#       - a.n.other@acme.com
+#     on_success: never # default: change
+#     on_failure: never # default: always

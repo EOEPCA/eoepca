@@ -2,12 +2,12 @@ resource "kubernetes_config_map" "pep_engine_cm" {
   metadata {
     name = "um-pep-engine-config"
   }
-  
-  depends_on = [ null_resource.waitfor-login-service ]
+
+  depends_on = [null_resource.waitfor-login-service]
 
   data = {
     PEP_REALM                    = "eoepca"
-    PEP_AUTH_SERVER_URL          = var.hostname
+    PEP_AUTH_SERVER_URL          = "${join("", ["http://", var.hostname])}"
     PEP_PROXY_ENDPOINT           = "/"
     PEP_SERVICE_HOST             = "0.0.0.0"
     PEP_SERVICE_PORT             = "5566"
@@ -27,14 +27,14 @@ resource "kubernetes_ingress" "gluu_ingress_pep_engine" {
     name = "gluu-ingress-pep-engine"
 
     annotations = {
-      "kubernetes.io/ingress.class" = "nginx"
+      "kubernetes.io/ingress.class"              = "nginx"
       "nginx.ingress.kubernetes.io/ssl-redirect" = "false"
     }
   }
 
   spec {
     rule {
-      host =  var.hostname 
+      host = var.hostname
 
       http {
         path {
@@ -56,20 +56,20 @@ resource "kubernetes_service" "pep-engine" {
     labels = { app = "pep-engine" }
   }
 
-  depends_on = [ null_resource.waitfor-login-service ]
-  
+  depends_on = [null_resource.waitfor-login-service]
+
   spec {
     type = "NodePort"
 
     port {
-      name = "http-pep"
-      port = 5566
+      name        = "http-pep"
+      port        = 5566
       target_port = 5566
-      node_port = 31707
+      node_port   = 31707
     }
     port {
-      name = "https-pep"
-      port = 1025
+      name        = "https-pep"
+      port        = 1025
       target_port = 443
     }
     selector = { app = "pep-engine" }
@@ -82,8 +82,8 @@ resource "kubernetes_deployment" "pep-engine" {
     labels = { app = "pep-engine" }
   }
 
-  depends_on = [ null_resource.waitfor-login-service ]
-  
+  depends_on = [null_resource.waitfor-login-service]
+
   spec {
     replicas = 1
     selector {
@@ -94,7 +94,7 @@ resource "kubernetes_deployment" "pep-engine" {
         labels = { app = "pep-engine" }
       }
       spec {
-  
+
         automount_service_account_token = true
 
         volume {
@@ -110,11 +110,11 @@ resource "kubernetes_deployment" "pep-engine" {
           image = "eoepca/um-pep-engine:v0.1.1"
           port {
             container_port = 5566
-            name = "http-pep"
+            name           = "http-pep"
           }
           port {
             container_port = 443
-            name = "https-pep"
+            name           = "https-pep"
           }
           env_from {
             config_map_ref {
@@ -130,7 +130,7 @@ resource "kubernetes_deployment" "pep-engine" {
         }
         host_aliases {
           ip        = var.nginx_ip
-          hostnames = [ var.hostname ]
+          hostnames = [var.hostname]
         }
       }
     }
