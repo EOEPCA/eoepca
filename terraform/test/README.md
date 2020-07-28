@@ -6,6 +6,15 @@ This directory contains files to deploy the EOEPCA system onto the Kubernetes cl
 
 These instructions reference some helper scripts, some of which rely upon the 'jq' tool ([command-line JSON processor](https://stedolan.github.io/jq/)). Therefore, to use these scripts it is necessary to ensure `jq` is installed on your local platform. It is available for installation via the package repositories for most popukar linux distrutions - see the [jq website](https://stedolan.github.io/jq/) for more details.
 
+## Terraform
+
+Terraform must be installed (may already be been installed if [CREODIAS Setup](../../creodias/README.md#terraform) was followed). See [terraform website](https://www.terraform.io/) for installation instructions.
+
+Alternatively, use helper script [install-terraform.sh](../bin/install-terraform.sh)...
+```
+$ ../bin/install-terraform.sh
+```
+
 ## Deployment Configuration
 
 The deployment is initiated via script [deployEOEPCA.sh](deployEOEPCA.sh).
@@ -41,7 +50,10 @@ The EOEPCA system is exposed through a single public IP with the following endpo
   *The ADES is a pure web service, and has no visual web interface*
 * Workspace = http://workspace.test.${PUBLIC_IP}.nip.io
 
-The helper script [open-endpoint.sh](../../bin/open-endpoint.sh) can be used to open these endpoints using the correct IP address.
+The helper script [open-endpoint.sh](../../bin/open-endpoint.sh) can be used to open these endpoints using the correct IP address...
+```
+$ ../../bin/open-endpoint.sh
+```
 
 ## Next Steps
 

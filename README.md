@@ -67,11 +67,20 @@ The system is designed for deployment to cloud infrastructure orchestrated by a 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-The EOEPCA system deployment comprises the following steps, each of which is covered with dedicated instructions, as follows:
-* [Infrastructure (CREODIAS) Setup](./creodias/README.md)
-* [Kubernetes Cluster Setup](./kubernetes/README.md)
-* [EOEPCA System Deployment](./terraform/test/README.md)
-* [Acceptance Test](./test/acceptance/README.md)
+The EOEPCA system deployment comprises several steps. Instructions are provided for both cloud deployment, and local deployment for development purposes.
+
+The first step is to clone this repository to your local platform...
+```
+$ git clone --branch v0.1 git@github.com:EOEPCA/eoepca.git
+```
+NOTE that this clones the specific tag that is well tested. For the latest development branch the `--branch` option should be omitted.
+
+Step | Cloud (OpenStack) | Local Developer
+-----|-------------------|----------------
+Infrastructure | [CREODIAS](./creodias/README.md) | n/a *(local developer platform)*
+Kubernetes Cluster | [Rancher Kubernetes Engine](./kubernetes/README.md) | [Minikube](./minikube/README.md)
+EOEPCA System Deployment | [Deploy with Terraform](./terraform/test/README.md) | [Deploy with Terraform](./terraform/test/README.md)
+Acceptance Test | [Run Test Suite](./test/acceptance/README.md) | [Run Test Suite](./test/acceptance/README.md)
 
 
 ## System Documentation

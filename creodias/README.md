@@ -10,7 +10,10 @@ These instructions reference some helper scripts, some of which rely upon the 'j
 
 Terraform must be installed. See [terraform website](https://www.terraform.io/) for installation instructions.
 
-Alternatively, use helper script [install-terraform.sh](../bin/install-terraform.sh).
+Alternatively, use helper script [install-terraform.sh](../bin/install-terraform.sh)...
+```
+$ ../bin/install-terraform.sh
+```
 
 ## OpenStack Client
 

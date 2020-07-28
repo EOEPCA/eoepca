@@ -18,7 +18,10 @@ These instructions reference some helper scripts, some of which rely upon the 'j
 
 RKE must be installed. See [Rancher website](https://rancher.com/products/rke/) for installation instructions.
 
-Alternatively, use helper script [install-rke.sh](../bin/install-rke.sh).
+Alternatively, use helper script [install-rke.sh](../bin/install-rke.sh)...
+```
+$ ../bin/install-rke.sh
+```
 
 ## RKE Configuration
 
@@ -47,7 +50,10 @@ $ rke up
 
 For k8s cluster adminstration the kubectl command must be installed. See [Kubernetes website](https://kubernetes.io/docs/tasks/tools/install-kubectl/) for installation instructions.
 
-Alternatively, use helper script [install-kubectl.sh](../bin/install-rke.sh).
+Alternatively, use helper script [install-kubectl.sh](../bin/install-kubectl.sh)...
+```
+$ ../bin/install-kubectl.sh
+```
 
 ## kubectl configuration
 
