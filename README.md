@@ -1,9 +1,3 @@
-<!--
-*** 
-*** To avoid retyping too much info. Do a search and replace for the following:
-*** template-svce, twitter_handle, email
--->
-
 <!-- PROJECT SHIELDS -->
 <!--
 *** See the bottom of this document for the declaration of the reference variables
@@ -14,8 +8,9 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-![Build][build-shield]
+[![License][license-shield]][license-url]
+[![Build][build-shield]][build-url]
+
 
 <!-- PROJECT LOGO -->
 <br />
@@ -29,97 +24,112 @@
   <p align="center">
     EOEPCA Reference Implementation - System
     <br />
-    <a href="https://github.com/EOEPCA/template-svce"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/EOEPCA/eoepca"><strong>Explore the docs »</strong></a>
     <br />
-    <a href="https://github.com/EOEPCA/template-svce">View Demo</a>
+    <a href="https://github.com/EOEPCA/eoepca">View Demo</a>
     ·
-    <a href="https://github.com/EOEPCA/template-svce/issues">Report Bug</a>
+    <a href="https://github.com/EOEPCA/eoepca/issues">Report Bug</a>
     ·
-    <a href="https://github.com/EOEPCA/template-svce/issues">Request Feature</a>
+    <a href="https://github.com/EOEPCA/eoepca/issues">Request Feature</a>
   </p>
 </p>
-
 
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
 
-* [About the Project](#about-the-project)
-  * [Built With](#built-with)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
-  * [Testing](#testing)
-* [Usage](#usage)
-* [Roadmap](#roadmap)
-* [Contributing](#contributing)
-* [License](#license)
-* [Contact](#contact)
-* [Acknowledgements](#acknowledgements)
-
+- [Table of Contents](#table-of-contents)
+- [About The Project](#about-the-project)
+- [Getting Started](#getting-started)
+- [System Documentation](#system-documentation)
+- [Technical Domains](#technical-domains)
+  - [User Management](#user-management)
+  - [Processing and Chaining](#processing-and-chaining)
+  - [Resource Management](#resource-management)
+- [Releases](#releases)
+- [Issues](#issues)
+- [License](#license)
+- [Contact](#contact)
+- [Acknowledgements](#acknowledgements)
 
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+EO Exploitation Platform Common Architecture (EOEPCA)
 
-Here's a blank template to get started:
-**To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`template-svce`, `twitter_handle`, `email`
+The goal of the “Common Architecture” is to define and agree the technical interfaces for the future exploitation of Earth Observation data in a distributed environment. The Common Architecture will thus provide the interfaces to facilitate the federation of different EO resources into a “Network of EO Resources”. The “Common Architecture” will be defined using open interfaces that link the different resources (building blocks) so that a user can efficiently access and consume the disparate services of the “Network of EO Resources”.
 
+This repository represents the system integration of the building block that comprise the **Reference Implementation** of the Common Architecture.
 
-### Built With
-
-* [Terraform](https://terraform.io/)
-* [Kubernetes](https://kubernetes.io)
-* [Minikube](https://github.com/kubernetes/minikube)
-
-
+The system is designed for deployment to cloud infrastructure orchestrated by a Kubernetes cluster. We include here the automation required to provision, deploy and test the emerging EOEPCA system.
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get a local copy up and running follow these simple steps.
+The EOEPCA system deployment comprises several steps. Instructions are provided for both cloud deployment, and local deployment for development purposes.
 
-### Prerequisites
+The first step is to clone this repository to your local platform...
+```
+$ git clone --branch v0.1 git@github.com:EOEPCA/eoepca.git
+```
+NOTE that this clones the specific tag that is well tested. For the latest development branch the `--branch` option should be omitted.
 
-Things you need to use the software and how to install them.
-* [Terraform](https://terraform.io/) 
-* [Minikube](https://github.com/kubernetes/minikube)
+Step | Cloud (OpenStack) | Local Developer
+-----|-------------------|----------------
+Infrastructure | [CREODIAS](./creodias/README.md) | n/a *(local developer platform)*
+Kubernetes Cluster | [Rancher Kubernetes Engine](./kubernetes/README.md) | [Minikube](./minikube/README.md)
+EOEPCA System Deployment | [Deploy with Terraform](./terraform/test/README.md) | [Deploy with Terraform](./terraform/test/README.md)
+Acceptance Test | [Run Test Suite](./test/acceptance/README.md) | [Run Test Suite](./test/acceptance/README.md)
 
-### Installation
+### Hostnames and DNS
 
-TBW
- 
-### Testing
+To ease development/testing, the EOEPCA deployment is configured to use host/service names that embed IP-addresses - which avoids the need to configure public nameservers, (as would be necessary for a production deployment). Our services are exposed through Kubernetes ingress rules that use name-based routing, and so simple IP-addresses are insufficient. Therefore, we exploit the services of [nip.io](https://nip.io/) that provides dynamic DNS in which the hostname->IP-adress mapping is embedded in the hostname.
 
-TBW
+Thus, we use host/service names of the form `<service-name>.<public-ip>.nip.io`, where the `<public-ip>` is the public-facing IP-address of the deployment. For cloud deployment the public IP is that of the cloud load-balancer, or for minikube it is the `minikube ip` - for example `workspace.172.17.0.3.nip.io`.
 
-<!-- USAGE EXAMPLES -->
-## Usage
+The deployment scripts (linked in the above table) attempt to intelligently determine the public IP and so configure the service DNS names without intervention. For example, the output of CREODIAS infrastructure setup is interrogated to determine the IP-address of the public cloud load-balancer, which is then injected into the deployment configuration. Similarly for a local developer setup in which the minikube IP-address is used.
 
-TBW
+## System Documentation
 
-<!-- ROADMAP -->
-## Roadmap
+* [Use Case Analysis Document](https://eoepca.github.io/use-case-analysis/)
+* [Master System Design Document](https://eoepca.github.io/master-system-design/)
+* [Master System ICD Document](https://eoepca.github.io/master-system-icd/)
+
+
+## Technical Domains
+
+### User Management
+
+Building Block | Repository | Documentation
+---------------|------------|--------------
+Login Service | https://github.com/EOEPCA/um-login-service | https://eoepca.github.io/um-login-service/
+User Profile | https://github.com/EOEPCA/um-user-profile | https://eoepca.github.io/um-user-profile/
+Policy Enforcement Point (PEP) | https://github.com/EOEPCA/um-pep-engine | https://eoepca.github.io/um-pep-engine/
+Policy Decision Point (PDP) | https://github.com/EOEPCA/um-pep-engine | https://eoepca.github.io/um-pep-engine/
+
+### Processing and Chaining
+
+Building Block | Repository | Documentation
+---------------|------------|--------------
+Application Deployment & Execution Service (ADES) | https://github.com/EOEPCA/proc-ades | https://eoepca.github.io/proc-ades/
+
+### Resource Management
+
+Not started yet
+
+
+<!-- Releases -->
+## Releases
+
+EOEPCA system releases are made to provide integrated deployments of the developed building blocks. The release history is as follows:
+
+* 22/06/2020 - [Release 0.1](release-notes/release-0.1.md)
+
+<!-- ISSUES -->
+## Issues
 
 See the [open issues](https://github.com/EOEPCA/eoepca/issues) for a list of proposed features (and known issues).
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-
 
 <!-- LICENSE -->
 ## License
@@ -127,23 +137,16 @@ Contributions are what make the open source community such an amazing place to b
 Distributed under the Apache-2.0 License. See `LICENSE` for more information.
 
 
-
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email
-
-Project Link: [https://github.com/EOEPCA/eoepca](https://github.com/EOEPCA/eoepca)
-
+Project Link: [Project Home (https://eoepca.github.io/)](https://eoepca.github.io/)
 
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-* []()
-* []()
 * README.md is based on [this template](https://github.com/othneildrew/Best-README-Template) by [Othneil Drew](https://github.com/othneildrew).
-
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
@@ -159,4 +162,5 @@ Project Link: [https://github.com/EOEPCA/eoepca](https://github.com/EOEPCA/eoepc
 [license-shield]: https://img.shields.io/github/license/EOEPCA/eoepca.svg?style=flat-square
 [license-url]: https://github.com/EOEPCA/eoepca/blob/master/LICENSE
 [build-shield]: https://www.travis-ci.com/EOEPCA/eoepca.svg?branch=master
+[build-url]: https://travis-ci.com/github/EOEPCA/eoepca
 [product-screenshot]: images/screenshot.png

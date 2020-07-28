@@ -1,0 +1,26 @@
+#----------
+# Example 'clouds.yaml' file
+# ==========================
+#----------
+# Possible file locations:
+# - ./clouds.yaml (i.e. the current directory)
+# - ~/.config/openstack/clouds.yaml
+# - /etc/openstack/clouds.yaml
+#----------
+# Multiple clouds can be configured in the file and then selected with the env var.
+#----------
+# Set env to choose the cloud:
+# `export OS_CLOUD=eoepca`
+#----------
+clouds:
+  eoepca:
+    auth:
+      auth_url: https://cf2.cloudferro.com:5000/v3
+      username: "zzz@zzz.com"
+      project_name: "eoepca"
+      project_id: d86660d4a1a443579c71096771a8104c
+      user_domain_name: "cloud_zzzzz"
+      password: "zzzzzzzzzz"
+    region_name: "RegionOne"
+    interface: "public"
+    identity_api_version: 3

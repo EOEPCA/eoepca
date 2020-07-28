@@ -7,35 +7,86 @@ services:
 
 jobs:
   include:
-    - stage: test
+    - stage: deploy to local kube and test
+      if: branch = release/v0.1
+      dist: bionic
+      language: minimal
 
-      branch:
-        only:
-        - develop
+      before_install:
+        - sudo apt-get update
+        - sudo apt-get -y install -f
+
+      install:
+        # - ./bin/install-kubectl.sh
+        # - ./test/bin/setup-k3s.sh
+        # - ./bin/install-terraform.sh
+        - sudo sh ./travis/setupMinikube.sh
+        - sudo sh ./test/nfs-server/nfs-setup.sh
+
+      before_script:
+        # - ./terraform/test/deployEOEPCA.sh
+        - sudo ./terraform/test/deployEOEPCA.sh
+        - sudo apt-get -y install chromium-browser
+        - sh ./test/bin/install-robotframework
+
+      script:
+        - cd ./test/acceptance
+        - ./acceptance_tests.sh
+
+      after_success:
+        - echo '*** SUCCESS ***'
+        - cat log.html
+        - sleep 5
+        - echo '*** END of LOG ***'
+
+      after_failure:
+        - echo '*** FAILED ***'
+        - cat log.html
+        - sleep 5
+        - echo '*** END of LOG ***'
+
+      deploy:
+        - echo '*** DEPLOY ***'
+
+      after_script:
+        - echo '*** DONE ***'
+
+    - stage: test
+      if: branch = develop
 
       # Minikube installation taken from: https://github.com/LiliC/travis-minikube/blob/minikube-30-kube-1.12/.travis.yml
       # We need the systemd for the kubeadm and it's default from 16.04+
       dist: xenial
 
-      before_script: sudo sh travis/setupCluster.sh
+      before_script: sudo sh ./travis/setupMinikube.sh
 
-      script: cd terraform/test && terraform init -input=false
+      script: sudo ./terraform/test/deployEOEPCA.sh
 
       deploy:
         - provider: script
           skip_cleanup: true
-          script: sh ${TRAVIS_BUILD_DIR}/travis/test_template-svce.sh
+          script: sudo sh ./travis/acceptanceTest.sh
           on:
             branch: develop
 
+    - stage: deploy EOEPCA on network of resources
+      if: branch = release
+
+      dist: bionic
+
+      before_script: sh ./travis/setupRobot.sh
+
+      script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/staging/ && sh deployEOEPCA.sh'
+
+      after_script: sh ./travis/acceptanceTest.sh
+
 import:
   - docs/.travis.yml
-
-notifications:
-  slack: eoepca:Msk9hjQKAbwSYcVWiepenPim
-  email:
-    recipients:
-      - a.person@acme.com
-      - a.n.other@acme.com
-    on_success: never # default: change
-    on_failure: never # default: always
+# notifications:
+#   slack: eoepca:Msk9hjQKAbwSYcVWiepenPim
+#   email:
+#     recipients:
+#       - a.person @acme.com
+#       - a.n.other@acme.com
+#     on_success: never # default: change
+#     on_failure: never # default: always

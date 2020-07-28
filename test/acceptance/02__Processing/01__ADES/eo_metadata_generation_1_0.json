@@ -1,0 +1,28 @@
+{
+  "inputs": [
+    {
+      "id": "applicationPackage",
+      "input": {
+        "format": {
+          "mimeType": "application/xml"
+        },
+        "value": {
+          "inlineValue": "https://raw.githubusercontent.com/EOEPCA/eoepca/v0.1/test/acceptance/02__Processing/01__ADES/eo_metadata_generation_1_0.xml"
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "format": {
+        "mimeType": "string",
+        "schema": "string",
+        "encoding": "string"
+      },
+      "id": "deployResult",
+      "transmissionMode": "value"
+    }
+  ],
+  "mode": "async",
+  "response": "raw"
+}

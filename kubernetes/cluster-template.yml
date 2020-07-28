@@ -1,0 +1,9 @@
+nodes:
+MASTER_NODES
+WORKER_NODES
+
+ingress:
+    provider: none
+
+addons_include:
+  - ./ingress-controller/ingress-nginx-nodeport.yml

@@ -28,7 +28,7 @@ resource "kubernetes_service" "frontend" {
       target_port = 80
     }
 
-    type = "NodePort"
+    type = "LoadBalancer"
   }
   depends_on = [
     kubernetes_namespace.eo-services,                                                                                                              ]

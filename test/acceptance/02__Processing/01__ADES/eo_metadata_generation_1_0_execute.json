@@ -1,0 +1,28 @@
+{
+  "inputs": [
+    {
+      "id": "input_file",
+      "input": {
+        "format": {
+          "mimeType": "application/atom+xml"
+        },
+        "value": {
+          "inlineValue": "https://catalog.terradue.com/sentinel3/search?uid=S3B_SL_1_RBT____20200520T050759_20200520T051059_20200520T060015_0179_039_105_0360_LN2_O_NR_004"
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "format": {
+        "mimeType": "string",
+        "schema": "string",
+        "encoding": "string"
+      },
+      "id": "results",
+      "transmissionMode": "value"
+    }
+  ],
+  "mode": "async",
+  "response": "raw"
+}
