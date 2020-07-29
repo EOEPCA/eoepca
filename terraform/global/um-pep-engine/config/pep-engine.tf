@@ -3,8 +3,6 @@ resource "kubernetes_config_map" "pep_engine_cm" {
     name = "um-pep-engine-config"
   }
 
-
-  depends_on = [null_resource.waitfor-login-service]
   data = {
     PEP_REALM                    = "eoepca"
     PEP_AUTH_SERVER_URL          = "${join("", ["http://", var.hostname])}"
@@ -53,11 +51,6 @@ resource "kubernetes_service" "pep-engine" {
     labels = { app = "pep-engine" }
   }
 
-<<<<<<< HEAD
-=======
-  depends_on = [null_resource.waitfor-login-service]
-
->>>>>>> develop
   spec {
     type = "NodePort"
 
@@ -82,13 +75,7 @@ resource "kubernetes_deployment" "pep-engine" {
     name   = "pep-engine"
     labels = { app = "pep-engine" }
   }
-<<<<<<< HEAD
-  
-=======
 
-  depends_on = [null_resource.waitfor-login-service]
-
->>>>>>> develop
   spec {
     replicas = 1
     selector {
@@ -103,38 +90,20 @@ resource "kubernetes_deployment" "pep-engine" {
         automount_service_account_token = true
   
         volume {
-          name = "pep-engine-logs"
+          name = "vol-userman"
           persistent_volume_claim {
-            claim_name = "pep-engine-logs-volume-claim"
+            claim_name = "eoepca-userman-pvc"
           }
         }
         volume {
-          name = "pep-engine-lib-ext"
+          name = "resource-persistent-storage"
           persistent_volume_claim {
-            claim_name = "pep-engine-lib-ext-volume-claim"
-          }
-        }
-        volume {
-          name = "pep-engine-custom-static"
-          persistent_volume_claim {
-            claim_name = "pep-engine-custom-static-volume-claim"
-          }
-        }
-        volume {
-          name = "pep-engine-custom-pages"
-          persistent_volume_claim {
-            claim_name = "pep-engine-custom-pages-volume-claim"
-          }
-        }
-        volume {
-          name = "mongo-persistent-storage"
-          persistent_volume_claim {
-            claim_name = "mongo-persistent-storage-volume-claim"
+            claim_name = "resource-persistent-storage-volume-claim"
           }
         }
         container {
           name  = "pep-engine"
-          image = "eoepca/um-pep-engine:travis_120"
+          image = "eoepca/um-pep-engine:latest"
 
           port {
             container_port = 5566
@@ -150,23 +119,7 @@ resource "kubernetes_deployment" "pep-engine" {
             }
           }
           volume_mount {
-            name       = "pep-engine-logs"
-            mount_path = "/opt/gluu/jetty/pep-engine/logs"
-          }
-          volume_mount {
-            name       = "pep-engine-lib-ext"
-            mount_path = "/opt/gluu/jetty/pep-engine/lib/ext"
-          }
-          volume_mount {
-            name       = "pep-engine-custom-static"
-            mount_path = "/opt/gluu/jetty/pep-engine/custom/static"
-          }
-          volume_mount {
-            name       = "pep-engine-custom-pages"
-            mount_path = "/opt/gluu/jetty/pep-engine/custom/pages"
-          }
-          volume_mount {
-            name       = "mongo-persistent-storage"
+            name       = "resource-persistent-storage"
             mount_path = "/data/db/resource"
           }
           image_pull_policy = "Always"
@@ -185,7 +138,7 @@ resource "kubernetes_deployment" "pep-engine" {
             }
           }
           volume_mount {
-            name       = "mongo-persistent-storage"
+            name       = "resource-persistent-storage"
             mount_path = "/data/db/resource"
           }
           image_pull_policy = "Always"

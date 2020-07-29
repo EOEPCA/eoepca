@@ -83,35 +83,16 @@ resource "kubernetes_deployment" "pdp-engine" {
       spec {
   
         automount_service_account_token = true
-  
         volume {
-          name = "pdp-engine-logs"
+          name = "vol-userman"
           persistent_volume_claim {
-            claim_name = "pdp-engine-logs-volume-claim"
+            claim_name = "eoepca-userman-pvc"
           }
         }
         volume {
-          name = "pdp-engine-lib-ext"
+          name = "policy-persistent-storage"
           persistent_volume_claim {
-            claim_name = "pdp-engine-lib-ext-volume-claim"
-          }
-        }
-        volume {
-          name = "pdp-engine-custom-static"
-          persistent_volume_claim {
-            claim_name = "pdp-engine-custom-static-volume-claim"
-          }
-        }
-        volume {
-          name = "pdp-engine-custom-pages"
-          persistent_volume_claim {
-            claim_name = "pdp-engine-custom-pages-volume-claim"
-          }
-        }
-        volume {
-          name = "mongo-persistent-storage"
-          persistent_volume_claim {
-            claim_name = "mongo-persistent-storage-volume-claim"
+            claim_name = "policy-persistent-storage-volume-claim"
           }
         }
         container {
@@ -132,23 +113,7 @@ resource "kubernetes_deployment" "pdp-engine" {
             }
           }
           volume_mount {
-            name       = "pdp-engine-logs"
-            mount_path = "/opt/gluu/jetty/pdp-engine/logs"
-          }
-          volume_mount {
-            name       = "pdp-engine-lib-ext"
-            mount_path = "/opt/gluu/jetty/pdp-engine/lib/ext"
-          }
-          volume_mount {
-            name       = "pdp-engine-custom-static"
-            mount_path = "/opt/gluu/jetty/pdp-engine/custom/static"
-          }
-          volume_mount {
-            name       = "pdp-engine-custom-pages"
-            mount_path = "/opt/gluu/jetty/pdp-engine/custom/pages"
-          }
-          volume_mount {
-            name       = "mongo-persistent-storage"
+            name       = "policy-persistent-storage"
             mount_path = "/data/db/policy"
           }
           image_pull_policy = "Always"

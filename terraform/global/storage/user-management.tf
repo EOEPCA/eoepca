@@ -43,3 +43,92 @@ resource "kubernetes_persistent_volume_claim" "eoepca_userman_pvc" {
     }
   }
 }
+
+
+resource "kubernetes_persistent_volume" "resource_persistent_storage" {
+  metadata {
+    name = "resource-persistent-storage"
+
+    labels = {
+      pep-engine = "resource-persistent-storage"
+    }
+  }
+
+  spec {
+    capacity = {
+      storage = "10M"
+    }
+
+    access_modes = ["ReadWriteMany"]
+
+    persistent_volume_source {
+      host_path {
+        path = "/data/db/resource"
+      }
+    }
+    storage_class_name = "standard"
+  }
+}
+
+
+resource "kubernetes_persistent_volume_claim" "resource_persistent_storage_volume_claim" {
+  metadata {
+    name = "resource-persistent-storage-volume-claim"
+  }
+
+  spec {
+    access_modes = ["ReadWriteMany"]
+
+    resources {
+      requests = {
+        storage = "10M"
+      }
+    }
+
+    volume_name = "resource-persistent-storage"
+  }
+}
+
+resource "kubernetes_persistent_volume" "policy_persistent_storage" {
+  metadata {
+    name = "policy-persistent-storage"
+
+    labels = {
+      pep-engine = "policy-persistent-storage"
+    }
+  }
+
+  spec {
+    capacity = {
+      storage = "10M"
+    }
+
+    access_modes = ["ReadWriteMany"]
+
+    persistent_volume_source {
+      host_path {
+        path = "/data/db/policy"
+      }
+    }
+    storage_class_name = "standard"
+  }
+}
+
+
+resource "kubernetes_persistent_volume_claim" "policy_persistent_storage_volume_claim" {
+  metadata {
+    name = "policy-persistent-storage-volume-claim"
+  }
+
+  spec {
+    access_modes = ["ReadWriteMany"]
+
+    resources {
+      requests = {
+        storage = "10M"
+      }
+    }
+
+    volume_name = "policy-persistent-storage"
+  }
+}

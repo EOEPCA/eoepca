@@ -5,7 +5,6 @@ provider "kubernetes" {
 provider "kubectl" {
 }
 
-
 resource "kubernetes_role_binding" "default_admin" {
   metadata {
     name = "default-admin"
@@ -23,11 +22,6 @@ resource "kubernetes_role_binding" "default_admin" {
     name      = "admin"
   }
 }
-resource "kubernetes_cluster_role_binding" "default_view" {
- 
-  metadata {
-    name = "default-view"
-  }
 
 module "nfs-provisioner" {
   source             = "../global/nfs-provisioner"
@@ -56,8 +50,9 @@ module "um-pep-engine" {
 
 module "um-pdp-engine" {
   source = "../global/um-pep-engine"
-  nginx_ip = var.nginx_ip
+  nginx_ip = var.public_ip
   hostname = var.hostname
+  module_depends_on = [module.um-login-service]
 }
 
 module "um-user-profile" {
