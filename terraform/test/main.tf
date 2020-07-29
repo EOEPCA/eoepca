@@ -49,7 +49,7 @@ module "um-pep-engine" {
 }
 
 module "um-pdp-engine" {
-  source = "../global/um-pep-engine"
+  source = "../global/um-pdp-engine"
   nginx_ip = var.public_ip
   hostname = var.hostname
   module_depends_on = [module.um-login-service]

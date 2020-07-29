@@ -2,7 +2,7 @@ resource "kubernetes_config_map" "pep_engine_cm" {
   metadata {
     name = "um-pep-engine-config"
   }
-
+  depends_on = [null_resource.waitfor-login-service]
   data = {
     PEP_REALM                    = "eoepca"
     PEP_AUTH_SERVER_URL          = "${join("", ["http://", var.hostname])}"
@@ -50,7 +50,7 @@ resource "kubernetes_service" "pep-engine" {
     name   = "pep-engine"
     labels = { app = "pep-engine" }
   }
-
+  depends_on = [null_resource.waitfor-login-service]
   spec {
     type = "NodePort"
 
@@ -75,7 +75,7 @@ resource "kubernetes_deployment" "pep-engine" {
     name   = "pep-engine"
     labels = { app = "pep-engine" }
   }
-
+  depends_on = [null_resource.waitfor-login-service]
   spec {
     replicas = 1
     selector {

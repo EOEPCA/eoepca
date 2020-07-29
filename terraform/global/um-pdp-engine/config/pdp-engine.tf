@@ -64,7 +64,6 @@ resource "kubernetes_service" "pdp-engine" {
   }
 }
 
-
 resource "kubernetes_deployment" "pdp-engine" {
   metadata {
     name   = "pdp-engine"
@@ -97,7 +96,7 @@ resource "kubernetes_deployment" "pdp-engine" {
         }
         container {
           name  = "pdp-engine"
-          image = "eoepca/um-pdp-engine:latest"
+          image = "eoepca/um-pdp-engine:travis_26"
 
           port {
             container_port = 5567
@@ -132,7 +131,7 @@ resource "kubernetes_deployment" "pdp-engine" {
             }
           }
           volume_mount {
-            name       = "mongo-persistent-storage"
+            name       = "policy-persistent-storage"
             mount_path = "/data/db/policy"
           }
           image_pull_policy = "Always"
