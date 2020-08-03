@@ -48,6 +48,13 @@ module "um-pep-engine" {
   module_depends_on = [module.um-login-service]
 }
 
+module "um-pdp-engine" {
+  source = "../global/um-pdp-engine"
+  nginx_ip = var.public_ip
+  hostname = var.hostname
+  module_depends_on = [module.um-login-service]
+}
+
 module "um-user-profile" {
   source            = "../global/um-user-profile"
   nginx_ip          = var.public_ip

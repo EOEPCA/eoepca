@@ -2,9 +2,7 @@ resource "kubernetes_config_map" "pep_engine_cm" {
   metadata {
     name = "um-pep-engine-config"
   }
-
   depends_on = [null_resource.waitfor-login-service]
-
   data = {
     PEP_REALM                    = "eoepca"
     PEP_AUTH_SERVER_URL          = "${join("", ["http://", var.hostname])}"
@@ -18,9 +16,6 @@ resource "kubernetes_config_map" "pep_engine_cm" {
     PEP_RESOURCE_SERVER_ENDPOINT = "http://ades/"
   }
 }
-
-
-
 
 resource "kubernetes_ingress" "gluu_ingress_pep_engine" {
   metadata {
@@ -55,9 +50,7 @@ resource "kubernetes_service" "pep-engine" {
     name   = "pep-engine"
     labels = { app = "pep-engine" }
   }
-
   depends_on = [null_resource.waitfor-login-service]
-
   spec {
     type = "NodePort"
 
@@ -76,14 +69,13 @@ resource "kubernetes_service" "pep-engine" {
   }
 }
 
+
 resource "kubernetes_deployment" "pep-engine" {
   metadata {
     name   = "pep-engine"
     labels = { app = "pep-engine" }
   }
-
   depends_on = [null_resource.waitfor-login-service]
-
   spec {
     replicas = 1
     selector {
@@ -96,18 +88,23 @@ resource "kubernetes_deployment" "pep-engine" {
       spec {
 
         automount_service_account_token = true
-
+  
         volume {
           name = "vol-userman"
-
           persistent_volume_claim {
             claim_name = "eoepca-userman-pvc"
           }
         }
-
+        volume {
+          name = "resource-persistent-storage"
+          persistent_volume_claim {
+            claim_name = "resource-persistent-storage-volume-claim"
+          }
+        }
         container {
           name  = "pep-engine"
-          image = "eoepca/um-pep-engine:v0.1.1"
+          image = "eoepca/um-pep-engine:latest"
+
           port {
             container_port = 5566
             name           = "http-pep"
@@ -122,12 +119,31 @@ resource "kubernetes_deployment" "pep-engine" {
             }
           }
           volume_mount {
-            name       = "vol-userman"
-            mount_path = "/opt/gluu/jetty/pep-engine/logs"
-            sub_path   = "pep-engine/logs"
+            name       = "resource-persistent-storage"
+            mount_path = "/data/db/resource"
           }
           image_pull_policy = "Always"
         }
+        container {
+          name  = "mongo"
+          image = "mongo"
+          port {
+            container_port = 27017
+            name = "http-rp"
+          }
+        
+          env_from {
+            config_map_ref {
+              name = "um-pep-engine-config"
+            }
+          }
+          volume_mount {
+            name       = "resource-persistent-storage"
+            mount_path = "/data/db/resource"
+          }
+          image_pull_policy = "Always"
+        }
+        
         host_aliases {
           ip        = var.nginx_ip
           hostnames = [var.hostname]
