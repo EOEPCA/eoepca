@@ -61,7 +61,7 @@ KUBECTL_PLUGIN="terraform-provider-kubectl"
 if [ ! -x "$KUBECTL_PLUGIN" ]
 then
   echo Installing $KUBECTL_PLUGIN
-  curl -Ls https://api.github.com/repos/gavinbunney/terraform-provider-kubectl/releases/latest \
+  curl -Ls https://api.github.com/repos/gavinbunney/terraform-provider-kubectl/releases/tags/v1.5.1 \
     | jq -r '.assets[] | .browser_download_url | select(contains("linux-amd64"))' \
     | xargs -n 1 curl -Lo "$KUBECTL_PLUGIN"
   chmod +x "$KUBECTL_PLUGIN"
