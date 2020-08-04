@@ -1,5 +1,5 @@
 resource "kubernetes_persistent_volume" "eoepca_resman_pv" {
-  count = "${var.nfs_server_address == "none" ? 0 : 1}"
+  count = "${var.storage_class == "eoepca-nfs" ? 1 : 0}"
   metadata {
     name = "eoepca-resman-pv"
     labels = {
@@ -16,6 +16,29 @@ resource "kubernetes_persistent_volume" "eoepca_resman_pv" {
       nfs {
         server = var.nfs_server_address
         path = "/data/resman"
+      }
+    }
+  }
+}
+
+resource "kubernetes_persistent_volume" "eoepca_resman_pv_host" {
+  count = "${var.storage_class == "standard" ? 1 : 0}"
+  metadata {
+    name = "eoepca-resman-pv-host"
+    labels = {
+      eoepca_type = "resman"
+    }
+  }
+  spec {
+    storage_class_name = "standard"
+    access_modes       = ["ReadWriteMany"]
+    capacity = {
+      storage = "5Gi"
+    }
+    persistent_volume_source {
+      host_path {
+        path = "/kubedata/resman"
+        type = "DirectoryOrCreate"
       }
     }
   }
