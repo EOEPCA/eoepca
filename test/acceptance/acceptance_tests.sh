@@ -26,6 +26,7 @@ function setup_venv() {
 }
 
 function install_robot_framework() {
+  # python components
   echo "INFO: Installing/updating Robot Framework and dependencies..."
   pip install -U robotframework \
   && pip install -U docutils \
@@ -33,6 +34,9 @@ function install_robot_framework() {
   && pip install -U robotframework-seleniumlibrary \
   && pip install -U robotframework-sshlibrary \
   && pip install -U webdrivermanager
+  # Chrome driver
+  echo "INFO: Installing chrome webdriver..."
+  webdrivermanager chrome:83.0.4103.39
 }
 
 function install_test_requirements() {
