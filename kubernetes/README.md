@@ -20,7 +20,7 @@ RKE must be installed. See [Rancher website](https://rancher.com/products/rke/) 
 
 Alternatively, use helper script [install-rke.sh](../bin/install-rke.sh)...
 ```
-$ ../bin/install-rke.sh
+$ bin/install-rke.sh
 ```
 
 ## RKE Configuration
@@ -35,7 +35,8 @@ The helper script [create-cluster-config.sh](create-cluster-config.sh) automatic
 * configuration of connection via bastion
 
 ```
-$ ./create-cluster-config.sh
+$ cd kubernetes
+$ create-cluster-config.sh
 ```
 
 ## Create Kubernetes Cluster
