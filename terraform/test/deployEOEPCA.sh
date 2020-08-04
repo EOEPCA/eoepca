@@ -46,10 +46,10 @@ echo "Using PUBLIC_IP=${PUBLIC_IP}"
 echo "Using NFS_SERVER_ADDRESS=${NFS_SERVER_ADDRESS}"
 
 # Storage class
-# If using minikube then set storage class to 'standard' (host storage OK for dev testing)
+# If using minikube then set storage class to 'eoepca-host' (host storage OK for dev testing)
 if [ "${PUBLIC_IP}" = "${MINIKUBE_IP}" ]
 then
-  STORAGE_CLASS="${STORAGE_CLASS:-standard}"
+  STORAGE_CLASS="${STORAGE_CLASS:-eoepca-host}"
   echo "INFO: using minikube with IP ${MINIKUBE_IP} and storage class ${STORAGE_CLASS}"
 fi
 if [ -n "${STORAGE_CLASS}" ]; then VAR_STORAGE_CLASS="--var=storage_class=${STORAGE_CLASS}"; fi

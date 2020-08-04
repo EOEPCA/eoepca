@@ -13,8 +13,12 @@ echo "Download minikube..."
 curl -sLo $HOME/.local/bin/minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
   && chmod +x $HOME/.local/bin/minikube
 
+# If MINIKUBE_MODE is not set, and USER is vagrant, deduce we are running in a VM, so use 'native' mode
+MINIKUBE_MODE="$1"
+if [ -z "${MINIKUBE_MODE}" -a "${USER}" = "vagrant" ]; then MINIKUBE_MODE="native"; fi
+
 # minikube (native)
-if [ "$1" = "native" ]
+if [ "${MINIKUBE_MODE}" = "native" ]
 then
   if hash conntrack
   then

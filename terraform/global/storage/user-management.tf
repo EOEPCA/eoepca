@@ -15,14 +15,14 @@ resource "kubernetes_persistent_volume" "eoepca_userman_pv" {
     persistent_volume_source {
       nfs {
         server = var.nfs_server_address
-        path = "/data/userman"
+        path   = "/data/userman"
       }
     }
   }
 }
 
 resource "kubernetes_persistent_volume" "eoepca_userman_pv_host" {
-  count = "${var.storage_class == "standard" ? 1 : 0}"
+  count = "${var.storage_class == "eoepca-nfs" ? 0 : 1}"
   metadata {
     name = "eoepca-userman-pv-host"
     labels = {
@@ -30,7 +30,7 @@ resource "kubernetes_persistent_volume" "eoepca_userman_pv_host" {
     }
   }
   spec {
-    storage_class_name = "standard"
+    storage_class_name = var.storage_class
     access_modes       = ["ReadWriteMany"]
     capacity = {
       storage = "5Gi"
@@ -53,7 +53,7 @@ resource "kubernetes_persistent_volume_claim" "eoepca_userman_pvc" {
   }
   spec {
     storage_class_name = var.storage_class
-    access_modes = ["ReadWriteMany"]
+    access_modes       = ["ReadWriteMany"]
     resources {
       requests = {
         storage = "3Gi"

@@ -35,8 +35,11 @@ function install_robot_framework() {
   && pip install -U robotframework-sshlibrary \
   && pip install -U webdrivermanager
   # Chrome driver
-  echo "INFO: Installing chrome webdriver..."
-  webdrivermanager chrome:83.0.4103.39
+  if ! hash chromedriver 2>/dev/null
+  then
+    echo "INFO: Installing chrome webdriver..."
+    webdrivermanager chrome:83.0.4103.39
+  fi
 }
 
 function install_test_requirements() {
