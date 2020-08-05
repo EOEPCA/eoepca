@@ -108,7 +108,7 @@ resource "kubernetes_deployment" "pdp-engine" {
           volume_mount {
             name       = "vol-userman"
             mount_path = "/data/db/policy"
-            sub_path   = "pep-engine/db/policy"
+            sub_path   = "pdp-engine/db/policy"
           }
           image_pull_policy = "Always"
         }
@@ -128,7 +128,7 @@ resource "kubernetes_deployment" "pdp-engine" {
           volume_mount {
             name       = "vol-userman"
             mount_path = "/data/db/policy"
-            sub_path   = "pep-engine/db/policy"
+            sub_path   = "pdp-engine/db/policy"
           }
           image_pull_policy = "Always"
         }

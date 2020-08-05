@@ -12,7 +12,7 @@ variable "module_depends_on" {
   type = any
 }
 
-output "um-pep-engine-up" {
+output "um-pdp-engine-up" {
   value      = true
   depends_on = [module.config]
 }
