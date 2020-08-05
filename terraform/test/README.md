@@ -33,7 +33,7 @@ There are some additional environment variables whose value is automatically ded
 
 ## Initiate Deployment
 
-The deployment uses the Terraform Kubernetes provider, that relies upon a working kubectl connection to the k8s cluster. Thus it is necessary to ensure that [Access via Bastion host](../../kubernetes/README.md#access_via_bastion_host) is established.
+The deployment uses the Terraform Kubernetes provider, that relies upon a working kubectl connection to the k8s cluster. Thus it is necessary to ensure that [Access via Bastion host](../../kubernetes/README.md#access-via-bastion-host) is established.
 
 Once the appropriate environment variables are configured, then the script is executed to initiate deployment...
 ```
