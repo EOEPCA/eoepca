@@ -12,7 +12,7 @@ Terraform must be installed. See [terraform website](https://www.terraform.io/) 
 
 Alternatively, use helper script [install-terraform.sh](../bin/install-terraform.sh)...
 ```
-$ ../bin/install-terraform.sh
+$ bin/install-terraform.sh
 ```
 
 ## OpenStack Client
@@ -53,7 +53,7 @@ The clouds.yaml must be placed in one of the following locations:
 
 ## Deployment Configuration
 
-Before initiating deployment, the file [eoepca.tfvars](./eoepca.tfvars) should be tailored to fit the specific needs of your target environment.
+Before initiating deployment, the file [creodias/eoepca.tfvars](./eoepca.tfvars) should be tailored to fit the specific needs of your target environment.
 
 ## Initiate Deployment
 

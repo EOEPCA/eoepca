@@ -88,17 +88,11 @@ resource "kubernetes_deployment" "pep-engine" {
       spec {
 
         automount_service_account_token = true
-  
+
         volume {
           name = "vol-userman"
           persistent_volume_claim {
             claim_name = "eoepca-userman-pvc"
-          }
-        }
-        volume {
-          name = "resource-persistent-storage"
-          persistent_volume_claim {
-            claim_name = "resource-persistent-storage-volume-claim"
           }
         }
         container {
@@ -119,8 +113,9 @@ resource "kubernetes_deployment" "pep-engine" {
             }
           }
           volume_mount {
-            name       = "resource-persistent-storage"
+            name       = "vol-userman"
             mount_path = "/data/db/resource"
+            sub_path   = "pep-engine/db/resource"
           }
           image_pull_policy = "Always"
         }
@@ -129,21 +124,22 @@ resource "kubernetes_deployment" "pep-engine" {
           image = "mongo"
           port {
             container_port = 27017
-            name = "http-rp"
+            name           = "http-rp"
           }
-        
+
           env_from {
             config_map_ref {
               name = "um-pep-engine-config"
             }
           }
           volume_mount {
-            name       = "resource-persistent-storage"
+            name       = "vol-userman"
             mount_path = "/data/db/resource"
+            sub_path   = "pep-engine/db/resource"
           }
           image_pull_policy = "Always"
         }
-        
+
         host_aliases {
           ip        = var.nginx_ip
           hostnames = [var.hostname]
