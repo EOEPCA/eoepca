@@ -196,4 +196,3 @@ resource "kubernetes_deployment" "user-profile" {
     }
   }
 }
-
