@@ -2,7 +2,6 @@ resource "kubernetes_config_map" "user_profile_cm" {
   metadata {
     name = "um-user-profile-config"
   }
-  depends_on = [ null_resource.waitfor-login-service ]
 
   data = {
     UP_SSO_URL                  = var.hostname
@@ -30,20 +29,19 @@ resource "kubernetes_config_map" "user_profile_cm" {
   }
 }
 
-
 resource "kubernetes_ingress" "gluu_ingress_user_profile_static" {
   metadata {
     name = "gluu-ingress-user-profile-static"
 
     annotations = {
-      "kubernetes.io/ingress.class" = "nginx"
+      "kubernetes.io/ingress.class"              = "nginx"
       "nginx.ingress.kubernetes.io/ssl-redirect" = "false"
     }
   }
 
   spec {
     rule {
-      host =  var.hostname
+      host = var.hostname
 
       http {
         path {
@@ -59,20 +57,19 @@ resource "kubernetes_ingress" "gluu_ingress_user_profile_static" {
   }
 }
 
-
 resource "kubernetes_ingress" "gluu_ingress_user_profile" {
   metadata {
     name = "gluu-ingress-user-profile"
 
     annotations = {
-      "kubernetes.io/ingress.class" = "nginx"
+      "kubernetes.io/ingress.class"              = "nginx"
       "nginx.ingress.kubernetes.io/ssl-redirect" = "false"
     }
   }
 
   spec {
     rule {
-      host =  var.hostname 
+      host = var.hostname
 
       http {
         path {
@@ -88,31 +85,42 @@ resource "kubernetes_ingress" "gluu_ingress_user_profile" {
   }
 }
 
-
-
-
-
 resource "kubernetes_service" "user-profile" {
   metadata {
     name   = "user-profile"
     labels = { app = "user-profile" }
   }
-  depends_on = [ null_resource.waitfor-login-service ]
+  depends_on = [kubernetes_deployment.user-profile]
 
   spec {
     type = "NodePort"
 
     port {
-      name = "http-up"
-      port = 5566
+      name        = "http-up"
+      port        = 5566
       target_port = 5566
     }
     port {
-      name = "https-up"
-      port = 1028
+      name        = "https-up"
+      port        = 1028
       target_port = 443
     }
     selector = { app = "user-profile" }
+  }
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      interval=$(( 5 ))
+      msgInterval=$(( 30 ))
+      step=$(( msgInterval / interval ))
+      count=$(( 0 ))
+      until kubectl logs service/user-profile 2>/dev/null | grep "Running on http://0.0.0.0" >/dev/null 2>&1
+      do
+        test $(( count % step )) -eq 0 && echo "Waiting for service/user-profile"
+        sleep $interval
+        count=$(( count + interval ))
+      done
+      EOT
   }
 }
 
@@ -122,7 +130,7 @@ resource "kubernetes_deployment" "user-profile" {
     name   = "user-profile"
     labels = { app = "user-profile" }
   }
-  depends_on = [ null_resource.waitfor-login-service ]
+  depends_on = [null_resource.waitfor-module-depends]
 
   spec {
     replicas = 1
@@ -134,7 +142,7 @@ resource "kubernetes_deployment" "user-profile" {
         labels = { app = "user-profile" }
       }
       spec {
-  
+
         automount_service_account_token = true
 
         volume {
@@ -156,11 +164,11 @@ resource "kubernetes_deployment" "user-profile" {
           image = "eoepca/um-user-profile:v0.1.1"
           port {
             container_port = 5566
-            name = "http-up"
+            name           = "http-up"
           }
           port {
             container_port = 443
-            name = "https-up"
+            name           = "https-up"
           }
           env_from {
             config_map_ref {
@@ -168,9 +176,9 @@ resource "kubernetes_deployment" "user-profile" {
             }
           }
           volume_mount {
-            name       = "um-user-profile-config"
-            mount_path = "/opt/user-profile/db/um-user-profile-config"
-            sub_path   = "um-user-profile-config"
+            name              = "um-user-profile-config"
+            mount_path        = "/opt/user-profile/db/um-user-profile-config"
+            sub_path          = "um-user-profile-config"
             mount_propagation = "HostToContainer"
           }
           volume_mount {
@@ -182,7 +190,7 @@ resource "kubernetes_deployment" "user-profile" {
         }
         host_aliases {
           ip        = var.nginx_ip
-          hostnames = [ var.hostname ]
+          hostnames = [var.hostname]
         }
       }
     }

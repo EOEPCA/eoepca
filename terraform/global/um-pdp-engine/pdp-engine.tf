@@ -17,8 +17,9 @@ resource "kubernetes_ingress" "gluu_ingress_pdp_engine" {
     name = "gluu-ingress-pdp-engine"
 
     annotations = {
-      "kubernetes.io/ingress.class"              = "nginx"
-      "nginx.ingress.kubernetes.io/ssl-redirect" = "false"
+      "kubernetes.io/ingress.class"                = "nginx"
+      "nginx.ingress.kubernetes.io/ssl-redirect"   = "false"
+      "nginx.ingress.kubernetes.io/rewrite-target" = "/$2"
     }
   }
 
@@ -28,7 +29,7 @@ resource "kubernetes_ingress" "gluu_ingress_pdp_engine" {
 
       http {
         path {
-          path = "/pdp"
+          path = "/pdp(/|$)(.*)"
 
           backend {
             service_name = "pdp-engine"
@@ -46,6 +47,8 @@ resource "kubernetes_service" "pdp-engine" {
     labels = { app = "pdp-engine" }
   }
 
+  depends_on = [kubernetes_deployment.pdp-engine]
+
   spec {
     type = "NodePort"
 
@@ -62,6 +65,21 @@ resource "kubernetes_service" "pdp-engine" {
     }
     selector = { app = "pdp-engine" }
   }
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      interval=$(( 5 ))
+      msgInterval=$(( 30 ))
+      step=$(( msgInterval / interval ))
+      count=$(( 0 ))
+      until kubectl logs service/pdp-engine pdp-engine 2>/dev/null | grep "Running on http://0.0.0.0" >/dev/null 2>&1
+      do
+        test $(( count % step )) -eq 0 && echo "Waiting for service/pdp-engine"
+        sleep $interval
+        count=$(( count + interval ))
+      done
+      EOT
+  }
 }
 
 resource "kubernetes_deployment" "pdp-engine" {
@@ -69,6 +87,8 @@ resource "kubernetes_deployment" "pdp-engine" {
     name   = "pdp-engine"
     labels = { app = "pdp-engine" }
   }
+
+  depends_on = [null_resource.waitfor-module-depends]
 
   spec {
     replicas = 1

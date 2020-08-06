@@ -1,9 +1,9 @@
 variable "nginx_ip" {
-    type = string
+  type = string
 }
 
 variable "hostname" {
-    type = string
+  type = string
 }
 
 variable "module_depends_on" {
@@ -11,6 +11,6 @@ variable "module_depends_on" {
 }
 
 output "oxpassport-up" {
-  value = true
-  depends_on = [ kubernetes_service.oxpassport ]
+  value      = true
+  depends_on = [kubernetes_service.oxpassport]
 }

@@ -8,9 +8,9 @@ Library  Process
 Library  SSHLibrary
 
 *** Variables ***
-${HOST}=  http://0.0.0.0
-${PORT}=  31708
-${PDP_PATH_TO_VALIDATE}=  policy/validate
+${HOST}=  ${UM_BASE_URL}
+${PORT}=  443
+${PDP_PATH_TO_VALIDATE}=  pdp/policy/validate
 
 *** Test Cases ***
 PDP Permit Policy

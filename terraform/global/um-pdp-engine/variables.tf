@@ -1,11 +1,9 @@
 variable "nginx_ip" {
-    type = string
-    default = "0.0.0.0"
-} 
+  type = string
+}
 
 variable "hostname" {
-    type = string
-    default = "test.eoepca.org"
+  type = string
 }
 
 variable "module_depends_on" {
@@ -14,5 +12,5 @@ variable "module_depends_on" {
 
 output "um-pdp-engine-up" {
   value      = true
-  depends_on = [module.config]
+  depends_on = [kubernetes_service.pdp-engine]
 }

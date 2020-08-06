@@ -6,7 +6,7 @@ resource "kubernetes_deployment" "workspace" {
       app = "workspace"
     }
   }
-  depends_on = [ var.module_depends_on, null_resource.waitfor-login-service ]
+  depends_on = [null_resource.waitfor-module-depends]
 
   spec {
     replicas = 1
@@ -75,7 +75,7 @@ resource "kubernetes_service" "workspace" {
       app = "workspace"
     }
   }
-  depends_on = [ var.module_depends_on, null_resource.waitfor-login-service ]
+  depends_on = [kubernetes_deployment.workspace]
 
   spec {
     port {
@@ -90,5 +90,20 @@ resource "kubernetes_service" "workspace" {
     }
 
     type = "NodePort"
+  }
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      interval=$(( 5 ))
+      msgInterval=$(( 30 ))
+      step=$(( msgInterval / interval ))
+      count=$(( 0 ))
+      until kubectl logs service/workspace 2>/dev/null | grep "Nextcloud was successfully installed" >/dev/null 2>&1
+      do
+        test $(( count % step )) -eq 0 && echo "Waiting for service/workspace"
+        sleep $interval
+        count=$(( count + interval ))
+      done
+      EOT
   }
 }

@@ -2,7 +2,6 @@ resource "kubernetes_config_map" "pep_engine_cm" {
   metadata {
     name = "um-pep-engine-config"
   }
-  depends_on = [null_resource.waitfor-login-service]
   data = {
     PEP_REALM                    = "eoepca"
     PEP_AUTH_SERVER_URL          = "${join("", ["http://", var.hostname])}"
@@ -22,8 +21,9 @@ resource "kubernetes_ingress" "gluu_ingress_pep_engine" {
     name = "gluu-ingress-pep-engine"
 
     annotations = {
-      "kubernetes.io/ingress.class"              = "nginx"
-      "nginx.ingress.kubernetes.io/ssl-redirect" = "false"
+      "kubernetes.io/ingress.class"                = "nginx"
+      "nginx.ingress.kubernetes.io/ssl-redirect"   = "false"
+      "nginx.ingress.kubernetes.io/rewrite-target" = "/$2"
     }
   }
 
@@ -33,7 +33,7 @@ resource "kubernetes_ingress" "gluu_ingress_pep_engine" {
 
       http {
         path {
-          path = "/pep"
+          path = "/pep(/|$)(.*)"
 
           backend {
             service_name = "pep-engine"
@@ -50,7 +50,9 @@ resource "kubernetes_service" "pep-engine" {
     name   = "pep-engine"
     labels = { app = "pep-engine" }
   }
-  depends_on = [null_resource.waitfor-login-service]
+
+  depends_on = [kubernetes_deployment.pep-engine]
+
   spec {
     type = "NodePort"
 
@@ -67,6 +69,21 @@ resource "kubernetes_service" "pep-engine" {
     }
     selector = { app = "pep-engine" }
   }
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      interval=$(( 5 ))
+      msgInterval=$(( 30 ))
+      step=$(( msgInterval / interval ))
+      count=$(( 0 ))
+      until kubectl logs service/pep-engine pep-engine 2>/dev/null | grep "Running on http://0.0.0.0" >/dev/null 2>&1
+      do
+        test $(( count % step )) -eq 0 && echo "Waiting for service/pep-engine"
+        sleep $interval
+        count=$(( count + interval ))
+      done
+      EOT
+  }
 }
 
 
@@ -75,7 +92,9 @@ resource "kubernetes_deployment" "pep-engine" {
     name   = "pep-engine"
     labels = { app = "pep-engine" }
   }
-  depends_on = [null_resource.waitfor-login-service]
+
+  depends_on = [null_resource.waitfor-module-depends]
+
   spec {
     replicas = 1
     selector {
@@ -148,4 +167,3 @@ resource "kubernetes_deployment" "pep-engine" {
     }
   }
 }
-

@@ -2,7 +2,7 @@ resource "kubernetes_job" "config_init_load_job" {
   metadata {
     name = "config-init-load-job"
   }
-  depends_on = [ kubernetes_config_map.config-cm ]
+  depends_on = [kubernetes_config_map.config-cm]
 
   spec {
     template {
@@ -39,11 +39,11 @@ resource "kubernetes_job" "config_init_load_job" {
             name  = "GLUU_SECRET_ADAPTER"
             value = "kubernetes"
           }
-          
+
           volume_mount {
-            name       = "config-cm"
-            mount_path = "/opt/config-init/db/generate.json"
-            sub_path   = "generate.json"
+            name              = "config-cm"
+            mount_path        = "/opt/config-init/db/generate.json"
+            sub_path          = "generate.json"
             mount_propagation = "HostToContainer"
           }
         }
@@ -52,5 +52,9 @@ resource "kubernetes_job" "config_init_load_job" {
       }
     }
   }
+  wait_for_completion = true
+  timeouts {
+    create = "5m"
+    update = "5m"
+  }
 }
-

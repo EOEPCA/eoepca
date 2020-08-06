@@ -13,7 +13,7 @@ if ! unzip --help >/dev/null 2>&1
 then
   sudo apt-get -y install unzip
 fi
-curl -sLo terraform.zip https://releases.hashicorp.com/terraform/0.12.26/terraform_0.12.26_linux_amd64.zip
+curl -sLo terraform.zip https://releases.hashicorp.com/terraform/0.12.29/terraform_0.12.29_linux_amd64.zip
 unzip terraform.zip
 rm -f terraform.zip
 chmod +x terraform

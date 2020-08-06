@@ -1,5 +1,6 @@
 provider "kubernetes" {
   # When no host is specified this provider reads ~./kube/config
+  version = "~> 1.12"
 }
 
 provider "kubectl" {
@@ -31,7 +32,7 @@ module "nfs-provisioner" {
 module "storage" {
   source             = "../global/storage"
   nfs_server_address = var.nfs_server_address
-  storage_class = var.storage_class
+  storage_class      = var.storage_class
 }
 
 module "um-login-service" {
@@ -45,7 +46,7 @@ module "um-pep-engine" {
   source            = "../global/um-pep-engine"
   nginx_ip          = var.public_ip
   hostname          = var.hostname
-  module_depends_on = [module.um-login-service]
+  module_depends_on = [module.um-login-service.um-login-service-up]
 }
 
 module "um-pdp-engine" {
@@ -59,7 +60,7 @@ module "um-user-profile" {
   source            = "../global/um-user-profile"
   nginx_ip          = var.public_ip
   hostname          = var.hostname
-  module_depends_on = [module.um-login-service, module.um-pep-engine]
+  module_depends_on = [module.um-login-service.um-login-service-up]
 }
 
 module "proc-ades" {
@@ -70,7 +71,7 @@ module "proc-ades" {
   wspace_user_name     = var.wspace_user_name
   wspace_user_password = var.wspace_user_password
   hostname             = var.hostname
-  module_depends_on    = [module.um-login-service, module.um-pep-engine, module.um-user-profile]
+  module_depends_on    = []
 }
 
 module "rm-workspace" {
@@ -78,5 +79,5 @@ module "rm-workspace" {
   wspace_user_name     = var.wspace_user_name
   wspace_user_password = var.wspace_user_password
   hostname             = var.hostname
-  module_depends_on    = [module.proc-ades]
+  module_depends_on    = []
 }
