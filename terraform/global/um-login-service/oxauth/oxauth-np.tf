@@ -5,8 +5,8 @@
 #     name = "oxauth-np"
 #   }
 
-#   depends_on = [ null_resource.waitfor-persistence ]
-  
+#   depends_on = [ null_resource.waitfor-module-depends ]
+
 #   spec {
 #     pod_selector {
 #       match_labels = {

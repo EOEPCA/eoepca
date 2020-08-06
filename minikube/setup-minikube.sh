@@ -10,7 +10,7 @@ mkdir -p $HOME/.local/bin
 
 # minikube: download and install locally
 echo "Download minikube..."
-curl -sLo $HOME/.local/bin/minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
+curl -sLo $HOME/.local/bin/minikube https://github.com/kubernetes/minikube/releases/download/v1.12.1/minikube-linux-amd64 \
   && chmod +x $HOME/.local/bin/minikube
 
 # If MINIKUBE_MODE is not set, and USER is vagrant, deduce we are running in a VM, so use 'native' mode
@@ -20,13 +20,13 @@ if [ -z "${MINIKUBE_MODE}" -a "${USER}" = "vagrant" ]; then MINIKUBE_MODE="nativ
 # minikube (native)
 if [ "${MINIKUBE_MODE}" = "native" ]
 then
-  if hash conntrack
+  if hash conntrack 2>/dev/null
   then
     # start minikube
     # - default container runtime is docker - see https://minikube.sigs.k8s.io/docs/handbook/config/#runtime-configuration
     echo "Start minikube (native), and wait for cluster..."
+    export CHANGE_MINIKUBE_NONE_USER=true
     sudo -E $HOME/.local/bin/minikube start --driver=none --addons ingress --wait "all"
-    sudo chown -R $USER $HOME/.kube $HOME/.minikube
   else
     echo "ERROR: conntrack must be installed for minikube driver='none', e.g. 'sudo apt install conntrack'. Aborting..."
     exit 1

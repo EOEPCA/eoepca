@@ -18,4 +18,3 @@ resource "kubernetes_ingress" "workspace" {
     }
   }
 }
-

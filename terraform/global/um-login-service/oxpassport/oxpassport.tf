@@ -3,8 +3,6 @@ resource "kubernetes_config_map" "oxpassport_cm" {
     name = "oxpassport-cm"
   }
 
-  depends_on = [null_resource.waitfor-persistence]
-
   data = {
     DOMAIN                = var.hostname
     GLUU_CONFIG_ADAPTER   = "kubernetes"
@@ -23,7 +21,7 @@ resource "kubernetes_service" "oxpassport" {
     }
   }
 
-  depends_on = [null_resource.waitfor-persistence]
+  depends_on = [kubernetes_deployment.oxpassport]
 
   spec {
     port {
@@ -34,6 +32,21 @@ resource "kubernetes_service" "oxpassport" {
     selector = {
       app = "oxpassport"
     }
+  }
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      interval=$(( 5 ))
+      msgInterval=$(( 30 ))
+      step=$(( msgInterval / interval ))
+      count=$(( 0 ))
+      until kubectl logs service/oxpassport 2>/dev/null | grep "Server listening on" >/dev/null 2>&1
+      do
+        test $(( count % step )) -eq 0 && echo "Waiting for service/oxpassport"
+        sleep $interval
+        count=$(( count + interval ))
+      done
+      EOT
   }
 }
 
@@ -46,7 +59,7 @@ resource "kubernetes_deployment" "oxpassport" {
     }
   }
 
-  depends_on = [null_resource.waitfor-persistence]
+  depends_on = [null_resource.waitfor-module-depends]
 
   timeouts {
     create = "10m"
@@ -116,4 +129,3 @@ resource "kubernetes_deployment" "oxpassport" {
     }
   }
 }
-

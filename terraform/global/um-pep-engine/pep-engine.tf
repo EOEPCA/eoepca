@@ -2,9 +2,6 @@ resource "kubernetes_config_map" "pep_engine_cm" {
   metadata {
     name = "um-pep-engine-config"
   }
-
-  depends_on = [null_resource.waitfor-login-service]
-
   data = {
     PEP_REALM                    = "eoepca"
     PEP_AUTH_SERVER_URL          = "${join("", ["http://", var.hostname])}"
@@ -19,16 +16,14 @@ resource "kubernetes_config_map" "pep_engine_cm" {
   }
 }
 
-
-
-
 resource "kubernetes_ingress" "gluu_ingress_pep_engine" {
   metadata {
     name = "gluu-ingress-pep-engine"
 
     annotations = {
-      "kubernetes.io/ingress.class"              = "nginx"
-      "nginx.ingress.kubernetes.io/ssl-redirect" = "false"
+      "kubernetes.io/ingress.class"                = "nginx"
+      "nginx.ingress.kubernetes.io/ssl-redirect"   = "false"
+      "nginx.ingress.kubernetes.io/rewrite-target" = "/$2"
     }
   }
 
@@ -38,7 +33,7 @@ resource "kubernetes_ingress" "gluu_ingress_pep_engine" {
 
       http {
         path {
-          path = "/pep"
+          path = "/pep(/|$)(.*)"
 
           backend {
             service_name = "pep-engine"
@@ -56,7 +51,7 @@ resource "kubernetes_service" "pep-engine" {
     labels = { app = "pep-engine" }
   }
 
-  depends_on = [null_resource.waitfor-login-service]
+  depends_on = [kubernetes_deployment.pep-engine]
 
   spec {
     type = "NodePort"
@@ -74,7 +69,23 @@ resource "kubernetes_service" "pep-engine" {
     }
     selector = { app = "pep-engine" }
   }
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      interval=$(( 5 ))
+      msgInterval=$(( 30 ))
+      step=$(( msgInterval / interval ))
+      count=$(( 0 ))
+      until kubectl logs service/pep-engine pep-engine 2>/dev/null | grep "Running on http://0.0.0.0" >/dev/null 2>&1
+      do
+        test $(( count % step )) -eq 0 && echo "Waiting for service/pep-engine"
+        sleep $interval
+        count=$(( count + interval ))
+      done
+      EOT
+  }
 }
+
 
 resource "kubernetes_deployment" "pep-engine" {
   metadata {
@@ -82,7 +93,7 @@ resource "kubernetes_deployment" "pep-engine" {
     labels = { app = "pep-engine" }
   }
 
-  depends_on = [null_resource.waitfor-login-service]
+  depends_on = [null_resource.waitfor-module-depends]
 
   spec {
     replicas = 1
@@ -99,15 +110,14 @@ resource "kubernetes_deployment" "pep-engine" {
 
         volume {
           name = "vol-userman"
-
           persistent_volume_claim {
             claim_name = "eoepca-userman-pvc"
           }
         }
-
         container {
           name  = "pep-engine"
-          image = "eoepca/um-pep-engine:v0.1.1"
+          image = "eoepca/um-pep-engine:latest"
+
           port {
             container_port = 5566
             name           = "http-pep"
@@ -123,11 +133,32 @@ resource "kubernetes_deployment" "pep-engine" {
           }
           volume_mount {
             name       = "vol-userman"
-            mount_path = "/opt/gluu/jetty/pep-engine/logs"
-            sub_path   = "pep-engine/logs"
+            mount_path = "/data/db/resource"
+            sub_path   = "pep-engine/db/resource"
           }
           image_pull_policy = "Always"
         }
+        container {
+          name  = "mongo"
+          image = "mongo"
+          port {
+            container_port = 27017
+            name           = "http-rp"
+          }
+
+          env_from {
+            config_map_ref {
+              name = "um-pep-engine-config"
+            }
+          }
+          volume_mount {
+            name       = "vol-userman"
+            mount_path = "/data/db/resource"
+            sub_path   = "pep-engine/db/resource"
+          }
+          image_pull_policy = "Always"
+        }
+
         host_aliases {
           ip        = var.nginx_ip
           hostnames = [var.hostname]
@@ -136,4 +167,3 @@ resource "kubernetes_deployment" "pep-engine" {
     }
   }
 }
-
