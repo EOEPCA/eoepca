@@ -3,13 +3,11 @@ resource "kubernetes_config_map" "opendj_init_cm" {
     name = "opendj-init-cm"
   }
 
-  depends_on = [ null_resource.waitfor-config-init ]
-
   data = {
-    GLUU_CONFIG_ADAPTER = "kubernetes"
+    GLUU_CONFIG_ADAPTER      = "kubernetes"
     GLUU_LDAP_ADVERTISE_ADRR = "opendj"
     GLUU_LDAP_AUTO_REPLICATE = "false"
-    GLUU_SECRET_ADAPTER = "kubernetes"
+    GLUU_SECRET_ADAPTER      = "kubernetes"
   }
 }
 
@@ -22,10 +20,10 @@ resource "kubernetes_service" "opendj" {
     }
   }
 
-  depends_on = [ null_resource.waitfor-config-init ]
+  depends_on = [null_resource.waitfor-module-depends]
 
   spec {
-    
+
     port {
       name        = "ldaps"
       protocol    = "TCP"
@@ -67,7 +65,7 @@ resource "kubernetes_stateful_set" "opendj_init" {
     name = "opendj-init"
   }
 
-  depends_on = [ null_resource.waitfor-config-init ]
+  depends_on = [kubernetes_service.opendj]
 
   spec {
     replicas = 1
@@ -181,5 +179,19 @@ resource "kubernetes_stateful_set" "opendj_init" {
 
     service_name = "opendj"
   }
-}
 
+  provisioner "local-exec" {
+    command = <<-EOT
+      interval=$(( 5 ))
+      msgInterval=$(( 30 ))
+      step=$(( msgInterval / interval ))
+      count=$(( 0 ))
+      until kubectl logs opendj-init-0 2>/dev/null | grep "The Directory Server has started successfully" >/dev/null 2>&1
+      do
+        test $(( count % step )) -eq 0 && echo "Waiting for opendj-init0"
+        sleep $interval
+        count=$(( count + interval ))
+      done
+      EOT
+  }
+}

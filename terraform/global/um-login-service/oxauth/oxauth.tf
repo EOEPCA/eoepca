@@ -3,8 +3,6 @@ resource "kubernetes_config_map" "oxauth_cm" {
     name = "oxauth-cm"
   }
 
-  depends_on = [ null_resource.waitfor-persistence ]
-  
   data = {
     DOMAIN                   = var.hostname
     GLUU_CONFIG_ADAPTER      = "kubernetes"
@@ -21,8 +19,8 @@ resource "kubernetes_service" "oxauth" {
     labels = { app = "oxauth" }
   }
 
-  depends_on = [ null_resource.waitfor-persistence ]
-  
+  depends_on = [kubernetes_deployment.oxauth]
+
   spec {
     port {
       name = "oxauth"
@@ -30,10 +28,20 @@ resource "kubernetes_service" "oxauth" {
     }
     selector = { app = "oxauth" }
   }
+
   provisioner "local-exec" {
-    command = <<EOT
-      until [ `kubectl logs service/oxauth | grep "Server:main: Started" | wc -l` -ge 1 ]; do echo "Waiting for service/oxauth" && sleep 30; done
-    EOT
+    command = <<-EOT
+      interval=$(( 5 ))
+      msgInterval=$(( 30 ))
+      step=$(( msgInterval / interval ))
+      count=$(( 0 ))
+      until kubectl logs service/oxauth 2>/dev/null | grep "Server:main: Started" >/dev/null 2>&1
+      do
+        test $(( count % step )) -eq 0 && echo "Waiting for service/oxauth"
+        sleep $interval
+        count=$(( count + interval ))
+      done
+      EOT
   }
 }
 
@@ -43,8 +51,8 @@ resource "kubernetes_deployment" "oxauth" {
     labels = { app = "oxauth" }
   }
 
-  depends_on = [ null_resource.waitfor-persistence ]
-  
+  depends_on = [null_resource.waitfor-module-depends]
+
   spec {
     replicas = 1
     selector {
@@ -55,9 +63,9 @@ resource "kubernetes_deployment" "oxauth" {
         labels = { app = "oxauth" }
       }
       spec {
-  
+
         automount_service_account_token = true
-        
+
         volume {
           name = "vol-userman"
 
@@ -101,7 +109,7 @@ resource "kubernetes_deployment" "oxauth" {
         }
         host_aliases {
           ip        = var.nginx_ip
-          hostnames = [ var.hostname ]
+          hostnames = [var.hostname]
         }
       }
     }

@@ -34,7 +34,7 @@ module "nginx" {
   source            = "./nginx"
   nginx_ip          = var.nginx_ip
   hostname          = var.hostname
-  module_depends_on = [module.ldap.ldap-up]
+  module_depends_on = [module.config.config-done]
 }
 
 module "oxauth" {

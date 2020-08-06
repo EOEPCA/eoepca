@@ -20,7 +20,7 @@ RKE must be installed. See [Rancher website](https://rancher.com/products/rke/) 
 
 Alternatively, use helper script [install-rke.sh](../bin/install-rke.sh)...
 ```
-$ ../bin/install-rke.sh
+$ bin/install-rke.sh
 ```
 
 ## RKE Configuration
@@ -35,7 +35,8 @@ The helper script [create-cluster-config.sh](create-cluster-config.sh) automatic
 * configuration of connection via bastion
 
 ```
-$ ./create-cluster-config.sh
+$ cd kubernetes
+$ create-cluster-config.sh
 ```
 
 ## Create Kubernetes Cluster
@@ -73,7 +74,7 @@ NOTE that, in order to use kubectl from your local platform, it is necessary to 
 
 ## Access via Bastion host
 
-For administration the deployment VMs must be accessed through the bastion host (via its public floating IP). The default deployment installs the public key of the user as an authorized key in each VM to facilitate this. Further information [here](../creodias/README.md#access_via_bastion_host).
+For administration the deployment VMs must be accessed through the bastion host (via its public floating IP). The default deployment installs the public key of the user as an authorized key in each VM to facilitate this. Further information [here](../creodias/README.md#access-via-bastion-host).
 
 The ssh connection to the bastion can be used to establish a VPN from your local platform to the cluster using [sshuttle](https://sshuttle.readthedocs.io/en/stable/), for example...
 ```

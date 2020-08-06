@@ -3,8 +3,6 @@ resource "kubernetes_config_map" "oxtrust_cm" {
     name = "oxtrust-cm"
   }
 
-  depends_on = [null_resource.waitfor-persistence]
-
   data = {
     DOMAIN                = var.hostname
     GLUU_CONFIG_ADAPTER   = "kubernetes"
@@ -24,7 +22,7 @@ resource "kubernetes_service" "oxtrust" {
     }
   }
 
-  depends_on = [null_resource.waitfor-persistence, null_resource.waitfor-oxauth]
+  depends_on = [null_resource.waitfor-module-depends]
 
   spec {
     port {
@@ -49,7 +47,7 @@ resource "kubernetes_stateful_set" "oxtrust" {
     }
   }
 
-  depends_on = [kubernetes_service.oxtrust, null_resource.waitfor-persistence]
+  depends_on = [kubernetes_service.oxtrust]
 
   spec {
     replicas = 1
@@ -129,5 +127,19 @@ resource "kubernetes_stateful_set" "oxtrust" {
 
     service_name = "oxtrust"
   }
-}
 
+  provisioner "local-exec" {
+    command = <<-EOT
+      interval=$(( 5 ))
+      msgInterval=$(( 30 ))
+      step=$(( msgInterval / interval ))
+      count=$(( 0 ))
+      until kubectl logs service/oxtrust 2>/dev/null | grep "Server:main: Started" >/dev/null 2>&1
+      do
+        test $(( count % step )) -eq 0 && echo "Waiting for service/oxtrust"
+        sleep $interval
+        count=$(( count + interval ))
+      done
+      EOT
+  }
+}

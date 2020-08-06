@@ -17,7 +17,7 @@ resource "kubernetes_ingress" "gluu_ingress_base" {
 
   spec {
     tls {
-      hosts       = [ var.hostname ]
+      hosts       = [var.hostname]
       secret_name = "tls-certificate"
     }
 
@@ -36,7 +36,7 @@ resource "kubernetes_ingress" "gluu_ingress_base" {
       }
     }
   }
-  depends_on = [ null_resource.waitfor-tls-secrets, null_resource.waitfor-persistence ]
+  depends_on = [kubernetes_secret.tls-certificate]
 }
 
 resource "kubernetes_ingress" "gluu_ingress_openid_configuration" {
@@ -58,12 +58,12 @@ resource "kubernetes_ingress" "gluu_ingress_openid_configuration" {
 
   spec {
     tls {
-      hosts       = [ var.hostname ]
+      hosts       = [var.hostname]
       secret_name = "tls-certificate"
     }
 
     rule {
-      host =  var.hostname 
+      host = var.hostname
 
       http {
         path {
@@ -77,7 +77,6 @@ resource "kubernetes_ingress" "gluu_ingress_openid_configuration" {
       }
     }
   }
-  depends_on = [ null_resource.waitfor-tls-secrets, null_resource.waitfor-persistence ]
 }
 
 resource "kubernetes_ingress" "gluu_ingress_uma_2__configuration" {
@@ -99,12 +98,12 @@ resource "kubernetes_ingress" "gluu_ingress_uma_2__configuration" {
 
   spec {
     tls {
-      hosts       = [ var.hostname ]
+      hosts       = [var.hostname]
       secret_name = "tls-certificate"
     }
 
     rule {
-      host =  var.hostname 
+      host = var.hostname
 
       http {
         path {
@@ -118,7 +117,7 @@ resource "kubernetes_ingress" "gluu_ingress_uma_2__configuration" {
       }
     }
   }
-  depends_on = [ null_resource.waitfor-tls-secrets, null_resource.waitfor-persistence ]
+  depends_on = [kubernetes_secret.tls-certificate]
 }
 
 resource "kubernetes_ingress" "gluu_ingress_webfinger" {
@@ -140,12 +139,12 @@ resource "kubernetes_ingress" "gluu_ingress_webfinger" {
 
   spec {
     tls {
-      hosts       = [ var.hostname ]
+      hosts       = [var.hostname]
       secret_name = "tls-certificate"
     }
 
     rule {
-      host =  var.hostname 
+      host = var.hostname
 
       http {
         path {
@@ -159,7 +158,7 @@ resource "kubernetes_ingress" "gluu_ingress_webfinger" {
       }
     }
   }
-  depends_on = [ null_resource.waitfor-tls-secrets, null_resource.waitfor-persistence ]
+  depends_on = [kubernetes_secret.tls-certificate]
 }
 
 resource "kubernetes_ingress" "gluu_ingress_simple_web_discovery" {
@@ -181,12 +180,12 @@ resource "kubernetes_ingress" "gluu_ingress_simple_web_discovery" {
 
   spec {
     tls {
-      hosts       = [ var.hostname ]
+      hosts       = [var.hostname]
       secret_name = "tls-certificate"
     }
 
     rule {
-      host =  var.hostname 
+      host = var.hostname
 
       http {
         path {
@@ -200,7 +199,7 @@ resource "kubernetes_ingress" "gluu_ingress_simple_web_discovery" {
       }
     }
   }
-  depends_on = [ null_resource.waitfor-tls-secrets, null_resource.waitfor-persistence ]
+  depends_on = [kubernetes_secret.tls-certificate]
 }
 
 resource "kubernetes_ingress" "gluu_ingress_scim_configuration" {
@@ -222,12 +221,12 @@ resource "kubernetes_ingress" "gluu_ingress_scim_configuration" {
 
   spec {
     tls {
-      hosts       = [ var.hostname ]
+      hosts       = [var.hostname]
       secret_name = "tls-certificate"
     }
 
     rule {
-      host =  var.hostname 
+      host = var.hostname
 
       http {
         path {
@@ -241,7 +240,7 @@ resource "kubernetes_ingress" "gluu_ingress_scim_configuration" {
       }
     }
   }
-  depends_on = [ null_resource.waitfor-tls-secrets, null_resource.waitfor-persistence ]
+  depends_on = [kubernetes_secret.tls-certificate]
 }
 
 resource "kubernetes_ingress" "gluu_ingress_fido_u_2_f_configuration" {
@@ -263,12 +262,12 @@ resource "kubernetes_ingress" "gluu_ingress_fido_u_2_f_configuration" {
 
   spec {
     tls {
-      hosts       = [ var.hostname ]
+      hosts       = [var.hostname]
       secret_name = "tls-certificate"
     }
 
     rule {
-      host =  var.hostname 
+      host = var.hostname
 
       http {
         path {
@@ -282,7 +281,7 @@ resource "kubernetes_ingress" "gluu_ingress_fido_u_2_f_configuration" {
       }
     }
   }
-  depends_on = [ null_resource.waitfor-tls-secrets, null_resource.waitfor-persistence ]
+  depends_on = [kubernetes_secret.tls-certificate]
 }
 
 resource "kubernetes_ingress" "gluu_ingress" {
@@ -300,12 +299,12 @@ resource "kubernetes_ingress" "gluu_ingress" {
 
   spec {
     tls {
-      hosts       = [ var.hostname ]
+      hosts       = [var.hostname]
       secret_name = "tls-certificate"
     }
 
     rule {
-      host =  var.hostname 
+      host = var.hostname
 
       http {
         path {
@@ -319,7 +318,7 @@ resource "kubernetes_ingress" "gluu_ingress" {
       }
     }
   }
-  depends_on = [ null_resource.waitfor-tls-secrets, null_resource.waitfor-persistence ]
+  depends_on = [kubernetes_secret.tls-certificate]
 }
 
 resource "kubernetes_ingress" "gluu_ingress_stateful" {
@@ -382,6 +381,5 @@ resource "kubernetes_ingress" "gluu_ingress_stateful" {
       }
     }
   }
-  depends_on = [ null_resource.waitfor-tls-secrets, null_resource.waitfor-persistence ]
+  depends_on = [kubernetes_secret.tls-certificate]
 }
-

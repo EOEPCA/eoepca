@@ -3,7 +3,7 @@ resource "kubernetes_job" "um_login_persistence" {
     name = "um-login-persistence"
   }
 
-  depends_on = [ null_resource.waitfor-config-init, null_resource.waitfor-opendj-init ]
+  depends_on = [null_resource.waitfor-module-depends, kubernetes_stateful_set.opendj_init]
 
   spec {
     backoff_limit = 1
@@ -70,5 +70,9 @@ resource "kubernetes_job" "um_login_persistence" {
       }
     }
   }
+  wait_for_completion = true
+  timeouts {
+    create = "5m"
+    update = "5m"
+  }
 }
-
