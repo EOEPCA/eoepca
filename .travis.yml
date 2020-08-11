@@ -11,7 +11,7 @@ services:
 jobs:
   include:
     - stage: deploy to local kube and test
-      if: branch = travis
+      if: branch = develop
       dist: bionic
       language: minimal
 
