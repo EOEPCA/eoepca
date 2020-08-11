@@ -73,7 +73,7 @@ count=$(( 1 ))
 status=$(( 1 ))
 while [ $status -ne 0 -a $count -le 2 ]
 do
-  echo "=== Attempt: $count"
+  echo "[INFO]  Deploy EOEPCA attempt: $count"
   terraform $ACTION \
     ${AUTO_APPROVE} \
     --var="dh_user_email=${DOCKER_EMAIL}" \
@@ -86,6 +86,6 @@ do
     --var="hostname=test.${PUBLIC_IP}.nip.io" \
     --var="public_ip=${PUBLIC_IP}"
   status=$(( $? ))
-  echo "=== Attempt: $count finished with status: $status"
+  echo "[INFO]  Deploy EOEPCA attempt: $count finished with status: $status"
   count=$(( count + 1 ))
 done
