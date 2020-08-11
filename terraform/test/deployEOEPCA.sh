@@ -69,14 +69,23 @@ fi
 
 # Create the K8S environment
 terraform init
-terraform $ACTION \
-  ${AUTO_APPROVE} \
-  --var="dh_user_email=${DOCKER_EMAIL}" \
-  --var="dh_user_name=${DOCKER_USERNAME}" \
-  --var="dh_user_password=${DOCKER_PASSWORD}" \
-  --var="wspace_user_name=${WSPACE_USERNAME}" \
-  --var="wspace_user_password=${WSPACE_PASSWORD}" \
-  --var="nfs_server_address=${NFS_SERVER_ADDRESS}" \
-  ${VAR_STORAGE_CLASS} \
-  --var="hostname=test.${PUBLIC_IP}.nip.io" \
-  --var="public_ip=${PUBLIC_IP}"
+count=$(( 1 ))
+status=$(( 1 ))
+while [ $status -ne 0 -a $count -le 2 ]
+do
+  echo "=== Attempt: $count"
+  terraform $ACTION \
+    ${AUTO_APPROVE} \
+    --var="dh_user_email=${DOCKER_EMAIL}" \
+    --var="dh_user_name=${DOCKER_USERNAME}" \
+    --var="dh_user_password=${DOCKER_PASSWORD}" \
+    --var="wspace_user_name=${WSPACE_USERNAME}" \
+    --var="wspace_user_password=${WSPACE_PASSWORD}" \
+    --var="nfs_server_address=${NFS_SERVER_ADDRESS}" \
+    ${VAR_STORAGE_CLASS} \
+    --var="hostname=test.${PUBLIC_IP}.nip.io" \
+    --var="public_ip=${PUBLIC_IP}"
+  status=$(( $? ))
+  echo "=== Attempt: $count finished with status: $status"
+  count=$(( count + 1 ))
+done
