@@ -11,7 +11,7 @@ services:
 jobs:
   include:
     - stage: deploy to local kube and test
-      if: branch = rke
+      if: branch = develop
       dist: bionic
       language: minimal
 
@@ -50,35 +50,6 @@ jobs:
 
       after_script:
         - echo '*** DONE ***'
-
-    - stage: test
-      if: branch = develop
-
-      # Minikube installation taken from: https://github.com/LiliC/travis-minikube/blob/minikube-30-kube-1.12/.travis.yml
-      # We need the systemd for the kubeadm and it's default from 16.04+
-      dist: xenial
-
-      before_script: sudo sh ./travis/setupMinikube.sh
-
-      script: sudo ./terraform/test/deployEOEPCA.sh
-
-      deploy:
-        - provider: script
-          skip_cleanup: true
-          script: sudo sh ./travis/acceptanceTest.sh
-          on:
-            branch: develop
-
-    - stage: deploy EOEPCA on network of resources
-      if: branch = release
-
-      dist: bionic
-
-      before_script: sh ./travis/setupRobot.sh
-
-      script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/staging/ && sh deployEOEPCA.sh'
-
-      after_script: sh ./travis/acceptanceTest.sh
 
 import:
   - docs/.travis.yml
