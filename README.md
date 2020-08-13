@@ -106,7 +106,6 @@ Building Block | Repository | Documentation
 Login Service | https://github.com/EOEPCA/um-login-service | https://eoepca.github.io/um-login-service/
 User Profile | https://github.com/EOEPCA/um-user-profile | https://eoepca.github.io/um-user-profile/
 Policy Enforcement Point (PEP) | https://github.com/EOEPCA/um-pep-engine | https://eoepca.github.io/um-pep-engine/
-Policy Decision Point (PDP) | https://github.com/EOEPCA/um-pep-engine | https://eoepca.github.io/um-pep-engine/
 
 ### Processing and Chaining
 
