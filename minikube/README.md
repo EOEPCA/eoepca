@@ -23,10 +23,24 @@ $ minikube/setup-minikube.sh
 ```
 
 NOTE for running minikube in a VM...<br>
-The setup-minikube.sh script retains the default (preferred) dpeloyment of minikube as a docker container. This is not ideal if running minikube inside a VM. In this case it is better to run minikube natively inside VM using the 'none' driver, rather than the 'docker' driver. This can be achieved by running the script as follows...
+The setup-minikube.sh script retains the default (preferred) deployment of minikube as a docker container. This is not ideal if running minikube inside a VM. In this case it is better to run minikube natively inside VM using the 'none' driver, rather than the 'docker' driver. This can be achieved by running the script as follows...
 ```
 $ minikube/setup-minikube.sh native
 ```
+
+Or, see below for the [alternative approach using k3s](#install-k3s-alternative-to-minikube) instead of minikube. k3s has the advantage that its installation/setup runs more quickly than minikube, and is more lightweight for constrained execution environments, such as within a VM. In addition, it is provided by Rancher and is thus sibling to the Rancher Kubernetes Engine (RKE)) that is used for the main cloud deployment.
+
+## Install k3s (alternative to minikube)
+
+[k3s](https://k3s.io/) can be used as an alternative to minikube. k3s has the advantage that its installation/setup runs more quickly than minikube, and is more lightweight for constrained execution environments, such as within a VM.
+
+In addition, k3s is provided by [Rancher](https://rancher.com/) and is thus sibling to the [Rancher Kubernetes Engine (RKE)](https://rancher.com/products/rke/) that is used for the main cloud deployment.
+
+```
+$ minikube/setup-k3s.sh
+```
+
+NOTE: The setup-k3s.sh script selects the 'docker' container runtime, as an alternative to the k3s default of 'containerd'. This is a requirements of the Argo component of the ADES building block.
 
 ## Next Steps
 

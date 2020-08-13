@@ -50,7 +50,7 @@ echo "Using NFS_SERVER_ADDRESS=${NFS_SERVER_ADDRESS}"
 if [ "${PUBLIC_IP}" = "${LOCALKUBE_IP}" ]
 then
   STORAGE_CLASS="${STORAGE_CLASS:-eoepca-host}"
-  echo "INFO: using minikube with IP ${LOCALKUBE_IP} and storage class ${STORAGE_CLASS}"
+  echo "INFO: using 'local' kubernetes with IP ${LOCALKUBE_IP} and storage class ${STORAGE_CLASS}"
 fi
 if [ -n "${STORAGE_CLASS}" ]; then VAR_STORAGE_CLASS="--var=storage_class=${STORAGE_CLASS}"; fi
 

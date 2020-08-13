@@ -71,7 +71,7 @@ The EOEPCA system deployment comprises several steps. Instructions are provided 
 
 The first step is to clone this repository to your local platform...
 ```
-$ git clone --branch v0.1.1 git@github.com:EOEPCA/eoepca.git
+$ git clone --branch v0.1.2 git@github.com:EOEPCA/eoepca.git
 ```
 NOTE that this clones the specific tag that is well tested. For the latest development branch the `--branch` option should be omitted.
 
@@ -124,6 +124,7 @@ Not started yet
 
 EOEPCA system releases are made to provide integrated deployments of the developed building blocks. The release history is as follows:
 
+* 13/08/2020 - [Release 0.1.2](release-notes/release-0.1.2.md)
 * 06/08/2020 - [Release 0.1.1](release-notes/release-0.1.1.md)
 * 22/06/2020 - [Release 0.1](release-notes/release-0.1.md)
 
