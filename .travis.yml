@@ -11,7 +11,7 @@ services:
 jobs:
   include:
     - stage: deploy to local kube and test
-      if: branch = release/v0.1.2
+      if: branch = develop
       dist: bionic
       language: minimal
 
