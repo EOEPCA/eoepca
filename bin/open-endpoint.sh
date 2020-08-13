@@ -27,13 +27,13 @@ function get_public_ip() {
     DEPLOYMENT_PUBLIC_IP="$(terraform output -state=../creodias/terraform.tfstate -json | jq -r '.loadbalancer_fips.value[]' 2>/dev/null)" || unset DEPLOYMENT_PUBLIC_IP
   fi
 
-  # Note minikube ip in case we need it
-  if hash minikube 2>/dev/null; then MINIKUBE_IP=$(minikube ip 2>/dev/null) || unset MINIKUBE_IP; fi
+  # Note the 'local kube' IP-address in case we need it
+  LOCALKUBE_IP=$(${BIN_DIR}/get-localkube-ip.sh) || unset LOCALKUBE_IP
 
   # Check presence of environment variables
   #
   # If not supplied, try to derive IPs from Terraform (cloud infrastructure (preferred)), followed by minikube
-  PUBLIC_IP="${PUBLIC_IP:-${DEPLOYMENT_PUBLIC_IP:-${MINIKUBE_IP}}}"
+  PUBLIC_IP="${PUBLIC_IP:-${DEPLOYMENT_PUBLIC_IP:-${LOCALKUBE_IP}}}"
 
   [ -n "${PUBLIC_IP}" ] && return 0 || return 1
 }

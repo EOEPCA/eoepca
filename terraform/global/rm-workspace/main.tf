@@ -98,7 +98,7 @@ resource "kubernetes_service" "workspace" {
       msgInterval=$(( 30 ))
       step=$(( msgInterval / interval ))
       count=$(( 0 ))
-      until kubectl logs service/workspace 2>/dev/null | grep "Nextcloud was successfully installed" >/dev/null 2>&1
+      until kubectl logs service/workspace 2>/dev/null | grep "resuming normal operations" >/dev/null 2>&1
       do
         test $(( count % step )) -eq 0 && echo "Waiting for service/workspace"
         sleep $interval

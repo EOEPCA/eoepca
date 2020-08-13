@@ -26,13 +26,13 @@ then
   if [ "${DEPLOYMENT_NFS_SERVER}" = "null" ]; then unset DEPLOYMENT_NFS_SERVER; fi
 fi
 
-# Note minikube ip in case we need it
-if hash minikube 2>/dev/null; then MINIKUBE_IP=$(minikube ip 2>/dev/null) || unset MINIKUBE_IP; fi
+# Note the 'local kube' IP-address in case we need it
+LOCALKUBE_IP=$(${BIN_DIR}/../../bin/get-localkube-ip.sh) || unset LOCALKUBE_IP
 
 # Check presence of environment variables
 #
 # If not supplied, try to derive IPs from Terraform (cloud infrastructure (preferred)), followed by minikube
-PUBLIC_IP="${PUBLIC_IP:-${DEPLOYMENT_PUBLIC_IP:-${MINIKUBE_IP:-none}}}"
+PUBLIC_IP="${PUBLIC_IP:-${DEPLOYMENT_PUBLIC_IP:-${LOCALKUBE_IP:-none}}}"
 NFS_SERVER_ADDRESS="${NFS_SERVER_ADDRESS:-${DEPLOYMENT_NFS_SERVER:-none}}"
 if [ "${PUBLIC_IP}" = "none" ]; then echo "ERROR: invalid Public IP (${PUBLIC_IP}). Aborting..."; exit 1; fi
 #
@@ -47,10 +47,10 @@ echo "Using NFS_SERVER_ADDRESS=${NFS_SERVER_ADDRESS}"
 
 # Storage class
 # If using minikube then set storage class to 'eoepca-host' (host storage OK for dev testing)
-if [ "${PUBLIC_IP}" = "${MINIKUBE_IP}" ]
+if [ "${PUBLIC_IP}" = "${LOCALKUBE_IP}" ]
 then
   STORAGE_CLASS="${STORAGE_CLASS:-eoepca-host}"
-  echo "INFO: using minikube with IP ${MINIKUBE_IP} and storage class ${STORAGE_CLASS}"
+  echo "INFO: using 'local' kubernetes with IP ${LOCALKUBE_IP} and storage class ${STORAGE_CLASS}"
 fi
 if [ -n "${STORAGE_CLASS}" ]; then VAR_STORAGE_CLASS="--var=storage_class=${STORAGE_CLASS}"; fi
 
@@ -69,14 +69,23 @@ fi
 
 # Create the K8S environment
 terraform init
-terraform $ACTION \
-  ${AUTO_APPROVE} \
-  --var="dh_user_email=${DOCKER_EMAIL}" \
-  --var="dh_user_name=${DOCKER_USERNAME}" \
-  --var="dh_user_password=${DOCKER_PASSWORD}" \
-  --var="wspace_user_name=${WSPACE_USERNAME}" \
-  --var="wspace_user_password=${WSPACE_PASSWORD}" \
-  --var="nfs_server_address=${NFS_SERVER_ADDRESS}" \
-  ${VAR_STORAGE_CLASS} \
-  --var="hostname=test.${PUBLIC_IP}.nip.io" \
-  --var="public_ip=${PUBLIC_IP}"
+count=$(( 1 ))
+status=$(( 1 ))
+while [ $status -ne 0 -a $count -le 2 ]
+do
+  echo "[INFO]  Deploy EOEPCA attempt: $count"
+  terraform $ACTION \
+    ${AUTO_APPROVE} \
+    --var="dh_user_email=${DOCKER_EMAIL}" \
+    --var="dh_user_name=${DOCKER_USERNAME}" \
+    --var="dh_user_password=${DOCKER_PASSWORD}" \
+    --var="wspace_user_name=${WSPACE_USERNAME}" \
+    --var="wspace_user_password=${WSPACE_PASSWORD}" \
+    --var="nfs_server_address=${NFS_SERVER_ADDRESS}" \
+    ${VAR_STORAGE_CLASS} \
+    --var="hostname=test.${PUBLIC_IP}.nip.io" \
+    --var="public_ip=${PUBLIC_IP}"
+  status=$(( $? ))
+  echo "[INFO]  Deploy EOEPCA attempt: $count finished with status: $status"
+  count=$(( count + 1 ))
+done

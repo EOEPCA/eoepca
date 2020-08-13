@@ -2,32 +2,32 @@ sudo: required
 language: java
 install: true
 
+addons:
+  chrome: stable
+
 services:
   - docker
 
 jobs:
   include:
     - stage: deploy to local kube and test
-      if: branch = release/v0.1
+      if: branch = release/v0.1.2
       dist: bionic
       language: minimal
 
       before_install:
         - sudo apt-get update
         - sudo apt-get -y install -f
+        - sudo apt-get -y install jq
+        - sudo apt-get install python3-venv
 
       install:
-        # - ./bin/install-kubectl.sh
-        # - ./test/bin/setup-k3s.sh
-        # - ./bin/install-terraform.sh
-        - sudo sh ./travis/setupMinikube.sh
-        - sudo sh ./test/nfs-server/nfs-setup.sh
+        - ./bin/install-kubectl.sh
+        - ./minikube/setup-k3s.sh
+        - ./bin/install-terraform.sh
 
       before_script:
-        # - ./terraform/test/deployEOEPCA.sh
-        - sudo ./terraform/test/deployEOEPCA.sh
-        - sudo apt-get -y install chromium-browser
-        - sh ./test/bin/install-robotframework
+        - ./terraform/test/deployEOEPCA.sh
 
       script:
         - cd ./test/acceptance
@@ -50,35 +50,6 @@ jobs:
 
       after_script:
         - echo '*** DONE ***'
-
-    - stage: test
-      if: branch = develop
-
-      # Minikube installation taken from: https://github.com/LiliC/travis-minikube/blob/minikube-30-kube-1.12/.travis.yml
-      # We need the systemd for the kubeadm and it's default from 16.04+
-      dist: xenial
-
-      before_script: sudo sh ./travis/setupMinikube.sh
-
-      script: sudo ./terraform/test/deployEOEPCA.sh
-
-      deploy:
-        - provider: script
-          skip_cleanup: true
-          script: sudo sh ./travis/acceptanceTest.sh
-          on:
-            branch: develop
-
-    - stage: deploy EOEPCA on network of resources
-      if: branch = release
-
-      dist: bionic
-
-      before_script: sh ./travis/setupRobot.sh
-
-      script: sh -c 'cd ${TRAVIS_BUILD_DIR}/terraform/staging/ && sh deployEOEPCA.sh'
-
-      after_script: sh ./travis/acceptanceTest.sh
 
 import:
   - docs/.travis.yml
