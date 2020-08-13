@@ -7,7 +7,7 @@
           "mimeType": "application/xml"
         },
         "value": {
-          "inlineValue": "https://raw.githubusercontent.com/EOEPCA/eoepca/v0.1.1/test/acceptance/02__Processing/01__ADES/eo_metadata_generation_1_0.xml"
+          "inlineValue": "https://raw.githubusercontent.com/EOEPCA/eoepca/v0.1.2/test/acceptance/02__Processing/01__ADES/eo_metadata_generation_1_0.xml"
         }
       }
     }
