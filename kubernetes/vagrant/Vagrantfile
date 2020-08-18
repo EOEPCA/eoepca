@@ -1,0 +1,44 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "ubuntu/bionic64"
+
+  config.vm.base_mac = nil
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "4096"
+    vb.cpus = "2"
+    vb.linked_clone = true
+  end
+
+  config.vm.define "rke01" do |rke|
+    rke.vm.provider "virtualbox" do |vb|
+      vb.name = "rke01"
+    end
+    rke.vm.network "private_network", ip: "192.168.111.11"
+    rke.vm.provision "bootstrap", type: "shell" do |s|
+      s.path = "bootstrap.sh"
+      s.args = [ "rke01" ]
+    end
+    rke.vm.provision "user-init", type: "shell", privileged: false, path: "user-init.sh"
+  end
+
+  config.vm.define "rke02" do |rke|
+    rke.vm.provider "virtualbox" do |vb|
+      vb.name = "rke02"
+    end
+    rke.vm.network "private_network", ip: "192.168.111.12"
+    rke.vm.provision "bootstrap", type: "shell" do |s|
+      s.path = "bootstrap.sh"
+      s.args = [ "rke02" ]
+    end
+    rke.vm.provision "gluster-init", type: "shell", path: "gluster-init.sh"
+    rke.vm.provision "user-init", type: "shell", privileged: false, path: "user-init.sh"
+  end
+
+  config.vm.provision "file", source: "~/.ssh/id_rsa", destination: "$HOME/.ssh/id_rsa"
+  config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "$HOME/.ssh/id_rsa.pub"
+
+end
