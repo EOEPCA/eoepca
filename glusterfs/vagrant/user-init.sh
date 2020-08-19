@@ -7,8 +7,7 @@ BIN_DIR="$(pwd)"
 trap "cd '${ORIG_DIR}'" EXIT
 
 function main() {
-  cat $HOME/.ssh/id_rsa.pub >> $HOME/.ssh/authorized_keys
-  sudo usermod -aG docker $USER
+  cat $HOME/.ssh/id_rsa.pub >>$HOME/.ssh/authorized_keys
 }
 
 main "$@"

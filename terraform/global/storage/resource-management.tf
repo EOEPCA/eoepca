@@ -44,6 +44,29 @@ resource "kubernetes_persistent_volume" "eoepca_resman_pv_host" {
   }
 }
 
+resource "kubernetes_persistent_volume" "eoepca_resman_pv_gluster" {
+  count = "${var.storage_class == "eoepca-gluster" ? 1 : 0}"
+  metadata {
+    name = "eoepca-resman-pv-gluster"
+    labels = {
+      eoepca_type = "resman"
+    }
+  }
+  spec {
+    storage_class_name = var.storage_class
+    access_modes       = ["ReadWriteMany"]
+    capacity = {
+      storage = "5Gi"
+    }
+    persistent_volume_source {
+      glusterfs {
+        endpoints_name = "glusterfs-cluster"
+        path           = "volume1"
+      }
+    }
+  }
+}
+
 resource "kubernetes_persistent_volume_claim" "eoepca_resman_pvc" {
   metadata {
     name = "eoepca-resman-pvc"

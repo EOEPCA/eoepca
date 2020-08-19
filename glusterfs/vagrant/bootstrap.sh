@@ -12,8 +12,8 @@ function set_hostname() {
 
 function write_etc_hosts() {
   cat - <<EOF >>/etc/hosts
-192.168.111.11  rke01
-192.168.111.12  rke02
+192.168.111.11  gfs01
+192.168.111.12  gfs02
 EOF
 }
 
@@ -22,12 +22,6 @@ function setup_software_sources() {
   apt-get -y install software-properties-common
   add-apt-repository -y ppa:gluster/glusterfs-7
   apt-get -y update
-}
-
-function install_docker() {
-  if ! hash docker 2>/dev/null; then
-    curl -sfL https://get.docker.com | sh -s -
-  fi
 }
 
 function setup_gluster_service() {
@@ -42,8 +36,6 @@ function main() {
   set_hostname "$HOSTNAME"
   write_etc_hosts
   setup_software_sources
-
-  install_docker
   setup_gluster_service
 }
 
