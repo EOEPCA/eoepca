@@ -32,6 +32,8 @@ UMA Flow to Retrieve RPT
   ${resp}=  Scim Client Get Details
   ${g_client_id}=  Get From Dictionary  ${resp}  client_id
   ${g_client_secret}=  Get From Dictionary  ${resp}  client_secret
+  Set Global Variable  ${C_ID_UMA}  ${g_client_id}
+  Set Global Variable  ${C_SECRET_UMA}  ${g_client_secret}
   UMA Flow Setup  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}  ${WELL_KNOWN_PATH}  ${UMA_USER}  ${UMA_PWD}  ${g_client_id}  ${g_client_secret}
 
 *** Keywords ***
@@ -75,6 +77,7 @@ UMA Get ID Token Valid
   ${endpoint}=  UMA Get Token Endpoint  ${well_known}
   ${resp}=  UMA Call Shell ID Token  ${endpoint}  ${client_id}  ${client_secret}
   ${id_token}=  UMA Get ID Token From Response  ${resp}
+  Set Global Variable  ${ID_TOKEN}  ${id_token}
   [Return]  ${id_token}
   
 UMA Get Access Token

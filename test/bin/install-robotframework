@@ -45,13 +45,24 @@ chmod +x $HOME/.local/bin/webdrivermanager
 # Install web drivers
 #
 # Google Chrome
-webdrivermanager chrome
+# webdrivermanager chrome
 
+# # chromedriver
+# cat - <<EOF >$HOME/.local/bin/chromedriver
+# #!/usr/bin/env bash
+# source $HOME/.local/robot/bin/activate \
+# && chromedriver "\$@" \
+# && deactivate
+# EOF
+# chmod +x $HOME/.local/bin/chromedriver
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -P ~/
+apt install ~/google-chrome-stable_current_amd64.deb
+rm ~/google-chrome-stable_current_amd64.deb
 # chromedriver
-cat - <<EOF >$HOME/.local/bin/chromedriver
-#!/usr/bin/env bash
-source $HOME/.local/robot/bin/activate \
-&& chromedriver "\$@" \
-&& deactivate
-EOF
-chmod +x $HOME/.local/bin/chromedriver
+v=$(curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+wget -N https://chromedriver.storage.googleapis.com/$v/chromedriver_linux64.zip -P ~/
+unzip ~/chromedriver_linux64.zip -d ~/
+rm ~/chromedriver_linux64.zip
+mv -f ~/chromedriver /usr/local/bin/chromedriver
+chown root:root /usr/local/bin/chromedriver
+chmod 0755 /usr/local/bin/chromedriver

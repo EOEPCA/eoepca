@@ -1,13 +1,13 @@
 from eoepca_scim import EOEPCA_Scim, ENDPOINT_AUTH_CLIENT_POST
-
+from robot.api.deco import keyword
 class ScimClient:
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
     ROBOT_LIBRARY_VERSION = '0.1'
-
     def __init__(self, hostname):
         self.hostname = hostname
         self.details = None
     
+    @keyword(name='Scim Client Get Details')
     def scim_client_get_details(self):
         if self.details == None:
             print("Registering new client")
