@@ -14,11 +14,13 @@ ${PDP_PATH_TO_VALIDATE}=  pdp/policy/validate
 ${POLICY1_JSON}=  {"name":"NewPolicyDen","description":"Description for this new policy","config":{"resource_id":"123456789","rules":[{"AND":[{"EQUAL":{"userName":"admin"}}]},{"AND":[{"NOT":{"OR":[{"EQUAL":{"emails":[{'value':'mamuniz@test.com','primary':False}]}},{"EQUAL":{"nickName":"Admin"}}]},"EQUAL":{"displayName":"Default Admin User"}}]},{"EQUAL":{"groups":[{'value':'60B7','display':'Gluu Manager Group','type':'direct','ref':'https://test.10.0.2.15.nip.io/identity/restv1/scim/v2/Groups/60B7'}]}}]},"scopes":["Authorized"]}
 ${POLICY2_JSON}=   {"name":"NewPolicy","description":"Description for this new policy","config":{"resource_id":"12345678","rules":[{"AND":[{"EQUAL" : {"userName":"admin"}}]},{"AND":[{"NOT":{"OR":[{"EQUAL":{"emails":[{'value':'mamuniz@test.com','primary':False}]}},{"EQUAL":{"nickName":"Mami"}}]},"EQUAL":{"displayName":"Default Admin User"}}]},{"EQUAL":{"groups":[{'value':'60B7','display':'Gluu Manager Group','type':'direct','ref':'https://test.10.0.2.15.nip.io/identity/restv1/scim/v2/Groups/60B7'}]}}]},"scopes":["Authorized"]}
 ${WELL_KNOWN_PATH}=  ${UM_BASE_URL}/.well-known/openid-configuration
-
+${SCOPES}=  openid,permission,uma_protection
+${RED_URI}=  
+${REQ}=  grant_type=password&client_id=${C_ID_UMA}&client_secret=${C_SECRET_UMA}&username=admin&password=admin_Abcd1234#&scope=${SCOPES}&uri=
 *** Test Cases ***
 PDP Insert Policy Authenticated
   PDP Insert Policy  ${HOST}  ${PORT}  ${POLICY1_JSON}  ${POLICY2_JSON}  ${ID_TOKEN}
-  PDP Get Other Token  ${C_ID_UMA}  ${C_SECRET_UMA}  ${WELL_KNOWN_PATH}
+  PDP Get Other Token  ${C_ID_UMA}  ${C_SECRET_UMA}  ${WELL_KNOWN_PATH}  ${SCOPES}  ${RED_URI}  ${REQ}
 
 PDP Permit Policy
   PDP Get Permit Policy  ${HOST}  ${PORT}  ${PDP_PATH_TO_VALIDATE}
@@ -31,11 +33,16 @@ PDP Deny Policy Valid ResourceID Invalid Username
 
 *** Keywords ***
 PDP Get Other Token
-  [Arguments]  ${well_known} 
+  [Arguments]  ${client_id}  ${client_secret}  ${well_known}  ${scopes}  ${redirect_uri}  ${req}
   ${headers}=  Create Dictionary  Content-Type=application/x-www-form-urlencoded  accept=application/json
-  ${data}=  Create Dictionary  reponse_type  token id_token  scope  openid  grant_type  password  username  ${user}  password  ${pwd}  client_id  ${client_id}  client_secret  ${client_secret}
+  #${data}=  Evaluate  
   ${ep}=  PDP Get TokenEndpoint  ${well_known}
   Log to Console  ${ep}
+  Log to Console  ${req}
+  Create Session  en  ${ep}  verify=False
+  ${response}=   Post Request  en  /  headers=${headers}  data=${req}
+  Log to Console  ${response.text}
+  Log to Console  ${response}
 
 PDP Get TokenEndpoint
   [Arguments]  ${well_known} 
