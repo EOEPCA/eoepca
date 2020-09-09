@@ -34,13 +34,19 @@ PDP Deny Policy Valid ResourceID Invalid Username
 *** Keywords ***
 PDP Get Other Token
   [Arguments]  ${client_id}  ${client_secret}  ${well_known}  ${scopes}  ${redirect_uri}  ${req}
-  ${headers}=  Create Dictionary  Content-Type=application/x-www-form-urlencoded  accept=application/json
+  ${headers}=  Create Dictionary  Content-Type=application/x-www-form-urlencoded  Accept=application/json
   #${data}=  Evaluate  
   ${ep}=  PDP Get TokenEndpoint  ${well_known}
   Log to Console  ${ep}
+  Log to Console  ${headers}
   Log to Console  ${req}
+  Log to Console  ${CURDIR}
   Create Session  en  ${ep}  verify=False
-  ${response}=   Post Request  en  /  headers=${headers}  data=${req}
+  ${ey}=  Get Binary File  ${CURDIR}${/}bin.json
+  Log to Console  ${ey}
+  #${a}=  Run Process  bash  ${CURDIR}${/}rpt.sh  -S  -a  ${token_endpoint}  -t  ${ticket}  -i  ${client_id}  -p  ${client_secret}  -s  openid  -c  ${token}
+  
+  ${response}=   Post Request  en  /  headers=${headers}  data=${ey}
   Log to Console  ${response.text}
   Log to Console  ${response}
 

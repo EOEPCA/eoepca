@@ -69,7 +69,11 @@ UMA Get ID Token
 
 UMA Call Shell ID Token
   [Arguments]  ${endpoint}  ${client_id}  ${client_secret}
-  ${a}=  Run Process  sh  ${CURDIR}${/}id.sh  -t  ${endpoint}  -i  ${client_id}  -p  ${client_secret}
+  ${a}=  Run Process  sh  ${CURDIR}${/}id.sh  -t  ${endpoint}  -i  ${client_id}  -p  ${client_secret}  -v
+  ${UA_TK}=  Run Process  sh  ${CURDIR}${/}id.sh  -t  ${endpoint}  -i  ${client_id}  -p  ${client_secret}  -d
+  Log to Console  ${UA_TK.stdout}
+  ${UB_TK}=  Run Process  sh  ${CURDIR}${/}id.sh  -t  ${endpoint}  -i  ${client_id}  -p  ${client_secret}  -b
+  Log to Console  ${UB_TK.stdout}
   [Return]  ${a.stdout}
 
 UMA Get ID Token Valid
