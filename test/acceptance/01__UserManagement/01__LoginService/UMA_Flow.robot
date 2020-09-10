@@ -49,7 +49,7 @@ UMA Get Ticket
   Create Session  ades  ${base_url}  verify=True
   ${headers}=  Create Dictionary  authorization=Bearer ${token}
   ${resp}=  Get Request  ades  /${resource}  headers=${headers}
-  [Return]  ${resp}  
+  [Return]  ${resp}
 
 UMA Get Ticket Valid
   [Arguments]  ${base_url}  ${token}  ${resource}
@@ -79,10 +79,7 @@ UMA Get ID Token Valid
   ${endpoint}=  UMA Get Token Endpoint  ${well_known}
   ${resp}=  UMA Call Shell ID Token  ${endpoint}  ${client_id}  ${client_secret}
   ${id_token}=  UMA Get ID Token From Response  ${resp}
-  ${a_token}=  UMA Get Access Token From Response  ${resp}
-  Log to Console  ${a_token}
   Set Global Variable  ${ID_TOKEN}  ${id_token}
-  Set Global Variable  ${U_TK}  ${a_token}
   [Return]  ${id_token}
   
 UMA Get Access Token

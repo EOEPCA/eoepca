@@ -11,19 +11,20 @@ Library  SSHLibrary
 ${HOST}=  ${UM_BASE_URL}
 ${PORT}=  443
 ${PDP_PATH_TO_VALIDATE}=  pdp/policy/validate
-${POLICY1_JSON}=  {"name":"NewPolicy1","description":"Description for this new policy","config":{"resource_id":"20248583","rules":[{"OR":[{"EQUAL":{"user_name":"UserA"}},{"EQUAL":{"user_name":"admin"}}]}]},"scopes":["Authorized"]}
+${POLICY1_JSON}=  {"name":"NewPolicy1","description":"Description for this new policy","config":{"resource_id":"20248583","rules":[{"OR":[{"EQUAL":{"user_name":"UserA"}},{"EQUAL":{"user_name":"admin"}},{"EQUAL":{"scopes":"Authorized"}}]}]},"scopes":["Authorized"]}
 ${POLICY2_JSON}=  {"name":"NewPolicy2","description":"Description for this new policy","config":{"resource_id":"20248583","rules":[{"OR":[{"EQUAL":{"user_name":"UserA"}},{"EQUAL":{"user_name":"admin"}}]}]},"scopes":["Authorized"]}
 ${WELL_KNOWN_PATH}=  ${UM_BASE_URL}/.well-known/openid-configuration
 ${SCOPES}=  openid,permission,uma_protection
 ${RED_URI}=  
 ${REQ}=  grant_type=password&client_id=${C_ID_UMA}&client_secret=${C_SECRET_UMA}&username=admin&password=admin_Abcd1234#&scope=${SCOPES}&uri=
+
+${RES}=  {"resource_scopes":[ "Authenticated"], "icon_uri":"/", "name":"ADES"}
 *** Test Cases ***
 
 PDP Insert Policy Authenticated
-  PDP Get Other Token
+  PDP Get Other Token  ${WELL_KNOWN_PATH}
   PDP Insert Policy  ${HOST}  ${PORT}  ${POLICY1_JSON}  ${POLICY2_JSON}
-
-PDP Insert Resource  ${HOST}  ${PORT}
+  PDP Insert Resource  ${HOST}  ${PORT}  ${RES}
 
 PDP Permit Policy
   PDP Get Permit Policy  ${HOST}  ${PORT}  ${PDP_PATH_TO_VALIDATE}
@@ -36,6 +37,9 @@ PDP Deny Policy Valid ResourceID Invalid Username
 
 *** Keywords ***
 PDP Get Other Token
+  [Arguments]  ${well_known}
+  ${ep}=  PDP Get TokenEndpoint  ${well_known}
+  ${a}=  Run Process  sh  ${CURDIR}${/}tkn.sh  -t  ${ep}  -i  ${C_ID_UMA}  -p  ${C_SECRET_UMA}
   ${U1}=  OperatingSystem.Get File  ${CURDIR}${/}2.txt
   Remove File  ${CURDIR}${/}2.txt
   ${U1}=  PDP Get Access Token From Response  ${U1}
@@ -81,7 +85,7 @@ PDP Insert Policy
 PDP Get Permit Policy
   [Arguments]  ${host}  ${port}  ${pdp_path_to_validate} 
   ${headers}=  Create Dictionary  Content-Type  application/json
-  ${data} =  Evaluate  {"Request":{"AccessSubject":[{"Attribute":[{"AttributeId":"user_name","Value":"admin","DataType":"string","IncludeInResult":True},{"AttributeId":"num_acces","Value":6,"DataType":"int","IncludeInResult":True},{"AttributeId":"attemps","Value":5,"DataType":"int","IncludeInResult":True},{"AttributeId":"company","Value":"Deimos","DataType":"string","IncludeInResult":True},{"AttributeId":"system_load","Value":4,"DataType":"int","IncludeInResult":True}]}],"Action":[{"Attribute":[{"AttributeId":"action-id","Value":"view"}]}],"Resource":[{"Attribute":[{"AttributeId":"resource-id","Value":"20248583","DataType":"string","IncludeInResult":True}]}]}}  json
+  ${data} =  Evaluate  {"Request":{"AccessSubject":[{"Attribute":[{"AttributeId":"user_name","Value":"UserA","DataType":"string","IncludeInResult":True},{"AttributeId":"num_acces","Value":6,"DataType":"int","IncludeInResult":True},{"AttributeId":"attemps","Value":5,"DataType":"int","IncludeInResult":True},{"AttributeId":"company","Value":"Deimos","DataType":"string","IncludeInResult":True},{"AttributeId":"system_load","Value":4,"DataType":"int","IncludeInResult":True}]}],"Action":[{"Attribute":[{"AttributeId":"action-id","Value":"view"}]}],"Resource":[{"Attribute":[{"AttributeId":"resource-id","Value":"60b4d6e3-45b4-4d7e-bd16-153925c7706d","DataType":"string","IncludeInResult":True}]}]}}  json
   Create Session  pdp  ${host}:${port}  verify=False
   ${resp}=  Get Request  pdp  /${pdp_path_to_validate}  headers=${headers}  json=${data}  
   ${json}=  Evaluate  json.loads('''${resp.text}''')  json
@@ -116,16 +120,21 @@ PDP Get Deny Policy Username
 
   #PEP:
 PDP Insert Resource
-  [Arguments]  ${host}  ${port}
+  [Arguments]  ${host}  ${port}  ${resource}
   Create Session  pdp  ${host}:${port}  verify=False
   ${headers}=  Create Dictionary  authorization=Bearer ${UA_TK}
-  ${myresp}=  Get Request  pdp  /pep/resources/  headers=${headers}
-  Log to Console  ${myresp}
-  Log to Console  ${myresp.text}
-  ${data} =  Evaluate  ${myresp}
-  ${response}=  Post Request  pdp  /pep/resource/391e5c4f-a95c-44c3-82ea-28d4122468a9  headers=${headers}  json=${data}
+  #${myresp}=  Get Request  pdp  /pep/resources/ADES  headers=${headers}
+  
+  ${data} =  Evaluate  ${resource}
+  Log to Console  ${CURDIR}${/}setup.sh
+  Log to Console  ${UA_TK}
+  ${a}=  Run Process  sh  ${CURDIR}${/}setup.sh  -t  ${ID_TOKEN}  -u  ${host}:${port}
+  Log to Console  ${a}
+  Log to Console  ${a.stdout}
+  ${response}=  Post Request  pdp  /pep/resource/ADES  headers=${headers}  json=${data}
   #Get the policy_id from the response
-  Log to Console  ${response.text}
+  #Log to Console  ${response.text}
+  Log to Console  ${response}
   ${json}=  Get Substring  ${response.text}  20  45
   Log to Console  ----- ${json} -----
   Status Should Be  200  ${response}
