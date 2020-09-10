@@ -41,11 +41,11 @@ PDP Get Other Token
   ${ep}=  PDP Get TokenEndpoint  ${well_known}
   ${a}=  Run Process  sh  ${CURDIR}${/}tkn.sh  -t  ${ep}  -i  ${C_ID_UMA}  -p  ${C_SECRET_UMA}
   ${U1}=  OperatingSystem.Get File  ${CURDIR}${/}2.txt
-  Remove File  ${CURDIR}${/}2.txt
+  
   ${U1}=  PDP Get Access Token From Response  ${U1}
   Set Global Variable  ${UA_TK}  ${U1}
   ${U2}=  OperatingSystem.Get File  ${CURDIR}${/}3.txt
-  Remove File  ${CURDIR}${/}3.txt
+  
   ${U2}=  PDP Get Access Token From Response  ${U2}
   Set Global Variable  ${UB_TK}  ${U2}
 
@@ -67,7 +67,7 @@ PDP Get TokenEndpoint
 PDP Insert Policy
   [Arguments]  ${host}  ${port}  ${policy1}  ${policy2}
   Create Session  pdp  ${host}:${port}  verify=False
-  ${headers}=  Create Dictionary  authorization=Bearer ${UA_TK}
+  ${headers}=  Create Dictionary  authorization=Bearer ${ID_TOKEN}
   ${data} =  Evaluate  ${policy1}
   ${response}=  Post Request  pdp  /pdp/policy/  headers=${headers}  json=${data}
   #Get the policy_id from the response
@@ -75,7 +75,7 @@ PDP Insert Policy
   Log to Console  ----- ${json} -----
   Status Should Be  200  ${response}
   ${data} =  Evaluate  ${policy2}
-  ${headers}=  Create Dictionary  authorization=Bearer ${UB_TK}
+  ${headers}=  Create Dictionary  authorization=Bearer ${UA_TK}
   ${response}=  Post Request  pdp  /pdp/policy/  headers=${headers}  json=${data}
   ${policy_id}=  Get Substring  ${response.text}  20  45
   Log to Console  ----- policy_id = ${policy_id} -----
@@ -85,7 +85,10 @@ PDP Insert Policy
 PDP Get Permit Policy
   [Arguments]  ${host}  ${port}  ${pdp_path_to_validate} 
   ${headers}=  Create Dictionary  Content-Type  application/json
-  ${data} =  Evaluate  {"Request":{"AccessSubject":[{"Attribute":[{"AttributeId":"user_name","Value":"UserA","DataType":"string","IncludeInResult":True},{"AttributeId":"num_acces","Value":6,"DataType":"int","IncludeInResult":True},{"AttributeId":"attemps","Value":5,"DataType":"int","IncludeInResult":True},{"AttributeId":"company","Value":"Deimos","DataType":"string","IncludeInResult":True},{"AttributeId":"system_load","Value":4,"DataType":"int","IncludeInResult":True}]}],"Action":[{"Attribute":[{"AttributeId":"action-id","Value":"view"}]}],"Resource":[{"Attribute":[{"AttributeId":"resource-id","Value":"60b4d6e3-45b4-4d7e-bd16-153925c7706d","DataType":"string","IncludeInResult":True}]}]}}  json
+  Log to Console  ${RES_ID}
+  ${n}=  Convert to String  ${RES_ID}
+  Log to Console  ${n}
+  ${data} =  Evaluate  {"Request":{"AccessSubject":[{"Attribute":[{"AttributeId":"user_name","Value":"UserA","DataType":"string","IncludeInResult":True},{"AttributeId":"num_acces","Value":6,"DataType":"int","IncludeInResult":True},{"AttributeId":"attemps","Value":5,"DataType":"int","IncludeInResult":True},{"AttributeId":"company","Value":"Deimos","DataType":"string","IncludeInResult":True},{"AttributeId":"system_load","Value":4,"DataType":"int","IncludeInResult":True}]}],"Action":[{"Attribute":[{"AttributeId":"action-id","Value":"view"}]}],"Resource":[{"Attribute":[{"AttributeId":"resource-id","Value": ${RES_ID} ,"DataType":"string","IncludeInResult":True}]}]}}  json
   Create Session  pdp  ${host}:${port}  verify=False
   ${resp}=  Get Request  pdp  /${pdp_path_to_validate}  headers=${headers}  json=${data}  
   ${json}=  Evaluate  json.loads('''${resp.text}''')  json
@@ -124,17 +127,10 @@ PDP Insert Resource
   Create Session  pdp  ${host}:${port}  verify=False
   ${headers}=  Create Dictionary  authorization=Bearer ${UA_TK}
   #${myresp}=  Get Request  pdp  /pep/resources/ADES  headers=${headers}
-  
   ${data} =  Evaluate  ${resource}
   Log to Console  ${CURDIR}${/}setup.sh
   Log to Console  ${UA_TK}
-  ${a}=  Run Process  sh  ${CURDIR}${/}setup.sh  -t  ${ID_TOKEN}  -u  ${host}:${port}
-  Log to Console  ${a}
-  Log to Console  ${a.stdout}
-  ${response}=  Post Request  pdp  /pep/resource/ADES  headers=${headers}  json=${data}
-  #Get the policy_id from the response
-  #Log to Console  ${response.text}
-  Log to Console  ${response}
-  ${json}=  Get Substring  ${response.text}  20  45
-  Log to Console  ----- ${json} -----
-  Status Should Be  200  ${response}
+  ${a}=  Run Process  python3  ${CURDIR}${/}test.py
+  ${resource_id}=  OperatingSystem.Get File  ${CURDIR}${/}res.txt
+  Log to Console  ${resource_id} Bietch
+  Set Global Variable  ${RES_ID}  ${resource_id}
