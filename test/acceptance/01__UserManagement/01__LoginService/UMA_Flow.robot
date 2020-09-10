@@ -69,19 +69,20 @@ UMA Get ID Token
 
 UMA Call Shell ID Token
   [Arguments]  ${endpoint}  ${client_id}  ${client_secret}
-  ${a}=  Run Process  sh  ${CURDIR}${/}id.sh  -t  ${endpoint}  -i  ${client_id}  -p  ${client_secret}  -v
-  ${UA_TK}=  Run Process  sh  ${CURDIR}${/}id.sh  -t  ${endpoint}  -i  ${client_id}  -p  ${client_secret}  -d
-  Log to Console  ${UA_TK.stdout}
-  ${UB_TK}=  Run Process  sh  ${CURDIR}${/}id.sh  -t  ${endpoint}  -i  ${client_id}  -p  ${client_secret}  -b
-  Log to Console  ${UB_TK.stdout}
-  [Return]  ${a.stdout}
+  ${a}=  Run Process  sh  ${CURDIR}${/}id.sh  -t  ${endpoint}  -i  ${client_id}  -p  ${client_secret}
+  ${n}=  OperatingSystem.Get File  ${CURDIR}${/}1.txt
+  OperatingSystem.Remove File  ${CURDIR}${/}1.txt
+  [Return]  ${n}
 
 UMA Get ID Token Valid
   [Arguments]  ${base_url}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
   ${endpoint}=  UMA Get Token Endpoint  ${well_known}
   ${resp}=  UMA Call Shell ID Token  ${endpoint}  ${client_id}  ${client_secret}
   ${id_token}=  UMA Get ID Token From Response  ${resp}
+  ${a_token}=  UMA Get Access Token From Response  ${resp}
+  Log to Console  ${a_token}
   Set Global Variable  ${ID_TOKEN}  ${id_token}
+  Set Global Variable  ${U_TK}  ${a_token}
   [Return]  ${id_token}
   
 UMA Get Access Token

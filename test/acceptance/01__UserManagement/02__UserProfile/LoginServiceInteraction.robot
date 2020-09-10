@@ -65,7 +65,7 @@ LoginService Go TabUser
 
 LoginService Add Person
   [Arguments]  ${user_name}  ${first_name}  ${display_name}  ${last_name}  ${email}  ${password}
-  Click Element  xpath=//a[@class="addPerson btn btn-primary"]
+  Click Element  xpath=//a[@href="/identity/person/addPerson.htm"]
   Click Element  xpath=//input[@id="PForm:L:0:IL:0:D:custId_text_"]
   Input Text  xpath=//input[@id="PForm:L:0:IL:0:D:custId_text_"]  ${user_name}
   Click Element  xpath=//input[@id="PForm:L:1:IL:0:D:custId_text_"]
@@ -86,37 +86,6 @@ LoginService Add Person
   Set Browser Implicit Wait  2
   Set Browser Implicit Wait  2
 
-LoginService Update Person
-  [Arguments]  ${mod}  ${user_name}
-  Click Element  xpath=//input[@id="PForm:L:0:IL:0:D:custId_text_"]
-  Input Text  xpath=//input[@id="PForm:L:0:IL:0:D:custId_text_"]  ${mod}  False
-  Click Element  xpath=//input[@id="PForm:L:1:IL:0:D:custId_text_"]
-  Click Element  xpath=//input[@name="PForm:L:1:IL:0:D:custId_text_"]
-  Click Element  xpath=//li[@id="subMenuLinkUsers2"]
-  Click Element  xpath=//input[@id="j_idt128:searchPattern:searchPatternId"]
-  Input Text  xpath=//input[@id="j_idt128:searchPattern:searchPatternId"]  ${user_name}
-  Click Element  xpath=//input[@name="j_idt128:searchPattern:j_idt129"]
-  Set Browser Implicit Wait  20
-  ${tex}=  Get Text  xpath=//a[starts-with(@href, "/identity/person/update/")]
-  Should Be Equal  ${tex}  ${mod}${user_name}
-
-LoginService Delete Person
-  Click Link  xpath=//a[starts-with(@href, "/identity/person/update/")]
-  Click Element  xpath=//input[@name="j_idt125:j_idt218"]
-  Set Browser Implicit Wait  20
-  Click Element  xpath=//input[@name="deleteConfirmation:j_idt257"]
-
-LoginService Find Person
-  [Arguments]  ${user_name}
-  Set Browser Implicit Wait  10
-  Click Element  xpath=//li[@id="subMenuLinkUsers2"]
-  Set Browser Implicit Wait  10
-  Click Element  xpath=//input[@id="j_idt128:searchPattern:searchPatternId"]
-  Input Text  xpath=//input[@id="j_idt128:searchPattern:searchPatternId"]  ${user_name}
-  Click Element  xpath=//input[@name="j_idt128:searchPattern:j_idt129"]
-  Set Browser Implicit Wait  20
-  Click Link  xpath=//a[starts-with(@href, "/identity/person/update/")]
-
 LoginService Go to Users
   Click Element  xpath=//li[@id="menuUsers"]
   Set Browser Implicit Wait  2
@@ -128,7 +97,6 @@ LoginService Fill Credentials Gluu
   Input Password  id=loginForm:password  ${pwd}
   Click Button  id=loginForm:loginButton
   Set Browser Implicit Wait  10
-#em
 
 LoginService Allow User
   Title Should Be  oxAuth
