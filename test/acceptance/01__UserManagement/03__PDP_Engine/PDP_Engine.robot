@@ -18,7 +18,7 @@ ${SCOPES}=  openid,permission,uma_protection
 ${RED_URI}=  
 ${REQ}=  grant_type=password&client_id=${C_ID_UMA}&client_secret=${C_SECRET_UMA}&username=admin&password=admin_Abcd1234#&scope=${SCOPES}&uri=
 
-${RES}=  {"resource_scopes":[ "Authenticated"], "icon_uri":"/", "name":"ADES"}
+${RES}=  {"resource_scopes":[ "Authenticated"], "icon_uri":"/p", "name":"ADES"}
 *** Test Cases ***
 
 PDP Insert Policy Authenticated

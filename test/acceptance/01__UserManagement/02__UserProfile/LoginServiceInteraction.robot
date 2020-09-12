@@ -61,7 +61,8 @@ Add Two Users to Gluu
 
 *** Keywords ***
 LoginService Go TabUser
-  Click Element  xpath=//li[@id="subMenuLinkUsers2"]
+  Click Element  xpath=//li[@id="menuOpenID"]
+  LoginService Go to Users
 
 LoginService Add Person
   [Arguments]  ${user_name}  ${first_name}  ${display_name}  ${last_name}  ${email}  ${password}
