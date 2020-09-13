@@ -17,12 +17,12 @@ ${POLICY2_JSON}=
 
 
 *** Test Cases ***
-WPS Set Up WPS
-  WPS AA1  ${HOST}  ${PORT}  ${POLICY1_JSON}  ${POLICY2_JSON}
+WPS Protection as a Service
+  WPS Protection  ${HOST}  ${PORT}  ${POLICY1_JSON}  ${POLICY2_JSON}
 
 
 *** Keywords ***
-WPS AA1
+WPS Protection
   [Arguments]  ${host}  ${port}  ${json1}  ${json2} 
   #admin Register ADES scope 'public'
   PDP Insert Resource
@@ -31,9 +31,9 @@ WPS AA1
   #Try with user with no Authorization in scope: PERMIT
   WPS Validate Policy Permit UserC  ${HOST}  443  pdp/policy/validate
   Modify Policy
+  #C deny, A/B permit
   WPS Validate Policy Deny UserC  ${HOST}  443  pdp/policy/validate
   WPS Validate Policy Permit UserA, UserB  ${HOST}  443  pdp/policy/validate
-  #C deny, A/B permit
 
 PEP Modify Resource
   Create Session  pep  ${host}:${port}/pep/resources/${RES_ID_ADES}  verify=False
@@ -87,15 +87,7 @@ WPS Validate Policy Permit UserA, UserB
 
 
 PDP Insert Resource
-  Create Session  pdp  ${host}:${port}  verify=False
-  ${headers}=  Create Dictionary  authorization=Bearer ${UA_TK}
-  #${myresp}=  Get Request  pdp  /pep/resources/ADES  headers=${headers}
-  ${data} =  Evaluate  ${resource}
-  Log to Console  ${CURDIR}${/}setup.sh
-  Log to Console  ${UA_TK}
-  ${a}=  Run Process  python3  ${CURDIR}${/}test.py
   ${resource_id}=  OperatingSystem.Get File  ${CURDIR}${/}res.txt
-  Log to Console  ${resource_id} Bietch
   Set Global Variable  ${RES_ID_ADES}  ${resource_id}
 
 PDP Insert Policy
