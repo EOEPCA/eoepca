@@ -161,7 +161,7 @@ resource "kubernetes_deployment" "user-profile" {
         }
         container {
           name  = "user-profile"
-          image = "eoepca/um-user-profile:v0.1.1"
+          image = "eoepca/um-user-profile:v0.2"
           port {
             container_port = 5566
             name           = "http-up"
