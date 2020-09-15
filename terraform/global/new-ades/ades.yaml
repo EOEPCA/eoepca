@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ades-internal-config
+  labels:
+    app: ades-internal
+data:
+  # CATALOG_ENDPOINT: https://catalog.terradue.com/rconway
+  CATALOG_ENDPOINT: "aHR0cHM6Ly9jYXRhbG9nLnRlcnJhZHVlLmNvbS9yY29ud2F5Cg=="
+  # CATALOG_USERNAME: rconway
+  CATALOG_USERNAME: "cmNvbndheQo="
+  # CATALOG_APIKEY: AKCp8hyEYSMqk4swUndyCDVZW7g3XFYfvE2xVFQEdYagJLqVJY1qKbXcmStLoUFEyEhL5tKcY
+  CATALOG_APIKEY: "QUtDcDhoeUVZU01xazRzd1VuZHlDRFZaVzdnM1hGWWZ2RTJ4VkZRRWRZYWdKTHFWSlkxcUtiWGNtU3RMb1VGRXlFaEw1dEtjWQo="
+  # STORAGE_HOST: http://workspace/remote.php/dav/files/eoepca/
+  STORAGE_HOST: "aHR0cDovL3dvcmtzcGFjZS9yZW1vdGUucGhwL2Rhdi9maWxlcy9lb2VwY2EvCg=="
+  # STORAGE_USERNAME: eoepca
+  STORAGE_USERNAME: "ZW9lcGNhCg=="
+  # STORAGE_APIKEY: telespazio
+  STORAGE_APIKEY: "dGVsZXNwYXppbwo="
+  #
+  STORAGE_CLASS: "standard"
+  VOLUME_SIZE: "4"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ades
+  name: ades
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ades
+  template:
+    metadata:
+      labels:
+        app: ades
+    spec:
+      automountServiceAccountToken: true
+      containers:
+        - image: eoepca/proc-ades:travis_develop_114
+          name: ades
+          envFrom:
+            - configMapRef:
+                name: ades-internal-config
+        - image: eoepca/kubeproxy:v0.1
+          name: kubeproxy
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ades
+  name: ades
+spec:
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 80
+  - name: http2
+    protocol: TCP
+    port: 443
+    targetPort: 80
+  selector:
+    app: ades
