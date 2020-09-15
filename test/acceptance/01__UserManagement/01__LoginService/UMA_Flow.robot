@@ -16,11 +16,12 @@ ${PATH_TO_RESOURCE}=  pep/ADES
 ${WELL_KNOWN_PATH}=  ${UM_BASE_URL}/.well-known/uma2-configuration
 
 *** Test Cases ***
-UMA getEndpoints
-  UMA Get Token Endpoint  ${WELL_KNOWN_PATH}
 
-UMA Ticket Test
-  UMA Get Ticket Valid  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}
+UMA getEndpoints
+  UMA Get Token Endpoint  ${WELL_KNOWN_PATH}  
+
+#UMA Ticket Test
+#  UMA Get Ticket Valid  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}
 
 UMA Authenticate test
   ${resp}=  Scim Client Get Details
@@ -37,6 +38,9 @@ UMA Flow to Retrieve RPT
   UMA Flow Setup  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}  ${WELL_KNOWN_PATH}  ${UMA_USER}  ${UMA_PWD}  ${g_client_id}  ${g_client_secret}
 
 *** Keywords ***
+UMA Resource Insertion
+   ${a}=  Run Process  python3  ${CURDIR}${/}insADES.py
+
 
 UMA Flow Setup
   [Arguments]  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
@@ -71,7 +75,7 @@ UMA Call Shell ID Token
   [Arguments]  ${endpoint}  ${client_id}  ${client_secret}
   ${a}=  Run Process  sh  ${CURDIR}${/}id.sh  -t  ${endpoint}  -i  ${client_id}  -p  ${client_secret}
   ${n}=  OperatingSystem.Get File  ${CURDIR}${/}1.txt
-  OperatingSystem.Remove File  ${CURDIR}${/}1.txt
+  #OperatingSystem.Remove File  ${CURDIR}${/}1.txt
   [Return]  ${n}
 
 UMA Get ID Token Valid
@@ -131,11 +135,12 @@ UMA Get Access Token From Response
 
 UMA Handler of Codes
   [Arguments]  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}  
-  ${resp_ticket}=  UMA Get Ticket Valid  ${base_url}  ${token}  ${resource}
+  ${id_token}=  UMA Get ID Token Valid  ${base_url}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
+  UMA Resource Insertion
+  ${resp_ticket}=  UMA Get Ticket Valid  ${ADES_BASE_URL}  ${token}  ${resource}
   ${ticket}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Ticket From Response  ${resp_ticket}
   #Log to console  The ticket is: 
   #Log to console  ${ticket}
-  ${id_token}=  UMA Get ID Token Valid  ${base_url}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
   #Log to console  The id_token is:
   #Log to console  ${id_token}
   ${access_token}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Access Token Valid  ${well_known}  ${ticket}  ${id_token}  ${client_id}  ${client_secret}

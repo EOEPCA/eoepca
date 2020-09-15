@@ -101,7 +101,6 @@ PDP Insert Policy Job1
   ${response}=  Post Request  pdp  /pdp/policy/  headers=${headers}  json=${data}
   #Get the policy_id from the response
   ${json}=  Get Substring  ${response.text}  20  45
-  Log to Console  ----- ${json} -----
   Status Should Be  200  ${response}
   Set Global Variable  ${POLICY_ID_JOB1}  ${json}
 
@@ -122,13 +121,9 @@ PDP Insert Resource
   Create Session  pdp  ${host}:${port}  verify=False
   ${headers}=  Create Dictionary  authorization=Bearer ${UA_TK}
   #${myresp}=  Get Request  pdp  /pep/resources/ADES  headers=${headers}
-  Log to Console  ${CURDIR}${/}setup.sh
-  Log to Console  ${UA_TK}
-  ${a}=  Run Process  python3  ${CURDIR}${/}test.py
+  ${a}=  Run Process  python3  ${CURDIR}${/}insRes.py
   ${resource_id}=  OperatingSystem.Get File  ${CURDIR}${/}Proc1.txt
   ${resource_id_U}=  OperatingSystem.Get File  ${CURDIR}${/}Proc1U.txt
-  Log to Console  ${resource_id} 
-  Log to Console  ${resource_id_U} 
   Set Global Variable  ${RES_ID_PROC1}  ${resource_id}
   Set Global Variable  ${RES_ID_PROC1U}  ${resource_id_U}
 
@@ -140,7 +135,6 @@ PDP Insert Policy Proc1
   ${response}=  Post Request  pdp  /pdp/policy/  headers=${headers}  json=${data}
   #Get the policy_id from the response
   ${json}=  Get Substring  ${response.text}  20  45
-  Log to Console  ----- ${json} -----
   Status Should Be  200  ${response}
   Set Global Variable  ${POLICY_ID_PROC1}  ${json}
 
@@ -152,6 +146,5 @@ PDP Insert Policy Proc1U
   ${response}=  Post Request  pdp  /pdp/policy/  headers=${headers}  json=${data}
   #Get the policy_id from the response
   ${json}=  Get Substring  ${response.text}  20  45
-  Log to Console  ----- ${json} -----
   Status Should Be  200  ${response}
   Set Global Variable  ${POLICY_ID_PROC1U}  ${json}
