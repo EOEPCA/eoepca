@@ -54,7 +54,7 @@ resource "kubernetes_job" "config_init_load_job" {
   }
   wait_for_completion = true
   timeouts {
-    create = "5m"
-    update = "5m"
+    create = "15m"
+    update = "15m"
   }
 }
