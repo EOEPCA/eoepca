@@ -12,24 +12,27 @@ Library  ../../01__UserManagement/ScimClient.py  ${UM_BASE_URL}/
 ${WPS_PATH_PREFIX}=  /zoo
 ${HOST}=  ${UM_BASE_URL}
 ${PORT}=  443
-${PDP_PATH_TO_VALIDATE}=  pdp/policy/validate   
+${PDP_PATH_TO_VALIDATE}=  pdp/policy/validate
+${WELL_KNOWN_PATH}=  ${UM_BASE_URL}/.well-known/uma2-configuration
 
 *** Test Cases ***
 ADES Protection as Service
   #User C attempts to perform a GetCapabilities. Access granted. NO TICKET
-  WPS Get Capabilities Without Token  ${ADES_BASE_URL}  ${PATH_PREFIX}
+  ${a}=  WPS Get Capabilities Without Token  ${UM_BASE_URL}  ${WPS_PATH_PREFIX}
+  Log to Console  ${a.headers}
+
   #UserD gets id_token
-  UMA Get ID Token Valid
+  UMA Get ID Token Valid  ${WELL_KNOWN_PATH}  ${C_ID_UMA}  ${C_SECRET_UMA}
   #User D protects the root path of ADES (“/”) with an “Authenticated” scope
   PEP Register ADES
   #UserC attempts to perform a GetCapabilities.
-  ${ticket}=  WPS Get Capabilities Without Token  ${ADES_BASE_URL}  ${PATH_PREFIX}
+  ${ticket}=  WPS Get Capabilities Without Token  ${UM_BASE_URL}  ${WPS_PATH_PREFIX}
   #Check ticket against uma and denied
   UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticket}  ${ID_TOKEN}  ${C_ID_UMA}  ${C_SECRET_UMA}
   #UserA and UserB attempsts to perform a GetCapabilities
-  ${ticket}=  WPS Get Capabilities Without Token  ${ADES_BASE_URL}  ${PATH_PREFIX}
+  ${ticket}=  WPS Get Capabilities Without Token  ${UM_BASE_URL}  ${WPS_PATH_PREFIX}
   UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticket}  ${UA_TK}  ${C_ID_UMA}  ${C_SECRET_UMA}
-  ${ticket}=  WPS Get Capabilities Without Token  ${ADES_BASE_URL}  ${PATH_PREFIX}
+  ${ticket}=  WPS Get Capabilities Without Token  ${UM_BASE_URL}  ${WPS_PATH_PREFIX}
   UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticket}  ${UB_TK}  ${C_ID_UMA}  ${C_SECRET_UMA}
 
 ADES Application Deployment Protection
@@ -100,10 +103,21 @@ UMA Get ID Token Valid
   Set Global Variable  ${ID_TOKEN}  ${id_token}
   [Return]  ${id_token}
 
+UMA Get Token Endpoint
+  [Arguments]  ${well_known} 
+  ${headers}=  Create Dictionary  Content-Type  application/json
+  Create Session  ep  ${well_known}  verify=False
+  ${resp}=  Get Request  ep  /
+  ${json}=  Evaluate  json.loads('''${resp.text}''')  json
+  ${tk_endpoint}=  Get From Dictionary  ${json}  token_endpoint
+  [Return]  ${tk_endpoint}
+
 WPS Get Capabilities Without Token
   [Arguments]  ${base_url}  ${path_prefix}
-  Create Session  ades  ${base_url}  verify=True
-  ${resp}=  Get Request  ades  ${path_prefix}/?service=WPS&version=1.0.0&request=GetCapabilities
+  Create Session  ades  ${ADES_BASE_URL}  verify=True
+  Log to Console  ${base_url}
+  Log to Console  /secure${path_prefix}/?service=WPS&version=1.0.0&request=GetCapabilities
+  ${resp}=  Get Request  ades  /secure/${path_prefix}/?service=WPS&version=1.0.0&request=GetCapabilities
   [Return]  ${resp}
 
 

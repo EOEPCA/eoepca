@@ -34,7 +34,7 @@ resource "kubernetes_ingress" "gluu_ingress_pep_engine" {
 
       http {
         path {
-          path = "/pep(/|$)(.*)"
+          path = "/secure(/|$)(.*)"
 
           backend {
             service_name = "pep-engine"
@@ -117,7 +117,7 @@ resource "kubernetes_deployment" "pep-engine" {
         }
         container {
           name  = "pep-engine"
-          image = "eoepca/um-pep-engine:latest"
+          image = "alvlpep:latest"
 
           port {
             container_port = 5566
@@ -137,7 +137,7 @@ resource "kubernetes_deployment" "pep-engine" {
             mount_path = "/data/db/resource"
             sub_path   = "pep-engine/db/resource"
           }
-          image_pull_policy = "Always"
+          image_pull_policy = "Never"
         }
         container {
           name  = "mongo"
