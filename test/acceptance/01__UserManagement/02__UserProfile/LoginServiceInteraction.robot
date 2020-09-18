@@ -8,6 +8,8 @@ Library  Collections
 *** Variables ***
 ${USER}=  admin
 ${PWD}=  admin_Abcd1234#
+
+#User Data
 ${USER_NAME}=  User
 ${FIRST_NAME}=  User
 ${DISPLAY_NAME}=  User
@@ -52,14 +54,15 @@ Add Two Users to Gluu
   ${title}=  Get Title
   LoginService Add Person  ${USER_NAME}A  ${FIRST_NAME}A  ${DISPLAY_NAME}A  ${LAST_NAME}A  A${EMAIL}  ${PASSWORD}
   ${title}=  Get Title
-  Set Browser Implicit Wait  20
+  Set Browser Implicit Wait  10
   LoginService Go TabUser
   LoginService Add Person  ${USER_NAME}B  ${FIRST_NAME}B  ${DISPLAY_NAME}B  ${LAST_NAME}B  B${EMAIL}  ${PASSWORD}
+  
 
 *** Keywords ***
-
 LoginService Go TabUser
   Click Element  xpath=//li[@id="menuOpenID"]
+  Set Browser Implicit Wait  2
   LoginService Go to Users
 
 LoginService Add Person
@@ -79,10 +82,9 @@ LoginService Add Person
   Input Password  xpath=//input[@id="PForm:L:5:IL:0:P:custpasswordId"]  ${password}
   Click Element  xpath=//input[@id="PForm:L:5:IL:0:j_idt244:custconfirmpasswordId"]
   Input Password  xpath=//input[@id="PForm:L:5:IL:0:j_idt244:custconfirmpasswordId"]  ${password}
-  Set Browser Implicit Wait  20
+  Set Browser Implicit Wait  10
   Click Element  xpath=//input[@id="PForm:L:4:IL:0:D:Email"]
   Click Element  xpath=//button[@name="PForm:j_idt306"]
-  Set Browser Implicit Wait  2
   Set Browser Implicit Wait  2
 
 LoginService Go to Users
@@ -96,7 +98,6 @@ LoginService Fill Credentials Gluu
   Input Password  id=loginForm:password  ${pwd}
   Click Button  id=loginForm:loginButton
   Set Browser Implicit Wait  10
-
 
 LoginService Allow User
   Title Should Be  oxAuth

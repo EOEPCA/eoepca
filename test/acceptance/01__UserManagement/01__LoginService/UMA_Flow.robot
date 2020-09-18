@@ -12,15 +12,16 @@ Library  ../ScimClient.py  ${UM_BASE_URL}/
 ${UMA_USER}=  admin
 ${UMA_PWD}=  admin_Abcd1234#
 ${UMA_PATH_PREFIX}=  /wps3
-${PATH_TO_RESOURCE}=  pep/ADES
+${PATH_TO_RESOURCE}=  secure/resources/ADES20%Service
 ${WELL_KNOWN_PATH}=  ${UM_BASE_URL}/.well-known/uma2-configuration
 
 *** Test Cases ***
-UMA getEndpoints
-  UMA Get Token Endpoint  ${WELL_KNOWN_PATH}
 
-UMA Ticket Test
-  UMA Get Ticket Valid  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}
+UMA getEndpoints
+  UMA Get Token Endpoint  ${WELL_KNOWN_PATH}  
+
+#UMA Ticket Test
+#  UMA Get Ticket Valid  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}
 
 UMA Authenticate test
   ${resp}=  Scim Client Get Details
@@ -32,9 +33,16 @@ UMA Flow to Retrieve RPT
   ${resp}=  Scim Client Get Details
   ${g_client_id}=  Get From Dictionary  ${resp}  client_id
   ${g_client_secret}=  Get From Dictionary  ${resp}  client_secret
-  UMA Flow Setup  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}  ${WELL_KNOWN_PATH}  ${UMA_USER}  ${UMA_PWD}  ${g_client_id}  ${g_client_secret}
+  Set Global Variable  ${C_ID_UMA}  ${g_client_id}
+  Set Global Variable  ${C_SECRET_UMA}  ${g_client_secret}
+  UMA Flow Setup  ${ADES_BASE_URL}  ${ID_TOKEN}  ${PATH_TO_RESOURCE}  ${WELL_KNOWN_PATH}  ${UMA_USER}  ${UMA_PWD}  ${g_client_id}  ${g_client_secret}
 
 *** Keywords ***
+UMA Resource Insertion
+  ${a}=  Run Process  python3  ${CURDIR}${/}insADES.py
+  ${resId}=  OperatingSystem.Get File  ${CURDIR}${/}res_id.txt
+  Set Global Variable  ${RES_ID_ADES}  ${resId}
+
 
 UMA Flow Setup
   [Arguments]  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
@@ -44,16 +52,15 @@ UMA Flow Setup
 
 UMA Get Ticket
   [Arguments]  ${base_url}  ${token}  ${resource}
-  Create Session  ades  ${base_url}  verify=True
-  ${headers}=  Create Dictionary  authorization=Bearer ${token}
-  ${resp}=  Get Request  ades  /${resource}  headers=${headers}
-  [Return]  ${resp}  
+  Create Session  pep  ${UM_BASE_URL}:443  verify=False
+  ${headers}=  Create Dictionary  authorization=Bearer ${ID_TOKEN}
+  ${resp}=  Get Request  pep  /secure/resources/${resource}  headers=${headers}
+  [Return]  ${resp}
 
 UMA Get Ticket Valid
   [Arguments]  ${base_url}  ${token}  ${resource}
-  ${resp}=  UMA Get Ticket  ${base_url}  ${token}  ${resource}
+  ${resp}=  UMA Get Ticket  ${UM_BASE_URL}  ${ID_TOKEN}  ${RES_ID_ADES}
   [Return]  ${resp}
-
 
 UMA Get ID Token
   [Arguments]  ${base_url}  ${user}  ${pwd}  ${client_id}  ${client_secret}  ${token_endpoint}
@@ -68,13 +75,16 @@ UMA Get ID Token
 UMA Call Shell ID Token
   [Arguments]  ${endpoint}  ${client_id}  ${client_secret}
   ${a}=  Run Process  sh  ${CURDIR}${/}id.sh  -t  ${endpoint}  -i  ${client_id}  -p  ${client_secret}
-  [Return]  ${a.stdout}
+  ${n}=  OperatingSystem.Get File  ${CURDIR}${/}1.txt
+  #OperatingSystem.Remove File  ${CURDIR}${/}1.txt
+  [Return]  ${n}
 
 UMA Get ID Token Valid
   [Arguments]  ${base_url}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
   ${endpoint}=  UMA Get Token Endpoint  ${well_known}
   ${resp}=  UMA Call Shell ID Token  ${endpoint}  ${client_id}  ${client_secret}
   ${id_token}=  UMA Get ID Token From Response  ${resp}
+  Set Global Variable  ${ID_TOKEN}  ${id_token}
   [Return]  ${id_token}
   
 UMA Get Access Token
@@ -126,14 +136,11 @@ UMA Get Access Token From Response
 
 UMA Handler of Codes
   [Arguments]  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}  
-  ${resp_ticket}=  UMA Get Ticket Valid  ${base_url}  ${token}  ${resource}
-  ${ticket}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Ticket From Response  ${resp_ticket}
-  #Log to console  The ticket is: 
-  #Log to console  ${ticket}
   ${id_token}=  UMA Get ID Token Valid  ${base_url}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
-  #Log to console  The id_token is:
-  #Log to console  ${id_token}
+  UMA Resource Insertion
+  ${resp_ticket}=  UMA Get Ticket Valid  ${base_url}  ${token}  ${RES_ID_ADES}
+  ${ticket}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Ticket From Response  ${resp_ticket}
   ${access_token}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Access Token Valid  ${well_known}  ${ticket}  ${id_token}  ${client_id}  ${client_secret}
-  #Log to console  The access_token is:
-  #Log to console  ${access_token}
+  OperatingSystem.Remove File  ${CURDIR}${/}1.txt
+  OperatingSystem.Remove File  ${CURDIR}${/}res_id.txt
   [Return]  ${access_token}
