@@ -54,10 +54,7 @@ UMA Get Ticket
   [Arguments]  ${base_url}  ${token}  ${resource}
   Create Session  pep  ${UM_BASE_URL}:443  verify=False
   ${headers}=  Create Dictionary  authorization=Bearer ${ID_TOKEN}
-  Log to Console  ${ID_TOKEN}
-  Log to Console  ${UM_BASE_URL}/secure/resources/${resource}
   ${resp}=  Get Request  pep  /secure/resources/${resource}  headers=${headers}
-  Log to Console  ${resp}
   [Return]  ${resp}
 
 UMA Get Ticket Valid
@@ -143,11 +140,5 @@ UMA Handler of Codes
   UMA Resource Insertion
   ${resp_ticket}=  UMA Get Ticket Valid  ${base_url}  ${token}  ${RES_ID_ADES}
   ${ticket}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Ticket From Response  ${resp_ticket}
-  #Log to console  The ticket is: 
-  #Log to console  ${ticket}
-  #Log to console  The id_token is:
-  #Log to console  ${id_token}
   ${access_token}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Access Token Valid  ${well_known}  ${ticket}  ${id_token}  ${client_id}  ${client_secret}
-  #Log to console  The access_token is:
-  #Log to console  ${access_token}
   [Return]  ${access_token}

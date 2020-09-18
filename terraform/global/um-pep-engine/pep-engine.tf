@@ -117,7 +117,7 @@ resource "kubernetes_deployment" "pep-engine" {
         }
         container {
           name  = "pep-engine"
-          image = "alvlpep:latest"
+          image = "eoepca/um-pep-engine:v0.2.1"
 
           port {
             container_port = 5566
@@ -137,7 +137,7 @@ resource "kubernetes_deployment" "pep-engine" {
             mount_path = "/data/db/resource"
             sub_path   = "pep-engine/db/resource"
           }
-          image_pull_policy = "Never"
+          image_pull_policy = "Always"
         }
         container {
           name  = "mongo"
