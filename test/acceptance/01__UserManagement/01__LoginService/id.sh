@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-USAGE="Usage: id.sh -t <token_endpoint> -i <client_id> -p <client_secret>"
+USAGE="Usage: id.sh -t <token_endpoint> -i <client_id> -p <client_secret>" 
 TOKEN_ENDPOINT=""
 HTTP="http://"
 TICKET=""
@@ -26,5 +26,4 @@ while getopts ":t:i:p:" opt; do
       ;;
   esac
 done
-
-curl -k -v -XPOST "$TOKEN_ENDPOINT" -H "cache-control: no-cache" -d "scope=openid&grant_type=password&username=admin&password=admin_Abcd1234%23&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET"
+curl -k -v -XPOST "$TOKEN_ENDPOINT" -H "cache-control: no-cache" -d "scope=openid&grant_type=password&username=admin&password=admin_Abcd1234%23&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET" > ./01__UserManagement/01__LoginService/1.txt
