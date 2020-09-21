@@ -1,28 +1,28 @@
 {
-    "inputs": [
-        {
-            "id": "applicationPackage",
-            "input": {
-                "format": {
-                    "mimeType": "application/xml"
-                },
-                "value": {
-                    "inlineValue": "https://raw.githubusercontent.com/EOEPCA/proc-ades/develop/test/sample_apps/metadata_extractor/ows.xml"
-                }
-            }
+  "inputs": [
+    {
+      "id": "applicationPackage",
+      "input": {
+        "format": {
+          "mimeType": "application/xml"
+        },
+        "value": {
+          "href": "https://catalog.terradue.com/eoepca-services/search?uid=application_vegetation_index"
         }
-    ],
-    "outputs": [
-        {
-            "format": {
-                "mimeType": "string",
-                "schema": "string",
-                "encoding": "string"
-            },
-            "id": "deployResult",
-            "transmissionMode": "value"
-        }
-    ],
-    "mode": "async",
-    "response": "raw"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "format": {
+        "mimeType": "string",
+        "schema": "string",
+        "encoding": "string"
+      },
+      "id": "deployResult",
+      "transmissionMode": "value"
+    }
+  ],
+  "mode": "async",
+  "response": "raw"
 }

@@ -6,17 +6,17 @@ metadata:
     app: ades-internal
 data:
   # CATALOG_ENDPOINT: https://catalog.terradue.com/rconway
-  CATALOG_ENDPOINT: "aHR0cHM6Ly9jYXRhbG9nLnRlcnJhZHVlLmNvbS9yY29ud2F5Cg=="
+  CATALOG_ENDPOINT: "aHR0cHM6Ly9jYXRhbG9nLnRlcnJhZHVlLmNvbS9yY29ud2F5"
   # CATALOG_USERNAME: rconway
-  CATALOG_USERNAME: "cmNvbndheQo="
+  CATALOG_USERNAME: "cmNvbndheQ=="
   # CATALOG_APIKEY: AKCp8hyEYSMqk4swUndyCDVZW7g3XFYfvE2xVFQEdYagJLqVJY1qKbXcmStLoUFEyEhL5tKcY
-  CATALOG_APIKEY: "QUtDcDhoeUVZU01xazRzd1VuZHlDRFZaVzdnM1hGWWZ2RTJ4VkZRRWRZYWdKTHFWSlkxcUtiWGNtU3RMb1VGRXlFaEw1dEtjWQo="
+  CATALOG_APIKEY: "QUtDcDhoeUVZU01xazRzd1VuZHlDRFZaVzdnM1hGWWZ2RTJ4VkZRRWRZYWdKTHFWSlkxcUtiWGNtU3RMb1VGRXlFaEw1dEtjWQ=="
   # STORAGE_HOST: http://workspace/remote.php/dav/files/eoepca/
-  STORAGE_HOST: "aHR0cDovL3dvcmtzcGFjZS9yZW1vdGUucGhwL2Rhdi9maWxlcy9lb2VwY2EvCg=="
+  STORAGE_HOST: "aHR0cDovL3dvcmtzcGFjZS9yZW1vdGUucGhwL2Rhdi9maWxlcy9lb2VwY2Ev"
   # STORAGE_USERNAME: eoepca
-  STORAGE_USERNAME: "ZW9lcGNhCg=="
+  STORAGE_USERNAME: "ZW9lcGNh"
   # STORAGE_APIKEY: telespazio
-  STORAGE_APIKEY: "dGVsZXNwYXppbwo="
+  STORAGE_APIKEY: "dGVsZXNwYXppbw=="
   #
   STORAGE_CLASS: "standard"
   VOLUME_SIZE: "4"
@@ -25,22 +25,24 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: ades
-  name: ades
+    app: proc-ades-wps
+    env: proc-ades-wps
+  name: proc-ades-wps
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ades
+      app: proc-ades-wps
   template:
     metadata:
       labels:
-        app: ades
+        app: proc-ades-wps
+        env: proc-ades-wps
     spec:
       automountServiceAccountToken: true
       containers:
-        - image: eoepca/proc-ades:travis_develop_114
-          name: ades
+        - image: eoepca/proc-ades:travis_develop_124
+          name: proc-ades-wps
           envFrom:
             - configMapRef:
                 name: ades-internal-config
@@ -50,10 +52,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app: ades
-  name: ades
+  name: proc-ades-wps
 spec:
+  type: NodePort
   ports:
   - name: http
     protocol: TCP
@@ -64,4 +65,4 @@ spec:
     port: 443
     targetPort: 80
   selector:
-    app: ades
+    app: proc-ades-wps
