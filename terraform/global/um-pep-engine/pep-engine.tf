@@ -34,7 +34,7 @@ resource "kubernetes_ingress" "gluu_ingress_pep_engine" {
 
       http {
         path {
-          path = "/pep(/|$)(.*)"
+          path = "/secure(/|$)(.*)"
 
           backend {
             service_name = "pep-engine"
