@@ -69,13 +69,11 @@ PDP Insert Policy
   ${response}=  Post Request  pdp  /pdp/policy/  headers=${headers}  json=${data}
   #Get the policy_id from the response
   ${json}=  Get Substring  ${response.text}  20  45
-  Log to Console  ----- ${json} -----
   Status Should Be  200  ${response}
   ${data} =  Evaluate  ${policy2}
   ${headers}=  Create Dictionary  authorization=Bearer ${UA_TK}
   ${response}=  Post Request  pdp  /pdp/policy/  headers=${headers}  json=${data}
   ${policy_id}=  Get Substring  ${response.text}  20  45
-  Log to Console  ----- policy_id = ${policy_id} -----
   Status Should Be  200  ${response}
   
 #Validation
