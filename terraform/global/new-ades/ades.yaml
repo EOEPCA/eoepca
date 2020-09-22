@@ -41,7 +41,7 @@ spec:
     spec:
       automountServiceAccountToken: true
       containers:
-        - image: eoepca/proc-ades:travis_develop_124
+        - image: eoepca/proc-ades:travis_develop_125
           name: proc-ades-wps
           envFrom:
             - configMapRef:
@@ -60,6 +60,7 @@ spec:
     protocol: TCP
     port: 80
     targetPort: 80
+    nodePort: 30999
   - name: http2
     protocol: TCP
     port: 443
