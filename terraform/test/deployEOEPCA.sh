@@ -45,10 +45,13 @@ WSPACE_PASSWORD="${WSPACE_PASSWORD:-telespazio}"
 echo "Using PUBLIC_IP=${PUBLIC_IP}"
 echo "Using NFS_SERVER_ADDRESS=${NFS_SERVER_ADDRESS}"
 
-# Storage class
-# If using minikube then set storage class to 'eoepca-host' (host storage OK for dev testing)
+# Tweaks for using minikube
 if [ "${PUBLIC_IP}" = "${LOCALKUBE_IP}" ]
 then
+  # Kube config
+  VAR_KUBE_CONFIG_PATH="--var=kube_config_path=~/.kube/config"
+  # Storage class
+  # If using minikube then set storage class to 'eoepca-host' (host storage OK for dev testing)
   STORAGE_CLASS="${STORAGE_CLASS:-eoepca-host}"
   echo "INFO: using 'local' kubernetes with IP ${LOCALKUBE_IP} and storage class ${STORAGE_CLASS}"
 fi
@@ -83,6 +86,7 @@ do
     --var="wspace_user_password=${WSPACE_PASSWORD}" \
     --var="nfs_server_address=${NFS_SERVER_ADDRESS}" \
     ${VAR_STORAGE_CLASS} \
+    ${VAR_KUBE_CONFIG_PATH} \
     --var="hostname=test.${PUBLIC_IP}.nip.io" \
     --var="public_ip=${PUBLIC_IP}"
   status=$(( $? ))

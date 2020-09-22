@@ -1,6 +1,7 @@
 provider "kubernetes" {
   # When no host is specified this provider reads ~./kube/config
   version = "~> 1.12"
+  config_path = var.kube_config_path
 }
 
 provider "kubectl" {
