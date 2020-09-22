@@ -54,8 +54,3 @@ variable "um-login-config_file" {
   type = string
   default = "um-login-config.json.tmpl"
 }
-
-variable "kube_config_path" {
-  type = string
-  default = "../../kubernetes/kube_config_cluster.yml"
-}
