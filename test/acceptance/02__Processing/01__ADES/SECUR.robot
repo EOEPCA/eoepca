@@ -34,11 +34,11 @@ ADES Application Deployment Protection
   ADES User A deploys Proc1
 #   User B execute Proc1 
   ADES User B execute Proc1
-#   User A registers the resulting application Proc1 as a Protected Access Scope resource
+#   User A registers the resulting application Proc1 as a protected_access resource
 #   User A assigns an ownership policy to Proc1
   PEP Register Proc1
   PDP Register Proc1  ${UM_BASE_URL}
-#   User A registers the undeploy operation for Proc1 as a Protected Access Scope resource
+#   User A registers the undeploy operation for Proc1 as a protected_access resource
 #   User A assigns an ownership policy to Proc1
   PDP Register Proc2  ${UM_BASE_URL}
 #   User B attempts to undeploy Proc1. Unauthorized.
@@ -50,7 +50,7 @@ ADES Application Execution Protection
   ADES User A execute Proc1
  
   PEP Register Job1
-  #   User A registers the Location of the Job1 status as Protected Access Scope resource with ownership policy
+  #   User A registers the Location of the Job1 status as protected_access resource with ownership policy
   PDP Register Job1  ${UM_BASE_URL}
   #   User B attempts to execute Proc1. Unauthorized.
   ADES User B attempt execute Proc1
@@ -91,7 +91,8 @@ ADES User B attempt execute Proc1
   ${rptB}=  UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticketB}  ${UB_TK}  ${C_ID_UMA}  ${C_SECRET_UMA}
   Set Global Variable  ${UB_RPT}  ${rptB}
   ${validation}=  API_PROC Execute Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json  ${rptB}
-  Status Should Be  401  ${validation}
+  builtIn.Run Keyword If  ${RES_ID_PROC1}!=""  Status Should Be  401  ${validation}
+  builtIn.Run Keyword If  ${RES_ID_PROC1}==""  Status Should Be  201  ${validation}
 
 ADES User A execute Proc1
   ${resp}=  API_PROC Execute Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json  ${UA_TK}
@@ -146,18 +147,18 @@ User A, User B OK
   Set Global Variable  ${RPT_TOKEN}  ${rpt}
 
 PDP Modify Deny
-  ${data} =  Evaluate  {"name":"Job1","description":"Status for job","config":{"resource_id":${RES_ID_JOB1},"rules":[{"OR":[{"EQUAL":{"user_name":"UserA"}},{"EQUAL":{"user_name":"UserB"}},{"EQUAL":{"user_name":"admin"}}]}]},"scopes":["Protected Access Scope"]}
+  ${data} =  Evaluate  {"name":"Job1","description":"Status for job","config":{"resource_id":${RES_ID_JOB1},"rules":[{"OR":[{"EQUAL":{"userName":"UserA"}},{"EQUAL":{"userName":"UserB"}},{"EQUAL":{"userName":"admin"}}]}]},"scopes":["protected_access"]}
   ${headers}=  Create Dictionary  authorization=Bearer ${UB_TK}
   ${response}=  builtIn.Run Keyword If  "${POLICY_ID_JOB1}"!=""  Post Request  pdp  /pdp/policy/${POLICY_ID_JOB1}  headers=${headers}  json=${data}
   builtIn.Run Keyword If  "${POLICY_ID_JOB1}"!=""  Status Should Be  401  ${response}
   
 
 PDP Modify Policy
-  ${data} =  Evaluate  {"name":"Job1","description":"Status for job modified","config":{"resource_id":${RES_ID_JOB1},"rules":[{"OR":[{"EQUAL":{"user_name":"UserA"}},{"EQUAL":{"user_name":"UserB"}},{"EQUAL":{"user_name":"admin"}}]}]},"scopes":["Protected Access Scope"]}
+  ${data} =  Evaluate  {"name":"Job1","description":"Status for job modified","config":{"resource_id":${RES_ID_JOB1},"rules":[{"OR":[{"EQUAL":{"userName":"UserA"}},{"EQUAL":{"userName":"UserB"}},{"EQUAL":{"userName":"admin"}}]}]},"scopes":["protected_access"]}
   ${headers}=  Create Dictionary  authorization=Bearer ${UA_TK}
   ${response}=  Post Request  pdp  /pdp/policy/${POLICY_ID_JOB1}  headers=${headers}  json=${data}
   Status Should Be  200  ${response}
-  ${data} =  Evaluate  {"name":"Proc1","description":"Execution of Proc1","config":{"resource_id":${RES_ID_PROC2},"rules":[{"OR":[{"EQUAL":{"user_name":"UserA"}},{"EQUAL":{"user_name":"UserB"}},{"EQUAL":{"user_name":"admin"}}]}]},"scopes":["Protected Access Scope"]}
+  ${data} =  Evaluate  {"name":"Proc1","description":"Execution of Proc1","config":{"resource_id":${RES_ID_PROC2},"rules":[{"OR":[{"EQUAL":{"userName":"UserA"}},{"EQUAL":{"userName":"UserB"}},{"EQUAL":{"userName":"admin"}}]}]},"scopes":["protected_access"]}
   ${response}=  Post Request  pdp  /pdp/policy/${POLICY_ID_PROC2}  headers=${headers}  json=${data}
   Status Should Be  200  ${response}
 
@@ -227,7 +228,7 @@ API_PROC Check Job Status Success
   ${loc}=  Fetch From Right  ${location}  nip.io/
   Create Session  pep  ${base_url}  verify=False
   ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json  authorization=Bearer ${token}
-  FOR  ${index}  IN RANGE  3
+  FOR  ${index}  IN RANGE  2
     Sleep  30  Loop wait for processing execution completion
     ${resp}=  Get Request  pep  /secure/${loc}  headers=${headers}
     Exit For Loop If  "${resp}" == "<Response [401]>"
@@ -235,9 +236,6 @@ API_PROC Check Job Status Success
     ${status}=  Set Variable  ${resp.json()["status"]}
     Exit For Loop If  "${status}" != "running"
   END
-  # builtIn.Run Keyword If  "${resp}"=="<Response [200]>"  Should Match  ${resp.json()["status"]}  successful
-  # builtIn.Run Keyword If  "${resp}"=="<Response [200]>"  Should Match  ${resp.json()["message"]}  Done
-  # builtIn.Run Keyword If  "${resp}"=="<Response [200]>"  Should Match  ${resp.json()["progress"]}  100
   [return]  ${resp}
 PEP Register Job1
   ${a}=  Run Process  python3  ${CURDIR}${/}insertJob1.py
@@ -249,7 +247,7 @@ PDP Register Job1
   [Arguments]  ${host}
   Create Session  pdp  ${host}:443  verify=False
   ${headers}=  Create Dictionary  authorization=Bearer ${UA_TK}
-  ${data} =  Evaluate  {"name":"Job1","description":"Job1 for Execution","config":{"resource_id":${RES_ID_JOB1},"rules":[{"AND":[{"EQUAL":{"user_name":"UserA"}}]}]},"scopes":["Protected Access Scope"]}
+  ${data} =  Evaluate  {"name":"Job1","description":"Job1 for Execution","config":{"resource_id":${RES_ID_JOB1},"rules":[{"AND":[{"EQUAL":{"userName":"UserA"}}]}]},"scopes":["protected_access"]}
   ${response}=  Post Request  pdp  /pdp/policy/  headers=${headers}  json=${data}
   #Get the policy_id from the response
   ${json}=  Get Substring  ${response.text}  20  45
@@ -278,7 +276,7 @@ PDP Register Proc1
   [Arguments]  ${host}
   Create Session  pdp  ${host}:443  verify=False
   ${headers}=  Create Dictionary  authorization=Bearer ${UA_TK}
-  ${data} =  Evaluate  {"name":"Proc1","description":"Proc1 UnDeploy","config":{"resource_id":${RES_ID_PROC1},"rules":[{"AND":[{"EQUAL":{"user_name":"UserA"}}]}]},"scopes":["Protected Access Scope"]}
+  ${data} =  Evaluate  {"name":"Proc1","description":"Proc1 UnDeploy","config":{"resource_id":${RES_ID_PROC1},"rules":[{"AND":[{"EQUAL":{"userName":"UserA"}}]}]},"scopes":["protected_access"]}
   ${response}=  Post Request  pdp  /pdp/policy/  headers=${headers}  json=${data}
   #Get the policy_id from the response
   ${json}=  Get Substring  ${response.text}  20  45
@@ -289,7 +287,7 @@ PDP Register Proc2
   [Arguments]  ${host}
   Create Session  pdp  ${host}  verify=False
   ${headers}=  Create Dictionary  authorization=Bearer ${UA_TK}
-  ${data} =  Evaluate  {"name":"Proc2","description":"Proc1 Execute","config":{"resource_id":${RES_ID_PROC2},"rules":[{"AND":[{"EQUAL":{"user_name":"UserA"}}]}]},"scopes":["Protected Access Scope"]}
+  ${data} =  Evaluate  {"name":"Proc2","description":"Proc1 Execute","config":{"resource_id":${RES_ID_PROC2},"rules":[{"AND":[{"EQUAL":{"userName":"UserA"}}]}]},"scopes":["protected_access"]}
   ${response}=  Post Request  pdp  /pdp/policy/  headers=${headers}  json=${data}
   #Get the policy_id from the response
   ${json}=  Get Substring  ${response.text}  20  45
@@ -303,7 +301,6 @@ API_PROC execute process
   ${file_data}=  Get Binary File  ${filename}
   ${resp}=  Post Request  pep  /secure${path_prefix}/processes/eo_metadata_generation_1_0/jobs  headers=${headers}  data=${file_data}
   [Return]  ${resp}
-  
 
 API_PROC deploy process
   [Arguments]  ${base_url}  ${path_prefix}  ${process_name}  ${filename}  ${token}
