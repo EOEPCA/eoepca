@@ -46,8 +46,16 @@ spec:
           envFrom:
             - configMapRef:
                 name: ades-internal-config
+          volumeMounts:
+            - name: kubeconfig-volume
+              mountPath: /opt/t2config/kubeconfig
+              subPath: config
         - image: eoepca/kubeproxy:v0.1
           name: kubeproxy
+      volumes:
+        - name: kubeconfig-volume
+          configMap:
+            name: ades-kubeconfig
 ---
 apiVersion: v1
 kind: Service
