@@ -8,4 +8,4 @@ trap "cd '${ORIG_DIR}'" EXIT
 
 ./embed-kubeconfig.sh
 
-kubectl create configmap ades-kubeconfig --from-file=$HOME/.kube/config --dry-run -o yaml >ades-kube-configmap.yaml
+kubectl create configmap ades-kubeconfig --from-file=$HOME/.kube/config --dry-run=client -o yaml >ades-kube-configmap.yaml
