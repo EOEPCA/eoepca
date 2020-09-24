@@ -13,7 +13,7 @@ then
 fi
 
 ACTION="apply"
-if "$1" = "delete" -o "$1" = "destroy"; then ACTION="delete"; fi
+if test "$1" = "delete" -o "$1" = "destroy"; then ACTION="delete"; fi
 
 kubectl "${ACTION}" -f ades-kube-configmap.yaml
 kubectl "${ACTION}" -f ades.yaml
