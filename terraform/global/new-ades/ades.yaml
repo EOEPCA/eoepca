@@ -41,7 +41,7 @@ spec:
     spec:
       automountServiceAccountToken: true
       containers:
-        - image: eoepca/proc-ades:travis_develop_125
+        - image: eoepca/proc-ades:travis_develop_124
           name: proc-ades-wps
           envFrom:
             - configMapRef:
