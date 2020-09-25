@@ -36,6 +36,8 @@ UMA Flow to Retrieve RPT
   Set Global Variable  ${C_ID_UMA}  ${g_client_id}
   Set Global Variable  ${C_SECRET_UMA}  ${g_client_secret}
   UMA Flow Setup  ${ADES_BASE_URL}  ${ID_TOKEN}  ${PATH_TO_RESOURCE}  ${WELL_KNOWN_PATH}  ${UMA_USER}  ${UMA_PWD}  ${g_client_id}  ${g_client_secret}
+  
+Cleanup
 
 *** Keywords ***
 UMA Resource Insertion
@@ -141,6 +143,9 @@ UMA Handler of Codes
   ${resp_ticket}=  UMA Get Ticket Valid  ${base_url}  ${token}  ${RES_ID_ADES}
   ${ticket}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Ticket From Response  ${resp_ticket}
   ${access_token}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Access Token Valid  ${well_known}  ${ticket}  ${id_token}  ${client_id}  ${client_secret}
+  [Return]  ${access_token}
+
+
+Cleanup
   OperatingSystem.Remove File  ${CURDIR}${/}1.txt
   OperatingSystem.Remove File  ${CURDIR}${/}res_id.txt
-  [Return]  ${access_token}

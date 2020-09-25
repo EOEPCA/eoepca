@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation  Tests for the ADES WPS endpoint
+Documentation  Tests for the ADES Securization with PEP & PDP
 Resource  ADES.resource
 Library  XML
 Library  Process
@@ -13,7 +13,6 @@ ${WPS_PATH_PREFIX}=  /zoo
 ${API_PROC_PATH_PREFIX}=  /wps3
 ${HOST}=  ${UM_BASE_URL}
 ${PORT}=  443
-${PDP_PATH_TO_VALIDATE}=  pdp/policy/validate
 ${WELL_KNOWN_PATH}=  ${UM_BASE_URL}/.well-known/uma2-configuration
 
 *** Test Cases ***
@@ -21,19 +20,121 @@ ADES Protection as Service
   PEP Delete Resource  ${UM_BASE_URL}
   #User C attempts to perform a GetCapabilities. Access granted. NO TICKET
   WPS Get Capabilities Without Token  ${UM_BASE_URL}  ${WPS_PATH_PREFIX}
-  #UserD gets id_token
+  #User D gets id_token
   UMA Get ID Token Valid  ${WELL_KNOWN_PATH}  ${C_ID_UMA}  ${C_SECRET_UMA}
   #User D protects the root path of ADES (“/”) with an “Authenticated” scope
   PEP Register ADES
-  #UserC attempts to perform a GetCapabilities. Unauthorized 401 return Ticket
+  #User C attempts to perform a GetCapabilities. Unauthorized 401 return Ticket
   User C KO
-  #UserA and UserB attempts to perform a GetCapabilities
-  User A, User B OK
-  OperatingSystem.Remove File  ${CURDIR}${/}1.txt
-  OperatingSystem.Remove File  ${CURDIR}${/}2.txt
-  OperatingSystem.Remove File  ${CURDIR}${/}3.txt
+  #User A and User B attempt to perform a GetCapabilities
+  User A, User B OK  
+
+ADES Application Deployment Protection
+#   User A deploys Proc1
+  ADES User A deploys Proc1
+#   User B execute Proc1 
+  ADES User B execute Proc1
+#   User A registers the resulting application Proc1 as a protected_access resource
+#   User A assigns an ownership policy to Proc1
+  PEP Register Proc1
+  PDP Register Proc1  ${UM_BASE_URL}
+#   User A registers the undeploy operation for Proc1 as a protected_access resource
+#   User A assigns an ownership policy to Proc1
+  PDP Register Proc2  ${UM_BASE_URL}
+#   User B attempts to undeploy Proc1. Unauthorized.
+  ADES User B undeploy Proc1
+  
+
+ADES Application Execution Protection
+#   User A attempts to execute Proc1. Success → Generation of a Job1 object.
+  ADES User A execute Proc1
+ 
+  PEP Register Job1
+  #   User A registers the Location of the Job1 status as protected_access resource with ownership policy
+  PDP Register Job1  ${UM_BASE_URL}
+  #   User B attempts to execute Proc1. Unauthorized.
+  ADES User B attempt execute Proc1
+  #   User B attempts to retrieve status of Job1. Unauthorized.
+  ADES User B retrieve status Job1
+  #   User A attempts to retrieve status of Job1. OK.
+  ADES User A retrieve status Job1
+
+  
+Policy Ownership and Policy Updates
+  #   User B attempts to modify Proc1 access policies. Unauthorized. 
+  PDP Modify Deny
+  #   User A modifies access policy of Job1 Status to Access List including User B.
+  #   User A modifies access policy of Proc1 to Access List including User B.
+  PDP Modify Policy
+  #   User B attempts to retrieve the status of Job1. OK.
+  PDP UserB Status Success  ${UB_RPT}
+  #   User B attempts to execute Proc1. OK.
+  PDP UserB Execution Success
+  PDP Delete policies
+  Cleanup
+
+
 
 *** Keywords ***
+ADES User A retrieve status Job1
+  ${ticket}=  API_PROC Check Job Status for Ticket  ${UM_BASE_URL}  ${LOCATION}  ${RPT_TOKEN}
+  ${access_token}=  UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticket}  ${UA_TK}  ${C_ID_UMA}  ${C_SECRET_UMA}
+  ${a}=  API_PROC Check Job Status Success  ${UM_BASE_URL}  ${LOCATION}  ${access_token}
+  Status Should Be  200  ${a}
+
+ADES User B retrieve status Job1
+  ${ticket}=  API_PROC Check Job Status for Ticket  ${UM_BASE_URL}  ${LOCATION}  ${RPT_TOKEN}
+  ${access_token}=  UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticket}  ${UB_TK}  ${C_ID_UMA}  ${C_SECRET_UMA}
+  ${status}=  API_PROC Check Job Status Success  ${UM_BASE_URL}  ${LOCATION}  ${RPT_TOKEN}
+  Status Should Be  401  ${status}
+
+ADES User B attempt execute Proc1
+  ${resp}=  API_PROC Execute Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json  ${UB_TK}
+  ${ticketB}=  UMA Get Ticket From Response  ${resp}
+  ${rptB}=  UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticketB}  ${UB_TK}  ${C_ID_UMA}  ${C_SECRET_UMA}
+  Set Global Variable  ${UB_RPT}  ${rptB}
+  ${validation}=  API_PROC Execute Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json  ${rptB}
+  builtIn.Run Keyword If  ${RES_ID_PROC1}!=""  Status Should Be  401  ${validation}
+  builtIn.Run Keyword If  ${RES_ID_PROC1}==""  Status Should Be  201  ${validation}
+
+ADES User A execute Proc1
+  ${resp}=  API_PROC Execute Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json  ${UA_TK}
+  ${ticket}=  UMA Get Ticket From Response  ${resp}
+  ${rptA}=  UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticket}  ${UA_TK}  ${C_ID_UMA}  ${C_SECRET_UMA}
+  ${val}=  API_PROC Execute Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json  ${rptA}
+  Status Should Be  201  ${val}
+  Set Global Variable  ${LOCATION}  ${val.headers["Location"].split("${UM_BASE_URL}")[-1]}
+  OperatingSystem.Create File  ${CURDIR}${/}location.txt  ${LOCATION}
+
+ADES User B undeploy Proc1
+  ${resp}=  API_PROC Undeploy Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_undeploy.json  ${UB_TK}
+  ${ticket}=  UMA Get Ticket From Response  ${resp}
+  ${rptB}=  UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticket}  ${UB_TK}  ${C_ID_UMA}  ${C_SECRET_UMA}
+  ${validation}=  API_PROC Undeploy Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json  ${rptB}
+  Status Should Be  401  ${validation}
+
+ADES User B execute Proc1
+  ${resp}=  API_PROC Execute Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json  ${UB_TK}
+  ${ticket}=  UMA Get Ticket From Response  ${resp}
+  ${rptB}=  UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticket}  ${UB_TK}  ${C_ID_UMA}  ${C_SECRET_UMA}
+  ${validation}=  API_PROC Execute Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json  ${rptB}
+  Status Should Be  201  ${validation}
+
+ADES User A deploys Proc1
+  ${resp}=  API_PROC Deploy Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0.json  ${UA_TK}
+  ${ticket}=  UMA Get Ticket From Response  ${resp}
+  ${rptA}=  UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticket}  ${UA_TK}  ${C_ID_UMA}  ${C_SECRET_UMA}
+  ${validation}=  API_PROC Deploy Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0.json  ${rptA}
+  Status Should Be  201  ${validation}
+
+User C KO
+  ${resp}=  WPS Get Capabilities Without Token  ${UM_BASE_URL}  ${WPS_PATH_PREFIX}
+  ${ticket}=  UMA Get Ticket From Response  ${resp}
+  #Check ticket against UMA and get Unauthorized
+  ${rpt}=  UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticket}  NA  ${C_ID_UMA}  ${C_SECRET_UMA}
+  ${validation}=  WPS Get Capabilities  ${UM_BASE_URL}  ${WPS_PATH_PREFIX}  ${rpt}
+  Status Should Be  401  ${validation}
+
 User A, User B OK
   ${resp}=  WPS Get Capabilities Without Token  ${UM_BASE_URL}  ${WPS_PATH_PREFIX}
   ${ticket}=  UMA Get Ticket From Response  ${resp}
@@ -48,13 +149,36 @@ User A, User B OK
   ${rpt}=  UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticket}  ${ID_TOKEN}  ${C_ID_UMA}  ${C_SECRET_UMA}
   Set Global Variable  ${RPT_TOKEN}  ${rpt}
 
-User C KO
-  ${resp}=  WPS Get Capabilities Without Token  ${UM_BASE_URL}  ${WPS_PATH_PREFIX}
-  ${ticket}=  UMA Get Ticket From Response  ${resp}
-  #Check ticket against UMA and get Unauthorized
-  ${rpt}=  UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticket}  NA  ${C_ID_UMA}  ${C_SECRET_UMA}
-  ${validation}=  WPS Get Capabilities  ${UM_BASE_URL}  ${WPS_PATH_PREFIX}  ${rpt}
-  Status Should Be  401  ${validation}
+PDP Modify Deny
+  ${data} =  Evaluate  {"name":"Job1","description":"Status for job","config":{"resource_id":${RES_ID_JOB1},"rules":[{"OR":[{"EQUAL":{"userName":"UserA"}},{"EQUAL":{"userName":"UserB"}},{"EQUAL":{"userName":"admin"}}]}]},"scopes":["protected_access"]}
+  ${headers}=  Create Dictionary  authorization=Bearer ${UB_TK}
+  ${response}=  builtIn.Run Keyword If  "${POLICY_ID_JOB1}"!=""  Post Request  pdp  /pdp/policy/${POLICY_ID_JOB1}  headers=${headers}  json=${data}
+  builtIn.Run Keyword If  "${POLICY_ID_JOB1}"!=""  Status Should Be  401  ${response}
+  
+
+PDP Modify Policy
+  ${data} =  Evaluate  {"name":"Job1","description":"Status for job modified","config":{"resource_id":${RES_ID_JOB1},"rules":[{"OR":[{"EQUAL":{"userName":"UserA"}},{"EQUAL":{"userName":"UserB"}},{"EQUAL":{"userName":"admin"}}]}]},"scopes":["protected_access"]}
+  ${headers}=  Create Dictionary  authorization=Bearer ${UA_TK}
+  ${response}=  Post Request  pdp  /pdp/policy/${POLICY_ID_JOB1}  headers=${headers}  json=${data}
+  Status Should Be  200  ${response}
+  ${data} =  Evaluate  {"name":"Proc1","description":"Execution of Proc1","config":{"resource_id":${RES_ID_PROC2},"rules":[{"OR":[{"EQUAL":{"userName":"UserA"}},{"EQUAL":{"userName":"UserB"}},{"EQUAL":{"userName":"admin"}}]}]},"scopes":["protected_access"]}
+  ${response}=  Post Request  pdp  /pdp/policy/${POLICY_ID_PROC2}  headers=${headers}  json=${data}
+  Status Should Be  200  ${response}
+
+PDP UserB Status Success
+  [Arguments]  ${tkn}
+  ${ticket}=  API_PROC Check Job Status for Ticket  ${UM_BASE_URL}  ${LOCATION}  ${tkn}
+  ${access_token}=  UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticket}  ${UB_TK}  ${C_ID_UMA}  ${C_SECRET_UMA}
+  ${a}=  API_PROC Check Job Status Success  ${UM_BASE_URL}  ${LOCATION}  ${access_token}
+  Status Should Be  200  ${a}  
+
+PDP UserB Execution Success
+  ${resp}=  API_PROC Execute Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json  ${UB_TK}
+  ${ticketB}=  UMA Get Ticket From Response  ${resp}
+  ${rptB}=  UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticketB}  ${UB_TK}  ${C_ID_UMA}  ${C_SECRET_UMA}
+  #   User B attempts to execute Proc1. Unauthorized.
+  ${validation}=  API_PROC Execute Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json  ${rptB}
+  Status Should Be  201  ${validation}
 
 API_PROC Suite Setup
   [Arguments]  ${base_url}  ${path_prefix}  ${token}
@@ -92,10 +216,112 @@ API_PROC Get Process Names From Response
   [Return]  ${process_names}
 
 
+API_PROC Check Job Status for Ticket
+  [Arguments]  ${base_url}  ${location}  ${token}
+  ${loc}=  Fetch From Right  ${location}  nip.io/
+  Create Session  pep  ${base_url}  verify=False
+  ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json  authorization=Bearer ${token}
+  ${resp}=  Get Request  pep  /secure/${loc}  headers=${headers}
+  ${ticket}=  UMA Get Ticket From Response  ${resp}
+  [return]  ${ticket}
+
+
+API_PROC Check Job Status Success
+  [Arguments]  ${base_url}  ${location}  ${token}
+  ${loc}=  Fetch From Right  ${location}  nip.io/
+  Create Session  pep  ${base_url}  verify=False
+  ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json  authorization=Bearer ${token}
+  FOR  ${index}  IN RANGE  2
+    Sleep  30  Loop wait for processing execution completion
+    ${resp}=  Get Request  pep  /secure/${loc}  headers=${headers}
+    Exit For Loop If  "${resp}" == "<Response [401]>"
+    Status Should Be  200  ${resp}
+    ${status}=  Set Variable  ${resp.json()["status"]}
+    Exit For Loop If  "${status}" != "running"
+  END
+  [return]  ${resp}
+PEP Register Job1
+  ${a}=  Run Process  python3  ${CURDIR}${/}insertJob1.py
+  ${resource_id}=  OperatingSystem.Get File  ${CURDIR}${/}Job1.txt
+  OperatingSystem.Remove File  ${CURDIR}${/}Job1.txt
+  Set Global Variable  ${RES_ID_JOB1}  ${resource_id}
+
+PDP Register Job1
+  [Arguments]  ${host}
+  Create Session  pdp  ${host}:443  verify=False
+  ${headers}=  Create Dictionary  authorization=Bearer ${UA_TK}
+  ${data} =  Evaluate  {"name":"Job1","description":"Job1 for Execution","config":{"resource_id":${RES_ID_JOB1},"rules":[{"AND":[{"EQUAL":{"userName":"UserA"}}]}]},"scopes":["protected_access"]}
+  ${response}=  Post Request  pdp  /pdp/policy/  headers=${headers}  json=${data}
+  #Get the policy_id from the response
+  ${json}=  Get Substring  ${response.text}  20  45
+  Set Global Variable  ${POLICY_ID_JOB1}  ${json}
+  Status Should Be  200  ${response}
+
+
+API_PROC Undeploy Process
+  [Arguments]  ${base_url}  ${path_prefix}  ${process_name}  ${filename}  ${token} 
+  Create Session  pep  ${base_url}:443  verify=False
+  ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json  authorization=Bearer ${token}
+  ${file_data}=  Get Binary File  ${filename}
+  ${resp}=  Post Request  pep  /secure${path_prefix}/processes/eoepcaadesundeployprocess/jobs  headers=${headers}  data=${file_data}
+  [return]  ${resp}
+
+PEP Register Proc1
+  ${a}=  Run Process  python3  ${CURDIR}${/}insertProc1.py
+  ${resource_id}=  OperatingSystem.Get File  ${CURDIR}${/}Proc1.txt
+  OperatingSystem.Remove File  ${CURDIR}${/}Proc1.txt
+  Set Global Variable  ${RES_ID_PROC1}  ${resource_id}
+  ${resource_id}=  OperatingSystem.Get File  ${CURDIR}${/}Proc2.txt
+  OperatingSystem.Remove File  ${CURDIR}${/}Proc2.txt
+  Set Global Variable  ${RES_ID_PROC2}  ${resource_id}
+
+PDP Register Proc1
+  [Arguments]  ${host}
+  Create Session  pdp  ${host}:443  verify=False
+  ${headers}=  Create Dictionary  authorization=Bearer ${UA_TK}
+  ${data} =  Evaluate  {"name":"Proc1","description":"Proc1 UnDeploy","config":{"resource_id":${RES_ID_PROC1},"rules":[{"AND":[{"EQUAL":{"userName":"UserA"}}]}]},"scopes":["protected_access"]}
+  ${response}=  Post Request  pdp  /pdp/policy/  headers=${headers}  json=${data}
+  #Get the policy_id from the response
+  ${json}=  Get Substring  ${response.text}  20  45
+  Set Global Variable  ${POLICY_ID_PROC1}  ${json}
+  Status Should Be  200  ${response}
+
+PDP Register Proc2
+  [Arguments]  ${host}
+  Create Session  pdp  ${host}  verify=False
+  ${headers}=  Create Dictionary  authorization=Bearer ${UA_TK}
+  ${data} =  Evaluate  {"name":"Proc2","description":"Proc1 Execute","config":{"resource_id":${RES_ID_PROC2},"rules":[{"AND":[{"EQUAL":{"userName":"UserA"}}]}]},"scopes":["protected_access"]}
+  ${response}=  Post Request  pdp  /pdp/policy/  headers=${headers}  json=${data}
+  #Get the policy_id from the response
+  ${json}=  Get Substring  ${response.text}  20  45
+  Set Global Variable  ${POLICY_ID_PROC2}  ${json}
+  Status Should Be  200  ${response}
+
+API_PROC execute process
+  [Arguments]  ${base_url}  ${path_prefix}  ${process_name}  ${filename}  ${token}
+  Create Session  pep  ${base_url}:443  verify=False
+  ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json  authorization=Bearer ${token}
+  ${file_data}=  Get Binary File  ${filename}
+  ${resp}=  Post Request  pep  /secure${path_prefix}/processes/eo_metadata_generation_1_0/jobs  headers=${headers}  data=${file_data}
+  [Return]  ${resp}
+
+API_PROC deploy process
+  [Arguments]  ${base_url}  ${path_prefix}  ${process_name}  ${filename}  ${token}
+  Create Session  pep  ${base_url}  verify=False
+  ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json  authorization=Bearer ${token}
+  ${file_data}=  Get Binary File  ${filename}
+  ${resp}=  Post Request  pep  /secure${path_prefix}/processes/eoepcaadesdeployprocess/jobs  headers=${headers}  data=${file_data}
+  [Return]  ${resp}
+
 PEP Delete Resource
   [Arguments]  ${base_url}
   Create Session  pep  ${base_url}  verify=False
   ${headers}=  Create Dictionary  authorization=Bearer ${ID_TOKEN}
+  ${response}=  Delete Request  pep  /secure/resources/${RES_ID_ADES}  headers=${headers}
+  ${ticket}=  UMA Get Ticket From Response  ${response}
+  ${rptB}=  UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticket}  ${ID_TOKEN}  ${C_ID_UMA}  ${C_SECRET_UMA}
+  #   User B attempts to execute Proc1. Unauthorized.
+  ${headers}=  Create Dictionary  authorization=Bearer ${rptB}
   ${response}=  Delete Request  pep  /secure/resources/${RES_ID_ADES}  headers=${headers}
 
 UMA Get Access Token From Response
@@ -178,11 +404,16 @@ WPS Get Capabilities
   ${resp}=  Get Request  ades  /secure${path_prefix}/?service=WPS&version=1.0.0&request=GetCapabilities  headers=${headers}
   [Return]  ${resp}
 
+PDP Delete policies
+  Create Session  pdp  ${UM_BASE_URL}  verify=False
+  ${headers}=  Create Dictionary  authorization=Bearer ${UA_TK}
+  ${response}=  Delete Request  pdp  /pdp/policy/${POLICY_ID_JOB1}  headers=${headers}
+  ${response}=  Delete Request  pdp  /pdp/policy/${POLICY_ID_PROC1}  headers=${headers}
+  ${response}=  Delete Request  pdp  /pdp/policy/${POLICY_ID_PROC2}  headers=${headers}
 
-
-
-
-
-
-
+Cleanup
+  OperatingSystem.Remove File  ${CURDIR}${/}1.txt
+  OperatingSystem.Remove File  ${CURDIR}${/}2.txt
+  OperatingSystem.Remove File  ${CURDIR}${/}3.txt
+  OperatingSystem.Remove File  ${CURDIR}${/}location.txt
 

@@ -22,4 +22,3 @@ f = open(dir_path+"/res_id.txt", "w")
 f.write(resource_id)
 f.close()
 # Get resource
-
