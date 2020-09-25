@@ -241,7 +241,7 @@ API_PROC Check Job Status Success
   END
   [return]  ${resp}
 PEP Register Job1
-  ${a}=  Run Process  python3  ${CURDIR}${/}insertJob1.py
+  ${a}=  Run Process  python3  ${CURDIR}${/}insertJob1.py  ${UM_BASE_URL}
   ${resource_id}=  OperatingSystem.Get File  ${CURDIR}${/}Job1.txt
   OperatingSystem.Remove File  ${CURDIR}${/}Job1.txt
   Set Global Variable  ${RES_ID_JOB1}  ${resource_id}
@@ -267,7 +267,7 @@ API_PROC Undeploy Process
   [return]  ${resp}
 
 PEP Register Proc1
-  ${a}=  Run Process  python3  ${CURDIR}${/}insertProc1.py
+  ${a}=  Run Process  python3  ${CURDIR}${/}insertProc1.py  ${UM_BASE_URL}
   ${resource_id}=  OperatingSystem.Get File  ${CURDIR}${/}Proc1.txt
   OperatingSystem.Remove File  ${CURDIR}${/}Proc1.txt
   Set Global Variable  ${RES_ID_PROC1}  ${resource_id}
@@ -345,7 +345,7 @@ UMA Get Access Token Valid
   [Return]  ${access_token}
   
 PEP Register ADES 
-  ${a}=  Run Process  python3  ${CURDIR}${/}insertADES.py
+  ${a}=  Run Process  python3  ${CURDIR}${/}insertADES.py  ${UM_BASE_URL}
   ${resource_id}=  OperatingSystem.Get File  ${CURDIR}${/}ADES.txt
   OperatingSystem.Remove File  ${CURDIR}${/}ADES.txt
   Set Global Variable  ${RES_ID_A}  ${resource_id}
