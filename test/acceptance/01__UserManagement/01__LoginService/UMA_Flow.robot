@@ -36,7 +36,7 @@ UMA Flow to Retrieve RPT
   Set Global Variable  ${C_ID_UMA}  ${g_client_id}
   Set Global Variable  ${C_SECRET_UMA}  ${g_client_secret}
   UMA Flow Setup  ${ADES_BASE_URL}  ${ID_TOKEN}  ${PATH_TO_RESOURCE}  ${WELL_KNOWN_PATH}  ${UMA_USER}  ${UMA_PWD}  ${g_client_id}  ${g_client_secret}
-
+  Cleanup
 *** Keywords ***
 UMA Resource Insertion
   ${a}=  Run Process  python3  ${CURDIR}${/}insADES.py

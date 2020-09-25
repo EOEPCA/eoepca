@@ -18,45 +18,45 @@ ${EMAIL}=  acceptance@test.com
 ${PASSWORD}=  defaultPWD
 *** Test Cases ***
 
-# Log in to the User Profile through the Login Service
-#   ${chrome_options} =  Evaluate  sys.modules['selenium.webdriver'].ChromeOptions()  sys, selenium.webdriver
-#   Call Method  ${chrome_options}  add_argument  headless
-#   Call Method  ${chrome_options}  add_argument  disable-gpu
-#   Call Method  ${chrome_options}  add_argument  disable-dev-shm-usage
-#   Call Method  ${chrome_options}  add_argument  no-startup-window
-#   Call Method  ${chrome_options}  add_argument  no-sandbox
-#   Call Method  ${chrome_options}  add_argument  ignore-certificate-errors
-#   ${options}=  Call Method  ${chrome_options}  to_capabilities      
-#   Open Browser  ${UM_BASE_URL}/web_ui  browser=chrome  desired_capabilities=${options}
-#   Set Browser Implicit Wait  5
-#   ${title}=  Get Title
-#   BuiltIn.Run Keyword If  "${title}"=="EOEPCA User Profile"  LoginService Call Log in Button
-#   LoginService Fill Credentials
-#   ${title}=  Get Title
-#   BuiltIn.Run Keyword If  "${title}"=="oxAuth"  LoginService Allow User
-#   BuiltIn.Run Keyword If  "${title}"=="oxAuth - Passport Login"  LoginService Fill Credentials
-#   LoginService Call Log out Button
+Log in to the User Profile through the Login Service
+  ${chrome_options} =  Evaluate  sys.modules['selenium.webdriver'].ChromeOptions()  sys, selenium.webdriver
+  Call Method  ${chrome_options}  add_argument  headless
+  Call Method  ${chrome_options}  add_argument  disable-gpu
+  Call Method  ${chrome_options}  add_argument  disable-dev-shm-usage
+  Call Method  ${chrome_options}  add_argument  no-startup-window
+  Call Method  ${chrome_options}  add_argument  no-sandbox
+  Call Method  ${chrome_options}  add_argument  ignore-certificate-errors
+  ${options}=  Call Method  ${chrome_options}  to_capabilities      
+  Open Browser  ${UM_BASE_URL}/web_ui  browser=chrome  desired_capabilities=${options}
+  Set Browser Implicit Wait  5
+  ${title}=  Get Title
+  BuiltIn.Run Keyword If  "${title}"=="EOEPCA User Profile"  LoginService Call Log in Button
+  LoginService Fill Credentials
+  ${title}=  Get Title
+  BuiltIn.Run Keyword If  "${title}"=="oxAuth"  LoginService Allow User
+  BuiltIn.Run Keyword If  "${title}"=="oxAuth - Passport Login"  LoginService Fill Credentials
+  LoginService Call Log out Button
 
-# Add Two Users to Gluu
-#   ${chrome_options} =  Evaluate  sys.modules['selenium.webdriver'].ChromeOptions()  sys, selenium.webdriver
-#   Call Method  ${chrome_options}  add_argument  headless
-#   Call Method  ${chrome_options}  add_argument  disable-gpu
-#   Call Method  ${chrome_options}  add_argument  disable-dev-shm-usage
-#   Call Method  ${chrome_options}  add_argument  no-startup-window
-#   Call Method  ${chrome_options}  add_argument  no-sandbox
-#   Call Method  ${chrome_options}  add_argument  ignore-certificate-errors
-#   ${options}=  Call Method  ${chrome_options}  to_capabilities      
-#   Open Browser  ${UM_BASE_URL}  browser=chrome  desired_capabilities=${options}
-#   Set Browser Implicit Wait  5
-#   ${title}=  Get Title
-#   LoginService Fill Credentials Gluu  ${USER}  ${PWD}
-#   LoginService Go to Users
-#   ${title}=  Get Title
-#   LoginService Add Person  ${USER_NAME}A  ${FIRST_NAME}A  ${DISPLAY_NAME}A  ${LAST_NAME}A  A${EMAIL}  ${PASSWORD}
-#   ${title}=  Get Title
-#   Set Browser Implicit Wait  10
-#   LoginService Go TabUser
-#   LoginService Add Person  ${USER_NAME}B  ${FIRST_NAME}B  ${DISPLAY_NAME}B  ${LAST_NAME}B  B${EMAIL}  ${PASSWORD}
+Add Two Users to Gluu
+  ${chrome_options} =  Evaluate  sys.modules['selenium.webdriver'].ChromeOptions()  sys, selenium.webdriver
+  Call Method  ${chrome_options}  add_argument  headless
+  Call Method  ${chrome_options}  add_argument  disable-gpu
+  Call Method  ${chrome_options}  add_argument  disable-dev-shm-usage
+  Call Method  ${chrome_options}  add_argument  no-startup-window
+  Call Method  ${chrome_options}  add_argument  no-sandbox
+  Call Method  ${chrome_options}  add_argument  ignore-certificate-errors
+  ${options}=  Call Method  ${chrome_options}  to_capabilities      
+  Open Browser  ${UM_BASE_URL}  browser=chrome  desired_capabilities=${options}
+  Set Browser Implicit Wait  5
+  ${title}=  Get Title
+  LoginService Fill Credentials Gluu  ${USER}  ${PWD}
+  LoginService Go to Users
+  ${title}=  Get Title
+  LoginService Add Person  ${USER_NAME}A  ${FIRST_NAME}A  ${DISPLAY_NAME}A  ${LAST_NAME}A  A${EMAIL}  ${PASSWORD}
+  ${title}=  Get Title
+  Set Browser Implicit Wait  10
+  LoginService Go TabUser
+  LoginService Add Person  ${USER_NAME}B  ${FIRST_NAME}B  ${DISPLAY_NAME}B  ${LAST_NAME}B  B${EMAIL}  ${PASSWORD}
   
 
 *** Keywords ***
