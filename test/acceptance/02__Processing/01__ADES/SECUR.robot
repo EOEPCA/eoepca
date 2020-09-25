@@ -70,6 +70,9 @@ Policy Ownership and Policy Updates
   PDP UserB Status Success  ${UB_RPT}
   #   User B attempts to execute Proc1. OK.
   PDP UserB Execution Success
+  PDP Delete policies
+  Cleanup
+
 
 
 *** Keywords ***
@@ -401,9 +404,18 @@ WPS Get Capabilities
   ${resp}=  Get Request  ades  /secure${path_prefix}/?service=WPS&version=1.0.0&request=GetCapabilities  headers=${headers}
   [Return]  ${resp}
 
+PDP Delete policies
+  Create Session  pdp  ${UM_BASE_URL}  verify=False
+  ${headers}=  Create Dictionary  authorization=Bearer ${UA_TK}
+  ${response}=  Delete Request  pdp  /pdp/policy/${POLICY_ID_JOB1}  headers=${headers}
+  ${response}=  Delete Request  pdp  /pdp/policy/${POLICY_ID_PROC1}  headers=${headers}
+  ${response}=  Delete Request  pdp  /pdp/policy/${POLICY_ID_PROC2}  headers=${headers}
 
-
-
+Cleanup
+  OperatingSystem.Remove File  ${CURDIR}${/}1.txt
+  OperatingSystem.Remove File  ${CURDIR}${/}2.txt
+  OperatingSystem.Remove File  ${CURDIR}${/}3.txt
+  OperatingSystem.Remove File  ${CURDIR}${/}location.txt
 
 
 

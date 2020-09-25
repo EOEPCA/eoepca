@@ -142,3 +142,8 @@ UMA Handler of Codes
   ${ticket}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Ticket From Response  ${resp_ticket}
   ${access_token}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Access Token Valid  ${well_known}  ${ticket}  ${id_token}  ${client_id}  ${client_secret}
   [Return]  ${access_token}
+
+
+Cleanup
+  OperatingSystem.Remove File  ${CURDIR}${/}1.txt
+  OperatingSystem.Remove File  ${CURDIR}${/}res_id.txt

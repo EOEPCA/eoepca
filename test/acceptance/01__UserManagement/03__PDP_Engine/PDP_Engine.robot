@@ -32,6 +32,7 @@ PDP Deny Policy ResourceID
 
 PDP Deny Policy Valid ResourceID Invalid Username
   PDP Get Deny Policy Username  ${HOST}  ${PORT}  ${PDP_PATH_TO_VALIDATE}
+  Cleanup
 
 *** Keywords ***
 
@@ -113,4 +114,6 @@ PDP Get Deny Policy Username
   ${value_decision}=  Get From Dictionary  ${decision}  Decision
   Should Be Equal As Strings  ${value_decision}  Deny
 
-  
+Cleanup
+  OperatingSystem.Remove File  ${CURDIR}${/}2.txt
+  OperatingSystem.Remove File  ${CURDIR}${/}3.txt
