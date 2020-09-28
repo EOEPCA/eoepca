@@ -70,7 +70,7 @@ Policy Ownership and Policy Updates
   PDP UserB Status Success  ${UB_RPT}
   #   User B attempts to execute Proc1. OK.
   PDP UserB Execution Success
-  PDP Delete policies
+  #PDP Delete policies
   Cleanup
 
 
