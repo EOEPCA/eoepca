@@ -1,0 +1,7 @@
+persistence:
+  enabled: true
+  existingClaim: eoepca-rm-db-pvc
+postgresqlUsername: vhr18_user
+postgresqlPassword: aeSh7lar
+postgresqlDatabase: vhr18_db
+postgresqlPostgresPassword: hu1Jow3i

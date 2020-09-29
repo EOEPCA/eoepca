@@ -66,3 +66,74 @@ resource "kubernetes_persistent_volume_claim" "eoepca_resman_pvc" {
     }
   }
 }
+
+
+
+resource "kubernetes_persistent_volume" "eoepca_rm_db_pv" {
+  count = var.storage_class == "eoepca-nfs" ? 1 : 0
+  metadata {
+    name = "eoepca-rm-db-pv"
+    labels = {
+      eoepca_type = "rm_db"
+    }
+  }
+  spec {
+    storage_class_name = "eoepca-nfs"
+    access_modes       = ["ReadWriteOnce"]
+    capacity = {
+      storage = "20Gi"
+    }
+    persistent_volume_source {
+      nfs {
+        server = var.nfs_server_address
+        path   = "/data/rm_db"
+      }
+    }
+  }
+}
+
+resource "kubernetes_persistent_volume" "eoepca_rm_db_pv_host" {
+  count = var.storage_class == "eoepca-nfs" ? 0 : 1
+  metadata {
+    name = "eoepca-rm-db-pv-host"
+    labels = {
+      eoepca_type = "rm_db"
+    }
+  }
+  spec {
+    storage_class_name = var.storage_class
+    access_modes       = ["ReadWriteOnce"]
+    capacity = {
+      storage = "1Gi"
+    }
+    persistent_volume_source {
+      host_path {
+        path = "/kubedata/rm_db"
+        type = "DirectoryOrCreate"
+      }
+    }
+  }
+}
+
+resource "kubernetes_persistent_volume_claim" "eoepca_rm_db_pvc" {
+  metadata {
+    name = "eoepca-rm-db-pvc"
+    labels = {
+      eoepca_type = "rm_db"
+    }
+  }
+  spec {
+    storage_class_name = var.storage_class
+    access_modes       = ["ReadWriteOnce"]
+    resources {
+      requests = {
+        storage = "1Gi"
+      }
+    }
+    selector {
+      match_labels = {
+        eoepca_type = "rm_db"
+      }
+    }
+  }
+}
