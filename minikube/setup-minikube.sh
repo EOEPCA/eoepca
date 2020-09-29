@@ -10,7 +10,7 @@ mkdir -p $HOME/.local/bin
 
 # minikube: download and install locally
 echo "Download minikube..."
-curl -sLo $HOME/.local/bin/minikube https://github.com/kubernetes/minikube/releases/download/v1.12.1/minikube-linux-amd64 \
+curl -sLo $HOME/.local/bin/minikube https://github.com/kubernetes/minikube/releases/download/v1.13.1/minikube-linux-amd64 \
   && chmod +x $HOME/.local/bin/minikube
 
 # If MINIKUBE_MODE is not set, and USER is vagrant, deduce we are running in a VM, so use 'native' mode
