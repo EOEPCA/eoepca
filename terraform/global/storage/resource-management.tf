@@ -1,5 +1,5 @@
 resource "kubernetes_persistent_volume" "eoepca_resman_pv" {
-  count = "${var.storage_class == "eoepca-nfs" ? 1 : 0}"
+  count = var.storage_class == "eoepca-nfs" ? 1 : 0
   metadata {
     name = "eoepca-resman-pv"
     labels = {
@@ -22,7 +22,7 @@ resource "kubernetes_persistent_volume" "eoepca_resman_pv" {
 }
 
 resource "kubernetes_persistent_volume" "eoepca_resman_pv_host" {
-  count = "${var.storage_class == "eoepca-nfs" ? 0 : 1}"
+  count = var.storage_class == "eoepca-nfs" ? 0 : 1
   metadata {
     name = "eoepca-resman-pv-host"
     labels = {

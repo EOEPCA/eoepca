@@ -1,5 +1,5 @@
 resource "kubernetes_deployment" "nfs_client_provisioner" {
-  count = "${var.nfs_server_address == "none" ? 0 : 1}"
+  count = var.nfs_server_address == "none" ? 0 : 1
   metadata {
     name      = "nfs-client-provisioner"
     namespace = "default"
