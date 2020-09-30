@@ -11,8 +11,8 @@ Library  SSHLibrary
 ${HOST}=  ${UM_BASE_URL}
 ${PORT}=  443
 ${PDP_PATH_TO_VALIDATE}=  pdp/policy/validate
-${POLICY1_JSON}=  {"name":"NewPolicy1","description":"Description for this new policy","config":{"resource_id":"202485831","rules":[{"OR":[{"EQUAL":{"user_name":"UserA"}},{"EQUAL":{"user_name":"admin"}},{"EQUAL":{"scopes":"Authorized"}}]}]},"scopes":["Authorized"]}
-${POLICY2_JSON}=  {"name":"NewPolicy2","description":"Description for this new policy","config":{"resource_id":"202485831","rules":[{"OR":[{"EQUAL":{"user_name":"UserA"}},{"EQUAL":{"user_name":"admin"}}]}]},"scopes":["Authorized"]}
+${POLICY1_JSON}=  {"name":"NewPolicy1","description":"Description for this new policy","config":{"resource_id":"202485831","rules":[{"OR":[{"EQUAL":{"userName":"UserA"}},{"EQUAL":{"userName":"admin"}},{"EQUAL":{"scopes":"Authorized"}}]}]},"scopes":["Authorized"]}
+${POLICY2_JSON}=  {"name":"NewPolicy2","description":"Description for this new policy","config":{"resource_id":"202485831","rules":[{"OR":[{"EQUAL":{"userName":"UserA"}},{"EQUAL":{"userName":"admin"}}]}]},"scopes":["Authorized"]}
 ${WELL_KNOWN_PATH}=  ${UM_BASE_URL}/.well-known/openid-configuration
 ${SCOPES}=  openid,permission,uma_protection 
 ${REQ}=  grant_type=password&client_id=${C_ID_UMA}&client_secret=${C_SECRET_UMA}&username=admin&password=admin_Abcd1234#&scope=${SCOPES}&uri=
@@ -32,9 +32,8 @@ PDP Deny Policy ResourceID
 
 PDP Deny Policy Valid ResourceID Invalid Username
   PDP Get Deny Policy Username  ${HOST}  ${PORT}  ${PDP_PATH_TO_VALIDATE}
-  OperatingSystem.Remove File  ${CURDIR}${/}2.txt
-  OperatingSystem.Remove File  ${CURDIR}${/}3.txt
 
+  Cleanup
 
   
 *** Keywords ***
@@ -84,7 +83,7 @@ PDP Insert Policy
 PDP Get Permit Policy
   [Arguments]  ${host}  ${port}  ${pdp_path_to_validate} 
   ${headers}=  Create Dictionary  Content-Type  application/json
-  ${data} =  Evaluate  {"Request":{"AccessSubject":[{"Attribute":[{"AttributeId":"user_name","Value":"UserA","DataType":"string","IncludeInResult":True},{"AttributeId":"num_acces","Value":6,"DataType":"int","IncludeInResult":True},{"AttributeId":"attemps","Value":5,"DataType":"int","IncludeInResult":True},{"AttributeId":"company","Value":"Deimos","DataType":"string","IncludeInResult":True},{"AttributeId":"system_load","Value":4,"DataType":"int","IncludeInResult":True}]}],"Action":[{"Attribute":[{"AttributeId":"action-id","Value":"view"}]}],"Resource":[{"Attribute":[{"AttributeId":"resource-id","Value": "202485831" ,"DataType":"string","IncludeInResult":True}]}]}}  json
+  ${data} =  Evaluate  {"Request":{"AccessSubject":[{"Attribute":[{"AttributeId":"userName","Value":"UserA","DataType":"string","IncludeInResult":True},{"AttributeId":"num_acces","Value":6,"DataType":"int","IncludeInResult":True},{"AttributeId":"attemps","Value":5,"DataType":"int","IncludeInResult":True},{"AttributeId":"company","Value":"Deimos","DataType":"string","IncludeInResult":True},{"AttributeId":"system_load","Value":4,"DataType":"int","IncludeInResult":True}]}],"Action":[{"Attribute":[{"AttributeId":"action-id","Value":"view"}]}],"Resource":[{"Attribute":[{"AttributeId":"resource-id","Value": "202485831" ,"DataType":"string","IncludeInResult":True}]}]}}  json
   Create Session  pdp  ${host}:${port}  verify=False
   ${resp}=  Get Request  pdp  /${pdp_path_to_validate}  headers=${headers}  json=${data}  
   ${json}=  Evaluate  json.loads('''${resp.text}''')  json
@@ -96,7 +95,7 @@ PDP Get Permit Policy
 PDP Get Deny Policy
   [Arguments]  ${host}  ${port}  ${pdp_path_to_validate} 
   ${headers}=  Create Dictionary  Content-Type  application/json
-  ${data} =  Evaluate  {"Request":{"AccessSubject":[{"Attribute":[{"AttributeId":"user_name","Value":"admin","DataType":"string","IncludeInResult":True},{"AttributeId":"num_acces","Value":6,"DataType":"int","IncludeInResult":True},{"AttributeId":"attemps","Value":20,"DataType":"int","IncludeInResult":True},{"AttributeId":"company","Value":"Deimos","DataType":"string","IncludeInResult":True},{"AttributeId":"system_load","Value":4,"DataType":"int","IncludeInResult":True}]}],"Action":[{"Attribute":[{"AttributeId":"action-id","Value":"view"}]}],"Resource":[{"Attribute":[{"AttributeId":"resource-id","Value":"21345","DataType":"string","IncludeInResult":True}]}]}}  json
+  ${data} =  Evaluate  {"Request":{"AccessSubject":[{"Attribute":[{"AttributeId":"userName","Value":"admin","DataType":"string","IncludeInResult":True},{"AttributeId":"num_acces","Value":6,"DataType":"int","IncludeInResult":True},{"AttributeId":"attemps","Value":20,"DataType":"int","IncludeInResult":True},{"AttributeId":"company","Value":"Deimos","DataType":"string","IncludeInResult":True},{"AttributeId":"system_load","Value":4,"DataType":"int","IncludeInResult":True}]}],"Action":[{"Attribute":[{"AttributeId":"action-id","Value":"view"}]}],"Resource":[{"Attribute":[{"AttributeId":"resource-id","Value":"21345","DataType":"string","IncludeInResult":True}]}]}}  json
   Create Session  pdp  ${host}:${port}  verify=False
   ${resp}=  Get Request  pdp  /${pdp_path_to_validate}  headers=${headers}  json=${data}  
   ${json}=  Evaluate  json.loads('''${resp.text}''')  json
@@ -108,7 +107,7 @@ PDP Get Deny Policy
 PDP Get Deny Policy Username
   [Arguments]  ${host}  ${port}  ${pdp_path_to_validate} 
   ${headers}=  Create Dictionary  Content-Type  application/json
-  ${data} =  Evaluate  {"Request":{"AccessSubject":[{"Attribute":[{"AttributeId":"user_name","Value":"test","DataType":"string","IncludeInResult":True},{"AttributeId":"num_acces","Value":6,"DataType":"int","IncludeInResult":True},{"AttributeId":"attemps","Value":20,"DataType":"int","IncludeInResult":True},{"AttributeId":"company","Value":"Deimos","DataType":"string","IncludeInResult":True},{"AttributeId":"system_load","Value":4,"DataType":"int","IncludeInResult":True}]}],"Action":[{"Attribute":[{"AttributeId":"action-id","Value":"view"}]}],"Resource":[{"Attribute":[{"AttributeId":"resource-id","Value":"202485831","DataType":"string","IncludeInResult":True}]}]}}  json
+  ${data} =  Evaluate  {"Request":{"AccessSubject":[{"Attribute":[{"AttributeId":"userName","Value":"test","DataType":"string","IncludeInResult":True},{"AttributeId":"num_acces","Value":6,"DataType":"int","IncludeInResult":True},{"AttributeId":"attemps","Value":20,"DataType":"int","IncludeInResult":True},{"AttributeId":"company","Value":"Deimos","DataType":"string","IncludeInResult":True},{"AttributeId":"system_load","Value":4,"DataType":"int","IncludeInResult":True}]}],"Action":[{"Attribute":[{"AttributeId":"action-id","Value":"view"}]}],"Resource":[{"Attribute":[{"AttributeId":"resource-id","Value":"202485831","DataType":"string","IncludeInResult":True}]}]}}  json
   Create Session  pdp  ${host}:${port}  verify=False
   ${resp}=  Get Request  pdp  /${pdp_path_to_validate}  headers=${headers}  json=${data}  
   ${json}=  Evaluate  json.loads('''${resp.text}''')  json
@@ -116,3 +115,7 @@ PDP Get Deny Policy Username
   ${decision}=  Get From List  ${response}  0
   ${value_decision}=  Get From Dictionary  ${decision}  Decision
   Should Be Equal As Strings  ${value_decision}  Deny
+
+Cleanup
+  OperatingSystem.Remove File  ${CURDIR}${/}2.txt
+  OperatingSystem.Remove File  ${CURDIR}${/}3.txt

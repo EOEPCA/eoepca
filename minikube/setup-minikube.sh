@@ -18,7 +18,7 @@ MINIKUBE_MODE="$1"
 if [ -z "${MINIKUBE_MODE}" -a "${USER}" = "vagrant" ]; then MINIKUBE_MODE="native"; fi
 
 # Extra options
-# OPTIONS="--memory=8g --cpus=4"
+OPTIONS="--memory=8g --cpus=4"
 
 # minikube (native)
 if [ "${MINIKUBE_MODE}" = "native" ]
