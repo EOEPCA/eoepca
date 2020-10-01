@@ -35,7 +35,7 @@ resource "kubernetes_deployment" "ades" {
 
         container {
           name  = "ades"
-          image = "eoepca/proc-ades:v0.1"
+          image = "rconway/proc-ades:v0.1"
 
           volume_mount {
             name       = "config"
