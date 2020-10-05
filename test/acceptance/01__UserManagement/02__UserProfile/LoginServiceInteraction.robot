@@ -52,10 +52,8 @@ Add Two Users to Gluu
   LoginService Fill Credentials Gluu  ${USER}  ${PWD}
   LoginService Go to Users
   ${title}=  Get Title
-  Log to Console  ${title}
   LoginService Add Person  ${USER_NAME}A  ${FIRST_NAME}A  ${DISPLAY_NAME}A  ${LAST_NAME}A  A${EMAIL}  ${PASSWORD}
   ${title}=  Get Title
-  Log to Console  ${title}
   Set Browser Implicit Wait  10
   LoginService Go TabUser
   LoginService Add Person  ${USER_NAME}B  ${FIRST_NAME}B  ${DISPLAY_NAME}B  ${LAST_NAME}B  B${EMAIL}  ${PASSWORD}
@@ -68,10 +66,8 @@ Go to Menu
 
 LoginService Go TabUser
   Go to Menu
-  Capture Page Screenshot
   Set Browser Implicit Wait  2
   LoginService Go to Users
-  Capture Page Screenshot
 
 LoginService Add Person
   [Arguments]  ${user_name}  ${first_name}  ${display_name}  ${last_name}  ${email}  ${password}
