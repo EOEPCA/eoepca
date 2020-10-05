@@ -52,18 +52,26 @@ Add Two Users to Gluu
   LoginService Fill Credentials Gluu  ${USER}  ${PWD}
   LoginService Go to Users
   ${title}=  Get Title
+  Log to Console  ${title}
   LoginService Add Person  ${USER_NAME}A  ${FIRST_NAME}A  ${DISPLAY_NAME}A  ${LAST_NAME}A  A${EMAIL}  ${PASSWORD}
   ${title}=  Get Title
+  Log to Console  ${title}
   Set Browser Implicit Wait  10
   LoginService Go TabUser
   LoginService Add Person  ${USER_NAME}B  ${FIRST_NAME}B  ${DISPLAY_NAME}B  ${LAST_NAME}B  B${EMAIL}  ${PASSWORD}
   
 
 *** Keywords ***
+Go to Menu
+  #Click Element  xpath=//a[@class="logo"]
+  Click Link  xpath=//a[@href="/identity/home.htm"]
+
 LoginService Go TabUser
-  Click Element  xpath=//li[@id="menuOpenID"]
+  Go to Menu
+  Capture Page Screenshot
   Set Browser Implicit Wait  2
   LoginService Go to Users
+  Capture Page Screenshot
 
 LoginService Add Person
   [Arguments]  ${user_name}  ${first_name}  ${display_name}  ${last_name}  ${email}  ${password}
@@ -107,7 +115,7 @@ LoginService Allow User
 
 LoginService Call Log in Button
   Title Should Be  EOEPCA User Profile
-  Click Link    xpath=//a[@href="/web_ui/login"]
+  Click Link  xpath=//a[@href="/web_ui/login"]
   Set Browser Implicit Wait  5
   #Capture Page Screenshot
 
