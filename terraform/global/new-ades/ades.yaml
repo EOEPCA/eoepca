@@ -11,8 +11,8 @@ data:
   CATALOG_USERNAME: "cmNvbndheQ=="
   # CATALOG_APIKEY: AKCp8hyEYSMqk4swUndyCDVZW7g3XFYfvE2xVFQEdYagJLqVJY1qKbXcmStLoUFEyEhL5tKcY
   CATALOG_APIKEY: "QUtDcDhoeUVZU01xazRzd1VuZHlDRFZaVzdnM1hGWWZ2RTJ4VkZRRWRZYWdKTHFWSlkxcUtiWGNtU3RMb1VGRXlFaEw1dEtjWQ=="
-  # STORAGE_HOST: http://workspace/remote.php/dav/files/eoepca/
-  STORAGE_HOST: "aHR0cDovL3dvcmtzcGFjZS9yZW1vdGUucGhwL2Rhdi9maWxlcy9lb2VwY2Ev"
+  # STORAGE_HOST: http://workspace.default/
+  STORAGE_HOST: "aHR0cDovL3dvcmtzcGFjZS5kZWZhdWx0Lw=="
   # STORAGE_USERNAME: eoepca
   STORAGE_USERNAME: "ZW9lcGNh"
   # STORAGE_APIKEY: telespazio
@@ -44,7 +44,7 @@ spec:
         # - image: eoepca/proc-ades:travis_develop_128
         - image: rconway/proc-ades:travis_develop_128
           name: proc-ades-wps
-          imagePullPolicy: Never
+          # imagePullPolicy: Never
           envFrom:
             - configMapRef:
                 name: ades-internal-config
