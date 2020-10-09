@@ -60,8 +60,12 @@ Add Two Users to Gluu
   
 
 *** Keywords ***
+Go to Menu
+  #Click Element  xpath=//a[@class="logo"]
+  Click Link  xpath=//a[@href="/identity/home.htm"]
+
 LoginService Go TabUser
-  Click Element  xpath=//li[@id="menuOpenID"]
+  Go to Menu
   Set Browser Implicit Wait  2
   LoginService Go to Users
 
@@ -107,7 +111,7 @@ LoginService Allow User
 
 LoginService Call Log in Button
   Title Should Be  EOEPCA User Profile
-  Click Link    xpath=//a[@href="/web_ui/login"]
+  Click Link  xpath=//a[@href="/web_ui/login"]
   Set Browser Implicit Wait  5
   #Capture Page Screenshot
 
