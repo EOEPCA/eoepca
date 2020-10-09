@@ -103,7 +103,7 @@ ADES User A execute Proc1
   ${val}=  API_PROC Execute Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json  ${rptA}
   #Status Should Be  201  ${val}
   #Set Global Variable  ${LOCATION}  ${val.headers["Location"].split("${UM_BASE_URL}")[-1]}
-  Set Global Variable  ${LOCATION}  test.10.0.2.15.nip.io/testPath/555test555
+  Set Global Variable  ${LOCATION}  test.${PUBLIC_HOSTNAME}/testPath/555test555
   OperatingSystem.Create File  ${CURDIR}${/}location.txt  ${LOCATION}
 
 ADES User B undeploy Proc1
