@@ -14,6 +14,7 @@ resource "kubernetes_config_map" "pep_engine_cm" {
     PEP_DEBUG_MODE               = "true"
     PEP_RESOURCE_SERVER_ENDPOINT = "http://ades/"
     PEP_API_RPT_UMA_VALIDATION   = "true"
+    PEP_RPT_LIMIT_USES           = "5"
   }
 }
 
