@@ -6,12 +6,15 @@ BIN_DIR="$(pwd)"
 
 trap "cd '${ORIG_DIR}'" EXIT
 
-K8S_YAML_FILE="ades02.yaml"
+TEMP_DIR="generated"
+K8S_YAML_FILE="${TEMP_DIR}/ades.yaml"
 NAMESPACE="eoepca"
 ADES_SERVICE_ACCOUNT="ades"
-KUBECONFIG="kubeconfig"
+KUBECONFIG="${TEMP_DIR}/kubeconfig"
 
-function prepare() {
+mkdir -p "${TEMP_DIR}"
+
+function prepareRoles() {
     # namespace
     kubectl create namespace "${NAMESPACE}" --dry-run=client -o yaml >${K8S_YAML_FILE}
 
@@ -22,10 +25,18 @@ function prepare() {
     # add 'cluster-admin' role to 'ades' service account
     echo "---"  >>${K8S_YAML_FILE}
     kubectl create clusterrolebinding ades-cluster-admin --clusterrole=cluster-admin --serviceaccount="${NAMESPACE}:${ADES_SERVICE_ACCOUNT}" --dry-run=client -o yaml >>${K8S_YAML_FILE}
+}
 
-    # config map
+function prepareKubeconfig() {
+    kubeconfig "$@"
     echo "---"  >>${K8S_YAML_FILE}
-    kubectl -n "${NAMESPACE}" create configmap ades-config --from-env-file=ades-config.sh --dry-run=client -o yaml >>${K8S_YAML_FILE}
+    kubectl -n "${NAMESPACE}" create configmap ades-kubeconfig --from-file=${KUBECONFIG} --dry-run=client -o yaml >>${K8S_YAML_FILE}
+}
+
+function prepareADES() {
+    # ades-config ConfigMap
+    echo "---"  >>${K8S_YAML_FILE}
+    kubectl -n "${NAMESPACE}" create configmap ades-config --from-env-file=ades.conf --dry-run=client -o yaml >>${K8S_YAML_FILE}
 
     # persistent volume claim (ades config)
     echo "---"  >>${K8S_YAML_FILE}
@@ -78,7 +89,7 @@ spec:
       storage: 5Gi
 EOF
 
-    # persistent volume claim (ades processing servics)
+    # ades deployment
     echo "---"  >>${K8S_YAML_FILE}
     cat - <<EOF >>${K8S_YAML_FILE}
 apiVersion: apps/v1
@@ -86,7 +97,7 @@ kind: Deployment
 metadata:
   labels:
     app: ades
-  name: ades-deployment
+  name: ades
   namespace: ${NAMESPACE}
 spec:
   replicas: 1
@@ -126,9 +137,8 @@ spec:
             - name: ades-processing-services
               mountPath: /opt/zooservices_user
             - name: kubeconfig-volume
-            #zzz   mountPath: /var/etc/ades/kubeconfig
-              mountPath: /var/etc/kubeconfig
-              subPath: config
+              mountPath: /var/etc/ades/kubeconfig
+              subPath: kubeconfig
       volumes:
         - name: ades-config
           persistentVolumeClaim:
@@ -144,13 +154,36 @@ spec:
             name: ades-kubeconfig
       restartPolicy: Always
 EOF
+
+    # ades service
+    echo "---"  >>${K8S_YAML_FILE}
+    cat - <<EOF >>${K8S_YAML_FILE}
+kind: Service
+apiVersion: v1
+metadata:
+  name: ades
+  labels:
+      app: ades
+spec:
+  selector:
+    app: ades
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+  type: NodePort
+EOF
 }
 
 function apply() {
+    echo "=== ROLES ==="
+    prepareRoles "$@"
     kubectl apply -f "${K8S_YAML_FILE}"
-    kubeconfig "$@"
-    echo "---"  >>${K8S_YAML_FILE}
-    kubectl -n "${NAMESPACE}" create configmap ades-kubeconfig --from-file=${KUBECONFIG} --dry-run=client -o yaml >>${K8S_YAML_FILE}
+    echo "=== KUBECONFIG ==="
+    prepareKubeconfig "$@"
+    kubectl apply -f "${K8S_YAML_FILE}"
+    echo "=== ADES ==="
+    prepareADES "$@"
     kubectl apply -f "${K8S_YAML_FILE}"
 }
 
@@ -182,17 +215,11 @@ function main() {
     ACTION="$1" && shift
     if test -z "$ACTION"; then echo "ERROR: must supply ACTION"; return 1; fi
     case "$ACTION" in
-        prepare)
-            prepare "$@"
-            ;;
         apply)
             apply "$@"
             ;;
         delete)
             delete "$@"
-            ;;
-        kubeconfig)
-            kubeconfig "$@"
             ;;
         *)
             echo "ERROR: bad action=$ACTION"
