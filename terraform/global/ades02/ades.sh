@@ -162,6 +162,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: ades
+  namespace: ${NAMESPACE}
   labels:
       app: ades
 spec:
@@ -171,6 +172,7 @@ spec:
   - name: http
     protocol: TCP
     port: 80
+    nodePort: 30999
   type: NodePort
 EOF
 }
