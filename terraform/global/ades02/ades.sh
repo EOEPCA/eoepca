@@ -116,7 +116,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: ades-config
-          image: eoepca/proc-ades:latest
+          #zzz image: eoepca/proc-ades:latest
+          image: rconway/proc-ades:devlatest
           imagePullPolicy: IfNotPresent
           resources:
             requests:
