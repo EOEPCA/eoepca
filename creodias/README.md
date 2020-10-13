@@ -22,7 +22,7 @@ The terraform OpenStack provider relies upon the OpenStack client that is instal
 ### Client Installation
 
 ```
-$ pip install openstack client
+$ pip install openstackclient
 ```
 
 ### Client Configuration
