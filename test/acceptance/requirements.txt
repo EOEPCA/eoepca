@@ -1,4 +1,4 @@
-eoepca-uma==0.2.1
+eoepca-uma==0.2.3
 eoepca-oidc==0.0.2
 WellKnownHandler==0.2.0
 requests==2.23.0

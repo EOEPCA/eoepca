@@ -2,6 +2,7 @@
 Documentation  Tests for the ADES WPS endpoint
 Resource  ADES.resource
 Library  XML
+Library  Process
 
 Suite Setup  WPS Suite Setup  ${ADES_BASE_URL}  ${WPS_PATH_PREFIX}  ${RPT_TOKEN}
 
@@ -19,9 +20,11 @@ WPS service is protected
   
 WPS available processes
   WPS Processes Are Expected  ${ADES_BASE_URL}  ${WPS_PATH_PREFIX}  ${INITIAL_PROCESS_NAMES}  ${RPT_TOKEN}
+  PEP Clean Resource
 
 
 *** Keywords ***
+
 WPS Suite Setup
   [Arguments]  ${base_url}  ${path_prefix}  ${token}
   ${processes}=  WPS Get Process List  ${base_url}  ${path_prefix}  ${token}
@@ -74,3 +77,6 @@ WPS Processes Are Expected
   [Arguments]  ${base_url}  ${path_prefix}  ${expected_process_names}  ${token}
   ${processes}=  WPS Get Process List  ${base_url}  ${path_prefix}  ${token}
   Lists Should Be Equal  ${processes}  ${expected_process_names}  ignore_order=True
+
+PEP Clean Resource
+  Run Process  sh  ${CURDIR}${/}clean_res.sh

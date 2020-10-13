@@ -14,7 +14,7 @@ resource "kubernetes_config_map" "pep_engine_cm" {
     PEP_DEBUG_MODE               = "true"
     PEP_RESOURCE_SERVER_ENDPOINT = "http://ades/"
     PEP_API_RPT_UMA_VALIDATION   = "true"
-    PEP_RPT_LIMIT_USES           = "5"
+    PEP_RPT_LIMIT_USES           = "1"
   }
 }
 
@@ -35,7 +35,7 @@ resource "kubernetes_ingress" "gluu_ingress_pep_engine" {
 
       http {
         path {
-          path = "/pep(/|$)(.*)"
+          path = "/secure(/|$)(.*)"
 
           backend {
             service_name = "pep-engine"
