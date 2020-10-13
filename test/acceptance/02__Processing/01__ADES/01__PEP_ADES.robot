@@ -6,8 +6,9 @@ Library  Process
 Library  OperatingSystem
 Library  String
 Library  ../../01__UserManagement/ScimClient.py  ${UM_BASE_URL}/
+Resource  ../../01__UserManagement/01__LoginService/UMA_Flow2.robot
 
-Suite Setup  API_PROC Suite Setup  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  ${RPT_TOKEN}
+#Suite Setup  API_PROC Suite Setup  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  ${RPT_TOKEN}
 *** Variables ***
 ${WPS_PATH_PREFIX}=  /zoo
 ${API_PROC_PATH_PREFIX}=  /wps3
@@ -15,7 +16,16 @@ ${HOST}=  ${UM_BASE_URL}
 ${PORT}=  443
 ${WELL_KNOWN_PATH}=  ${UM_BASE_URL}/.well-known/uma2-configuration
 
+${UMA_USER}=  admin
+${UMA_PWD}=  admin_Abcd1234#
+${UMA_PATH_PREFIX}=  /wps3
+${PATH_TO_RESOURCE}=  secure/resources/ADES20%Service
+
 *** Test Cases ***
+Test Setup
+  ${result}=  UMA_Flow2.UMA Flow Setup  ${UM_BASE_URL}  hola  ${PATH_TO_RESOURCE}  ${WELL_KNOWN_PATH}  ${UMA_USER}  ${UMA_PWD}
+  Log to Console  ${result}
+
 ADES Protection as Service
   PEP Delete Resource  ${UM_BASE_URL}
   #User C attempts to perform a GetCapabilities. Access granted. NO TICKET
