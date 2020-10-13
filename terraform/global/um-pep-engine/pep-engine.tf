@@ -13,6 +13,8 @@ resource "kubernetes_config_map" "pep_engine_cm" {
     PEP_USE_THREADS              = "true"
     PEP_DEBUG_MODE               = "true"
     PEP_RESOURCE_SERVER_ENDPOINT = "http://ades/"
+    PEP_API_RPT_UMA_VALIDATION   = "true"
+    PEP_RPT_LIMIT_USES           = "5"
   }
 }
 
@@ -116,7 +118,7 @@ resource "kubernetes_deployment" "pep-engine" {
         }
         container {
           name  = "pep-engine"
-          image = "eoepca/um-pep-engine:latest"
+          image = "eoepca/um-pep-engine:v0.2.1"
 
           port {
             container_port = 5566
