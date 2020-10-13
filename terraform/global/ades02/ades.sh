@@ -10,7 +10,7 @@ TEMP_DIR="generated"
 K8S_YAML_FILE="${TEMP_DIR}/ades.yaml"
 NAMESPACE="eoepca"
 ADES_SERVICE_ACCOUNT="ades"
-KUBECONFIG="${TEMP_DIR}/kubeconfig"
+KUBECONFIG_FILE="${TEMP_DIR}/kubeconfig"
 
 mkdir -p "${TEMP_DIR}"
 
@@ -30,7 +30,7 @@ function prepareRoles() {
 function prepareKubeconfig() {
     kubeconfig "$@"
     echo "---"  >>${K8S_YAML_FILE}
-    kubectl -n "${NAMESPACE}" create configmap ades-kubeconfig --from-file=${KUBECONFIG} --dry-run=client -o yaml >>${K8S_YAML_FILE}
+    kubectl -n "${NAMESPACE}" create configmap ades-kubeconfig --from-file=${KUBECONFIG_FILE} --dry-run=client -o yaml >>${K8S_YAML_FILE}
 }
 
 function prepareADES() {
@@ -195,22 +195,27 @@ function delete() {
 
 function kubeconfig() {
     # Gather cluster details
-    CLUSTER_NAME=`kubectl config view -o json | jq -r '.clusters[0].name'`
-    SERVER=`kubectl config view -o json | jq -r '.clusters[0].cluster.server'`
-    CERT_AUTHORITY=`kubectl config view -o json | jq -r '.clusters[0].cluster."certificate-authority"'`
+    CONTEXT=`kubectl config view -o json | jq -r '."current-context"'`
+    echo "kubeconfig: CONTEXT=$CONTEXT"
+    CLUSTER_NAME=`kubectl config view -o json | jq -r --arg CONTEXT "$CONTEXT" '.contexts[] | select(.name == $CONTEXT) | .context.cluster'`
+    echo "kubeconfig: CLUSTER_NAME=$CLUSTER_NAME"
+    SERVER=`kubectl config view -o json | jq -r --arg CLUSTER_NAME "$CLUSTER_NAME" '.clusters[] | select(.name == $CLUSTER_NAME) | .cluster.server'`
+    echo "kubeconfig: SERVER=$SERVER"
+    CERT_AUTHORITY=`kubectl config view -o json | jq -r --arg CLUSTER_NAME "$CLUSTER_NAME" '.clusters[] | select(.name == $CLUSTER_NAME) | .cluster."certificate-authority"'`
+    echo "kubeconfig: CERT_AUTHORITY=$CERT_AUTHORITY"
 
     # extract token from serviceaccount (needed later)
     TOKENNAME=`kubectl -n "${NAMESPACE}" get "serviceaccount/${ADES_SERVICE_ACCOUNT}" -o jsonpath='{.secrets[0].name}'`
     TOKEN=`kubectl -n "${NAMESPACE}" get secret $TOKENNAME -o jsonpath='{.data.token}' | base64 -d`
 
     # Initialise kubeconfig
-    kubectl config --kubeconfig=${KUBECONFIG} set-cluster "${CLUSTER_NAME}" \
+    kubectl config --kubeconfig=${KUBECONFIG_FILE} set-cluster "${CLUSTER_NAME}" \
     --server="${SERVER}" --embed-certs --certificate-authority="${CERT_AUTHORITY}"
 
     # Add user info to kubeconfig
-    kubectl config set-context ades-context --kubeconfig=${KUBECONFIG} --cluster="${CLUSTER_NAME}" --namespace "${NAMESPACE}" --user "${ADES_SERVICE_ACCOUNT}"
-    kubectl config set-credentials "${ADES_SERVICE_ACCOUNT}" --kubeconfig=${KUBECONFIG} --token=$TOKEN
-    kubectl config use-context ades-context --kubeconfig=${KUBECONFIG}
+    kubectl config set-context ades-context --kubeconfig=${KUBECONFIG_FILE} --cluster="${CLUSTER_NAME}" --namespace "${NAMESPACE}" --user "${ADES_SERVICE_ACCOUNT}"
+    kubectl config set-credentials "${ADES_SERVICE_ACCOUNT}" --kubeconfig=${KUBECONFIG_FILE} --token=$TOKEN
+    kubectl config use-context ades-context --kubeconfig=${KUBECONFIG_FILE}
 }
 
 function main() {
