@@ -67,6 +67,10 @@ then
   chmod +x "$KUBECTL_PLUGIN"
 fi
 
+# Consolidate to a local kubeconfig - less likely to confuse terraform
+kubectl config view --minify --flatten > kubeconfig
+export KUBECONFIG="$PWD/kubeconfig"
+
 # Create the K8S environment
 terraform init
 count=$(( 1 ))

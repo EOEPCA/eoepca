@@ -20,6 +20,9 @@ if [ -z "${MINIKUBE_MODE}" -a "${USER}" = "vagrant" ]; then MINIKUBE_MODE="nativ
 # Extra options
 OPTIONS="--memory=8g --cpus=4"
 
+# Use default location for kubeconfig
+unset KUBECONFIG
+
 # minikube (native)
 if [ "${MINIKUBE_MODE}" = "native" ]
 then
