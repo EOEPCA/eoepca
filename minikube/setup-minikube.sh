@@ -8,10 +8,22 @@ trap "cd '${ORIG_DIR}'" EXIT
 
 mkdir -p $HOME/.local/bin
 
+VERSION="v1.13.1"
+
 # minikube: download and install locally
-echo "Download minikube..."
-curl -sLo $HOME/.local/bin/minikube https://github.com/kubernetes/minikube/releases/download/v1.13.1/minikube-linux-amd64 \
-  && chmod +x $HOME/.local/bin/minikube
+if hash minikube 2>/dev/null
+then
+  INSTALLED_VERSION=`minikube version -o json | jq -r .minikubeVersion`
+  echo "Current installed version of minikube is ${INSTALLED_VERSION}"
+fi
+if [ "${INSTALLED_VERSION}" = "${VERSION}" ]
+then
+  echo "Using existing minikube version ${VERSION}"
+else
+  echo "Download and install minikube version ${VERSION}..."
+  curl -sLo $HOME/.local/bin/minikube https://github.com/kubernetes/minikube/releases/download/${VERSION}/minikube-linux-amd64 \
+    && chmod +x $HOME/.local/bin/minikube
+fi
 
 # If MINIKUBE_MODE is not set, and USER is vagrant, deduce we are running in a VM, so use 'native' mode
 MINIKUBE_MODE="$1"
