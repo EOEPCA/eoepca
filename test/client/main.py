@@ -1,39 +1,36 @@
 #! /usr/bin/env python
 
-import userman
+import client
 
 
 def main():
     print("..main..")
     base_url = "https://test.172.17.0.3.nip.io"
     ades_url = "http://ades.test.172.17.0.3.nip.io"
-    username = "admin"
-    password = "admin_Abcd1234#"
 
-    # session
-    session = userman.init_session()
+    # client
+    demo = client.DemoClient(base_url)
 
     # token endpoint
-    token_endpoint = userman.get_token_endpoint(session, base_url)
+    demo.get_token_endpoint()
 
     # register client
-    client_details = userman.register_client(base_url)
-    client_id = client_details["client_id"]
-    client_secret = client_details["client_secret"]
+    demo.register_client()
 
     # id token
-    id_token = userman.get_id_token(session, token_endpoint, client_id, client_secret)
+    admin_id_token = demo.get_admin_id_token()
 
     # add ADES resource
-    resource_id = userman.add_resource(session, ades_url, id_token, "/ades19", "ADES Service", ["Authenticated"])
+    resource_id = demo.add_resource(ades_url, "/ades29", admin_id_token, "ADES Service", ["Authenticated"])
 
     # get token to access ADES (admin)
-    ticket = userman.get_uma_ticket(session, ades_url, id_token, resource_id)
-    access_token = userman.get_access_token_from_ticket(session, token_endpoint, ticket, id_token, client_id, client_secret)
+    ticket = demo.get_uma_ticket(ades_url, resource_id, admin_id_token)
+    admin_access_token = demo.get_access_token_from_ticket(ticket, admin_id_token)
 
     # get token to access ADES (demo user)
-    demo_access_token = userman.get_access_token_from_password(session, token_endpoint, "demo", "telespazio", client_id, client_secret)
+    demo_access_token = demo.get_access_token_from_password("demo", "telespazio")
 
+    demo.save_state()
 
 if __name__ == "__main__":
     main()
