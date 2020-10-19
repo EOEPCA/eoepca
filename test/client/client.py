@@ -15,17 +15,22 @@ class DemoClient:
         self.token_endpoint = None
         self.scim_client = None
         self.client = None
-        self.state = {
-            "client_id": None,
-            "client_secret": None,
-            "resources": {}
-        }
+        self.load_state()
     
     def load_state(self):
-        pass
+        self.state = {}
+        try:
+            with open("state.json") as state_file:
+                self.state = json.loads(state_file.read())
+                print(f"State loaded from file: {self.state}")
+        except FileNotFoundError:
+            pass
+        except json.decoder.JSONDecodeError:
+            print(f"ERROR loading state from file. Using clean state...")
     
     def save_state(self):
-        print(json.dumps(self.state))
+        with open("state.json", "w") as state_file:
+            state_file.write(json.dumps(self.state))
 
     def get_token_endpoint(self):
         if self.token_endpoint == None:
