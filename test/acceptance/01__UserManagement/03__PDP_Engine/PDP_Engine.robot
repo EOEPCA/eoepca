@@ -6,6 +6,7 @@ Library  OperatingSystem
 Library  String
 Library  Process
 Library  SSHLibrary
+Resource  ../../01__UserManagement/01__LoginService/UMA_Flow2.robot
 
 *** Variables ***
 ${HOST}=  ${UM_BASE_URL}
@@ -18,6 +19,9 @@ ${SCOPES}=  openid,permission,uma_protection
 ${REQ}=  grant_type=password&client_id=${C_ID_UMA}&client_secret=${C_SECRET_UMA}&username=admin&password=admin_Abcd1234#&scope=${SCOPES}&uri=
 
 ${RES}=  {"resource_scopes":[ "Authenticated"], "icon_uri":"/p", "name":"ADES"}
+
+${UMA_USER}=  admin
+${UMA_PWD}=  admin_Abcd1234#
 *** Test Cases ***
 
 PDP Insert Policy Authenticated
@@ -67,6 +71,7 @@ PDP Get TokenEndpoint
 PDP Insert Policy
   [Arguments]  ${host}  ${port}  ${policy1}  ${policy2}
   Create Session  pdp  ${host}:${port}  verify=False
+  UMA_Flow2.UMA Get ID Token Valid PEP  ${UM_BASE_URL}  ${WELL_KNOWN_PATH}  ${UMA_USER}  ${UMA_PWD}  ${C_ID_UMA}  ${C_SECRET_UMA}
   ${headers}=  Create Dictionary  authorization=Bearer ${ID_TOKEN}
   ${data} =  Evaluate  ${policy1}
   ${response}=  Post Request  pdp  /pdp/policy/  headers=${headers}  json=${data}

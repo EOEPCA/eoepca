@@ -8,19 +8,7 @@ Library  Process
 Library  SSHLibrary
 Library  ../ScimClient.py  ${UM_BASE_URL}/
 
-*** Variables ***
-${UMA_USER}=  admin
-${UMA_PWD}=  admin_Abcd1234#
-${UMA_PATH_PREFIX}=  /wps3
-${PATH_TO_RESOURCE}=  secure/resources/ADES20%Service
-${WELL_KNOWN_PATH}=  ${UM_BASE_URL}/.well-known/uma2-configuration
-
 *** Keywords ***
-UMA Resource Insertion
-  ${a}=  Run Process  python3  ${CURDIR}${/}insADES.py  ${UM_BASE_URL}
-  ${resId}=  OperatingSystem.Get File  ${CURDIR}${/}res_id.txt
-  Set Global Variable  ${RES_ID_ADES}  ${resId}
-
 
 UMA Flow Setup
   [Arguments]  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}
@@ -33,39 +21,29 @@ UMA Flow Setup
   Set Global Variable  ${RPT_TOKEN}  ${tkn}
   [Return]  ${tkn} 
 
-UMA Get Ticket
+UMA Get Ticket PEP
   [Arguments]  ${base_url}  ${token}  ${resource}
   Create Session  pep  ${UM_BASE_URL}:443  verify=False
   ${headers}=  Create Dictionary  authorization=Bearer ${ID_TOKEN}
-  ${resp}=  Get Request  pep  /secure/resources/${resource}  headers=${headers}
+  ${resp}=  Get Request  pep  ${resource}  headers=${headers}
   [Return]  ${resp}
 
-UMA Get Ticket Valid
+UMA Get Ticket Valid PEP
   [Arguments]  ${base_url}  ${token}  ${resource}
-  ${resp}=  UMA Get Ticket  ${UM_BASE_URL}  ${ID_TOKEN}  ${RES_ID_ADES}
+  ${resp}=  UMA Get Ticket PEP  ${UM_BASE_URL}  ${ID_TOKEN}  ${resource}
   [Return]  ${resp}
-
-UMA Get ID Token
-  [Arguments]  ${base_url}  ${user}  ${pwd}  ${client_id}  ${client_secret}  ${token_endpoint}
-  Create Session  loginService  ${token_endpoint}  verify=False
-  ${headers}=  Create Dictionary  Content-Type=application/x-www-form-urlencoded
-  ${body}=  Create Dictionary  reponse_type  token id_token  scope  openid  grant_type  password  username  ${user}  password  ${pwd}  client_id  ${client_id}  client_secret  ${client_secret}
-  ${key}=  Evaluate  {'redirect_uri': 'https://example.com', 'scope': 'openid', 'grant_type': 'password', 'username' : '${user}', 'password' : '${pwd}', 'client_id' : '${client_id}', 'client_secret': '${client_secret}'}
-  ${form}=  Evaluate  {'scope': (None, 'openid'), 'grant_type': (None, 'password'), 'username': (None, '${user}'), 'password': (None, '${pwd}'), 'client_id': (None, '${client_id}'), 'client_secret': (None, '${client_secret}')}
-  ${resp}=  Post Request  loginService  /  data=${body}   headers=${headers}
-  [Return]  ${resp}  
 
 UMA Call Shell ID Token
-  [Arguments]  ${endpoint}  ${client_id}  ${client_secret}
-  ${a}=  Run Process  sh  ${CURDIR}${/}id.sh  -t  ${endpoint}  -i  ${client_id}  -p  ${client_secret}
+  [Arguments]  ${endpoint}  ${client_id}  ${client_secret}  ${user}  ${pwd}
+  ${a}=  Run Process  sh  ${CURDIR}${/}id.sh  -t  ${endpoint}  -i  ${client_id}  -p  ${client_secret}  -u  ${user}  -w  ${pwd}
   ${n}=  OperatingSystem.Get File  ${CURDIR}${/}1.txt
   #OperatingSystem.Remove File  ${CURDIR}${/}1.txt
   [Return]  ${n}
 
-UMA Get ID Token Valid
+UMA Get ID Token Valid PEP
   [Arguments]  ${base_url}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
   ${endpoint}=  UMA Get Token Endpoint  ${well_known}
-  ${resp}=  UMA Call Shell ID Token  ${endpoint}  ${client_id}  ${client_secret}
+  ${resp}=  UMA Call Shell ID Token  ${endpoint}  ${client_id}  ${client_secret}  ${user}  ${pwd}
   ${id_token}=  UMA Get ID Token From Response  ${resp}
   Set Global Variable  ${ID_TOKEN}  ${id_token}
   [Return]  ${id_token}
@@ -118,10 +96,9 @@ UMA Get Access Token From Response
   [Return]  ${access_token} 
 
 UMA Handler of Codes
-  [Arguments]  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret} 
-  ${id_token}=  UMA Get ID Token Valid  ${base_url}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
-  UMA Resource Insertion
-  ${resp_ticket}=  UMA Get Ticket Valid  ${base_url}  ${token}  ${RES_ID_ADES}
+  [Arguments]  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
+  ${id_token}=  UMA Get ID Token Valid PEP  ${base_url}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
+  ${resp_ticket}=  UMA Get Ticket Valid PEP  ${base_url}  ${token}  ${resource}
   ${ticket}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Ticket From Response  ${resp_ticket}
   ${access_token}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Access Token Valid  ${well_known}  ${ticket}  ${id_token}  ${client_id}  ${client_secret}
   [Return]  ${access_token}

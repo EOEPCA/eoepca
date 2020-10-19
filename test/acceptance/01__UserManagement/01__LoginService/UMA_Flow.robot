@@ -40,7 +40,7 @@ UMA Flow to Retrieve RPT
 
 *** Keywords ***
 UMA Resource Insertion
-  ${a}=  Run Process  python3  ${CURDIR}${/}insADES.py  ${UM_BASE_URL}
+  #${a}=  Run Process  python3  ${CURDIR}${/}insADES.py  ${UM_BASE_URL}
   ${resId}=  OperatingSystem.Get File  ${CURDIR}${/}res_id.txt
   Set Global Variable  ${RES_ID_ADES}  ${resId}
 
