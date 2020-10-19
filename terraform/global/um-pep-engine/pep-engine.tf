@@ -5,7 +5,7 @@ resource "kubernetes_config_map" "pep_engine_cm" {
   data = {
     PEP_REALM                    = "eoepca"
     PEP_AUTH_SERVER_URL          = "${join("", ["http://", var.hostname])}"
-    PEP_PROXY_ENDPOINT           = "/"
+    PEP_PROXY_ENDPOINT           = "/ades/"
     PEP_SERVICE_HOST             = "0.0.0.0"
     PEP_SERVICE_PORT             = "5566"
     PEP_S_MARGIN_RPT_VALID       = "5"
@@ -17,34 +17,34 @@ resource "kubernetes_config_map" "pep_engine_cm" {
   }
 }
 
-resource "kubernetes_ingress" "gluu_ingress_pep_engine" {
-  metadata {
-    name = "gluu-ingress-pep-engine"
+# resource "kubernetes_ingress" "gluu_ingress_pep_engine" {
+#   metadata {
+#     name = "gluu-ingress-pep-engine"
 
-    annotations = {
-      "kubernetes.io/ingress.class"                = "nginx"
-      "nginx.ingress.kubernetes.io/ssl-redirect"   = "false"
-      "nginx.ingress.kubernetes.io/rewrite-target" = "/$2"
-    }
-  }
+#     annotations = {
+#       "kubernetes.io/ingress.class"                = "nginx"
+#       "nginx.ingress.kubernetes.io/ssl-redirect"   = "false"
+#       "nginx.ingress.kubernetes.io/rewrite-target" = "/$2"
+#     }
+#   }
 
-  spec {
-    rule {
-      host = var.hostname
+#   spec {
+#     rule {
+#       host = var.hostname
 
-      http {
-        path {
-          path = "/secure(/|$)(.*)"
+#       http {
+#         path {
+#           path = "/secure(/|$)(.*)"
 
-          backend {
-            service_name = "pep-engine"
-            service_port = "5566"
-          }
-        }
-      }
-    }
-  }
-}
+#           backend {
+#             service_name = "pep-engine"
+#             service_port = "5566"
+#           }
+#         }
+#       }
+#     }
+#   }
+# }
 
 resource "kubernetes_service" "pep-engine" {
   metadata {

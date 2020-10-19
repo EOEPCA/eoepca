@@ -15,7 +15,7 @@ res= json.loads(data2)
 JobId= data.split("nip.io",1)[1]
 headers = { 'content-type': "application/json", "Authorization": "Bearer "+res['id_token'] }
 payload = { "resource_scopes":["protected_access"], "icon_uri":str(JobId), "name":"Job1" }
-res = requests.post(sys.argv[1] + "/secure/resources/Job1", headers=headers, json=payload, verify=False)
+res = requests.post(sys.argv[1] + "/resources/Job1", headers=headers, json=payload, verify=False)
 #res = requests.post("https://0.0.0.0:31707/resources/Job1", headers=headers, json=payload, verify=False)
 
 resource_id = res.text

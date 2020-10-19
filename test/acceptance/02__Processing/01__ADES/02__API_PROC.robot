@@ -9,7 +9,7 @@ Suite Setup  API_PROC Suite Setup  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  ${
 
 
 *** Variables ***
-${API_PROC_PATH_PREFIX}=  /wps3
+${API_PROC_PATH_PREFIX}=  /ades/wps3
 ${WELL_KNOWN_PATH}=  ${UM_BASE_URL}/.well-known/uma2-configuration
 *** Test Cases ***
 API_PROC service is alive
