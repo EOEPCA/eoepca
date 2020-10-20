@@ -21,7 +21,7 @@ def main():
     admin_id_token = demo.get_admin_id_token()
 
     # add ADES resource
-    resource_id = demo.add_resource(ades_url, "/ades29", admin_id_token, "ADES Service", ["Authenticated"])
+    resource_id = demo.add_resource(ades_url, "/ades", admin_id_token, "ADES Service", ["Authenticated"])
 
     # get token to access ADES (admin)
     ticket = demo.get_uma_ticket(ades_url, resource_id, admin_id_token)

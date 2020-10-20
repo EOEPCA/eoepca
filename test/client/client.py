@@ -83,15 +83,15 @@ class DemoClient:
                 if uri in self.state["resources"][service_url]:
                     resource_id = self.state["resources"][service_url][uri]
             else:
-                self.state["resources"][service_url] = {}
+                self.state["resources"][service_url] = { uri: "" }
         else:
-            self.state["resources"] = {}
+            self.state["resources"] = { service_url: { uri: "" } }
         if resource_id == None:
             headers = { 'content-type': "application/json", "Authorization": "Bearer {id_token}" }
             data = { "resource_scopes":scopes, "icon_uri":uri, "name":name}
             r = self.session.post(f"{service_url}/resources/{name}", headers=headers, json=data)
             resource_id = r.text
-            self.state[service_url][uri] = resource_id
+            self.state["resources"][service_url][uri] = resource_id
             print(f"resource_id: {resource_id}")
         else:
             print(f"resource_id: {resource_id} [REUSED]")
