@@ -89,6 +89,24 @@ spec:
       storage: 5Gi
 EOF
 
+    # ingress
+    echo "---"  >>${K8S_YAML_FILE}
+    cat - <<EOF >>${K8S_YAML_FILE}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ades
+  namespace: default
+spec:
+  rules:
+  - host: ades.test.$(../../../bin/get-localkube-ip.sh).nip.io
+    http:
+      paths:
+      - backend:
+          serviceName: pep-engine
+          servicePort: 5566
+EOF
+
     # ades deployment
     echo "---"  >>${K8S_YAML_FILE}
     cat - <<EOF >>${K8S_YAML_FILE}
@@ -117,6 +135,7 @@ spec:
             - configMapRef:
                 name: ades-config
           image: rconway/proc-ades:travis__156
+          # image: rconway/requestlogger
           imagePullPolicy: IfNotPresent
           resources:
             requests:

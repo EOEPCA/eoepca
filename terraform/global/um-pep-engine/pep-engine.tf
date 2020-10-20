@@ -12,7 +12,7 @@ resource "kubernetes_config_map" "pep_engine_cm" {
     PEP_CHECK_SSL_CERTS          = "false"
     PEP_USE_THREADS              = "true"
     PEP_DEBUG_MODE               = "true"
-    PEP_RESOURCE_SERVER_ENDPOINT = "http://ades/"
+    PEP_RESOURCE_SERVER_ENDPOINT = "http://ades.eoepca/"
     PEP_API_RPT_UMA_VALIDATION   = "true"
   }
 }

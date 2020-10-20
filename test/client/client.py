@@ -37,8 +37,10 @@ class DemoClient:
     def save_state(self):
         """Save state to file 'state.json'.
         """
-        with open("state.json", "w") as state_file:
-            state_file.write(json.dumps(self.state))
+        state_filename = "state.json"
+        with open(state_filename, "w") as state_file:
+            state_file.write(json.dumps(self.state, sort_keys=True, indent=2))
+            print("Client state saved to file:", state_filename)
 
     def get_token_endpoint(self):
         """Get the URL of the token endpoint.
@@ -176,4 +178,21 @@ class DemoClient:
         access_token = r.json()["access_token"]
         print(f"access_token: {access_token}")
         return access_token
+
+    def set_ades_wps_url(self, url):
+        self.ades_wps_url = url
+
+    def set_ades_proc_url(self, url):
+        self.ades_proc_url = url
+
+    def wps_get_capabilities(self):
+        r = self.session.get(self.ades_wps_url + "/?service=WPS&version=1.0.0&request=GetCapabilities")
+        print("[WPS Capabilities]=", r.text)
+
+    def proc_list_processes(self, token=None):
+        headers = { "Accept": "application/json" }
+        if token:
+            headers["Authorization"] = f"Bearer {token}"
+        r = self.session.get(self.ades_proc_url + "/processes", headers=headers)
+        print("[Process List]=", r.text)
 
