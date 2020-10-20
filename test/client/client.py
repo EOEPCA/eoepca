@@ -4,10 +4,14 @@ import json
 from eoepca_scim import EOEPCA_Scim, ENDPOINT_AUTH_CLIENT_POST
 
 class DemoClient:
+    """Example client calling EOEPCA public endpoints
+    """
     ADMIN_USER="admin"
     ADMIN_PASSWORD="admin_Abcd1234#"
 
     def __init__(self, base_url):
+        """Initialise client session with provided base URL.
+        """
         self.base_url = base_url
         requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
         self.session = requests.Session()
@@ -18,6 +22,8 @@ class DemoClient:
         self.load_state()
     
     def load_state(self):
+        """Load state from file 'state.json'.
+        """
         self.state = {}
         try:
             with open("state.json") as state_file:
@@ -29,10 +35,16 @@ class DemoClient:
             print(f"ERROR loading state from file. Using clean state...")
     
     def save_state(self):
+        """Save state to file 'state.json'.
+        """
         with open("state.json", "w") as state_file:
             state_file.write(json.dumps(self.state))
 
     def get_token_endpoint(self):
+        """Get the URL of the token endpoint.
+
+        Requires no authentication.
+        """
         if self.token_endpoint == None:
             headers = { 'content-type': "application/json" }
             r = self.session.get(self.base_url + "/.well-known/uma2-configuration", headers=headers)
@@ -41,6 +53,11 @@ class DemoClient:
         return self.token_endpoint
 
     def register_client(self):
+        """Register ourselves as a client of the platform.
+
+        Uses hardcoded ADMIN credentials.
+        Skips registration if client is already registered (client_id/secret loaded from state file).
+        """
         if not "client_id" in self.state:
             if self.scim_client == None:
                 self.scim_client = EOEPCA_Scim(self.base_url + "/")
@@ -59,6 +76,8 @@ class DemoClient:
             print(f"client_id: {self.state['client_id']} [REUSED]")
 
     def get_id_token(self, username, password):
+        """Gets a user ID token using username/password authentication.
+        """
         headers = { 'cache-control': "no-cache" }
         data = {
             "scope": "openid",
@@ -74,9 +93,17 @@ class DemoClient:
         return id_token
 
     def get_admin_id_token(self):
+        """Get ID token for ADMIN user using hardcoded credentials
+        """
         return self.get_id_token(DemoClient.ADMIN_USER, DemoClient.ADMIN_PASSWORD)
 
     def add_resource(self, service_url, uri, id_token, name, scopes):
+        """Register a resource in the PEP
+
+        Uses provided user ID token to authorise the request.
+        Resource is identified by its path (URI).
+        Resource is registered with the provided 'nice' name.
+        """
         resource_id = None
         if "resources" in self.state:
             if service_url in self.state["resources"]:
@@ -98,6 +125,11 @@ class DemoClient:
         return resource_id
 
     def get_uma_ticket(self, service_url, resource_id, id_token):
+        """Get a UMA ticket requesting access to a registered resource.
+
+        Uses provided user ID token to authorise the request.
+        ??? why is resource identified by its 'resource_id', rather than its path ???
+        """
         headers = { "Authorization": "Bearer {id_token}" }
         r = self.session.get(f"{service_url}/resources/{resource_id}", headers=headers)
         ticket = ""
@@ -111,6 +143,8 @@ class DemoClient:
         return ticket
 
     def get_access_token_from_ticket(self, ticket, id_token):
+        """Convert UMA ticket to access token, using ID token for authentication.
+        """
         headers = { 'content-type': "application/x-www-form-urlencoded", "cache-control": "no-cache" }
         data = {
             "claim_token_format": "http://openid.net/specs/openid-connect-core-1_0.html#IDToken",
@@ -127,6 +161,8 @@ class DemoClient:
         return access_token
 
     def get_access_token_from_password(self, username, password):
+        """Convert UMA ticket to access token, using username/password for authentication.
+        """
         headers = { 'content-type': "application/x-www-form-urlencoded", "cache-control": "no-cache" }
         data = {
             "grant_type": "password",
