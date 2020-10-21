@@ -180,16 +180,24 @@ class DemoClient:
         return access_token
 
     def set_ades_wps_url(self, url):
+        """Set URL to access the ADES 'WPS1.0/2.0' endpoint
+        """
         self.ades_wps_url = url
 
     def set_ades_proc_url(self, url):
+        """Set URL to access the ADES 'API Processes' endpoint
+        """
         self.ades_proc_url = url
 
     def wps_get_capabilities(self):
+        """Call the WPS GetCapabilities endpoint
+        """
         r = self.session.get(self.ades_wps_url + "/?service=WPS&version=1.0.0&request=GetCapabilities")
         print("[WPS Capabilities]=", r.text)
 
     def proc_list_processes(self, token=None):
+        """Call the 'API Processes' endpoint, with optional user token
+        """
         headers = { "Accept": "application/json" }
         if token:
             headers["Authorization"] = f"Bearer {token}"
@@ -197,6 +205,10 @@ class DemoClient:
         print("[Process List]=", r.text)
 
     def proc_deploy_application(self, app_deploy_body_filename, token=None):
+        """Deploy application via 'API Processes' endpoint, with optional user token
+
+        The body of the deployment request is obtained from the supplied file
+        """
         app_deploy_body = {}
         try:
             with open(app_deploy_body_filename) as app_deploy_body_file:
@@ -213,3 +225,11 @@ class DemoClient:
         r = self.session.post(self.ades_proc_url + "/processes", headers=headers, json=app_deploy_body)
         print("[Deploy Response]=", r.text)
 
+    def proc_get_app_details(self, app_name, token=None):
+        """Get details for the application with the supplied name, with optional user token
+        """
+        headers = { "Accept": "application/json" }
+        if token:
+            headers["Authorization"] = f"Bearer {token}"
+        r = self.session.get(self.ades_proc_url + "/processes/" + app_name, headers=headers)
+        print("[App Details]=", r.text)
