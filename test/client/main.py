@@ -33,7 +33,7 @@ def main():
 
     # get token to access ADES (admin)
     print("### ADMIN USER TOKENS ###")
-    ticket = demo.get_uma_ticket(ades_url, resource_id, admin_id_token)
+    ticket = demo.get_uma_ticket_from_failed_resource_access(f"{ades_url}/ades", admin_id_token)
     admin_access_token = demo.get_access_token_from_ticket(ticket, admin_id_token)
 
     # get token to access ADES (demo user)

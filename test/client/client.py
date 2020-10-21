@@ -126,14 +126,13 @@ class DemoClient:
             print(f"resource_id: {resource_id} [REUSED]")
         return resource_id
 
-    def get_uma_ticket(self, service_url, resource_id, id_token):
-        """Get a UMA ticket requesting access to a registered resource.
+    def get_uma_ticket_from_failed_resource_access(self, resource_url, id_token):
+        """Attempt access to a resource with the expectation to get a 401 + ticket in return.
 
         Uses provided user ID token to authorise the request.
-        ??? why is resource identified by its 'resource_id', rather than its path ???
         """
         headers = { "Authorization": "Bearer {id_token}" }
-        r = self.session.get(f"{service_url}/resources/{resource_id}", headers=headers)
+        r = self.session.get(resource_url, headers=headers)
         ticket = ""
         if r.status_code == 401:
             location_header = r.headers["WWW-Authenticate"]
@@ -141,6 +140,8 @@ class DemoClient:
                 if item.split("=")[0] == "ticket":
                     ticket = item.split("=")[1]
                     break
+        else:
+            print(f"UNEXPECTED status code: {r.status_code} for resource {resource_url}")
         print(f"ticket: {ticket}")
         return ticket
 
