@@ -129,7 +129,7 @@ class DemoClient:
     def get_uma_ticket_from_failed_resource_access(self, resource_url, id_token):
         """Attempt access to a resource with the expectation to get a 401 + ticket in return.
 
-        Uses provided user ID token to authorise the request.
+        Uses provided user ID token to identify the authenticated user the request.
         """
         headers = { "Authorization": "Bearer {id_token}" }
         r = self.session.get(resource_url, headers=headers)
