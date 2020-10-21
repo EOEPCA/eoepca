@@ -148,6 +148,9 @@ class DemoClient:
     def get_access_token_from_ticket(self, ticket, id_token):
         """Convert UMA ticket to access token, using ID token for authentication.
         """
+        if ticket == None or len(ticket) == 0 or id_token == None or len(id_token):
+            print("ERROR: ticket and id_token are required")
+            return
         headers = { 'content-type': "application/x-www-form-urlencoded", "cache-control": "no-cache" }
         data = {
             "claim_token_format": "http://openid.net/specs/openid-connect-core-1_0.html#IDToken",
