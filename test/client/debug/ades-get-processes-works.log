@@ -1,0 +1,64 @@
+[Wed Oct 21 08:17:07.838181 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215: **** Bearer
+[Wed Oct 21 08:17:07.839703 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215: >eyJhbGciOiJIUzI1NiIsImtpZCI6IlJTQTEifQ.eyJhY3RpdmUiOnRydWUsImV4cCI6MTU5MzUxNTU2NSwiaWF0IjoxNTkzNTExOTY1LCJuYmYiOm51bGwsInBlcm1pc3Npb25zIjpbeyJyZXNvdXJjZV9pZCI6ImI3Y2FkZTVjLTM3MmYtNGM4Ny1iZTgyLWE3OTU2NDk4ZTcyOSIsInJlc291cmNlX3Njb3BlcyI6WyJBdXRoZW50aWNhdGVkIiwib3BlbmlkIl0sImV4cCI6MTU5MzUxNTU2NCwicGFyYW1zIjpudWxsfV0sImNsaWVudF9pZCI6IjYxY2UyOGQ1LWFhMTYtNGRkYy04NDJmLWZjYzE1OGQzMTVmYSIsInN1YiI6bnVsbCwiYXVkIjoiNjFjZTI4ZDUtYWExNi00ZGRjLTg0MmYtZmNjMTU4ZDMxNWZhIiwiaXNzIjpudWxsLCJqdGkiOm51bGwsInBjdF9jbGFpbXMiOnsiYXVkIjpbIjYxY2UyOGQ1LWFhMTYtNGRkYy04NDJmLWZjYzE1OGQzMTVmYSJdLCJzdWIiOlsiZWIzMTQyMWUtMGEyZS00OTBmLWJiYWYtMDk3MWE0ZTliNzhhIl0sInVzZXJfbmFtZSI6WyJyaWNvbndheSJdLCJpc3MiOlsiaHR0cHM6Ly9lb2VwY2EtZGV2LmRlaW1vcy1zcGFjZS5jb20iXSwiZXhwIjpbIjE1OTM1MTU1NjQiXSwiaWF0IjpbIjE1OTM1MTE5NjQiXSwib3hPcGVuSURDb25uZWN0VmVyc2lvbiI6WyJvcGVuaWRjb25uZWN0LTEuMCJdfX0.d5qeaqLfl0oh9KigVrM_lT1hZMaOzQBFB7jjaKI3PjE<
+[Wed Oct 21 08:17:07.841229 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215: PAYLOAD eyJhY3RpdmUiOnRydWUsImV4cCI6MTU5MzUxNTU2NSwiaWF0IjoxNTkzNTExOTY1LCJuYmYiOm51bGwsInBlcm1pc3Npb25zIjpbeyJyZXNvdXJjZV9pZCI6ImI3Y2FkZTVjLTM3MmYtNGM4Ny1iZTgyLWE3OTU2NDk4ZTcyOSIsInJlc291cmNlX3Njb3BlcyI6WyJBdXRoZW50aWNhdGVkIiwib3BlbmlkIl0sImV4cCI6MTU5MzUxNTU2NCwicGFyYW1zIjpudWxsfV0sImNsaWVudF9pZCI6IjYxY2UyOGQ1LWFhMTYtNGRkYy04NDJmLWZjYzE1OGQzMTVmYSIsInN1YiI6bnVsbCwiYXVkIjoiNjFjZTI4ZDUtYWExNi00ZGRjLTg0MmYtZmNjMTU4ZDMxNWZhIiwiaXNzIjpudWxsLCJqdGkiOm51bGwsInBjdF9jbGFpbXMiOnsiYXVkIjpbIjYxY2UyOGQ1LWFhMTYtNGRkYy04NDJmLWZjYzE1OGQzMTVmYSJdLCJzdWIiOlsiZWIzMTQyMWUtMGEyZS00OTBmLWJiYWYtMDk3MWE0ZTliNzhhIl0sInVzZXJfbmFtZSI6WyJyaWNvbndheSJdLCJpc3MiOlsiaHR0cHM6Ly9lb2VwY2EtZGV2LmRlaW1vcy1zcGFjZS5jb20iXSwiZXhwIjpbIjE1OTM1MTU1NjQiXSwiaWF0IjpbIjE1OTM1MTE5NjQiXSwib3hPcGVuSURDb25uZWN0VmVyc2lvbiI6WyJvcGVuaWRjb25uZWN0LTEuMCJdfX0
+[Wed Oct 21 08:17:07.842567 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215: PAYLOAD eyJhY3RpdmUiOnRydWUsImV4cCI6MTU5MzUxNTU2NSwiaWF0IjoxNTkzNTExOTY1LCJuYmYiOm51bGwsInBlcm1pc3Npb25zIjpbeyJyZXNvdXJjZV9pZCI6ImI3Y2FkZTVjLTM3MmYtNGM4Ny1iZTgyLWE3OTU2NDk4ZTcyOSIsInJlc291cmNlX3Njb3BlcyI6WyJBdXRoZW50aWNhdGVkIiwib3BlbmlkIl0sImV4cCI6MTU5MzUxNTU2NCwicGFyYW1zIjpudWxsfV0sImNsaWVudF9pZCI6IjYxY2UyOGQ1LWFhMTYtNGRkYy04NDJmLWZjYzE1OGQzMTVmYSIsInN1YiI6bnVsbCwiYXVkIjoiNjFjZTI4ZDUtYWExNi00ZGRjLTg0MmYtZmNjMTU4ZDMxNWZhIiwiaXNzIjpudWxsLCJqdGkiOm51bGwsInBjdF9jbGFpbXMiOnsiYXVkIjpbIjYxY2UyOGQ1LWFhMTYtNGRkYy04NDJmLWZjYzE1OGQzMTVmYSJdLCJzdWIiOlsiZWIzMTQyMWUtMGEyZS00OTBmLWJiYWYtMDk3MWE0ZTliNzhhIl0sInVzZXJfbmFtZSI6WyJyaWNvbndheSJdLCJpc3MiOlsiaHR0cHM6Ly9lb2VwY2EtZGV2LmRlaW1vcy1zcGFjZS5jb20iXSwiZXhwIjpbIjE1OTM1MTU1NjQiXSwiaWF0IjpbIjE1OTM1MTE5NjQiXSwib3hPcGVuSURDb25uZWN0VmVyc2lvbiI6WyJvcGVuaWRjb25uZWN0LTEuMCJdfX0=
+[Wed Oct 21 08:17:07.843577 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215: buffer {"active":true,"exp":1593515565,"iat":1593511965,"nbf":null,"permissions":[{"resource_id":"b7cade5c-372f-4c87-be82-a7956498e729","resource_scopes":["Authenticated","openid"],"exp":1593515564,"params":null}],"client_id":"61ce28d5-aa16-4ddc-842f-fcc158d315fa","sub":null,"aud":"61ce28d5-aa16-4ddc-842f-fcc158d315fa","iss":null,"jti":null,"pct_claims":{"aud":["61ce28d5-aa16-4ddc-842f-fcc158d315fa"],"sub":["eb31421e-0a2e-490f-bbaf-0971a4e9b78a"],"user_name":["riconway"],"iss":["https://eoepca-dev.deimos-space.com"],"exp":["1593515564"],"iat":["1593511964"],"oxOpenIDConnectVersion":["openidconnect-1.0"]}}
+[Wed Oct 21 08:17:07.843866 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215: jobj from str:
+[Wed Oct 21 08:17:07.844105 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215: ---
+[Wed Oct 21 08:17:07.844273 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215: {
+[Wed Oct 21 08:17:07.844449 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:    "active": true,
+[Wed Oct 21 08:17:07.844624 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:    "exp": 1593515565,
+[Wed Oct 21 08:17:07.844796 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:    "iat": 1593511965,
+[Wed Oct 21 08:17:07.844975 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:    "nbf": null,
+[Wed Oct 21 08:17:07.845074 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:    "permissions": [
+[Wed Oct 21 08:17:07.845102 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:      {
+[Wed Oct 21 08:17:07.845204 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:        "resource_id": "b7cade5c-372f-4c87-be82-a7956498e729",
+[Wed Oct 21 08:17:07.845259 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:        "resource_scopes": [
+[Wed Oct 21 08:17:07.845343 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:          "Authenticated",
+[Wed Oct 21 08:17:07.845408 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:          "openid"
+[Wed Oct 21 08:17:07.845433 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:        ],
+[Wed Oct 21 08:17:07.845478 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:        "exp": 1593515564,
+[Wed Oct 21 08:17:07.845520 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:        "params": null
+[Wed Oct 21 08:17:07.845539 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:      }
+[Wed Oct 21 08:17:07.845553 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:    ],
+[Wed Oct 21 08:17:07.845643 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:    "client_id": "61ce28d5-aa16-4ddc-842f-fcc158d315fa",
+[Wed Oct 21 08:17:07.845677 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:    "sub": null,
+[Wed Oct 21 08:17:07.845759 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:    "aud": "61ce28d5-aa16-4ddc-842f-fcc158d315fa",
+[Wed Oct 21 08:17:07.845793 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:    "iss": null,
+[Wed Oct 21 08:17:07.845868 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:    "jti": null,
+[Wed Oct 21 08:17:07.845908 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:    "pct_claims": {
+[Wed Oct 21 08:17:07.845971 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:      "aud": [
+[Wed Oct 21 08:17:07.846054 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:        "61ce28d5-aa16-4ddc-842f-fcc158d315fa"
+[Wed Oct 21 08:17:07.846076 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:      ],
+[Wed Oct 21 08:17:07.846102 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:      "sub": [
+[Wed Oct 21 08:17:07.846209 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:        "eb31421e-0a2e-490f-bbaf-0971a4e9b78a"
+[Wed Oct 21 08:17:07.846232 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:      ],
+[Wed Oct 21 08:17:07.846267 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:      "user_name": [
+[Wed Oct 21 08:17:07.846329 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:        "riconway"
+[Wed Oct 21 08:17:07.846382 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:      ],
+[Wed Oct 21 08:17:07.846414 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:      "iss": [
+[Wed Oct 21 08:17:07.846496 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:        "https:\\/\\/eoepca-dev.deimos-space.com"
+[Wed Oct 21 08:17:07.846517 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:      ],
+[Wed Oct 21 08:17:07.846542 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:      "exp": [
+[Wed Oct 21 08:17:07.846613 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:        "1593515564"
+[Wed Oct 21 08:17:07.846640 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:      ],
+[Wed Oct 21 08:17:07.846665 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:      "iat": [
+[Wed Oct 21 08:17:07.846742 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:        "1593511964"
+[Wed Oct 21 08:17:07.846793 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:      ],
+[Wed Oct 21 08:17:07.846854 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:      "oxOpenIDConnectVersion": [
+[Wed Oct 21 08:17:07.846905 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:        "openidconnect-1.0"
+[Wed Oct 21 08:17:07.846925 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:      ]
+[Wed Oct 21 08:17:07.846936 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:    }
+[Wed Oct 21 08:17:07.846943 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215:  }
+[Wed Oct 21 08:17:07.846954 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215: ---
+[Wed Oct 21 08:17:07.847045 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215: >>>>riconway<<<<<=====>>>>>
+[Wed Oct 21 08:17:07.847322 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215: creation script: /opt/t2scripts/prepareUserSpace.sh "/opt/zooservices_user/riconway" "/var/www/html/res/statusInfos/riconway" "riconway"    1>/dev/null 
+[Wed Oct 21 08:17:07.889550 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215: rdr a5b  eoepcaadesundeployprocess.zcfg 
+[Wed Oct 21 08:17:07.889616 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215: #   #     #       
+[Wed Oct 21 08:17:07.889761 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215: rdr a5b  GetStatus.zcfg 
+[Wed Oct 21 08:17:07.889959 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215: rdr a5b  . 
+[Wed Oct 21 08:17:07.889995 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215: rdr a5b  .. 
+[Wed Oct 21 08:17:07.890041 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215: rdr a5b  wps_status.zo 
+[Wed Oct 21 08:17:07.890104 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215: rdr a5b  libepcatransactional.zo 
+[Wed Oct 21 08:17:07.890177 2020] [cgi:error] [pid 27] [client 172.17.0.1:24039] AH01215: rdr a5b  eoepcaadesdeployprocess.zcfg 
+172.17.0.1 - - [21/Oct/2020:08:17:07 +0000] "GET /wps3/processes HTTP/1.1" 200 1600 "-" "PostmanRuntime/7.26.3"

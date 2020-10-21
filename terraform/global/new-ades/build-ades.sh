@@ -6,8 +6,8 @@ BIN_DIR="$(pwd)"
 
 trap "cd '${ORIG_DIR}'" EXIT
 
-eval $(minikube -p minikube docker-env)
+# eval $(minikube -p minikube docker-env)
 
-docker build -t rconway/proc-ades:travis__156 .
+docker build -t rconway/proc-ades:latest .
 
-eval $(minikube -p minikube docker-env -u)
+# eval $(minikube -p minikube docker-env -u)

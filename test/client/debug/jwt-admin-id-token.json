@@ -1,0 +1,15 @@
+{
+  "header": {
+    "kid": "8d89ac07-0418-4ab0-a322-c69ff3e2c4f8_sig_rs256",
+    "typ": "JWT",
+    "alg": "RS256"
+  },
+  "payload": {
+    "aud": "a3db86e7-d104-4a71-abfe-69ec50f6fd4f",
+    "sub": "23eae0f5-1c55-4885-803c-0b0aae2de8ec",
+    "iss": "https://test.192.168.49.2.nip.io",
+    "exp": 1603273456,
+    "iat": 1603269856,
+    "oxOpenIDConnectVersion": "openidconnect-1.0"
+  }
+}

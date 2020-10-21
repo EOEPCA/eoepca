@@ -196,3 +196,20 @@ class DemoClient:
         r = self.session.get(self.ades_proc_url + "/processes", headers=headers)
         print("[Process List]=", r.text)
 
+    def proc_deploy_application(self, app_deploy_body_filename, token=None):
+        app_deploy_body = {}
+        try:
+            with open(app_deploy_body_filename) as app_deploy_body_file:
+                app_deploy_body = json.loads(app_deploy_body_file.read())
+                print(f"Application details read from file: {app_deploy_body_filename}")
+        except FileNotFoundError:
+            print(f"ERROR could not find application details file: {app_deploy_body_filename}")
+        except json.decoder.JSONDecodeError:
+            print(f"ERROR loading application details from file: {app_deploy_body_filename}")
+
+        headers = { "Accept": "application/json", "Content-Type": "application/json" }
+        if token:
+            headers["Authorization"] = f"Bearer {token}"
+        r = self.session.post(self.ades_proc_url + "/processes", headers=headers, json=app_deploy_body)
+        print("[Deploy Response]=", r.text)
+
