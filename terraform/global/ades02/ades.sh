@@ -89,7 +89,7 @@ spec:
       storage: 5Gi
 EOF
 
-    # ingress
+    # ingress (via PEP)
     echo "---"  >>${K8S_YAML_FILE}
     cat - <<EOF >>${K8S_YAML_FILE}
 apiVersion: extensions/v1beta1
@@ -105,6 +105,24 @@ spec:
       - backend:
           serviceName: pep-engine
           servicePort: 5566
+EOF
+
+    # ingress (bypass ADES)
+    echo "---"  >>${K8S_YAML_FILE}
+    cat - <<EOF >>${K8S_YAML_FILE}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: proc-ades
+  namespace: eoepca
+spec:
+  rules:
+  - host: proc-ades.test.$(../../../bin/get-localkube-ip.sh).nip.io
+    http:
+      paths:
+      - backend:
+          serviceName: ades
+          servicePort: 80
 EOF
 
     # ades deployment
