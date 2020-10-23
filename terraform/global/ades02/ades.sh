@@ -134,7 +134,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: ades-config
-          image: rconway/proc-ades:latest
+          image: rconway/proc-ades:0.2
           # image: rconway/requestlogger
           imagePullPolicy: IfNotPresent
           resources:
