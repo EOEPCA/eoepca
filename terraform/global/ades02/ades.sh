@@ -10,6 +10,8 @@ TEMP_DIR="generated"
 K8S_YAML_FILE="${TEMP_DIR}/ades.yaml"
 NAMESPACE="eoepca"
 ADES_SERVICE_ACCOUNT="ades"
+# STORAGE_CLASS="standard"
+STORAGE_CLASS="managed-nfs-storage"
 KUBECONFIG_FILE="${TEMP_DIR}/kubeconfig"
 
 mkdir -p "${TEMP_DIR}"
@@ -59,7 +61,7 @@ STORAGE_USERNAME=ZW9lcGNh
 # STORAGE_APIKEY=telespazio
 STORAGE_APIKEY=dGVsZXNwYXppbw==
 # kubernetes storage class to be used for provisioning volumes. Must be a persistent volume claim compliant (glusterfs-storage)
-STORAGE_CLASS=standard
+STORAGE_CLASS=${STORAGE_CLASS}
 # Size of the Kubernetes Volumes in gigabytes
 VOLUME_SIZE=4
 EOF
@@ -82,7 +84,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: standard
+  storageClassName: ${STORAGE_CLASS}
   resources:
     requests:
       storage: 100Mi
@@ -99,7 +101,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: standard
+  storageClassName: ${STORAGE_CLASS}
   resources:
     requests:
       storage: 10Gi
@@ -116,7 +118,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: standard
+  storageClassName: ${STORAGE_CLASS}
   resources:
     requests:
       storage: 5Gi
@@ -132,7 +134,7 @@ metadata:
   namespace: default
 spec:
   rules:
-  - host: ades.test.$(../../../bin/get-localkube-ip.sh).nip.io
+  - host: ades.test.$(../../../bin/get-public-ip.sh).nip.io
     http:
       paths:
       - backend:
@@ -150,7 +152,7 @@ metadata:
   namespace: eoepca
 spec:
   rules:
-  - host: proc-ades.test.$(../../../bin/get-localkube-ip.sh).nip.io
+  - host: proc-ades.test.$(../../../bin/get-public-ip.sh).nip.io
     http:
       paths:
       - backend:
@@ -274,6 +276,20 @@ function kubeconfig() {
     echo "kubeconfig: SERVER=$SERVER"
     CERT_AUTHORITY=`kubectl config view -o json | jq -r --arg CLUSTER_NAME "$CLUSTER_NAME" '.clusters[] | select(.name == $CLUSTER_NAME) | .cluster."certificate-authority"'`
     echo "kubeconfig: CERT_AUTHORITY=$CERT_AUTHORITY"
+    CERT_AUTHORITY_DATA=`kubectl config view --raw -o json | jq -r --arg CLUSTER_NAME "$CLUSTER_NAME" '.clusters[] | select(.name == $CLUSTER_NAME) | .cluster."certificate-authority-data"'`
+    echo "kubeconfig: CERT_AUTHORITY_DATA=$CERT_AUTHORITY_DATA"
+
+    if test "$CERT_AUTHORITY" = "null"
+    then
+        if test "$CERT_AUTHORITY_DATA" != "null"
+        then
+            echo -n "$CERT_AUTHORITY_DATA" | base64 -d > ca.crt
+            CERT_AUTHORITY=ca.crt
+        else
+            echo "ERROR: Could not get Kubernetes CERT_AUTHORITY information"
+            return 1
+        fi
+    fi
 
     # extract token from serviceaccount (needed later)
     TOKENNAME=`kubectl -n "${NAMESPACE}" get "serviceaccount/${ADES_SERVICE_ACCOUNT}" -o jsonpath='{.secrets[0].name}'`

@@ -48,13 +48,8 @@ function install_test_requirements() {
 
 function deduce_public_ip() {
   # Scrape VM infrastructure topology from terraform outputs
-  if hash terraform 2>/dev/null
-  then
-    DEPLOYMENT_PUBLIC_IP="$(terraform output -state=../../creodias/terraform.tfstate -json | jq -r '.loadbalancer_fips.value[]' 2>/dev/null)" || unset DEPLOYMENT_PUBLIC_IP
-    if [ "${DEPLOYMENT_PUBLIC_IP}" = "null" ]; then unset DEPLOYMENT_PUBLIC_IP; fi
-  fi
-  LOCALKUBE_IP=$(${BIN_DIR}/../../bin/get-localkube-ip.sh) || unset LOCALKUBE_IP
-  PUBLIC_IP="${PUBLIC_IP:-${DEPLOYMENT_PUBLIC_IP:-${LOCALKUBE_IP:-none}}}"
+  DEPLOYMENT_PUBLIC_IP=$(${BIN_DIR}/../../bin/get-public-ip.sh) || unset DEPLOYMENT_PUBLIC_IP
+  PUBLIC_IP="${PUBLIC_IP:-${DEPLOYMENT_PUBLIC_IP:-none}}"
   if [ "${PUBLIC_IP}" = "none" ]; then echo "ERROR: invalid Public IP (${PUBLIC_IP}). Aborting..."; exit 1; fi
 }
 

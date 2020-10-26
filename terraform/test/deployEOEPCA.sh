@@ -18,10 +18,9 @@ AUTO_APPROVE=
 if [ "$ACTION" = "apply" ]; then AUTO_APPROVE="--auto-approve"; fi
 
 # Scrape VM infrastructure topology from terraform outputs
+DEPLOYMENT_PUBLIC_IP=`${BIN_DIR}/../../bin/get-public-ip.sh` || unset DEPLOYMENT_PUBLIC_IP
 if hash terraform 2>/dev/null
 then
-  DEPLOYMENT_PUBLIC_IP="$(terraform output -state=../../creodias/terraform.tfstate -json | jq -r '.loadbalancer_fips.value[]' 2>/dev/null)" || unset DEPLOYMENT_PUBLIC_IP
-  if [ "${DEPLOYMENT_PUBLIC_IP}" = "null" ]; then unset DEPLOYMENT_PUBLIC_IP; fi
   DEPLOYMENT_NFS_SERVER="$(terraform output -state=../../creodias/terraform.tfstate -json | jq -r '.nfs_ip_address.value' 2>/dev/null)" || unset DEPLOYMENT_NFS_SERVER
   if [ "${DEPLOYMENT_NFS_SERVER}" = "null" ]; then unset DEPLOYMENT_NFS_SERVER; fi
 fi
