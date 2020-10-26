@@ -34,7 +34,8 @@ function prepareKubeconfig() {
 }
 
 function prepareAdesConf() {
-    storage_host="http://$(kubectl get ingress/workspace -o json 2>/dev/null | jq -r '.spec.rules[0].host')/"
+    # storage_host="http://$(kubectl get ingress/workspace -o json 2>/dev/null | jq -r '.spec.rules[0].host')/"
+    storage_host="http://workspace.default/"
     cat - <<EOF >ades.conf
 # this is already set to the volume configured in the docker file
 KUBECONFIG=/var/etc/ades/kubeconfig
@@ -184,7 +185,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: ades-config
-          image: rconway/proc-ades:0.2
+          # image: rconway/proc-ades:0.2
+          image: rconway/proc-ades:travis__156
           # image: rconway/requestlogger
           imagePullPolicy: IfNotPresent
           resources:
