@@ -26,7 +26,7 @@ resource "kubernetes_deployment" "jupyter" {
       spec {
         container {
           name  = "jupyter"
-          image = "rconway/jupyter:1.0"
+          image = "rconway/jupyter:1.1"
         }
       }
     }
