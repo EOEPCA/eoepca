@@ -8,7 +8,7 @@ trap "cd '${ORIG_DIR}'" EXIT
 
 mkdir -p $HOME/.local/bin
 
-VERSION="v1.14.0"
+VERSION="v1.14.2"
 
 # minikube: download and install locally
 if hash minikube 2>/dev/null
