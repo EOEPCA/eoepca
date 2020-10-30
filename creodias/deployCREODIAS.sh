@@ -16,7 +16,11 @@ ACTION="${1:-apply}"
 AUTO_APPROVE=
 if [ "$ACTION" = "apply" ]; then AUTO_APPROVE="--auto-approve"; fi
 
-export OS_CLOUD="${OS_CLOUD:-staging}"
+if test -z "$OS_CLOUD"
+then
+  echo "ERROR: must set OS_CLOUD environment variable"
+  exit 1
+fi
 
 # terraform
 terraform init
