@@ -126,25 +126,6 @@ class DemoClient:
             print(f"resource_id: {resource_id} [REUSED]")
         return resource_id
 
-    def get_uma_ticket_from_failed_resource_access(self, resource_url, id_token):
-        """Attempt access to a resource with the expectation to get a 401 + ticket in return.
-
-        Uses provided user ID token to identify the authenticated user the request.
-        """
-        headers = { "Authorization": "Bearer {id_token}" }
-        r = self.session.get(resource_url, headers=headers)
-        ticket = ""
-        if r.status_code == 401:
-            location_header = r.headers["WWW-Authenticate"]
-            for item in location_header.split(","):
-                if item.split("=")[0] == "ticket":
-                    ticket = item.split("=")[1]
-                    break
-        else:
-            print(f"UNEXPECTED status code: {r.status_code} for resource {resource_url}")
-        print(f"ticket: {ticket}")
-        return ticket
-
     def get_access_token_from_ticket(self, ticket, id_token):
         """Convert UMA ticket to access token, using ID token for authentication.
         """
@@ -193,26 +174,70 @@ class DemoClient:
         """
         self.ades_proc_url = url
 
-    def wps_get_capabilities(self):
+    def uma_get_request(self, requestor, url, headers=None, id_token=None, access_token=None, json=None):
+        """Helper to perform a get request via a UMA flow
+        """
+        # loop control variables
+        count = 0
+        repeat = True
+        # max 2 loops. Repeat if we got a 401 and used UMA to get a new access token
+        while repeat and count < 2:
+            count += 1
+            repeat = False
+            # init headers if needed
+            if headers is None:
+                headers = {}
+            # use access token if we have one
+            if access_token is not None:
+                headers["Authorization"] = f"Bearer {access_token}"
+            # attempt access
+            r = requestor(url, headers=headers, json=json)
+            # if response is OK then nothing else to do
+            if r.ok:
+                pass
+            # if we got a 401 then initiate the UMA flow
+            elif r.status_code == 401:
+                # need an id token for the UMA flow
+                if id_token is not None:
+                    # get ticket from the supplied header
+                    location_header = r.headers["WWW-Authenticate"]
+                    for item in location_header.split(","):
+                        if item.split("=")[0] == "ticket":
+                            ticket = item.split("=")[1]
+                            break
+                    # if we have a ticket then request an access token
+                    if ticket is not None:
+                        access_token = self.get_access_token_from_ticket(ticket, id_token)
+                        repeat = True
+            # unhandled response code
+            else:
+                print(f"UNEXPECTED status code: {r.status_code} for resource {url}")
+        # return the response and the access token which may be reusable
+        return r, access_token
+
+    def wps_get_capabilities(self, id_token=None, access_token=None):
         """Call the WPS GetCapabilities endpoint
         """
-        r = self.session.get(self.ades_wps_url + "/?service=WPS&version=1.0.0&request=GetCapabilities")
-        print("[WPS Capabilities]=", r.text)
+        url = self.ades_wps_url + "/?service=WPS&version=1.0.0&request=GetCapabilities"
+        r, access_token = self.uma_get_request(self.session.get, url, id_token=id_token, access_token=access_token)
+        print(f"[WPS Capabilities]=({r.status_code}-{r.reason})={r.text}")
+        return access_token
 
-    def proc_list_processes(self, token=None):
-        """Call the 'API Processes' endpoint, with optional user token
+    def proc_list_processes(self, id_token=None, access_token=None):
+        """Call the 'API Processes' endpoint
         """
+        url = self.ades_proc_url + "/processes"
         headers = { "Accept": "application/json" }
-        if token:
-            headers["Authorization"] = f"Bearer {token}"
-        r = self.session.get(self.ades_proc_url + "/processes", headers=headers)
-        print("[Process List]=", r.text)
+        r, access_token = self.uma_get_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
+        print(f"[Process List]=({r.status_code}-{r.reason})={r.text}")
+        return access_token
 
-    def proc_deploy_application(self, app_deploy_body_filename, token=None):
+    def proc_deploy_application(self, app_deploy_body_filename, id_token=None, access_token=None):
         """Deploy application via 'API Processes' endpoint, with optional user token
 
         The body of the deployment request is obtained from the supplied file
         """
+        # get request body from file
         app_deploy_body = {}
         try:
             with open(app_deploy_body_filename) as app_deploy_body_file:
@@ -222,12 +247,12 @@ class DemoClient:
             print(f"ERROR could not find application details file: {app_deploy_body_filename}")
         except json.decoder.JSONDecodeError:
             print(f"ERROR loading application details from file: {app_deploy_body_filename}")
-
+        # make request
+        url = self.ades_proc_url + "/processes"
         headers = { "Accept": "application/json", "Content-Type": "application/json" }
-        if token:
-            headers["Authorization"] = f"Bearer {token}"
-        r = self.session.post(self.ades_proc_url + "/processes", headers=headers, json=app_deploy_body)
-        print("[Deploy Response]=", r.text)
+        r, access_token = self.uma_get_request(self.session.post, url, headers=headers, id_token=id_token, access_token=access_token, json=app_deploy_body)
+        print(f"[Deploy Response]=({r.status_code}-{r.reason})={r.text}")
+        return access_token
 
     def proc_get_app_details(self, app_name, token=None):
         """Get details for the application with the supplied name, with optional user token
@@ -236,4 +261,4 @@ class DemoClient:
         if token:
             headers["Authorization"] = f"Bearer {token}"
         r = self.session.get(self.ades_proc_url + "/processes/" + app_name, headers=headers)
-        print("[App Details]=", r.text)
+        print(f"[App Details]=({r.status_code}-{r.reason})={r.text}")
