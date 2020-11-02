@@ -6,8 +6,6 @@ from eoepca_scim import EOEPCA_Scim, ENDPOINT_AUTH_CLIENT_POST
 class DemoClient:
     """Example client calling EOEPCA public endpoints
     """
-    ADMIN_USER="admin"
-    ADMIN_PASSWORD="admin_Abcd1234#"
 
     def __init__(self, base_url):
         """Initialise client session with provided base URL.
@@ -94,11 +92,6 @@ class DemoClient:
         print(f"id_token: {id_token}")
         return id_token
 
-    def get_admin_id_token(self):
-        """Get ID token for ADMIN user using hardcoded credentials
-        """
-        return self.get_id_token(DemoClient.ADMIN_USER, DemoClient.ADMIN_PASSWORD)
-
     def add_resource(self, service_url, uri, id_token, name, scopes):
         """Register a resource in the PEP
 
@@ -164,17 +157,7 @@ class DemoClient:
         print(f"access_token: {access_token}")
         return access_token
 
-    def set_ades_wps_url(self, url):
-        """Set URL to access the ADES 'WPS1.0/2.0' endpoint
-        """
-        self.ades_wps_url = url
-
-    def set_ades_proc_url(self, url):
-        """Set URL to access the ADES 'API Processes' endpoint
-        """
-        self.ades_proc_url = url
-
-    def uma_get_request(self, requestor, url, headers=None, id_token=None, access_token=None, json=None):
+    def uma_get_request(self, requestor, url, headers=None, id_token=None, access_token=None, json=None, data=None):
         """Helper to perform a get request via a UMA flow
         """
         # loop control variables
@@ -191,7 +174,7 @@ class DemoClient:
             if access_token is not None:
                 headers["Authorization"] = f"Bearer {access_token}"
             # attempt access
-            r = requestor(url, headers=headers, json=json)
+            r = requestor(url, headers=headers, json=json, data=data)
             # if response is OK then nothing else to do
             if r.ok:
                 pass
@@ -215,24 +198,24 @@ class DemoClient:
         # return the response and the access token which may be reusable
         return r, access_token
 
-    def wps_get_capabilities(self, id_token=None, access_token=None):
+    def wps_get_capabilities(self, base_url, id_token=None, access_token=None):
         """Call the WPS GetCapabilities endpoint
         """
-        url = self.ades_wps_url + "/?service=WPS&version=1.0.0&request=GetCapabilities"
+        url = base_url + "/?service=WPS&version=1.0.0&request=GetCapabilities"
         r, access_token = self.uma_get_request(self.session.get, url, id_token=id_token, access_token=access_token)
         print(f"[WPS Capabilities]=({r.status_code}-{r.reason})={r.text}")
         return access_token
 
-    def proc_list_processes(self, id_token=None, access_token=None):
+    def proc_list_processes(self, base_url, id_token=None, access_token=None):
         """Call the 'API Processes' endpoint
         """
-        url = self.ades_proc_url + "/processes"
+        url = base_url + "/processes"
         headers = { "Accept": "application/json" }
         r, access_token = self.uma_get_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
         print(f"[Process List]=({r.status_code}-{r.reason})={r.text}")
         return access_token
 
-    def proc_deploy_application(self, app_deploy_body_filename, id_token=None, access_token=None):
+    def proc_deploy_application(self, base_url, app_deploy_body_filename, id_token=None, access_token=None):
         """Deploy application via 'API Processes' endpoint, with optional user token
 
         The body of the deployment request is obtained from the supplied file
@@ -248,17 +231,17 @@ class DemoClient:
         except json.decoder.JSONDecodeError:
             print(f"ERROR loading application details from file: {app_deploy_body_filename}")
         # make request
-        url = self.ades_proc_url + "/processes"
+        url = base_url + "/processes"
         headers = { "Accept": "application/json", "Content-Type": "application/json" }
         r, access_token = self.uma_get_request(self.session.post, url, headers=headers, id_token=id_token, access_token=access_token, json=app_deploy_body)
         print(f"[Deploy Response]=({r.status_code}-{r.reason})={r.text}")
         return access_token
 
-    def proc_get_app_details(self, app_name, token=None):
+    def proc_get_app_details(self, base_url, app_name, id_token=None, access_token=None):
         """Get details for the application with the supplied name, with optional user token
         """
+        url = base_url + "/processes/" + app_name
         headers = { "Accept": "application/json" }
-        if token:
-            headers["Authorization"] = f"Bearer {token}"
-        r = self.session.get(self.ades_proc_url + "/processes/" + app_name, headers=headers)
+        r, access_token = self.uma_get_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
         print(f"[App Details]=({r.status_code}-{r.reason})={r.text}")
+        return access_token

@@ -35,33 +35,33 @@ module "storage" {
   storage_class      = var.storage_class
 }
 
-# module "um-login-service" {
-#   source      = "../global/um-login-service"
-#   nginx_ip    = var.public_ip
-#   hostname    = var.hostname
-#   config_file = var.um-login-config_file
-# }
+module "um-login-service" {
+  source      = "../global/um-login-service"
+  nginx_ip    = var.public_ip
+  hostname    = var.hostname
+  config_file = var.um-login-config_file
+}
 
-# module "um-pep-engine" {
-#   source            = "../global/um-pep-engine"
-#   nginx_ip          = var.public_ip
-#   hostname          = var.hostname
-#   module_depends_on = [module.um-login-service.um-login-service-up]
-# }
+module "um-pep-engine" {
+  source            = "../global/um-pep-engine"
+  nginx_ip          = var.public_ip
+  hostname          = var.hostname
+  module_depends_on = [module.um-login-service.um-login-service-up]
+}
 
-# module "um-pdp-engine" {
-#   source            = "../global/um-pdp-engine"
-#   nginx_ip          = var.public_ip
-#   hostname          = var.hostname
-#   module_depends_on = [module.um-login-service.um-login-service-up]
-# }
+module "um-pdp-engine" {
+  source            = "../global/um-pdp-engine"
+  nginx_ip          = var.public_ip
+  hostname          = var.hostname
+  module_depends_on = [module.um-login-service.um-login-service-up]
+}
 
-# module "um-user-profile" {
-#   source            = "../global/um-user-profile"
-#   nginx_ip          = var.public_ip
-#   hostname          = var.hostname
-#   module_depends_on = [module.um-login-service.um-login-service-up]
-# }
+module "um-user-profile" {
+  source            = "../global/um-user-profile"
+  nginx_ip          = var.public_ip
+  hostname          = var.hostname
+  module_depends_on = [module.um-login-service.um-login-service-up]
+}
 
 # module "proc-ades" {
 #   source               = "../global/proc-ades"
