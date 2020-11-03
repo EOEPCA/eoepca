@@ -76,8 +76,7 @@ def main():
 
     # # API Proc Get Application Details
     print("### API Proc Get Application Details ###")
-    # app_name = "vegetation_index_"
-    app_name = "eoepcaadesundeployprocess"
+    app_name = "vegetation_index_"
     access_token = demo.proc_get_app_details(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
 
     #===========================================================================

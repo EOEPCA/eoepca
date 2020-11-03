@@ -80,7 +80,7 @@ class DemoClient:
         """
         headers = { 'cache-control': "no-cache" }
         data = {
-            "scope": "openid",
+            "scope": "openid user_name",
             "grant_type": "password",
             "username": username,
             "password": password,
@@ -133,7 +133,7 @@ class DemoClient:
             "grant_type": "urn:ietf:params:oauth:grant-type:uma-ticket",
             "client_id": self.state["client_id"],
             "client_secret": self.state["client_secret"],
-            "scope": "openid"
+            "scope": "openid user_name"
         }
         r = self.session.post(self.token_endpoint, headers=headers, data=data)
         access_token = r.json()["access_token"]
@@ -150,7 +150,7 @@ class DemoClient:
             "client_secret": self.state["client_secret"],
             "username": username,
             "password": password,
-            "scope": "openid"
+            "scope": "openid user_name"
         }
         r = self.session.post(self.token_endpoint, headers=headers, data=data)
         access_token = r.json()["access_token"]
@@ -198,24 +198,24 @@ class DemoClient:
         # return the response and the access token which may be reusable
         return r, access_token
 
-    def wps_get_capabilities(self, base_url, id_token=None, access_token=None):
+    def wps_get_capabilities(self, service_base_url, id_token=None, access_token=None):
         """Call the WPS GetCapabilities endpoint
         """
-        url = base_url + "/?service=WPS&version=1.0.0&request=GetCapabilities"
+        url = service_base_url + "/?service=WPS&version=1.0.0&request=GetCapabilities"
         r, access_token = self.uma_get_request(self.session.get, url, id_token=id_token, access_token=access_token)
         print(f"[WPS Capabilities]=({r.status_code}-{r.reason})={r.text}")
         return access_token
 
-    def proc_list_processes(self, base_url, id_token=None, access_token=None):
+    def proc_list_processes(self, service_base_url, id_token=None, access_token=None):
         """Call the 'API Processes' endpoint
         """
-        url = base_url + "/processes"
+        url = service_base_url + "/processes"
         headers = { "Accept": "application/json" }
         r, access_token = self.uma_get_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
         print(f"[Process List]=({r.status_code}-{r.reason})={r.text}")
         return access_token
 
-    def proc_deploy_application(self, base_url, app_deploy_body_filename, id_token=None, access_token=None):
+    def proc_deploy_application(self, service_base_url, app_deploy_body_filename, id_token=None, access_token=None):
         """Deploy application via 'API Processes' endpoint, with optional user token
 
         The body of the deployment request is obtained from the supplied file
@@ -231,16 +231,16 @@ class DemoClient:
         except json.decoder.JSONDecodeError:
             print(f"ERROR loading application details from file: {app_deploy_body_filename}")
         # make request
-        url = base_url + "/processes"
+        url = service_base_url + "/processes"
         headers = { "Accept": "application/json", "Content-Type": "application/json" }
         r, access_token = self.uma_get_request(self.session.post, url, headers=headers, id_token=id_token, access_token=access_token, json=app_deploy_body)
         print(f"[Deploy Response]=({r.status_code}-{r.reason})={r.text}")
         return access_token
 
-    def proc_get_app_details(self, base_url, app_name, id_token=None, access_token=None):
+    def proc_get_app_details(self, service_base_url, app_name, id_token=None, access_token=None):
         """Get details for the application with the supplied name, with optional user token
         """
-        url = base_url + "/processes/" + app_name
+        url = service_base_url + "/processes/" + app_name
         headers = { "Accept": "application/json" }
         r, access_token = self.uma_get_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
         print(f"[App Details]=({r.status_code}-{r.reason})={r.text}")

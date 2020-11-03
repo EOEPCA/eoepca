@@ -188,7 +188,7 @@ spec:
                 name: ades-config
           image: rconway/proc-ades:0.2.2
           # image: rconway/proc-ades:travis__156
-          # image: rconway/requestlogger
+          # image: rconway/requestlogger:1.0
           imagePullPolicy: IfNotPresent
           resources:
             requests:
