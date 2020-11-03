@@ -23,14 +23,14 @@ UMA Flow Setup
 
 UMA Get Ticket PEP
   [Arguments]  ${base_url}  ${token}  ${resource}
-  Create Session  pep  ${UM_BASE_URL}:443  verify=False
+  Create Session  pep  ${base_url}  verify=False
   ${headers}=  Create Dictionary  authorization=Bearer ${ID_TOKEN}
   ${resp}=  Get Request  pep  ${resource}  headers=${headers}
   [Return]  ${resp}
 
 UMA Get Ticket Valid PEP
   [Arguments]  ${base_url}  ${token}  ${resource}
-  ${resp}=  UMA Get Ticket PEP  ${UM_BASE_URL}  ${ID_TOKEN}  ${resource}
+  ${resp}=  UMA Get Ticket PEP  ${ADES_BASE_URL}  ${ID_TOKEN}  ${resource}
   [Return]  ${resp}
 
 UMA Call Shell ID Token
