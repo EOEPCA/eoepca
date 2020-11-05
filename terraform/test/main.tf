@@ -74,6 +74,10 @@ module "um-user-profile" {
 #   module_depends_on    = []
 # }
 
+module "proc-ades" {
+  source               = "../global/ades"
+}
+
 module "rm-workspace" {
   source               = "../global/rm-workspace"
   wspace_user_name     = var.wspace_user_name

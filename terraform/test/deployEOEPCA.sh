@@ -74,7 +74,7 @@ export KUBECONFIG="$PWD/kubeconfig"
 terraform init
 count=$(( 1 ))
 status=$(( 1 ))
-while [ $status -ne 0 -a $count -le 2 ]
+while [ $status -ne 0 -a $count -le 1 ]
 do
   echo "[INFO]  Deploy EOEPCA attempt: $count"
   terraform $ACTION \

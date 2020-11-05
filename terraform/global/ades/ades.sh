@@ -249,6 +249,12 @@ spec:
 EOF
 }
 
+function prepareYaml() {
+    prepareRoles "$@"
+    prepareKubeconfig "$@"
+    prepareADES "$@"
+}
+
 function apply() {
     echo "=== ROLES ==="
     prepareRoles "$@"
@@ -308,6 +314,12 @@ function main() {
     ACTION="$1" && shift
     if test -z "$ACTION"; then echo "ERROR: must supply ACTION"; return 1; fi
     case "$ACTION" in
+        roles)
+            prepareRoles "$@"
+            ;;
+        prepare)
+            prepareYaml "$@"
+            ;;
         apply)
             apply "$@"
             ;;
