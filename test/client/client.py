@@ -133,7 +133,7 @@ class DemoClient:
             "grant_type": "urn:ietf:params:oauth:grant-type:uma-ticket",
             "client_id": self.state["client_id"],
             "client_secret": self.state["client_secret"],
-            "scope": "openid user_name"
+            "scope": "openid"
         }
         r = self.session.post(self.token_endpoint, headers=headers, data=data)
         access_token = r.json()["access_token"]
@@ -150,7 +150,7 @@ class DemoClient:
             "client_secret": self.state["client_secret"],
             "username": username,
             "password": password,
-            "scope": "openid user_name"
+            "scope": "openid"
         }
         r = self.session.post(self.token_endpoint, headers=headers, data=data)
         access_token = r.json()["access_token"]

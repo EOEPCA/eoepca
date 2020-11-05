@@ -31,7 +31,8 @@ def main():
 
     # add ADES resource
     print("### ADD ADES RESOURCE ###")
-    demo.add_resource(ades_url, "/ades", user_id_token, "ADES Service", ["Authenticated"])
+    demo.add_resource(ades_url, "/zoo", user_id_token, "ADES WPS Service", ["Authenticated"])
+    demo.add_resource(ades_url, "/wps3", user_id_token, "ADES API Service", ["Authenticated"])
 
     # get demo user id token
     # print("### DEMO USER TOKENS ###")
@@ -74,7 +75,7 @@ def main():
     print("### API Proc Deploy Application ###")
     access_token = demo.proc_deploy_application(ades_proc_url, "data/app-deploy-body.json", id_token=user_id_token, access_token=access_token)
 
-    # # API Proc Get Application Details
+    # API Proc Get Application Details
     print("### API Proc Get Application Details ###")
     app_name = "vegetation_index_"
     access_token = demo.proc_get_app_details(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
