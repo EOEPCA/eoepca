@@ -10,7 +10,7 @@ TEMP_DIR="generated"
 K8S_YAML_FILE="${TEMP_DIR}/ades.yaml"
 NAMESPACE="eoepca"
 ADES_SERVICE_ACCOUNT="ades"
-STORAGE_CLASS="standard"
+STORAGE_CLASS="managed-nfs-storage"
 KUBECONFIG_FILE="${TEMP_DIR}/kubeconfig"
 
 mkdir -p "${TEMP_DIR}"
@@ -186,8 +186,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: ades-config
-          image: rconway/proc-ades:0.2.2
-          # image: rconway/proc-ades:travis__156
+          image: rconway/proc-ades:0.2.3
           # image: rconway/requestlogger:1.0
           imagePullPolicy: IfNotPresent
           resources:

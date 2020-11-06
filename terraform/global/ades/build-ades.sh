@@ -8,6 +8,6 @@ trap "cd '${ORIG_DIR}'" EXIT
 
 # eval $(minikube -p minikube docker-env)
 
-docker build -t rconway/proc-ades:0.2.2 .
+docker build -t rconway/proc-ades:0.2.3 .
 
 # eval $(minikube -p minikube docker-env -u)
