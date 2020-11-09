@@ -186,7 +186,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: ades-config
-          image: rconway/proc-ades:0.2.3
+          image: rconway/proc-ades:0.2.4
+          # image: eoepca/proc-ades:0.2.4
           # image: rconway/requestlogger:1.0
           imagePullPolicy: IfNotPresent
           resources:
