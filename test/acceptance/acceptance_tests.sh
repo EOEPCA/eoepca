@@ -23,6 +23,7 @@ function setup_venv() {
   echo "INFO: activate venv and update..."
   source venv/bin/activate
   python -m pip install -U pip
+  pip install -U wheel
 }
 
 function install_robot_framework() {
@@ -32,18 +33,15 @@ function install_robot_framework() {
   && pip install -U docutils \
   && pip install -U robotframework-requests \
   && pip install -U robotframework-seleniumlibrary \
-  && pip install -U robotframework-sshlibrary \
-  && pip install -U webdrivermanager
-  # Chrome driver
-  if ! hash chromedriver 2>/dev/null
-  then
-    echo "INFO: Installing chrome webdriver..."
-    webdrivermanager chrome:83.0.4103.39
-  fi
+  && pip install -U robotframework-sshlibrary
 }
 
 function install_test_requirements() {
   pip install -r ./requirements.txt
+}
+
+function install_chromedriver() {
+  ../bin/install-chromedriver.sh
 }
 
 function deduce_public_ip() {
@@ -64,6 +62,7 @@ function run_acceptance_tests() {
 function main() {
   setup_venv \
   && install_robot_framework \
+  && install_chromedriver \
   && install_test_requirements \
   && deduce_public_ip \
   && run_acceptance_tests
