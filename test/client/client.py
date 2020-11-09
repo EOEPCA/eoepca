@@ -216,7 +216,7 @@ class DemoClient:
         return access_token
 
     def proc_deploy_application(self, service_base_url, app_deploy_body_filename, id_token=None, access_token=None):
-        """Deploy application via 'API Processes' endpoint, with optional user token
+        """Deploy application via 'API Processes' endpoint
 
         The body of the deployment request is obtained from the supplied file
         """
@@ -238,10 +238,51 @@ class DemoClient:
         return access_token
 
     def proc_get_app_details(self, service_base_url, app_name, id_token=None, access_token=None):
-        """Get details for the application with the supplied name, with optional user token
+        """Get details for the application with the supplied name
         """
         url = service_base_url + "/processes/" + app_name
         headers = { "Accept": "application/json" }
         r, access_token = self.uma_get_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
         print(f"[App Details]=({r.status_code}-{r.reason})={r.text}")
         return access_token
+
+    def proc_execute_application(self, service_base_url, app_name, app_execute_body_filename, id_token=None, access_token=None):
+        """Execute application via 'API Processes' endpoint
+
+        The body of the execute request is obtained from the supplied file
+        """
+        # get request body from file
+        app_execute_body = {}
+        try:
+            with open(app_execute_body_filename) as app_execute_body_file:
+                app_execute_body = json.loads(app_execute_body_file.read())
+                print(f"Application execute details read from file: {app_execute_body_filename}")
+        except FileNotFoundError:
+            print(f"ERROR could not find application execute details file: {app_execute_body_filename}")
+        except json.decoder.JSONDecodeError:
+            print(f"ERROR loading application execute details from file: {app_execute_body_filename}")
+        # make request
+        url = service_base_url + "/processes/" + app_name + "/jobs"
+        headers = { "Accept": "application/json", "Content-Type": "application/json", "Prefer": "respond-async" }
+        r, access_token = self.uma_get_request(self.session.post, url, headers=headers, id_token=id_token, access_token=access_token, json=app_execute_body)
+        job_location = r.headers['Location']
+        print(f"[Execute Response]=({r.status_code}-{r.reason})=> job={job_location}")
+        return access_token, job_location
+
+    def proc_get_job_status(self, service_base_url, job_location, id_token=None, access_token=None):
+        """Get the job status from the supplied location
+        """
+        url = service_base_url + job_location
+        headers = { "Accept": "application/json" }
+        r, access_token = self.uma_get_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
+        print(f"[Job Status]=({r.status_code}-{r.reason})={r.text}")
+        return access_token, r.json()
+
+    def proc_get_job_result(self, service_base_url, job_location, id_token=None, access_token=None):
+        """Get the job result from the supplied location
+        """
+        url = service_base_url + job_location + "/result"
+        headers = { "Accept": "application/json" }
+        r, access_token = self.uma_get_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
+        print(f"[Job Result]=({r.status_code}-{r.reason})={r.text}")
+        return access_token, r.json()
