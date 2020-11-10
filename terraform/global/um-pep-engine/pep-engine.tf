@@ -5,7 +5,7 @@ resource "kubernetes_config_map" "pep_engine_cm" {
   data = {
     PEP_REALM                    = "eoepca"
     PEP_AUTH_SERVER_URL          = "${join("", ["http://", var.hostname])}"
-    PEP_PROXY_ENDPOINT           = "/"
+    PEP_PROXY_ENDPOINT           = "/ades"
     PEP_SERVICE_HOST             = "0.0.0.0"
     PEP_SERVICE_PORT             = "5566"
     PEP_S_MARGIN_RPT_VALID       = "5"
@@ -15,6 +15,9 @@ resource "kubernetes_config_map" "pep_engine_cm" {
     PEP_RESOURCE_SERVER_ENDPOINT = "http://ades/"
     PEP_API_RPT_UMA_VALIDATION   = "true"
     PEP_RPT_LIMIT_USES           = "1"
+    PEP_PDP_URL                  = "${join("", ["http://", var.hostname])}"
+    PEP_PDP_PORT                 = "5567"
+    PEP_PDP_POLICY_ENDPOINT      = "/policy/"
   }
 }
 
