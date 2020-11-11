@@ -9,4 +9,5 @@ trap "cd '${ORIG_DIR}'" EXIT
 python3 -m venv venv
 source venv/bin/activate
 python -m pip install -U pip
+pip install -U wheel
 pip install -U -r requirements.txt
