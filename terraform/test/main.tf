@@ -75,7 +75,8 @@ module "um-user-profile" {
 # }
 
 module "proc-ades" {
-  source               = "../global/ades"
+  source        = "../global/ades"
+  dynamic_storage_class = var.dynamic_storage_class
 }
 
 module "rm-workspace" {

@@ -45,6 +45,7 @@ echo "Using PUBLIC_IP=${PUBLIC_IP}"
 echo "Using NFS_SERVER_ADDRESS=${NFS_SERVER_ADDRESS}"
 
 # Storage class
+#
 # If using minikube then set storage class to 'eoepca-host' (host storage OK for dev testing)
 if [ "${PUBLIC_IP}" = "${LOCALKUBE_IP}" ]
 then
@@ -52,6 +53,14 @@ then
   echo "INFO: using 'local' kubernetes with IP ${LOCALKUBE_IP} and storage class ${STORAGE_CLASS}"
 fi
 if [ -n "${STORAGE_CLASS}" ]; then VAR_STORAGE_CLASS="--var=storage_class=${STORAGE_CLASS}"; fi
+#
+# Also dynamic storage class (e.g. used by ADES)
+if [ "${PUBLIC_IP}" = "${LOCALKUBE_IP}" ]
+then
+  DYNAMIC_STORAGE_CLASS="${DYNAMIC_STORAGE_CLASS:-standard}"
+  echo "INFO: using dynamic storage class ${DYNAMIC_STORAGE_CLASS}"
+fi
+if [ -n "${DYNAMIC_STORAGE_CLASS}" ]; then VAR_DYNAMIC_STORAGE_CLASS="--var=dynamic_storage_class=${DYNAMIC_STORAGE_CLASS}"; fi
 
 # Terraform plugins...
 #
@@ -86,6 +95,7 @@ do
     --var="wspace_user_password=${WSPACE_PASSWORD}" \
     --var="nfs_server_address=${NFS_SERVER_ADDRESS}" \
     ${VAR_STORAGE_CLASS} \
+    ${VAR_DYNAMIC_STORAGE_CLASS} \
     --var="hostname=test.${PUBLIC_IP}.nip.io" \
     --var="public_ip=${PUBLIC_IP}"
   status=$(( $? ))

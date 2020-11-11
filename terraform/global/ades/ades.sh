@@ -10,7 +10,7 @@ TEMP_DIR="generated"
 K8S_YAML_FILE="${TEMP_DIR}/ades.yaml"
 NAMESPACE="eoepca"
 ADES_SERVICE_ACCOUNT="ades"
-STORAGE_CLASS="managed-nfs-storage"
+STORAGE_CLASS="${STORAGE_CLASS:-notset}"
 KUBECONFIG_FILE="${TEMP_DIR}/kubeconfig"
 
 mkdir -p "${TEMP_DIR}"

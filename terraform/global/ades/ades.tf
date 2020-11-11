@@ -1,7 +1,7 @@
 resource "null_resource" "ades_roles" {
   provisioner "local-exec" {
     command = <<-EOT
-      ${path.module}/ades.sh roles
+      STORAGE_CLASS=${var.dynamic_storage_class} ${path.module}/ades.sh roles
       EOT
   }
 }
@@ -19,7 +19,7 @@ resource "null_resource" "ades" {
   depends_on = ["kubectl_manifest.ades_roles"]
   provisioner "local-exec" {
     command = <<-EOT
-      ${path.module}/ades.sh prepare
+      STORAGE_CLASS=${var.dynamic_storage_class} ${path.module}/ades.sh prepare
       EOT
   }
 }
