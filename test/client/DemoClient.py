@@ -1,11 +1,16 @@
 import requests
 from urllib3.exceptions import InsecureRequestWarning
 import json
+from urllib.parse import urlparse
 from eoepca_scim import EOEPCA_Scim, ENDPOINT_AUTH_CLIENT_POST
+from robot.api.deco import library, keyword
 
+@library
 class DemoClient:
     """Example client calling EOEPCA public endpoints
     """
+    ROBOT_LIBRARY_SCOPE = 'GLOBAL'
+    ROBOT_LIBRARY_VERSION = '0.1'
 
     def __init__(self, base_url):
         """Initialise client session with provided base URL.
@@ -32,6 +37,7 @@ class DemoClient:
         except json.decoder.JSONDecodeError:
             print(f"ERROR loading state from file. Using clean state...")
     
+    @keyword(name='Client Save State')
     def save_state(self):
         """Save state to file 'state.json'.
         """
@@ -55,7 +61,6 @@ class DemoClient:
     def register_client(self):
         """Register ourselves as a client of the platform.
 
-        Uses hardcoded ADMIN credentials.
         Skips registration if client is already registered (client_id/secret loaded from state file).
         """
         if not "client_id" in self.state:
@@ -75,24 +80,36 @@ class DemoClient:
         else:
             print(f"client_id: {self.state['client_id']} [REUSED]")
 
+    def get_client_credentials(self):
+        """Returns the client credentials (client_id/secret)
+
+        Performs client registration if needed.
+        """
+        if not "client_id" in self.state:
+            self.register_client()
+        return self.state["client_id"], self.state["client_secret"]
+
+    @keyword(name='Get ID Token')
     def get_id_token(self, username, password):
         """Gets a user ID token using username/password authentication.
         """
+        client_id, client_secret = self.get_client_credentials()
         headers = { 'cache-control': "no-cache" }
         data = {
             "scope": "openid user_name",
             "grant_type": "password",
             "username": username,
             "password": password,
-            "client_id": self.state["client_id"],
-            "client_secret": self.state["client_secret"]
+            "client_id": client_id,
+            "client_secret": client_secret
         }
-        r = self.session.post(self.token_endpoint, headers=headers, data=data)
+        r = self.session.post(self.get_token_endpoint(), headers=headers, data=data)
         id_token = r.json()["id_token"]
         print(f"id_token: {id_token}")
         return id_token
 
-    def add_resource(self, service_url, uri, id_token, name, scopes):
+    @keyword(name='Register Protected Resource')
+    def register_protected_resource(self, service_url, uri, id_token, name, scopes):
         """Register a resource in the PEP
 
         Uses provided user ID token to authorise the request.
@@ -109,7 +126,7 @@ class DemoClient:
         else:
             self.state["resources"] = { service_url: { uri: "" } }
         if resource_id == None:
-            headers = { 'content-type': "application/json", "Authorization": "Bearer {id_token}" }
+            headers = { 'content-type': "application/json", "Authorization": f"Bearer {id_token}" }
             data = { "resource_scopes":scopes, "icon_uri":uri, "name":name}
             r = self.session.post(f"{service_url}/resources/{name}", headers=headers, json=data)
             resource_id = r.text
@@ -125,17 +142,18 @@ class DemoClient:
         if ticket == None or len(ticket) == 0 or id_token == None or len(id_token) == 0:
             print("ERROR: ticket and id_token are required")
             return
+        client_id, client_secret = self.get_client_credentials()
         headers = { 'content-type': "application/x-www-form-urlencoded", "cache-control": "no-cache" }
         data = {
             "claim_token_format": "http://openid.net/specs/openid-connect-core-1_0.html#IDToken",
             "claim_token": id_token,
             "ticket": ticket,
             "grant_type": "urn:ietf:params:oauth:grant-type:uma-ticket",
-            "client_id": self.state["client_id"],
-            "client_secret": self.state["client_secret"],
+            "client_id": client_id,
+            "client_secret": client_secret,
             "scope": "openid"
         }
-        r = self.session.post(self.token_endpoint, headers=headers, data=data)
+        r = self.session.post(self.get_token_endpoint(), headers=headers, data=data)
         access_token = r.json()["access_token"]
         print(f"access_token: {access_token}")
         return access_token
@@ -143,16 +161,17 @@ class DemoClient:
     def get_access_token_from_password(self, username, password):
         """Convert UMA ticket to access token, using username/password for authentication.
         """
+        client_id, client_secret = self.get_client_credentials()
         headers = { 'content-type': "application/x-www-form-urlencoded", "cache-control": "no-cache" }
         data = {
             "grant_type": "password",
-            "client_id": self.state["client_id"],
-            "client_secret": self.state["client_secret"],
+            "client_id": client_id,
+            "client_secret": client_secret,
             "username": username,
             "password": password,
             "scope": "openid"
         }
-        r = self.session.post(self.token_endpoint, headers=headers, data=data)
+        r = self.session.post(self.get_token_endpoint(), headers=headers, data=data)
         access_token = r.json()["access_token"]
         print(f"access_token: {access_token}")
         return access_token
@@ -204,8 +223,9 @@ class DemoClient:
         url = service_base_url + "/?service=WPS&version=1.0.0&request=GetCapabilities"
         r, access_token = self.uma_get_request(self.session.get, url, id_token=id_token, access_token=access_token)
         print(f"[WPS Capabilities]=({r.status_code}-{r.reason})={r.text}")
-        return access_token
+        return r, access_token
 
+    @keyword(name='Proc List Processes')
     def proc_list_processes(self, service_base_url, id_token=None, access_token=None):
         """Call the 'API Processes' endpoint
         """
@@ -213,8 +233,9 @@ class DemoClient:
         headers = { "Accept": "application/json" }
         r, access_token = self.uma_get_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
         print(f"[Process List]=({r.status_code}-{r.reason})={r.text}")
-        return access_token
+        return r, access_token
 
+    @keyword(name='Proc Deploy App')
     def proc_deploy_application(self, service_base_url, app_deploy_body_filename, id_token=None, access_token=None):
         """Deploy application via 'API Processes' endpoint
 
@@ -235,8 +256,9 @@ class DemoClient:
         headers = { "Accept": "application/json", "Content-Type": "application/json" }
         r, access_token = self.uma_get_request(self.session.post, url, headers=headers, id_token=id_token, access_token=access_token, json=app_deploy_body)
         print(f"[Deploy Response]=({r.status_code}-{r.reason})={r.text}")
-        return access_token
+        return r, access_token
 
+    @keyword(name='Proc App Details')
     def proc_get_app_details(self, service_base_url, app_name, id_token=None, access_token=None):
         """Get details for the application with the supplied name
         """
@@ -244,8 +266,9 @@ class DemoClient:
         headers = { "Accept": "application/json" }
         r, access_token = self.uma_get_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
         print(f"[App Details]=({r.status_code}-{r.reason})={r.text}")
-        return access_token
+        return r, access_token
 
+    @keyword(name='Proc Execute App')
     def proc_execute_application(self, service_base_url, app_name, app_execute_body_filename, id_token=None, access_token=None):
         """Execute application via 'API Processes' endpoint
 
@@ -266,9 +289,11 @@ class DemoClient:
         headers = { "Accept": "application/json", "Content-Type": "application/json", "Prefer": "respond-async" }
         r, access_token = self.uma_get_request(self.session.post, url, headers=headers, id_token=id_token, access_token=access_token, json=app_execute_body)
         job_location = r.headers['Location']
+        job_location_path = urlparse(job_location).path
         print(f"[Execute Response]=({r.status_code}-{r.reason})=> job={job_location}")
-        return access_token, job_location
+        return r, access_token, job_location_path
 
+    @keyword(name='Proc Job Status')
     def proc_get_job_status(self, service_base_url, job_location, id_token=None, access_token=None):
         """Get the job status from the supplied location
         """
@@ -276,7 +301,7 @@ class DemoClient:
         headers = { "Accept": "application/json" }
         r, access_token = self.uma_get_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
         print(f"[Job Status]=({r.status_code}-{r.reason})={r.text}")
-        return access_token, r.json()
+        return r, access_token
 
     def proc_get_job_result(self, service_base_url, job_location, id_token=None, access_token=None):
         """Get the job result from the supplied location
@@ -285,4 +310,4 @@ class DemoClient:
         headers = { "Accept": "application/json" }
         r, access_token = self.uma_get_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
         print(f"[Job Result]=({r.status_code}-{r.reason})={r.text}")
-        return access_token, r.json()
+        return r, access_token

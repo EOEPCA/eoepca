@@ -1,5 +1,7 @@
 from eoepca_scim import EOEPCA_Scim, ENDPOINT_AUTH_CLIENT_POST
-from robot.api.deco import keyword
+from robot.api.deco import library, keyword
+
+@library
 class ScimClient:
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
     ROBOT_LIBRARY_VERSION = '0.1'
