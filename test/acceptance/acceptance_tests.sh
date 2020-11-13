@@ -17,23 +17,28 @@ function setup_venv() {
       echo "ERROR: python virtualenv package is required. Please install (e.g. apt install python3-venv)"
       return 1
     fi
+    echo "INFO: activate venv and update..."
+    source venv/bin/activate
+    python -m pip install -U pip
+    pip install -U wheel
   else
-    echo "INFO: updating existing venv..."
+    echo "INFO: activate venv..."
+    source venv/bin/activate
   fi
-  echo "INFO: activate venv and update..."
-  source venv/bin/activate
-  python -m pip install -U pip
-  pip install -U wheel
 }
 
 function install_robot_framework() {
-  # python components
-  echo "INFO: Installing/updating Robot Framework and dependencies..."
-  pip install -U robotframework \
-  && pip install -U docutils \
-  && pip install -U robotframework-requests \
-  && pip install -U robotframework-seleniumlibrary \
-  && pip install -U robotframework-sshlibrary
+  if ! hash robot 2>/dev/null
+  then
+    echo "INFO: Installing Robot Framework and dependencies..."
+    pip install -U robotframework \
+    && pip install -U docutils \
+    && pip install -U robotframework-requests \
+    && pip install -U robotframework-seleniumlibrary \
+    && pip install -U robotframework-sshlibrary
+  else
+    echo "INFO: Using existing Robot Framework installation"
+  fi
 }
 
 function install_test_requirements() {
@@ -41,7 +46,12 @@ function install_test_requirements() {
 }
 
 function install_chromedriver() {
-  ../bin/install-chromedriver.sh
+  if ! hash chromedriver 2>/dev/null
+  then
+    ../bin/install-chromedriver.sh
+  else
+    echo "INFO: Using existing chromedriver installation"
+  fi
 }
 
 function deduce_public_ip() {
@@ -57,6 +67,7 @@ function run_acceptance_tests() {
 
   echo "INFO: Invoking acceptance tests..."
   robot --variable PUBLIC_HOSTNAME:${public_hostname} .
+  # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.Processing.ADES .
 }
 
 function main() {

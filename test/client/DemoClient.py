@@ -74,9 +74,12 @@ class DemoClient:
                 responseTypes = ["code","token","id_token"],
                 scopes = ['openid',  'email', 'user_name ','uma_protection', 'permission'],
                 token_endpoint_auth_method = ENDPOINT_AUTH_CLIENT_POST)
-            self.state["client_id"] = self.client["client_id"]
-            self.state["client_secret"] = self.client["client_secret"]
-            print(f"client_id: {self.state['client_id']}")
+            if self.client["client_id"] and self.client["client_secret"]:
+                self.state["client_id"] = self.client["client_id"]
+                self.state["client_secret"] = self.client["client_secret"]
+                print(f"client_id: {self.state['client_id']}")
+            else:
+                print("ERROR: Incomplete client credentials")
         else:
             print(f"client_id: {self.state['client_id']} [REUSED]")
 
@@ -122,18 +125,21 @@ class DemoClient:
                 if uri in self.state["resources"][service_url]:
                     resource_id = self.state["resources"][service_url][uri]
             else:
-                self.state["resources"][service_url] = { uri: "" }
+                self.state["resources"][service_url] = {}
         else:
-            self.state["resources"] = { service_url: { uri: "" } }
+            self.state["resources"] = { service_url: {} }
         if resource_id == None:
             headers = { 'content-type': "application/json", "Authorization": f"Bearer {id_token}" }
             data = { "resource_scopes":scopes, "icon_uri":uri, "name":name}
             r = self.session.post(f"{service_url}/resources/{name}", headers=headers, json=data)
             resource_id = r.text
-            self.state["resources"][service_url][uri] = resource_id
-            print(f"resource_id: {resource_id}")
+            if resource_id:
+                self.state["resources"][service_url][uri] = resource_id
+                print(f"resource_id: {resource_id} ({service_url}{uri})")
+            else:
+                print(f"ERROR: Empty resource ID for {service_url}{uri}")
         else:
-            print(f"resource_id: {resource_id} [REUSED]")
+            print(f"resource_id: {resource_id} ({service_url}{uri}) [REUSED]")
         return resource_id
 
     def get_access_token_from_ticket(self, ticket, id_token):
