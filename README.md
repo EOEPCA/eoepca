@@ -41,6 +41,7 @@
 - [Table of Contents](#table-of-contents)
 - [About The Project](#about-the-project)
 - [Getting Started](#getting-started)
+  - [Hostnames and DNS](#hostnames-and-dns)
 - [System Documentation](#system-documentation)
 - [Technical Domains](#technical-domains)
   - [User Management](#user-management)
@@ -71,9 +72,11 @@ The EOEPCA system deployment comprises several steps. Instructions are provided 
 
 The first step is to clone this repository to your local platform...
 ```
-$ git clone --branch v0.1.2 git@github.com:EOEPCA/eoepca.git
+$ git clone git@github.com:EOEPCA/eoepca.git
+$ cd eoepca
+$ git checkout release/v0.2
 ```
-NOTE that this clones the specific tag that is well tested. For the latest development branch the `--branch` option should be omitted.
+NOTE that this clones the specific tag that is well tested. The `develop` branch should alternatively be used for the latest development.
 
 Step | Cloud (OpenStack) | Local Developer
 -----|-------------------|----------------

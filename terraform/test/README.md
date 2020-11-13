@@ -20,10 +20,6 @@ $ ../bin/install-terraform.sh
 The deployment is initiated via script [deployEOEPCA.sh](deployEOEPCA.sh).
 
 The script is configured through the following environment variables, that can be set either by editing the script directly, or exporting them before running [deployEOEPCA.sh](deployEOEPCA.sh):
-* `DOCKER_EMAIL`: Email of the account with access to the Dockerhub EOEPCA repository
-* `DOCKER_USERNAME`: User name of the account with access to the Dockerhub EOEPCA repository
-* `DOCKER_PASSWORD`: Password of the account with access to the Dockerhub EOEPCA repository<br>
-  *NOTE that the above DOCKER_XXX environment variables are not currently used, and so can be left unset.*
 * `WSPACE_USERNAME`: User name of the account with access to the workspace. Defaults to 'eoepca' if not set
 * `WSPACE_PASSWORD`: Password of the workspace account. Defaults to 'telespazio' if not set<br>
   *NOTE that the Workspace component is a stub (using [Nextcloud](https://nextcloud.com/)) that is instantiated within the cluster to support the stage-out of the ADES component using WebDAV. Hence, the credentials used are not important.*
