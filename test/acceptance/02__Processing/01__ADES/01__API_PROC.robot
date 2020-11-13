@@ -19,6 +19,8 @@ ${API_PROC_SERVICE_ROOT}=  /wps3
 ${API_PROC_JOB_MONITOR_ROOT}=  /watchjob
 ${API_PROC_PATH_PREFIX}=  ${PEP_PREFIX}${API_PROC_SERVICE_ROOT}
 ${API_PROC_SERVICE_URL}=  ${ADES_BASE_URL}${API_PROC_PATH_PREFIX}
+${USERNAME}=  UserA
+${PASSWORD}=  defaultPWD
 ${ID_TOKEN}=
 ${ACCESS_TOKEN}=
 
@@ -41,14 +43,15 @@ Execute Application
 
 *** Keywords ***
 Suite Setup
-  Init ID Token
+  Init ID Token  ${USERNAME}  ${PASSWORD}
   Init Resource Protection
 
 Suite Teardown
   Client Save State
 
 Init ID Token
-  ${id_token}=  Get ID Token  demo  telespazio
+  [Arguments]  ${username}  ${password}
+  ${id_token}=  Get ID Token  ${username}  ${password}
   Should Be True  $id_token is not None
   Set Suite Variable  ${ID_TOKEN}  ${id_token}
 
