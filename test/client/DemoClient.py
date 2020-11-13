@@ -182,8 +182,11 @@ class DemoClient:
         print(f"access_token: {access_token}")
         return access_token
 
-    def uma_get_request(self, requestor, url, headers=None, id_token=None, access_token=None, json=None, data=None):
-        """Helper to perform a get request via a UMA flow
+    def uma_http_request(self, requestor, url, headers=None, id_token=None, access_token=None, json=None, data=None):
+        """Helper to perform an http request via a UMA flow.
+
+        Handles response code 401 to perform the UMA flow.
+        The 'requestor' argument provides the function to be called to make the request, e.g. `requests.get`, `requests.post`, ...
         """
         # loop control variables
         count = 0
@@ -227,7 +230,7 @@ class DemoClient:
         """Call the WPS GetCapabilities endpoint
         """
         url = service_base_url + "/?service=WPS&version=1.0.0&request=GetCapabilities"
-        r, access_token = self.uma_get_request(self.session.get, url, id_token=id_token, access_token=access_token)
+        r, access_token = self.uma_http_request(self.session.get, url, id_token=id_token, access_token=access_token)
         print(f"[WPS Capabilities]=({r.status_code}-{r.reason})={r.text}")
         return r, access_token
 
@@ -237,7 +240,7 @@ class DemoClient:
         """
         url = service_base_url + "/processes"
         headers = { "Accept": "application/json" }
-        r, access_token = self.uma_get_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
+        r, access_token = self.uma_http_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
         print(f"[Process List]=({r.status_code}-{r.reason})={r.text}")
         return r, access_token
 
@@ -260,7 +263,7 @@ class DemoClient:
         # make request
         url = service_base_url + "/processes"
         headers = { "Accept": "application/json", "Content-Type": "application/json" }
-        r, access_token = self.uma_get_request(self.session.post, url, headers=headers, id_token=id_token, access_token=access_token, json=app_deploy_body)
+        r, access_token = self.uma_http_request(self.session.post, url, headers=headers, id_token=id_token, access_token=access_token, json=app_deploy_body)
         print(f"[Deploy Response]=({r.status_code}-{r.reason})={r.text}")
         return r, access_token
 
@@ -270,7 +273,7 @@ class DemoClient:
         """
         url = service_base_url + "/processes/" + app_name
         headers = { "Accept": "application/json" }
-        r, access_token = self.uma_get_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
+        r, access_token = self.uma_http_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
         print(f"[App Details]=({r.status_code}-{r.reason})={r.text}")
         return r, access_token
 
@@ -293,7 +296,7 @@ class DemoClient:
         # make request
         url = service_base_url + "/processes/" + app_name + "/jobs"
         headers = { "Accept": "application/json", "Content-Type": "application/json", "Prefer": "respond-async" }
-        r, access_token = self.uma_get_request(self.session.post, url, headers=headers, id_token=id_token, access_token=access_token, json=app_execute_body)
+        r, access_token = self.uma_http_request(self.session.post, url, headers=headers, id_token=id_token, access_token=access_token, json=app_execute_body)
         job_location = r.headers['Location']
         job_location_path = urlparse(job_location).path
         print(f"[Execute Response]=({r.status_code}-{r.reason})=> job={job_location}")
@@ -305,7 +308,7 @@ class DemoClient:
         """
         url = service_base_url + job_location
         headers = { "Accept": "application/json" }
-        r, access_token = self.uma_get_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
+        r, access_token = self.uma_http_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
         print(f"[Job Status]=({r.status_code}-{r.reason})={r.text}")
         return r, access_token
 
@@ -314,6 +317,6 @@ class DemoClient:
         """
         url = service_base_url + job_location + "/result"
         headers = { "Accept": "application/json" }
-        r, access_token = self.uma_get_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
+        r, access_token = self.uma_http_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
         print(f"[Job Result]=({r.status_code}-{r.reason})={r.text}")
         return r, access_token
