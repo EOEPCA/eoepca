@@ -4,7 +4,7 @@ metadata:
   name: cheddar
 spec:
   rules:
-  - host: cheddar.rconway.ddns.net
+  - host: cheddar.192.168.49.2.nip.io
     http:
       paths:
       - path: /
@@ -18,7 +18,7 @@ metadata:
   name: stilton
 spec:
   rules:
-  - host: stilton.rconway.ddns.net
+  - host: stilton.192.168.49.2.nip.io
     http:
       paths:
       - path: /
@@ -32,7 +32,7 @@ metadata:
   name: wensleydale
 spec:
   rules:
-  - host: wensleydale.rconway.ddns.net
+  - host: wensleydale.192.168.49.2.nip.io
     http:
       paths:
       - path: /
