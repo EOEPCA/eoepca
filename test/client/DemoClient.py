@@ -298,9 +298,8 @@ class DemoClient:
         headers = { "Accept": "application/json", "Content-Type": "application/json", "Prefer": "respond-async" }
         r, access_token = self.uma_http_request(self.session.post, url, headers=headers, id_token=id_token, access_token=access_token, json=app_execute_body)
         job_location = r.headers['Location']
-        job_location_path = urlparse(job_location).path
         print(f"[Execute Response]=({r.status_code}-{r.reason})=> job={job_location}")
-        return r, access_token, job_location_path
+        return r, access_token, job_location
 
     @keyword(name='Proc Job Status')
     def proc_get_job_status(self, service_base_url, job_location, id_token=None, access_token=None):

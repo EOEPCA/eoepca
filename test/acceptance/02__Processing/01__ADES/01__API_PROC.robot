@@ -121,10 +121,10 @@ Execute Application
 
 Check Job Status Success
   [Arguments]  ${job_location}
-  ${resp}  ${access_token} =  Proc Job Status  ${ADES_BASE_URL}${PEP_PREFIX}  ${job_location}  ${ID_TOKEN}  ${ACCESS_TOKEN}
+  ${resp}  ${access_token} =  Proc Job Status  ${ADES_BASE_URL}  ${job_location}  ${ID_TOKEN}  ${ACCESS_TOKEN}
   FOR  ${index}  IN RANGE  40
     Sleep  30  Loop wait for processing execution completion
-    ${resp}  ${access_token} =  Proc Job Status  ${ADES_BASE_URL}${PEP_PREFIX}  ${job_location}  ${ID_TOKEN}  ${ACCESS_TOKEN}
+    ${resp}  ${access_token} =  Proc Job Status  ${ADES_BASE_URL}  ${job_location}  ${ID_TOKEN}  ${ACCESS_TOKEN}
     Status Should Be  200  ${resp}
     Should Be True  $access_token is not None
     Set Suite Variable  ${ACCESS_TOKEN}  ${access_token}

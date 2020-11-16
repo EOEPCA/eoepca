@@ -88,7 +88,7 @@ def main():
     print("\n### API Proc Get Job Status ###")
     status = "running"
     while status == 'running':
-        r, access_token = demo.proc_get_job_status(active_ades_url + ades_prefix, job_location_path, id_token=user_id_token, access_token=access_token)
+        r, access_token = demo.proc_get_job_status(active_ades_url, job_location_path, id_token=user_id_token, access_token=access_token)
         response = r.json()
         status = response['status']
         if status == 'failed': 
@@ -103,7 +103,7 @@ def main():
 
     # API Proc Get Job Result
     print("\n### API Proc Get Job Result ###")
-    r, access_token = demo.proc_get_job_result(active_ades_url + ades_prefix, job_location_path, id_token=user_id_token, access_token=access_token)
+    r, access_token = demo.proc_get_job_result(active_ades_url, job_location_path, id_token=user_id_token, access_token=access_token)
     response = r.json()
 
     #===========================================================================
