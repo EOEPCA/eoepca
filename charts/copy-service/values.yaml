@@ -1,29 +1,5 @@
 # Default values for copy-service.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
 
-
-serviceAccount:
-  # Specifies whether a service account should be created
-  create: true
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: "login-service"
-
-podAnnotations: {}
-
-podSecurityContext: {}
-  # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
 global:
   namespace: default
   serviceName: opendj
@@ -75,7 +51,7 @@ config:
   gcePdStorageType: pd-standard
   azureStorageAccountType: Standard_LRS
   azureStorageKind: Shared
-  
+
 opendj:
   enabled: true
   # options REDIS/NATIVE_PERSISTENCE
@@ -96,10 +72,6 @@ oxtrust:
 
 nginx:
   enabled: true
-
-service:
-  type: NodePort
-  port: 8080
 
 ingress:
   enabled: false
@@ -138,3 +110,5 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+tags:
+  redis: false

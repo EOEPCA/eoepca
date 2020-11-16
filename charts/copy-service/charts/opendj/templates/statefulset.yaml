@@ -13,16 +13,6 @@ spec:
       labels:
         app: {{ .Values.global.serviceName }} # has to match .spec.selector.matchLabels
     spec:
-      # affinity:
-      #   podAntiAffinity:
-      #     requiredDuringSchedulingIgnoredDuringExecution:
-      #     - labelSelector:
-      #         matchExpressions:
-      #         - key: app
-      #           operator: In
-      #           values:
-      #           - {{ .Values.global.serviceName }}
-      #       topologyKey: "kubernetes.io/hostname"
       volumes:
         - name: opendj-config
           persistentVolumeClaim:

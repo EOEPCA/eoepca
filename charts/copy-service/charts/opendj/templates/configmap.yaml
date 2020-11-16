@@ -1,12 +1,14 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "opendj.fullname" . }}
+  name: {{ .Values.opendj.metadataName }}
 data:
-  GLUU_CONFIG_ADAPTER: {{ .Values.global.configAdapterName | quote }}
-  GLUU_SECRET_ADAPTER: {{ .Values.global.configSecretAdapter | quote }}
+  GLUU_CONFIG_ADAPTER: {{ .Values.opendj.configAdapter | quote }}
+  GLUU_SECRET_ADAPTER: {{ .Values.opendj.configAdapter | quote }}
   GLUU_LDAP_INIT_HOST: {{ .Values.global.serviceName }} #{{ template "copy-service.fullname" . }}-service
+  GLUU_LDAP_ADVERTISE_ADRR: {{ .Values.opendj.add }}
   GLUU_LDAP_INIT: {{ .Values.gluuLdapInit | quote }}
+  GLUU_LDAP_AUTO_REPLICATE: {{.Values.opendj.repLdap | quote}}
   GLUU_LDAP_INIT_PORT: {{ .Values.gluuLdapInitPort | quote }}
   GLUU_OXTRUST_CONFIG_GENERATION: {{ .Values.gluuOxtrustConfigGeneration | quote }}
   {{- if and (.Values.gluuRedisEnabled) (eq .Values.gluuCacheType "REDIS") }}

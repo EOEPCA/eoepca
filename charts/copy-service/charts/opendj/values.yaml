@@ -23,13 +23,38 @@ fullnameOverride: ""
 statefulSetReplicas: 1
 imagePullPolicy: Always
 image: gluufederation/wrends:4.1.1_01
-
+opendj:
+  configAdapter: kubernetes
+  metadataName: opendj-init-cm
+  add: opendj
+  repLdap: "'false'"
 persistence:
   size: 100M
+  name: persistence
   accessModes: ReadWriteOnce
   type: DirectoryOrCreate
   dbStorageSize: 5Gi
-
+  statefulSetReplicas: 1
+  imagePullPolicy: Always
+  restartPolicy: Never
+  image: eoepca/um-login-persistence:latest 
+  configAdapter: GLUU_CONFIG_ADAPTER
+  adapter: "kubernetes"
+  secretAdapter: GLUU_SECRET_ADAPTER
+  passport: GLUU_PASSPORT_ENABLED
+  passportv: "'true'"
+  ldapUrl: GLUU_LDAP_URL
+  ldapUrlv: "opendj:1636"
+  persistenceType: GLUU_PERSISTENCE_TYPE
+  persistenceTypev: "ldap"
+  oxtrustConf: GLUU_OXTRUST_CONFIG_GENERATION
+  oxtrustConfv: "'false'"
+  cacheType: GLUU_CACHE_TYPE
+  cacheTypev: "NATIVE_PERSISTENCE"
+  clientID: LP_CLIENT_ID
+  clientIDv: "59f1fed27153f631bc08"
+  clientSecret: LP_CLIENT_SECRET
+  clientSecretv: "640baffac0948454c48de2505726f53d11adc8a6"
 #container specific values declared here
 tcpSocket:
   port: 1636
@@ -81,19 +106,24 @@ volumeInitMounts:
 volumeReplMounts:
   config:
     mountPath: /opt/opendj/config
-    name: opendj-repl-volume
+    subPath: opendj/config
+    name: vol-userman
   ldif: 
     mountPath: /opt/opendj/ldif
-    name: opendj-repl-volume
+    subPath: opendj/ldif
+    name: vol-userman
   logs: 
     mountPath: /opt/opendj/logs
-    name: opendj-repl-volume
+    subPath: opendj/logs
+    name: vol-userman
   db: 
     mountPath: /opt/opendj/db
-    name: opendj-repl-volume
+    subPath: opendj/db
+    name: vol-userman
   flag: 
     mountPath: /flag
-    name: opendj-repl-volume
+    subPath: opendj/flag
+    name: vol-userman
 
 #VolumeClaimTemplates
 storage: 1Gi
