@@ -5,8 +5,8 @@ from time import sleep
 
 def main():
     print("\n### TEST CLIENT ###")
-    USER_NAME="demo"
-    USER_PASSWORD="telespazio"
+    USER_NAME="UserA"
+    USER_PASSWORD="defaultPWD"
     base_url = "https://test.192.168.49.2.nip.io"
     ades_url = "http://ades.test.192.168.49.2.nip.io"
 
@@ -62,9 +62,9 @@ def main():
 
     access_token = None
 
-    # WPS Get Capabilities
-    print("\n### WPS GET CAPABILITIES ###")
-    response, access_token = demo.wps_get_capabilities(ades_wps_url, id_token=user_id_token, access_token=access_token)
+    #===========================================================================
+    # API Processes
+    #===========================================================================
 
     # API Proc List Processes
     print("\n### API Proc List Processes ###")
@@ -105,6 +105,19 @@ def main():
     print("\n### API Proc Get Job Result ###")
     r, access_token = demo.proc_get_job_result(active_ades_url, job_location_path, id_token=user_id_token, access_token=access_token)
     response = r.json()
+
+    # API Proc Undeploy Application
+    print("\n### API Proc Undeploy Application ###")
+    app_name = "vegetation_index_"
+    response, access_token = demo.proc_undeploy_application(ades_proc_url, app_name, "../acceptance/02__Processing/01__ADES/data/app-undeploy-body.json", id_token=user_id_token, access_token=access_token)
+
+    #===========================================================================
+    # WPS
+    #===========================================================================
+
+    # WPS Get Capabilities
+    print("\n### WPS GET CAPABILITIES ###")
+    response, access_token = demo.wps_get_capabilities(ades_wps_url, id_token=user_id_token, access_token=access_token)
 
     #===========================================================================
     # Completion
