@@ -109,7 +109,7 @@ def main():
     # API Proc Undeploy Application
     print("\n### API Proc Undeploy Application ###")
     app_name = "vegetation_index_"
-    response, access_token = demo.proc_undeploy_application(ades_proc_url, app_name, "../acceptance/02__Processing/01__ADES/data/app-undeploy-body.json", id_token=user_id_token, access_token=access_token)
+    response, access_token = demo.proc_undeploy_application(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
 
     #===========================================================================
     # WPS

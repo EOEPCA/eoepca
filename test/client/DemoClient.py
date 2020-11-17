@@ -334,24 +334,12 @@ class DemoClient:
         return r, access_token
 
     @keyword(name='Proc Undeploy App')
-    def proc_undeploy_application(self, service_base_url, app_name, app_undeploy_body_filename, id_token=None, access_token=None):
+    def proc_undeploy_application(self, service_base_url, app_name, id_token=None, access_token=None):
         """Undeploy application via 'API Processes' endpoint
-
-        The body of the undeployment request is obtained from the supplied file
         """
-        # get request body from file
-        app_undeploy_body = {}
-        try:
-            with open(app_undeploy_body_filename) as app_undeploy_body_file:
-                app_undeploy_body = json.loads(app_undeploy_body_file.read())
-                print(f"Undeployment details read from file: {app_undeploy_body_filename}")
-        except FileNotFoundError:
-            print(f"ERROR could not find undeploy details file: {app_undeploy_body_filename}")
-        except json.decoder.JSONDecodeError:
-            print(f"ERROR loading undeploy details from file: {app_undeploy_body_filename}")
         # make request
         url = service_base_url + "/processes/" + app_name
-        headers = { "Accept": "application/json", "Content-Type": "application/json" }
-        r, access_token = self.uma_http_request(self.session.delete, url, headers=headers, id_token=id_token, access_token=access_token, json=app_undeploy_body)
+        headers = { "Accept": "application/json" }
+        r, access_token = self.uma_http_request(self.session.delete, url, headers=headers, id_token=id_token, access_token=access_token)
         print(f"[Undeploy Response]=({r.status_code}-{r.reason})={r.text}")
         return r, access_token
