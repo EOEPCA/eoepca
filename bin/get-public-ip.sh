@@ -11,7 +11,10 @@ trap "cd '${ORIG_DIR}'" EXIT
 # * failing that, the local cluster
 function main() {
   DEPLOYMENT_PUBLIC_IP=`./get-deployment-ip.sh` || unset DEPLOYMENT_PUBLIC_IP
-  LOCALKUBE_IP=`./get-localkube-ip.sh` || LOCALKUBE_IP
+  if test -z "${DEPLOYMENT_PUBLIC_IP}"
+  then
+    LOCALKUBE_IP=`./get-localkube-ip.sh` || unset LOCALKUBE_IP
+  fi
   PUBLIC_IP="${PUBLIC_IP:-${DEPLOYMENT_PUBLIC_IP:-${LOCALKUBE_IP}}}"
 
   if [ -n "${PUBLIC_IP}" -a "${PUBLIC_IP}" != "null" ]

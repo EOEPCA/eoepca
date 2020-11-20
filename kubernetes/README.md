@@ -36,8 +36,10 @@ The helper script [create-cluster-config.sh](create-cluster-config.sh) automatic
 
 ```
 $ cd kubernetes
-$ create-cluster-config.sh
+$ create-cluster-config.sh <cluster-name>
 ```
+
+`<cluster-name>` must be supplied and is the identifying name of the cluster in the resulting kubeconfig file.
 
 ## Create Kubernetes Cluster
 
