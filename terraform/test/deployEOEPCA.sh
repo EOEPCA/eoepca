@@ -9,6 +9,7 @@ echo "Start deploy EOEPCA"
 ORIG_DIR="$(pwd)"
 cd "$(dirname "$0")"
 BIN_DIR="$(pwd)"
+echo "Bin dir ${BIN_DIR}"
 
 trap "cd '${ORIG_DIR}'" EXIT
 
