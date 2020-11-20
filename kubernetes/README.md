@@ -6,7 +6,7 @@ Rancher [Kubernetes Engine (RKE)](https://rancher.com/products/rke/) is used to 
 
 RKE is chosen as it provides a **simple** and **clean** k8s deployment:
 * Simple - requiring only that docker is installed on each target node, and configured via a simple YAML configuration file
-* Clean - the k8s cluster can setup (`rke up`) and torn-down (`rke down`) with simple commands that leave no trace
+* Clean - the k8s cluster can setup (`rke up`) and torn-down (`rke remove`) with simple commands that leave no trace (data in the persistence instance will remain)
 
 The infrastructure setup ([CREODIAS Setup](../creodias/README.md)) ensures that docker is installed on all target VMs - ready for installation of RKE.
 
