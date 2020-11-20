@@ -26,7 +26,7 @@ then
 fi
 echo "Get nodes"
 kubectl get nodes -o json
-JSON = $(kubectl get nodes -o json)
+JSON=$(kubectl get nodes -o json)
 echo "Json: ${JSON}"
 # Note the 'local kube' IP-address in case we need it
 LOCALKUBE_IP="$(kubectl get nodes -o json | jq -r '.items[0].status.addresses[] | select(.type == "InternalIP") | .address' 2>/dev/null)" || unset LOCALKUBE_IP
