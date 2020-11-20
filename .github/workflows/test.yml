@@ -18,6 +18,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup Python
         uses: actions/setup-python@v2
+      - name: Install ubuntu dependencies
+        run: sudo apt-get install jq python3-venv
       - name: Install kubectl
         run: ./bin/install-kubectl.sh
       - name: Install minikube
