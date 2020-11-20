@@ -54,7 +54,7 @@ else
   # start minikube
   # - default container runtime is docker - see https://minikube.sigs.k8s.io/docs/handbook/config/#runtime-configuration
   echo "Start minikube (default), and wait for cluster..."
-  minikube start ${OPTIONS} --addons ingress --wait "all"
+  minikube start --addons ingress --wait "all"
 fi
 
 echo "...READY"
