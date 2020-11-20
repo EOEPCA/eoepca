@@ -4,6 +4,7 @@
 # set -euov pipefail
 # Not supported in travis (xenial)
 # shopt -s inherit_errexit
+echo "Start deploy EOEPCA"
 
 ORIG_DIR="$(pwd)"
 cd "$(dirname "$0")"
