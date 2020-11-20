@@ -16,3 +16,15 @@ jobs:
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+      - name: Install kubectl
+        run: ./bin/install-kubectl.sh
+      - name: Install minikube
+        run: ./minikube/setup-minikube.sh
+      - name: Install terraform
+        run: ./bin/install-terraform.sh
+      - name: Deploy EOEPCA
+        run: ./terraform/test/deployEOEPCA.sh
+      - name: Run acceptance tests
+        run: ./test/acceptance/acceptance_tests.sh
