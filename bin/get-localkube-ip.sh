@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+echo "localkube script called"
 
 ORIG_DIR="$(pwd)"
 cd "$(dirname "$0")"
@@ -10,7 +11,6 @@ trap "cd '${ORIG_DIR}'" EXIT
 # have a 'local kube' deployment (e.g. minikube/k3s/microk8s, etc.).
 # Deduced as the IP address of the k8s node (assumed single node).
 function main() {
-  echo "localhube scritp called"
   kubectl get nodes -o json
   LOCALKUBE_IP="$(kubectl get nodes -o json | jq -r '.items[0].status.addresses[] | select(.type == "InternalIP") | .address' 2>/dev/null)" || unset LOCALKUBE_IP
   if [ -n "${LOCALKUBE_IP}" -a "${LOCALKUBE_IP}" != "null" ]
