@@ -10,7 +10,6 @@ trap "cd '${ORIG_DIR}'" EXIT
 # * first, the deployed cluster
 # * failing that, the local cluster
 function main() {
-  echo "public ip script called"
   DEPLOYMENT_PUBLIC_IP=`./get-deployment-ip.sh` || unset DEPLOYMENT_PUBLIC_IP
   LOCALKUBE_IP=`./get-localkube-ip.sh` || unset LOCALKUBE_IP
   PUBLIC_IP="${PUBLIC_IP:-${DEPLOYMENT_PUBLIC_IP:-${LOCALKUBE_IP}}}"
