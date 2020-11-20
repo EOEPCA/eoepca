@@ -10,8 +10,7 @@ cd "$(dirname "$0")"
 BIN_DIR="$(pwd)"
 
 trap "cd '${ORIG_DIR}'" EXIT
-OPTIONS="--memory=8g --cpus=4"
-minikube start ${OPTIONS} --addons ingress --wait "all"
+
 ACTION=$1
 if [ -z "$ACTION" ]; then ACTION="apply"; fi
 

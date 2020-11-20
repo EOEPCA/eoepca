@@ -23,7 +23,7 @@ jobs:
       - name: Install kubectl
         run: ./bin/install-kubectl.sh
       - name: Install minikube
-        run: ./minikube/setup-minikube.sh
+        run: ./minikube/setup-minikube_GITHUB.sh
       - name: Install terraform
         run: ./bin/install-terraform.sh
       - name: Deploy EOEPCA
