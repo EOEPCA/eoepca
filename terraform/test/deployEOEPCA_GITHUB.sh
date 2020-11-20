@@ -28,13 +28,6 @@ fi
 # Note the 'local kube' IP-address in case we need it
 LOCALKUBE_IP=$(${BIN_DIR}/../../bin/get-localkube-ip.sh) || unset LOCALKUBE_IP
 
-
-LOCALKUBE_IP="$(kubectl get nodes -o json | jq -r '.items[0].status.addresses[] | select(.type == "InternalIP") | .address' 2>/dev/null)" || unset LOCALKUBE_IP
-if [ -n "${LOCALKUBE_IP}" -a "${LOCALKUBE_IP}" != "null" ]
-then
-  echo "$LOCALKUBE_IP"
-fi
-
 # Check presence of environment variables
 #
 # If not supplied, try to derive IPs from Terraform (cloud infrastructure (preferred)), followed by minikube

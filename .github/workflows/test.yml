@@ -27,6 +27,6 @@ jobs:
       - name: Install terraform
         run: ./bin/install-terraform.sh
       - name: Deploy EOEPCA
-        run: ./terraform/test/deployEOEPCA.sh
+        run: ./terraform/test/deployEOEPCA_GITHUB.sh
       - name: Run acceptance tests
         run: ./test/acceptance/acceptance_tests.sh
