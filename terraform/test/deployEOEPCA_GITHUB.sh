@@ -78,7 +78,8 @@ fi
 # Consolidate to a local kubeconfig - less likely to confuse terraform
 kubectl config view --minify --flatten > kubeconfig
 export KUBECONFIG="$PWD/kubeconfig"
-
+echo "Check terraform version"
+terraform --version
 # Create the K8S environment
 terraform init
 count=$(( 1 ))
@@ -102,3 +103,4 @@ do
   echo "[INFO]  Deploy EOEPCA attempt: $count finished with status: $status"
   count=$(( count + 1 ))
 done
+return $status
