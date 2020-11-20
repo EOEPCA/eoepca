@@ -30,7 +30,7 @@ MINIKUBE_MODE="$1"
 if [ -z "${MINIKUBE_MODE}" -a "${USER}" = "vagrant" ]; then MINIKUBE_MODE="native"; fi
 
 # Extra options
-OPTIONS="--memory=4g --cpus=4"
+OPTIONS="--memory=8g --cpus=4"
 
 # Use default location for kubeconfig
 unset KUBECONFIG
@@ -51,10 +51,15 @@ then
   fi
 # minikube docker
 else
-  # start minikube
-  # - default container runtime is docker - see https://minikube.sigs.k8s.io/docs/handbook/config/#runtime-configuration
-  echo "Start minikube (default), and wait for cluster..."
-  minikube start --addons ingress --wait "all"
+  if [ "${MINIKUBE_MODE}" = "github" ]
+    then
+      echo "Start minikube (github), and wait for cluster..."
+      minikube start --addons ingress --wait "all"
+  else
+    # start minikube
+    # - default container runtime is docker - see https://minikube.sigs.k8s.io/docs/handbook/config/#runtime-configuration
+    echo "Start minikube (default), and wait for cluster..."
+    minikube start ${OPTIONS} --addons ingress --wait "all"
 fi
 
 echo "...READY"
