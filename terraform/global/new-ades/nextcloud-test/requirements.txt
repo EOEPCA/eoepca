@@ -1,8 +1,0 @@
-certifi==2020.6.20
-chardet==3.0.4
-idna==2.10
-pkg-resources==0.0.0
-pyocclient==0.6
-requests==2.24.0
-six==1.15.0
-urllib3==1.25.10
