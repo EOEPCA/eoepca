@@ -103,4 +103,4 @@ do
   echo "[INFO]  Deploy EOEPCA attempt: $count finished with status: $status"
   count=$(( count + 1 ))
 done
-return $status
+exit $status
