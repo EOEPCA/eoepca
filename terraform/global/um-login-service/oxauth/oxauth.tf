@@ -37,6 +37,7 @@ resource "kubernetes_service" "oxauth" {
       count=$(( 0 ))
       until kubectl logs service/oxauth 2>/dev/null | grep "Server:main: Started" >/dev/null 2>&1
       do
+        kubectl logs service/oxauth
         test $(( count % step )) -eq 0 && echo "Waiting for service/oxauth"
         sleep $interval
         count=$(( count + interval ))
