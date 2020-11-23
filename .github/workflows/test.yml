@@ -32,11 +32,11 @@ jobs:
     needs: [install-dependencies]
     steps:
       - name: Deploy EOEPCA
-        run: ./terraform/test/deployEOEPCA_GITHUB.sh
+        run: ./eoepca/terraform/test/deployEOEPCA_GITHUB.sh
   run-tests:
     name: Run acceptance tests
     runs-on: ubuntu-latest
     needs: [install-dependencies, deploy-eoepca]
     steps:
       - name: Run acceptance tests
-        run: ./test/acceptance/acceptance_tests.sh
+        run: ./eoepca/test/acceptance/acceptance_tests.sh
