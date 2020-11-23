@@ -18,6 +18,7 @@ resource "kubernetes_config_map" "pep_engine_cm" {
     PEP_PDP_URL                  = "${join("", ["http://", var.hostname])}"
     PEP_PDP_PORT                 = "5567"
     PEP_PDP_POLICY_ENDPOINT      = "/policy/"
+    PEP_VERIFY_SIGNATURE         = "false"
   }
 }
 
