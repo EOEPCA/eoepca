@@ -136,6 +136,7 @@ resource "kubernetes_stateful_set" "oxtrust" {
       count=$(( 0 ))
       until kubectl logs service/oxtrust 2>/dev/null | grep "Server:main: Started" >/dev/null 2>&1
       do
+        kubectl logs service/oxtrust
         test $(( count % step )) -eq 0 && echo "Waiting for service/oxtrust"
         sleep $interval
         count=$(( count + interval ))
