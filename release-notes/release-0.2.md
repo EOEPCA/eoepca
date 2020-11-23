@@ -31,7 +31,7 @@ The release demonstrates the following capabilities:
   * Data stage-in via OpenSearch catalogue reference
   * Data stage-out to WebDAV endpoint (Nextcloud as a stub)
   * Undeploy process
-  * Integration of Calrissian CWL Workflow engine
+  * Integration of Calrissian CWL Workflow engine<br>
     *Provides native Kubernetes integration and out-of-the-box support for a variety of execution patterns - such fan-in, fan-out, etc.*
 
 ## Building Blocks
