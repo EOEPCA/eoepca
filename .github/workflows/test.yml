@@ -30,3 +30,7 @@ jobs:
         run: ./terraform/test/deployEOEPCA_GITHUB.sh
       - name: Run acceptance tests
         run: ./test/acceptance/acceptance_tests.sh
+      - name: Delete state.json
+        run: rm ./test/acceptance/state.json
+      - name: Run acceptance tests x2
+        run: ./test/acceptance/acceptance_tests.sh
