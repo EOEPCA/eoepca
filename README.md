@@ -119,7 +119,7 @@ Application Deployment & Execution Service (ADES) | https://github.com/EOEPCA/pr
 
 ### Resource Management
 
-Not started yet
+Development of the Resource Management components are underway, but are not included in EOEPCA system release v0.2.
 
 
 <!-- Releases -->
@@ -127,6 +127,7 @@ Not started yet
 
 EOEPCA system releases are made to provide integrated deployments of the developed building blocks. The release history is as follows:
 
+* 23/11/2020 - [Release 0.2](release-notes/release-0.2.md)
 * 13/08/2020 - [Release 0.1.2](release-notes/release-0.1.2.md)
 * 06/08/2020 - [Release 0.1.1](release-notes/release-0.1.1.md)
 * 22/06/2020 - [Release 0.1](release-notes/release-0.1.md)
@@ -139,7 +140,9 @@ See the [open issues](https://github.com/EOEPCA/eoepca/issues) for a list of pro
 <!-- LICENSE -->
 ## License
 
-Distributed under the Apache-2.0 License. See `LICENSE` for more information.
+The EOEPCA SYSTEM is distributed under the European Space Agency - ESA Software Community Licence Permissive – v2.4. See `LICENSE` for more information.
+
+Building-blocks and their sub-components are individually licensed. See their respective source repositories for details.
 
 
 <!-- CONTACT -->
