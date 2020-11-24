@@ -78,15 +78,16 @@ fi
 # Consolidate to a local kubeconfig - less likely to confuse terraform
 kubectl config view --minify --flatten > kubeconfig
 export KUBECONFIG="$PWD/kubeconfig"
-
+echo "Check terraform version"
+$HOME/.local/bin/terraform --version
 # Create the K8S environment
-terraform init
+$HOME/.local/bin/terraform init
 count=$(( 1 ))
 status=$(( 1 ))
 while [ $status -ne 0 -a $count -le 1 ]
 do
   echo "[INFO]  Deploy EOEPCA attempt: $count"
-  terraform $ACTION \
+  $HOME/.local/bin/terraform $ACTION \
     ${AUTO_APPROVE} \
     --var="dh_user_email=${DOCKER_EMAIL}" \
     --var="dh_user_name=${DOCKER_USERNAME}" \
@@ -102,3 +103,4 @@ do
   echo "[INFO]  Deploy EOEPCA attempt: $count finished with status: $status"
   count=$(( count + 1 ))
 done
+exit $status

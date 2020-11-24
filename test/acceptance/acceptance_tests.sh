@@ -70,6 +70,7 @@ function run_acceptance_tests() {
   # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.UserManagement.UserProfile .
   # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.Processing.ADES .
   # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.Processing.ADES.WPS .
+
 }
 
 function main() {
@@ -79,8 +80,9 @@ function main() {
   && install_test_requirements \
   && deduce_public_ip \
   && run_acceptance_tests
-
+  STATUS=$?
   hash deactivate 2>/dev/null && deactivate
+  return $STATUS
 }
 
 main "$@"
