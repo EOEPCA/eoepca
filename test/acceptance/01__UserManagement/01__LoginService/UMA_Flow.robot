@@ -12,7 +12,7 @@ Library  ../ScimClient.py  ${UM_BASE_URL}/
 ${UMA_USER}=  admin
 ${UMA_PWD}=  admin_Abcd1234#
 ${UMA_PATH_PREFIX}=  /wps3
-${PATH_TO_RESOURCE}=  secure/resources/ADES20%Service
+${PATH_TO_RESOURCE}=  resources/ADES20%Service
 ${WELL_KNOWN_PATH}=  ${UM_BASE_URL}/.well-known/uma2-configuration
 
 *** Test Cases ***
@@ -40,7 +40,7 @@ UMA Flow to Retrieve RPT
 
 *** Keywords ***
 UMA Resource Insertion
-  ${a}=  Run Process  python3  ${CURDIR}${/}insADES.py  ${UM_BASE_URL}
+  ${a}=  Run Process  python3  ${CURDIR}${/}insADES.py  ${ADES_BASE_URL}
   ${resId}=  OperatingSystem.Get File  ${CURDIR}${/}res_id.txt
   Set Global Variable  ${RES_ID_ADES}  ${resId}
 
@@ -53,14 +53,14 @@ UMA Flow Setup
 
 UMA Get Ticket
   [Arguments]  ${base_url}  ${token}  ${resource}
-  Create Session  pep  ${UM_BASE_URL}:443  verify=False
-  ${headers}=  Create Dictionary  authorization=Bearer ${ID_TOKEN}
-  ${resp}=  Get Request  pep  /secure/resources/${resource}  headers=${headers}
+  Create Session  pep  ${base_url}  verify=False
+  ${headers}=  Create Dictionary  authorization=Bearer ${token}
+  ${resp}=  Get Request  pep  /resources/${resource}  headers=${headers}
   [Return]  ${resp}
 
 UMA Get Ticket Valid
   [Arguments]  ${base_url}  ${token}  ${resource}
-  ${resp}=  UMA Get Ticket  ${UM_BASE_URL}  ${ID_TOKEN}  ${RES_ID_ADES}
+  ${resp}=  UMA Get Ticket  ${base_url}  ${token}  ${resource}
   [Return]  ${resp}
 
 UMA Get ID Token

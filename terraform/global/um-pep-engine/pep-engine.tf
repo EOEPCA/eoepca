@@ -5,14 +5,14 @@ resource "kubernetes_config_map" "pep_engine_cm" {
   data = {
     PEP_REALM                    = "eoepca"
     PEP_AUTH_SERVER_URL          = "${join("", ["http://", var.hostname])}"
-    PEP_PROXY_ENDPOINT           = "/ades"
+    PEP_PROXY_ENDPOINT           = "/ades/"
     PEP_SERVICE_HOST             = "0.0.0.0"
     PEP_SERVICE_PORT             = "5566"
     PEP_S_MARGIN_RPT_VALID       = "5"
     PEP_CHECK_SSL_CERTS          = "false"
     PEP_USE_THREADS              = "true"
     PEP_DEBUG_MODE               = "true"
-    PEP_RESOURCE_SERVER_ENDPOINT = "http://ades/"
+    PEP_RESOURCE_SERVER_ENDPOINT = "http://ades.eoepca/"
     PEP_API_RPT_UMA_VALIDATION   = "true"
     PEP_RPT_LIMIT_USES           = "1"
     PEP_PDP_URL                  = "${join("", ["http://", var.hostname])}"
@@ -22,34 +22,34 @@ resource "kubernetes_config_map" "pep_engine_cm" {
   }
 }
 
-resource "kubernetes_ingress" "gluu_ingress_pep_engine" {
-  metadata {
-    name = "gluu-ingress-pep-engine"
+# resource "kubernetes_ingress" "gluu_ingress_pep_engine" {
+#   metadata {
+#     name = "gluu-ingress-pep-engine"
 
-    annotations = {
-      "kubernetes.io/ingress.class"                = "nginx"
-      "nginx.ingress.kubernetes.io/ssl-redirect"   = "false"
-      "nginx.ingress.kubernetes.io/rewrite-target" = "/$2"
-    }
-  }
+#     annotations = {
+#       "kubernetes.io/ingress.class"                = "nginx"
+#       "nginx.ingress.kubernetes.io/ssl-redirect"   = "false"
+#       "nginx.ingress.kubernetes.io/rewrite-target" = "/$2"
+#     }
+#   }
 
-  spec {
-    rule {
-      host = var.hostname
+#   spec {
+#     rule {
+#       host = var.hostname
 
-      http {
-        path {
-          path = "/secure(/|$)(.*)"
+#       http {
+#         path {
+#           path = "/secure(/|$)(.*)"
 
-          backend {
-            service_name = "pep-engine"
-            service_port = "5566"
-          }
-        }
-      }
-    }
-  }
-}
+#           backend {
+#             service_name = "pep-engine"
+#             service_port = "5566"
+#           }
+#         }
+#       }
+#     }
+#   }
+# }
 
 resource "kubernetes_service" "pep-engine" {
   metadata {
@@ -122,7 +122,7 @@ resource "kubernetes_deployment" "pep-engine" {
         }
         container {
           name  = "pep-engine"
-          image = "eoepca/um-pep-engine:latest"
+          image = "eoepca/um-pep-engine:v0.2.5"
 
           port {
             container_port = 5566

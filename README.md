@@ -41,6 +41,7 @@
 - [Table of Contents](#table-of-contents)
 - [About The Project](#about-the-project)
 - [Getting Started](#getting-started)
+  - [Hostnames and DNS](#hostnames-and-dns)
 - [System Documentation](#system-documentation)
 - [Technical Domains](#technical-domains)
   - [User Management](#user-management)
@@ -71,9 +72,11 @@ The EOEPCA system deployment comprises several steps. Instructions are provided 
 
 The first step is to clone this repository to your local platform...
 ```
-$ git clone --branch v0.1.2 git@github.com:EOEPCA/eoepca.git
+$ git clone git@github.com:EOEPCA/eoepca.git
+$ cd eoepca
+$ git checkout release/v0.2
 ```
-NOTE that this clones the specific tag that is well tested. For the latest development branch the `--branch` option should be omitted.
+NOTE that this clones the specific tag that is well tested. The `develop` branch should alternatively be used for the latest development.
 
 Step | Cloud (OpenStack) | Local Developer
 -----|-------------------|----------------
@@ -116,7 +119,7 @@ Application Deployment & Execution Service (ADES) | https://github.com/EOEPCA/pr
 
 ### Resource Management
 
-Not started yet
+Development of the Resource Management components are underway, but are not included in EOEPCA system release v0.2.
 
 
 <!-- Releases -->
@@ -124,6 +127,7 @@ Not started yet
 
 EOEPCA system releases are made to provide integrated deployments of the developed building blocks. The release history is as follows:
 
+* 23/11/2020 - [Release 0.2](release-notes/release-0.2.md)
 * 13/08/2020 - [Release 0.1.2](release-notes/release-0.1.2.md)
 * 06/08/2020 - [Release 0.1.1](release-notes/release-0.1.1.md)
 * 22/06/2020 - [Release 0.1](release-notes/release-0.1.md)
@@ -136,7 +140,9 @@ See the [open issues](https://github.com/EOEPCA/eoepca/issues) for a list of pro
 <!-- LICENSE -->
 ## License
 
-Distributed under the Apache-2.0 License. See `LICENSE` for more information.
+The EOEPCA SYSTEM is distributed under the European Space Agency - ESA Software Community Licence Permissive – v2.4. See `LICENSE` for more information.
+
+Building-blocks and their sub-components are individually licensed. See their respective source repositories for details.
 
 
 <!-- CONTACT -->

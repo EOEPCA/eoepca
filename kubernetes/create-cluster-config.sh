@@ -6,7 +6,15 @@ BIN_DIR="$(pwd)"
 
 trap "cd '${ORIG_DIR}'" EXIT
 
-CLUSTER_YML_FILE="${1:-cluster.yml}"
+CLUSTER_NAME="${1}"
+CLUSTER_YML_FILE="${2:-cluster.yml}"
+
+if test -z "$CLUSTER_NAME"
+then
+  echo "ERROR: must provide <cluster-name> as command argument"
+  echo "For example, $(basename "$0") staging"
+  exit 1
+fi
 
 function master_nodes() {
   master_nodes=$(terraform output -state=../creodias/terraform.tfstate -json | jq -r '.k8s_master_ips.value[]' 2>/dev/null) || unset master_nodes
@@ -46,6 +54,7 @@ EOF
 
 function cluster_yml() {
   cat - <<EOF
+cluster_name: ${CLUSTER_NAME}
 nodes:
 $(master_nodes)
 $(worker_nodes)

@@ -12,7 +12,7 @@ This section documents the pre-requisites for the job.
 
 === gh-pages branch
 
-The travis job pushes the generated doc files (html/images + pdf) to trhe 'gh-pages' branch of the repository. This should be created if it doesn't already exist.
+The travis job pushes the generated doc files (html/images + pdf) to the 'gh-pages' branch of the repository. This should be created if it doesn't already exist.
 
 === Travis settings
 

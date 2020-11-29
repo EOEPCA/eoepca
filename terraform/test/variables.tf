@@ -50,6 +50,11 @@ variable "storage_class" {
   default = "eoepca-nfs"
 }
 
+variable "dynamic_storage_class" {
+  type = string
+  default = "managed-nfs-storage"
+}
+
 variable "um-login-config_file" {
   type = string
   default = "um-login-config.json.tmpl"

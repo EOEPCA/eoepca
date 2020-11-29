@@ -13,7 +13,7 @@ mkdir -p $HOME/.local/bin
 # - fix to specific release
 # - force use of docker for container runtime (the default is containerd)
 # - disable traefik, to be replaced ingress-nginx
-export INSTALL_K3S_VERSION="v1.18.6+k3s1"
+# export INSTALL_K3S_VERSION="v1.18.6+k3s1"
 curl -sfL https://get.k3s.io | sh -s - --docker --disable traefik
 # sudo systemctl enable k3s
 
