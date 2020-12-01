@@ -115,9 +115,9 @@ resource "kubernetes_deployment" "pep-engine" {
         automount_service_account_token = true
 
         volume {
-          name = "vol-userman"
+          name = "eoepca-pep-pv-host
           persistent_volume_claim {
-            claim_name = "eoepca-userman-pvc"
+            claim_name = "eoepca-pep-pvc"
           }
         }
         container {
@@ -138,7 +138,7 @@ resource "kubernetes_deployment" "pep-engine" {
             }
           }
           volume_mount {
-            name       = "vol-userman"
+            name       = "eoepca-pep-pv-host"
             mount_path = "/data/db/resource"
             sub_path   = "pep-engine/db/resource"
           }
@@ -158,7 +158,7 @@ resource "kubernetes_deployment" "pep-engine" {
             }
           }
           volume_mount {
-            name       = "vol-userman"
+            name       = "eoepca-pep-pv-host"
             mount_path = "/data/db/resource"
             sub_path   = "pep-engine/db/resource"
           }

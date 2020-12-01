@@ -66,3 +66,53 @@ resource "kubernetes_persistent_volume_claim" "eoepca_userman_pvc" {
     }
   }
 }
+
+
+
+
+
+resource "kubernetes_persistent_volume" "eoepca_pep_pv_host" {
+  count = "${var.storage_class == "eoepca-nfs" ? 0 : 1}"
+  metadata {
+    name = "eoepca-pep-pv-host"
+    labels = {
+      eoepca_type = "userman"
+    }
+  }
+  spec {
+    storage_class_name = var.storage_class
+    access_modes       = ["ReadWriteMany"]
+    capacity = {
+      storage = "5Gi"
+    }
+    persistent_volume_source {
+      host_path {
+        path = "/kubedata/userman"
+        type = "DirectoryOrCreate"
+      }
+    }
+  }
+}
+
+resource "kubernetes_persistent_volume_claim" "eoepca-pep-pvc" {
+  metadata {
+    name = "eoepca-pep-pvc"
+    labels = {
+      eoepca_type = "userman"
+    }
+  }
+  spec {
+    storage_class_name = var.storage_class
+    access_modes       = ["ReadWriteMany"]
+    resources {
+      requests = {
+        storage = "3Gi"
+      }
+    }
+    selector {
+      match_labels = {
+        eoepca_type = "userman"
+      }
+    }
+  }
+}
