@@ -158,10 +158,13 @@ resource "kubernetes_deployment" "pep-engine" {
 resource "kubernetes_stateful_set" "mongo" {
   metadata {
     name = "mongo"
+    labels = { app = "mongo" }
   }
   spec {
     replicas = 1
-    
+    selector {
+    match_labels = { app = "mongo" }
+    }
     volume_claim_template {
       metadata {
         name = "mongo-persistent-storage"
@@ -203,6 +206,7 @@ resource "kubernetes_stateful_set" "mongo" {
           volume_mount {
             name       = "mongo-persistent-storage"
             mount_path = "/data/db/"
+            sub_path = "/resources/db/"
           }
           image_pull_policy = "Always"
 
