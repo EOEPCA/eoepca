@@ -4,13 +4,13 @@ metadata:
   name: cheddar
 spec:
   rules:
-  - host: cheddar.192.168.49.2.nip.io
+  - host: cheddar.{{ .Values.baseHostname }}
     http:
       paths:
       - path: /
         backend:
           serviceName: cheddar
-          servicePort: 80
+          servicePort: {{ .Values.service.port }}
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
@@ -18,13 +18,13 @@ metadata:
   name: stilton
 spec:
   rules:
-  - host: stilton.192.168.49.2.nip.io
+  - host: stilton.{{ .Values.baseHostname }}
     http:
       paths:
       - path: /
         backend:
           serviceName: stilton
-          servicePort: 80
+          servicePort: {{ .Values.service.port }}
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
@@ -32,11 +32,11 @@ metadata:
   name: wensleydale
 spec:
   rules:
-  - host: wensleydale.192.168.49.2.nip.io
+  - host: wensleydale.{{ .Values.baseHostname }}
     http:
       paths:
       - path: /
         backend:
           serviceName: wensleydale
-          servicePort: 80
+          servicePort: {{ .Values.service.port }}
 ---

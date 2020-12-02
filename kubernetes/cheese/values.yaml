@@ -1,0 +1,10 @@
+
+baseHostname: 192.168.49.2.nip.io
+
+image:
+    cheddar: errm/cheese:cheddar
+    stilton: errm/cheese:stilton
+    wensleydale: errm/cheese:wensleydale
+
+service:
+    port: 80
