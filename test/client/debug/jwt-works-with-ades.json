@@ -1,0 +1,51 @@
+{
+  "header": {
+    "alg": "HS256",
+    "kid": "RSA1"
+  },
+  "payload": {
+    "active": true,
+    "exp": 1593515565,
+    "iat": 1593511965,
+    "nbf": null,
+    "permissions": [
+      {
+        "resource_id": "b7cade5c-372f-4c87-be82-a7956498e729",
+        "resource_scopes": [
+          "Authenticated",
+          "openid"
+        ],
+        "exp": 1593515564,
+        "params": null
+      }
+    ],
+    "client_id": "61ce28d5-aa16-4ddc-842f-fcc158d315fa",
+    "sub": null,
+    "aud": "61ce28d5-aa16-4ddc-842f-fcc158d315fa",
+    "iss": null,
+    "jti": null,
+    "pct_claims": {
+      "aud": [
+        "61ce28d5-aa16-4ddc-842f-fcc158d315fa"
+      ],
+      "sub": [
+        "eb31421e-0a2e-490f-bbaf-0971a4e9b78a"
+      ],
+      "user_name": [
+        "riconway"
+      ],
+      "iss": [
+        "https://eoepca-dev.deimos-space.com"
+      ],
+      "exp": [
+        "1593515564"
+      ],
+      "iat": [
+        "1593511964"
+      ],
+      "oxOpenIDConnectVersion": [
+        "openidconnect-1.0"
+      ]
+    }
+  }
+}

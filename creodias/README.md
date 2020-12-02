@@ -62,11 +62,10 @@ The deployment is made from the `creodias` directory. The OpenStack cloud must b
 ```
 $ cd creodias
 $ export OS_CLOUD=eoepca  # put your chosen project name here (ref. clouds.yaml)
-$ terraform init
-$ terraform apply -var-file=eoepca.tfvars  # enter 'yes' to apply
+$ ./deployCREODIAS.sh
 ```
 
-The successful terraform completion outpts various details (IP addresses, etc.) pertaining to the created infrastructure. These outputs are used as inputs to subsequent deployment steps.
+The successful terraform completion outputs various details (IP addresses, etc.) pertaining to the created infrastructure. These outputs are used as inputs to subsequent deployment steps.
 
 The outputs can be obtained programmatically via the `terraform output` command. For example...
 ```

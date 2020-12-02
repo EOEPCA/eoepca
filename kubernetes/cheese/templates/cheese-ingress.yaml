@@ -1,0 +1,42 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: cheddar
+spec:
+  rules:
+  - host: cheddar.{{ .Values.baseHostname }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: cheddar
+          servicePort: {{ .Values.service.port }}
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: stilton
+spec:
+  rules:
+  - host: stilton.{{ .Values.baseHostname }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: stilton
+          servicePort: {{ .Values.service.port }}
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: wensleydale
+spec:
+  rules:
+  - host: wensleydale.{{ .Values.baseHostname }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: wensleydale
+          servicePort: {{ .Values.service.port }}
+---

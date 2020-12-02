@@ -18,10 +18,9 @@ AUTO_APPROVE=
 if [ "$ACTION" = "apply" ]; then AUTO_APPROVE="--auto-approve"; fi
 
 # Scrape VM infrastructure topology from terraform outputs
+DEPLOYMENT_PUBLIC_IP=`${BIN_DIR}/../../bin/get-public-ip.sh` || unset DEPLOYMENT_PUBLIC_IP
 if hash terraform 2>/dev/null
 then
-  DEPLOYMENT_PUBLIC_IP="$(terraform output -state=../../creodias/terraform.tfstate -json | jq -r '.loadbalancer_fips.value[]' 2>/dev/null)" || unset DEPLOYMENT_PUBLIC_IP
-  if [ "${DEPLOYMENT_PUBLIC_IP}" = "null" ]; then unset DEPLOYMENT_PUBLIC_IP; fi
   DEPLOYMENT_NFS_SERVER="$(terraform output -state=../../creodias/terraform.tfstate -json | jq -r '.nfs_ip_address.value' 2>/dev/null)" || unset DEPLOYMENT_NFS_SERVER
   if [ "${DEPLOYMENT_NFS_SERVER}" = "null" ]; then unset DEPLOYMENT_NFS_SERVER; fi
 fi
@@ -46,6 +45,7 @@ echo "Using PUBLIC_IP=${PUBLIC_IP}"
 echo "Using NFS_SERVER_ADDRESS=${NFS_SERVER_ADDRESS}"
 
 # Storage class
+#
 # If using minikube then set storage class to 'eoepca-host' (host storage OK for dev testing)
 if [ "${PUBLIC_IP}" = "${LOCALKUBE_IP}" ]
 then
@@ -53,6 +53,14 @@ then
   echo "INFO: using 'local' kubernetes with IP ${LOCALKUBE_IP} and storage class ${STORAGE_CLASS}"
 fi
 if [ -n "${STORAGE_CLASS}" ]; then VAR_STORAGE_CLASS="--var=storage_class=${STORAGE_CLASS}"; fi
+#
+# Also dynamic storage class (e.g. used by ADES)
+if [ "${PUBLIC_IP}" = "${LOCALKUBE_IP}" ]
+then
+  DYNAMIC_STORAGE_CLASS="${DYNAMIC_STORAGE_CLASS:-standard}"
+  echo "INFO: using dynamic storage class ${DYNAMIC_STORAGE_CLASS}"
+fi
+if [ -n "${DYNAMIC_STORAGE_CLASS}" ]; then VAR_DYNAMIC_STORAGE_CLASS="--var=dynamic_storage_class=${DYNAMIC_STORAGE_CLASS}"; fi
 
 # Terraform plugins...
 #
@@ -67,14 +75,19 @@ then
   chmod +x "$KUBECTL_PLUGIN"
 fi
 
+# Consolidate to a local kubeconfig - less likely to confuse terraform
+kubectl config view --minify --flatten > kubeconfig
+export KUBECONFIG="$PWD/kubeconfig"
+echo "Check terraform version"
+$HOME/.local/bin/terraform --version
 # Create the K8S environment
-terraform init
+$HOME/.local/bin/terraform init
 count=$(( 1 ))
 status=$(( 1 ))
-while [ $status -ne 0 -a $count -le 2 ]
+while [ $status -ne 0 -a $count -le 1 ]
 do
   echo "[INFO]  Deploy EOEPCA attempt: $count"
-  terraform $ACTION \
+  $HOME/.local/bin/terraform $ACTION \
     ${AUTO_APPROVE} \
     --var="dh_user_email=${DOCKER_EMAIL}" \
     --var="dh_user_name=${DOCKER_USERNAME}" \
@@ -83,9 +96,11 @@ do
     --var="wspace_user_password=${WSPACE_PASSWORD}" \
     --var="nfs_server_address=${NFS_SERVER_ADDRESS}" \
     ${VAR_STORAGE_CLASS} \
+    ${VAR_DYNAMIC_STORAGE_CLASS} \
     --var="hostname=test.${PUBLIC_IP}.nip.io" \
     --var="public_ip=${PUBLIC_IP}"
   status=$(( $? ))
   echo "[INFO]  Deploy EOEPCA attempt: $count finished with status: $status"
   count=$(( count + 1 ))
 done
+exit $status

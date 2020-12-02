@@ -22,11 +22,16 @@ Alternatively, use helper script [setup-minikube.sh](./setup-minikube.sh) to dow
 $ minikube/setup-minikube.sh
 ```
 
-NOTE for running minikube in a VM...<br>
-The setup-minikube.sh script retains the default (preferred) deployment of minikube as a docker container. This is not ideal if running minikube inside a VM. In this case it is better to run minikube natively inside VM using the 'none' driver, rather than the 'docker' driver. This can be achieved by running the script as follows...
+### Miniuke in a VM
+
+The setup-minikube.sh script retains the default (preferred) deployment of minikube as a docker container. Depending on the spec of your VM, you may experience performance issues with this default minikube deployment.
+
+In this case you may find more success running minikube natively inside the VM using the 'none' driver, rather than the 'docker' driver. This can be achieved by running the script as follows...
 ```
 $ minikube/setup-minikube.sh native
 ```
+
+NOTE that the preferred and best tested approach is to rely upon the default 'docker' driver. It is the one recommended by the minikube team, noting that the 'native' driver has some limitations.
 
 Or, see below for the [alternative approach using k3s](#install-k3s-alternative-to-minikube) instead of minikube. k3s has the advantage that its installation/setup runs more quickly than minikube, and is more lightweight for constrained execution environments, such as within a VM. In addition, it is provided by Rancher and is thus sibling to the Rancher Kubernetes Engine (RKE)) that is used for the main cloud deployment.
 
