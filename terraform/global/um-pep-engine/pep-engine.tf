@@ -115,15 +115,14 @@ resource "kubernetes_deployment" "pep-engine" {
         automount_service_account_token = true
 
         volume {
-          name = "vol-pep"
+          name = "vol-userman"
           persistent_volume_claim {
-            claim_name = "eoepca-pep-pvc"
+            claim_name = "eoepca-userman-pvc"
           }
         }
-
         container {
           name  = "pep-engine"
-          image = "eoepca/um-pep-engine:latest"
+          image = "eoepca/um-pep-engine:v0.2.5"
 
           port {
             container_port = 5566
@@ -138,9 +137,24 @@ resource "kubernetes_deployment" "pep-engine" {
               name = "um-pep-engine-config"
             }
           }
+          image_pull_policy = "Always"
+        }
+        container {
+          name  = "mongo"
+          image = "mongo"
+          port {
+            container_port = 27017
+            name           = "http-rp"
+          }
+
+          env_from {
+            config_map_ref {
+              name = "um-pep-engine-config"
+            }
+          }
           volume_mount {
-            name       = "vol-pep"
-            mount_path = "/data/db/resource"
+            name       = "vol-userman"
+            mount_path = "/data/db/"
             sub_path   = "pep-engine/db/resource"
           }
           image_pull_policy = "Always"
@@ -152,73 +166,5 @@ resource "kubernetes_deployment" "pep-engine" {
         }
       }
     }
-  }
-}
-
-resource "kubernetes_stateful_set" "mongo" {
-  metadata {
-    name = "mongo"
-    labels = { app = "mongo" }
-  }
-  spec {
-    replicas = 1
-    selector {
-    match_labels = { app = "mongo" }
-    }
-    volume_claim_template {
-      metadata {
-        name = "mongo-persistent-storage"
-      }
-
-      spec {
-        access_modes       = ["ReadWriteOnce"]
-        storage_class_name = "standard"
-
-        resources {
-          requests = {
-            storage = "5Gi"
-          }
-        }
-      }
-    }
-    template {
-      metadata {
-        labels = {
-          app = "mongo"
-        }
-      }
-
-      spec {
-        automount_service_account_token = true
-
-        container {
-          name  = "mongo"
-          image = "mongo"
-          port {
-            container_port = 27017
-          }
-
-          env_from {
-            config_map_ref {
-              name = "um-pep-engine-config"
-            }
-          }
-          volume_mount {
-            name       = "mongo-persistent-storage"
-            mount_path = "/data/db/"
-            sub_path = "/resources/db/"
-          }
-          image_pull_policy = "Always"
-
-          env_from {
-            config_map_ref {
-              name = "opendj-init-cm"
-            }
-          }
-        }
-      }
-    }
-
-    service_name = "pep-engine"
   }
 }
