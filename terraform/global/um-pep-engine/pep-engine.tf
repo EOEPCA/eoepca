@@ -137,11 +137,6 @@ resource "kubernetes_deployment" "pep-engine" {
               name = "um-pep-engine-config"
             }
           }
-          volume_mount {
-            name       = "vol-userman"
-            mount_path = "/data/db/resource"
-            sub_path   = "pep-engine/db/resource"
-          }
           image_pull_policy = "Always"
         }
         container {
@@ -159,7 +154,7 @@ resource "kubernetes_deployment" "pep-engine" {
           }
           volume_mount {
             name       = "vol-userman"
-            mount_path = "/data/db/resource"
+            mount_path = "/data/db/"
             sub_path   = "pep-engine/db/resource"
           }
           image_pull_policy = "Always"
