@@ -2,7 +2,7 @@ kind: GitRepo
 apiVersion: fleet.cattle.io/v1alpha1
 metadata:
   # Any name can be used here
-  name: eoepca
+  name: my-repo
   # For single cluster use fleet-local, otherwise use the namespace of
   # your choosing
   namespace: fleet-local
@@ -11,8 +11,7 @@ spec:
   # clientSecretName will probably need to be set to supply a credential.
   # repo is the only required parameter for a repo to be monitored.
   #
-  # repo: https://github.com/rancher/fleet-examples
-  repo: https://github.com/EOEPCA/eoepca
+  repo: https://github.com/rancher/fleet-examples
 
   # Enforce all resources go to this target namespace. If a cluster scoped
   # resource is found the deployment will fail.
@@ -23,7 +22,6 @@ spec:
   # branch is assumed to be master
   #
   # branch: master
-  branch: feature/EOEPCA-150-helm
 
   # A specific commit or tag can also be watched.
   #
@@ -46,7 +44,7 @@ spec:
   # - single-path
   # - multiple-paths/*
   paths:
-  - system/components/*
+  - simple
 
   # The service account that will be used to perform this deployment.
   # This is the name of the service account that exists in the
