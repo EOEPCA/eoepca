@@ -1,0 +1,40 @@
+
+Created the following PersistentVolumes:
+{{- if .Values.domain.resman.enabled }}
+* RESMAN:
+{{- if .Values.host.enabled }}
+  * HOST - eoepca-resman-pv-host
+{{- end }}
+{{- if .Values.nfs.enabled }}
+  * NFS - eoepca-resman-pv
+{{- end }}
+{{- end }}
+{{- if .Values.domain.proc.enabled }}
+* PROC:
+{{- if .Values.host.enabled }}
+  * HOST - eoepca-proc-pv-host
+{{- end }}
+{{- if .Values.nfs.enabled }}
+  * NFS - eoepca-proc-pv
+{{- end }}
+{{- end }}
+{{- if .Values.domain.userman.enabled }}
+* USERMAN:
+{{- if .Values.host.enabled }}
+  * HOST - eoepca-userman-pv-host
+{{- end }}
+{{- if .Values.nfs.enabled }}
+  * NFS - eoepca-userman-pv
+{{- end }}
+{{- end }}
+
+Created the following PersistentVolumeClaims:
+{{- if .Values.domain.resman.enabled }}
+* RESMAN - eoepca-resman-pvc
+{{- end }}
+{{- if .Values.domain.proc.enabled }}
+* PROC - eoepca-proc-pvc
+{{- end }}
+{{- if .Values.domain.userman.enabled }}
+* USERMAN - eoepca-userman-pvc
+{{- end }}
