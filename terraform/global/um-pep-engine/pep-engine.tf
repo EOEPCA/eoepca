@@ -122,7 +122,7 @@ resource "kubernetes_deployment" "pep-engine" {
         }
         container {
           name  = "pep-engine"
-          image = "eoepca/um-pep-engine:v0.2.5"
+          image = "eoepca/um-pep-engine:task203_2"
 
           port {
             container_port = 5566
