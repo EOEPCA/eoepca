@@ -1,0 +1,8 @@
+{{ if .Values.nfsDynamic.enabled }}
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: {{ .Values.nfsDynamic.storageClass }}
+provisioner: {{ .Values.nfsDynamic.provisionerName }}
+reclaimPolicy: {{ .Values.nfsDynamic.reclaimPolicy }}
+{{ end }}

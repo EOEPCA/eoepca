@@ -1,0 +1,9 @@
+{{- if .Values.nfsDynamic.enabled }}
+Dynamic storage provisioner for NFS...
+* name: {{ .Values.nfsDynamic.provisionerName }}
+* storageClass: {{ .Values.nfsDynamic.storageClass }}
+* server: {{ .Values.nfsDynamic.server.address }}:{{ .Values.nfsDynamic.server.path }}
+* mountPath: {{ .Values.nfsDynamic.server.path }}{{ .Values.nfsDynamic.mountSubPath }}
+{{- else }}
+[DISABLED] Dynamic storage provisioner for NFS
+{{- end }}
