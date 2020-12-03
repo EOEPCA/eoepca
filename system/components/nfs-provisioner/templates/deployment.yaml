@@ -1,4 +1,4 @@
-{{ if .Values.nfsDynamic.enabled }}
+{{ if .Values.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -28,14 +28,14 @@ spec:
               mountPath: /persistentvolumes
           env:
             - name: PROVISIONER_NAME
-              value: {{ .Values.nfsDynamic.provisionerName }}
+              value: {{ .Values.provisionerName }}
             - name: NFS_SERVER
-              value: {{ .Values.nfsDynamic.server.address }}
+              value: {{ .Values.server.address }}
             - name: NFS_PATH
-              value: {{ .Values.nfsDynamic.server.path }}
+              value: {{ .Values.server.path }}
       volumes:
         - name: nfs-client-root
           nfs:
-            server: {{ .Values.nfsDynamic.server.address }}
-            path: {{ .Values.nfsDynamic.server.path }}{{ .Values.nfsDynamic.mountSubPath }}
+            server: {{ .Values.server.address }}
+            path: {{ .Values.server.path }}{{ .Values.mountSubPath }}
 {{ end }}
