@@ -6,9 +6,8 @@ BIN_DIR="$(pwd)"
 
 trap "cd '${ORIG_DIR}'" EXIT
 
+CURRENT_BRANCH="$(git branch --show-current)"
+BRANCH="${BRANCH:-${CURRENT_BRANCH}}"
+
 echo "Register EOEPCA GitRepo..."
-helm install --set branch=`git branch --show-current` eoepca ./eoepca-repos
-
-echo "Check EOEPCA GitRepo status..."
-helm status eoepca
-
+helm upgrade -i --set branch="${BRANCH}" eoepca ./eoepca-repos
