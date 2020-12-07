@@ -1,5 +1,6 @@
-{{- if .Values.domain.resman.enabled -}}
-{{- if .Values.nfs.enabled -}}
+{{ if .Values.domain.resman.enabled }}
+{{ if .Values.nfs.enabled }}
+---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -15,9 +16,9 @@ spec:
   nfs:
     server: {{ .Values.nfs.server.address }}
     path: /data/resman
-{{- end }}
+{{ end }}
+{{ if .Values.host.enabled }}
 ---
-{{- if .Values.host.enabled -}}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -33,7 +34,7 @@ spec:
   hostPath:
     path: /kubedata/resman
     type: DirectoryOrCreate
-{{- end }}
+{{ end }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -51,5 +52,4 @@ spec:
   selector:
     matchLabels:
       eoepca-type: resman
-{{- end }}
----
+{{ end }}

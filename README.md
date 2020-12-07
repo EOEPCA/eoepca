@@ -82,7 +82,7 @@ Step | Cloud (OpenStack) | Local Developer
 -----|-------------------|----------------
 Infrastructure | [CREODIAS](./creodias/README.md) | n/a *(local developer platform)*
 Kubernetes Cluster | [Rancher Kubernetes Engine](./kubernetes/README.md) | [Minikube](./minikube/README.md)
-EOEPCA System Deployment | [Deploy with Terraform](./terraform/test/README.md) | [Deploy with Terraform](./terraform/test/README.md)
+EOEPCA System Deployment | [EOEPCA GitOps](./system/README.md) | [EOEPCA GitOps](./system/README.md)
 Acceptance Test | [Run Test Suite](./test/acceptance/README.md) | [Run Test Suite](./test/acceptance/README.md)
 
 ### Hostnames and DNS

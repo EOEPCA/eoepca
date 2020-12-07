@@ -1,4 +1,0 @@
-helm:
-  values:
-    service:
-        port: 8080

@@ -1,4 +1,0 @@
-helm:
-  values:
-    nfs:
-      enabled: false

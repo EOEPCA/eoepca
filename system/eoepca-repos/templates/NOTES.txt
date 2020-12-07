@@ -1,2 +1,0 @@
-
-EOEPCA GitRepo is tracking {{ .Values.repo }} on branch {{ .Values.branch }}

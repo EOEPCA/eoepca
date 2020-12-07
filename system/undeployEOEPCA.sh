@@ -4,7 +4,18 @@ ORIG_DIR="$(pwd)"
 cd "$(dirname "$0")"
 BIN_DIR="$(pwd)"
 
-trap "cd '${ORIG_DIR}'" EXIT
+TMP_KUBECONFIG="$PWD/kubeconfig.eoepca"
 
-echo "Unregister EOEPCA GitRepo resource..."
-helm uninstall eoepca
+function onExit() {
+  if test -f "$TMP_KUBECONFIG"; then rm "$TMP_KUBECONFIG"; fi
+  cd "${ORIG_DIR}"
+}
+
+trap "onExit" EXIT
+
+# Consolidate to a local kubeconfig - avoids problem of flux not handling paths in KUBECONFIG
+kubectl config view --minify --flatten > "$TMP_KUBECONFIG"
+export KUBECONFIG="$TMP_KUBECONFIG"
+
+# Uninstall flux, and hence the EOEPCA deployment
+flux uninstall --crds --silent
