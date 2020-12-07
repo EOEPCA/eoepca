@@ -5,6 +5,7 @@ metadata:
   name: um-login-service
   namespace: default
 spec:
+  suspend: true
   chart:
     spec:
       chart: ./charts/login-service
