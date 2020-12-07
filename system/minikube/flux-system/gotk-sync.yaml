@@ -7,7 +7,7 @@ metadata:
 spec:
   interval: 1m0s
   ref:
-    branch: develop
+    branch: feature/EOEPCA-220-autodeploy
   secretRef:
     name: flux-system
   url: ssh://git@github.com/EOEPCA/eoepca
