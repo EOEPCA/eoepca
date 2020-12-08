@@ -1,0 +1,70 @@
+# Default values for oxtrust.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+gluuMaxRamFraction: 1
+
+dynamicStorage: true
+
+image:
+  repository: oxtrust
+  tag: 4.1.1_02
+  pullPolicy: Always
+  
+persistence: 
+  accessModes: ReadWriteMany
+  dbStorageSize: 5Gi
+  type: DirectoryOrCreate
+
+service:
+  type: ClusterIP
+  port: 80
+
+# PVC storage
+volumeClaim:
+  storage: 10M
+
+#resources: 
+limits:
+  memory: 128Mi
+requests:
+  memory: 300Mi
+
+#containerPOrt ot connect the container with
+containerPort: 8080
+nginxIp: 10.0.2.15
+gluuOxauthBackend: oxauth:8080
+
+livenessProbe:
+  initialDelaySeconds: 200
+  periodSeconds: 200
+
+# readinessProbe
+readinessProbe:
+  initialDelaySeconds: 200
+  periodSeconds: 200
+
+#service values
+#port for which to open in oxtrust ss
+port: 8080
+clusterIp: None
+
+
+volumeMounts:
+  logs:
+    mountPath: /opt/gluu/jetty/identity/logs
+    name: eoepca-userman-pv-host
+    subPath: oxtrust/logs
+  ext:
+    mountPath: /opt/gluu/jetty/identity/lib/ext
+    name: eoepca-userman-pv-host
+    subPath: oxtrust/lib/ext
+  static:
+    mountPath: /opt/gluu/jetty/identity/custom/static
+    name: eoepca-userman-pv-host
+    subPath: oxtrust/custom/static
+  pages:
+    mountPath: /opt/gluu/jetty/identity/custom/pages
+    name: eoepca-userman-pv-host
+    subPath: oxtrust/custom/pages
+    

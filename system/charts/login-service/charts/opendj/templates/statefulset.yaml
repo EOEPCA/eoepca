@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ template "login-service.fullname" . }}-init-ss
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.global.serviceName }} # has to match .spec.template.metadata.labels
+  serviceName: {{ .Values.global.serviceName }}
+  replicas: {{ .Values.statefulSetReplicas }} # by default is 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.global.serviceName }} # has to match .spec.selector.matchLabels
+    spec:
+      volumes:
+        - name: eoepca-userman-pv-host
+          persistentVolumeClaim:
+            claimName: eoepca-userman-pvc
+        - name: config-attributes
+          configMap:
+            name: custom-attributes-config
+      containers:
+      - name: {{ template "login-service.fullname" . }}-init-container
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        image: {{ .Values.image }}
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "cp /data/77-customAttributes.ldif /opt/opendj/template/config/schema/77-customAttributes.ldif"]
+        envFrom:
+        - configMapRef:
+            name: {{ include "opendj.fullname" . }}
+        ports:
+        {{- range $key, $value := .Values.ports }}
+          - containerPort: {{ $value.targetPort }}
+            name: {{ $key }}
+            protocol: TCP
+        {{- end }}
+        volumeMounts:
+          - name: config-attributes
+            mountPath: /data/
+          - mountPath: /opt/opendj/config
+            subPath: opendj/config
+            name: eoepca-userman-pv-host
+          - mountPath: /opt/opendj/ldif
+            subPath: opendj/ldif
+            name: eoepca-userman-pv-host
+          - mountPath: /opt/opendj/logs
+            subPath: opendj/logs
+            name: eoepca-userman-pv-host
+          - mountPath: /opt/opendj/db
+            subPath: opendj/db
+            name: eoepca-userman-pv-host
+          - mountPath: /flag
+            subPath: opendj/flag
+            name: eoepca-userman-pv-host
+        readinessProbe:
+          tcpSocket: 
+            port: {{ .Values.tcpSocket.port }}
+          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+        livenessProbe:
+          tcpSocket:
+            port: {{ .Values.tcpSocket.port }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+  

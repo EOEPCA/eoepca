@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: oxpassport
+  labels:
+    app: {{ include "oxpassport.name" . }}
+    chart: {{ include "oxpassport.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  ports:
+    - port: 8090
+      targetPort: 8090
+      protocol: TCP
+      name: oxpassport
+  selector:
+    app: {{ include "oxpassport.name" . }}
+    release: {{ .Release.Name }}
