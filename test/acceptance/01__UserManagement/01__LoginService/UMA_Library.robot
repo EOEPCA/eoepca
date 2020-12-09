@@ -17,29 +17,6 @@ ${WELL_KNOWN_PATH}=  ${UM_BASE_URL}/.well-known/uma2-configuration
 ${PEP_RESOURCE_PORT}=  31709
 ${PEP_PROXY_PORT}=  31707
 
-*** Test Cases ***
-
-UMA getEndpoints
-  UMA Get Token Endpoint  ${WELL_KNOWN_PATH}  
-
-#UMA Ticket Test
-#  UMA Get Ticket Valid  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}
-
-UMA Authenticate test
-  ${resp}=  Scim Client Get Details
-  ${g_client_id}=  Get From Dictionary  ${resp}  client_id
-  ${g_client_secret}=  Get From Dictionary  ${resp}  client_secret
-  UMA Get ID Token Valid  ${ADES_BASE_URL}  ${WELL_KNOWN_PATH}  ${UMA_USER}  ${UMA_PWD}  ${g_client_id}  ${g_client_secret}
-
-UMA Flow to Retrieve RPT 
-  ${resp}=  Scim Client Get Details
-  ${g_client_id}=  Get From Dictionary  ${resp}  client_id
-  ${g_client_secret}=  Get From Dictionary  ${resp}  client_secret
-  Set Global Variable  ${C_ID_UMA}  ${g_client_id}
-  Set Global Variable  ${C_SECRET_UMA}  ${g_client_secret}
-  UMA Flow Setup  ${ADES_BASE_URL}  ${ID_TOKEN}  ${PATH_TO_RESOURCE}  ${WELL_KNOWN_PATH}  ${UMA_USER}  ${UMA_PWD}  ${g_client_id}  ${g_client_secret}
-  Cleanup
-
 *** Keywords ***
 UMA Resource Insertion
   ${a}=  Run Process  python3  ${CURDIR}${/}insADES.py  ${ADES_BASE_URL}  ${PEP_RESOURCE_PORT}
@@ -146,14 +123,7 @@ UMA Handler of Codes
   ${access_token}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Access Token Valid  ${well_known}  ${ticket}  ${id_token}  ${client_id}  ${client_secret}
   [Return]  ${access_token}
 
-PEP Delete Resource
-  [Arguments]  ${base_url}
-  Create Session  pep  ${base_url}:${PEP_RESOURCE_PORT}  verify=False
-  ${headers}=  Create Dictionary  authorization=Bearer ${ID_TOKEN}
-  ${response}=  Delete Request  pep  /resources/${RES_ID_ADES}  headers=${headers}
-
 
 Cleanup
   OperatingSystem.Remove File  ${CURDIR}${/}1.txt
   OperatingSystem.Remove File  ${CURDIR}${/}res_id.txt
-  PEP Delete Resource  ${ADES_BASE_URL}
