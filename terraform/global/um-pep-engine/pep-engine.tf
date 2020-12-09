@@ -16,7 +16,7 @@ resource "kubernetes_config_map" "pep_engine_cm" {
     PEP_API_RPT_UMA_VALIDATION   = "true"
     PEP_RPT_LIMIT_USES           = "1"
     PEP_PDP_URL                  = "${join("", ["http://", var.hostname])}"
-    PEP_PDP_PORT                 = "5567"
+    PEP_PDP_PORT                 = "31708"
     PEP_PDP_POLICY_ENDPOINT      = "/policy/"
     PEP_VERIFY_SIGNATURE         = "false"
   }
@@ -67,6 +67,12 @@ resource "kubernetes_service" "pep-engine" {
       port        = 5566
       target_port = 5566
       node_port   = 31707
+    }
+    port {
+      name        = "http-pep-res"
+      port        = 5576
+      target_port = 5576
+      node_port   = 31709
     }
     port {
       name        = "https-pep"
@@ -127,6 +133,10 @@ resource "kubernetes_deployment" "pep-engine" {
           port {
             container_port = 5566
             name           = "http-pep"
+          }
+          port {
+            container_port = 5576
+            name           = "http-pep-res"
           }
           port {
             container_port = 443
