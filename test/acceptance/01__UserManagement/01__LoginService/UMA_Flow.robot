@@ -57,7 +57,7 @@ UMA Get Ticket
   [Arguments]  ${base_url}  ${token}  ${resource}
   Create Session  pep  ${base_url}:${PEP_PROXY_PORT}  verify=False
   ${headers}=  Create Dictionary  authorization=Bearer ${token}
-  ${resp}=  Get Request  pep  /wps3  headers=${headers}
+  ${resp}=  Get Request  pep  /${resource}  headers=${headers}
   [Return]  ${resp}
 
 UMA Get Ticket Valid
@@ -141,7 +141,7 @@ UMA Handler of Codes
   [Arguments]  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}  
   ${id_token}=  UMA Get ID Token Valid  ${base_url}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
   UMA Resource Insertion
-  ${resp_ticket}=  UMA Get Ticket Valid  ${base_url}  ${token}  ${RES_ID_ADES}
+  ${resp_ticket}=  UMA Get Ticket Valid  ${base_url}  ${token}  ${UMA_PATH_PREFIX}
   ${ticket}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Ticket From Response  ${resp_ticket}
   ${access_token}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Access Token Valid  ${well_known}  ${ticket}  ${id_token}  ${client_id}  ${client_secret}
   [Return]  ${access_token}
