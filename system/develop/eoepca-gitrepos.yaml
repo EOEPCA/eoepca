@@ -7,5 +7,5 @@ metadata:
 spec:
   interval: 30s
   ref:
-    branch: feature/EOEPCA-218
+    branch: EOEPCA-218
   url: https://github.com/EOEPCA/eoepca
