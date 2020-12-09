@@ -1,0 +1,28 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: um-login-service
+  namespace: default
+spec:
+  suspend: true
+  chart:
+    spec:
+      chart: ./charts/login-service
+      sourceRef:
+        kind: GitRepository
+        name: um-login-service
+        namespace: flux-system
+  values:
+    global:
+      nginxIp: 192.168.49.2
+      domain: test.192.168.49.2.nip.io
+    config:
+      domain: test.192.168.49.2.nip.io
+    ingress:
+      hosts:
+        - test.192.168.49.2.nip.io
+      tls:
+        hosts:
+          - test.192.168.49.2.nip.io
+  interval: 1m0s

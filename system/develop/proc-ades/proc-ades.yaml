@@ -1,0 +1,27 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: proc-ades
+  namespace: default
+spec:
+  suspend: true
+  chart:
+    spec:
+      chart: ./charts/ades
+      sourceRef:
+        kind: GitRepository
+        name: proc-ades
+        namespace: flux-system
+  values:
+    workflowExecutor:
+      storageHost: aHR0cDovL3dvcmtzcGFjZS5kZWZhdWx0Lw==
+      storageUsername: ZW9lcGNh
+      storageApiKey: dGVsZXNwYXppbw==
+    persistence:
+      storageClass: notset
+    ingress:
+      hosts:
+        - host: ades.test.192.168.49.2.nip.io
+          path: ["/"]
+  interval: 1m0s
