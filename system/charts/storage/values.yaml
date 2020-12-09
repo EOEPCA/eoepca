@@ -1,0 +1,20 @@
+host:
+  enabled: true
+  storageClass: eoepca-host
+
+nfs:
+  enabled: true
+  storageClass: eoepca-nfs
+  server:
+    address: "192.168.49.2"
+
+domain:
+  resman:
+    enabled: true
+    storageClass: eoepca-host
+  proc:
+    enabled: true
+    storageClass: eoepca-host
+  userman:
+    enabled: true
+    storageClass: eoepca-host

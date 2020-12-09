@@ -1,0 +1,13 @@
+enabled: false
+
+mountSubPath: /dynamic
+
+provisionerName: nfs-storage
+
+reclaimPolicy: Retain
+
+storageClass: managed-nfs-storage
+
+server:
+  address: "192.168.49.2"
+  path: /data

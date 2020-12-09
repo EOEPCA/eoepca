@@ -5,9 +5,9 @@ resource "kubernetes_config_map" "pep_engine_cm" {
   data = {
     PEP_REALM                    = "eoepca"
     PEP_AUTH_SERVER_URL          = "${join("", ["http://", var.hostname])}"
-    PEP_PROXY_ENDPOINT           = "/ades/"
     PEP_SERVICE_HOST             = "0.0.0.0"
-    PEP_SERVICE_PORT             = "5566"
+    PEP_PROXY_SERVICE_PORT       = "5566"
+    PEP_RESOURCES_SERVICE_PORT   = "5576"
     PEP_S_MARGIN_RPT_VALID       = "5"
     PEP_CHECK_SSL_CERTS          = "false"
     PEP_USE_THREADS              = "true"
@@ -122,7 +122,7 @@ resource "kubernetes_deployment" "pep-engine" {
         }
         container {
           name  = "pep-engine"
-          image = "eoepca/um-pep-engine:v0.2.5"
+          image = "eoepca/um-pep-engine:task203_2"
 
           port {
             container_port = 5566
@@ -136,11 +136,6 @@ resource "kubernetes_deployment" "pep-engine" {
             config_map_ref {
               name = "um-pep-engine-config"
             }
-          }
-          volume_mount {
-            name       = "vol-userman"
-            mount_path = "/data/db/resource"
-            sub_path   = "pep-engine/db/resource"
           }
           image_pull_policy = "Always"
         }
@@ -159,7 +154,7 @@ resource "kubernetes_deployment" "pep-engine" {
           }
           volume_mount {
             name       = "vol-userman"
-            mount_path = "/data/db/resource"
+            mount_path = "/data/db/"
             sub_path   = "pep-engine/db/resource"
           }
           image_pull_policy = "Always"
