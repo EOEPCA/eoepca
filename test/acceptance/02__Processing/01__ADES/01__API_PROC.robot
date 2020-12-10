@@ -14,31 +14,30 @@ Suite Teardown  Suite Teardown
 
 
 *** Variables ***
-${PEP_PREFIX}=  /ades
-${API_PROC_SERVICE_ROOT}=  /wps3
 ${API_PROC_JOB_MONITOR_ROOT}=  /watchjob
-${API_PROC_PATH_PREFIX}=  ${PEP_PREFIX}${API_PROC_SERVICE_ROOT}
+${API_PROC_PATH_PREFIX}=  /wps3
 ${API_PROC_SERVICE_URL}=  ${ADES_BASE_URL}${API_PROC_PATH_PREFIX}
 ${USERNAME}=  UserA
 ${PASSWORD}=  defaultPWD
 ${ID_TOKEN}=
 ${ACCESS_TOKEN}=
+${PEP_RESOURCE_PORT}=  31709
 
 
 *** Test Cases ***
-Initial Process List
-  Initial Process List
+#Initial Process List
+#  Initial Process List
 
-Deploy Application
-  Deploy Application  ${CURDIR}${/}data/app-deploy-body.json
-  Sleep  5  Waiting for process deploy process to complete asynchronously
-  Process Is Deployed  vegetation_index_
+#Deploy Application
+#  Deploy Application  ${CURDIR}${/}data/app-deploy-body.json
+#  Sleep  5  Waiting for process deploy process to complete asynchronously
+#  Process Is Deployed  vegetation_index_
 
-Get Application Details
-  Get Application Details  vegetation_index_
+#Get Application Details
+#  Get Application Details  vegetation_index_
 
-Execute Application
-  Execute Application Success  vegetation_index_  ${CURDIR}${/}data/app-execute-body.json
+#Execute Application
+#  Execute Application Success  vegetation_index_  ${CURDIR}${/}data/app-execute-body.json
 
 
 *** Keywords ***
@@ -57,9 +56,9 @@ Init ID Token
 
 Init Resource Protection
   @{scopes}=  Create List  Authenticated
-  ${resource_id}  Register Protected Resource  ${ADES_BASE_URL}  ${API_PROC_SERVICE_ROOT}  ${ID_TOKEN}  ADES API Service  ${scopes}
+  ${resource_id}  Register Protected Resource  ${ADES_BASE_URL}:${PEP_RESOURCE_PORT}  ${API_PROC_PATH_PREFIX}  ${ID_TOKEN}  ADES API Service  ${scopes}
   Should Be True  $resource_id is not None
-  ${resource_id}  Register Protected Resource  ${ADES_BASE_URL}  ${API_PROC_JOB_MONITOR_ROOT}  ${ID_TOKEN}  ADES Job Monitor  ${scopes}
+  ${resource_id}  Register Protected Resource  ${ADES_BASE_URL}:${PEP_RESOURCE_PORT}  ${API_PROC_JOB_MONITOR_ROOT}  ${ID_TOKEN}  ADES Job Monitor  ${scopes}
   Should Be True  $resource_id is not None
 
 Initial Process List

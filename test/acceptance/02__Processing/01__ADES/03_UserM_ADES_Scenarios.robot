@@ -51,7 +51,7 @@ ADES Protection as Service
 
   # User C attempts to perform a GetCapabilities. Unauthorized 401 return Ticket
   User C KO
-  
+
   # User A and User B attempt to perform a GetCapabilities
   User A, User B OK
 
@@ -90,16 +90,16 @@ ADES Application Execution Protection
   PEP Register Job1
 
   # User A registers the Location of the Job1 status as protected_access resource with ownership policy
-  #   PDP Register Job1  ${UM_BASE_URL}
+  #   PDP Register Job1  ${UM_BASE_URL} -> Se registra solo? con la imagen del ades o en el resource ?
 
   # User B attempts to execute Proc1. Unauthorized.
-  # ADES User B attempt execute Proc1
+  ADES User B attempt execute Proc1
 
   # User B attempts to retrieve status of Job1. Unauthorized.
   # ADES User B retrieve status Job1
 
   # User A attempts to retrieve status of Job1. OK.
-  # ADES User A retrieve status Job1
+  ADES User A retrieve status Job1
 
   
 Policy Ownership and Policy Updates
@@ -119,58 +119,47 @@ Policy Ownership and Policy Updates
 
 *** Keywords ***
 ADES User A retrieve status Job1
-  ${loc}=  Fetch From Right  ${LOCATION}  nip.io/
-  ${resp}=  Scim Client Get Details
-  ${g_client_id}=  Get From Dictionary  ${resp}  client_id
-  ${g_client_secret}=  Get From Dictionary  ${resp}  client_secret
-  ${rptA}=  UMA_Library.UMA Flow Setup  ${UM_BASE_URL}  ${ID_TOKEN}  /${loc}  ${WELL_KNOWN_PATH}  ${USERA}  ${PASSWORD_USERS}  ${g_client_id}  ${g_client_secret}  
-  Log to Console  ${rptA}
-  ${a}=  API_PROC Check Job Status Success  ${UM_BASE_URL}  ${LOCATION}  ${rptA}
+  ${rptA}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UA_TK}  ${LOCATION}   ${WELL_KNOWN_PATH}  ${USERA}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}
+  ${a}=  API_PROC Check Job Status Success  ${ADES_BASE_URL}  ${LOCATION}  ${rptA}
   Status Should Be  200  ${a}
 
 ADES User B retrieve status Job1
-  ${loc}=  Fetch From Right  ${LOCATION}  nip.io/
   ${resp}=  Scim Client Get Details
   ${g_client_id}=  Get From Dictionary  ${resp}  client_id
   ${g_client_secret}=  Get From Dictionary  ${resp}  client_secret
-  ${rptB}=  UMA_Library.UMA Flow Setup  ${UM_BASE_URL}  ${ID_TOKEN}  /${loc}  ${WELL_KNOWN_PATH}  ${USERB}  ${PASSWORD_USERS}  ${g_client_id}  ${g_client_secret}
-  ${status}=  API_PROC Check Job Status Success  ${UM_BASE_URL}  ${LOCATION}  ${rptB}
+  ${rptB}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UB_TK}  ${LOCATION}   ${WELL_KNOWN_PATH}  ${USERB}  ${PASSWORD_USERS}  ${g_client_id}  ${g_client_secret}
+  ${status}=  API_PROC Check Job Status Success  ${ADES_BASE_URL}  ${LOCATION}  ${rptB}
   Status Should Be  401  ${status}
 
 ADES User B attempt execute Proc1
-  ${resp}=  Scim Client Get Details
-  ${g_client_id}=  Get From Dictionary  ${resp}  client_id
-  ${g_client_secret}=  Get From Dictionary  ${resp}  client_secret
-  ${rptB}=  UMA_Library.UMA Flow Setup  ${UM_BASE_URL}  ${ID_TOKEN}  ${API_PROC_PATH_PREFIX}/processes/eo_metadata_generation_1_0/jobs  ${WELL_KNOWN_PATH}  ${USERB}  ${PASSWORD_USERS}  ${g_client_id}  ${g_client_secret}
+  ${rptB}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UB_TK}  ${API_PROC_PATH_PREFIX}/processes/eoepcaadesdeployprocess/jobs   ${WELL_KNOWN_PATH}  ${USERB}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}
   Set Global Variable  ${UB_RPT}  ${rptB}
-  ${validation}=  API_PROC Execute Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json  ${rptB}
+  ${validation}=  API_PROC Execute Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  app_deploy_body  ${CURDIR}/data${/}app-execute-body.json  ${rptB}
   builtIn.Run Keyword If  ${RES_ID_PROC1}!=""  Status Should Be  401  ${validation}
   builtIn.Run Keyword If  ${RES_ID_PROC1}==""  Status Should Be  201  ${validation}
 
 ADES User A execute Proc1
-  ${rptA}=  UMA_Library.UMA Flow Setup  ${UM_BASE_URL}  hola  /ades${API_PROC_PATH_PREFIX}/processes/eo_metadata_generation_1_0/jobs  ${WELL_KNOWN_PATH}  ${USERA}  ${PASSWORD_USERS}
-  Log to Console  ${rptA}
-  Log to Console  ${RPT_TOKEN}
-  ${val}=  API_PROC Execute Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json  ${rptA}
+  ${rptA}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UA_TK}  ${API_PROC_PATH_PREFIX}/processes/eoepcaadesdeployprocess/jobs   ${WELL_KNOWN_PATH}  ${USERA}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}
+  ${val}=  API_PROC Execute Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eoepcaadesdeployprocess  ${CURDIR}/data${/}app-execute-body.json  ${rptA}
   #Status Should Be  201  ${val}
   Set Global Variable  ${LOCATION}  ${val.headers["Location"].split("${UM_BASE_URL}")[-1]}
   #Set Global Variable  ${LOCATION}  test.${PUBLIC_HOSTNAME}/testPath/555test555
   OperatingSystem.Create File  ${CURDIR}${/}location.txt  ${LOCATION}
 
 ADES User B undeploy Proc1
-  ${rptB}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UB_TK}  {API_PROC_PATH_PREFIX}/processes/eoepcaadesdeployprocess/jobs   ${WELL_KNOWN_PATH}  ${USERB}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}  ${API_PROC_PATH_PREFIX}
+  ${rptB}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UB_TK}  ${API_PROC_PATH_PREFIX}/processes/eoepcaadesdeployprocess/jobs   ${WELL_KNOWN_PATH}  ${USERB}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}
   ${validation}=  API_PROC Undeploy Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  app_deploy_body  ${CURDIR}/data${/}app-execute-body.json  ${rptB}
   Status Should Be  401  ${validation}
 
 ADES User B execute Proc1
-  ${rptB}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UB_TK}  {API_PROC_PATH_PREFIX}/processes/eoepcaadesdeployprocess/jobs   ${WELL_KNOWN_PATH}  ${USERB}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}  ${API_PROC_PATH_PREFIX}
-  ${validation}=  API_PROC Execute Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  app-deploy-body  ${CURDIR}/data${/}app-deploy-body.json  ${rptB}
+  ${rptB}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UB_TK}  ${API_PROC_PATH_PREFIX}/processes/eoepcaadesdeployprocess/jobs   ${WELL_KNOWN_PATH}  ${USERB}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}
+  ${validation}=  API_PROC Execute Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  app_deploy_body  ${CURDIR}/data${/}app-deploy-body.json  ${rptB}
   Status Should Be  201  ${validation}
 
 ADES User A deploys Proc1
   PEP Register ADES  ${API_PROC_PATH_PREFIX}
-  ${rptA}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UA_TK}  {API_PROC_PATH_PREFIX}/processes/eoepcaadesdeployprocess/jobs   ${WELL_KNOWN_PATH}  ${USERA}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}  ${API_PROC_PATH_PREFIX}
-  ${validation}=  API_PROC Deploy Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  app-deploy-body  ${CURDIR}/data${/}app-deploy-body.json  ${rptA}
+  ${rptA}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UA_TK}  ${API_PROC_PATH_PREFIX}/processes/eoepcaadesdeployprocess/jobs   ${WELL_KNOWN_PATH}  ${USERA}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}
+  ${validation}=  API_PROC Deploy Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  app_deploy_body  ${CURDIR}/data${/}app-deploy-body.json  ${rptA}
   Status Should Be  201  ${validation}
 
 User C KO
@@ -211,11 +200,11 @@ UMA Get ID Token Valid ADES
   [Return]  ${id_token}
 
 UMA Flow Setup Ades
-  [Arguments]  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}  ${resource}
+  [Arguments]  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
   ${id_token}=  UMA_Library.UMA Get ID Token Valid  ${base_url}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
   ${resp_ticket}=  UMA Get Ticket Valid  ${base_url}  ${token}  ${resource}
   ${ticket}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA_Library.UMA Get Ticket From Response  ${resp_ticket}
-  ${access_token}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA_Library.UMA Get Access Token Valid  ${well_known}  ${ticket}  ${id_token}  ${client_id}  ${client_secret}
+  ${access_token}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA_Library.UMA Get Access Token Valid  ${well_known}  ${ticket}  ${token}  ${client_id}  ${client_secret}
   [Return]  ${access_token}
 
 UMA Get Ticket
@@ -231,11 +220,11 @@ UMA Get Ticket Valid
   [Return]  ${resp}
 
 User A, User B OK
-  ${rptA}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UA_TK}  ${WPS_PATH_PREFIX}/?service=WPS&version=1.0.0&request=GetCapabilities  ${WELL_KNOWN_PATH}  ${USERA}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}  ${WPS_PATH_PREFIX}
+  ${rptA}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UA_TK}  ${WPS_PATH_PREFIX}/?service=WPS&version=1.0.0&request=GetCapabilities  ${WELL_KNOWN_PATH}  ${USERA}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}
   ${resp}  ${access_token} =  WPS Get Capabilities  ${WPS_SERVICE_URL}  ${ID_TOKEN}  ${rptA}
   Status Should Be  200  ${resp}
 
-  ${rptB}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UB_TK}  ${WPS_PATH_PREFIX}/?service=WPS&version=1.0.0&request=GetCapabilities  ${WELL_KNOWN_PATH}  ${USERB}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}  ${WPS_PATH_PREFIX}
+  ${rptB}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UB_TK}  ${WPS_PATH_PREFIX}/?service=WPS&version=1.0.0&request=GetCapabilities  ${WELL_KNOWN_PATH}  ${USERB}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}
   ${resp}  ${access_token} =  WPS Get Capabilities  ${WPS_SERVICE_URL}  ${ID_TOKEN}  ${rptB}
   Status Should Be  200  ${resp}
 
@@ -355,12 +344,12 @@ API_PROC Check Job Status for Ticket
 
 API_PROC Check Job Status Success
   [Arguments]  ${base_url}  ${location}  ${token}
-  ${loc}=  Fetch From Right  ${location}  nip.io/
-  Create Session  pep  ${base_url}  verify=False
+  Create Session  pep  ${base_url}:${PEP_PROXY_PORT}  verify=False
+  Log to Console  ${token}
   ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json  authorization=Bearer ${token}
   FOR  ${index}  IN RANGE  2
     Sleep  30  Loop wait for processing execution completion
-    ${resp}=  Get Request  pep  /ades/${loc}  headers=${headers}
+    ${resp}=  Get Request  pep  ${location}  headers=${headers}
     Exit For Loop If  "${resp}" == "<Response [401]>"
     Status Should Be  200  ${resp}
     ${status}=  Set Variable  ${resp.json()["status"]}
@@ -381,7 +370,7 @@ API_PROC execute process
   Create Session  pep  ${base_url}:${PEP_PROXY_PORT}  verify=False
   ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json  authorization=Bearer ${token}
   ${file_data}=  Get Binary File  ${filename}
-  ${resp}=  Post Request  pep  ${path_prefix}/processes/app_deploy_body/jobs  headers=${headers}  data=${file_data}
+  ${resp}=  Post Request  pep  ${path_prefix}/processes/${process_name}/jobs  headers=${headers}  data=${file_data}
   [Return]  ${resp}
 
 API_PROC deploy process
@@ -402,7 +391,7 @@ PEP Register Proc1
   Set Global Variable  ${RES_ID_PROC2}  ${resource_id}
 
 PEP Register Job1
-  ${a}=  Run Process  python3  ${CURDIR}${/}insertJob1.py  ${ADES_BASE_URL}
+  ${a}=  Run Process  python3  ${CURDIR}${/}insertJob1.py  ${ADES_BASE_URL}  ${PEP_RESOURCE_PORT}
   ${resource_id}=  OperatingSystem.Get File  ${CURDIR}${/}Job1.txt
   OperatingSystem.Remove File  ${CURDIR}${/}Job1.txt
   Set Global Variable  ${RES_ID_JOB1}  ${resource_id}
@@ -442,7 +431,7 @@ WPS Get Capabilities ADES
   [Return]  ${resp}
 
 Cleanup
-  OperatingSystem.Remove File  ${CURDIR}${/}1.txt
-  OperatingSystem.Remove File  ${CURDIR}${/}2.txt
-  OperatingSystem.Remove File  ${CURDIR}${/}3.txt
-  OperatingSystem.Remove File  ${CURDIR}${/}location.txt
+ # OperatingSystem.Remove File  ${CURDIR}${/}1.txt
+ # OperatingSystem.Remove File  ${CURDIR}${/}2.txt
+ # OperatingSystem.Remove File  ${CURDIR}${/}3.txt
+ # OperatingSystem.Remove File  ${CURDIR}${/}location.txt
