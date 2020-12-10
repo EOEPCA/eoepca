@@ -25,3 +25,4 @@ spec:
       hosts:
         - host: proc-ades.test.192.168.49.2.nip.io
           paths: ["/"]
+  interval: 1m0s
