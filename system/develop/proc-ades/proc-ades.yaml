@@ -18,10 +18,10 @@ spec:
       storageHost: aHR0cDovL3dvcmtzcGFjZS5kZWZhdWx0Lw==
       storageUsername: ZW9lcGNh
       storageApiKey: dGVsZXNwYXppbw==
+      kubeconfig: /home/gr4n0t4/.kube/config
     persistence:
       storageClass: notset
     ingress:
       hosts:
-        - host: ades.test.192.168.49.2.nip.io
-          path: ["/"]
-  interval: 1m0s
+        - host: proc-ades.test.192.168.49.2.nip.io
+          paths: ["/"]
