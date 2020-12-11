@@ -1,7 +1,18 @@
 name: Test workflow
 
-# Run this workflow every time a new commit pushed to your repository
-on: push
+# limit when the action is run
+on:
+  push:
+    # Sequence of patterns matched against refs/heads
+    branches:    
+      - master
+      - develop
+      - 'release/**'
+  pull_request:
+    branches:    
+      - master
+      - develop
+      - 'release/**'
 
 jobs:
   # Set the job key. The key is displayed as the job name
