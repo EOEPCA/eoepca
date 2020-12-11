@@ -26,4 +26,5 @@ spec:
           - hosts:
               - test.192.168.49.2.nip.io
             secretName: tls-certificate
+  timeout: 20m0s
   interval: 1m0s
