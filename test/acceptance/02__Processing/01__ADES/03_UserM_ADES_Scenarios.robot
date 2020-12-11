@@ -102,7 +102,7 @@ ADES Application Execution Protection
   ADES User A retrieve status Job1
 
   
-Policy Ownership and Policy Updates
+#Policy Ownership and Policy Updates
 #   #   User B attempts to modify Proc1 access policies. Unauthorized. 
 #   PDP Modify Deny
 #   #   User A modifies access policy of Job1 Status to Access List including User B.
@@ -113,7 +113,7 @@ Policy Ownership and Policy Updates
 #   #   User B attempts to execute Proc1. OK.
 #   #PDP UserB Execution Success
 #   #PDP Delete policies
-  Cleanup
+#  Cleanup
 
 
 
@@ -430,7 +430,7 @@ WPS Get Capabilities ADES
   ${resp}=  Get Request  ades  ${path_prefix}/?service=WPS&version=1.0.0&request=GetCapabilities  headers=${headers}
   [Return]  ${resp}
 
-Cleanup
+#Cleanup
  # OperatingSystem.Remove File  ${CURDIR}${/}1.txt
  # OperatingSystem.Remove File  ${CURDIR}${/}2.txt
  # OperatingSystem.Remove File  ${CURDIR}${/}3.txt
