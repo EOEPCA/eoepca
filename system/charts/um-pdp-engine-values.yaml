@@ -1,0 +1,12 @@
+global:
+  nginxIp: 192.168.49.2
+  domain: test.192.168.49.2.nip.io
+config:
+  domain: test.192.168.49.2.nip.io
+ingress:
+  hosts:
+    - test.192.168.49.2.nip.io
+  tls: 
+   - secretName: tls-certificate
+     hosts:
+       - test.192.168.49.2.nip.io
