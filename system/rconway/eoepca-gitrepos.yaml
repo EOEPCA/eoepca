@@ -7,5 +7,5 @@ metadata:
 spec:
   interval: 30s
   ref:
-    branch: develop
+    branch: rconway
   url: https://github.com/EOEPCA/eoepca

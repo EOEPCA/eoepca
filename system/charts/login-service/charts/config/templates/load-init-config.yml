@@ -10,9 +10,9 @@ spec:
         app: {{ template "login-service.name" . }}-load
     spec:
       volumes:
-        - name: {{ template "login-service.name" . }}-config
+        - name: vol-userman
           persistentVolumeClaim:
-            claimName: {{ include "config.fullname" . }}
+            claimName: eoepca-userman-pvc
         - name: {{ include "config.fullname" . }}-mount-gen-file
           configMap:
             name: {{ include "config.fullname" . }}-gen-json-file
@@ -24,7 +24,8 @@ spec:
         image: gluufederation/config-init:4.1.1_02
         volumeMounts:
           - mountPath: /opt/config-init/db/
-            name: {{ template "login-service.name" . }}-config
+            subPath: config-init/db
+            name: vol-userman
           - mountPath: /opt/config-init/db/generate.json
             name: {{ include "config.fullname" . }}-mount-gen-file
             subPath: generate.json

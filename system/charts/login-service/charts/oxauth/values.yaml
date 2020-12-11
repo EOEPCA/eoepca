@@ -70,17 +70,13 @@ readinessProbe:
 volumeMounts:
   logs:
     mountPath: /opt/gluu/jetty/oxauth/logs
-    name: eoepca-userman-pv-host
     subPath: oxauth/logs
   ext:
     mountPath: /opt/gluu/jetty/oxauth/lib/ext
-    name: eoepca-userman-pv-host
     subPath: oxauth/lib/ext
   static:
     mountPath: /opt/gluu/jetty/oxauth/custom/static
-    name: eoepca-userman-pv-host
     subPath: oxauth/custom/static
   pages:
     mountPath: /opt/gluu/jetty/oxauth/custom/pages
-    name: eoepca-userman-pv-host
     subPath: oxauth/custom/pages
