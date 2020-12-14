@@ -25,6 +25,10 @@ The acceptance test is invoked via the following script...
 $ ./acceptance_tests.sh
 ```
 
+At the conclusion of a successful run of the acceptance tests, the summary status is shown in the console window...
+
+![acceptance results console](acceptance-results-console.png)
+
 ## Test Results
 
 The test results can be visualised in the [output log file](./log.html), as follows...

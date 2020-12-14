@@ -49,6 +49,13 @@ module "um-pep-engine" {
   module_depends_on = [module.um-login-service.um-login-service-up]
 }
 
+module "um-pdp-engine" {
+  source            = "../global/um-pdp-engine"
+  nginx_ip          = var.public_ip
+  hostname          = var.hostname
+  module_depends_on = [module.um-login-service.um-login-service-up]
+}
+
 module "um-user-profile" {
   source            = "../global/um-user-profile"
   nginx_ip          = var.public_ip
@@ -56,15 +63,20 @@ module "um-user-profile" {
   module_depends_on = [module.um-login-service.um-login-service-up]
 }
 
+# module "proc-ades" {
+#   source               = "../global/proc-ades"
+#   dh_user_email        = var.dh_user_email
+#   dh_user_name         = var.dh_user_name
+#   dh_user_password     = var.dh_user_password
+#   wspace_user_name     = var.wspace_user_name
+#   wspace_user_password = var.wspace_user_password
+#   hostname             = var.hostname
+#   module_depends_on    = []
+# }
+
 module "proc-ades" {
-  source               = "../global/proc-ades"
-  dh_user_email        = var.dh_user_email
-  dh_user_name         = var.dh_user_name
-  dh_user_password     = var.dh_user_password
-  wspace_user_name     = var.wspace_user_name
-  wspace_user_password = var.wspace_user_password
-  hostname             = var.hostname
-  module_depends_on    = []
+  source        = "../global/ades"
+  dynamic_storage_class = var.dynamic_storage_class
 }
 
 module "rm-workspace" {
@@ -73,4 +85,9 @@ module "rm-workspace" {
   wspace_user_password = var.wspace_user_password
   hostname             = var.hostname
   module_depends_on    = []
+}
+
+module "jupyter" {
+  source               = "../global/jupyter"
+  hostname             = var.hostname
 }

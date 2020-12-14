@@ -182,6 +182,17 @@ resource "kubernetes_stateful_set" "opendj_init" {
 
   provisioner "local-exec" {
     command = <<-EOT
+      until kubectl get pods 2>/dev/null | grep "opendj" | grep "Running" >/dev/null 2>&1
+      do
+        echo "Waiting for load custom attributes into opendj-inint0"
+        sleep $(( 5 ))
+      done
+      kubectl cp $PWD/../global/um-login-service/ldap/77-customAttributes.ldif opendj-init-0:opt/opendj/template/config/schema/77-customAttributes.ldif
+      EOT
+  }
+
+  provisioner "local-exec" {
+    command = <<-EOT
       interval=$(( 5 ))
       msgInterval=$(( 30 ))
       step=$(( msgInterval / interval ))

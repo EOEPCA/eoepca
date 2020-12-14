@@ -11,7 +11,7 @@ services:
 jobs:
   include:
     - stage: deploy to local kube and test
-      if: branch = develop
+      if: branch = release/v0.2
       dist: bionic
       language: minimal
 
@@ -23,7 +23,7 @@ jobs:
 
       install:
         - ./bin/install-kubectl.sh
-        - ./minikube/setup-k3s.sh
+        - ./minikube/setup-minikube.sh
         - ./bin/install-terraform.sh
 
       before_script:

@@ -1,0 +1,52 @@
+{
+  "header": {
+    "alg": "RS256",
+    "kid": "RSA1"
+  },
+  "payload": {
+    "active": true,
+    "exp": 1604406738,
+    "iat": 1604403138,
+    "nbf": null,
+    "permissions": [
+      {
+        "resource_id": "c90141d2-223a-4e51-ab00-99e31898e77b",
+        "resource_scopes": [
+          "Authenticated",
+          "user_name",
+          "openid"
+        ],
+        "exp": 1604406738,
+        "params": null
+      }
+    ],
+    "client_id": "cbc4f5c1-f444-4b0c-8ed2-6949f0f88476",
+    "sub": null,
+    "aud": "cbc4f5c1-f444-4b0c-8ed2-6949f0f88476",
+    "iss": null,
+    "jti": null,
+    "pct_claims": {
+      "aud": [
+        "cbc4f5c1-f444-4b0c-8ed2-6949f0f88476"
+      ],
+      "sub": [
+        "24243808-b7a1-4c28-9b47-c0e5c84e7882"
+      ],
+      "user_name": [
+        "demo"
+      ],
+      "iss": [
+        "https://test.192.168.49.2.nip.io"
+      ],
+      "exp": [
+        "1604406737"
+      ],
+      "iat": [
+        "1604403137"
+      ],
+      "oxOpenIDConnectVersion": [
+        "openidconnect-1.0"
+      ]
+    }
+  }
+}

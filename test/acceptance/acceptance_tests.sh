@@ -17,28 +17,27 @@ function setup_venv() {
       echo "ERROR: python virtualenv package is required. Please install (e.g. apt install python3-venv)"
       return 1
     fi
+    echo "INFO: activate venv and update..."
+    source venv/bin/activate
+    python -m pip install -U pip
+    pip install -U wheel
   else
-    echo "INFO: updating existing venv..."
+    echo "INFO: activate venv..."
+    source venv/bin/activate
   fi
-  echo "INFO: activate venv and update..."
-  source venv/bin/activate
-  python -m pip install -U pip
 }
 
 function install_robot_framework() {
-  # python components
-  echo "INFO: Installing/updating Robot Framework and dependencies..."
-  pip install -U robotframework \
-  && pip install -U docutils \
-  && pip install -U robotframework-requests \
-  && pip install -U robotframework-seleniumlibrary \
-  && pip install -U robotframework-sshlibrary \
-  && pip install -U webdrivermanager
-  # Chrome driver
-  if ! hash chromedriver 2>/dev/null
+  if ! hash robot 2>/dev/null
   then
-    echo "INFO: Installing chrome webdriver..."
-    webdrivermanager chrome:83.0.4103.39
+    echo "INFO: Installing Robot Framework and dependencies..."
+    pip install -U robotframework \
+    && pip install -U docutils \
+    && pip install -U robotframework-requests \
+    && pip install -U robotframework-seleniumlibrary \
+    && pip install -U robotframework-sshlibrary
+  else
+    echo "INFO: Using existing Robot Framework installation"
   fi
 }
 
@@ -46,15 +45,19 @@ function install_test_requirements() {
   pip install -r ./requirements.txt
 }
 
+function install_chromedriver() {
+  if ! hash chromedriver 2>/dev/null
+  then
+    ../bin/install-chromedriver.sh
+  else
+    echo "INFO: Using existing chromedriver installation"
+  fi
+}
+
 function deduce_public_ip() {
   # Scrape VM infrastructure topology from terraform outputs
-  if hash terraform 2>/dev/null
-  then
-    DEPLOYMENT_PUBLIC_IP="$(terraform output -state=../../creodias/terraform.tfstate -json | jq -r '.loadbalancer_fips.value[]' 2>/dev/null)" || unset DEPLOYMENT_PUBLIC_IP
-    if [ "${DEPLOYMENT_PUBLIC_IP}" = "null" ]; then unset DEPLOYMENT_PUBLIC_IP; fi
-  fi
-  LOCALKUBE_IP=$(${BIN_DIR}/../../bin/get-localkube-ip.sh) || unset LOCALKUBE_IP
-  PUBLIC_IP="${PUBLIC_IP:-${DEPLOYMENT_PUBLIC_IP:-${LOCALKUBE_IP:-none}}}"
+  DEPLOYMENT_PUBLIC_IP=$(${BIN_DIR}/../../bin/get-public-ip.sh) || unset DEPLOYMENT_PUBLIC_IP
+  PUBLIC_IP="${PUBLIC_IP:-${DEPLOYMENT_PUBLIC_IP:-none}}"
   if [ "${PUBLIC_IP}" = "none" ]; then echo "ERROR: invalid Public IP (${PUBLIC_IP}). Aborting..."; exit 1; fi
 }
 
@@ -64,16 +67,22 @@ function run_acceptance_tests() {
 
   echo "INFO: Invoking acceptance tests..."
   robot --variable PUBLIC_HOSTNAME:${public_hostname} .
+  # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.UserManagement.UserProfile .
+  # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.Processing.ADES .
+  # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.Processing.ADES.WPS .
+
 }
 
 function main() {
   setup_venv \
   && install_robot_framework \
+  && install_chromedriver \
   && install_test_requirements \
   && deduce_public_ip \
   && run_acceptance_tests
-
+  STATUS=$?
   hash deactivate 2>/dev/null && deactivate
+  return $STATUS
 }
 
 main "$@"
