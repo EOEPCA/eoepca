@@ -55,4 +55,4 @@ spec:
       volumes:
         - name: vol-userman
           persistentVolumeClaim:
-            claimName: eoepca-userman-pvc
+            claimName: {{ .Values.volumeClaim.name }}

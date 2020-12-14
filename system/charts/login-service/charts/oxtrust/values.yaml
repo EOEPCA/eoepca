@@ -49,6 +49,9 @@ readinessProbe:
 port: 8080
 clusterIp: None
 
+# VolumeClaim values
+volumeClaim:
+  name: um-login-service-oxtrust-pvc
 
 volumeMounts:
   logs:

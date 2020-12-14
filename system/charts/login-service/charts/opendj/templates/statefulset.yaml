@@ -16,7 +16,7 @@ spec:
       volumes:
         - name: vol-userman
           persistentVolumeClaim:
-            claimName: eoepca-userman-pvc
+            claimName: {{ .Values.volumeClaim.name }}
         - name: config-attributes
           configMap:
             name: custom-attributes-config

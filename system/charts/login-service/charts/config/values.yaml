@@ -22,7 +22,7 @@ fullNameOverride: ""
 
 # VolumeClaim values
 volumeClaim:
-  storage: 1Gi
+  name: um-login-service-config-pvc
 
 persistence:
   size: 1Gi

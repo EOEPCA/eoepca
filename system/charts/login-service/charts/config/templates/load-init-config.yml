@@ -12,7 +12,7 @@ spec:
       volumes:
         - name: vol-userman
           persistentVolumeClaim:
-            claimName: eoepca-userman-pvc
+            claimName: {{ .Values.volumeClaim.name }}
         - name: {{ include "config.fullname" . }}-mount-gen-file
           configMap:
             name: {{ include "config.fullname" . }}-gen-json-file

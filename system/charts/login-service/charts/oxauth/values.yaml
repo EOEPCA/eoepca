@@ -66,6 +66,10 @@ readinessProbe:
   initialDelaySeconds: 600
   periodSeconds: 90
 
+# VolumeClaim values
+volumeClaim:
+  name: um-login-service-oxauth-pvc
+
 #VolumeMounts
 volumeMounts:
   logs:

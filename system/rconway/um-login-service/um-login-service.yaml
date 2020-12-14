@@ -15,6 +15,17 @@ spec:
   values:
     config:
       domain: test.192.168.49.2.nip.io
+      volumeClaim:
+        name: eoepca-userman-pvc
+    opendj:
+      volumeClaim:
+        name: eoepca-userman-pvc
+    oxauth:
+      volumeClaim:
+        name: eoepca-userman-pvc
+    oxtrust:
+      volumeClaim:
+        name: eoepca-userman-pvc
     global:
       domain: test.192.168.49.2.nip.io
       nginxIp: 192.168.49.2
