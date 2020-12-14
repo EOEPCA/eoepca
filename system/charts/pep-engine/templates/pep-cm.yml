@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pep-cm
+data:
+  PEP_REALM: {{ .Values.global.realm | quote }}
+  PEP_AUTH_SERVER_URL: {{ .Values.global.domain | quote }}
+  PEP_SERVICE_HOST: {{ .Values.global.serviceHost | quote }}
+  PEP_SERVICE_PORT: {{ .Values.global.servicePort | quote }}
+  PEP_S_MARGIN_RPT_VALID: {{ .Values.global.margin | quote }}
+  PEP_CHECK_SSL_CERTS: {{ .Values.global.sslCerts | quote }}
+  PEP_USE_THREADS: {{ .Values.global.useThreads | quote }}
+  PEP_DEBUG_MODE: {{ .Values.global.debugMode | quote }}
+  PEP_RESOURCE_SERVER_ENDPOINT: {{ .Values.global.resourceServer | quote }}
+  PEP_API_RPT_UMA_VALIDATION: {{ .Values.global.umaValidation | quote }}
+  PEP_RPT_LIMIT_USES: {{ .Values.global.limitUses | quote }}
+  PEP_PDP_URL: {{ .Values.global.pdpUrl | quote }}
+  PEP_PDP_PORT: {{ .Values.global.pdpPort | quote }}
+  PEP_PDP_POLICY_ENDPOINT: {{ .Values.global.pdpPolicy | quote }}
+  PEP_VERIFY_SIGNATURE: {{ .Values.global.verifySignature | quote }}
+  PEP_PROXY_SERVICE_PORT: {{ .Values.global.proxyServicePort | quote }}
+  PEP_RESOURCES_SERVICE_PORT: {{ .Values.global.resourcesServicePort | quote }}
