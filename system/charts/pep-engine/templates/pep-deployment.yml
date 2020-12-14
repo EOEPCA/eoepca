@@ -40,7 +40,7 @@ spec:
             name: pep-cm
         volumeMounts:
         - mountPath: /data/db/
-          sub_path: pep-engine/db/resource
+          subPath: pep-engine/db/resource
           name: eoepca-pep-pv-host
       hostAliases:
       - ip: {{ .Values.global.nginxIp }}
