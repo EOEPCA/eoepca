@@ -8,10 +8,10 @@ spec:
   suspend: true
   chart:
     spec:
-      chart: ./charts/login-service
+      chart: ./system/charts/login-service
       sourceRef:
         kind: GitRepository
-        name: um-login-service
+        name: eoepca
         namespace: flux-system
   values:
     global:
@@ -19,10 +19,12 @@ spec:
       domain: test.192.168.49.2.nip.io
     config:
       domain: test.192.168.49.2.nip.io
-    ingress:
-      hosts:
-        - test.192.168.49.2.nip.io
-      tls:
+    nginx:
+      ingress:
         hosts:
           - test.192.168.49.2.nip.io
+        tls: 
+        - secretName: tls-certificate
+          hosts:
+            - test.192.168.49.2.nip.io
   interval: 1m0s

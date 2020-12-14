@@ -17,8 +17,15 @@ trap "onExit" EXIT
 CURRENT_BRANCH="$(git branch --show-current)"
 BRANCH="${BRANCH:-${CURRENT_BRANCH}}"
 
-# Default to target 'minikube'
-TARGET="${TARGET:-minikube}"
+# TARGET - command-line override environment
+TARGET="${1:-${TARGET}}"
+if test -n "${TARGET}"
+then
+  echo "Deploying to target environment: ${TARGET}"
+else
+  echo "ERROR: TARGET must be specified. Aborting..."
+  exit 1
+fi
 
 # Consolidate to a local kubeconfig - avoids problem of flux not handling paths in KUBECONFIG
 kubectl config view --minify --flatten > "$TMP_KUBECONFIG"

@@ -40,7 +40,7 @@ spec:
             name: um-pdp-engine-config
         volumeMounts:
         - mountPath: /data/db/
-          sub_path: pep-engine/db/policy
+          subPath: pep-engine/db/policy
           name: eoepca-pdp-pv-host
       hostAliases:
       - ip: {{ .Values.global.nginxIp }}

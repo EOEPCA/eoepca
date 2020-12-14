@@ -6,4 +6,4 @@ BIN_DIR="$(pwd)"
 
 trap "cd '${ORIG_DIR}'" EXIT
 
-helm upgrade -i -f um-pdp-engine.yaml rac-um-pdp-engine pdp-engine
+helm upgrade -i -f um-pdp-engine-values.yaml rac-um-pdp-engine pdp-engine
