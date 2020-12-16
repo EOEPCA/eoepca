@@ -5,7 +5,6 @@ metadata:
   name: um-pdp-engine
   namespace: default
 spec:
-  suspend: true
   chart:
     spec:
       chart: ./system/charts/pdp-engine
