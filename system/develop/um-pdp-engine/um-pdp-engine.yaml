@@ -8,10 +8,10 @@ spec:
   suspend: true
   chart:
     spec:
-      chart: ./charts/pdp-engine
+      chart: ./system/charts/pdp-engine
       sourceRef:
         kind: GitRepository
-        name: um-login-service
+        name: eoepca
         namespace: flux-system
   values:
     global:
