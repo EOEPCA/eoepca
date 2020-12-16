@@ -56,6 +56,8 @@ config:
   gcePdStorageType: pd-standard
   azureStorageAccountType: Standard_LRS
   azureStorageKind: Shared
+  volumeClaim:
+    name: um-login-service-config-pvc
 
 opendj:
   enabled: true
@@ -63,6 +65,8 @@ opendj:
   gluuCacheType: NATIVE_PERSISTENCE
   # options true/false : must be enabled if cache type is REDIS
   gluuRedisEnabled: false
+  volumeClaim:
+    name: um-login-service-opendj-pvc
 
 oxpassport:
   enabled: true  
@@ -70,10 +74,14 @@ oxpassport:
 oxauth:
   enabled: true
   dynamicStorage: true
+  volumeClaim:
+    name: um-login-service-oxauth-pvc
 
 oxtrust:
   enabled: true
   dynamicStorage: true
+  volumeClaim:
+    name: um-login-service-oxtrust-pvc
 
 nginx:
   enabled: true

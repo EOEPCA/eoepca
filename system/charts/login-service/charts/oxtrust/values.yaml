@@ -49,22 +49,20 @@ readinessProbe:
 port: 8080
 clusterIp: None
 
+# VolumeClaim values
+volumeClaim:
+  name: um-login-service-oxtrust-pvc
 
 volumeMounts:
   logs:
     mountPath: /opt/gluu/jetty/identity/logs
-    name: eoepca-userman-pv-host
     subPath: oxtrust/logs
   ext:
     mountPath: /opt/gluu/jetty/identity/lib/ext
-    name: eoepca-userman-pv-host
     subPath: oxtrust/lib/ext
   static:
     mountPath: /opt/gluu/jetty/identity/custom/static
-    name: eoepca-userman-pv-host
     subPath: oxtrust/custom/static
   pages:
     mountPath: /opt/gluu/jetty/identity/custom/pages
-    name: eoepca-userman-pv-host
     subPath: oxtrust/custom/pages
-    

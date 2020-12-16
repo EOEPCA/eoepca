@@ -129,6 +129,10 @@ volumeReplMounts:
 #VolumeClaimTemplates
 storage: 1Gi
 
+# VolumeClaim values
+volumeClaim:
+  name: um-login-service-opendj-pvc
+
 #opendj-config-pv
 opendj-config:
   hostPath:

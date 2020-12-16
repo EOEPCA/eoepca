@@ -7,5 +7,5 @@ metadata:
 spec:
   interval: 30s
   ref:
-    branch: feature/EOEPCA-220-autodeploy
+    branch: rconway
   url: https://github.com/EOEPCA/eoepca

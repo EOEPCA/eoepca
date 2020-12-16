@@ -38,7 +38,7 @@ spec:
         volumeMounts:
         {{- range $key, $value := .Values.volumeMounts }}
           - mountPath: {{ $value.mountPath }}
-            name: {{ $value.name }}
+            name: vol-userman
             subPath: {{ $value.subPath }}
         {{- end }}
         livenessProbe:
@@ -54,9 +54,9 @@ spec:
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
       volumes:
-        - name: eoepca-userman-pv-host
+        - name: vol-userman
           persistentVolumeClaim:
-            claimName: eoepca-oxtrust-pvc
+            claimName: {{ .Values.volumeClaim.name }}
       hostAliases:
       - ip: {{ .Values.global.nginxIp }}
         hostnames:
