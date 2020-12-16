@@ -15,6 +15,17 @@ spec:
   values:
     config:
       domain: test.192.168.49.2.nip.io
+      volumeClaim:
+        name: eoepca-userman-pvc
+    opendj:
+      volumeClaim:
+        name: eoepca-userman-pvc
+    oxauth:
+      volumeClaim:
+        name: eoepca-userman-pvc
+    oxtrust:
+      volumeClaim:
+        name: eoepca-userman-pvc
     global:
       domain: test.192.168.49.2.nip.io
       nginxIp: 192.168.49.2
@@ -26,5 +37,5 @@ spec:
           - hosts:
               - test.192.168.49.2.nip.io
             secretName: tls-certificate
-  timeout: 20m0s
+  timeout: 25m0s
   interval: 1m0s
