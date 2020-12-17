@@ -106,12 +106,13 @@ Policy Ownership and Policy Updates
   #   User B attempts to modify Proc1 access policies. Unauthorized. 
   PDP Modify Deny
   #   User A modifies access policy of Job1 Status to Access List including User B.
-  #   User A modifies access policy of Proc1 to Access List including User B.
-  PDP Modify Policy
+  PDP Modify Policy Job
   #   User B attempts to retrieve the status of Job1. OK.
-  #PDP UserB Status Success  ${UB_RPT}
+  PDP UserB Status Success
+  #   User A modifies access policy of Proc1 to Access List including User B.
+  PDP Modify Policy Proc
   #   User B attempts to execute Proc1. OK.
-  #PDP UserB Execution Success
+  PDP UserB Execution Success
   #PDP Delete policies
   #Cleanup
 
@@ -119,10 +120,9 @@ Policy Ownership and Policy Updates
 
 *** Keywords ***
 ADES User A retrieve status Job1
-  ${loca}=  Get Substring    ${LOCATION}    0    -13
-  ${rptA}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UA_TK}  ${loca}  ${WELL_KNOWN_PATH}  ${USERA}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}
+  ${rptA}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UA_TK}  ${LOCATION}  ${WELL_KNOWN_PATH}  ${USERA}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}
   #500 Error
-  # ${a}=  API_PROC Check Job Status Success  ${ADES_BASE_URL}  ${LOCATION}  ${rptA}
+  ${a}=  API_PROC Check Job Status Success  ${ADES_BASE_URL}  ${LOCATION}  ${rptA}
   # Status Should Be  200  ${a}
 
 ADES User B retrieve status Job1
@@ -130,7 +130,7 @@ ADES User B retrieve status Job1
   ${g_client_id}=  Get From Dictionary  ${resp}  client_id
   ${g_client_secret}=  Get From Dictionary  ${resp}  client_secret
   ${rptB}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UB_TK}  ${LOCATION}  ${WELL_KNOWN_PATH}  ${USERB}  ${PASSWORD_USERS}  ${g_client_id}  ${g_client_secret}
-  Should Be Equal as Strings  401  ${rptB.status_code}
+  #Should Be Equal as Strings  ""  ${rptB}
   #500 Error
   ${status}=  API_PROC Check Job Status Success  ${ADES_BASE_URL}  ${LOCATION}  ${rptB}
   Status Should Be  401  ${status}
@@ -139,8 +139,7 @@ ADES User B attempt execute Proc1
   ${rptB}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UB_TK}  ${API_PROC_PATH_PREFIX}/processes/eoepcaadesdeployprocess/jobs  ${WELL_KNOWN_PATH}  ${USERB}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}
   Set Global Variable  ${UB_RPT}  ${rptB}
   ${validation}=  API_PROC Execute Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  app_deploy_body  ${CURDIR}/data${/}app-execute-body.json  ${rptB}
-  builtIn.Run Keyword If  ${RES_ID_PROC1}!=""  Status Should Be  401  ${validation}
-  builtIn.Run Keyword If  ${RES_ID_PROC1}==""  Status Should Be  201  ${validation}
+  Status Should Be  401  ${validation}
 
 ADES User A execute Proc1
   ${rptA}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UA_TK}  ${API_PROC_PATH_PREFIX}/processes/eoepcaadesdeployprocess/jobs  ${WELL_KNOWN_PATH}  ${USERA}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}
@@ -243,7 +242,8 @@ User A, User B OK
   #Status Should Be  200  ${resp}
 
 PDP Modify Deny
-  ${a}=  Run Process  sh  ${CURDIR}${/}policy_finder.sh  -r  ${RES_ID_PROC1}
+
+  ${a}=  Run Process  bash  ${CURDIR}${/}policy_finder.sh  -r  ${RES_ID_PROC2}
   ${p_id}=  OperatingSystem.Get File  ${CURDIR}${/}P_ID.txt
   Set Global Variable  ${P_ID}  ${p_id}
   
@@ -252,36 +252,51 @@ PDP Modify Deny
   ${response}=  builtIn.Run Keyword If  '''${P_ID}'''!=" "  Post Request  pdp  /pdp/policy/${P_ID}  headers=${headers}  json=${data}
   builtIn.Run Keyword If  '''${P_ID}'''!=" "  Status Should Be  401  ${response}
 
-PDP Modify Policy
-
+PDP Modify Policy Job
+  ${a}=  Run Process  bash  ${CURDIR}${/}policy_finder.sh  -r  ${RES_ID_JOB1}
+  ${p_id}=  OperatingSystem.Get File  ${CURDIR}${/}P_ID.txt
+  Set Global Variable  ${P_ID}  ${p_id}
   ${a}=  Run Process  python3  ${CURDIR}${/}..${/}..${/}01__UserManagement${/}03__PDP_Engine${/}getOwnership.py  ${UB_TK}
   ${owIdB}=  OperatingSystem.Get File  ${CURDIR}${/}..${/}..${/}01__UserManagement${/}03__PDP_Engine${/}ownership_id.txt
   ${a}=  Run Process  python3  ${CURDIR}${/}..${/}..${/}01__UserManagement${/}03__PDP_Engine${/}getOwnership.py  ${UA_TK}
   ${owIdA}=  OperatingSystem.Get File  ${CURDIR}${/}..${/}..${/}01__UserManagement${/}03__PDP_Engine${/}ownership_id.txt
-  Log to Console  ${owId}
   ${data} =  Evaluate  {"name":"Job1","description":"Status for job modified","config":{"resource_id":${RES_ID_JOB1},"rules":[{"OR":[{ "EQUAL" : { "uid" : "${owIdA}"}},{ "EQUAL" : { "uid" : "${owIdB}"}}]}]},"scopes":["protected_access"]}
   ${headers}=  Create Dictionary  authorization=Bearer ${UA_TK}
   ${response}=  Post Request  pdp  /pdp/policy/${P_ID}  headers=${headers}  json=${data}
   Status Should Be  200  ${response}
-  # ${data} =  Evaluate  {"name":"Proc1","description":"Execution of Proc1","config":{"resource_id":${RES_ID_PROC2},"rules":[{"OR":[{"EQUAL":{"userName":"UserA"}},{"EQUAL":{"userName":"UserB"}},{"EQUAL":{"userName":"admin"}}]}]},"scopes":["protected_access"]}
-  # ${response}=  Post Request  pdp  /pdp/policy/${POLICY_ID_PROC2}  headers=${headers}  json=${data}
-  # Status Should Be  200  ${response}
 
-PDP UserB Status Success
-  [Arguments]  ${tkn}
-  ${ticket}=  API_PROC Check Job Status for Ticket  ${UM_BASE_URL}  ${LOCATION}  ${tkn}
-  ${access_token}=  UMA_Library.UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticket}  ${UB_TK}  ${C_ID_UMA}  ${C_SECRET_UMA}
+PDP Modify Policy Proc
+  ${a}=  Run Process  bash  ${CURDIR}${/}policy_finder.sh  -r  ${RES_ID_PROC2}
+  ${p_id}=  OperatingSystem.Get File  ${CURDIR}${/}P_ID.txt
+  Set Global Variable  ${P_ID}  ${p_id}
+  ${a}=  Run Process  python3  ${CURDIR}${/}..${/}..${/}01__UserManagement${/}03__PDP_Engine${/}getOwnership.py  ${UB_TK}
+  ${owIdB}=  OperatingSystem.Get File  ${CURDIR}${/}..${/}..${/}01__UserManagement${/}03__PDP_Engine${/}ownership_id.txt
+  ${a}=  Run Process  python3  ${CURDIR}${/}..${/}..${/}01__UserManagement${/}03__PDP_Engine${/}getOwnership.py  ${UA_TK}
+  ${owIdA}=  OperatingSystem.Get File  ${CURDIR}${/}..${/}..${/}01__UserManagement${/}03__PDP_Engine${/}ownership_id.txt
+  ${data} =  Evaluate  {"name":"Proc1","description":"Execution of Proc1","config":{"resource_id":${RES_ID_PROC2},"rules":[{"OR":[{ "EQUAL" : { "uid" : "${owIdA}"}},{ "EQUAL" : { "uid" : "${owIdB}"}}]}]},"scopes":["protected_access"]}
+  ${headers}=  Create Dictionary  authorization=Bearer ${UA_TK}
+  ${response}=  Post Request  pdp  /pdp/policy/${P_ID}  headers=${headers}  json=${data}
+  Status Should Be  200  ${response}
+
+PDP UserB Status success
+  ${rptA}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UB_TK}  ${LOCATION}  ${WELL_KNOWN_PATH}  ${USERB}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}
   #500 Error
+  #${access_token}=  UMA_Library.UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticket}  ${UB_TK}  ${C_ID_UMA}  ${C_SECRET_UMA}
   # ${a}=  API_PROC Check Job Status Success  ${UM_BASE_URL}  ${LOCATION}  ${access_token}
   # Status Should Be  200  ${a}  
 
 PDP UserB Execution Success
-  ${resp}=  API_PROC Execute Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json  ${UB_TK}
-  ${ticketB}=  UMA_Library.UMA Get Ticket From Response  ${resp}
-  ${rptB}=  UMA_Library.UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticketB}  ${UB_TK}  ${C_ID_UMA}  ${C_SECRET_UMA}
-  #   User B attempts to execute Proc1. Unauthorized.
-  ${validation}=  API_PROC Execute Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json  ${rptB}
-  Status Should Be  201  ${validation}
+
+  ${rptB}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UB_TK}  ${API_PROC_PATH_PREFIX}/processes/eoepcaadesdeployprocess/jobs  ${WELL_KNOWN_PATH}  ${USERB}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}
+  ${val}=  API_PROC Execute Process  ${ADES_BASE_URL}  ${API_PROC_PATH_PREFIX}  eoepcaadesdeployprocess  ${CURDIR}/data${/}app-execute-body.json  ${rptB}
+
+
+  # ${resp}=  API_PROC Execute Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json  ${UB_TK}
+  # ${ticketB}=  UMA_Library.UMA Get Ticket From Response  ${resp}
+  # ${rptB}=  UMA_Library.UMA Get Access Token Valid  ${WELL_KNOWN_PATH}  ${ticketB}  ${UB_TK}  ${C_ID_UMA}  ${C_SECRET_UMA}
+  # #   User B attempts to execute Proc1. Unauthorized.
+  # ${validation}=  API_PROC Execute Process  ${UM_BASE_URL}  ${API_PROC_PATH_PREFIX}  eo_metadata_generation_1_0  ${CURDIR}${/}eo_metadata_generation_1_0_execute.json  ${rptB}
+  # Status Should Be  201  ${validation}
 
 PDP Register Job1
   [Arguments]  ${host}

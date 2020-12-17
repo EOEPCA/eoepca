@@ -88,8 +88,8 @@ UMA Get Access Token Valid
   ${resp}=  UMA Call Shell Access Token  ${ticket}  ${token}  ${client_id}  ${client_secret}  ${endpoint}
   ${match}  ${value}  Run Keyword And Ignore Error  Should Contain  ${resp}  FORBIDDEN
   ${RETURNVALUE}  Set Variable If  '${match}' == 'PASS'  ${True}  ${False}
-  ${rpt_token}=  Run Keyword If  "${RETURNVALUE}"=="False"  UMA Get Access Token From Response  ${resp}
   ${rpt_token}=  Run Keyword If  "${RETURNVALUE}"=="True"  401 Returned
+  ${rpt_token}=  Run Keyword If  "${RETURNVALUE}"=="False"  UMA Get Access Token From Response  ${resp}
   [Return]  ${rpt_token}
 
 401 Returned

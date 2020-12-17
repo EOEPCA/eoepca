@@ -65,8 +65,9 @@ PDP Get TokenEndpoint
 PDP Get Permit Policy
   [Arguments]  ${host}  ${port}  ${pdp_path_to_validate}
   PDP Get Ownership
+  Log to Console  ${RES_ID_ADES}
   ${headers}=  Create Dictionary  Content-Type  application/json
-  ${data} =  Evaluate  {"Request":{"AccessSubject":[{"Attribute":[{"AttributeId":"uid","Value": "${OW_ID}","DataType":"string","IncludeInResult":True}]}],"Action":[{"Attribute":[{"AttributeId":"action-id","Value":"view"}]}],"Resource":[{"Attribute":[{"AttributeId":"resource-id","Value":"${RES_ID_ADES}","DataType":"string","IncludeInResult":True}]}]}}  json
+  ${data} =  Evaluate  {"Request":{"AccessSubject":[{"Attribute":[{"AttributeId":"user_id","Value": "admin","DataType":"string","IncludeInResult":True}]}],"Action":[{"Attribute":[{"AttributeId":"action-id","Value":"view"}]}],"Resource":[{"Attribute":[{"AttributeId":"resource-id","Value":"${RES_ID_ADES}","DataType":"string","IncludeInResult":True}]}]}}  json
   Create Session  pdp  ${host}:${port}  verify=False
   ${resp}=  Get Request  pdp  /${pdp_path_to_validate}  headers=${headers}  json=${data}  
   ${json}=  Evaluate  json.loads('''${resp.text}''')  json
@@ -78,7 +79,7 @@ PDP Get Permit Policy
 PDP Get Permit With Invalid Resource Policy
   [Arguments]  ${host}  ${port}  ${pdp_path_to_validate} 
   ${headers}=  Create Dictionary  Content-Type  application/json
-  ${data} =  Evaluate  {"Request":{"AccessSubject":[{"Attribute":[{"AttributeId":"uid","Value": "${OW_ID}","DataType":"string","IncludeInResult":True}]}],"Action":[{"Attribute":[{"AttributeId":"action-id","Value":"view"}]}],"Resource":[{"Attribute":[{"AttributeId":"resource-id","Value":"999","DataType":"string","IncludeInResult":True}]}]}}  json
+  ${data} =  Evaluate  {"Request":{"AccessSubject":[{"Attribute":[{"AttributeId":"user_id","Value": "admin","DataType":"string","IncludeInResult":True}]}],"Action":[{"Attribute":[{"AttributeId":"action-id","Value":"view"}]}],"Resource":[{"Attribute":[{"AttributeId":"resource-id","Value":"999","DataType":"string","IncludeInResult":True}]}]}}  json
   Create Session  pdp  ${host}:${port}  verify=False
   ${resp}=  Get Request  pdp  /${pdp_path_to_validate}  headers=${headers}  json=${data}  
   ${json}=  Evaluate  json.loads('''${resp.text}''')  json
@@ -90,7 +91,7 @@ PDP Get Permit With Invalid Resource Policy
 PDP Get Deny Policy Uid
   [Arguments]  ${host}  ${port}  ${pdp_path_to_validate} 
   ${headers}=  Create Dictionary  Content-Type  application/json
-  ${data} =  Evaluate  {"Request":{"AccessSubject":[{"Attribute":[{"AttributeId":"uid","Value": "999","DataType":"string","IncludeInResult":True}]}],"Action":[{"Attribute":[{"AttributeId":"action-id","Value":"view"}]}],"Resource":[{"Attribute":[{"AttributeId":"resource-id","Value":"${RES_ID_ADES}","DataType":"string","IncludeInResult":True}]}]}}  json
+  ${data} =  Evaluate  {"Request":{"AccessSubject":[{"Attribute":[{"AttributeId":"user_id","Value": "999","DataType":"string","IncludeInResult":True}]}],"Action":[{"Attribute":[{"AttributeId":"action-id","Value":"view"}]}],"Resource":[{"Attribute":[{"AttributeId":"resource-id","Value":"${RES_ID_ADES}","DataType":"string","IncludeInResult":True}]}]}}  json
   Create Session  pdp  ${host}:${port}  verify=False
   ${resp}=  Get Request  pdp  /${pdp_path_to_validate}  headers=${headers}  json=${data}  
   ${json}=  Evaluate  json.loads('''${resp.text}''')  json

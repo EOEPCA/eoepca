@@ -10,20 +10,19 @@ while getopts ":r:" opt; do
       ;;
     esac
 done
+RES_ID=$(echo $RES_ID |  tr -d '"' | tr -d '\')
 a=$(kubectl get pods | grep pdp)
+echo $RES_ID
 for value in $a
 do 
     v=$(kubectl exec $value -c pdp-engine -- management_tools list -r $RES_ID)
     break
 done
-
 for u in $v;
 do
-    if [[ $u == *"ObjectId"* ]]; then
-        echo $u| cut -d"'" -f 2 > ./P_ID.txt
-
+    if echo "$u" | grep -q "ObjectId"; then
+        echo $u| cut -d"'" -f 2 | tr -d "\n\r" > ./02__Processing/01__ADES/P_ID.txt
         break
     fi
-done
 
-wc -l < P_ID.txt | tr -d '\n'
+done
