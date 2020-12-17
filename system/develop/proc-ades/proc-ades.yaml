@@ -5,13 +5,12 @@ metadata:
   name: proc-ades
   namespace: default
 spec:
-  suspend: true
   chart:
     spec:
-      chart: ./charts/ades
+      chart: ./system/charts/ades
       sourceRef:
         kind: GitRepository
-        name: proc-ades
+        name: eoepca
         namespace: flux-system
   values:
     workflowExecutor:
@@ -25,4 +24,11 @@ spec:
       hosts:
         - host: proc-ades-helm.test.192.168.49.2.nip.io
           paths: ["/"]
+    image:
+      repository: rconway/proc-ades
+      pullPolicy: IfNotPresent
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: "0.1"
+    useKubeProxy: false
+
   interval: 1m0s
