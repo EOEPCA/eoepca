@@ -96,31 +96,31 @@ ADES Application Execution Protection
   ADES User B attempt execute Proc1
 
   # User B attempts to retrieve status of Job1. Unauthorized.
-  # ADES User B retrieve status Job1
+  ADES User B retrieve status Job1
 
   # User A attempts to retrieve status of Job1. OK.
   ADES User A retrieve status Job1
 
   
-#Policy Ownership and Policy Updates
-#   #   User B attempts to modify Proc1 access policies. Unauthorized. 
-#   PDP Modify Deny
-#   #   User A modifies access policy of Job1 Status to Access List including User B.
-#   #   User A modifies access policy of Proc1 to Access List including User B.
-#   PDP Modify Policy
-#   #   User B attempts to retrieve the status of Job1. OK.
-#   #PDP UserB Status Success  ${UB_RPT}
-#   #   User B attempts to execute Proc1. OK.
-#   #PDP UserB Execution Success
-#   #PDP Delete policies
-#  Cleanup
+Policy Ownership and Policy Updates
+  #   User B attempts to modify Proc1 access policies. Unauthorized. 
+  PDP Modify Deny
+  #   User A modifies access policy of Job1 Status to Access List including User B.
+  #   User A modifies access policy of Proc1 to Access List including User B.
+  PDP Modify Policy
+  #   User B attempts to retrieve the status of Job1. OK.
+  #PDP UserB Status Success  ${UB_RPT}
+  #   User B attempts to execute Proc1. OK.
+  #PDP UserB Execution Success
+  #PDP Delete policies
+  #Cleanup
 
 
 
 *** Keywords ***
 ADES User A retrieve status Job1
-
-  ${rptA}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UA_TK}  /watchjob/processes/eoepcaadesdeployprocess/jobs/b2b64d30-3b91-11eb  ${WELL_KNOWN_PATH}  ${USERA}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}
+  ${loca}=  Get Substring    ${LOCATION}    0    -13
+  ${rptA}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UA_TK}  ${loca}  ${WELL_KNOWN_PATH}  ${USERA}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}
   #500 Error
   # ${a}=  API_PROC Check Job Status Success  ${ADES_BASE_URL}  ${LOCATION}  ${rptA}
   # Status Should Be  200  ${a}
@@ -130,9 +130,10 @@ ADES User B retrieve status Job1
   ${g_client_id}=  Get From Dictionary  ${resp}  client_id
   ${g_client_secret}=  Get From Dictionary  ${resp}  client_secret
   ${rptB}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UB_TK}  ${LOCATION}  ${WELL_KNOWN_PATH}  ${USERB}  ${PASSWORD_USERS}  ${g_client_id}  ${g_client_secret}
+  Should Be Equal as Strings  401  ${rptB.status_code}
   #500 Error
-  # ${status}=  API_PROC Check Job Status Success  ${ADES_BASE_URL}  ${LOCATION}  ${rptB}
-  # Status Should Be  401  ${status}
+  ${status}=  API_PROC Check Job Status Success  ${ADES_BASE_URL}  ${LOCATION}  ${rptB}
+  Status Should Be  401  ${status}
 
 ADES User B attempt execute Proc1
   ${rptB}=  UMA Flow Setup Ades  ${ADES_BASE_URL}  ${UB_TK}  ${API_PROC_PATH_PREFIX}/processes/eoepcaadesdeployprocess/jobs  ${WELL_KNOWN_PATH}  ${USERB}  ${PASSWORD_USERS}  ${CLIENT_ID}  ${CLIENT_SECRET}
@@ -209,7 +210,6 @@ UMA Flow Setup Ades
   ${id_token}=  UMA_Library.UMA Get ID Token Valid  ${base_url}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
   ${resp_ticket}=  UMA Get Ticket Valid  ${base_url}  ${token}  ${resource}
   ${ticket}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA_Library.UMA Get Ticket From Response  ${resp_ticket}
-  Log to Console  ${ticket}
   ${access_token}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA_Library.UMA Get Access Token Valid  ${well_known}  ${ticket}  ${token}  ${client_id}  ${client_secret}
   [Return]  ${access_token}
 
@@ -243,19 +243,29 @@ User A, User B OK
   #Status Should Be  200  ${resp}
 
 PDP Modify Deny
-  ${data} =  Evaluate  {"name":"Job1","description":"Status for job","config":{"resource_id":${RES_ID_JOB1},"rules":[{"OR":[{"EQUAL":{"userName":"UserA"}},{"EQUAL":{"userName":"UserB"}},{"EQUAL":{"userName":"admin"}}]}]},"scopes":["protected_access"]}
+  ${a}=  Run Process  sh  ${CURDIR}${/}policy_finder.sh  -r  ${RES_ID_PROC1}
+  ${p_id}=  OperatingSystem.Get File  ${CURDIR}${/}P_ID.txt
+  Set Global Variable  ${P_ID}  ${p_id}
+  
+  ${data} =  Evaluate  {"name":"Job1","description":"Status for job","config":{"resource_id":${RES_ID_JOB1}, "action" : "view", "rules" : [{"OR" : [{ "EQUAL" : { "uid" : "639f6877-bab2-4c68-af25-65ce9c43e899"}},{ "EQUAL" : { "uid" : "639f6877-bab2-4c68-af29-65ce9c43e899"}}]}]},"scopes":["protected_access"]}
   ${headers}=  Create Dictionary  authorization=Bearer ${UB_TK}
-  ${response}=  builtIn.Run Keyword If  "${POLICY_ID_JOB1}"!=""  Post Request  pdp  /pdp/policy/${POLICY_ID_JOB1}  headers=${headers}  json=${data}
-  builtIn.Run Keyword If  "${POLICY_ID_JOB1}"!=""  Status Should Be  401  ${response}
+  ${response}=  builtIn.Run Keyword If  '''${P_ID}'''!=" "  Post Request  pdp  /pdp/policy/${P_ID}  headers=${headers}  json=${data}
+  builtIn.Run Keyword If  '''${P_ID}'''!=" "  Status Should Be  401  ${response}
 
 PDP Modify Policy
-  ${data} =  Evaluate  {"name":"Job1","description":"Status for job modified","config":{"resource_id":${RES_ID_JOB1},"rules":[{"OR":[{"EQUAL":{"userName":"UserA"}},{"EQUAL":{"userName":"UserB"}},{"EQUAL":{"userName":"admin"}}]}]},"scopes":["protected_access"]}
+
+  ${a}=  Run Process  python3  ${CURDIR}${/}..${/}..${/}01__UserManagement${/}03__PDP_Engine${/}getOwnership.py  ${UB_TK}
+  ${owIdB}=  OperatingSystem.Get File  ${CURDIR}${/}..${/}..${/}01__UserManagement${/}03__PDP_Engine${/}ownership_id.txt
+  ${a}=  Run Process  python3  ${CURDIR}${/}..${/}..${/}01__UserManagement${/}03__PDP_Engine${/}getOwnership.py  ${UA_TK}
+  ${owIdA}=  OperatingSystem.Get File  ${CURDIR}${/}..${/}..${/}01__UserManagement${/}03__PDP_Engine${/}ownership_id.txt
+  Log to Console  ${owId}
+  ${data} =  Evaluate  {"name":"Job1","description":"Status for job modified","config":{"resource_id":${RES_ID_JOB1},"rules":[{"OR":[{ "EQUAL" : { "uid" : "${owIdA}"}},{ "EQUAL" : { "uid" : "${owIdB}"}}]}]},"scopes":["protected_access"]}
   ${headers}=  Create Dictionary  authorization=Bearer ${UA_TK}
-  ${response}=  Post Request  pdp  /pdp/policy/${POLICY_ID_JOB1}  headers=${headers}  json=${data}
+  ${response}=  Post Request  pdp  /pdp/policy/${P_ID}  headers=${headers}  json=${data}
   Status Should Be  200  ${response}
-  ${data} =  Evaluate  {"name":"Proc1","description":"Execution of Proc1","config":{"resource_id":${RES_ID_PROC2},"rules":[{"OR":[{"EQUAL":{"userName":"UserA"}},{"EQUAL":{"userName":"UserB"}},{"EQUAL":{"userName":"admin"}}]}]},"scopes":["protected_access"]}
-  ${response}=  Post Request  pdp  /pdp/policy/${POLICY_ID_PROC2}  headers=${headers}  json=${data}
-  Status Should Be  200  ${response}
+  # ${data} =  Evaluate  {"name":"Proc1","description":"Execution of Proc1","config":{"resource_id":${RES_ID_PROC2},"rules":[{"OR":[{"EQUAL":{"userName":"UserA"}},{"EQUAL":{"userName":"UserB"}},{"EQUAL":{"userName":"admin"}}]}]},"scopes":["protected_access"]}
+  # ${response}=  Post Request  pdp  /pdp/policy/${POLICY_ID_PROC2}  headers=${headers}  json=${data}
+  # Status Should Be  200  ${response}
 
 PDP UserB Status Success
   [Arguments]  ${tkn}
@@ -360,7 +370,6 @@ API_PROC Check Job Status for Ticket
 API_PROC Check Job Status Success
   [Arguments]  ${base_url}  ${location}  ${token}
   Create Session  pep  ${base_url}:${PEP_PROXY_PORT}  verify=False
-  Log to Console  ${token}
   ${headers}=  Create Dictionary  accept=application/json  Prefer=respond-async  Content-Type=application/json  authorization=Bearer ${token}
   FOR  ${index}  IN RANGE  2
     Sleep  30  Loop wait for processing execution completion

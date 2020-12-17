@@ -81,11 +81,20 @@ UMA Call Shell Access Token
   [Return]  ${a.stdout}
 
 UMA Get Access Token Valid
-  [Arguments]  ${well_known}  ${ticket}  ${token}  ${client_id}  ${client_secret}  
-  ${endpoint}=  UMA Get Token Endpoint  ${well_known}
+  [Arguments]  ${well_known}  ${ticket}  ${token}  ${client_id}  ${client_secret}
+  Set Global Variable  ${ALVLI}  ${token}
+  Set Global Variable  ${ALVLT}  ${ticket}
+  ${endpoint}=  UMA Get Token Endpoint  ${well_known} 
   ${resp}=  UMA Call Shell Access Token  ${ticket}  ${token}  ${client_id}  ${client_secret}  ${endpoint}
-  ${rpt_token}=  UMA Get Access Token From Response  ${resp}
+  ${match}  ${value}  Run Keyword And Ignore Error  Should Contain  ${resp}  FORBIDDEN
+  ${RETURNVALUE}  Set Variable If  '${match}' == 'PASS'  ${True}  ${False}
+  ${rpt_token}=  Run Keyword If  "${RETURNVALUE}"=="False"  UMA Get Access Token From Response  ${resp}
+  ${rpt_token}=  Run Keyword If  "${RETURNVALUE}"=="True"  401 Returned
   [Return]  ${rpt_token}
+
+401 Returned
+  ${resp}=  Create Dictionary  status_code=401
+  [Return]  ${resp}
 
 UMA Get Token Endpoint
   [Arguments]  ${well_known} 
