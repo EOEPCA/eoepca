@@ -3,15 +3,8 @@ workflowExecutor:
   storageUsername: ZW9lcGNh
   storageApiKey: dGVsZXNwYXppbw==
   kubeconfig: /home/gr4n0t4/.kube/config
-persistence:
-  storageClass: notset
 ingress:
   hosts:
     - host: proc-ades-helm.test.192.168.49.2.nip.io
       paths: ["/"]
-image:
-  repository: rconway/proc-ades
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.1"
 useKubeProxy: false
