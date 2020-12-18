@@ -475,6 +475,6 @@ Cleanup
   OperatingSystem.Remove File  ${CURDIR}${/}3.txt
   OperatingSystem.Remove File  ${CURDIR}${/}location.txt
   OperatingSystem.Remove File  ${CURDIR}${/}P_ID.txt
-  ${CURDIR}${/}..${/}..${/}01__UserManagement${/}01__LoginService${/}1.txt
-  ${CURDIR}${/}..${/}..${/}01__UserManagement${/}03__PDP_Engine${/}ownership_id.txt
+  OperatingSystem.Remove File  ${CURDIR}${/}..${/}..${/}01__UserManagement${/}01__LoginService${/}1.txt
+  OperatingSystem.Remove File ${CURDIR}${/}..${/}..${/}01__UserManagement${/}03__PDP_Engine${/}ownership_id.txt
   ${a}=  Run Process  sh  ${CURDIR}${/}clean_res.sh
