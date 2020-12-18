@@ -113,8 +113,8 @@ Policy Ownership and Policy Updates
   PDP Modify Policy Proc
   #   User B attempts to execute Proc1. OK.
   PDP UserB Execution Success
-  #PDP Delete policies
-  #Cleanup
+  #   Clean Up resources and policies
+  Cleanup
 
 
 
@@ -474,3 +474,7 @@ Cleanup
   OperatingSystem.Remove File  ${CURDIR}${/}2.txt
   OperatingSystem.Remove File  ${CURDIR}${/}3.txt
   OperatingSystem.Remove File  ${CURDIR}${/}location.txt
+  OperatingSystem.Remove File  ${CURDIR}${/}P_ID.txt
+  ${CURDIR}${/}..${/}..${/}01__UserManagement${/}01__LoginService${/}1.txt
+  ${CURDIR}${/}..${/}..${/}01__UserManagement${/}03__PDP_Engine${/}ownership_id.txt
+  ${a}=  Run Process  sh  ${CURDIR}${/}clean_res.sh
