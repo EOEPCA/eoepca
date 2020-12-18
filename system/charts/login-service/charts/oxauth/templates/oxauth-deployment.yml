@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "oxauth.fullname" . }}
+  labels:
+    app: {{ .Values.global.oxAuthServiceName }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.global.oxAuthServiceName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.global.oxAuthServiceName }}
+    spec:
+      containers:
+      - name: {{ template "login-service.fullname" . }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        image: gluufederation/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        resources:
+          requests:
+            memory: {{ .Values.requests.memory }}
+          # limits:
+          #   memory: {{ .Values.limits.memory }} 
+        ports:
+        - name: oxauth
+          containerPort: 8080
+          protocol: TCP
+        envFrom:
+        - configMapRef:
+            name: {{ template "oxauth.fullname" . }}-cm
+        volumeMounts:
+        {{- range $key, $value := .Values.volumeMounts }}
+          - mountPath: {{ $value.mountPath }}
+            name: vol-userman
+            subPath: {{ $value.subPath }}
+        {{- end }}
+        livenessProbe:
+          httpGet:
+            path: /oxauth/.well-known/openid-configuration
+            port: {{ .Values.ports.containerPort }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+        readinessProbe:
+          httpGet:
+            path: /oxauth/.well-known/openid-configuration
+            port: {{ .Values.ports.containerPort }}
+          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+      hostAliases:
+      - ip: {{ .Values.global.nginxIp }}
+        hostnames:
+        - {{ .Values.global.domain }}
+      volumes:
+        - name: vol-userman
+          persistentVolumeClaim:
+            claimName: {{ .Values.volumeClaim.name }}

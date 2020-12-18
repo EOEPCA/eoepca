@@ -6,6 +6,8 @@ BIN_DIR="$(pwd)"
 
 trap "cd '${ORIG_DIR}'" EXIT
 
+# For installation consisntecy
+export HELM_INSTALL_DIR="$HOME/.local/bin"
 # Ref. https://helm.sh/docs/intro/install/
 curl -sfL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash -s -
 

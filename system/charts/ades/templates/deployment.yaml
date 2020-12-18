@@ -1,0 +1,136 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ades.fullname" . }}
+  labels:
+    {{- include "ades.labels" . | nindent 4 }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "ades.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "ades.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ .Release.Name }}-processing-manager
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          readinessProbe:
+            httpGet:
+              path: /terradue/wps3/processes
+              port: http
+              httpHeaders:
+              - name: Accept
+                value: application/json
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            {{- if .Values.useKubeProxy }}
+            - name: HTTP_PROXY
+              value: "http://localhost:8001"
+            {{- else }}
+            - name: KUBECONFIG
+              value: /var/etc/ades/kubeconfig
+            {{- end }}
+            - name: STORAGE_HOST
+              value: {{ .Values.workflowExecutor.storageHost | quote }}
+            - name: STORAGE_USERNAME
+              value: {{ .Values.workflowExecutor.storageUsername | quote }}
+            - name: STORAGE_APIKEY
+              value: {{ .Values.workflowExecutor.storageApiKey | quote }}
+            - name: STORAGE_CLASS
+              value: {{ .Values.workflowExecutor.processingStorageClass | quote }}
+            - name: VOLUME_INPUT_SIZE
+              value: {{ .Values.workflowExecutor.processingVolumeInputSize | quote }}
+            - name: VOLUME_TMP_SIZE
+              value: {{ .Values.workflowExecutor.processingVolumeTmpSize | quote }}
+            - name: VOLUME_OUTPUT_SIZE
+              value: {{ .Values.workflowExecutor.processingVolumeOutputSize | quote }}
+            - name: JOB_MAX_RAM
+              value: {{ .Values.workflowExecutor.processingMaxRam | quote }}
+            - name: JOB_MAX_CORES
+              value: {{ .Values.workflowExecutor.processingMaxCores | quote }}
+            - name: JOB_KEEPWORKSPACE
+              value: {{ .Values.workflowExecutor.processingKeepWorkspace | quote }}
+
+          volumeMounts:
+            - name: ades-config
+              mountPath: /var/etc/ades
+            - name: ades-user-data
+              mountPath: /var/www/html/res
+            - name: ades-processing-services
+              mountPath: /opt/zooservices_user
+            - name: ades-config
+              mountPath: /zooservices/main.cfg
+              subPath: main.cfg
+        {{- if .Values.useKubeProxy }}
+        - name: sidecar-proxy
+          image: linuxacademycontent/kubectl-proxy:latest
+          ports:
+            - containerPort: 8001
+        {{- end }}
+      volumes:
+        - name: ades-config
+          configMap:
+            name: {{ .Release.Name }}-configmap
+        - name: ades-user-data
+        {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            {{- if .Values.persistence.existingUserDataClaim }}
+            claimName: {{ .Values.persistence.existingUserDataClaim }}
+            {{- else }}
+            claimName: {{ template "ades.fullname" . }}-user-data
+            {{- end -}}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+        - name: ades-processing-services
+        {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            {{- if .Values.persistence.existingProcessingServicesClaim }}
+            claimName: {{ .Values.persistence.existingProcessingServicesClaim }}
+            {{- else }}
+            claimName: {{ template "ades.fullname" . }}-processing-services
+            {{- end -}}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+      restartPolicy: Always
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

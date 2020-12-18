@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.global.pdp }}
+  labels:
+    app: {{ .Values.global.pdp }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.global.pdp }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.global.pdp }}
+    spec:
+      containers:
+      - name: {{ .Values.global.pdp }}
+        imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+        image: {{ .Values.image.image }}
+        ports:
+        - name: http-pdp
+          containerPort: 5567
+          protocol: TCP
+        - name: https-pdp
+          containerPort: 443
+          protocol: TCP
+        envFrom:
+        - configMapRef:
+            name: um-pdp-engine-config
+      - name: mongo
+        imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+        image: mongo
+        ports:
+        - name: http-rp
+          containerPort: 27017
+          protocol: TCP
+        envFrom:
+        - configMapRef:
+            name: um-pdp-engine-config
+        volumeMounts:
+        - mountPath: /data/db/
+          subPath: pep-engine/db/policy
+          name: eoepca-pdp-pv-host
+      hostAliases:
+      - ip: {{ .Values.global.nginxIp }}
+        hostnames:
+        - {{ .Values.global.ep }}
+      volumes:
+        - name: eoepca-pdp-pv-host
+          persistentVolumeClaim:
+            claimName: eoepca-pdp-pvc

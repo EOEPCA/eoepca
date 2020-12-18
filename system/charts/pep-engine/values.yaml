@@ -1,0 +1,53 @@
+# Default values for login-service.
+
+global:
+  namespace: default
+  serviceName: opendj
+  ep: demoexample.gluu.org
+  domain:  https://demoexample.gluu.org
+  pep: pep-engine
+  realm: eoepca
+  serviceHost: 0.0.0.0
+  servicePort: 5566
+  margin: 5
+  sslCerts: "'false'"
+  useThreads: "'true'"
+  debugMode: "'true'"
+  resourceServer: http://ades/
+  umaValidation: "'true'"
+  limitUses: 1
+  pdpUrl: http://demoexample.gluu.org
+  pdpPort: 5567
+  pdpPolicy: /policy/
+  verifySignature: "'false'"
+  nginxIp: 10.0.2.15
+  proxyServicePort: 5566
+  resourcesServicePort: 5576
+
+
+
+image: 
+  statefulSetReplicas: 1
+  imagePullPolicy: Always
+  image: eoepca/um-pep-engine:task203_1
+persistence: 
+  accessModes: ReadWriteMany
+  dbStorageSize: 5Gi
+  type: DirectoryOrCreate
+
+config:
+  enabled: true
+
+
+ingress:
+  enabled: true
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  path: /
+  hosts:
+    - demoexample.gluu.org
+  tls: 
+   - secretName: tls-certificate
+     hosts:
+       - demoexample.gluu.org

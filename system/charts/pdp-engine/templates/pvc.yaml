@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: eoepca-pdp-pvc
+  namespace: {{ .Release.Namespace }}
+  labels:
+    eoepca_type: userman
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  accessModes:
+    - {{ .Values.persistence.accessModes }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.dbStorageSize }}
+  selector:
+    matchLabels:
+      eoepca_type: userman
