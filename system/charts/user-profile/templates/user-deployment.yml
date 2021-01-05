@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.global.user }}
+  labels:
+    app: {{ .Values.global.user }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.global.user }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.global.user }}
+    spec:
+      containers:
+      - name: {{ .Values.global.user }}
+        imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+        image: {{ .Values.image.image }}
+        ports:
+        - name: http-up
+          containerPort: 5566
+          protocol: TCP
+        - name: https-up
+          containerPort: 443
+          protocol: TCP
+        envFrom:
+        - configMapRef:
+            name: user-cm
+        volumeMounts:
+        - mountPath: /opt/user-profile/db/um-user-profile-config
+          subPath: um-user-profile-config
+          name: config-user
+          mountPropagation: HostToContainer
+        - mountPath: /opt/gluu/jetty/user-profile/logs
+          subPath: user-profile/logs
+          name: eoepca-user-pv-host
+      
+      hostAliases:
+      - ip: {{ .Values.global.nginxIp }}
+        hostnames:
+        - {{ .Values.global.ep }}
+      volumes:
+        - name: eoepca-user-pv-host
+          persistentVolumeClaim:
+            claimName: eoepca-user-pvc
+        - name: config-user
+          configMap:
+            name: user-cm

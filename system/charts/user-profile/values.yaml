@@ -1,0 +1,56 @@
+# Default values for login-service.
+
+global:
+  nginxIp: 10.0.2.15
+  ssoUrl: demoexample.gluu.org
+  title: "EOEPCA User Profile"
+  scopes: "openid email user_name"
+  redirectUri: "http://demoexample.gluu.org/web_ui/oauth/callback"
+  postLogoutRedirectUri: http://demoexample.gluu.org/web_ui"
+  baseUri: "/web_ui"
+  oauthCallbackPath: "/oauth/callback"
+  logoutEndpoint: "/logout"
+  serviceHost: "0.0.0.0"
+  servicePort: "5566"
+  protectedAttributes: "userName active emails displayName value primary"
+  blacklistAttributes: "schemas id meta $ref"
+  separatorUiAttributes: "->"
+  colorWebBackground: "#D7EDEC"
+  colorWebHeader: "#FFFFFF"
+  logoAltName: "EOEPCA Logo"
+  logoImagePath: "/static/img/logo.png"
+  colorHeaderTable: "#38A79F"
+  colorTextHeaderTable: "white"
+  colorButtonModify: "#38A79F"
+  useThreads: "true"
+  debugMode: "true"
+  ep: demoexample.gluu.org
+  user: user-profile
+
+
+
+image: 
+  statefulSetReplicas: 1
+  imagePullPolicy: Always
+  image: eoepca/um-user-profile:travis_107
+persistence: 
+  accessModes: ReadWriteMany
+  dbStorageSize: 5Gi
+  type: DirectoryOrCreate
+
+config:
+  enabled: true
+
+
+ingress:
+  enabled: true
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  path: /
+  hosts:
+    - demoexample.gluu.org
+  tls: 
+   - secretName: tls-certificate
+     hosts:
+       - demoexample.gluu.org
