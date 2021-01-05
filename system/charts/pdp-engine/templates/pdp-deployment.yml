@@ -40,13 +40,13 @@ spec:
             name: um-pdp-engine-config
         volumeMounts:
         - mountPath: /data/db/
-          subPath: pep-engine/db/policy
-          name: eoepca-pdp-pv-host
+          subPath: pdp-engine/data/db
+          name: vol-userman
       hostAliases:
       - ip: {{ .Values.global.nginxIp }}
         hostnames:
         - {{ .Values.global.ep }}
       volumes:
-        - name: eoepca-pdp-pv-host
+        - name: vol-userman
           persistentVolumeClaim:
-            claimName: eoepca-pdp-pvc
+            claimName: {{ .Values.volumeClaim.name }}

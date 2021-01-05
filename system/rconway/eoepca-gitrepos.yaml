@@ -7,5 +7,5 @@ metadata:
 spec:
   interval: 30s
   ref:
-    branch: rconway
+    branch: feature/EOEPCA-252-workspace-helm
   url: https://github.com/EOEPCA/eoepca
