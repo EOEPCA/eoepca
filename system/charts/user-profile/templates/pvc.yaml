@@ -11,8 +11,6 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessModes }}
-  capacity:
-    storage: {{ .Values.persistence.dbStorageSize }}
   resources:
     requests:
       storage: {{ .Values.persistence.dbStorageSize }}
