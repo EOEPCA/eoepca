@@ -17,29 +17,6 @@ ${WELL_KNOWN_PATH}=  ${UM_BASE_URL}/.well-known/uma2-configuration
 ${PEP_RESOURCE_PORT}=  31709
 ${PEP_PROXY_PORT}=  31707
 
-*** Test Cases ***
-
-UMA getEndpoints
-  UMA Get Token Endpoint  ${WELL_KNOWN_PATH}  
-
-#UMA Ticket Test
-#  UMA Get Ticket Valid  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}
-
-UMA Authenticate test
-  ${resp}=  Scim Client Get Details
-  ${g_client_id}=  Get From Dictionary  ${resp}  client_id
-  ${g_client_secret}=  Get From Dictionary  ${resp}  client_secret
-  UMA Get ID Token Valid  ${ADES_BASE_URL}  ${WELL_KNOWN_PATH}  ${UMA_USER}  ${UMA_PWD}  ${g_client_id}  ${g_client_secret}
-
-UMA Flow to Retrieve RPT 
-  ${resp}=  Scim Client Get Details
-  ${g_client_id}=  Get From Dictionary  ${resp}  client_id
-  ${g_client_secret}=  Get From Dictionary  ${resp}  client_secret
-  Set Global Variable  ${C_ID_UMA}  ${g_client_id}
-  Set Global Variable  ${C_SECRET_UMA}  ${g_client_secret}
-  UMA Flow Setup  ${ADES_BASE_URL}  ${ID_TOKEN}  ${PATH_TO_RESOURCE}  ${WELL_KNOWN_PATH}  ${UMA_USER}  ${UMA_PWD}  ${g_client_id}  ${g_client_secret}
-  Cleanup
-
 *** Keywords ***
 UMA Resource Insertion
   ${a}=  Run Process  python3  ${CURDIR}${/}insADES.py  ${ADES_BASE_URL}  ${PEP_RESOURCE_PORT}
@@ -57,7 +34,7 @@ UMA Get Ticket
   [Arguments]  ${base_url}  ${token}  ${resource}
   Create Session  pep  ${base_url}:${PEP_PROXY_PORT}  verify=False
   ${headers}=  Create Dictionary  authorization=Bearer ${token}
-  ${resp}=  Get Request  pep  /${resource}  headers=${headers}
+  ${resp}=  Get Request  pep  /wps3  headers=${headers}
   [Return]  ${resp}
 
 UMA Get Ticket Valid
@@ -104,11 +81,20 @@ UMA Call Shell Access Token
   [Return]  ${a.stdout}
 
 UMA Get Access Token Valid
-  [Arguments]  ${well_known}  ${ticket}  ${token}  ${client_id}  ${client_secret}  
-  ${endpoint}=  UMA Get Token Endpoint  ${well_known}
+  [Arguments]  ${well_known}  ${ticket}  ${token}  ${client_id}  ${client_secret}
+  Set Global Variable  ${ALVLI}  ${token}
+  Set Global Variable  ${ALVLT}  ${ticket}
+  ${endpoint}=  UMA Get Token Endpoint  ${well_known} 
   ${resp}=  UMA Call Shell Access Token  ${ticket}  ${token}  ${client_id}  ${client_secret}  ${endpoint}
-  ${rpt_token}=  UMA Get Access Token From Response  ${resp}
+  ${match}  ${value}  Run Keyword And Ignore Error  Should Contain  ${resp}  FORBIDDEN
+  ${RETURNVALUE}  Set Variable If  '${match}' == 'PASS'  ${True}  ${False}
+  ${rpt_token}=  Run Keyword If  "${RETURNVALUE}"=="True"  401 Returned
+  ${rpt_token}=  Run Keyword If  "${RETURNVALUE}"=="False"  UMA Get Access Token From Response  ${resp}
   [Return]  ${rpt_token}
+
+401 Returned
+  ${resp}=  Create Dictionary  status_code=401
+  [Return]  ${resp}
 
 UMA Get Token Endpoint
   [Arguments]  ${well_known} 
@@ -141,19 +127,12 @@ UMA Handler of Codes
   [Arguments]  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}  
   ${id_token}=  UMA Get ID Token Valid  ${base_url}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
   UMA Resource Insertion
-  ${resp_ticket}=  UMA Get Ticket Valid  ${base_url}  ${token}  ${UMA_PATH_PREFIX}
+  ${resp_ticket}=  UMA Get Ticket Valid  ${base_url}  ${token}  ${RES_ID_ADES}
   ${ticket}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Ticket From Response  ${resp_ticket}
   ${access_token}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Access Token Valid  ${well_known}  ${ticket}  ${id_token}  ${client_id}  ${client_secret}
   [Return]  ${access_token}
-
-PEP Delete Resource
-  [Arguments]  ${base_url}
-  Create Session  pep  ${base_url}:${PEP_RESOURCE_PORT}  verify=False
-  ${headers}=  Create Dictionary  authorization=Bearer ${ID_TOKEN}
-  ${response}=  Delete Request  pep  /resources/${RES_ID_ADES}  headers=${headers}
 
 
 Cleanup
   OperatingSystem.Remove File  ${CURDIR}${/}1.txt
   OperatingSystem.Remove File  ${CURDIR}${/}res_id.txt
-  PEP Delete Resource  ${ADES_BASE_URL}
