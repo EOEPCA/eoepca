@@ -16,7 +16,7 @@ spec:
     global:
       nginxIp: 192.168.49.2
       domain: https://test.192.168.49.2.nip.io
-      ep: ades.test.192.168.49.2.nip.io
+      ep: test.192.168.49.2.nip.io
       auth_server_url: https://test.192.168.49.2.nip.io
     image:
       image: eoepca/um-pdp-engine:v0.3
