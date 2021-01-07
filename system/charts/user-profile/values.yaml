@@ -54,3 +54,6 @@ ingress:
    - secretName: tls-certificate
      hosts:
        - demoexample.gluu.org
+# VolumeClaim values
+volumeClaim:
+  name: um-user-pvc

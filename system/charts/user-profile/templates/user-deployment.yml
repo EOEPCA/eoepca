@@ -35,16 +35,16 @@ spec:
           mountPropagation: HostToContainer
         - mountPath: /opt/gluu/jetty/user-profile/logs
           subPath: user-profile/logs
-          name: eoepca-user-pv-host
+          name: vol-userman
       
       hostAliases:
       - ip: {{ .Values.global.nginxIp }}
         hostnames:
         - {{ .Values.global.ep }}
       volumes:
-        - name: eoepca-user-pv-host
+        - name: vol-userman
           persistentVolumeClaim:
-            claimName: eoepca-user-pvc
+            claimName: {{ .Values.volumeClaim.name }}
         - name: config-user
           configMap:
             name: user-cm
