@@ -24,20 +24,14 @@ spec:
     context: ades
     volumeClaim:
       name: eoepca-userman-pvc
-    # INGRESS - values below pasted from the chart's values.yaml
-    # THIS ALL LOOKS WRONG
     ingress:
-      enabled: true
-      annotations: {}
-        # kubernetes.io/ingress.class: nginx
-        # kubernetes.io/tls-acme: "true"
       path: /
       hosts:
-        - demoexample.gluu.org
+        - ades.test.192.168.49.2.nip.io
       tls: 
       - secretName: tls-certificate
         hosts:
-          - demoexample.gluu.org
+          - ades.test.192.168.49.2.nip.io
 
   timeout: 25m0s
   interval: 1m0s
