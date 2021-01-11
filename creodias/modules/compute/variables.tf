@@ -54,6 +54,8 @@ variable "flavor_gfs_node" {}
 
 variable "network_name" {}
 
+variable "eodata_network_name" {}
+
 variable "flavor_bastion" {}
 
 variable "network_id" {
