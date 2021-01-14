@@ -1,0 +1,13 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: processing-and-chaining
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  path: ./system/clusters/develop/processing-and-chaining
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  validation: client
