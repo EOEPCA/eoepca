@@ -3,3 +3,5 @@ kind: ConfigMap
 metadata:
   name: dummy-processing-and-chaining
   namespace: rm
+data:
+  delete: me
