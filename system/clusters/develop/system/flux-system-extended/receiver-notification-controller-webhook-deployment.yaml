@@ -1,0 +1,15 @@
+apiVersion: notification.toolkit.fluxcd.io/v1beta1
+kind: Receiver
+metadata:
+  name: receiver-notification-controller-webhook-deployment
+  namespace: flux-system
+spec:
+  type: gitlab
+  events:
+    - "Push Hook"
+    - "Tag Push Hook"
+  secretRef:
+    name: notification-controller-webhook-token
+  resources:
+    - kind: GitRepository
+      name: deployment
