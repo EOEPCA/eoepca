@@ -1,0 +1,20 @@
+
+# image:
+#   repository: eoepca/proc-ades
+#   tag: "devlatest"
+#   pullPolicy: IfNotPresent
+
+workflowExecutor:
+  storageHost: http://nextcloud.default/
+  storageUsername: eoepca
+  storageApiKey: telespazio
+  processingStorageClass: standard
+
+wps:
+  usePep: false
+  pepBaseUrl: zzz
+
+persistence:
+  enabled: true
+  existingUserDataClaim: eoepca-proc-pvc
+  existingProcServicesClaim: eoepca-proc-pvc
