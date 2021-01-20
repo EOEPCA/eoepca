@@ -29,6 +29,7 @@ spec:
         CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .TIF,.tif,.xml,.jp2
         GDAL_DISABLE_READDIR_ON_OPEN: "TRUE"
         COLLECT_STATIC: "false"
+        REGISTRAR_REPLACE: "true"
       database:
         DB_NAME: dbname
         DB_PORT: "5432"
