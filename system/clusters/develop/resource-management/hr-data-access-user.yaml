@@ -1,8 +1,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: data-access-user
-  namespace: rm
+  name: data-access
+  namespace: rm-user1
 spec:
   interval: 5m
   chart:
@@ -13,15 +13,15 @@ spec:
         kind: HelmRepository
         name: eox-charts
         namespace: rm
-  valuesFrom:
-  - kind: Secret
-    name: obs-access
-    valuesKey: access_key_id
-    targetPath: config.objectStorage.cache.access_key_id
-  - kind: Secret
-    name: obs-access
-    valuesKey: secret_access_key
-    targetPath: config.objectStorage.data.secret_access_key
+  # valuesFrom:
+  # - kind: Secret
+  #   name: obs-access
+  #   valuesKey: access_key_id
+  #   targetPath: config.objectStorage.cache.access_key_id
+  # - kind: Secret
+  #   name: obs-access
+  #   valuesKey: secret_access_key
+  #   targetPath: config.objectStorage.data.secret_access_key
   values:
     config:
       general:
@@ -60,8 +60,8 @@ spec:
         data:
           type: S3
           endpoint_url: https://cf2.cloudferro.com:8080
-          access_key_id: 13063b9e02844e1fb2df5580fa914172
-          secret_access_key: 12a6ff49786545a7917647f609e91d22
+          access_key_id: 2fc5669251d4466fab0bcf745cc77ec1
+          secret_access_key: 7ebb4f69a3564f009733d5400f9c469f
           region: RegionOne
         cache:
           type: local
@@ -159,7 +159,7 @@ spec:
         backends:
           - path: registrar_pycsw.backend.PycswBackend
             kwargs:
-              repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
+              repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db.rm/pycsw
         mapping:
           '':
             '': {}
@@ -188,7 +188,7 @@ spec:
     database:
       persistence:
         enabled: true
-        existingClaim: data-access-user-db
+        existingClaim: data-access-db
       postgresqlUsername: dbuser
       postgresqlPassword: dbpw
       postgresqlDatabase: dbname
@@ -292,7 +292,7 @@ spec:
     redis:
       usePassword: false
       persistence:
-        existingClaim: data-access-user-redis
+        existingClaim: data-access-redis
       master:
         persistence:
           enabled: true

@@ -1,8 +1,8 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: data-access-user-db
-  namespace: rm
+  name: data-access-db
+  namespace: rm-user1
   labels:
     k8s-app: data-access-user
     name: data-access-user
