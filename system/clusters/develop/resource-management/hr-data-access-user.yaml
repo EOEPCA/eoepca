@@ -63,6 +63,7 @@ spec:
           access_key_id: 2fc5669251d4466fab0bcf745cc77ec1
           secret_access_key: 7ebb4f69a3564f009733d5400f9c469f
           region: RegionOne
+          validate_bucket_name: False
         cache:
           type: local
           # type: S3
