@@ -1,0 +1,67 @@
+---
+# Source: vs/templates/endpoint-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rm-registration-endpoint
+  namespace: rm-user1
+  labels:
+    io.kompose.service: rm-registration-endpoint
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: rm-registration-endpoint
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "false"
+      labels:
+        io.kompose.service: rm-registration-endpoint
+    spec:
+      containers:
+        - name: rm-registration-endpoint
+          image: eoepca/rm-data-access-registration-endpoint:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          startupProbe:
+            httpGet:
+              path: /
+              port: http
+            failureThreshold: 30
+            periodSeconds: 10
+          resources:
+            limits:
+              cpu: 1.5
+              memory: 6Gi
+            requests:
+              cpu: 0.5
+              memory: 0.5Gi
+          env:
+            - name: ACCESS
+              value: "access"
+            - name: SECRET
+              value: "secret"
+            - name: HOST
+              value: "https://cf2.cloudferro.com:8080"
+            - name: DEBUG
+              value: "TRUE"
+            - name: REDIS_HOST
+              value: data-access-redis-master
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_REGISTER_QUEUE_KEY
+              value: "register_queue"
