@@ -79,15 +79,15 @@ module "storage" {
 #   dynamic_storage_class = var.dynamic_storage_class
 # }
 
-module "rm-workspace" {
-  source               = "../global/rm-workspace"
-  wspace_user_name     = var.wspace_user_name
-  wspace_user_password = var.wspace_user_password
-  hostname             = var.hostname
-  module_depends_on    = []
-}
+# module "rm-workspace" {
+#   source               = "../global/rm-workspace"
+#   wspace_user_name     = var.wspace_user_name
+#   wspace_user_password = var.wspace_user_password
+#   hostname             = var.hostname
+#   module_depends_on    = []
+# }
 
-module "jupyter" {
-  source               = "../global/jupyter"
-  hostname             = var.hostname
-}
+# module "jupyter" {
+#   source               = "../global/jupyter"
+#   hostname             = var.hostname
+# }
