@@ -28,7 +28,7 @@ number_of_k8s_masters_no_floating_ip_no_etcd = 0
 
 # nodes
 number_of_k8s_nodes = 0
-number_of_k8s_nodes_no_floating_ip = 4
+number_of_k8s_nodes_no_floating_ip = 3
 
 #-------------------------------------------------------------------------------
 # Compute
@@ -42,7 +42,7 @@ ssh_user = "eouser"
 # flavors
 flavor_bastion = "14"  # eo1.xsmall
 flavor_k8s_master = "20"  # eo2.large
-flavor_k8s_node = "20"  # eo2.large
+flavor_k8s_node = "21"  # eo2.xlarge
 
 # OS image to use for bastion, masters, standalone etcd instances, and nodes
 image = "Ubuntu 18.04 LTS"
