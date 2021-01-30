@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ractest
+  name: ractest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ractest
+  template:
+    metadata:
+      labels:
+        app: ractest
+    spec:
+      containers:
+        - name: ractest
+          image: nginx
+          volumeMounts:
+            - mountPath: "/ractest/data"
+              name: ractest-vol
+      volumes:
+        - name: ractest-vol
+          persistentVolumeClaim:
+            claimName: ractest-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ractest-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ractest-nfs-storage
+  resources:
+    requests:
+      storage: 3Gi
+---
+
