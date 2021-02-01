@@ -29,11 +29,11 @@ module "nfs-provisioner" {
   nfs_server_address = var.nfs_server_address
 }
 
-module "storage" {
-  source             = "../global/storage"
-  nfs_server_address = var.nfs_server_address
-  storage_class      = var.storage_class
-}
+# module "storage" {
+#   source             = "../global/storage"
+#   nfs_server_address = var.nfs_server_address
+#   storage_class      = var.storage_class
+# }
 
 # module "um-login-service" {
 #   source      = "../global/um-login-service"
