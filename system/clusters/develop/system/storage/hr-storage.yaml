@@ -12,6 +12,8 @@ spec:
         name: flux-system
         namespace: flux-system
   values:
+    host:
+      enabled: false
     nfs:
       server:
         address: "192.168.123.10"
