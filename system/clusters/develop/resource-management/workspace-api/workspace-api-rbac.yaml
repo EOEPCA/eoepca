@@ -14,6 +14,14 @@ rules:
     resources:
       - secrets
   - apiGroups: [""]
+    verbs: ["get", "patch"]
+    resources:
+      - configmaps
+  - apiGroups: ["extensions"]
+    verbs: ["get", "list"]
+    resources:
+      - ingresses
+  - apiGroups: [""]
     verbs: ["create", "get", "delete"]
     resources:
       - namespaces
