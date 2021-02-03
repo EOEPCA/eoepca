@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jupyter
+  labels:
+    app: jupyter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jupyter
+  template:
+    metadata:
+      labels:
+        app: jupyter
+    spec:
+      containers:
+      - name: jupyter
+        imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+        image: {{ .Values.image.image }}
+        ports:
+        - name: http-jupyter
+          containerPort: 80
+          protocol: TCP
