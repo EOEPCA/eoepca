@@ -27,7 +27,7 @@ spec:
       serviceAccountName: workspace-api
       containers:
       - name: workspace-api
-        image: 'registry.gitlab.eox.at/eox/hub/workspace-api:0.0.2'
+        image: 'registry.gitlab.eox.at/eox/hub/workspace-api:0.0.3'
         ports:
         - name: http
           containerPort: 8080
@@ -53,6 +53,8 @@ spec:
           value: "rm-user"
         - name: WORKSPACE_SECRET_NAME
           value: "some-secret"
+        - name: WORKSPACE_CONFIG_MAP_NAME
+          value: "workspace"
         - name: GIT_REPO_RESOURCE_FOR_HELM_CHART_NAME
           value: "helm-charts-for-workspace"
         - name: GIT_REPO_RESOURCE_FOR_HELM_CHART_NAMESPACE
