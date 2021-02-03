@@ -12,4 +12,4 @@ spec:
     # exclude all
     /*
     # include charts dir
-    !/system/clusters/develop/resource-management/workspace-charts
+    !/system/clusters/develop/charts
