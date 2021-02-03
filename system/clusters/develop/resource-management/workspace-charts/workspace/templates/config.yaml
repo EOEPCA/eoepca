@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: workspace
+data:
+  # NOTE: config maps do not support integers!
+  quota_in_mb: "{{ .Values.quota_in_mb }}"
