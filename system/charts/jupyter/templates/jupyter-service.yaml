@@ -8,7 +8,7 @@ spec:
   type: NodePort
   ports:
   - port: 80
-    name: http-pdp
+    name: http-jupyter
     targetPort: 8888
     protocol: TCP
   selector:
