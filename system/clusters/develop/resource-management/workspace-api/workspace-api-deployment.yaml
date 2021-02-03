@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workspace-api
+  namespace: rm
+  labels:
+    app.kubernetes.io/instance: workspace-api
+    app.kubernetes.io/name: workspace-api
+spec:
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+    type: RollingUpdate
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: workspace-api
+      app.kubernetes.io/name: workspace-api
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+      labels:
+        app.kubernetes.io/instance: workspace-api
+        app.kubernetes.io/name: workspace-api
+    spec:
+      serviceAccountName: workspace-api
+      containers:
+      - name: workspace-api
+        image: 'registry.gitlab.eox.at/eox/hub/workspace-api:0.0.1'
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /probe
+            port: 8080
+          initialDelaySeconds: 10
+          timeoutSeconds: 2
+          periodSeconds: 3
+          failureThreshold: 1
+        livenessProbe:
+          httpGet:
+            path: /probe
+            port: 8080
+          initialDelaySeconds: 20
+          timeoutSeconds: 2
+          periodSeconds: 8
+          failureThreshold: 1
+        env:
+        - name: PREFIX_FOR_NAME
+          value: "rm-user"
+        - name: WORKSPACE_SECRET_NAME
+          value: "some-secret"
+        resources:
+          limits:
+            cpu: 0.5
+            memory: 512Mi
+          requests:
+            cpu: 0.05
+            memory: 128Mi
+        imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: flux-workspace-api
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
