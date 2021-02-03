@@ -60,7 +60,7 @@ spec:
         - name: GIT_REPO_RESOURCE_FOR_HELM_CHART_NAMESPACE
           value: "rm"
         - name: HELM_CHART_NAME
-          value: "workspace"
+          value: "./system/clusters/develop/charts/workspace"
         - name: HELM_CHART_VERSION
           value: "0.0.0"
         resources:
