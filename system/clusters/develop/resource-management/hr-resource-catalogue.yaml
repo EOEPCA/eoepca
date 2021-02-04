@@ -1,0 +1,14 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: resource-catalogue
+  namespace: rm
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: ./system/charts/rm-resource-catalogue
+      sourceRef:
+        kind: GitRepository
+        name: eoepca
+        namespace: rm
