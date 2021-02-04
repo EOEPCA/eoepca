@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: resource-catalogue-db-data
-  namespace: rm
+  name: {{ .Values.db.volume_name }}
+  namespace: {{ .Values.global.namespace }}
   labels:
     k8s-app: resource-catalogue
     name: resource-catalogue
 spec:
-  storageClassName: managed-nfs-storage
+  storageClassName: {{ .Values.db.volume_storage_type }}
   accessModes:
-  - ReadWriteMany
+  - {{ .Values.db.volume_access_modes }}
   resources:
     requests:
-      storage: 500Mi
+      storage: {{ .Values.db.volume_size }}

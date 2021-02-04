@@ -1,22 +1,22 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: resource-catalogue
-  namespace: rm
+  name: {{ .Values.ingress.name }}
+  namespace: {{ .Values.global.namespace }}
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-    kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.class: {{ .Values.ingress.class }}
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
 spec:
   rules:
-  - host: resource-catalogue.test.185.52.193.87.nip.io
+  - host: {{ .Values.ingress.host }}
     http:
       paths:
       - backend:
-          serviceName: resource-catalogue-service
-          servicePort: http
+          serviceName: {{ .Values.pycsw.service_name }}
+          servicePort: {{ .Values.pycsw.service_port_name }}
   tls:
     - hosts:
-      - ressource-catalogue.185.52.193.87.nip.io
-      secretName: ressource-catalogue-tls
+      - {{ .Values.ingress.tls_host }}
+      secretName: {{ .Values.ingress.tls_secret_name }}

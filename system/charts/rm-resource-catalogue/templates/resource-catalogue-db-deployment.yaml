@@ -1,42 +1,42 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: rm
+  namespace: {{ .Values.global.namespace }}
   labels:
-    io.kompose.service: postgis
-  name: resource-catalogue-db
+    io.kompose.service: {{ .Values.db.name }}
+  name: {{ .Values.db.name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: postgis
+      io.kompose.service: {{ .Values.db.name }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        io.kompose.service: postgis
+        io.kompose.service: {{ .Values.db.name }}
     spec:
       containers:
       - env:
         - name: PGDATA
-          value: /var/lib/postgresql/data/pgdata
+          value: {{ .Values.db.volume_path }}
         - name: POSTGRES_DB
-          value: pycsw
+          value: {{ .Values.db.database }}
         - name: POSTGRES_PASSWORD
-          value: mypass
+          value: {{ .Values.db.pass }}
         - name: POSTGRES_USER
-          value: postgres
-        image: postgis/postgis:12-3.1
+          value: {{ .Values.db.user }}
+        image: {{ .Values.db.image }}
         name: postgis
         ports:
-        - containerPort: 5432
+        - containerPort: {{ .Values.db.port }}
         resources: {}
         volumeMounts:
-        - mountPath: /var/lib/postgresql/data/pgdata
-          name: resource-catalogue-db-data
+        - mountPath: {{ .Values.db.volume_path }}
+          name: {{ .Values.db.volume_name }}
       restartPolicy: Always
       volumes:
-      - name: resource-catalogue-db-data
+      - name: {{ .Values.db.volume_name }}
         persistentVolumeClaim:
-          claimName: resource-catalogue-db-data
+          claimName: {{ .Values.db.volume_name }}

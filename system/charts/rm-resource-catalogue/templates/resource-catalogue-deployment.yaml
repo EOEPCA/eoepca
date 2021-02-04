@@ -1,38 +1,38 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: rm
+  namespace: {{ .Values.global.namespace }}
   labels:
-    io.kompose.service: pycsw
-  name: resource-catalogue-service
+    io.kompose.service: {{ .Values.pycsw.name }}
+  name: {{ .Values.pycsw.service_name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: pycsw
+      io.kompose.service: {{ .Values.pycsw.name }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        io.kompose.service: pycsw
+        io.kompose.service: {{ .Values.pycsw.name }}
     spec:
       containers:
       - env:
         - name: PYCSW_SERVER_URL
-          value: http://resource-catalogue.test.185.52.193.87.nip.io/
+          value: {{ .Values.pycsw.config.server.url }}
         - name: PYCSW_REPOSITORY_DATABASE_URI
-          value: postgresql://postgres:mypass@resource-catalogue-db/pycsw
-        image: 'geopython/pycsw:latest'
+          value: {{ .Values.pycsw.config.repository.database }}
+        image: {{ .Values.pycsw.image }}
         name: pycsw
         ports:
-        - containerPort: 8000
+        - containerPort: {{ .Values.pycsw.container_port }}
         resources: {}
         volumeMounts:
-        - mountPath: /etc/pycsw
-          name: resource-catalogue-config
+        - mountPath: {{ .Values.pycsw.volume_path }}
+          name: {{ .Values.pycsw.volume_name }}
       restartPolicy: Always
       volumes:
-      - name: resource-catalogue-config
+      - name: {{ .Values.pycsw.volume_name }}
         configMap:
-          name: resource-catalogue-configmap
+          name: {{ .Values.pycsw.configmap_name }}
