@@ -10,5 +10,5 @@ spec:
       chart: ./system/charts/rm-resource-catalogue
       sourceRef:
         kind: GitRepository
-        name: eoepca
+        name: flux-system
         namespace: flux-system
