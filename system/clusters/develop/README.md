@@ -79,4 +79,6 @@ using the open source OAuth-Proxy tool connected to an OIDC provider
 
 the OIDC provider (currently an AWS Cognito user pool managed by EOX) is connected via `oidc-issuer-url: https://cognito-idp.eu-central-1.amazonaws.com/eu-central-1_7mjYRQYll` and corresponding oauth `client_id` and `client_secret` config
 
+### push-based GitOps pipeline
 
+Using webhook receivers it is possible to react to extnerla events like a "push" event to the github repository. A corresponding github [webhook](https://github.com/EOEPCA/eoepca/settings/hooks/279780311) was created and configured accordingly.
