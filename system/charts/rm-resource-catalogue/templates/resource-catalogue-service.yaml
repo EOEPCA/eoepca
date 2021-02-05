@@ -3,7 +3,7 @@ kind: Service
 metadata:
   namespace: {{ .Values.global.namespace }}
   labels:
-    io.kompose.service: {{ .Values.pycsw.name }}
+    io.kompose.service: pycsw
   name: {{ .Values.pycsw.service_name }}
 spec:
   type: {{ .Values.pycsw.service_type }}
@@ -20,4 +20,4 @@ spec:
       {{ end }}
       name: {{ .Values.pycsw.service_port_name }}
   selector:
-    io.kompose.service: {{ .Values.pycsw.name }}
+    io.kompose.service: pycsw

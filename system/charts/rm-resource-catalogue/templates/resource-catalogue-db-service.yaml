@@ -3,7 +3,7 @@ kind: Service
 metadata:
   namespace: {{ .Values.global.namespace }}
   labels:
-    io.kompose.service: {{ .Values.db.name }}
+    io.kompose.service: postgis
   name: {{ .Values.db.name }}
 spec:
   ports:
@@ -11,4 +11,4 @@ spec:
     port: {{ .Values.db.port }}
     targetPort: {{ .Values.db.port }}
   selector:
-    io.kompose.service: {{ .Values.db.name }}
+    io.kompose.service: postgis

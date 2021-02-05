@@ -3,19 +3,19 @@ kind: Deployment
 metadata:
   namespace: {{ .Values.global.namespace }}
   labels:
-    io.kompose.service: {{ .Values.db.name }}
+    io.kompose.service: postgis
   name: {{ .Values.db.name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: {{ .Values.db.name }}
+      io.kompose.service: postgis
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        io.kompose.service: {{ .Values.db.name }}
+        io.kompose.service: postgis
     spec:
       containers:
       - env:
