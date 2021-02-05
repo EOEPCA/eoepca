@@ -4,7 +4,7 @@ metadata:
   name: receiver-notification-controller-webhook-flux-system
   namespace: flux-system
 spec:
-  type: gitlab
+  type: github
   events:
     - "Push Hook"
     - "Tag Push Hook"
