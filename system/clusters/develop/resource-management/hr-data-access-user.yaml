@@ -160,7 +160,7 @@ spec:
         backends:
           - path: registrar_pycsw.backend.PycswBackend
             kwargs:
-              repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db.rm/pycsw
+              repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
         mapping:
           '':
             '': {}
