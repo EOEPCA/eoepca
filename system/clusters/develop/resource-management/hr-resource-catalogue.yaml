@@ -32,8 +32,8 @@ spec:
       name: resource-catalogue
       class: nginx
       host: resource-catalogue.185.52.193.87.nip.io
-      tls_host: ressource-catalogue.185.52.193.87.nip.io
-      tls_secret_name: ressource-catalogue-tls
+      tls_host: resource-catalogue.185.52.193.87.nip.io
+      tls_secret_name: resource-catalogue-tls
     pycsw:
       name: resource-catalogue
       image: geopython/pycsw:latest
