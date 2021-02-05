@@ -6,8 +6,8 @@ metadata:
 spec:
   type: github
   events:
-    - "Push Hook"
-    - "Tag Push Hook"
+    - "ping"
+    - "push"
   secretRef:
     name: notification-controller-webhook-token
   resources:
