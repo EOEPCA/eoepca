@@ -1,0 +1,8 @@
+apiVersion: epca.eo/v1alpha1
+kind: Bucket
+metadata:
+  name: dev002
+  namespace: rm
+spec:
+  bucketName: dev002
+  secretName: dev002
