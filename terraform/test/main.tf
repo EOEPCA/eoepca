@@ -6,23 +6,23 @@ provider "kubernetes" {
 provider "kubectl" {
 }
 
-resource "kubernetes_role_binding" "default_admin" {
-  metadata {
-    name = "default-admin"
-  }
+# resource "kubernetes_role_binding" "default_admin" {
+#   metadata {
+#     name = "default-admin"
+#   }
 
-  subject {
-    kind      = "ServiceAccount"
-    name      = "default"
-    namespace = "default"
-  }
+#   subject {
+#     kind      = "ServiceAccount"
+#     name      = "default"
+#     namespace = "default"
+#   }
 
-  role_ref {
-    api_group = "rbac.authorization.k8s.io"
-    kind      = "ClusterRole"
-    name      = "admin"
-  }
-}
+#   role_ref {
+#     api_group = "rbac.authorization.k8s.io"
+#     kind      = "ClusterRole"
+#     name      = "admin"
+#   }
+# }
 
 module "nfs-provisioner" {
   source             = "../global/nfs-provisioner"
