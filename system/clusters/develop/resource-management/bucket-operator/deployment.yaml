@@ -38,7 +38,7 @@ spec:
           httpGet:
             path: /actuator/health
             port: 8080
-          initialDelaySeconds: 20
+          initialDelaySeconds: 30
           timeoutSeconds: 2
           periodSeconds: 3
           failureThreshold: 1
@@ -46,7 +46,7 @@ spec:
           httpGet:
             path: /actuator/health
             port: 8080
-          initialDelaySeconds: 60
+          initialDelaySeconds: 120
           timeoutSeconds: 2
           periodSeconds: 8
           failureThreshold: 1
@@ -77,8 +77,8 @@ spec:
             cpu: 0.5
             memory: 0.5Gi
           requests:
-            cpu: 0.1
-            memory: 128Mi
+            cpu: 0.2
+            memory: 256Mi
         imagePullPolicy: Always
       imagePullSecrets:
       - name: flux-bucket-operator
