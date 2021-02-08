@@ -1,4 +1,0 @@
-Try the URLs:
-* cheddar.{{ .Values.baseHostname }}
-* stilton.{{ .Values.baseHostname }}
-* wensleydale.{{ .Values.baseHostname }}
