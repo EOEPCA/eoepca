@@ -1,5 +1,0 @@
-helm:
-  values:
-    baseHostname: 185.52.193.87.nip.io
-    service:
-        port: 8765

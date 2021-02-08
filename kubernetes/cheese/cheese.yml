@@ -15,48 +15,48 @@ spec:
         app: cheddar
     spec:
       containers:
-      - image: {{ .Values.image.cheddar }}
+      - image: errm/cheese:cheddar
         name: cheese
 ---
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
-    app: stilton
-  name: stilton
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    labels:
       app: stilton
-  template:
-    metadata:
-      labels:
+    name: stilton
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
         app: stilton
-    spec:
-      containers:
-      - image: {{ .Values.image.stilton }}
-        name: cheese
+    template:
+      metadata:
+        labels:
+          app: stilton
+      spec:
+        containers:
+        - image: errm/cheese:stilton
+          name: cheese
 ---
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
-    app: wensleydale
-  name: wensleydale
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    labels:
       app: wensleydale
-  template:
-    metadata:
-      labels:
+    name: wensleydale
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
         app: wensleydale
-    spec:
-      containers:
-      - image: {{ .Values.image.wensleydale }}
-        name: cheese
+    template:
+      metadata:
+        labels:
+          app: wensleydale
+      spec:
+        containers:
+        - image: errm/cheese:wensleydale
+          name: cheese
 ---
 apiVersion: v1
 kind: Service
@@ -66,7 +66,7 @@ metadata:
   name: cheddar
 spec:
   ports:
-  - port: {{ .Values.service.port }}
+  - port: 80
     protocol: TCP
     targetPort: 80
   selector:
@@ -80,7 +80,7 @@ metadata:
   name: stilton
 spec:
   ports:
-  - port: {{ .Values.service.port }}
+  - port: 80
     protocol: TCP
     targetPort: 80
   selector:
@@ -94,7 +94,7 @@ metadata:
   name: wensleydale
 spec:
   ports:
-  - port: {{ .Values.service.port }}
+  - port: 80
     protocol: TCP
     targetPort: 80
   selector:

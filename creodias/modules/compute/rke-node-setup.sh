@@ -17,6 +17,7 @@ echo "Setting up node for USER=${USER}"
 # Install docker
 if ! hash docker 2>/dev/null
 then
+  export VERSION=19.03
   curl -sfL https://get.docker.com | sh -s -
   sudo usermod -aG docker ${USER}
 fi

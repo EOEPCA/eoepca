@@ -1,7 +1,8 @@
 resource "openstack_compute_instance_v2" "eoepca_nfs" {
   name       = "${var.cluster_name}-nfs"
   image_name = "${var.image}"
-  flavor_id  = "${var.flavor_k8s_node}"
+  # flavor_id  = "${var.flavor_k8s_node}"
+  flavor_id  = "20"
   key_pair   = "${openstack_compute_keypair_v2.k8s.name}"
 
   network {
