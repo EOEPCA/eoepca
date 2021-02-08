@@ -29,7 +29,7 @@ spec:
       serviceAccountName: bucket-operator
       containers:
       - name: bucket-operator
-        image: 'registry.gitlab.eox.at/eox/hub/bucket-operator:0.1.2'
+        image: 'registry.gitlab.eox.at/eox/hub/bucket-operator:0.2.1'
         ports:
         - name: http
           containerPort: 8080
@@ -68,10 +68,10 @@ spec:
             secretKeyRef:
               name: openstack
               key: domainname
-        - name: OS_PROJECT_ID
-          value: c21467d0a0414252a79e29d38f03ff98
-        - name: OS_PROJECT_DOMAIN_ID
-          value: 22daa570a4524bdab3b5d4f59cd27fb4
+        - name: OS_MEMBERROLEID
+          value: 9fe2ff9ee4384b1894a90878d3e92bab
+        - name: USER_EMAIL_PATTERN
+          value: 'eoepca+<name>@eox.at'
         resources:
           limits:
             cpu: 0.5
