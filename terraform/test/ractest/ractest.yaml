@@ -33,7 +33,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: ractest-nfs-storage
+  storageClassName: managed-nfs-storage
   resources:
     requests:
       storage: 3Gi
