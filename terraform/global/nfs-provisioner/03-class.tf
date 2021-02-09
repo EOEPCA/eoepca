@@ -3,7 +3,7 @@ resource "kubernetes_storage_class" "managed_nfs_storage" {
     name = "managed-nfs-storage"
   }
   storage_provisioner = "nfs-storage"
-  reclaim_policy = "Retain"
+  reclaim_policy = "Delete"
 }
 
 # resource "kubernetes_storage_class" "ractest_nfs_storage" {
