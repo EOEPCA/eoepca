@@ -9,7 +9,7 @@ spec:
       chart: ./system/charts/pep-engine
       sourceRef:
         kind: GitRepository
-        name: eoepca
+        name: flux-system
         namespace: flux-system
   values:
     global:
