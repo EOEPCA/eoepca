@@ -59,7 +59,7 @@ spec:
           loglevel: DEBUG
           logfile: " "
           # ogc_schemas_base: http://foo
-          # federatedcatalogues: http://catalog.data.gov/csw
+          federatedcatalogues: https://resource-catalogue.185.52.193.87.nip.io/
           # pretty_print: true
           # gzip_compresslevel: 8
           # domainquerytype: range
