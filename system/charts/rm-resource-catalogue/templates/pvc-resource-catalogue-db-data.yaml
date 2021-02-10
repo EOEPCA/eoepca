@@ -8,7 +8,6 @@ metadata:
     name: resource-catalogue
 spec:
   storageClassName: {{ .Values.db.volume_storage_type }}
-  persistentVolumeReclaimPolicy: Retain
   accessModes:
   - {{ .Values.db.volume_access_modes }}
   resources:
