@@ -13,3 +13,6 @@ spec:
   resources:
     requests:
       storage: {{ .Values.db.volume_size }}
+  {{ if .Values.db.persistent_volume_name }}
+  volumeName: {{ .Values.db.persistent_volume_name }}
+  {{ end }}
