@@ -25,6 +25,7 @@ spec:
       pass: mypass
       volume_name: resource-catalogue-db-data
       volume_path: /var/lib/postgresql/data/pgdata
+      # persistent_volume_name: pvc-04eeafdd-510d-4b6d-8e26-b13ff4d37395
       volume_size: 500Mi
       volume_access_modes: ReadWriteMany
       volume_storage_type: managed-nfs-storage
