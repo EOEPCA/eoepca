@@ -241,7 +241,7 @@ spec:
               B10: S2L1C_B09
               B11: S2L1C_B11
               B12: S2L1C_B12
-            default_browse_locator: TCI_10m
+            default_browse_locator: TCI
             browses:
               TRUE_COLOR:
                 red:
