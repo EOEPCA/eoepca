@@ -1,4 +1,3 @@
-.terraform/
 *.retry
 vault_pass_file
 *.pem
