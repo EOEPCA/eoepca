@@ -15,8 +15,8 @@ spec:
   values:
     enabled: true
     mountSubPath: /dynamic
-    provisionerName: k8s-sigs.io/nfs-subdir-external-provisioner
-    reclaimPolicy: Retain
+    provisionerName: nfs-storage
+    reclaimPolicy: Delete
     storageClass: managed-nfs-storage
     server:
       address: "192.168.49.2"

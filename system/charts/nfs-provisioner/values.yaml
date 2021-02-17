@@ -2,9 +2,9 @@ enabled: false
 
 mountSubPath: /dynamic
 
-provisionerName: k8s-sigs.io/nfs-subdir-external-provisioner
+provisionerName: nfs-storage
 
-reclaimPolicy: Retain
+reclaimPolicy: Delete
 
 storageClass: managed-nfs-storage
 
