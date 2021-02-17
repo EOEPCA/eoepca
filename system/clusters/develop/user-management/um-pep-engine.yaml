@@ -15,7 +15,7 @@ spec:
     global:
       ep: test.185.52.193.87.nip.io
       domain: https://test.185.52.193.87.nip.io
-      resourceServer: http://ades.eoepca/
+      resourceServer: http://ades.proc/
       pdpUrl: https://test.185.52.193.87.nip.io
       nginxIp: 185.52.193.87
     image:
