@@ -13,7 +13,7 @@ spec:
         name: eoepca
         namespace: flux-system
   values:
-    enabled: false
+    enabled: true
     mountSubPath: /dynamic
     provisionerName: nfs-storage
     reclaimPolicy: Retain
