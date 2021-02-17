@@ -1,23 +1,23 @@
-# apiVersion: helm.toolkit.fluxcd.io/v2beta1
-# kind: HelmRelease
-# metadata:
-#   name: nfs-provisioner
-#   namespace: default
-# spec:
-#   chart:
-#     spec:
-#       chart: ./system/charts/nfs-provisioner
-#       sourceRef:
-#         kind: GitRepository
-#         name: flux-system
-#         namespace: flux-system
-#   values:
-#     enabled: true
-#     mountSubPath: /dynamic
-#     provisionerName: nfs-storage
-#     reclaimPolicy: Retain
-#     storageClass: managed-nfs-storage
-#     server:
-#       address: "192.168.123.10"
-#       path: /data
-#   interval: 1m0s
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: nfs-provisioner
+  namespace: default
+spec:
+  chart:
+    spec:
+      chart: ./system/charts/nfs-provisioner
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    enabled: true
+    mountSubPath: /dynamic
+    provisionerName: nfs-storage
+    reclaimPolicy: Retain
+    storageClass: managed-nfs-storage
+    server:
+      address: "192.168.123.10"
+      path: /data
+  interval: 1m0s
