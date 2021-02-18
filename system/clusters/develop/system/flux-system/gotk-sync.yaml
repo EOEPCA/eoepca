@@ -11,6 +11,11 @@ spec:
   secretRef:
     name: flux-system
   url: ssh://git@github.com/EOEPCA/eoepca
+  ignore: |
+    # exclude all
+    /*
+    # include system dir
+    !/system
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
