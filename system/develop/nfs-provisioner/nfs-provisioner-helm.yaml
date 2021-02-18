@@ -14,11 +14,11 @@ spec:
         namespace: flux-system
   values:
     enabled: true
-    mountSubPath: /dynamic
+    mountSubPath: ""
     provisionerName: nfs-storage
     storageClass: managed-nfs-storage
     storageClassRetain: managed-nfs-storage-retain
     server:
-      address: "192.168.49.2"
-      path: /data
+      address: "192.168.0.66"
+      path: /mnt/library/Media/Downloads
   interval: 1m0s
