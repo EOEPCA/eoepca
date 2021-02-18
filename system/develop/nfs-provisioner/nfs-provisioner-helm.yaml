@@ -19,7 +19,7 @@ spec:
       name: test-managed-nfs-storage
       create: true
       reclaimPolicy: Delete
-      archiveOnDelete: true
+      archiveOnDelete: false
       allowVolumeExpansion: true
     nfs:
       server: "192.168.0.66"
