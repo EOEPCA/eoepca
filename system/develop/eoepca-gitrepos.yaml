@@ -7,5 +7,5 @@ metadata:
 spec:
   interval: 30s
   ref:
-    branch: feature/jupyter
+    branch: feature/EOEPCA-291
   url: https://github.com/EOEPCA/eoepca

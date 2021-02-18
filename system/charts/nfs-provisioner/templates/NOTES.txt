@@ -2,6 +2,7 @@
 Dynamic storage provisioner for NFS...
 * name: {{ .Values.provisionerName }}
 * storageClass: {{ .Values.storageClass }}
+* storageClassRetain: {{ .Values.storageClassRetain }}
 * server: {{ .Values.server.address }}:{{ .Values.server.path }}
 * mountPath: {{ .Values.server.path }}{{ .Values.mountSubPath }}
 {{- else }}
