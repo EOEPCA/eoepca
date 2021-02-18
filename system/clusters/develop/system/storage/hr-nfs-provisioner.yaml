@@ -13,7 +13,6 @@ spec:
         name: nfs-subdir-external-provisioner
         namespace: flux-system
   values:
-    enabled: true
     provisionerName: test-nfs-storage
     storageClass:
       name: test-managed-nfs-storage
@@ -40,7 +39,6 @@ spec:
         name: nfs-subdir-external-provisioner
         namespace: flux-system
   values:
-    enabled: true
     provisionerName: test-nfs-storage-retain
     storageClass:
       name: test-managed-nfs-storage-retain
@@ -51,4 +49,3 @@ spec:
       server: "192.168.123.10"
       path: /data/dynamic
   interval: 1m0s
-  
