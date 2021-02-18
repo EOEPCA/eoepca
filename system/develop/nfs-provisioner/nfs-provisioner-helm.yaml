@@ -2,23 +2,25 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: nfs-provisioner
+  name: test-nfs-provisioner
   namespace: default
 spec:
   chart:
     spec:
-      chart: ./system/charts/nfs-provisioner
       sourceRef:
-        kind: GitRepository
-        name: eoepca
+        kind: HelmRepository
+        name: nfs-subdir-external-provisioner
         namespace: flux-system
   values:
     enabled: true
-    mountSubPath: ""
-    provisionerName: nfs-storage
-    storageClass: managed-nfs-storage
-    storageClassRetain: managed-nfs-storage-retain
-    server:
-      address: "192.168.0.66"
+    provisionerName: test-nfs-storage
+    storageClass:
+      name: test-managed-nfs-storage
+      reclaimPolicy: Delete
+      archiveOnDelete: true
+      allowVolumeExpansion: true
+
+    nfs:
+      server: "192.168.0.66"
       path: /mnt/library/Media/Downloads
   interval: 1m0s
