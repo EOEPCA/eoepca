@@ -17,6 +17,7 @@ spec:
     provisionerName: test-nfs-storage
     storageClass:
       name: test-managed-nfs-storage
+      create: true
       reclaimPolicy: Delete
       archiveOnDelete: true
       allowVolumeExpansion: true
