@@ -3,10 +3,8 @@ enabled: false
 mountSubPath: /dynamic
 
 provisionerName: nfs-storage
-
-reclaimPolicy: Delete
-
 storageClass: managed-nfs-storage
+storageClassRetain: managed-nfs-storage-retain
 
 server:
   address: "192.168.49.2"
