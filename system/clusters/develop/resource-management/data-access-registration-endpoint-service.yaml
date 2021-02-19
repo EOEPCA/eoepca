@@ -1,0 +1,18 @@
+---
+# Source: vs/templates/endpoint-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: rm-registration-endpoint
+  namespace: rm-user1
+  labels:
+    io.kompose.service: rm-registration-endpoint
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8000
+      protocol: TCP
+      name: http
+  selector:
+    io.kompose.service: rm-registration-endpoint

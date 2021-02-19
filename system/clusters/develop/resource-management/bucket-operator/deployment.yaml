@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bucket-operator
+  namespace: rm
+  labels:
+    app.kubernetes.io/instance: bucket-operator
+    app.kubernetes.io/name: bucket-operator
+spec:
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+    type: RollingUpdate
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: bucket-operator
+      app.kubernetes.io/name: bucket-operator
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/actuator/prometheus"
+        prometheus.io/port: "8080"
+      labels:
+        app.kubernetes.io/instance: bucket-operator
+        app.kubernetes.io/name: bucket-operator
+    spec:
+      serviceAccountName: bucket-operator
+      containers:
+      - name: bucket-operator
+        image: 'registry.gitlab.eox.at/eox/hub/bucket-operator:0.1.2'
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 20
+          timeoutSeconds: 2
+          periodSeconds: 3
+          failureThreshold: 1
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 60
+          timeoutSeconds: 2
+          periodSeconds: 8
+          failureThreshold: 1
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: rm
+        - name: OS_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: openstack
+              key: username
+        - name: OS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: openstack
+              key: password
+        - name: OS_DOMAINNAME
+          valueFrom:
+            secretKeyRef:
+              name: openstack
+              key: domainname
+        - name: OS_PROJECT_ID
+          value: c21467d0a0414252a79e29d38f03ff98
+        - name: OS_PROJECT_DOMAIN_ID
+          value: 22daa570a4524bdab3b5d4f59cd27fb4
+        resources:
+          limits:
+            cpu: 0.5
+            memory: 0.5Gi
+          requests:
+            cpu: 0.1
+            memory: 128Mi
+        imagePullPolicy: Always
+      imagePullSecrets:
+      - name: flux-bucket-operator
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
