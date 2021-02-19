@@ -1,0 +1,13 @@
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nextcloud
+spec:
+  rules:
+  - host: {{ .Values.hostname | quote }}
+    http:
+      paths:
+      - backend:
+          serviceName: nextcloud
+          servicePort: 80

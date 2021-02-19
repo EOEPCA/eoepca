@@ -8,5 +8,9 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 data:
+  ppImagePullSecrets.json: {{  toJson .Values.workflowExecutor.imagePullSecrets | quote }}
+  {{- if not .Values.useKubeProxy }}
   kubeconfig: {{ tpl (.Files.Get .Values.workflowExecutor.kubeconfig) . | quote }}
+  {{- end }}
   maincfg: {{ tpl (.Files.Get .Values.wps.maincfgtpl) . | quote }}
+  

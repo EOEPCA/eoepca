@@ -6,4 +6,4 @@ BIN_DIR="$(pwd)"
 
 trap "cd '${ORIG_DIR}'" EXIT
 
-helm upgrade -i -f proc-ades-values.yaml rac-proc-ades ades
+helm upgrade -i -f ades-values.yaml rac-ades ades

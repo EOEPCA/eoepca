@@ -1,0 +1,11 @@
+
+hostname: nextcloud.test.192.168.49.2.nip.io
+
+user:
+  admin:
+    name: eoepca
+    password: telespazio
+
+storage:
+  pvc:
+    name: eoepca-resman-pvc

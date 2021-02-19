@@ -1,0 +1,11 @@
+
+hostname: nextcloud
+
+user:
+  admin:
+    name: admin
+    password: changeme
+
+storage:
+  pvc:
+    name: nextcloud-pvc
