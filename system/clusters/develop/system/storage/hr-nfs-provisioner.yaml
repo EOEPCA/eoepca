@@ -22,7 +22,7 @@ spec:
       allowVolumeExpansion: true
       serviceAccount:
         create: false
-        name: test-nfs-client-provisioner
+        name: nfs-client-provisioner
     nfs:
       server: "192.168.123.10"
       path: /data/dynamic
@@ -50,7 +50,7 @@ spec:
       allowVolumeExpansion: true
       serviceAccount:
         create: false
-        name: test-nfs-client-provisioner-retain
+        name: nfs-client-provisioner
     nfs:
       server: "192.168.123.10"
       path: /data/dynamic
