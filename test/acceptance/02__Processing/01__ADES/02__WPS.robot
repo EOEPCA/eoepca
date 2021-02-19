@@ -15,15 +15,14 @@ Suite Teardown  Suite Teardown
 
 
 *** Variables ***
-${PEP_PREFIX}=  /ades
-${WPS_SERVICE_ROOT}=  /zoo
 ${WPS_JOB_MONITOR_ROOT}=  /watchjob
-${WPS_PATH_PREFIX}=  ${PEP_PREFIX}${WPS_SERVICE_ROOT}
+${WPS_PATH_PREFIX}=  /zoo
 ${WPS_SERVICE_URL}=  ${ADES_BASE_URL}${WPS_PATH_PREFIX}
 ${USERNAME}=  UserA
 ${PASSWORD}=  defaultPWD
 ${ID_TOKEN}=
 ${ACCESS_TOKEN}=
+${PEP_RESOURCE_PORT}=  31709
 
 
 *** Test Cases ***
@@ -49,9 +48,9 @@ Init ID Token
 
 Init Resource Protection
   @{scopes}=  Create List  Authenticated
-  ${resource_id}  Register Protected Resource  ${ADES_BASE_URL}  ${WPS_SERVICE_ROOT}  ${ID_TOKEN}  ADES WPS Service  ${scopes}
+  ${resource_id}  Register Protected Resource  ${ADES_BASE_URL}:${PEP_RESOURCE_PORT}  ${WPS_PATH_PREFIX}  ${ID_TOKEN}  ADES WPS Service  ${scopes}
   Should Be True  $resource_id is not None
-  ${resource_id}  Register Protected Resource  ${ADES_BASE_URL}  ${WPS_JOB_MONITOR_ROOT}  ${ID_TOKEN}  ADES Job Monitor  ${scopes}
+  ${resource_id}  Register Protected Resource  ${ADES_BASE_URL}:${PEP_RESOURCE_PORT}  ${WPS_JOB_MONITOR_ROOT}  ${ID_TOKEN}  ADES Job Monitor  ${scopes}
   Should Be True  $resource_id is not None
 
 Initial Process List

@@ -58,6 +58,8 @@ spec:
             - name: KUBECONFIG
               value: /var/etc/ades/kubeconfig
             {{- end }}
+            - name: ADES_NAMESPACE
+              value: {{ .Release.Namespace }}
             - name: STORAGE_HOST
               value: {{ .Values.workflowExecutor.storageHost | quote }}
             - name: STORAGE_USERNAME
@@ -66,8 +68,6 @@ spec:
               value: {{ .Values.workflowExecutor.storageApiKey | quote }}
             - name: STORAGE_CLASS
               value: {{ .Values.workflowExecutor.processingStorageClass | quote }}
-            - name: VOLUME_INPUT_SIZE
-              value: {{ .Values.workflowExecutor.processingVolumeInputSize | quote }}
             - name: VOLUME_TMP_SIZE
               value: {{ .Values.workflowExecutor.processingVolumeTmpSize | quote }}
             - name: VOLUME_OUTPUT_SIZE
@@ -78,17 +78,20 @@ spec:
               value: {{ .Values.workflowExecutor.processingMaxCores | quote }}
             - name: JOB_KEEPWORKSPACE
               value: {{ .Values.workflowExecutor.processingKeepWorkspace | quote }}
-
+            - name: IMAGE_PULL_SECRETS
+              value: /var/etc/ades/ppImagePullSecrets.json
           volumeMounts:
             - name: ades-config
               mountPath: /var/etc/ades
             - name: ades-user-data
               mountPath: /var/www/html/res
+              subPath: ades/var/www/html/res
             - name: ades-processing-services
               mountPath: /opt/zooservices_user
+              subPath: ades/opt/zooservices_user
             - name: ades-config
               mountPath: /zooservices/main.cfg
-              subPath: main.cfg
+              subPath: maincfg
         {{- if .Values.useKubeProxy }}
         - name: sidecar-proxy
           image: linuxacademycontent/kubectl-proxy:latest
@@ -113,8 +116,8 @@ spec:
         - name: ades-processing-services
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            {{- if .Values.persistence.existingProcessingServicesClaim }}
-            claimName: {{ .Values.persistence.existingProcessingServicesClaim }}
+            {{- if .Values.persistence.existingProcServicesClaim }}
+            claimName: {{ .Values.persistence.existingProcServicesClaim }}
             {{- else }}
             claimName: {{ template "ades.fullname" . }}-processing-services
             {{- end -}}

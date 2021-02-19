@@ -110,7 +110,7 @@ resource "kubernetes_deployment" "pdp-engine" {
         }
         container {
           name  = "pdp-engine"
-          image = "eoepca/um-pdp-engine:latest"
+          image = "eoepca/um-pdp-engine:v0.3"
 
           port {
             container_port = 5567

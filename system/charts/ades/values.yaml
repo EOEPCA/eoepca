@@ -46,7 +46,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: ades.eoepca.terradue.com
+    - host: ades.eoepca.com
       paths: ["/"]
   tls: []
   #  - secretName: chart-example-tls
@@ -58,12 +58,12 @@ resources:
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  limits:
-    cpu: 2
-    memory: 4Gi
-  requests:
-    cpu: 1
-    memory: 2Gi
+  # limits:
+  #   cpu: 2
+  #   memory: 4Gi
+  # requests:
+  #   cpu: 1
+  #   memory: 2Gi
 
 autoscaling:
   enabled: false
@@ -72,7 +72,6 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
-storageClassName: glusterfs-storage
 clusterAdminRoleName: cluster-admin
 
 nodeSelector: {}
@@ -87,30 +86,32 @@ workflowExecutor:
   # Necessary if useKubeProxy set to false
   # kubeconfig: "files/kubeconfig"
   # This is the resource manager endpoint of the store used for processing results persistent storage (WebDAV)
-  storageHost: "storageHost"
+  storageHost: "https://storage.eoepca.com/nextcloud"
   # store username
-  storageUsername: "storageUsername"
+  storageUsername: "user"
   # store password
-  storageApiKey: "storageApi"
+  storageApiKey: "secret"
   # kubernetes storage class to be used for provisioning volumes. Must be a persistent volume claim compliant (glusterfs-storage)
   processingStorageClass: glusterfs-storage
-  # Size of the Kubernetes Input Volume 
-  processingVolumeInputSize: "500Mi"
   # Size of the Kubernetes Tmp Volumes
-  processingVolumeTmpSize: "10Gi"
+  processingVolumeTmpSize: "5Gi"
   # Size of the Kubernetes Output Volumes
   processingVolumeOutputSize: "10Gi"
   # Max ram to use for a job
-  processingMaxRam: "4Gi"
+  processingMaxRam: "16Gi"
   # Max number of CPU cores to use concurrently for a job
-  processingMaxCores: "2"
+  processingMaxCores: "8"
   # if false the Ades will clean the volume after the workflow has successfully finished running
-  processingKeepWorkspace: "False"
+  processingKeepWorkspace: false
+  # includes terradue.docker.com docker credentials
+  imagePullSecrets: []
+
+  #  custom stagein cwl
+  # stageincwl: "files/stageincwl.cwl"
 
 wps:
-  pepBaseUrl: "http://mock-pep"
+  pepBaseUrl: "https://pep.eoepca.terradue.com"
   usePep: "false"
-
   maincfgtpl: "files/main.cfg.tpl"
 
 
@@ -118,7 +119,7 @@ persistence:
   enabled: true
   # existingUserDataClaim:
   # existingProcServicesClaim:
-  storageClass: ""
+  storageClass: "standard"
   userDataAccessMode: ReadWriteOnce
   userDataSize: 10Gi
   procServicesAccessMode: ReadWriteOnce

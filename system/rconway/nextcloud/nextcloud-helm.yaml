@@ -1,0 +1,24 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: nextcloud
+  namespace: default
+spec:
+  chart:
+    spec:
+      chart: ./system/charts/nextcloud
+      sourceRef:
+        kind: GitRepository
+        name: eoepca
+        namespace: flux-system
+  values:
+    hostname: nextcloud.test.192.168.49.2.nip.io
+    user:
+      admin:
+        name: eoepca
+        password: telespazio
+    storage:
+      pvc:
+        name: eoepca-resman-pvc
+  interval: 1m0s

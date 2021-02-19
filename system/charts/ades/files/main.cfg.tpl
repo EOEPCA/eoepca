@@ -53,7 +53,7 @@ cert1=
 cert2=
 
 [serviceConf]
-sleepGetStatus=30
+sleepGetStatus=100
 sleepGetPrepare=30
 sleepBeforeRes=30
 
