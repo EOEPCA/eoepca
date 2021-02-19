@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: cheddar
@@ -8,14 +8,11 @@ spec:
     http:
       paths:
       - path: /
-        pathType: Prefix
         backend:
-          service:
-            name: cheddar
-            port:
-              number: {{ .Values.service.port }}
+          serviceName: cheddar
+          servicePort: {{ .Values.service.port }}
 ---
-apiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: stilton
@@ -25,14 +22,11 @@ spec:
     http:
       paths:
       - path: /
-        pathType: Prefix
         backend:
-          service:
-            name: stilton
-            port:
-              number: {{ .Values.service.port }}
+          serviceName: stilton
+          servicePort: {{ .Values.service.port }}
 ---
-apiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: wensleydale
@@ -42,10 +36,7 @@ spec:
     http:
       paths:
       - path: /
-        pathType: Prefix
         backend:
-          service:
-            name: wensleydale
-            port:
-              number: {{ .Values.service.port }}
+          serviceName: wensleydale
+          servicePort: {{ .Values.service.port }}
 ---
