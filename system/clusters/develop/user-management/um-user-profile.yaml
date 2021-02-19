@@ -22,14 +22,5 @@ spec:
       image: eoepca/um-user-profile:v0.3
     volumeClaim:
       name: eoepca-userman-pvc
-    ingress:
-      path: /
-      hosts:
-        - test.185.52.193.87.nip.io
-      tls: 
-      - secretName: tls-certificate
-        hosts:
-          - test.185.52.193.87.nip.io
-
   timeout: 25m0s
   interval: 1m0s
