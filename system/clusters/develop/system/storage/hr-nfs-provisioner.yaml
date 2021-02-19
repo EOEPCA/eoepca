@@ -20,6 +20,9 @@ spec:
       reclaimPolicy: Delete
       archiveOnDelete: false
       allowVolumeExpansion: true
+      serviceAccount:
+        create: true
+        name: test-nfs-client-provisioner
     nfs:
       server: "192.168.123.10"
       path: /data/dynamic
@@ -45,6 +48,9 @@ spec:
       create: true
       reclaimPolicy: Retain
       allowVolumeExpansion: true
+      serviceAccount:
+        create: true
+        name: test-nfs-client-provisioner-retain
     nfs:
       server: "192.168.123.10"
       path: /data/dynamic
