@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: test-nfs-provisioner
+  name: nfs-provisioner
   namespace: default
 spec:
   chart:
@@ -13,9 +13,9 @@ spec:
         name: nfs-subdir-external-provisioner
         namespace: common
   values:
-    provisionerName: test-nfs-storage
+    provisionerName: nfs-storage
     storageClass:
-      name: test-managed-nfs-storage
+      name: managed-nfs-storage
       create: true
       reclaimPolicy: Delete
       archiveOnDelete: false
@@ -28,7 +28,7 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: test-nfs-provisioner-retain
+  name: nfs-provisioner-retain
   namespace: default
 spec:
   chart:
@@ -39,9 +39,9 @@ spec:
         name: nfs-subdir-external-provisioner
         namespace: common
   values:
-    provisionerName: test-nfs-storage-retain
+    provisionerName: nfs-storage-retain
     storageClass:
-      name: test-managed-nfs-storage-retain
+      name: managed-nfs-storage-retain
       create: true
       reclaimPolicy: Retain
       allowVolumeExpansion: true
