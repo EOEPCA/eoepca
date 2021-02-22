@@ -14,7 +14,7 @@ spec:
   values:
     global:
       ep: test.185.52.193.87.nip.io
-      ssoUrl: https://test.185.52.193.87.nip.io
+      ssoUrl: test.185.52.193.87.nip.io
       nginxIp: 185.52.193.87
       redirectUri: "http://test.185.52.193.87.nip.io/web_ui/oauth/callback"
       postLogoutRedirectUri: http://test.185.52.193.87.nip.io/web_ui"
