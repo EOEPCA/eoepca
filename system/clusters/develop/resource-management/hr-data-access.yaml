@@ -326,6 +326,8 @@ spec:
               clouds:
                 validity: false
       coverages: {}
+      startup_scripts:
+        - /registrar_pycsw/registrar_pycsw/initialize-collections.sh
     database:
       persistence:
         enabled: true
