@@ -24,10 +24,10 @@ provider "kubectl" {
 #   }
 # }
 
-module "nfs-provisioner" {
-  source             = "../global/nfs-provisioner"
-  nfs_server_address = var.nfs_server_address
-}
+# module "nfs-provisioner" {
+#   source             = "../global/nfs-provisioner"
+#   nfs_server_address = var.nfs_server_address
+# }
 
 # module "storage" {
 #   source             = "../global/storage"
