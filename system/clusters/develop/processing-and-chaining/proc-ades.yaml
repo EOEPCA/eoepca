@@ -90,11 +90,11 @@ spec:
         STAGEIN_AWS_ACCESS_KEY_ID: test
         STAGEIN_AWS_SECRET_ACCESS_KEY: test
 
-        STAGEOUT_AWS_SERVICEURL: https://s3.fr-par.scw.cloud
-        STAGEOUT_AWS_ACCESS_KEY_ID: SCW96Y8P089TRZHV9HY2
-        STAGEOUT_AWS_SECRET_ACCESS_KEY: 04c39142-faab-40b6-a9ab-5239805b4e77
-        STAGEOUT_AWS_REGION: fr-par
-        STAGEOUT_OUTPUT: s3://eoepca-ades
+        STAGEOUT_AWS_SERVICEURL: https://cf2.cloudferro.com:8080
+        STAGEOUT_AWS_ACCESS_KEY_ID: 4ceda7292edc4cc997d133079b469900
+        STAGEOUT_AWS_SECRET_ACCESS_KEY: 7d824cbfc90147318fa6ac7fe0e9a174
+        STAGEOUT_AWS_REGION: RegionOne
+        STAGEOUT_OUTPUT: s3://processing_results
 
       #    STAGEOUT_STORAGE_HOST: https://nx13206.your-storageshare.de/
       #    STAGEOUT_STORAGE_USERNAME: eoepca-storage
