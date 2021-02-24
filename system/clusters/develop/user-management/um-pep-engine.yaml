@@ -19,7 +19,7 @@ spec:
       pdpUrl: https://test.185.52.193.87.nip.io
       nginxIp: 185.52.193.87
     image:
-      image: eoepca/um-pep-engine:v0.3
+      image: eoepca/um-pep-engine:v0.3.1
     context: ades
     volumeClaim:
       name: eoepca-userman-pvc
