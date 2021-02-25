@@ -116,7 +116,7 @@ class DemoClient:
         return id_token
 
     @keyword(name='Register Protected Resource')
-    def register_protected_resource(self, service_url, uri, id_token, name, scopes):
+    def register_protected_resource(self, resource_api_url, uri, id_token, name, scopes):
         """Register a resource in the PEP
 
         Uses provided user ID token to authorise the request.
@@ -125,25 +125,25 @@ class DemoClient:
         """
         resource_id = None
         if "resources" in self.state:
-            if service_url in self.state["resources"]:
-                if uri in self.state["resources"][service_url]:
-                    resource_id = self.state["resources"][service_url][uri]
+            if resource_api_url in self.state["resources"]:
+                if uri in self.state["resources"][resource_api_url]:
+                    resource_id = self.state["resources"][resource_api_url][uri]
             else:
-                self.state["resources"][service_url] = {}
+                self.state["resources"][resource_api_url] = {}
         else:
-            self.state["resources"] = { service_url: {} }
+            self.state["resources"] = { resource_api_url: {} }
         if resource_id == None:
             headers = { 'content-type': "application/json", "Authorization": f"Bearer {id_token}" }
             data = { "resource_scopes":scopes, "icon_uri":uri, "name":name}
-            r = self.session.post(f"{service_url}/secure/resources", headers=headers, json=data)
+            r = self.session.post(f"{resource_api_url}/resources", headers=headers, json=data)
             resource_id = r.text
             if resource_id:
-                self.state["resources"][service_url][uri] = resource_id
-                print(f"resource_id: {resource_id} ({service_url}{uri})")
+                self.state["resources"][resource_api_url][uri] = resource_id
+                print(f"resource_id: {resource_id} @{resource_api_url} = {uri}")
             else:
-                print(f"ERROR: Empty resource ID for {service_url}{uri}")
+                print(f"ERROR: Empty resource ID for {uri} @{resource_api_url}")
         else:
-            print(f"resource_id: {resource_id} ({service_url}{uri}) [REUSED]")
+            print(f"resource_id: {resource_id} @{resource_api_url} = {uri} [REUSED]")
         return resource_id
 
     def get_access_token_from_ticket(self, ticket, id_token):
