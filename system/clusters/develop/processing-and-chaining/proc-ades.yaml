@@ -220,8 +220,8 @@ spec:
       #stageincwl: "files/stageincwl.cwl"
       #maincwl: "files/maincwlmetrics.cwl"
     wps:
-      pepBaseUrl: "http://pep-engine.default"
-      usePep: "false"
+      pepBaseUrl: "http://pep-engine.default:5576"
+      usePep: "true"
       maincfgtpl: "files/main.cfg.tpl"
     persistence:
       enabled: true
