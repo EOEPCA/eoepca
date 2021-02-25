@@ -40,13 +40,13 @@ spec:
             name: pep-cm
         volumeMounts:
         - mountPath: /data/db/
-          sub_path: pep-engine/db/resource
-          name: eoepca-pep-pv-host
+          sub_path: pep-engine/{{ .Values.context }}/data/db/resource
+          name: vol-userman
       hostAliases:
       - ip: {{ .Values.global.nginxIp }}
         hostnames:
         - {{ .Values.global.ep }}
       volumes:
-        - name: eoepca-pep-pv-host
+        - name: vol-userman
           persistentVolumeClaim:
-            claimName: eoepca-pep-pvc
+            claimName: {{ .Values.volumeClaim.name }}

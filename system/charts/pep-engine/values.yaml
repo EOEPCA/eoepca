@@ -40,6 +40,11 @@ persistence:
 config:
   enabled: true
 
+context: generic
+
+volumeClaim:
+  name: um-pep-engine-pvc
+
 
 ingress:
   enabled: true
