@@ -16,5 +16,5 @@ spec:
       - path: /secure(/|$)(.*)
         backend:
           serviceName: pep-engine
-          servicePort: 5566
+          servicePort: 5576
   

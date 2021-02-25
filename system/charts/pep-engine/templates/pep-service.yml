@@ -8,13 +8,13 @@ spec:
   type: NodePort
   ports:
   - port: 5566
-    name: http-pep
+    name: proxy-pep
     targetPort: 5566
     protocol: TCP
     nodePort: 31707
-  - port: 1025
-    name: https-pep
-    targetPort: 443
+  - port: 5576
+    name: resources-pep
+    targetPort: 5576
     protocol: TCP
   selector:
     app: {{ .Values.global.pep }}

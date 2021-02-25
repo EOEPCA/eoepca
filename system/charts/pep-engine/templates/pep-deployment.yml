@@ -19,11 +19,11 @@ spec:
         imagePullPolicy: {{ .Values.image.imagePullPolicy }}
         image: {{ .Values.image.image }}
         ports:
-        - name: http-pep
+        - name: proxy-pep
           containerPort: 5566
           protocol: TCP
-        - name: https-pep
-          containerPort: 443
+        - name: resources-pep
+          containerPort: 5576
           protocol: TCP
         envFrom:
         - configMapRef:
@@ -40,13 +40,13 @@ spec:
             name: pep-cm
         volumeMounts:
         - mountPath: /data/db/
-          subPath: pep-engine/{{ .Values.context }}/data/db
-          name: vol-userman
+          sub_path: pep-engine/db/resource
+          name: eoepca-pep-pv-host
       hostAliases:
       - ip: {{ .Values.global.nginxIp }}
         hostnames:
         - {{ .Values.global.ep }}
       volumes:
-        - name: vol-userman
+        - name: eoepca-pep-pv-host
           persistentVolumeClaim:
-            claimName: {{ .Values.volumeClaim.name }}
+            claimName: eoepca-pep-pvc
