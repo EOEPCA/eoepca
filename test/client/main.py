@@ -8,7 +8,9 @@ def main():
     USER_NAME="UserA"
     USER_PASSWORD="defaultPWD"
     base_url = "https://test.185.52.193.87.nip.io"
-    ades_url = "http://ades.test.185.52.193.87.nip.io/testuser"
+    ades_url = "http://ades.test.185.52.193.87.nip.io"
+    ades_user = "testuser"
+    ades_user_prefix = "/" + ades_user
 
     #===========================================================================
     # UM setup
@@ -31,9 +33,9 @@ def main():
 
     # add ADES resource
     print("\n### ADD ADES RESOURCE ###")
-    demo.register_protected_resource(ades_url, "/zoo", user_id_token, "ADES WPS Service", ["Authenticated"])
-    demo.register_protected_resource(ades_url, "/wps3", user_id_token, "ADES API Service", ["Authenticated"])
-    demo.register_protected_resource(ades_url, "/watchjob", user_id_token, "ADES Jobs", ["Authenticated"])
+    demo.register_protected_resource(ades_url, ades_user_prefix + "/zoo", user_id_token, "ADES WPS Service", ["Authenticated"])
+    demo.register_protected_resource(ades_url, ades_user_prefix + "/wps3", user_id_token, "ADES API Service", ["Authenticated"])
+    demo.register_protected_resource(ades_url, ades_user_prefix + "/watchjob", user_id_token, "ADES Jobs", ["Authenticated"])
 
     # get demo user id token
     # print("\n### DEMO USER TOKENS ###")
@@ -51,7 +53,7 @@ def main():
     active_ades_url = ades_url
 
     # path prefix depending on endpoint
-    ades_prefix = ""
+    ades_prefix = ades_user_prefix
     # if active_ades_url == ades_url:
     #     print("\n### USING /ades PREFIX ###")
     #     ades_prefix = "/ades"
@@ -66,9 +68,9 @@ def main():
     # API Processes
     #===========================================================================
 
-    # API Proc List Processes
-    print("\n### API Proc List Processes ###")
-    response, access_token = demo.proc_list_processes(ades_proc_url, id_token=user_id_token, access_token=access_token)
+    # # API Proc List Processes
+    # print("\n### API Proc List Processes ###")
+    # response, access_token = demo.proc_list_processes(ades_proc_url, id_token=user_id_token, access_token=access_token)
 
     # # API Proc Deploy Application
     # print("\n### API Proc Deploy Application ###")

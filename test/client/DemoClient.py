@@ -135,7 +135,7 @@ class DemoClient:
         if resource_id == None:
             headers = { 'content-type': "application/json", "Authorization": f"Bearer {id_token}" }
             data = { "resource_scopes":scopes, "icon_uri":uri, "name":name}
-            r = self.session.post(f"{service_url}/resources", headers=headers, json=data)
+            r = self.session.post(f"{service_url}/secure/resources", headers=headers, json=data)
             resource_id = r.text
             if resource_id:
                 self.state["resources"][service_url][uri] = resource_id
