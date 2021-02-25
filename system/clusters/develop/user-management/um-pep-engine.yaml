@@ -18,19 +18,13 @@ spec:
       resourceServer: http://proc-ades.proc/
       pdpUrl: https://test.185.52.193.87.nip.io
       nginxIp: 185.52.193.87
+      proxyHost: ades.test.185.52.193.87.nip.io
+      resourceHost: ades.resources.185.52.193.87.nip.io
     image:
       image: eoepca/um-pep-engine:v0.3.1
     context: ades
     volumeClaim:
       name: eoepca-userman-pvc
-    ingress:
-      path: /
-      hosts:
-        - ades.test.185.52.193.87.nip.io
-      tls: 
-      - secretName: tls-certificate
-        hosts:
-          - ades.test.185.52.193.87.nip.io
 
   timeout: 25m0s
   interval: 1m0s

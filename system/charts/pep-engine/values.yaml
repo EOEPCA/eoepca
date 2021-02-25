@@ -23,6 +23,8 @@ global:
   nginxIp: 10.0.2.15
   proxyServicePort: 5566
   resourcesServicePort: 5576
+  proxyHost: http://demoexample.gluu.org/service
+  resourceHost: http://demoexample.gluu.org/res
 
 
 
