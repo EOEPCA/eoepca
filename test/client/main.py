@@ -69,9 +69,9 @@ def main():
     # API Processes
     #===========================================================================
 
-    # # API Proc List Processes
-    # print("\n### API Proc List Processes ###")
-    # response, access_token = demo.proc_list_processes(ades_proc_url, id_token=user_id_token, access_token=access_token)
+    # API Proc List Processes
+    print("\n### API Proc List Processes ###")
+    response, access_token = demo.proc_list_processes(ades_proc_url, id_token=user_id_token, access_token=access_token)
 
     # # API Proc Deploy Application
     # print("\n### API Proc Deploy Application ###")
