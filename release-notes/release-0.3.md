@@ -87,8 +87,8 @@ Resources to support deployment and configuration...
 * GitHub repository: https://github.com/EOEPCA/um-login-service
 * README: https://github.com/EOEPCA/um-login-service/blob/develop/README.md
 * Wiki: https://github.com/EOEPCA/um-login-service/wiki
-* Design: https://eoepca.github.io/um-login-service/SDD/
-* ICD: https://eoepca.github.io/um-login-service/ICD/
+* Design: https://eoepca.github.io/um-login-service/SDD/v0.3/
+* ICD: https://eoepca.github.io/um-login-service/ICD/v0.3/
 
 #### Containers
 
@@ -124,8 +124,8 @@ Resources to support deployment and configuration...
 * GitHub repository: https://github.com/EOEPCA/um-pep-engine
 * README: https://github.com/EOEPCA/um-pep-engine/blob/develop/README.md
 * Wiki: https://github.com/EOEPCA/um-pep-engine/wiki
-* Design: https://eoepca.github.io/um-pep-engine/SDD/
-* ICD: https://eoepca.github.io/um-pep-engine/ICD/
+* Design: https://eoepca.github.io/um-pep-engine/SDD/v0.3/
+* ICD: https://eoepca.github.io/um-pep-engine/ICD/v0.3/
 
 #### Containers
 
@@ -152,8 +152,8 @@ Resources to support deployment and configuration...
 * GitHub repository: https://github.com/EOEPCA/um-pdp-engine
 * README: https://github.com/EOEPCA/um-pdp-engine/blob/develop/README.md
 * Wiki: https://github.com/EOEPCA/um-pdp-engine/wiki
-* Design: https://eoepca.github.io/um-pdp-engine/SDD/
-* ICD: https://eoepca.github.io/um-pdp-engine/ICD/
+* Design: https://eoepca.github.io/um-pdp-engine/SDD/v0.3/
+* ICD: https://eoepca.github.io/um-pdp-engine/ICD/v0.3/
 
 #### Containers
 
@@ -180,7 +180,7 @@ Resources to support deployment and configuration...
 * GitHub repository: https://github.com/EOEPCA/um-user-profile
 * README: https://github.com/EOEPCA/um-user-profile/blob/develop/README.md
 * Wiki: https://github.com/EOEPCA/um-user-profile/wiki
-* Design: https://eoepca.github.io/um-user-profile/
+* Design: https://eoepca.github.io/um-user-profile/v0.3/
 * ICD: ???
 
 #### Containers
