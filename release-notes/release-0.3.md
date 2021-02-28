@@ -38,7 +38,14 @@ The release demonstrates the following capabilities:
     *Provides native Kubernetes integration and out-of-the-box support for a variety of execution patterns - such fan-in, fan-out, etc.*
   * Dedicated user 'context' within ADES service
 * Resource Catalogue
-  * TBD - EOfarm - describe most relevant/significant capabilities
+  * OGC CSW 3.0.0 and 2.0.2 interfaces
+  * Certified OGC Compliant and OGC Reference Implementation for both CSW 2.0.2 and CSW 3.0.0
+  * Harvesting support for WMS, WFS, WCS, WPS, WAF, CSW, SOS
+  * Implements ISO Metadata Application Profile 1.0.0
+  * Support for ISO-19115-1 and ISO-19115-2
+  * Implements OGC OpenSearch Geo and Time Extensions
+  * Implements OGC OpenSearch EO Extensions
+  * Federated catalogue distributed searching
 * Data Access Service
   * TBD - EOX - describe most relevant/significant capabilities
 * End-to-end Processing Execution
@@ -235,17 +242,17 @@ Additional container images:
 
 Resources to support deployment and configuration...
 
-* GitHub repository: ???
-* README: ???
-* Wiki: ???
-* Design: ???
-* ICD: ???
+* GitHub repository: https://github.com/geopython/pycsw
+* README: https://pycsw.org/
+* Wiki: https://docs.pycsw.org/en/latest/
+* Design: https://eoepca.github.io/rm-resource-catalogue/SDD/
+* ICD: https://eoepca.github.io/rm-resource-catalogue/ICD/
 
 #### Containers
 
 Additional container images:
 * Database: postgis/postgis:12-3.1
-* pycsw: geopython/pycsw:latest
+* pycsw: geopython/pycsw:2.8.0-alpha1
 
 
 ### Data Access Services
