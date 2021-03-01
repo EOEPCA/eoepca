@@ -6,6 +6,7 @@ Release 0.3 is an initial release that includes versions of the following buildi
 * Policy Enforcement Point (PEP)
 * Policy Decision Point (PDP)
 * Application Deployment & Execution Service (ADES)
+* Processor Development Environment (PDE)
 * Resource Catalogue
 * Data Access Services
 
