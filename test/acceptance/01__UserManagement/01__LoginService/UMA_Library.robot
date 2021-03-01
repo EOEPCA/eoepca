@@ -53,8 +53,8 @@ UMA Get ID Token
   [Return]  ${resp}  
 
 UMA Call Shell ID Token
-  [Arguments]  ${endpoint}  ${client_id}  ${client_secret}
-  ${a}=  Run Process  sh  ${CURDIR}${/}id.sh  -t  ${endpoint}  -i  ${client_id}  -p  ${client_secret}
+  [Arguments]  ${endpoint}  ${client_id}  ${client_secret}  ${user}  ${pwd}
+  ${a}=  Run Process  sh  ${CURDIR}${/}id.sh  -t  ${endpoint}  -i  ${client_id}  -p  ${client_secret}  -u  ${user}  -w  ${pwd}
   ${n}=  OperatingSystem.Get File  ${CURDIR}${/}1.txt
   #OperatingSystem.Remove File  ${CURDIR}${/}1.txt
   [Return]  ${n}
@@ -62,7 +62,7 @@ UMA Call Shell ID Token
 UMA Get ID Token Valid
   [Arguments]  ${base_url}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
   ${endpoint}=  UMA Get Token Endpoint  ${well_known}
-  ${resp}=  UMA Call Shell ID Token  ${endpoint}  ${client_id}  ${client_secret}
+  ${resp}=  UMA Call Shell ID Token  ${endpoint}  ${client_id}  ${client_secret}  ${user}  ${pwd}
   ${id_token}=  UMA Get ID Token From Response  ${resp}
   Set Global Variable  ${ID_TOKEN}  ${id_token}
   [Return]  ${id_token}

@@ -1,4 +1,7 @@
 import requests
+import base64
+import os 
+import sys
 from urllib3.exceptions import InsecureRequestWarning
 import json
 from urllib.parse import urlparse
@@ -343,3 +346,35 @@ class DemoClient:
         r, access_token = self.uma_http_request(self.session.delete, url, headers=headers, id_token=id_token, access_token=access_token)
         print(f"[Undeploy Response]=({r.status_code}-{r.reason})={r.text}")
         return r, access_token
+
+    @keyword(name='Update Policy')
+    def update_policy(self, pdp_base_url, policy_cfg, resource_id, id_token=None, policy_id=None):
+        """Undeploy application via 'API Processes' endpoint
+        """
+        headers = { 'content-type': "application/json", "cache-control": "no-cache", "Authorization": "Bearer "+id_token }
+        res=""
+        if policy_id:
+            res = self.session.post(pdp_base_url + "/policy/" + policy_id, headers=headers, json=policy_cfg, verify=False)
+        else if resource_id: 
+            data={"resource_id": str(resource_id)}
+            res = self.session.get(pdp_base_url+"/policy/", headers=headers, json=data, verify=False)
+            policyId= res['_id']
+            res = self.session.post(pdp_base_url + "/policy/" + policyId, headers=headers, json=policy_cfg, verify=False)
+        else: res = None
+
+        if res.status_code == 401:
+            return 401, res.headers["Error"]
+        if res.status_code == 200:
+            return 200, print(f"[Undeploy Response]=({r.status_code}-{r.reason})={r.text}")
+        return 500, print(f"[Undeploy Response]=({r.status_code}-{r.reason})={r.text}")
+    
+    @keyword(name='Get Ownership Id')
+    def update_policy(self, id_token):
+        """Undeploy application via 'API Processes' endpoint
+        """
+        payload = str(id_token).split(".")[1]
+        paddedPayload = payload + '=' * (4 - len(payload) % 4)
+        decoded = base64.b64decode(paddedPayload)
+        decoded = decoded.decode('utf-8')
+        jwt_decoded = json.loads(decoded)
+        return jwt_decoded["sub"]
