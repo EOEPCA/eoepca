@@ -84,8 +84,8 @@ This section identifies the version of the building blocks components comprising
 
 * Version: 0.3
 * Chart version: 0.1.0
-* Helm chart: https://github.com/EOEPCA/eoepca/tree/develop/system/charts/login-service
-* Example: https://github.com/EOEPCA/eoepca/blob/develop/system/clusters/develop/user-management/um-login-service.yaml
+* Helm chart: https://github.com/EOEPCA/eoepca/tree/v0.3rc1/system/charts/login-service
+* Example: https://github.com/EOEPCA/eoepca/blob/v0.3rc1/system/clusters/develop/user-management/um-login-service.yaml
 
 #### Resources
 
@@ -121,8 +121,8 @@ Additional container images:
 
 * Version: 0.3.1
 * Chart version: 0.1.0
-* Helm chart: https://github.com/EOEPCA/eoepca/tree/develop/system/charts/pep-engine
-* Example: https://github.com/EOEPCA/eoepca/blob/develop/system/clusters/develop/user-management/um-pep-engine.yaml
+* Helm chart: https://github.com/EOEPCA/eoepca/tree/v0.3rc1/system/charts/pep-engine
+* Example: https://github.com/EOEPCA/eoepca/blob/v0.3rc1/system/clusters/develop/user-management/um-pep-engine.yaml
 
 #### Resources
 
@@ -149,8 +149,8 @@ Additional container images:
 
 * Version: 0.3
 * Chart version: 0.1.1
-* Helm chart: https://github.com/EOEPCA/eoepca/tree/develop/system/charts/pdp-engine
-* Example: https://github.com/EOEPCA/eoepca/blob/develop/system/clusters/develop/user-management/um-pdp-engine.yaml
+* Helm chart: https://github.com/EOEPCA/eoepca/tree/v0.3rc1/system/charts/pdp-engine
+* Example: https://github.com/EOEPCA/eoepca/blob/v0.3rc1/system/clusters/develop/user-management/um-pdp-engine.yaml
 
 #### Resources
 
@@ -177,8 +177,8 @@ Additional container images:
 
 * Version: 0.3
 * Chart version: 0.1.1
-* Helm chart: https://github.com/EOEPCA/eoepca/tree/develop/system/charts/user-profile
-* Example: https://github.com/EOEPCA/eoepca/blob/develop/system/clusters/develop/user-management/um-user-profile.yaml
+* Helm chart: https://github.com/EOEPCA/eoepca/tree/v0.3rc1/system/charts/user-profile
+* Example: https://github.com/EOEPCA/eoepca/blob/v0.3rc1/system/clusters/develop/user-management/um-user-profile.yaml
 
 #### Resources
 
@@ -204,8 +204,8 @@ Resources to support deployment and configuration...
 
 * Version: 0.3
 * Chart version: 0.1.0
-* Helm chart: https://github.com/EOEPCA/eoepca/tree/develop/system/charts/ades
-* Example: https://github.com/EOEPCA/eoepca/blob/develop/system/clusters/develop/processing-and-chaining/proc-ades.yaml
+* Helm chart: https://github.com/EOEPCA/eoepca/tree/v0.3rc1/system/charts/ades
+* Example: https://github.com/EOEPCA/eoepca/blob/v0.3rc1/system/clusters/develop/processing-and-chaining/proc-ades.yaml
 
 #### Resources
 
@@ -235,8 +235,8 @@ Additional container images:
 
 * Version: 0.3
 * Chart version: 0.1.5
-* Helm chart: https://github.com/EOEPCA/eoepca/tree/develop/system/charts/rm-resource-catalogue
-* Example: https://github.com/EOEPCA/eoepca/blob/develop/system/clusters/develop/resource-management/hr-resource-catalogue.yaml
+* Helm chart: https://github.com/EOEPCA/eoepca/tree/v0.3rc1/system/charts/rm-resource-catalogue
+* Example: https://github.com/EOEPCA/eoepca/blob/v0.3rc1/system/clusters/develop/resource-management/hr-resource-catalogue.yaml
 
 #### Resources
 
@@ -260,7 +260,7 @@ Additional container images:
 * Version: 0.3
 * Chart version: ???
 * Helm chart: ???
-* Example: https://github.com/EOEPCA/eoepca/blob/develop/system/clusters/develop/resource-management/hr-data-access.yaml
+* Example: https://github.com/EOEPCA/eoepca/blob/v0.3rc1/system/clusters/develop/resource-management/hr-data-access.yaml
 
 #### Resources
 
