@@ -17,5 +17,5 @@ trap "onExit" EXIT
 kubectl config view --minify --flatten > "$TMP_KUBECONFIG"
 export KUBECONFIG="$TMP_KUBECONFIG"
 
-# Uninstall flux, and hence the EOEPCA deployment
+# Uninstall flux
 flux uninstall --silent
