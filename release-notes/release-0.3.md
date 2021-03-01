@@ -214,11 +214,6 @@ Resources to support deployment and configuration...
 * Helm chart: https://github.com/EOEPCA/eoepca/tree/v0.3rc1/system/charts/ades
 * Example: https://github.com/EOEPCA/eoepca/blob/v0.3rc1/system/clusters/develop/processing-and-chaining/proc-ades.yaml
 
-### PDE
- 
-* Version: 0.3
-* README: https://github.com/EOEPCA/proc-pde/blob/master/README.md
-
 #### Resources
 
 Resources to support deployment and configuration...
@@ -239,6 +234,12 @@ Resources to support deployment and configuration...
 Additional container images:
 * Stage-in: terradue/stars-t2:latest
 * Stage-out: terradue/stars:latest
+
+
+### PDE
+ 
+* Version: 0.3
+* README: https://github.com/EOEPCA/proc-pde/blob/master/README.md
 
 
 ## Resource Management
