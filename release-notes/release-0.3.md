@@ -37,6 +37,13 @@ The release demonstrates the following capabilities:
   * Integration of Calrissian CWL Workflow engine<br>
     *Provides native Kubernetes integration and out-of-the-box support for a variety of execution patterns - such fan-in, fan-out, etc.*
   * Dedicated user 'context' within ADES service
+* Processor Development Environment
+  * JupyterLab interface to interact with code and data 
+  * Theia IDE to develop using an integrated development environment
+  * Local S3 Object Storage with MinIO to store EO data and results 
+  * Jenkins instance to build the code with Continuous Integration
+  * Docker-in-Docker (with an Ubuntu host)
+  * Tools for application package testing 
 * Resource Catalogue
   * OGC CSW 3.0.0 and 2.0.2 interfaces
   * Certified OGC Compliant and OGC Reference Implementation for both CSW 2.0.2 and CSW 3.0.0
@@ -206,6 +213,11 @@ Resources to support deployment and configuration...
 * Chart version: 0.1.0
 * Helm chart: https://github.com/EOEPCA/eoepca/tree/v0.3rc1/system/charts/ades
 * Example: https://github.com/EOEPCA/eoepca/blob/v0.3rc1/system/clusters/develop/processing-and-chaining/proc-ades.yaml
+
+### PDE
+ 
+* Version: 0.3
+* README: https://github.com/EOEPCA/proc-pde/blob/master/README.md
 
 #### Resources
 
