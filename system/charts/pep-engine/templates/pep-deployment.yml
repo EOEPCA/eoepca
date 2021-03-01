@@ -40,7 +40,7 @@ spec:
             name: pep-cm
         volumeMounts:
         - mountPath: /data/db/
-          sub_path: pep-engine/{{ .Values.context }}/data/db/resource
+          subPath: pep-engine/{{ .Values.context }}/data/db
           name: vol-userman
       hostAliases:
       - ip: {{ .Values.global.nginxIp }}
