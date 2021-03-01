@@ -39,12 +39,12 @@ The release demonstrates the following capabilities:
     *Provides native Kubernetes integration and out-of-the-box support for a variety of execution patterns - such fan-in, fan-out, etc.*
   * Dedicated user 'context' within ADES service
 * Processor Development Environment
-  * JupyterLab interface to interact with code and data 
+  * JupyterLab interface to interact with code and data
   * Theia IDE to develop using an integrated development environment
-  * Local S3 Object Storage with MinIO to store EO data and results 
+  * Local S3 Object Storage with MinIO to store EO data and results
   * Jenkins instance to build the code with Continuous Integration
   * Docker-in-Docker (with an Ubuntu host)
-  * Tools for application package testing 
+  * Tools for application package testing
 * Resource Catalogue
   * OGC CSW 3.0.0 and 2.0.2 interfaces
   * Certified OGC Compliant and OGC Reference Implementation for both CSW 2.0.2 and CSW 3.0.0
@@ -55,7 +55,13 @@ The release demonstrates the following capabilities:
   * Implements OGC OpenSearch EO Extensions
   * Federated catalogue distributed searching
 * Data Access Service
-  * TBD - EOX - describe most relevant/significant capabilities
+  * OGC WMS 1.1 - 1.3 interfaces
+  * OGC WMTS 1.0 interfaces with automatic caching
+  * OGC WCS 2.0 interfaces with EO Application Profile
+  * Implements OGC OpenSearch with EO, Geo and Time Extensions
+  * Workspace management API
+  * Dataset registration API
+  * Registration schemes for Sentinel-2 L1C/L2A data in Data Access Service and Ressource Catalogue
 * End-to-end Processing Execution
   * Authenticated user accessing protected ADES endpoints
   * Dynamic creation of ADES user context with dynamic resource protection
@@ -238,7 +244,7 @@ Additional container images:
 
 
 ### PDE
- 
+
 * Version: 0.3
 * README: https://github.com/EOEPCA/proc-pde/blob/master/README.md
 
@@ -272,29 +278,31 @@ Additional container images:
 ### Data Access Services
 
 * Version: 0.3
-* Chart version: ???
-* Helm chart: ???
+* Chart version: 0.3.18
+* Helm chart: https://gitlab.eox.at/esa/prism/vs/-/tree/staging/chart
 * Example: https://github.com/EOEPCA/eoepca/blob/v0.3rc1/system/clusters/develop/resource-management/hr-data-access.yaml
 
 #### Resources
 
 Resources to support deployment and configuration...
 
-* GitHub repository: ???
-* README: ???
-* Wiki: ???
-* Design: ???
-* ICD: ???
+* GitHub repository: https://github.com/EOEPCA/rm-data-access/
+* README: https://github.com/EOEPCA/rm-data-access/blob/master/README.md
+* Wiki: https://github.com/EOEPCA/rm-data-access/wiki
+* Design: https://eoepca.github.io/rm-data-access/SDD/
+* ICD: https://eoepca.github.io/rm-data-access/ICD/
 
 #### Containers
 
 * **rm-data-access-core (version 'latest')**  ???
-  * Image: eoepca/rm-data-access-core   ???
+  * Image: eoepca/rm-data-access-core:0.3
   * GitHub: https://github.com/EOEPCA/rm-data-access-core
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/rm-data-access-core
 
 Additional container images:
-* registry.gitlab.eox.at/esa/prism/vs/pvs_client:release-1.1.1
-* registry.gitlab.eox.at/esa/prism/vs/pvs_cache:release-1.1.1
-* ???
+* Client: registry.gitlab.eox.at/esa/prism/vs/pvs_client:release-1.1.1
+* Cache: registry.gitlab.eox.at/esa/prism/vs/pvs_cache:release-1.1.1
+* redis: bitnami/redis:6.0.8-debian-10-r0
+* Database: bitnami/postgresql:11.9.0-debian-10-r34
+
 
