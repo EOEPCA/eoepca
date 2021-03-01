@@ -294,9 +294,9 @@ Resources to support deployment and configuration...
 
 #### Containers
 
-* **rm-data-access-core (version 'latest')**  ???
+* **rm-data-access-core (version '0.3')**
   * Image: eoepca/rm-data-access-core:0.3
-  * GitHub: https://github.com/EOEPCA/rm-data-access-core
+  * GitHub: https://github.com/EOEPCA/rm-data-access
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/rm-data-access-core
 
 Additional container images:
