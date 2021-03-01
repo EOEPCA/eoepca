@@ -1,4 +1,4 @@
-
+---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -17,7 +17,7 @@ spec:
         backend:
           serviceName: pep-engine
           servicePort: 5566
-
+---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -36,6 +36,3 @@ spec:
         backend:
           serviceName: pep-engine
           servicePort: 5576
-         
-  
- 
