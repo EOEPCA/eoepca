@@ -45,29 +45,42 @@ When creating the token, all 'repo' scopes should be selected.
 The following scripts bootstraps Flux in the Kubernetes cluster, configured to synchronise to the EOEPCA/eoepca repository for its deployment specification.
 
 ```
-./system/deployEOEPCA.sh
+./system/clusters/deployCluster.sh
 ```
 
 The script is configured by the following environment variables:
 * BRANCH<br>
-  The branch of EOEPCA/eoepca repository to use.<br>
+  The branch of eoepca repository to use.<br>
   *Defaults to the current working branch.*
 * TARGET<br>
-  The deployment to target which is represented by the root directory `system/$TARGET` within the EOEPCA/eoepca repository.<br>
+  The deployment to target which is represented by the root directory `system/clusters/$TARGET` within the EOEPCA/eoepca repository.<br>
   *Defaults to 'minikube'.*
+
+NOTE. Script deployCluster.sh is configured for deployment using the EOEPCA GitHub organisation. This must be adapted for your environment and git repository. For example, using a personal GitHub account the following command is more appropriate to perform the `flux bootstrap`...
+```
+flux bootstrap github \
+  --owner=$GITHUB_USER \
+  --repository=eoepca \
+  --branch="${BRANCH}" \
+  --path="system/clusters/${TARGET}/system" \
+  --personal
+```
+
+NOTE. For deployment of additional clusters it is essential to make a copy of the `system/clusters/${TARGET}` directory, to ensure that the cluster deployment configuration that flux maintains in GitHub is kept independent for each cluster.
 
 ## GitOps Synchronisation
 
-The flux deployment specification in system/$TARGET is expressed through `GitRepository` and `HelmRelease` resources.
+The flux deployment specification in system/clusters/$TARGET is expressed through `GitRepository` and `HelmRelease` resources.
 
 Flux will monitor the charts referenced in the Helm Releases, and reconcile the state of the cluster in accordance with any changes to these components.
 
 It should be noted that, when using a GitRepository as source, the referenced HelmRelease must increment their chart version number in order for flux to recognize the update.
 
-## Undeploy EOEPCA
+## Undeploy Flux
 
-The EOEPCA system deployment can be uninstalled by running the script...
+The following script uninstalls the Flux CD kubernetes resources from the cluster...
 ```
-./system/undeployEOEPCA.sh
+./system/clusters/undeployCluster.sh
 ```
-...which uninstalls flux and hence the EOEPCA system components.
+
+NOTE. This does **not** uninstall the eoepca components installed by flux.
