@@ -40,6 +40,12 @@ GITHUB_TOKEN is a Personal Access Token - as described here https://docs.github.
 
 When creating the token, all 'repo' scopes should be selected.
 
+### Prepare the deployment TARGET
+
+The EOEPCA team 'develop' cluster is deployed to CREODIAS and configured under path `./system/clusters/develop`. Before deployment, this confiuration must be tailored to your deployment environment. In particualr the Public IP of the target cluster must be applied within the configuration - achieved by searching for the terms `185.52.193.87` and `185.52.193.87.nip.io` in the configuration (all files under system/clusters/develop) and adjusting according to your environment.
+
+Rather than edit 'develop' directly, you may consider making a copy of 'develop' to represent your cluster.
+
 ### Initialise the EOEPCA Deployment in Flux
 
 The following scripts bootstraps Flux in the Kubernetes cluster, configured to synchronise to the EOEPCA/eoepca repository for its deployment specification.
