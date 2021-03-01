@@ -29,7 +29,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
-  - host: {{ .Values.global.resourcesHost | quote }}
+  - host: {{ .Values.global.resourceHost | quote }}
     http:
       paths:
       - path: /
