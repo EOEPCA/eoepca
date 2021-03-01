@@ -4,5 +4,5 @@ kind: Kustomization
 resources:
   - ./um-login-service.yaml
   - ./um-pdp-engine.yaml
-  # - ./um-pep-engine.yaml
+  - ./um-pep-engine.yaml
   - ./um-user-profile.yaml
