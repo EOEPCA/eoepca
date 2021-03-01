@@ -7,7 +7,7 @@
           "mimeType": "application/xml"
         },
         "value": {
-          "href": "https://catalog.terradue.com/eoepca-services/search?uid=application_vegetation_index"
+          "href": "https://catalog.terradue.com/eoepca-services/search?uid=app-s-expression"
         }
       }
     }
@@ -23,6 +23,6 @@
       "transmissionMode": "value"
     }
   ],
-  "mode": "async",
+  "mode": "auto",
   "response": "raw"
 }
