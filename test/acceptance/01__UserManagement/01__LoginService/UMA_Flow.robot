@@ -16,6 +16,7 @@ ${PATH_TO_RESOURCE}=  resources/ADES20%Service
 ${WELL_KNOWN_PATH}=  ${UM_BASE_URL}/.well-known/uma2-configuration
 ${PEP_RESOURCE_PORT}=  31709
 ${PEP_PROXY_PORT}=  31707
+${ADES_API_URL}=  http://ades.resources.185.52.193.87.nip.io/
 
 *** Test Cases ***
 
@@ -42,7 +43,7 @@ UMA Flow to Retrieve RPT
 
 *** Keywords ***
 UMA Resource Insertion
-  ${a}=  Run Process  python3  ${CURDIR}${/}insADES.py  ${ADES_BASE_URL}  ${PEP_RESOURCE_PORT}
+  ${a}=  Run Process  python3  ${CURDIR}${/}insADES.py  ${ADES_API_URL}
   ${resId}=  OperatingSystem.Get File  ${CURDIR}${/}res_id.txt
   Set Global Variable  ${RES_ID_ADES}  ${resId}
 
@@ -55,7 +56,7 @@ UMA Flow Setup
 
 UMA Get Ticket
   [Arguments]  ${base_url}  ${token}  ${resource}
-  Create Session  pep  ${base_url}:${PEP_PROXY_PORT}  verify=False
+  Create Session  pep  ${base_url}  verify=False
   ${headers}=  Create Dictionary  authorization=Bearer ${token}
   ${resp}=  Get Request  pep  /${resource}  headers=${headers}
   [Return]  ${resp}
@@ -77,7 +78,7 @@ UMA Get ID Token
 
 UMA Call Shell ID Token
   [Arguments]  ${endpoint}  ${client_id}  ${client_secret}
-  ${a}=  Run Process  sh  ${CURDIR}${/}id.sh  -t  ${endpoint}  -i  ${client_id}  -p  ${client_secret}
+  ${a}=  Run Process  sh  ${CURDIR}${/}id.sh  -t  ${endpoint}  -i  ${client_id}  -p  ${client_secret}  -u  ${UMA_USER}  -w  ${UMA_PWD}
   ${n}=  OperatingSystem.Get File  ${CURDIR}${/}1.txt
   #OperatingSystem.Remove File  ${CURDIR}${/}1.txt
   [Return]  ${n}
@@ -148,12 +149,12 @@ UMA Handler of Codes
 
 PEP Delete Resource
   [Arguments]  ${base_url}
-  Create Session  pep  ${base_url}:${PEP_RESOURCE_PORT}  verify=False
+  Create Session  pep  ${base_url}  verify=False
   ${headers}=  Create Dictionary  authorization=Bearer ${ID_TOKEN}
   ${response}=  Delete Request  pep  /resources/${RES_ID_ADES}  headers=${headers}
 
 
 Cleanup
   OperatingSystem.Remove File  ${CURDIR}${/}1.txt
-  OperatingSystem.Remove File  ${CURDIR}${/}res_id.txt
-  PEP Delete Resource  ${ADES_BASE_URL}
+  #OperatingSystem.Remove File  ${CURDIR}${/}res_id.txt
+  PEP Delete Resource  ${ADES_API_URL}
