@@ -10,7 +10,7 @@ def main():
     base_url = "https://test.185.52.193.87.nip.io"
     ades_resource_api_url = "http://test.185.52.193.87.nip.io/secure"
     ades_url = "http://ades.test.185.52.193.87.nip.io"
-    ades_user = "testuser"
+    ades_user = "rconway"
     ades_user_prefix = "/" + ades_user
 
     #===========================================================================
@@ -32,7 +32,7 @@ def main():
     print("\n### USER ID TOKEN ###")
     user_id_token = demo.get_id_token(USER_NAME, USER_PASSWORD)
 
-    # add ADES resource
+    # # add ADES resource
     print("\n### ADD ADES RESOURCE ###")
     demo.register_protected_resource(ades_resource_api_url, ades_user_prefix + "/zoo", user_id_token, "ADES WPS Service", ["Authenticated"])
     demo.register_protected_resource(ades_resource_api_url, ades_user_prefix + "/wps3", user_id_token, "ADES API Service", ["Authenticated"])
@@ -73,14 +73,14 @@ def main():
     print("\n### API Proc List Processes ###")
     response, access_token = demo.proc_list_processes(ades_proc_url, id_token=user_id_token, access_token=access_token)
 
-    # # API Proc Deploy Application
-    # print("\n### API Proc Deploy Application ###")
-    # response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body.json", id_token=user_id_token, access_token=access_token)
+    # API Proc Deploy Application
+    print("\n### API Proc Deploy Application ###")
+    response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body.json", id_token=user_id_token, access_token=access_token)
 
-    # # API Proc Get Application Details
-    # print("\n### API Proc Get Application Details ###")
-    # app_name = "vegetation_index_"
-    # response, access_token = demo.proc_get_app_details(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
+    # API Proc Get Application Details
+    print("\n### API Proc Get Application Details ###")
+    app_name = "s-expression-0_0_2"
+    response, access_token = demo.proc_get_app_details(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
 
     # # API Proc Execute Application
     # print("\n### API Proc Execute Application ###")
