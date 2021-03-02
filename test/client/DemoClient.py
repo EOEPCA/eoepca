@@ -349,7 +349,7 @@ class DemoClient:
 
     @keyword(name='Update Policy')
     def update_policy(self, pdp_base_url, policy_cfg, resource_id, id_token=None, policy_id=None):
-        """Undeploy application via 'API Processes' endpoint
+        """Update policy
         """
         headers = { 'content-type': "application/json", "cache-control": "no-cache", "Authorization": "Bearer "+id_token }
         res=""
@@ -369,8 +369,8 @@ class DemoClient:
         return 500, print(f"[Undeploy Response]=({r.status_code}-{r.reason})={r.text}")
     
     @keyword(name='Get Ownership Id')
-    def update_policy(self, id_token):
-        """Undeploy application via 'API Processes' endpoint
+    def get_ownership_id(self, id_token):
+        """Get ownership id
         """
         payload = str(id_token).split(".")[1]
         paddedPayload = payload + '=' * (4 - len(payload) % 4)
