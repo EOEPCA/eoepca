@@ -72,37 +72,41 @@ def main():
     # API Proc List Processes
     print("\n### API Proc List Processes ###")
     response, access_token = demo.proc_list_processes(ades_proc_url, id_token=user_id_token, access_token=access_token)
+    # print("access token:", access_token)
 
-    # # API Proc Deploy Application
-    # print("\n### API Proc Deploy Application ###")
-    # response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body.json", id_token=user_id_token, access_token=access_token)
+    # API Proc Deploy Application
+    print("\n### API Proc Deploy Application ###")
+    response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body.json", id_token=user_id_token, access_token=access_token)
+    # print("access token:", access_token)
 
-    # # API Proc Get Application Details
-    # print("\n### API Proc Get Application Details ###")
-    # app_name = "s-expression-0_0_2"
-    # response, access_token = demo.proc_get_app_details(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
+    # API Proc Get Application Details
+    print("\n### API Proc Get Application Details ###")
+    app_name = "s-expression-0_0_2"
+    response, access_token = demo.proc_get_app_details(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
+    # print("access token:", access_token)
 
-    # # API Proc Execute Application
-    # print("\n### API Proc Execute Application ###")
-    # app_name = "vegetation_index_"
-    # response, access_token, job_location_path = demo.proc_execute_application(ades_proc_url, app_name, "../acceptance/02__Processing/01__ADES/data/app-execute-body.json", id_token=user_id_token, access_token=access_token)
+    # API Proc Execute Application
+    print("\n### API Proc Execute Application ###")
+    app_name = "s-expression-0_0_2"
+    response, access_token, job_location_path = demo.proc_execute_application(ades_proc_url, app_name, "../acceptance/02__Processing/01__ADES/data/app-execute-body.json", id_token=user_id_token, access_token=access_token)
 
-    # # API Proc Get Job Status
-    # print("\n### API Proc Get Job Status ###")
-    # status = "running"
-    # while status == 'running':
-    #     r, access_token = demo.proc_get_job_status(active_ades_url, job_location_path, id_token=user_id_token, access_token=access_token)
-    #     response = r.json()
-    #     status = response['status']
-    #     if status == 'failed': 
-    #         print(response)
-    #         break
-    #     if status == 'successful':  
-    #         print(response['links'][0]['href'])
-    #         break
-    #     else:
-    #         print('Polling - {}'.format(status))
-    #         sleep(30)
+    # API Proc Get Job Status
+    sleep(5)  # give the ades a chance to register (with the UM) the job status endpoint
+    print("\n### API Proc Get Job Status ###")
+    status = "running"
+    while status == 'running':
+        r, access_token = demo.proc_get_job_status(active_ades_url, job_location_path, id_token=user_id_token, access_token=access_token)
+        response = r.json()
+        status = response['status']
+        if status == 'failed': 
+            print(response)
+            break
+        if status == 'successful':  
+            print(response['links'][0]['href'])
+            break
+        else:
+            print('Polling - {}'.format(status))
+            sleep(30)
 
     # # API Proc Get Job Result
     # print("\n### API Proc Get Job Result ###")
@@ -111,7 +115,7 @@ def main():
 
     # # API Proc Undeploy Application
     # print("\n### API Proc Undeploy Application ###")
-    # app_name = "vegetation_index_"
+    # app_name = "s-expression-0_0_2"
     # response, access_token = demo.proc_undeploy_application(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
 
     # #===========================================================================
