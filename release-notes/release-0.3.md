@@ -233,20 +233,20 @@ Resources to support deployment and configuration...
 
 #### Containers
 
-* **proc-ades (version 'devlatest')**  ???
-  * Image: eoepca/proc-ades:devlatest   ???
+* **proc-ades (version dev0.3.1)**
+  * Image: eoepca/proc-ades:dev0.3.1
   * GitHub: https://github.com/EOEPCA/proc-ades
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/proc-ades
 
 Additional container images:
-* Stage-in: terradue/stars-t2:latest
-* Stage-out: terradue/stars:latest
+* Stage-in: terradue/stars-t2:0.6.16.0
+* Stage-out: terradue/stars:0.6.16
 
 
-### PDE
+### Processor Development Environment (PDE)
 
 * Version: 0.3
-* README: https://github.com/EOEPCA/proc-pde/blob/master/README.md
+* README: https://github.com/EOEPCA/proc-pde/blob/0.3/README.md
 
 
 ## Resource Management
@@ -304,5 +304,3 @@ Additional container images:
 * Cache: registry.gitlab.eox.at/esa/prism/vs/pvs_cache:release-1.1.1
 * redis: bitnami/redis:6.0.8-debian-10-r0
 * Database: bitnami/postgresql:11.9.0-debian-10-r34
-
-
