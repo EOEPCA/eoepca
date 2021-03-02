@@ -355,7 +355,7 @@ class DemoClient:
         res=""
         if policy_id:
             res = self.session.post(pdp_base_url + "/policy/" + policy_id, headers=headers, json=policy_cfg, verify=False)
-        else if resource_id: 
+        elif resource_id: 
             data={"resource_id": str(resource_id)}
             res = self.session.get(pdp_base_url+"/policy/", headers=headers, json=data, verify=False)
             policyId= res['_id']
