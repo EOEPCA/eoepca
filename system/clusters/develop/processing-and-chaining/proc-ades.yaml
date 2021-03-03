@@ -218,7 +218,7 @@ spec:
       #maincwl: "files/maincwlmetrics.cwl"
     wps:
       pepBaseUrl: "http://pep-engine.default:5576"
-      usePep: "true"
+      usePep: "false"
       maincfgtpl: "files/main.cfg.tpl"
     persistence:
       enabled: true
