@@ -356,29 +356,39 @@ class DemoClient:
 
     @keyword(name='Update Policy')
     def update_policy(self, pdp_base_url, policy_cfg, resource_id, id_token=None, policy_id=None):
-        """Update policy
+        """Updates a policy
+        If a Policy_ID is passed there will only be ownership comprobation
         """
         headers = { 'content-type': "application/json", "cache-control": "no-cache", "Authorization": "Bearer "+id_token }
         res=""
+        dir_path = os.path.dirname(os.path.realpath(__file__))
         if policy_id:
             res = self.session.post(pdp_base_url + "/policy/" + policy_id, headers=headers, json=policy_cfg, verify=False)
         elif resource_id: 
             data={"resource_id": str(resource_id)}
             res = self.session.get(pdp_base_url+"/policy/", headers=headers, json=data, verify=False)
-            print(str(res.text))
-            policyId= res.text
+            policyId= json.loads(res.text)
+            for k in policyId['policies']:
+                f = open(dir_path+"/alvl.txt", "a")
+                f.write('"'+str(k)+'"' + '\n')
+                policyId = k['_id']
+                f.write('"'+str(policyId)+'"' + '\n')
+                f.close()
+                
+               
             res = self.session.post(pdp_base_url + "/policy/" + policyId, headers=headers, json=policy_cfg, verify=False)
         else: res = None
 
         if res.status_code == 401:
             return 401, res.headers["Error"]
         if res.status_code == 200:
-            return 200, print(f"[Undeploy Response]=({r.status_code}-{r.reason})={r.text}")
-        return 500, print(f"[Undeploy Response]=({r.status_code}-{r.reason})={r.text}")
+            return 200, print(f"[Undeploy Response]=({res.status_code}-{res.reason})={res.text}")
+        return 500, print(f"[Undeploy Response]=({res.status_code}-{res.reason})={res.text}")
     
     @keyword(name='Get Ownership Id')
     def get_ownership_id(self, id_token):
         """Get ownership id
+        Returns the sub parameter from the JWT Token recibed
         """
         payload = str(id_token).split(".")[1]
         paddedPayload = payload + '=' * (4 - len(payload) % 4)
@@ -389,7 +399,8 @@ class DemoClient:
 
     @keyword(name='Get Resource By Name')
     def get_resource_by_name(self, pdp_base_url, name, id_token):
-        """Returns a resource_id matched by name
+        """Get Resource By Name
+        Returns a resource_id matched by name
         """
         headers = { 'content-type': "application/x-www-form-urlencoded", "cache-control": "no-cache", "Authorization": "Bearer "+id_token}
         res = requests.get( pdp_base_url +"/resources", headers=headers, verify=False)
