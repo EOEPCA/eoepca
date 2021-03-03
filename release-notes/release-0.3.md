@@ -134,7 +134,7 @@ Additional container images:
 ### Policy Enforcement Point (PEP)
 
 * Version: 0.3.1
-* Chart version: 0.1.0
+* Chart version: 0.1.4
 * Helm chart: https://github.com/EOEPCA/eoepca/tree/v0.3rc1/system/charts/pep-engine
 * Example: https://github.com/EOEPCA/eoepca/blob/v0.3rc1/system/clusters/develop/user-management/um-pep-engine.yaml
 
@@ -239,8 +239,8 @@ Resources to support deployment and configuration...
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/proc-ades
 
 Additional container images:
-* Stage-in: terradue/stars-t2:0.6.16.0
-* Stage-out: terradue/stars:0.6.16
+* Stage-in: terradue/stars-t2:0.6.17.0
+* Stage-out: terradue/stars-t2:0.6.17.0
 
 
 ### Processor Development Environment (PDE)
