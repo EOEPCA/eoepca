@@ -167,7 +167,11 @@ class DemoClient:
             "scope": "openid"
         }
         r = self.session.post(self.get_token_endpoint(), headers=headers, data=data)
-        access_token = r.json()["access_token"]
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        try:
+            access_token = r.json()["access_token"]
+        except:
+            return None
         print(f"access_token: {access_token}")
         return access_token
 
@@ -313,7 +317,10 @@ class DemoClient:
         url = service_base_url + "/processes/" + app_name + "/jobs"
         headers = { "Accept": "application/json", "Content-Type": "application/json", "Prefer": "respond-async" }
         r, access_token = self.uma_http_request(self.session.post, url, headers=headers, id_token=id_token, access_token=access_token, json=app_execute_body)
-        job_location = r.headers['Location']
+        try:
+            job_location = r.headers['Location']
+        except:
+            job_location = None
         print(f"[Execute Response]=({r.status_code}-{r.reason})=> job={job_location}")
         return r, access_token, job_location
 
@@ -358,7 +365,8 @@ class DemoClient:
         elif resource_id: 
             data={"resource_id": str(resource_id)}
             res = self.session.get(pdp_base_url+"/policy/", headers=headers, json=data, verify=False)
-            policyId= res['_id']
+            print(str(res.text))
+            policyId= res.text
             res = self.session.post(pdp_base_url + "/policy/" + policyId, headers=headers, json=policy_cfg, verify=False)
         else: res = None
 
@@ -378,3 +386,13 @@ class DemoClient:
         decoded = decoded.decode('utf-8')
         jwt_decoded = json.loads(decoded)
         return jwt_decoded["sub"]
+
+    @keyword(name='Get Resource By Name')
+    def get_resource_by_name(self, pdp_base_url, name, id_token):
+        """Returns a resource_id matched by name
+        """
+        headers = { 'content-type': "application/x-www-form-urlencoded", "cache-control": "no-cache", "Authorization": "Bearer "+id_token}
+        res = requests.get( pdp_base_url +"/resources", headers=headers, verify=False)
+        for k in json.loads(res.text):
+            if name in k['_name']:
+                return k['_id']

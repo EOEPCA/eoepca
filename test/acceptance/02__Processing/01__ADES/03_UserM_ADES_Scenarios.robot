@@ -19,7 +19,7 @@ ${WPS_JOB_MONITOR_ROOT}=  /watchjob
 ${WPS_PATH_PREFIX}=  /zoo
 ${WPS_SERVICE_URL}=  ${ADES_BASE_URL}
 ${PDP_BASE_URL}=  http://test.185.52.193.87.nip.io/pdp
-${ADES_RESOURCES_API_URL}=  http://ades.resources.185.52.193.87.nip.io/
+${ADES_RESOURCES_API_URL}=  http://ades.resources.185.52.193.87.nip.io
 ${ADES_PEP_PROXY}=  http://ades.test.185.52.193.87.nip.io/
 ${USERNAME_B}=  UserB
 ${USERNAME}=  UserA
@@ -37,22 +37,27 @@ Initial Process List
 Attempt Unauthorised Access Process List
   List Processes No Auth
   
+
 Protected Application Deployment
   User A Deploys Proc1
+  PEP Register Resource  /UserA/wps3/processes/s-expression-0_0_2  ADES Deploy
+  PEP Register Resource  /UserA/wps3/processes/s-expression-0_0_2/jobs  ADES Execute
   User B Unauthorized Undeploy
   User B Unauthorized Policy Change
 
-#Application Sharing
-#  User A Authorized Application Policy Change
-#  User B Authorized Execution
-#  User B Authorized Undeploy
+Application Sharing
+  User A Authorized Application Policy Change
+  User B Authorized Execution
+  User B Authorized Undeploy
   
 Protected Application Execution
   User A Deploys Proc1
+  PEP Register Resource  /UserA/wps3/processes/s-expression-0_0_2  ADES Deploy Proc2
+  PEP Register Resource  /UserA/wps3/processes/s-expression-0_0_2/jobs  ADES Execute Proc2
   User A Executes Proc1
-#  User B Unauthorized Executes Proc2
-#  User B Unauthorized Status Job1
-#  User A Authorized Status Proc1
+  User B Unauthorized Executes Proc2
+  User B Unauthorized Status Job1
+  User A Authorized Status Proc1
   
 #Execution Status Sharing
 #  User A Authorized Status Policy Change
@@ -100,19 +105,74 @@ List Processes No Auth
   [Return]  ${resp}
 
 User A Deploys Proc1
-  #@{scopes}=  Create List  protected_access
   ${r}  ${access_token}=  DemoClient.Proc Deploy App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  ${CURDIR}/data${/}app-deploy-body.json  ${ID_TOKEN_USER_A}
-  ${resource_id}  Register Protected Resource  ${ADES_RESOURCES_API_URL}  /UserA/watchjob/processes/UndeployProcess/  ${ID_TOKEN_USER_A}  ADES Undeploy  ${scopes}
-  Set Global Variable  ${UNDEPLOY_R_ID}  ${resource_id}
+
 
 User B Unauthorized Undeploy
-  ${r}  ${access_token}=  DemoClient.Proc Undeploy App  ${WPS_SERVICE_URL}/${USERNAME}/watchjob  UndeployProcess/  ${ID_TOKEN_USER_B}
+  ${r}  ${access_token}=  DemoClient.Proc Undeploy App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  s-expression-0_0_2  ${ID_TOKEN_USER_B}
+  Status Should Be  401  ${r}
+  Should Be True  $access_token is None
 
 User B Unauthorized Policy Change
   ${ow}=  Get Ownership Id  ${ID_TOKEN_USER_B}
-  ${data}=  Evaluate  {"name":"UPDATE DENY","description":"modified","config":{"resource_id":${UNDEPLOY_R_ID},"rules":[{"OR":[{ "EQUAL" : { "uid" : "${ow}"}},{ "EQUAL" : { "uid" : "${ow}"}}]}]},"scopes":["protected_access"]}
-  ${resp}=  Update Policy  ${PDP_BASE_URL}  ${data}  ${UNDEPLOY_R_ID}  ${ID_TOKEN_USER_B}
-  #Status Should Be  401  ${resp}
-
+  ${r_id}=  Get Resources UserA
+  ${data}=  Evaluate  {"name":"UPDATE DENY","description":"modified","config":{"resource_id":"${r_id}","rules":[{"OR":[{ "EQUAL" : { "uid" : "${ow}"}},{ "EQUAL" : { "uid" : "${ow}"}}]}]},"scopes":["protected_access"]}
+  ${resp}  ${text}=  Update Policy  ${PDP_BASE_URL}  ${data}  ${r_id}  ${ID_TOKEN_USER_B}
+  ${validator}=  Convert To String  ${resp}
+  Should Be Equal  ${validator}  401
+ 
 User A Executes Proc1
-  ${r}  ${access_token}  ${location}=  Proc Execute App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  DeployProcess  ${CURDIR}/data${/}app-execute-body.json  ${ID_TOKEN_USER_A}
+  ${r}  ${access_token}  ${location}=  Proc Execute App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  s-expression-0_0_2  ${CURDIR}/data${/}app-execute-body.json  ${ID_TOKEN_USER_A}
+  Set Global Variable  ${LOCATION}  ${location}
+
+User B Unauthorized Executes Proc2
+  ${r}  ${access_token}  ${location}=  Proc Execute App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  s-expression-0_0_2  ${CURDIR}/data${/}app-execute-body.json  ${ID_TOKEN_USER_B}
+  Status Should Be  401  ${r}
+
+User B Unauthorized Status Job1
+  ${r}  ${access_token}=  Proc Job Status  ${WPS_SERVICE_URL}  ${LOCATION}  ${ID_TOKEN_USER_B}
+  Status Should Be  401  ${r}
+  
+User A Authorized Status Proc1
+  Sleep  5
+  ${r}  ${access_token}=  Proc Job Status  ${WPS_SERVICE_URL}  ${location}  ${ID_TOKEN_USER_A}
+  Status Should Be  200  ${r}
+  # FOR  ${index}  IN RANGE  40
+  #   ${r}  ${access_token}=  Proc Job Status  ${WPS_SERVICE_URL}  ${LOCATION}  ${ID_TOKEN_USER_B}
+  #   Status Should Be  200  ${r}
+  #   Should Be True  $access_token is not None
+  #   Set Suite Variable  ${ACCESS_TOKEN}  ${access_token}
+  #   ${status}=  Set Variable  ${r.json()["status"]}
+  #   Exit For Loop If  "${status}" != "running"
+  # END
+  
+PEP Register Resource
+  [Arguments]  ${icon_uri}  ${name}
+  @{scopes}=  Create List  protected_access
+  ${resource_id}  Register Protected Resource  ${ADES_RESOURCES_API_URL}  ${icon_uri}  ${ID_TOKEN_USER_A}  ${name}  ${scopes}
+  [Return]  ${resource_id}
+
+Get Resources Deploy UserA
+  ${res_id}=  Get Resource By Name  ${ADES_RESOURCES_API_URL}  ADES Deploy  ${ID_TOKEN_USER_A}
+  [Return]  ${res_id}
+
+Get Resources Execute UserA
+  ${res_id}=  Get Resource By Name  ${ADES_RESOURCES_API_URL}  ADES Execute  ${ID_TOKEN_USER_A}
+  [Return]  ${res_id}
+
+
+User A Authorized Application Policy Change
+  ${owb}=  Get Ownership Id  ${ID_TOKEN_USER_B}
+  ${owa}=  Get Ownership Id  ${ID_TOKEN_USER_A}
+  ${r_id}=  Get Resources Deploy UserA
+  ${data}=  Evaluate  {"name":"UPDATE DENY","description":"modified","config":{"resource_id":"${r_id}","rules":[{"OR":[{ "EQUAL" : { "uid" : "${owa}"}},{ "EQUAL" : { "uid" : "${owb}"}}]}]},"scopes":["protected_access"]}
+  ${resp}  ${text}=  Update Policy  ${PDP_BASE_URL}  ${data}  ${r_id}  ${ID_TOKEN_USER_A}
+  ${r_id}=  Get Resources Execute UserA
+  ${data}=  Evaluate  {"name":"UPDATE DENY","description":"modified","config":{"resource_id":"${r_id}","rules":[{"OR":[{ "EQUAL" : { "uid" : "${owa}"}},{ "EQUAL" : { "uid" : "${owb}"}}]}]},"scopes":["protected_access"]}
+  ${resp}  ${text}=  Update Policy  ${PDP_BASE_URL}  ${data}  ${r_id}  ${ID_TOKEN_USER_A}
+ 
+User B Authorized Execution
+  ${r}  ${access_token}  ${location}=  Proc Execute App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  s-expression-0_0_2  ${CURDIR}/data${/}app-execute-body.json  ${ID_TOKEN_USER_B}
+  
+User B Authorized Undeploy
+  ${r}  ${access_token}=  DemoClient.Proc Undeploy App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  s-expression-0_0_2  ${ID_TOKEN_USER_B}
