@@ -139,7 +139,9 @@ class DemoClient:
             headers = { 'content-type': "application/json", "Authorization": f"Bearer {id_token}" }
             data = { "resource_scopes":scopes, "icon_uri":uri, "name":name}
             r = self.session.post(f"{resource_api_url}/resources", headers=headers, json=data)
-            resource_id = r.text
+            
+            a= json.loads(r.text)
+            resource_id= a['id']
             if resource_id:
                 self.state["resources"][resource_api_url][uri] = resource_id
                 print(f"resource_id: {resource_id} @{resource_api_url} = {uri}")
