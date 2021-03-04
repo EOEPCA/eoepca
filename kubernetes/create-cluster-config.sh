@@ -52,6 +52,16 @@ bastion_host:
 EOF
 }
 
+function docker_registry() {
+  if test -n "$DOCKER_USER" -a -n "$DOCKER_PASSWORD"; then
+    cat - <<EOF
+private_registries:
+  - user: ${DOCKER_USER}
+    password: ${DOCKER_PASSWORD}
+EOF
+  fi
+}
+
 function cluster_yml() {
   cat - <<EOF
 cluster_name: ${CLUSTER_NAME}
@@ -66,6 +76,8 @@ addons_include:
   - ./ingress-controller/deploy-baremetal-creodias.yaml
 
 $(bastion_host)
+
+$(docker_registry)
 EOF
 }
 

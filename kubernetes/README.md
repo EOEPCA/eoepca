@@ -41,6 +41,20 @@ $ create-cluster-config.sh <cluster-name>
 
 `<cluster-name>` must be supplied and is the identifying name of the cluster in the resulting kubeconfig file.
 
+In additon, it is possible to supply DockerHub credentials that will be configured into the cluster, to be used for all image pull requests to DockerHub (docker.io registry). This becomes important to avoid rate limits that otherwise apply to unauthenticated/free-tier requests. Thus, the following environment variables can be used...
+
+```
+$ DOCKER_USER=<user> DOCKER_PASSWORD=<password> create-cluster-config.sh <cluster-name>
+```
+
+...which creates the configuration fragment...
+
+```
+private_registries:
+  - user: <user>
+    password: <password>
+```
+
 ## Create Kubernetes Cluster
 
 Once the configuration is in place then the cluster creation can be initiated...
