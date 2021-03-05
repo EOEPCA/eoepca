@@ -1,0 +1,9 @@
+apiVersion: epca.eo/v1alpha1
+kind: Bucket
+metadata:
+  name: test01
+  namespace: rm
+spec:
+  bucketName: test01
+  secretName: test01
+  secretNamespace: rm-user-test01
