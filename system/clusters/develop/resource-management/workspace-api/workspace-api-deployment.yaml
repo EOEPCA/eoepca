@@ -27,7 +27,7 @@ spec:
       serviceAccountName: workspace-api
       containers:
       - name: workspace-api
-        image: 'registry.gitlab.eox.at/eox/hub/workspace-api:0.0.8'
+        image: 'registry.gitlab.eox.at/eox/hub/workspace-api:0.0.9'
         ports:
         - name: http
           containerPort: 8080
@@ -53,8 +53,6 @@ spec:
           value: "rm-user"
         - name: WORKSPACE_SECRET_NAME
           value: "bucket"
-        - name: WORKSPACE_SECRET_NAMESPACE
-          value: "unused-to-be-removed"
         - name: NAMESPACE_FOR_BUCKET_RESOURCE
           value: "rm"
         - name: WORKSPACE_CONFIG_MAP_NAME
