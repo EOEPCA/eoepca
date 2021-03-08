@@ -80,6 +80,7 @@ def main():
     # print("access token:", access_token)
 
     # API Proc Get Application Details
+    sleep(5)  # give the ades a chance to deploy before proceeding
     print("\n### API Proc Get Application Details ###")
     app_name = "s-expression-0_0_2"
     response, access_token = demo.proc_get_app_details(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
