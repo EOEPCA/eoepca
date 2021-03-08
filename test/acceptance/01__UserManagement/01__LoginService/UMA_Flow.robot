@@ -16,15 +16,15 @@ ${PATH_TO_RESOURCE}=  resources/ADES20%Service
 ${WELL_KNOWN_PATH}=  ${UM_BASE_URL}/.well-known/uma2-configuration
 ${PEP_RESOURCE_PORT}=  31709
 ${PEP_PROXY_PORT}=  31707
-${ADES_API_URL}=  http://ades.resources.185.52.193.87.nip.io/
+${ADES_API_URL}=  http://ades.resources.185.52.193.87.nip.io
 
 *** Test Cases ***
 
 UMA getEndpoints
   UMA Get Token Endpoint  ${WELL_KNOWN_PATH}  
 
-#UMA Ticket Test
-#  UMA Get Ticket Valid  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}
+UMA Ticket Test
+  UMA Get Ticket Valid  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}
 
 UMA Authenticate test
   ${resp}=  Scim Client Get Details
@@ -157,4 +157,4 @@ PEP Delete Resource
 Cleanup
   OperatingSystem.Remove File  ${CURDIR}${/}1.txt
   #OperatingSystem.Remove File  ${CURDIR}${/}res_id.txt
-  PEP Delete Resource  ${ADES_API_URL}
+  #PEP Delete Resource  ${ADES_API_URL}
