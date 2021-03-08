@@ -366,24 +366,16 @@ class DemoClient:
         """
         headers = { 'content-type': "application/json", "cache-control": "no-cache", "Authorization": "Bearer "+id_token }
         res=""
-        dir_path = os.path.dirname(os.path.realpath(__file__))
         if policy_id:
-            res = self.session.post(pdp_base_url + "/policy/" + policy_id, headers=headers, json=policy_cfg, verify=False)
+            res = self.session.put(pdp_base_url + "/policy/" + policy_id, headers=headers, json=policy_cfg, verify=False)
         elif resource_id: 
             data={"resource_id": str(resource_id)}
             res = self.session.get(pdp_base_url+"/policy/", headers=headers, json=data, verify=False)
             policyId= json.loads(res.text)
             for k in policyId['policies']:
-                f = open(dir_path+"/alvl.txt", "a")
-                f.write('"'+str(k)+'"' + '\n')
                 policyId = k['_id']
-                f.write('"'+str(policyId)+'"' + '\n')
-                f.close()
-                
-               
-            res = self.session.post(pdp_base_url + "/policy/" + policyId, headers=headers, json=policy_cfg, verify=False)
+            res = self.session.put(pdp_base_url + "/policy/" + policyId, headers=headers, json=policy_cfg, verify=False)
         else: res = None
-
         if res.status_code == 401:
             return 401, res.headers["Error"]
         if res.status_code == 200:
@@ -412,3 +404,22 @@ class DemoClient:
         for k in json.loads(res.text):
             if name in k['_name']:
                 return k['_id']
+
+    @keyword(name='Clean State Resources')
+    def clean_state_resources(self, pep_resource_url, id_token):
+        """Get Resource By Name
+        Returns a resource_id matched by name
+        """
+        headers = { 'content-type': "application/x-www-form-urlencoded", "cache-control": "no-cache", "Authorization": "Bearer "+id_token}
+        for k in self.state["resources"][pep_resource_url]:
+            res = self.session.delete(pep_resource_url + "/resources/" + str(self.state["resources"][pep_resource_url][k]), headers=headers, verify=False)
+
+    @keyword(name='Clean Owner Resources')
+    def clean_owner_resources(self, pep_resource_url, id_token):
+        """Get Resource By Name
+        Returns a resource_id matched by name
+        """
+        headers = { 'content-type': "application/x-www-form-urlencoded", "cache-control": "no-cache", "Authorization": "Bearer "+id_token}
+        res = self.session.get( pep_resource_url +"/resources", headers=headers, verify=False)
+        for k in json.loads(res.text):
+            res = self.session.delete(pep_resource_url + "/resources/" + k['_id'], headers=headers, verify=False)
