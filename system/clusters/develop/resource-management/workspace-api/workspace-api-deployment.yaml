@@ -27,7 +27,7 @@ spec:
       serviceAccountName: workspace-api
       containers:
       - name: workspace-api
-        image: 'registry.gitlab.eox.at/eox/hub/workspace-api:0.0.9'
+        image: 'registry.gitlab.eox.at/eox/hub/workspace-api:0.0.10'
         ports:
         - name: http
           containerPort: 8080
