@@ -101,22 +101,25 @@ def main():
         if status == 'failed': 
             print(response)
             break
-        if status == 'successful':  
+        if status == 'successful':
+            print("zzzDebug: response...")
+            print(response)
+            print("zzzDebug: href[0]...")
             print(response['links'][0]['href'])
             break
         else:
             print('Polling - {}'.format(status))
             sleep(30)
 
-    # # API Proc Get Job Result
-    # print("\n### API Proc Get Job Result ###")
-    # r, access_token = demo.proc_get_job_result(active_ades_url, job_location_path, id_token=user_id_token, access_token=access_token)
-    # response = r.json()
+    # API Proc Get Job Result
+    print("\n### API Proc Get Job Result ###")
+    r, access_token = demo.proc_get_job_result(active_ades_url, job_location_path, id_token=user_id_token, access_token=access_token)
+    response = r.json()
 
-    # # API Proc Undeploy Application
-    # print("\n### API Proc Undeploy Application ###")
-    # app_name = "s-expression-0_0_2"
-    # response, access_token = demo.proc_undeploy_application(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
+    # API Proc Undeploy Application
+    print("\n### API Proc Undeploy Application ###")
+    app_name = "s-expression-0_0_2"
+    response, access_token = demo.proc_undeploy_application(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
 
     # #===========================================================================
     # # WPS

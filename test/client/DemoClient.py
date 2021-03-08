@@ -319,6 +319,9 @@ class DemoClient:
         url = service_base_url + "/processes/" + app_name + "/jobs"
         headers = { "Accept": "application/json", "Content-Type": "application/json", "Prefer": "respond-async" }
         r, access_token = self.uma_http_request(self.session.post, url, headers=headers, id_token=id_token, access_token=access_token, json=app_execute_body)
+        print("zzzDebug: execute response = ", r)
+        print("zzzDebug: execute response headers = ", r.headers)
+        print("zzzDebug: execute response body = ", r.text)
         try:
             job_location = r.headers['Location']
         except:
