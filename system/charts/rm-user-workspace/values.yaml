@@ -1,3 +1,6 @@
+global:
+  namespace: rm-user1
+
 vs:
   config:
     general:
