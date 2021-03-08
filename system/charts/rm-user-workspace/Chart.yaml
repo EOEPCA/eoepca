@@ -28,6 +28,6 @@ dependencies:
     version: "0.3.21"
     repository: "https://charts-public.hub.eox.at/"
 
-  - name: "catalogue"
+  - name: "rm-resource-catalogue"
     version: 0.1.5
     repository: "file://../rm-resource-catalogue"

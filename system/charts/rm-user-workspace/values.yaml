@@ -278,7 +278,7 @@ vs:
     cluster:
       enabled: false
 
-catalogue:
+rm-resource-catalogue:
   global:
     namespace: rm-user1
   db:
