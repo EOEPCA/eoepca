@@ -72,6 +72,11 @@ The release demonstrates the following capabilities:
   * Processing stage-in using STAC file to describe inputs
   * Processing stage-out to S3 bucket
   * Processing stage-out using STAC file to describe outputs
+* Sample application<br>
+  Three application packages based-upon s-expression:
+  * App s-expression
+  * App Water Mask
+  * App NVDI
 
 
 ## What's new
@@ -247,6 +252,13 @@ Additional container images:
 
 * Version: 0.3
 * README: https://github.com/EOEPCA/proc-pde/blob/0.3/README.md
+
+
+### Sample Application - s-expression
+
+Sample application with 3 application packages for deployment and execution on the ADES.
+
+* README: https://github.com/EOEPCA/app-s-expression/blob/main/README.md
 
 
 ## Resource Management
