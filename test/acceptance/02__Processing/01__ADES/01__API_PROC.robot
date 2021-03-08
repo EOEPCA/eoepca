@@ -9,7 +9,7 @@ Suite Teardown  Suite Teardown
 
 
 *** Variables ***
-${USERNAME}=  eoepcauser
+${USERNAME}=  adestest
 ${PASSWORD}=  defaultPWD
 ${ADES_WORKSPACE}=  ${USERNAME}
 ${PROCESS_NAME}=  s-expression-0_0_2
@@ -31,8 +31,8 @@ Deploy Application
 Get Application Details
   Get Application Details  ${PROCESS_NAME}
 
-# Execute Application
-#   Execute Application Success  ${PROCESS_NAME}  ${CURDIR}${/}data/app-execute-body.json
+Execute Application
+  Execute Application Success  ${PROCESS_NAME}  ${CURDIR}${/}data/app-execute-body.json
 
 Undeploy Application
   Undeploy Application  ${PROCESS_NAME}

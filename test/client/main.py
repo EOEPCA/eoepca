@@ -5,12 +5,12 @@ from time import sleep
 
 def main():
     print("\n### TEST CLIENT ###")
-    USER_NAME="eoepcauser"
+    USER_NAME="adestest"
     USER_PASSWORD="defaultPWD"
     base_url = "https://test.185.52.193.87.nip.io"
     ades_resource_api_url = "http://ades.resources.185.52.193.87.nip.io"
     ades_url = "http://ades.test.185.52.193.87.nip.io"
-    ades_user = "eoepcauser"
+    ades_user = USER_NAME
     ades_user_prefix = "/" + ades_user
 
     #===========================================================================
