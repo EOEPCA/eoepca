@@ -6,7 +6,7 @@ Library  XML
 Library  ../../../client/DemoClient.py  ${UM_BASE_URL}
 
 Suite Setup  Suite Setup
-Suite Teardown  Suite Teardown
+#Suite Teardown  Suite Teardown
 
 
 *** Variables ***
@@ -25,6 +25,7 @@ ${ACCESS_TOKEN}=
 ${PEP_RESOURCE_PORT}=  31709
 
 *** Test Cases ***
+
 Initial Process List
   List Processes
 
@@ -40,35 +41,36 @@ Protected Application Deployment
   # </TBC>
   User B Unauthorized Undeploy
   User B Unauthorized Policy Change
+  
+Protected Application Execution
+  User A Deploys Proc1
+  
+  User A Executes Proc1
+  # Manual Registration of Status Job processes
+  # <TBC>
+  #PEP Register Resource  ${LOCATION}  ADES Status Job
+  # </TBC>
+  User B Unauthorized Executes Proc2
+  User B Unauthorized Status Job1
+  User A Authorized Status Proc1
+
+Execution Status Sharing
+  User A Authorized Status Policy Change
+  User B Authorized Status Job1
 
 Application Sharing
   User A Authorized Application Policy Change
   User B Authorized Execution
   User B Authorized Undeploy
-  
-Protected Application Execution
-  User A Deploys Proc1
-  # Manual Registration of Undeploy and Execute processes
-  # <TBC>
-  PEP Register Resource  /UserA/wps3/processes/s-expression-0_0_2  ADES Deploy Proc2
-  PEP Register Resource  /UserA/wps3/processes/s-expression-0_0_2/jobs  ADES Execute Proc2
-  # </TBC>
-  User A Executes Proc1
-  # Manual Registration of Status Job processes
-  # <TBC>
-  PEP Register Resource  ${LOCATION}  ADES Status Job
-  # </TBC>
-  User B Unauthorized Executes Proc2
-  User B Unauthorized Status Job1
-  User A Authorized Status Proc1
-  
-Execution Status Sharing
-  User A Authorized Status Policy Change
-  User B Authorized Status Job1
+
+Clean Resources
+  Sleep  5
+  Clean Owner Resources  ${ADES_RESOURCES_API_URL}  ${ID_TOKEN_USER_A}
+  Clean Owner Resources  ${ADES_RESOURCES_API_URL}  ${ID_TOKEN_USER_B}
+
 
 *** Keywords ***
 
-  
 #######   SUITE SETUP
 
 Suite Setup
@@ -81,7 +83,7 @@ Suite Teardown
 
 Init ID Token UserA
   [Arguments]  ${username}  ${password}
-  ${id_token}=  DemoClient.Get ID Token  ${username}  ${password}
+  ${id_token}=  Get ID Token  ${username}  ${password}
   Should Be True  $id_token is not None
   Set Suite Variable  ${ID_TOKEN_USER_A}  ${id_token}
   
@@ -121,11 +123,11 @@ List Processes No Auth
 #######   PROTECTED APPLICATION DEPLOYMENT
 
 User A Deploys Proc1
-  ${r}  ${access_token}=  DemoClient.Proc Deploy App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  ${CURDIR}/data${/}app-deploy-body.json  ${ID_TOKEN_USER_A}
+  ${r}  ${access_token}=  Proc Deploy App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  ${CURDIR}/data${/}app-deploy-body.json  ${ID_TOKEN_USER_A}
   Status Should Be  201  ${r}
 
 User B Unauthorized Undeploy
-  ${r}  ${access_token}=  DemoClient.Proc Undeploy App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  s-expression-0_0_2  ${ID_TOKEN_USER_B}
+  ${r}  ${access_token}=  Proc Undeploy App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  s-expression-0_0_2  ${ID_TOKEN_USER_B}
   Status Should Be  401  ${r}
   Should Be True  $access_token is None
 
@@ -152,18 +154,23 @@ User A Authorized Application Policy Change
  
 User B Authorized Execution
   ${r}  ${access_token}  ${location}=  Proc Execute App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  s-expression-0_0_2  ${CURDIR}/data${/}app-execute-body.json  ${ID_TOKEN_USER_B}
+  #Set Global Variable  ${LOCATION}  ${location}
   Status Should Be  201  ${r}
   
 User B Authorized Undeploy
-  ${r}  ${access_token}=  DemoClient.Proc Undeploy App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  s-expression-0_0_2  ${ID_TOKEN_USER_B}
+  ${r}  ${access_token}=  Proc Undeploy App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  s-expression-0_0_2  ${ID_TOKEN_USER_B}
   Status Should Be  200  ${r}
   
 #######   PROTECTED APPLICATION EXECUTION
- 
+ User A Executes Proc2
+  ${r}  ${access_token}  ${location}=  Proc Execute App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  s-expression-0_0_22  ${CURDIR}/data${/}app-execute-body.json  ${ID_TOKEN_USER_A}
+  Set Global Variable  ${LOCATION}  ${location}
+  Status Should Be  201  ${r}
+
 User A Executes Proc1
   ${r}  ${access_token}  ${location}=  Proc Execute App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  s-expression-0_0_2  ${CURDIR}/data${/}app-execute-body.json  ${ID_TOKEN_USER_A}
   Set Global Variable  ${LOCATION}  ${location}
-  Status Should Be  200  ${r}
+  Status Should Be  201  ${r}
 
 User B Unauthorized Executes Proc2
   ${r}  ${access_token}  ${location}=  Proc Execute App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  s-expression-0_0_2  ${CURDIR}/data${/}app-execute-body.json  ${ID_TOKEN_USER_B}
@@ -219,5 +226,5 @@ Get Resources Execute UserA
   [Return]  ${res_id}
 
 Get Resources Status UserA
-  ${res_id}=  Get Resource By Name  ${ADES_RESOURCES_API_URL}  ADES Status Job  ${ID_TOKEN_USER_A}
+  ${res_id}=  Get Resource By Name  ${ADES_RESOURCES_API_URL}  s-expression-0_0_2  ${ID_TOKEN_USER_A}
   [Return]  ${res_id}
