@@ -7,6 +7,7 @@ import json
 from urllib.parse import urlparse
 from eoepca_scim import EOEPCA_Scim, ENDPOINT_AUTH_CLIENT_POST
 from robot.api.deco import library, keyword
+from pprint import pprint
 
 @library
 class DemoClient:
@@ -261,7 +262,8 @@ class DemoClient:
         url = service_base_url + "/processes"
         headers = { "Accept": "application/json" }
         r, access_token = self.uma_http_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
-        print(f"[Process List]=({r.status_code}-{r.reason})={r.text}")
+        print(f"[Process List]=({r.status_code}-{r.reason})")
+        pprint(r.text)
         return r, access_token
 
     @keyword(name='Proc Deploy App')
@@ -313,9 +315,26 @@ class DemoClient:
             print(f"ERROR could not find application execute details file: {app_execute_body_filename}")
         except json.decoder.JSONDecodeError:
             print(f"ERROR loading application execute details from file: {app_execute_body_filename}")
+
+
+        
+        import logging
+        from http.client import HTTPConnection  # py3
+
+        log = logging.getLogger('urllib3')
+        log.setLevel(logging.DEBUG)
+
+        # logging from urllib3 to console
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.DEBUG)
+        log.addHandler(ch)
+
+        # print statements from `http.client.HTTPConnection` to console/stdout
+        HTTPConnection.debuglevel = 1
+
         # make request
         url = service_base_url + "/processes/" + app_name + "/jobs"
-        headers = { "Accept": "application/json", "Content-Type": "application/json", "Prefer": "respond-async" }
+        headers = { "Accept": "application/json", "Content-Type": "application/json" }
         r, access_token = self.uma_http_request(self.session.post, url, headers=headers, id_token=id_token, access_token=access_token, json=app_execute_body)
         try:
             job_location = r.headers['Location']
@@ -328,6 +347,8 @@ class DemoClient:
     def proc_get_job_status(self, service_base_url, job_location, id_token=None, access_token=None):
         """Get the job status from the supplied location
         """
+        print(f"service_base_url: {service_base_url}")
+        print(f"job_location: {job_location}")
         url = service_base_url + job_location
         headers = { "Accept": "application/json" }
         r, access_token = self.uma_http_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)

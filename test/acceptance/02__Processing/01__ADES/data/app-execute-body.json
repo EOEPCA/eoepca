@@ -39,6 +39,6 @@
       "transmissionMode": "value"
     }
   ],
-  "mode": "async",
+  "mode": "auto",
   "response": "raw"
 }

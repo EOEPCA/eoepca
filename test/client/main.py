@@ -3,6 +3,9 @@
 import DemoClient as client
 from time import sleep
 
+from pprint import pprint
+
+
 def main():
     print("\n### TEST CLIENT ###")
     USER_NAME="eoepcauser"
@@ -72,18 +75,21 @@ def main():
     # API Proc List Processes
     print("\n### API Proc List Processes ###")
     response, access_token = demo.proc_list_processes(ades_proc_url, id_token=user_id_token, access_token=access_token)
-    # print("access token:", access_token)
+    print("access token:", access_token, "\n")
 
     # API Proc Deploy Application
     print("\n### API Proc Deploy Application ###")
     response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body.json", id_token=user_id_token, access_token=access_token)
-    # print("access token:", access_token)
+    print("access token:", access_token)
 
     # API Proc Get Application Details
+    sleep(5) 
     print("\n### API Proc Get Application Details ###")
     app_name = "s-expression-0_0_2"
     response, access_token = demo.proc_get_app_details(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
-    # print("access token:", access_token)
+    print("access token:", access_token)
+
+
 
     # API Proc Execute Application
     print("\n### API Proc Execute Application ###")
@@ -109,14 +115,14 @@ def main():
             sleep(30)
 
     # # API Proc Get Job Result
-    # print("\n### API Proc Get Job Result ###")
-    # r, access_token = demo.proc_get_job_result(active_ades_url, job_location_path, id_token=user_id_token, access_token=access_token)
-    # response = r.json()
+    print("\n### API Proc Get Job Result ###")
+    r, access_token = demo.proc_get_job_result(active_ades_url, job_location_path, id_token=user_id_token, access_token=access_token)
+    response = r.json()
 
-    # # API Proc Undeploy Application
-    # print("\n### API Proc Undeploy Application ###")
-    # app_name = "s-expression-0_0_2"
-    # response, access_token = demo.proc_undeploy_application(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
+    # API Proc Undeploy Application
+    print("\n### API Proc Undeploy Application ###")
+    app_name = "s-expression-0_0_2"
+    response, access_token = demo.proc_undeploy_application(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
 
     # #===========================================================================
     # # WPS
