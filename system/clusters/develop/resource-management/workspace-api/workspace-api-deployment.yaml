@@ -58,11 +58,11 @@ spec:
         - name: WORKSPACE_CONFIG_MAP_NAME
           value: "workspace"
         - name: GIT_REPO_RESOURCE_FOR_HELM_CHART_NAME
-          value: "helm-charts-for-workspace"
+          value: "flux-system"
         - name: GIT_REPO_RESOURCE_FOR_HELM_CHART_NAMESPACE
-          value: "rm"
+          value: "flux-system"
         - name: HELM_CHART_NAME
-          value: "./system/clusters/develop/charts/workspace"
+          value: "./system/charts/rm-user-workspace"
         - name: HELM_CHART_VERSION
           value: "0.0.0"
         resources:
