@@ -27,7 +27,7 @@ spec:
       serviceAccountName: workspace-api
       containers:
       - name: workspace-api
-        image: 'registry.gitlab.eox.at/eox/hub/workspace-api:0.0.6'
+        image: 'registry.gitlab.eox.at/eox/hub/workspace-api:0.0.13'
         ports:
         - name: http
           containerPort: 8080
@@ -51,18 +51,18 @@ spec:
         env:
         - name: PREFIX_FOR_NAME
           value: "rm-user"
-        - name: WORKSPACE_SECRET_NAME_TEMPLATE
-          value: "dev-bucket-{workspace_name}"
-        - name: WORKSPACE_SECRET_NAMESPACE
+        - name: WORKSPACE_SECRET_NAME
+          value: "bucket"
+        - name: NAMESPACE_FOR_BUCKET_RESOURCE
           value: "rm"
         - name: WORKSPACE_CONFIG_MAP_NAME
           value: "workspace"
         - name: GIT_REPO_RESOURCE_FOR_HELM_CHART_NAME
-          value: "helm-charts-for-workspace"
+          value: "flux-system"
         - name: GIT_REPO_RESOURCE_FOR_HELM_CHART_NAMESPACE
-          value: "rm"
+          value: "flux-system"
         - name: HELM_CHART_NAME
-          value: "./system/clusters/develop/charts/workspace"
+          value: "./system/charts/rm-user-workspace"
         - name: HELM_CHART_VERSION
           value: "0.0.0"
         resources:
