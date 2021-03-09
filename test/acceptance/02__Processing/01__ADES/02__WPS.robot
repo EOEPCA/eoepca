@@ -26,19 +26,24 @@ ${PEP_RESOURCE_PORT}=  31709
 
 
 *** Test Cases ***
-Initial Process List
-  Initial Process List
+Initial Process List (TBD)
+  # Initial Process List
+  Log  Initial Process List is TBD
 
-Attempt Unauthorised Access
-  List Processes No Auth
+Attempt Unauthorised Access (TBD)
+  # List Processes No Auth
+  Log  List Processes No Auth is TBD
+
 
 *** Keywords ***
 Suite Setup
-  Init ID Token  ${USERNAME}  ${PASSWORD}
-  Init Resource Protection
+  # Init ID Token  ${USERNAME}  ${PASSWORD}
+  # Init Resource Protection
+  Log  Suite Setup is TBD
 
 Suite Teardown
-  Client Save State
+  # Client Save State
+  Log  Suite Teardown is TBD
 
 Init ID Token
   [Arguments]  ${username}  ${password}
