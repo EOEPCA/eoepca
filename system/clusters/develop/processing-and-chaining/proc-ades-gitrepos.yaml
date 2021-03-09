@@ -7,5 +7,6 @@ metadata:
 spec:
   interval: 30s
   ref:
-    branch: develop
+    # branch: develop
+    commit: 588f3ca
   url: https://github.com/EOEPCA/proc-ades
