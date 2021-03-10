@@ -9,7 +9,7 @@ Suite Teardown  Suite Teardown
 
 
 *** Variables ***
-${USERNAME}=  adestest
+${USERNAME}=  UserA
 ${PASSWORD}=  defaultPWD
 ${ADES_WORKSPACE}=  ${USERNAME}
 ${PROCESS_NAME}=  s-expression-0_0_2
