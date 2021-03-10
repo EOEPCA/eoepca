@@ -119,13 +119,14 @@ Policy Decision Point (PDP) | https://github.com/EOEPCA/um-pep-engine | https://
 Building Block | Repository | Documentation
 ---------------|------------|--------------
 Application Deployment & Execution Service (ADES) | https://github.com/EOEPCA/proc-ades | https://eoepca.github.io/proc-ades/
+Processor Development Environment (PDE) | https://github.com/EOEPCA/proc-pde | https://github.com/EOEPCA/proc-pde/blob/master/README.md
 
 ### Resource Management
 
 Building Block | Repository | Documentation
 ---------------|------------|--------------
 Resource Catalogue | https://github.com/geopython/pycsw | https://eoepca.github.io/rm-resource-catalogue/
-Data Access Services | TBD | TBD
+Data Access Services | TBD | https://eoepca.github.io/rm-data-access/
 
 
 <!-- Releases -->
@@ -133,7 +134,7 @@ Data Access Services | TBD | TBD
 
 EOEPCA system releases are made to provide integrated deployments of the developed building blocks. The release history is as follows:
 
-* xx/03/2021 - [Release 0.3](release-notes/release-0.3.md)
+* 10/03/2021 - [Release 0.3](release-notes/release-0.3.md)
 * 23/11/2020 - [Release 0.2](release-notes/release-0.2.md)
 * 13/08/2020 - [Release 0.1.2](release-notes/release-0.1.2.md)
 * 06/08/2020 - [Release 0.1.1](release-notes/release-0.1.1.md)
