@@ -86,6 +86,8 @@ Kubernetes Cluster | [Rancher Kubernetes Engine](./kubernetes/README.md) | [Mini
 EOEPCA System Deployment | [EOEPCA GitOps](./system/clusters/README.md) | [EOEPCA GitOps](./system/clusters/README.md)
 Acceptance Test | [Run Test Suite](./test/acceptance/README.md) | [Run Test Suite](./test/acceptance/README.md)
 
+NOTE that, with release v0.3, the number of system components has been expanded to the point where it is more difficult to make a full system deployment in minikube, due to the required resource demands.
+
 ### Hostnames and DNS
 
 To ease development/testing, the EOEPCA deployment is configured to use host/service names that embed IP-addresses - which avoids the need to configure public nameservers, (as would be necessary for a production deployment). Our services are exposed through Kubernetes ingress rules that use name-based routing, and so simple IP-addresses are insufficient. Therefore, we exploit the services of [nip.io](https://nip.io/) that provides dynamic DNS in which the hostname->IP-adress mapping is embedded in the hostname.
@@ -93,8 +95,6 @@ To ease development/testing, the EOEPCA deployment is configured to use host/ser
 Thus, we use host/service names of the form `<service-name>.<public-ip>.nip.io`, where the `<public-ip>` is the public-facing IP-address of the deployment. For cloud deployment the public IP is that of the cloud load-balancer, or for minikube it is the `minikube ip` - for example `workspace.192.168.49.2.nip.io`.
 
 The deployment scripts (linked in the above table) attempt to intelligently determine the public IP and so configure the service DNS names without intervention. For example, the output of CREODIAS infrastructure setup is interrogated to determine the IP-address of the public cloud load-balancer, which is then injected into the deployment configuration. Similarly for a local developer setup in which the 'local' kubernetes IP-address is used (deduced as the IP address of the k8s node (assumed single node)).
-
-NOTE that, with release v0.3, the number of system components has been expanded to the point where it is more difficult to make a full system deployment in minikube, due to the required resource demands.
 
 ## System Documentation
 

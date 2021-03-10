@@ -207,7 +207,6 @@ Resources to support deployment and configuration...
 * README: https://github.com/EOEPCA/um-user-profile/blob/develop/README.md
 * Wiki: https://github.com/EOEPCA/um-user-profile/wiki
 * Design: https://eoepca.github.io/um-user-profile/v0.3/
-* ICD: ???
 
 #### Containers
 
@@ -233,8 +232,8 @@ Resources to support deployment and configuration...
 * GitHub repository: https://github.com/EOEPCA/proc-ades
 * README: https://github.com/EOEPCA/proc-ades/blob/master/README.md
 * Wiki: https://github.com/EOEPCA/proc-ades/wiki
-* Design: ???
-* ICD: ???
+* Design: TBD
+* ICD: TBD
 
 #### Containers
 
