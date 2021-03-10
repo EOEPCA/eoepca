@@ -1,8 +1,0 @@
-apiVersion: epca.eo/v1alpha1
-kind: Bucket
-metadata:
-  name: bucket-{{ .Release.Namespace }}
-  namespace: rm
-spec:
-  bucketName: dev-eoepca-{{ .Release.Namespace }}
-  secretName: dev-bucket-{{ .Release.Namespace }}

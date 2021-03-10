@@ -10,7 +10,7 @@ metadata:
   name: workspace-api-rm
 rules:
   - apiGroups: [""]
-    verbs: ["get"]
+    verbs: ["get", "watch"]
     resources:
       - secrets
   - apiGroups: [""]
@@ -29,6 +29,10 @@ rules:
     verbs: ["create"]
     resources:
       - helmreleases
+  - apiGroups: ["epca.eo"]
+    verbs: ["create"]
+    resources:
+      - buckets
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1

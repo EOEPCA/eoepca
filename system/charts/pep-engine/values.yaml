@@ -23,13 +23,15 @@ global:
   nginxIp: 10.0.2.15
   proxyServicePort: 5566
   resourcesServicePort: 5576
+  proxyHost: http://demoexample.gluu.org/service
+  resourceHost: http://demoexample.gluu.org/res
 
 
 
 image: 
   statefulSetReplicas: 1
   imagePullPolicy: Always
-  image: eoepca/um-pep-engine:task203_1
+  image: eoepca/um-pep-engine:v0.3.1
 persistence: 
   accessModes: ReadWriteMany
   dbStorageSize: 5Gi
@@ -38,13 +40,11 @@ persistence:
 config:
   enabled: true
 
-# The PEP context is used to distinguish PEP instances,
-# e.g. PEP for ADES vs PEP for Catalogue etc.
 context: generic
 
-# VolumeClaim values
 volumeClaim:
   name: um-pep-engine-pvc
+
 
 ingress:
   enabled: true

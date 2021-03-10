@@ -19,11 +19,11 @@ spec:
         imagePullPolicy: {{ .Values.image.imagePullPolicy }}
         image: {{ .Values.image.image }}
         ports:
-        - name: http-pep
+        - name: proxy-pep
           containerPort: 5566
           protocol: TCP
-        - name: https-pep
-          containerPort: 443
+        - name: resources-pep
+          containerPort: 5576
           protocol: TCP
         envFrom:
         - configMapRef:

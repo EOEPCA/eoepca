@@ -1,4 +1,7 @@
 import requests
+import base64
+import os 
+import sys
 from urllib3.exceptions import InsecureRequestWarning
 import json
 from urllib.parse import urlparse
@@ -116,7 +119,7 @@ class DemoClient:
         return id_token
 
     @keyword(name='Register Protected Resource')
-    def register_protected_resource(self, service_url, uri, id_token, name, scopes):
+    def register_protected_resource(self, resource_api_url, uri, id_token, name, scopes):
         """Register a resource in the PEP
 
         Uses provided user ID token to authorise the request.
@@ -125,25 +128,27 @@ class DemoClient:
         """
         resource_id = None
         if "resources" in self.state:
-            if service_url in self.state["resources"]:
-                if uri in self.state["resources"][service_url]:
-                    resource_id = self.state["resources"][service_url][uri]
+            if resource_api_url in self.state["resources"]:
+                if uri in self.state["resources"][resource_api_url]:
+                    resource_id = self.state["resources"][resource_api_url][uri]
             else:
-                self.state["resources"][service_url] = {}
+                self.state["resources"][resource_api_url] = {}
         else:
-            self.state["resources"] = { service_url: {} }
+            self.state["resources"] = { resource_api_url: {} }
         if resource_id == None:
             headers = { 'content-type': "application/json", "Authorization": f"Bearer {id_token}" }
             data = { "resource_scopes":scopes, "icon_uri":uri, "name":name}
-            r = self.session.post(f"{service_url}/resources", headers=headers, json=data)
-            resource_id = r.text
+            r = self.session.post(f"{resource_api_url}/resources", headers=headers, json=data)
+            
+            a= json.loads(r.text)
+            resource_id= a['id']
             if resource_id:
-                self.state["resources"][service_url][uri] = resource_id
-                print(f"resource_id: {resource_id} ({service_url}{uri})")
+                self.state["resources"][resource_api_url][uri] = resource_id
+                print(f"resource_id: {resource_id} @{resource_api_url} = {uri}")
             else:
-                print(f"ERROR: Empty resource ID for {service_url}{uri}")
+                print(f"ERROR: Empty resource ID for {uri} @{resource_api_url}")
         else:
-            print(f"resource_id: {resource_id} ({service_url}{uri}) [REUSED]")
+            print(f"resource_id: {resource_id} @{resource_api_url} = {uri} [REUSED]")
         return resource_id
 
     def get_access_token_from_ticket(self, ticket, id_token):
@@ -164,7 +169,11 @@ class DemoClient:
             "scope": "openid"
         }
         r = self.session.post(self.get_token_endpoint(), headers=headers, data=data)
-        access_token = r.json()["access_token"]
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        try:
+            access_token = r.json()["access_token"]
+        except:
+            return None
         print(f"access_token: {access_token}")
         return access_token
 
@@ -310,7 +319,13 @@ class DemoClient:
         url = service_base_url + "/processes/" + app_name + "/jobs"
         headers = { "Accept": "application/json", "Content-Type": "application/json", "Prefer": "respond-async" }
         r, access_token = self.uma_http_request(self.session.post, url, headers=headers, id_token=id_token, access_token=access_token, json=app_execute_body)
-        job_location = r.headers['Location']
+        print("zzzDebug: execute response = ", r)
+        print("zzzDebug: execute response headers = ", r.headers)
+        print("zzzDebug: execute response body = ", r.text)
+        try:
+            job_location = r.headers['Location']
+        except:
+            job_location = None
         print(f"[Execute Response]=({r.status_code}-{r.reason})=> job={job_location}")
         return r, access_token, job_location
 
@@ -343,3 +358,68 @@ class DemoClient:
         r, access_token = self.uma_http_request(self.session.delete, url, headers=headers, id_token=id_token, access_token=access_token)
         print(f"[Undeploy Response]=({r.status_code}-{r.reason})={r.text}")
         return r, access_token
+
+    @keyword(name='Update Policy')
+    def update_policy(self, pdp_base_url, policy_cfg, resource_id, id_token=None, policy_id=None):
+        """Updates a policy
+        If a Policy_ID is passed there will only be ownership comprobation
+        """
+        headers = { 'content-type': "application/json", "cache-control": "no-cache", "Authorization": "Bearer "+id_token }
+        res=""
+        if policy_id:
+            res = self.session.put(pdp_base_url + "/policy/" + policy_id, headers=headers, json=policy_cfg, verify=False)
+        elif resource_id: 
+            data={"resource_id": str(resource_id)}
+            res = self.session.get(pdp_base_url+"/policy/", headers=headers, json=data, verify=False)
+            policyId= json.loads(res.text)
+            for k in policyId['policies']:
+                policyId = k['_id']
+            res = self.session.put(pdp_base_url + "/policy/" + policyId, headers=headers, json=policy_cfg, verify=False)
+        else: res = None
+        if res.status_code == 401:
+            return 401, res.headers["Error"]
+        if res.status_code == 200:
+            return 200, print(f"[Undeploy Response]=({res.status_code}-{res.reason})={res.text}")
+        return 500, print(f"[Undeploy Response]=({res.status_code}-{res.reason})={res.text}")
+    
+    @keyword(name='Get Ownership Id')
+    def get_ownership_id(self, id_token):
+        """Get ownership id
+        Returns the sub parameter from the JWT Token recibed
+        """
+        payload = str(id_token).split(".")[1]
+        paddedPayload = payload + '=' * (4 - len(payload) % 4)
+        decoded = base64.b64decode(paddedPayload)
+        decoded = decoded.decode('utf-8')
+        jwt_decoded = json.loads(decoded)
+        return jwt_decoded["sub"]
+
+    @keyword(name='Get Resource By Name')
+    def get_resource_by_name(self, pdp_base_url, name, id_token):
+        """Get Resource By Name
+        Returns a resource_id matched by name
+        """
+        headers = { 'content-type': "application/x-www-form-urlencoded", "cache-control": "no-cache", "Authorization": "Bearer "+id_token}
+        res = requests.get( pdp_base_url +"/resources", headers=headers, verify=False)
+        for k in json.loads(res.text):
+            if name in k['_name']:
+                return k['_id']
+
+    @keyword(name='Clean State Resources')
+    def clean_state_resources(self, pep_resource_url, id_token):
+        """Get Resource By Name
+        Returns a resource_id matched by name
+        """
+        headers = { 'content-type': "application/x-www-form-urlencoded", "cache-control": "no-cache", "Authorization": "Bearer "+id_token}
+        for k in self.state["resources"][pep_resource_url]:
+            res = self.session.delete(pep_resource_url + "/resources/" + str(self.state["resources"][pep_resource_url][k]), headers=headers, verify=False)
+
+    @keyword(name='Clean Owner Resources')
+    def clean_owner_resources(self, pep_resource_url, id_token):
+        """Get Resource By Name
+        Returns a resource_id matched by name
+        """
+        headers = { 'content-type': "application/x-www-form-urlencoded", "cache-control": "no-cache", "Authorization": "Bearer "+id_token}
+        res = self.session.get( pep_resource_url +"/resources", headers=headers, verify=False)
+        for k in json.loads(res.text):
+            res = self.session.delete(pep_resource_url + "/resources/" + k['_id'], headers=headers, verify=False)

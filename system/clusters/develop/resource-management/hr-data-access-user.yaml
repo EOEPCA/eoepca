@@ -220,7 +220,7 @@ spec:
     registrar:
       image:
         repository: eoepca/rm-data-access-core
-        tag: latest
+        tag: 0.3
         pullPolicy: Always
       replicaCount: 1
       resources:
@@ -234,7 +234,7 @@ spec:
     renderer:
       image:
         repository: eoepca/rm-data-access-core
-        tag: latest
+        tag: 0.3
         pullPolicy: Always
       replicaCount: 1
       resources:

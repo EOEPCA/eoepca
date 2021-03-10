@@ -6,4 +6,6 @@ BIN_DIR="$(pwd)"
 
 trap "cd '${ORIG_DIR}'" EXIT
 
-7z a -p cluster.7z cluster.yml cluster.rkestate kube_config_cluster.yml
+for f in $(s3cmd ls s3://processing_results/wf-* | awk '{print $2}'); do
+  s3cmd rm $f --recursive
+done

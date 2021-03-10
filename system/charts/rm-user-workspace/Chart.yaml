@@ -1,8 +1,7 @@
-apiVersion: v1
-name: pep-engine
-description: A Helm chart for PEP Engine
-maintainers:
-    - name: eoepca
+apiVersion: v2
+name: rm-user-workspace
+description: A Helm chart for Kubernetes
+
 # A chart can be either an 'application' or a 'library' chart.
 #
 # Application charts are a collection of templates that can be packaged into versioned archives
@@ -16,9 +15,19 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.1.4
+version: 0.0.2
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
-appVersion: 1.0
+# It is recommended to use it with quotes.
+appVersion: "0.0.0"
+
+dependencies:
+  - name: "vs"
+    version: "0.3.26"
+    repository: "https://charts-public.hub.eox.at/"
+
+  - name: "rm-resource-catalogue"
+    version: 0.1.5
+    repository: "file://../rm-resource-catalogue"

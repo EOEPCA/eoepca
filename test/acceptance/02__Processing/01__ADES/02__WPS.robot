@@ -1,13 +1,8 @@
 *** Settings ***
 Documentation  Tests for the ADES OGC WPS endpoint
-# Resource  ADES.resource
-# Library  OperatingSystem
-# Library  String
-# Library  Process
 Library  RequestsLibrary
 Library  Collections
 Library  XML
-# Library  ./DemoClient.py  ${UM_BASE_URL}
 Library  ../../../client/DemoClient.py  ${UM_BASE_URL}
 
 Suite Setup  Suite Setup
@@ -15,14 +10,14 @@ Suite Teardown  Suite Teardown
 
 
 *** Variables ***
-${WPS_JOB_MONITOR_ROOT}=  /watchjob
-${WPS_PATH_PREFIX}=  /zoo
-${WPS_SERVICE_URL}=  ${ADES_BASE_URL}${WPS_PATH_PREFIX}
 ${USERNAME}=  UserA
 ${PASSWORD}=  defaultPWD
+${ADES_WORKSPACE}=  ${USERNAME}
+${PROCESS_NAME}=  s-expression-0_0_2
+${WPS_PATH_PREFIX}=  /${ADES_WORKSPACE}/zoo
+${WPS_SERVICE_URL}=  ${ADES_BASE_URL}${WPS_PATH_PREFIX}
 ${ID_TOKEN}=
 ${ACCESS_TOKEN}=
-${PEP_RESOURCE_PORT}=  31709
 
 
 *** Test Cases ***
@@ -32,10 +27,10 @@ Initial Process List
 Attempt Unauthorised Access
   List Processes No Auth
 
+
 *** Keywords ***
 Suite Setup
   Init ID Token  ${USERNAME}  ${PASSWORD}
-  Init Resource Protection
 
 Suite Teardown
   Client Save State
@@ -45,13 +40,6 @@ Init ID Token
   ${id_token}=  Get ID Token  ${username}  ${password}
   Should Be True  $id_token is not None
   Set Suite Variable  ${ID_TOKEN}  ${id_token}
-
-Init Resource Protection
-  @{scopes}=  Create List  Authenticated
-  ${resource_id}  Register Protected Resource  ${ADES_BASE_URL}:${PEP_RESOURCE_PORT}  ${WPS_PATH_PREFIX}  ${ID_TOKEN}  ADES WPS Service  ${scopes}
-  Should Be True  $resource_id is not None
-  ${resource_id}  Register Protected Resource  ${ADES_BASE_URL}:${PEP_RESOURCE_PORT}  ${WPS_JOB_MONITOR_ROOT}  ${ID_TOKEN}  ADES Job Monitor  ${scopes}
-  Should Be True  $resource_id is not None
 
 Initial Process List
   ${resp}=  List Processes

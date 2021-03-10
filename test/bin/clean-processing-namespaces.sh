@@ -6,4 +6,6 @@ BIN_DIR="$(pwd)"
 
 trap "cd '${ORIG_DIR}'" EXIT
 
-7z a -p cluster.7z cluster.yml cluster.rkestate kube_config_cluster.yml
+for f in $(kubectl get ns | grep s-expression | awk '{ print $1 }'); do
+  kubectl delete ns/$f
+done
