@@ -221,9 +221,9 @@ Resources to support deployment and configuration...
 
 ### ADES
 
-* Version: 0.3
-* Chart version: 0.1.0
-* Helm chart: https://github.com/EOEPCA/eoepca/tree/v0.3/system/charts/ades
+* Version: 0.3.1
+* Chart version: 0.1.2
+* Helm chart: https://github.com/EOEPCA/proc-ades/tree/v0.3.2/charts/ades
 * Example: https://github.com/EOEPCA/eoepca/blob/v0.3/system/clusters/develop/processing-and-chaining/proc-ades.yaml
 
 #### Resources
