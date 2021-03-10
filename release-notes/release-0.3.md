@@ -1,6 +1,6 @@
 # EOEPCA System - Release 0.3
 
-Release 0.3 is an initial release that includes versions of the following building blocks:
+Release 0.3 is a beta that includes versions of the following building blocks:
 * Login Service
 * User Profile
 * Policy Enforcement Point (PEP)
