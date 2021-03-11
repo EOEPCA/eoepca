@@ -49,3 +49,6 @@ image = "Ubuntu 18.04 LTS"
 
 # An array of CIDRs allowed to SSH to hosts
 bastion_allowed_remote_ips = ["0.0.0.0/0"]
+
+# Size of nfs disk in GB
+nfs_disk_size = 1024

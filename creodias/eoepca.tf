@@ -74,8 +74,8 @@ module "compute" {
   wait_for_floatingip                          = "${var.wait_for_floatingip}"
   use_access_ip                                = "${var.use_access_ip}"
   use_server_groups                            = "${var.use_server_groups}"
-
-  network_id = "${module.network.router_id}"
+  nfs_disk_size                                = "${var.nfs_disk_size}"
+  network_id                                   = "${module.network.router_id}"
 }
 
 module "loadbalancer" {
