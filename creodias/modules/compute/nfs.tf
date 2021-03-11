@@ -51,6 +51,8 @@ resource "openstack_blockstorage_volume_v2" "nfs_expansion" {
   size        = "${var.nfs_disk_size}"
   volume_type = "SSD"
   metadata = {
+    attached_mode    = "rw"
+    readonly         = "False"
     depends_on       = "${var.network_id}"
   }
 }
