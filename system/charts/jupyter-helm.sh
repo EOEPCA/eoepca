@@ -6,5 +6,5 @@ BIN_DIR="$(pwd)"
 
 trap "cd '${ORIG_DIR}'" EXIT
 
-# helm upgrade -i -f storage-values.yaml rac-storage storage
+# helm upgrade -i -f jupyter-values.yaml rac-jupyter jupyter
 helm template -f jupyter-values.yaml rac-jupyter jupyter
