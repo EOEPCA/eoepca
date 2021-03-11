@@ -17,7 +17,9 @@ spec:
       containers:
       - name: jupyter
         image: {{ .Values.image.image }}
+{{- if .Values.image.imagePullPolicy }}
         imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+{{- end }}
         ports:
         - name: http-jupyter
           containerPort: 80

@@ -3,7 +3,7 @@ hostname: 192.168.49.2.nip.io
 
 image:
   image: eoepca/jupyter-demo
-  imagePullPolicy: IfNotPresent
+  # imagePullPolicy: IfNotPresent
 
 service:
   port: 80
