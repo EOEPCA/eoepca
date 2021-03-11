@@ -173,7 +173,7 @@ class DemoClient:
             access_token = r.json()["access_token"]
         except:
             return None
-        print(f"access_token: {access_token}")
+        #print(f"access_token: {access_token}")
         return access_token
 
     def get_access_token_from_password(self, username, password):
@@ -191,7 +191,7 @@ class DemoClient:
         }
         r = self.session.post(self.get_token_endpoint(), headers=headers, data=data)
         access_token = r.json()["access_token"]
-        print(f"access_token: {access_token}")
+        #print(f"access_token: {access_token}")
         return access_token
 
     def uma_http_request(self, requestor, url, headers=None, id_token=None, access_token=None, json=None, data=None):
@@ -263,7 +263,8 @@ class DemoClient:
         headers = { "Accept": "application/json" }
         r, access_token = self.uma_http_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
         print(f"[Process List]=({r.status_code}-{r.reason})")
-        pprint(r.text)
+        parsed = json.loads(r.text)
+        print(json.dumps(parsed, indent=4))
         return r, access_token
 
     @keyword(name='Proc Deploy App')
@@ -296,7 +297,9 @@ class DemoClient:
         url = service_base_url + "/processes/" + app_name
         headers = { "Accept": "application/json" }
         r, access_token = self.uma_http_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
-        print(f"[App Details]=({r.status_code}-{r.reason})={r.text}")
+        print(f"[App Details]=({r.status_code}-{r.reason})=")
+        parsed = json.loads(r.text)
+        print(json.dumps(parsed, indent=4))
         return r, access_token
 
     @keyword(name='Proc Execute App')
@@ -317,21 +320,6 @@ class DemoClient:
             print(f"ERROR loading application execute details from file: {app_execute_body_filename}")
 
 
-        
-        import logging
-        from http.client import HTTPConnection  # py3
-
-        log = logging.getLogger('urllib3')
-        log.setLevel(logging.DEBUG)
-
-        # logging from urllib3 to console
-        ch = logging.StreamHandler()
-        ch.setLevel(logging.DEBUG)
-        log.addHandler(ch)
-
-        # print statements from `http.client.HTTPConnection` to console/stdout
-        HTTPConnection.debuglevel = 1
-
         # make request
         url = service_base_url + "/processes/" + app_name + "/jobs"
         headers = { "Accept": "application/json", "Content-Type": "application/json" }
@@ -347,12 +335,13 @@ class DemoClient:
     def proc_get_job_status(self, service_base_url, job_location, id_token=None, access_token=None):
         """Get the job status from the supplied location
         """
-        print(f"service_base_url: {service_base_url}")
-        print(f"job_location: {job_location}")
         url = service_base_url + job_location
         headers = { "Accept": "application/json" }
         r, access_token = self.uma_http_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
-        print(f"[Job Status]=({r.status_code}-{r.reason})={r.text}")
+        print(f"[Job Status]=({r.status_code}-{r.reason})=")
+        parsed = json.loads(r.text)
+        print(json.dumps(parsed, indent=4))
+
         return r, access_token
 
     def proc_get_job_result(self, service_base_url, job_location, id_token=None, access_token=None):
@@ -361,7 +350,9 @@ class DemoClient:
         url = service_base_url + job_location + "/result"
         headers = { "Accept": "application/json" }
         r, access_token = self.uma_http_request(self.session.get, url, headers=headers, id_token=id_token, access_token=access_token)
-        print(f"[Job Result]=({r.status_code}-{r.reason})={r.text}")
+        print(f"[Job Result]=({r.status_code}-{r.reason})=")
+        parsed = json.loads(r.text)
+        print(json.dumps(parsed, indent=4))
         return r, access_token
 
     @keyword(name='Proc Undeploy App')

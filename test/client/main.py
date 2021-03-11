@@ -2,8 +2,7 @@
 
 import DemoClient as client
 from time import sleep
-
-from pprint import pprint
+import json
 
 
 def main():
@@ -13,7 +12,8 @@ def main():
     base_url = "https://test.185.52.193.87.nip.io"
     ades_resource_api_url = "http://ades.resources.185.52.193.87.nip.io"
     ades_url = "http://ades.test.185.52.193.87.nip.io"
-    ades_user = "eoepcauser"
+    #ades_user = "eoepcauser"
+    ades_user = "rconway"
     ades_user_prefix = "/" + ades_user
 
     #===========================================================================
@@ -82,8 +82,8 @@ def main():
     response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body.json", id_token=user_id_token, access_token=access_token)
     print("access token:", access_token)
 
-    # API Proc Get Application Details
-    sleep(5) 
+    # # API Proc Get Application Details
+    sleep(10) 
     print("\n### API Proc Get Application Details ###")
     app_name = "s-expression-0_0_2"
     response, access_token = demo.proc_get_app_details(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
@@ -94,6 +94,21 @@ def main():
     # API Proc Execute Application
     print("\n### API Proc Execute Application ###")
     app_name = "s-expression-0_0_2"
+
+    print(f"app name: {app_name}")
+    print("# Parsing inputs:")
+
+    with open("../acceptance/02__Processing/01__ADES/data/app-execute-body.json") as json_file:
+        data = json.load(json_file)
+        for input in data["inputs"]:
+            print(f"name: {input['id']}")
+            if "value" in input['input']:
+                print(f"value: {input['input']['value']}")
+            else:
+                print(f"href: {input['input']['href']}")
+            print("\n")
+
+    print("# End Parsing inputs\n")
     response, access_token, job_location_path = demo.proc_execute_application(ades_proc_url, app_name, "../acceptance/02__Processing/01__ADES/data/app-execute-body.json", id_token=user_id_token, access_token=access_token)
 
     # API Proc Get Job Status
@@ -101,6 +116,7 @@ def main():
     print("\n### API Proc Get Job Status ###")
     status = "running"
     while status == 'running':
+        print("\n# Polling Job Status #")
         r, access_token = demo.proc_get_job_status(active_ades_url, job_location_path, id_token=user_id_token, access_token=access_token)
         response = r.json()
         status = response['status']
@@ -119,10 +135,10 @@ def main():
     r, access_token = demo.proc_get_job_result(active_ades_url, job_location_path, id_token=user_id_token, access_token=access_token)
     response = r.json()
 
-    # API Proc Undeploy Application
-    print("\n### API Proc Undeploy Application ###")
-    app_name = "s-expression-0_0_2"
-    response, access_token = demo.proc_undeploy_application(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
+    # # API Proc Undeploy Application
+    # print("\n### API Proc Undeploy Application ###")
+    # app_name = "s-expression-0_0_2"
+    # response, access_token = demo.proc_undeploy_application(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
 
     # #===========================================================================
     # # WPS
