@@ -3,16 +3,22 @@
 
 ## Application Package in Catalogue
 
-### Atom Feed
+### OGC OWS Context Offering
 
-* `<entry>`
-  * `<owc:offering code="http://www.opengis.net/eoc/applicationContext/cwl">`
-    * `<owc:content type="application/cwl">`<br>
-      See [Application Package](#application-package)
+Provided as an entry in an atom feed...
+
+```xml
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <entry>
+    <owc:offering code="http://www.opengis.net/eoc/applicationContext/cwl">
+      <owc:content type="application/cwl">
+```
+
+For content, see [Application Package](#application-package).
 
 ## Application Package
 
-Standard CWL...
+Specified as a standard CWL `Workflow`...
 
 ```
 cwlVersion: v1.0
@@ -41,11 +47,9 @@ cwlVersion: v1.0
 
 ## Application Deployment
 
-POST body...
+This is treated as an 'API Processes' execute request of a 'DeployProcess' application, with an `applicationPackage` input parameter that provides the CWL.
 
-**QUESTIONS:**
-* Is this a standard format?
-* How to embed the application package inline, rather than by href?
+POST body...
 
 ```
 {
@@ -77,6 +81,9 @@ POST body...
   "response": "raw"
 }
 ```
+
+**QUESTIONS:**
+* How to embed the application package inline, rather than by href?
 
 ## Execute Application
 
