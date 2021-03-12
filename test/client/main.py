@@ -76,7 +76,13 @@ def main():
 
     # API Proc Deploy Application
     print("\n### API Proc Deploy Application ###")
-    response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body.json", id_token=user_id_token, access_token=access_token)
+    #
+    # ...by atom feed (application/atom+xml) - with entry containing an OGC OWS Context Offering with application/cwl content...
+    response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body-atom.json", id_token=user_id_token, access_token=access_token)
+    #
+    # ...pure CWL (application/cwl)...
+    # response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body-cwl.json", id_token=user_id_token, access_token=access_token)
+    #
     # print("access token:", access_token)
 
     # API Proc Get Application Details
