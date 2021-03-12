@@ -4,9 +4,9 @@
       "id": "applicationPackage",
       "input": {
         "format": {
-          "mimeType": "application/xml"
+          "mimeType": "application/atom+xml"
         },
-        "href": "https://catalog.terradue.com/eoepca-services/search?uid=app-s-expression"
+        "href": "https://raw.githubusercontent.com/EOEPCA/eoepca/develop/test/acceptance/02__Processing/01__ADES/data/application-package-atom.xml"
       }
     }
   ],
@@ -21,6 +21,6 @@
       "transmissionMode": "value"
     }
   ],
-  "mode": "auto",
+  "mode": "sync",
   "response": "raw"
 }
