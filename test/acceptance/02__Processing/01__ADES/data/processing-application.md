@@ -32,11 +32,13 @@ cwlVersion: v1.0
 
 ## Application Deployment
 
-An application is deployed by executing (API Processes) the pre-installed 'DeployProcess' process, which expects an input parameter `applicationPackage` that provides the CWL application package. The 'DeployProcess' supports the following mimeTypes for the application package payload:
+Application deployment is made by POST to path `/wps3/processes`.
+
+Internally, within the ADES, the deployment is made by executing the pre-installed 'DeployProcess' process, which expects an input parameter `applicationPackage` that provides the CWL application package. The 'DeployProcess' supports the following mimeTypes for the application package payload:
 * application/atom+xml - see [section Application Package in Catalogue](#application-package-in-catalogue "Application Package in Catalogue") below for an example of this encoding
 * application/cwl
 
-`POST /<user-id>/wps3/processes/DeployProcess`
+`POST /<user-id>/wps3/processes`
 
 POST body in accordance with API Processes 'execute' schema...
 
@@ -47,9 +49,9 @@ POST body in accordance with API Processes 'execute' schema...
       "id": "applicationPackage",
       "input": {
         "format": {
-          "mimeType": "application/xml"
+          "mimeType": "application/atom+xml"
         },
-        "href": "https://catalog.terradue.com/eoepca-services/search?uid=app-s-expression"
+        "href": "https://raw.githubusercontent.com/EOEPCA/eoepca/develop/test/acceptance/02__Processing/01__ADES/data/application-package-atom.xml"
       }
     }
   ],
