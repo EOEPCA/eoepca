@@ -198,6 +198,10 @@ spec:
       rulez:
         cwl: ""
 
+      pod_env_vars:
+        yaml: "{}"
+
+
       # kubernetes storage class to be used for provisioning volumes. Must be a persistent volume claim compliant (glusterfs-storage)
       processingStorageClass: managed-nfs-storage
       # Size of the Kubernetes Tmp Volumes
