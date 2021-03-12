@@ -1,24 +1,9 @@
 
 # Processing Application
 
-## Application Package in Catalogue
-
-### OGC OWS Context Offering
-
-Provided as an entry in an atom feed...
-
-```xml
-<feed xmlns="http://www.w3.org/2005/Atom">
-  <entry>
-    <owc:offering code="http://www.opengis.net/eoc/applicationContext/cwl">
-      <owc:content type="application/cwl">
-```
-
-For content, see [Application Package](#application-package).
-
 ## Application Package
 
-Specified as a standard CWL `Workflow`...
+The application package is specified as a standard CWL `Workflow`...
 
 ```
 cwlVersion: v1.0
@@ -47,9 +32,13 @@ cwlVersion: v1.0
 
 ## Application Deployment
 
-This is treated as an 'API Processes' execute request of a 'DeployProcess' application, with an `applicationPackage` input parameter that provides the CWL.
+An application is deployed by executing (API Processes) the pre-installed 'DeployProcess' process, which expects an input parameter `applicationPackage` that provides the CWL application package. The 'DeployProcess' supports the following mimeTypes for the application package payload:
+* application/atom+xml - see [section Application Package in Catalogue](#application-package-in-catalogue "Application Package in Catalogue") below for an example of this encoding
+* application/cwl
 
-POST body...
+`POST /<user-id>/wps3/processes/DeployProcess`
+
+POST body in accordance with API Processes 'execute' schema...
 
 ```
 {
@@ -60,9 +49,7 @@ POST body...
         "format": {
           "mimeType": "application/xml"
         },
-        "value": {
-          "href": "https://catalog.terradue.com/eoepca-services/search?uid=app-s-expression"
-        }
+        "href": "https://catalog.terradue.com/eoepca-services/search?uid=app-s-expression"
       }
     }
   ],
@@ -82,15 +69,24 @@ POST body...
 }
 ```
 
-**QUESTIONS:**
-* How to embed the application package inline, rather than by href?
+## Application Package in Catalogue
+
+The application package is provided from the catalogue as an atom feed entry containing an OGC OWS Context Offering.
+
+```xml
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <entry>
+    <owc:offering code="http://www.opengis.net/eoc/applicationContext/cwl">
+      <owc:content type="application/cwl">
+```
+
+For CWL content, see [Application Package](#application-package).
 
 ## Execute Application
 
-POST body...
+POST `/<user-id>/wps3/processes/<process-id>/jobs`
 
-**QUESTIONS:**
-* Is this a standard format?
+POST body in accordance with API Processes 'execute' schema...
 
 ```
 {
