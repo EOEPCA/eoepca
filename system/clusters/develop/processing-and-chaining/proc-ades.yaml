@@ -216,6 +216,10 @@ spec:
       #  custom stagein cwl
       #stageincwl: "files/stageincwl.cwl"
       #maincwl: "files/maincwlmetrics.cwl"
+      
+      pod:
+        env: {}
+        
     wps:
       pepBaseUrl: "http://pep-engine.default:5576"
       usePep: "true"
