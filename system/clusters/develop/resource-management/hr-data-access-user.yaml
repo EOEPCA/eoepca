@@ -161,6 +161,7 @@ spec:
           - path: registrar_pycsw.backend.PycswBackend
             kwargs:
               repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
+              ows_url: https://data-access-user.185.52.193.87.nip.io/ows
         mapping:
           '':
             '': {}
