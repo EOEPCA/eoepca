@@ -113,3 +113,5 @@ variable "use_access_ip" {}
 variable "use_server_groups" {
   type = bool
 }
+
+variable "nfs_disk_size" {}

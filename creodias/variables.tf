@@ -219,3 +219,7 @@ variable "use_access_ip" {
 variable "use_server_groups" {
   default = false
 }
+
+variable "nfs_disk_size" {
+  default = 500
+}

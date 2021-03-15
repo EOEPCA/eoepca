@@ -1,6 +1,6 @@
 # EOEPCA System - Release 0.3
 
-Release 0.3 is an initial release that includes versions of the following building blocks:
+Release 0.3 is a beta that includes versions of the following building blocks:
 * Login Service
 * User Profile
 * Policy Enforcement Point (PEP)
@@ -207,7 +207,6 @@ Resources to support deployment and configuration...
 * README: https://github.com/EOEPCA/um-user-profile/blob/develop/README.md
 * Wiki: https://github.com/EOEPCA/um-user-profile/wiki
 * Design: https://eoepca.github.io/um-user-profile/v0.3/
-* ICD: ???
 
 #### Containers
 
@@ -221,9 +220,9 @@ Resources to support deployment and configuration...
 
 ### ADES
 
-* Version: 0.3
-* Chart version: 0.1.0
-* Helm chart: https://github.com/EOEPCA/eoepca/tree/v0.3/system/charts/ades
+* Version: 0.3.1
+* Chart version: 0.1.2
+* Helm chart: https://github.com/EOEPCA/proc-ades/tree/v0.3.2/charts/ades
 * Example: https://github.com/EOEPCA/eoepca/blob/v0.3/system/clusters/develop/processing-and-chaining/proc-ades.yaml
 
 #### Resources
@@ -233,8 +232,8 @@ Resources to support deployment and configuration...
 * GitHub repository: https://github.com/EOEPCA/proc-ades
 * README: https://github.com/EOEPCA/proc-ades/blob/master/README.md
 * Wiki: https://github.com/EOEPCA/proc-ades/wiki
-* Design: ???
-* ICD: ???
+* Design: TBD
+* ICD: TBD
 
 #### Containers
 

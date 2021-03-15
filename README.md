@@ -86,6 +86,8 @@ Kubernetes Cluster | [Rancher Kubernetes Engine](./kubernetes/README.md) | [Mini
 EOEPCA System Deployment | [EOEPCA GitOps](./system/clusters/README.md) | [EOEPCA GitOps](./system/clusters/README.md)
 Acceptance Test | [Run Test Suite](./test/acceptance/README.md) | [Run Test Suite](./test/acceptance/README.md)
 
+NOTE that, with release v0.3, the number of system components has been expanded to the point where it is more difficult to make a full system deployment in minikube, due to the required resource demands.
+
 ### Hostnames and DNS
 
 To ease development/testing, the EOEPCA deployment is configured to use host/service names that embed IP-addresses - which avoids the need to configure public nameservers, (as would be necessary for a production deployment). Our services are exposed through Kubernetes ingress rules that use name-based routing, and so simple IP-addresses are insufficient. Therefore, we exploit the services of [nip.io](https://nip.io/) that provides dynamic DNS in which the hostname->IP-adress mapping is embedded in the hostname.
@@ -93,8 +95,6 @@ To ease development/testing, the EOEPCA deployment is configured to use host/ser
 Thus, we use host/service names of the form `<service-name>.<public-ip>.nip.io`, where the `<public-ip>` is the public-facing IP-address of the deployment. For cloud deployment the public IP is that of the cloud load-balancer, or for minikube it is the `minikube ip` - for example `workspace.192.168.49.2.nip.io`.
 
 The deployment scripts (linked in the above table) attempt to intelligently determine the public IP and so configure the service DNS names without intervention. For example, the output of CREODIAS infrastructure setup is interrogated to determine the IP-address of the public cloud load-balancer, which is then injected into the deployment configuration. Similarly for a local developer setup in which the 'local' kubernetes IP-address is used (deduced as the IP address of the k8s node (assumed single node)).
-
-NOTE that, with release v0.3, the number of system components has been expanded to the point where it is more difficult to make a full system deployment in minikube, due to the required resource demands.
 
 ## System Documentation
 
@@ -109,23 +109,25 @@ NOTE that, with release v0.3, the number of system components has been expanded 
 
 Building Block | Repository | Documentation
 ---------------|------------|--------------
-Login Service | https://github.com/EOEPCA/um-login-service | https://eoepca.github.io/um-login-service/
-User Profile | https://github.com/EOEPCA/um-user-profile | https://eoepca.github.io/um-user-profile/
-Policy Enforcement Point (PEP) | https://github.com/EOEPCA/um-pep-engine | https://eoepca.github.io/um-pep-engine/
-Policy Decision Point (PDP) | https://github.com/EOEPCA/um-pep-engine | https://eoepca.github.io/um-pep-engine/
+Login Service | https://github.com/EOEPCA/um-login-service | https://eoepca.github.io/um-login-service/<br>https://github.com/EOEPCA/um-login-service/wiki
+User Profile | https://github.com/EOEPCA/um-user-profile | https://eoepca.github.io/um-user-profile/<br>https://github.com/EOEPCA/um-user-profile/wiki
+Policy Enforcement Point (PEP) | https://github.com/EOEPCA/um-pep-engine | https://eoepca.github.io/um-pep-engine/<br>https://github.com/EOEPCA/um-pep-engine/wiki
+Policy Decision Point (PDP) | https://github.com/EOEPCA/um-pep-engine | https://eoepca.github.io/um-pep-engine/<br>https://github.com/EOEPCA/um-pdp-engine/wiki
 
 ### Processing and Chaining
 
 Building Block | Repository | Documentation
 ---------------|------------|--------------
-Application Deployment & Execution Service (ADES) | https://github.com/EOEPCA/proc-ades | https://eoepca.github.io/proc-ades/
+Application Deployment & Execution Service (ADES) | https://github.com/EOEPCA/proc-ades | https://eoepca.github.io/proc-ades/<br>https://github.com/EOEPCA/proc-ades/wiki
+Processor Development Environment (PDE) | https://github.com/EOEPCA/proc-pde | https://github.com/EOEPCA/proc-pde/blob/master/README.md
+Sample Application | https://github.com/EOEPCA/app-s-expression | https://github.com/EOEPCA/app-s-expression/blob/main/README.md
 
 ### Resource Management
 
 Building Block | Repository | Documentation
 ---------------|------------|--------------
-Resource Catalogue | https://github.com/geopython/pycsw | https://eoepca.github.io/rm-resource-catalogue/
-Data Access Services | TBD | TBD
+Resource Catalogue | https://github.com/geopython/pycsw | https://eoepca.github.io/rm-resource-catalogue/<br>https://docs.pycsw.org/en/latest/
+Data Access Services | https://github.com/EOEPCA/rm-data-access/ | https://eoepca.github.io/rm-data-access/
 
 
 <!-- Releases -->
@@ -133,7 +135,7 @@ Data Access Services | TBD | TBD
 
 EOEPCA system releases are made to provide integrated deployments of the developed building blocks. The release history is as follows:
 
-* xx/03/2021 - [Release 0.3](release-notes/release-0.3.md)
+* 10/03/2021 - [Release 0.3](release-notes/release-0.3.md)
 * 23/11/2020 - [Release 0.2](release-notes/release-0.2.md)
 * 13/08/2020 - [Release 0.1.2](release-notes/release-0.1.2.md)
 * 06/08/2020 - [Release 0.1.1](release-notes/release-0.1.1.md)

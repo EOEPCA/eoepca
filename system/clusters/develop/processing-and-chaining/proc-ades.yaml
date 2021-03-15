@@ -18,7 +18,7 @@ spec:
       repository: eoepca/proc-ades
       pullPolicy: Always
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "dev0.3.1"
+      tag: "dev0.3.3"
     nameOverride: ""
     fullnameOverride: ""
     serviceAccount:
@@ -111,7 +111,7 @@ spec:
           class: CommandLineTool
           hints:
             DockerRequirement:
-              dockerPull: terradue/stars-t2:0.6.17.0
+              dockerPull: terradue/stars-t2:0.6.18.19
           id: stars
           arguments:
           - copy
@@ -148,7 +148,7 @@ spec:
           class: CommandLineTool
           hints:
             DockerRequirement:
-              dockerPull: terradue/stars-t2:0.6.17.0
+              dockerPull: terradue/stars-t2:0.6.18.19
           id: stars
           arguments:
           - copy
@@ -198,6 +198,10 @@ spec:
       rulez:
         cwl: ""
 
+      pod_env_vars:
+        yaml: "{}"
+
+
       # kubernetes storage class to be used for provisioning volumes. Must be a persistent volume claim compliant (glusterfs-storage)
       processingStorageClass: managed-nfs-storage
       # Size of the Kubernetes Tmp Volumes
@@ -216,6 +220,10 @@ spec:
       #  custom stagein cwl
       #stageincwl: "files/stageincwl.cwl"
       #maincwl: "files/maincwlmetrics.cwl"
+      
+      pod:
+        env: {}
+        
     wps:
       pepBaseUrl: "http://pep-engine.default:5576"
       usePep: "true"

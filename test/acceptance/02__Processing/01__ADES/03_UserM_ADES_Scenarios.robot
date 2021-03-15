@@ -33,6 +33,7 @@ Attempt Unauthorised Access Process List
   List Processes No Auth
 
 Protected Application Deployment
+  Clean Owner Resources  ${ADES_RESOURCES_API_URL}  ${ID_TOKEN_USER_A}
   User A Deploys Proc1
   # Manual Registration of Undeploy and Execute processes
   # <TBC>

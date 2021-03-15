@@ -8,4 +8,6 @@ spec:
   interval: 30s
   ref:
     branch: develop
+    tag: v0.3.3
+    # commit: 588f3cae76c0b6cf0ae9ffc8b30a43af73640d6d
   url: https://github.com/EOEPCA/proc-ades

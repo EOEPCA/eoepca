@@ -5,7 +5,7 @@ from time import sleep
 
 def main():
     print("\n### TEST CLIENT ###")
-    USER_NAME="adestest"
+    USER_NAME="UserA"
     USER_PASSWORD="defaultPWD"
     base_url = "https://test.185.52.193.87.nip.io"
     ades_resource_api_url = "http://ades.resources.185.52.193.87.nip.io"
@@ -76,7 +76,13 @@ def main():
 
     # API Proc Deploy Application
     print("\n### API Proc Deploy Application ###")
-    response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body.json", id_token=user_id_token, access_token=access_token)
+    #
+    # ...by atom feed (application/atom+xml) - with entry containing an OGC OWS Context Offering with application/cwl content...
+    response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body-atom.json", id_token=user_id_token, access_token=access_token)
+    #
+    # ...pure CWL (application/cwl)...
+    # response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body-cwl.json", id_token=user_id_token, access_token=access_token)
+    #
     # print("access token:", access_token)
 
     # API Proc Get Application Details
@@ -103,9 +109,6 @@ def main():
             print(response)
             break
         if status == 'successful':
-            print("zzzDebug: response...")
-            print(response)
-            print("zzzDebug: href[0]...")
             print(response['links'][0]['href'])
             break
         else:
@@ -126,9 +129,9 @@ def main():
     # # WPS
     # #===========================================================================
 
-    # # WPS Get Capabilities
-    # print("\n### WPS GET CAPABILITIES ###")
-    # response, access_token = demo.wps_get_capabilities(ades_wps_url, id_token=user_id_token, access_token=access_token)
+    # WPS Get Capabilities
+    print("\n### WPS GET CAPABILITIES ###")
+    response, access_token = demo.wps_get_capabilities(ades_wps_url, id_token=user_id_token, access_token=access_token)
 
     #===========================================================================
     # Completion
