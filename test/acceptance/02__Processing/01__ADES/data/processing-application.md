@@ -5,7 +5,7 @@
 
 The application package is specified as a standard CWL `Workflow`...
 
-```
+```yaml
 cwlVersion: v1.0
 - class: CommandLineTool
   id: <cmd-id>
@@ -42,7 +42,7 @@ Internally, within the ADES, the deployment is made by executing the pre-install
 
 POST body in accordance with API Processes 'execute' schema...
 
-```
+```json
 {
   "inputs": [
     {
@@ -90,7 +90,7 @@ POST `/<user-id>/wps3/processes/<process-id>/jobs`
 
 POST body in accordance with API Processes 'execute' schema...
 
-```
+```json
 {
   "inputs": [
     {
@@ -137,3 +137,58 @@ POST body in accordance with API Processes 'execute' schema...
 }
 ```
 
+## ADES Configuration
+
+At deployment time the ADES is configured with CWL that defines the stage-in (`Values.stagein`) and stage-out (`Values.stageout`) functionality. In each case a CWL CommandLineTool is defined.
+
+For example, stage-in using the `terradue/stars-t2` container...
+```yaml
+cwlVersion: v1.0
+baseCommand: Stars
+doc: "Run Stars for staging input data"
+class: CommandLineTool
+hints:
+  DockerRequirement:
+    dockerPull: terradue/stars-t2:0.6.18.19
+id: stars
+arguments:
+  - copy
+  - -v
+  - -rel
+  - -r
+  - "4"
+  - -o
+  - ./
+  - --harvest
+inputs:
+  ADES_STAGEIN_AWS_SERVICEURL:
+    type: string?
+  ADES_STAGEIN_AWS_ACCESS_KEY_ID:
+    type: string?
+  ADES_STAGEIN_AWS_SECRET_ACCESS_KEY:
+    type: string?
+outputs: {}
+requirements:
+  EnvVarRequirement:
+    envDef:
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      AWS__ServiceURL: $(inputs.ADES_STAGEIN_AWS_SERVICEURL)
+      AWS_ACCESS_KEY_ID: $(inputs.ADES_STAGEIN_AWS_ACCESS_KEY_ID)
+      AWS_SECRET_ACCESS_KEY: $(inputs.ADES_STAGEIN_AWS_SECRET_ACCESS_KEY)
+  ResourceRequirement: {}
+```
+
+To support this the ADES has an additional deployment configuration `Values.workflowExecutor.inputs` through which the input values to each of these CWL is passed at invocation time. For example...
+```yaml
+workflowExecutor:
+  # Here specify fixed inputs to all workflows execution in all stages (main, stage-in/out)
+  # They will be prefixed with 'ADES_'. e.g. 'APP: ades' will be 'ADES_APP: ades'
+  inputs:
+    APP: ades
+    STAGEIN_AWS_SERVICEURL: http://data.cloudferro.com
+    STAGEIN_AWS_ACCESS_KEY_ID: test
+    STAGEIN_AWS_SECRET_ACCESS_KEY: test
+```
+...matching the inputs needed by the stage-in CWL CommandLineTool.
+
+Thus, the ADES configuration provides an extensible apporach for specifying stage-in/out behaviour - which facilitates the integration of the ADES by a Platform Operator into their specific deployment.
