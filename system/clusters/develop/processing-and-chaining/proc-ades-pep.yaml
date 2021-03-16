@@ -24,7 +24,7 @@ spec:
       image: eoepca/um-pep-engine:v0.3.1
     context: ades
     volumeClaim:
-      name: eoepca-userman-pvc
+      name: eoepca-proc-pvc
 
   timeout: 25m0s
   interval: 1m0s
