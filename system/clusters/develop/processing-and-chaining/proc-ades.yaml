@@ -225,7 +225,7 @@ spec:
         env: {}
         
     wps:
-      pepBaseUrl: "http://pep-engine.default:5576"
+      pepBaseUrl: "http://pep-engine:5576"
       usePep: "true"
       maincfgtpl: "files/main.cfg.tpl"
     persistence:

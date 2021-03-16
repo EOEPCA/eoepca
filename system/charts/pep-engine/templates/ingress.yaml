@@ -13,7 +13,7 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: pep-engine
+          serviceName: {{ .Values.global.pep }}
           servicePort: 5566
 ---
 apiVersion: extensions/v1beta1
@@ -30,5 +30,5 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: pep-engine
+          serviceName: {{ .Values.global.pep }}
           servicePort: 5576

@@ -1,8 +1,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: um-pep-engine
-  namespace: default
+  name: proc-ades-pep
+  namespace: proc
 spec:
   chart:
     spec:
@@ -15,7 +15,7 @@ spec:
     global:
       ep: test.185.52.193.87.nip.io
       domain: https://test.185.52.193.87.nip.io
-      resourceServer: http://proc-ades.proc/
+      resourceServer: http://proc-ades/
       pdpUrl: https://test.185.52.193.87.nip.io/pdp
       nginxIp: 185.52.193.87
       proxyHost: ades.test.185.52.193.87.nip.io

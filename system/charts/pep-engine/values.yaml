@@ -2,7 +2,6 @@
 
 global:
   namespace: default
-  serviceName: pep-engine
   ep: demoexample.gluu.org
   domain:  https://demoexample.gluu.org
   pep: pep-engine

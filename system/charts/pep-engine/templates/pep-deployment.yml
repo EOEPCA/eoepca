@@ -40,13 +40,13 @@ spec:
             name: pep-cm
         volumeMounts:
         - mountPath: /data/db/
-          subPath: pep-engine/{{ .Values.context }}/data/db
-          name: vol-userman
+          subPath: {{ .Values.global.pep }}/{{ .Values.context }}/data/db
+          name: vol-pep-engine
       hostAliases:
       - ip: {{ .Values.global.nginxIp }}
         hostnames:
         - {{ .Values.global.ep }}
       volumes:
-        - name: vol-userman
+        - name: vol-pep-engine
           persistentVolumeClaim:
             claimName: {{ .Values.volumeClaim.name }}
