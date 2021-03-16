@@ -12,7 +12,9 @@ spec:
         name: flux-system
         namespace: flux-system
   values:
+    context: ades
     global:
+      pep: proc-ades-pep
       ep: test.185.52.193.87.nip.io
       domain: https://test.185.52.193.87.nip.io
       resourceServer: http://proc-ades/
@@ -22,7 +24,6 @@ spec:
       resourceHost: ades.resources.185.52.193.87.nip.io
     image:
       image: eoepca/um-pep-engine:v0.3.1
-    context: ades
     volumeClaim:
       name: eoepca-proc-pvc
 
