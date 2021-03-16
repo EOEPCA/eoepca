@@ -2,7 +2,13 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: cheddar
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
+  tls:
+    - hosts:
+        - cheddar.{{ .Values.baseHostname }}
+      secretName: cheddar-tls
   rules:
   - host: cheddar.{{ .Values.baseHostname }}
     http:
@@ -16,7 +22,13 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: stilton
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
+  tls:
+    - hosts:
+        - stilton.{{ .Values.baseHostname }}
+      secretName: stilton-tls
   rules:
   - host: stilton.{{ .Values.baseHostname }}
     http:
@@ -30,7 +42,13 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: wensleydale
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
+  tls:
+    - hosts:
+        - wensleydale.{{ .Values.baseHostname }}
+      secretName: wensleydale-tls
   rules:
   - host: wensleydale.{{ .Values.baseHostname }}
     http:
