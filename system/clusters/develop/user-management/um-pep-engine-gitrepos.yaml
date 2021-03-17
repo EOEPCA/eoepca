@@ -7,5 +7,5 @@ metadata:
 spec:
   interval: 30s
   ref:
-    branch: develop
+    branch: feature/EOEPCA-307
   url: https://github.com/EOEPCA/um-pep-engine
