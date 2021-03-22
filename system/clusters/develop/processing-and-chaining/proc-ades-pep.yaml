@@ -18,7 +18,7 @@ spec:
       ep: test.185.52.193.87.nip.io
       domain: https://test.185.52.193.87.nip.io
       resourceServer: http://proc-ades/
-      pdpUrl: https://test.185.52.193.87.nip.io/pdp
+      pdpUrl: pdp-engine.default
       nginxIp: 185.52.193.87
       proxyHost: ades.test.185.52.193.87.nip.io
       resourceHost: ades.resources.185.52.193.87.nip.io
