@@ -135,7 +135,7 @@ Data Access Services | https://github.com/EOEPCA/rm-data-access/ | https://eoepc
 
 EOEPCA system releases are made to provide integrated deployments of the developed building blocks. The release history is as follows:
 
-* 10/03/2021 - [Release 0.3](blob/v0.3/release-notes/release-0.3.md)
+* 10/03/2021 - [Release 0.3](https://github.com/EOEPCA/eoepca/blob/v0.3/release-notes/release-0.3.md)
 * 23/11/2020 - [Release 0.2](release-notes/release-0.2.md)
 * 13/08/2020 - [Release 0.1.2](release-notes/release-0.1.2.md)
 * 06/08/2020 - [Release 0.1.1](release-notes/release-0.1.1.md)
