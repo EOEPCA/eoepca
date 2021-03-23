@@ -10,6 +10,7 @@ Release 0.3 is a beta that includes versions of the following building blocks:
 * Resource Catalogue
 * Data Access Services
 
+See the [Release v0.3 Description](https://github.com/EOEPCA/eoepca/blob/release/v0.3/release-notes/release-0.3-description/release-0.3-description.adoc "Release v0.3 Description") for more details.
 
 ## Release 0.3 Scope
 
