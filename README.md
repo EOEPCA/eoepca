@@ -70,6 +70,8 @@ The system is designed for deployment to cloud infrastructure orchestrated by a 
 
 The EOEPCA system deployment comprises several steps. Instructions are provided for both cloud deployment, and local deployment for development purposes.
 
+For the latest release (v0.3) ensure that the [correct version](https://github.com/EOEPCA/eoepca/blob/v0.3/README.md "v0.3 README") of this README is followed.
+
 The first step is to fork this repository into your GitHub account. Use of fork (rather than clone) is recommended to support our GitOps approach to deployment with Flux Continuous Delivery, which requires write access to your git repository for deployment configurations.<br>
 Having forked, clone the repository to your local platform...
 ```
