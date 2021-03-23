@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - ./proc-ades-gitrepos.yaml
   - ./proc-ades.yaml
-  - ./proc-ades-pep.yaml
+  # - ./proc-ades-pep.yaml
