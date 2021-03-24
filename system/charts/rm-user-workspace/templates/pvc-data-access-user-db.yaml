@@ -1,0 +1,15 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: data-access-db
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    k8s-app: data-access-user
+    name: data-access-user
+spec:
+  storageClassName: managed-nfs-storage
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Gi

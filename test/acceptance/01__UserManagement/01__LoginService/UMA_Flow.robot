@@ -14,14 +14,17 @@ ${UMA_PWD}=  admin_Abcd1234#
 ${UMA_PATH_PREFIX}=  /wps3
 ${PATH_TO_RESOURCE}=  resources/ADES20%Service
 ${WELL_KNOWN_PATH}=  ${UM_BASE_URL}/.well-known/uma2-configuration
+${PEP_RESOURCE_PORT}=  31709
+${PEP_PROXY_PORT}=  31707
+${ADES_API_URL}=  http://ades.resources.185.52.193.87.nip.io
 
 *** Test Cases ***
 
 UMA getEndpoints
   UMA Get Token Endpoint  ${WELL_KNOWN_PATH}  
 
-#UMA Ticket Test
-#  UMA Get Ticket Valid  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}
+UMA Ticket Test
+  UMA Get Ticket Valid  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}
 
 UMA Authenticate test
   ${resp}=  Scim Client Get Details
@@ -40,7 +43,7 @@ UMA Flow to Retrieve RPT
 
 *** Keywords ***
 UMA Resource Insertion
-  ${a}=  Run Process  python3  ${CURDIR}${/}insADES.py  ${ADES_BASE_URL}
+  ${a}=  Run Process  python3  ${CURDIR}${/}insADES.py  ${ADES_API_URL}
   ${resId}=  OperatingSystem.Get File  ${CURDIR}${/}res_id.txt
   Set Global Variable  ${RES_ID_ADES}  ${resId}
 
@@ -55,7 +58,7 @@ UMA Get Ticket
   [Arguments]  ${base_url}  ${token}  ${resource}
   Create Session  pep  ${base_url}  verify=False
   ${headers}=  Create Dictionary  authorization=Bearer ${token}
-  ${resp}=  Get Request  pep  /resources/${resource}  headers=${headers}
+  ${resp}=  Get Request  pep  /${resource}  headers=${headers}
   [Return]  ${resp}
 
 UMA Get Ticket Valid
@@ -75,7 +78,7 @@ UMA Get ID Token
 
 UMA Call Shell ID Token
   [Arguments]  ${endpoint}  ${client_id}  ${client_secret}
-  ${a}=  Run Process  sh  ${CURDIR}${/}id.sh  -t  ${endpoint}  -i  ${client_id}  -p  ${client_secret}
+  ${a}=  Run Process  sh  ${CURDIR}${/}id.sh  -t  ${endpoint}  -i  ${client_id}  -p  ${client_secret}  -u  ${UMA_USER}  -w  ${UMA_PWD}
   ${n}=  OperatingSystem.Get File  ${CURDIR}${/}1.txt
   #OperatingSystem.Remove File  ${CURDIR}${/}1.txt
   [Return]  ${n}
@@ -139,12 +142,19 @@ UMA Handler of Codes
   [Arguments]  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}  
   ${id_token}=  UMA Get ID Token Valid  ${base_url}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
   UMA Resource Insertion
-  ${resp_ticket}=  UMA Get Ticket Valid  ${base_url}  ${token}  ${RES_ID_ADES}
+  ${resp_ticket}=  UMA Get Ticket Valid  ${base_url}  ${token}  ${UMA_PATH_PREFIX}
   ${ticket}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Ticket From Response  ${resp_ticket}
   ${access_token}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Access Token Valid  ${well_known}  ${ticket}  ${id_token}  ${client_id}  ${client_secret}
   [Return]  ${access_token}
 
+PEP Delete Resource
+  [Arguments]  ${base_url}
+  Create Session  pep  ${base_url}  verify=False
+  ${headers}=  Create Dictionary  authorization=Bearer ${ID_TOKEN}
+  ${response}=  Delete Request  pep  /resources/${RES_ID_ADES}  headers=${headers}
+
 
 Cleanup
   OperatingSystem.Remove File  ${CURDIR}${/}1.txt
-  OperatingSystem.Remove File  ${CURDIR}${/}res_id.txt
+  #OperatingSystem.Remove File  ${CURDIR}${/}res_id.txt
+  #PEP Delete Resource  ${ADES_API_URL}

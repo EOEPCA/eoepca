@@ -1,0 +1,152 @@
+# opendj Environament Variables
+# common ConfigMap values
+gluuLdapInit: true
+gluuLdapInitHost: localhost
+gluuLdapInitPort: 1636
+gluuOxtrustConfigGeneration: true
+gluuCacheType: NATIVE_PERSISTENCE
+gluuCertAltName: opendj
+# gluuRedisEnabled will determin if GLUU_REDIS_URL and GLUU_REDIS_TYPE if they will be used.
+gluuRedisEnabled: false
+gluuRedisCacheType: REDIS
+gluuRedisUrl: redis:6379
+gluuRedisType: STANDALONE
+#repl diferent env vars
+gluuLdapInitRepl: false
+gluuOxtrustConfigGenerationRepl: false
+
+nameOverride: ""
+fullnameOverride: ""
+
+# StatefulSets 
+# values declaration
+statefulSetReplicas: 1
+imagePullPolicy: Always
+image: gluufederation/wrends:4.1.1_01
+opendj:
+  configAdapter: kubernetes
+  metadataName: opendj-init-cm
+  add: opendj
+  repLdap: "'false'"
+persistence:
+  size: 100M
+  pvcSize: 3Gi
+  name: persistence
+  accessModes: ReadWriteMany
+  type: DirectoryOrCreate
+  dbStorageSize: 5Gi
+  statefulSetReplicas: 1
+  imagePullPolicy: Always
+  restartPolicy: Never
+  image: eoepca/um-login-persistence:v0.3
+  configAdapter: GLUU_CONFIG_ADAPTER
+  adapter: "kubernetes"
+  secretAdapter: GLUU_SECRET_ADAPTER
+  passport: GLUU_PASSPORT_ENABLED
+  passportv: "'true'"
+  ldapUrl: GLUU_LDAP_URL
+  ldapUrlv: "opendj:1636"
+  persistenceType: GLUU_PERSISTENCE_TYPE
+  persistenceTypev: "ldap"
+  oxtrustConf: GLUU_OXTRUST_CONFIG_GENERATION
+  oxtrustConfv: "'false'"
+  cacheType: GLUU_CACHE_TYPE
+  cacheTypev: "NATIVE_PERSISTENCE"
+  clientID: LP_CLIENT_ID
+  clientIDv: "59f1fed27153f631bc08"
+  clientSecret: LP_CLIENT_SECRET
+  clientSecretv: "640baffac0948454c48de2505726f53d11adc8a6"
+#container specific values declared here
+tcpSocket:
+  port: 1636
+readinessProbe:
+  initialDelaySeconds: 90
+  periodSeconds: 90
+livenessProbe:
+  initialDelaySeconds: 90
+  periodSeconds: 90
+
+#servicePorts values used in StatefulSet container
+ports:
+  ldaps:
+    port: 1636
+    targetPort: 1636
+    type: TCP
+  ldap:
+    port: 1389
+    targetPort: 1389
+    type: TCP
+  replication:
+    port: 8989
+    targetPort: 8989
+    type: TCP
+  admin:
+    port: 4444
+    targetPort: 4444
+    type: TCP
+# VolumeMounts for StatefulSet
+# opendj-init vm
+volumeInitMounts:
+  config:
+    mountPath: /opt/opendj/config
+    name: opendj-init-volume
+  ldif: 
+    mountPath: /opt/opendj/ldif
+    name: opendj-init-volume
+  logs: 
+    mountPath: /opt/opendj/logs
+    name: opendj-init-volume
+  db: 
+    mountPath: /opt/opendj/db
+    name: opendj-init-volume
+  flag: 
+    mountPath: /flag
+    name: opendj-init-volume
+
+#opedj-repl vm
+volumeReplMounts:
+  config:
+    mountPath: /opt/opendj/config
+    subPath: opendj/config
+    name: vol-userman
+  ldif: 
+    mountPath: /opt/opendj/ldif
+    subPath: opendj/ldif
+    name: vol-userman
+  logs: 
+    mountPath: /opt/opendj/logs
+    subPath: opendj/logs
+    name: vol-userman
+  db: 
+    mountPath: /opt/opendj/db
+    subPath: opendj/db
+    name: vol-userman
+  flag: 
+    mountPath: /flag
+    subPath: opendj/flag
+    name: vol-userman
+
+#VolumeClaimTemplates
+storage: 1Gi
+
+# VolumeClaim values
+volumeClaim:
+  name: um-login-service-opendj-pvc
+
+#opendj-config-pv
+opendj-config:
+  hostPath:
+    path: "/data/opendj/config"
+    type: DirectoryOrCreate
+
+#opendj-ldif
+opendj-ldif:
+  hostPath:
+    path: "/data/opendj/ldif"
+    type: DirectoryOrCreate
+
+#opendj-logs
+opendj-logs:
+  hostPath:
+    path: "/data/opendj/logs"
+    type: DirectoryOrCreate

@@ -1,12 +1,10 @@
-.terraform/
-*.tfstate
-*.tfstate.backup
-.terraform.tfstate.*
 *.retry
 vault_pass_file
-*.pem
+#*.pem
+secret-*
 *.crt
 *.key
+
 
 .vagrant/
 
@@ -16,3 +14,5 @@ report.html
 terraform/test/dhparam.pem
 terraform/test/terraform-provider-kubectl
 __pycache__/
+
+.vscode/

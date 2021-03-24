@@ -123,6 +123,11 @@ variable "network_name" {
   default     = "internal"
 }
 
+variable "eodata_network_name" {
+  description = "name of the eodata network to use"
+  default     = "eodata"
+}
+
 variable "network_dns_domain" {
   description = "dns_domain for the internal network"
   type        = string
@@ -213,4 +218,8 @@ variable "use_access_ip" {
 
 variable "use_server_groups" {
   default = false
+}
+
+variable "nfs_disk_size" {
+  default = 500
 }

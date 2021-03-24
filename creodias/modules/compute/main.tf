@@ -622,6 +622,10 @@ resource "openstack_compute_instance_v2" "k8s_node_no_floating_ip" {
     name = "${var.network_name}"
   }
 
+  network {
+    name = "${var.eodata_network_name}"
+  }
+
   security_groups = ["${openstack_networking_secgroup_v2.k8s.name}",
     "${openstack_networking_secgroup_v2.worker.name}",
   ]
@@ -680,6 +684,10 @@ resource "openstack_compute_instance_v2" "k8s_node_no_floating_ip_custom_volume_
 
   network {
     name = "${var.network_name}"
+  }
+
+  network {
+    name = "${var.eodata_network_name}"
   }
 
   security_groups = ["${openstack_networking_secgroup_v2.k8s.name}",

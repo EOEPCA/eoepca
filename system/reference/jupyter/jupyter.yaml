@@ -1,0 +1,16 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: jupyter
+  namespace: default
+spec:
+  chart:
+    spec:
+      chart: ./system/charts/jupyter
+      sourceRef:
+        kind: GitRepository
+        name: eoepca
+        namespace: flux-system
+
+  interval: 1m0s

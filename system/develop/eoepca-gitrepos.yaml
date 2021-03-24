@@ -1,0 +1,11 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: eoepca
+  namespace: flux-system
+spec:
+  interval: 30s
+  ref:
+    branch: feature/EOEPCA-291
+  url: https://github.com/EOEPCA/eoepca

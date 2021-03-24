@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ template "oxtrust.fullname" . }}-ss
+  labels:
+    app: oxtrust
+spec:
+  serviceName: oxtrust
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: oxtrust
+  template:
+    metadata:
+      labels: 
+        app: oxtrust
+    spec:
+      containers:
+      - name: {{ include "oxtrust.name" . }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        image: gluufederation/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        resources:
+          requests:
+            memory: {{ .Values.requests.memory }}
+          # limits:
+          #   memory: {{ .Values.limits.memory }}
+        ports:
+        - containerPort: 8080
+          name: oxtrust
+          protocol: TCP
+        env:
+        - name: JVM_OPTS
+          value: "-XshowSettings:vm -XX:MaxRAMPercentage=80"
+        envFrom:
+        - configMapRef:
+            name: {{ template "oxtrust.fullname" . }}-cm
+
+        volumeMounts:
+        {{- range $key, $value := .Values.volumeMounts }}
+          - mountPath: {{ $value.mountPath }}
+            name: vol-userman
+            subPath: {{ $value.subPath }}
+        {{- end }}
+        livenessProbe:
+          httpGet:
+            path: /identity/restv1/scim-configuration
+            port: 8080
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+        readinessProbe:
+          httpGet:
+            path: /identity/restv1/scim-configuration
+            port: 8080
+          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+      volumes:
+        - name: vol-userman
+          persistentVolumeClaim:
+            claimName: {{ .Values.volumeClaim.name }}
+      hostAliases:
+      - ip: {{ .Values.global.nginxIp }}
+        hostnames:
+        - {{ .Values.global.domain }}

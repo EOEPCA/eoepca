@@ -1,7 +1,7 @@
 # Install minikube and kubectl
 K8S_VER=v1.13.0
 TF_VER=0.12.25
-MINIKUBE_VER=v1.9.1
+MINIKUBE_VER=v1.12.1
 
 # Make root mounted as rshared to fix kube-dns issues.
 mount --make-rshared /
@@ -42,3 +42,4 @@ unzip /tmp/terraform.zip -d /tmp
 chmod +x /tmp/terraform
 mv /tmp/terraform /usr/local/bin/
 export PATH="~/bin:$PATH"
+sudo chown vagrant -R /home/vagrant

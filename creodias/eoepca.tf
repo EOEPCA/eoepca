@@ -58,6 +58,7 @@ module "compute" {
   flavor_etcd                                  = "${var.flavor_etcd}"
   flavor_gfs_node                              = "${var.flavor_gfs_node}"
   network_name                                 = "${var.network_name}"
+  eodata_network_name                          = "${var.eodata_network_name}"
   flavor_bastion                               = "${var.flavor_bastion}"
   k8s_master_fips                              = "${module.ips.k8s_master_fips}"
   k8s_master_no_etcd_fips                      = "${module.ips.k8s_master_no_etcd_fips}"
@@ -73,8 +74,8 @@ module "compute" {
   wait_for_floatingip                          = "${var.wait_for_floatingip}"
   use_access_ip                                = "${var.use_access_ip}"
   use_server_groups                            = "${var.use_server_groups}"
-
-  network_id = "${module.network.router_id}"
+  nfs_disk_size                                = "${var.nfs_disk_size}"
+  network_id                                   = "${module.network.router_id}"
 }
 
 module "loadbalancer" {

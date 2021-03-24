@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.ingress.name }}
+  namespace: {{ .Values.global.namespace }}
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: {{ .Values.ingress.class }}
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+spec:
+  rules:
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ .Values.pycsw.service_name }}
+          servicePort: {{ .Values.pycsw.service_port_name }}
+  tls:
+    - hosts:
+      - {{ .Values.ingress.tls_host }}
+      secretName: {{ .Values.ingress.tls_secret_name }}

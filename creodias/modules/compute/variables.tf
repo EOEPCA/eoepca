@@ -54,6 +54,8 @@ variable "flavor_gfs_node" {}
 
 variable "network_name" {}
 
+variable "eodata_network_name" {}
+
 variable "flavor_bastion" {}
 
 variable "network_id" {
@@ -111,3 +113,5 @@ variable "use_access_ip" {}
 variable "use_server_groups" {
   type = bool
 }
+
+variable "nfs_disk_size" {}

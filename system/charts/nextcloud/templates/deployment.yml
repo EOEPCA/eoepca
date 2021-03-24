@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextcloud
+  labels:
+    app: nextcloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nextcloud
+  template:
+    metadata:
+      labels:
+        app: nextcloud
+    spec:
+      containers:
+        - name: nextcloud
+          image: nextcloud:19
+          env:
+            - name: SQLITE_DATABASE
+            - name: NEXTCLOUD_ADMIN_USER
+              value: {{ .Values.user.admin.name }}
+            - name: NEXTCLOUD_ADMIN_PASSWORD
+              value: {{ .Values.user.admin.password }}
+            - name: NEXTCLOUD_TRUSTED_DOMAINS
+              value: "\"*\""
+          volumeMounts:
+            - mountPath: /var/www/html
+              subPath: nextcloud
+              name: vol-resman
+      volumes:
+        - name: vol-resman
+          persistentVolumeClaim:
+            claimName: {{ .Values.storage.pvc.name }}

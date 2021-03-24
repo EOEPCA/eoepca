@@ -1,0 +1,14 @@
+global:
+  nginxIp: 192.168.49.2
+  domain: https://test.192.168.49.2.nip.io
+  ep: test.192.168.49.2.nip.io
+  ssoUrl: test.192.168.49.2.nip.io
+image:
+  image: eoepca/um-user-profile:v0.3
+ingress:
+  hosts:
+    - test.192.168.49.2.nip.io
+  tls: 
+    - secretName: tls-certificate
+      hosts:
+        - test.192.168.49.2.nip.io

@@ -1,0 +1,26 @@
+{
+  "inputs": [
+    {
+      "id": "applicationPackage",
+      "input": {
+        "format": {
+          "mimeType": "application/atom+xml"
+        },
+        "href": "https://raw.githubusercontent.com/EOEPCA/eoepca/develop/test/acceptance/02__Processing/01__ADES/data/application-package-atom.xml"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "format": {
+        "mimeType": "string",
+        "schema": "string",
+        "encoding": "string"
+      },
+      "id": "deployResult",
+      "transmissionMode": "value"
+    }
+  ],
+  "mode": "sync",
+  "response": "raw"
+}

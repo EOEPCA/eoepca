@@ -1,0 +1,121 @@
+# Default values for login-service.
+
+global:
+  namespace: default
+  serviceName: opendj
+  nginxIp: 10.0.2.15
+  oxAuthServiceName: oxauth
+  persistenceServiceName: persistence
+  oxTrustSeriveName: oxtrust
+  domain: demoexample.gluu.org
+  gluuLdapUrl: opendj:1636
+  gluuMaxRamFraction: 1
+  configAdapterName: kubernetes
+  configSecretAdapter: kubernetes
+  provisioner: k8s.io/minikube-hostpath
+  pool: default
+  gcePdStorageType: pd-standard
+  description: gluu-config-init-volume
+  fsType: ext4
+  
+persistence: 
+  accessModes: ReadWriteMany
+  dbStorageSize: 5Gi
+  type: DirectoryOrCreate
+
+config:
+  enabled: true
+  # email address of the administrator usually. Used for certificate creation
+  # adminPass is administrator password for oxTrust and LDAP
+  # domain name where the Gluu Server resides
+  domain: demoexample.gluu.org
+  # organisation location details
+
+  # ldapType only OpenDJ is supported
+  ldapType: opendj
+  countryCode: ES
+  state: Madrid
+  city: Tres Cantos
+  adminPass: admin_Abcd1234#
+  ldapPass: admin_Abcd1234#
+  email: eoepca@deimos-space.com
+  orgName: Deimos Space S.L.U.
+  gluuConfAdapter: kubernetes
+  ldapType: opendj
+  redisPass: aaaa
+  # <<<---------------------- SKIPPED THIS IN THE DOCUMENTATION -------->>>
+  # StorageClass values
+  # values used to define the StorageClass template
+  encrypted: true
+  reclaimPolicy: Retain
+  pool: default
+  description: gluu-config-init-volume
+  fsType: ext4
+  provisioner: k8s.io/minikube-hostpath
+  awsZones: us-west-2a
+  gcePdStorageType: pd-standard
+  azureStorageAccountType: Standard_LRS
+  azureStorageKind: Shared
+  volumeClaim:
+    name: um-login-service-config-pvc
+
+opendj:
+  enabled: true
+  # options REDIS/NATIVE_PERSISTENCE
+  gluuCacheType: NATIVE_PERSISTENCE
+  # options true/false : must be enabled if cache type is REDIS
+  gluuRedisEnabled: false
+  volumeClaim:
+    name: um-login-service-opendj-pvc
+
+oxpassport:
+  enabled: true  
+
+oxauth:
+  enabled: true
+  dynamicStorage: true
+  volumeClaim:
+    name: um-login-service-oxauth-pvc
+
+oxtrust:
+  enabled: true
+  dynamicStorage: true
+  volumeClaim:
+    name: um-login-service-oxtrust-pvc
+
+nginx:
+  enabled: true
+  ingress:
+    enabled: true
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    path: /
+    hosts:
+      - demoexample.gluu.org
+    tls: 
+    - secretName: tls-certificate
+      hosts:
+        - demoexample.gluu.org
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  tags:
+    redis: false

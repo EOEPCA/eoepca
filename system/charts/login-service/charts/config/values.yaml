@@ -1,0 +1,30 @@
+# Required environment variables for generating Gluu server initial config
+#values for environment variables
+ # domain name where the Gluu Server resides
+domain: demoexample.gluu.org
+# organisation location details
+
+# ldapType only OpenDJ is supported
+ldapType: opendj
+countryCode: ES
+state: Madrid
+city: Tres Cantos
+adminPass: admin_Abcd1234#
+ldapPass: admin_Abcd1234#
+email: eoepca@deimos-space.com
+orgName: Deimos Space S.L.U.
+gluuConfAdapter: kubernetes
+ldapType: opendj
+redisPass: aaaa
+
+nameOverride: ""
+fullNameOverride: ""
+
+# VolumeClaim values
+volumeClaim:
+  name: um-login-service-config-pvc
+
+persistence:
+  size: 1Gi
+  accessModes: ReadWriteOnce
+  storageClassName: ""

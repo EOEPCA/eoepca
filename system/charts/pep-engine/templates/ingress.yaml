@@ -1,0 +1,34 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.context }}-service
+  
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: {{ .Values.global.proxyHost | quote }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ .Values.global.pep }}
+          servicePort: 5566
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.context }}-resources
+  
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: {{ .Values.global.resourceHost | quote }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ .Values.global.pep }}
+          servicePort: 5576

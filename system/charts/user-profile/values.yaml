@@ -1,0 +1,47 @@
+# Default values for user-profile
+
+global:
+  namespace: default
+  ep: test.10.0.2.15.nip.io
+  ssoUrl: https://test.10.0.2.15.nip.io
+  title: "EOEPCA User Profile"
+  scopes: "openid email user_name"
+  redirectUri: "http://test.10.0.2.15.nip.io/web_ui/oauth/callback"
+  postLogoutRedirectUri: http://test.10.0.2.15.nip.io/web_ui"
+  baseUri: "/web_ui"
+  oauthCallbackPath: "/oauth/callback"
+  logoutEndpoint: "/logout"
+  serviceHost: "0.0.0.0"
+  servicePort: "5566"
+  protectedAttributes: "userName active emails displayName value primary"
+  blacklistAttributes: "schemas id meta $ref"
+  separatorUiAttributes: "->"
+  colorWebBackground: "#D7EDEC"
+  colorWebHeader: "#FFFFFF"
+  logoAltName: "EOEPCA Logo"
+  logoImagePath: "/static/img/logo.png"
+  colorHeaderTable: "#38A79F"
+  colorTextHeaderTable: "white"
+  colorButtonModify: "#38A79F"
+  useThreads: "true"
+  debugMode: "true"
+  user: user-profile
+  nginxIp: 10.0.2.15
+
+
+
+image: 
+  statefulSetReplicas: 1
+  imagePullPolicy: Always
+  image: eoepca/um-user-profile:latest
+persistence: 
+  accessModes: ReadWriteMany
+  dbStorageSize: 5Gi
+  type: DirectoryOrCreate
+
+config:
+  enabled: true
+
+# VolumeClaim values
+volumeClaim:
+  name: um-user-profile-pvc

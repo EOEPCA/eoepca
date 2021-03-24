@@ -1,0 +1,19 @@
+{{ if .Values.enabled }}
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: {{ .Values.storageClass }}
+provisioner: {{ .Values.provisionerName }}
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+parameters:
+  onDelete: delete
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: {{ .Values.storageClassRetain }}
+provisioner: {{ .Values.provisionerName }}
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+{{ end }}

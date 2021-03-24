@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.global.pep }}
+  labels:
+    app: {{ .Values.global.pep }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.global.pep }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.global.pep }}
+    spec:
+      containers:
+      - name: {{ .Values.global.pep }}
+        imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+        image: {{ .Values.image.image }}
+        ports:
+        - name: proxy-pep
+          containerPort: 5566
+          protocol: TCP
+        - name: resources-pep
+          containerPort: 5576
+          protocol: TCP
+        envFrom:
+        - configMapRef:
+            name: pep-cm
+      - name: mongo
+        imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+        image: mongo
+        ports:
+        - name: http-rp
+          containerPort: 27017
+          protocol: TCP
+        envFrom:
+        - configMapRef:
+            name: pep-cm
+        volumeMounts:
+        - mountPath: /data/db/
+          subPath: {{ .Values.global.pep }}/{{ .Values.context }}/data/db
+          name: vol-pep-engine
+      hostAliases:
+      - ip: {{ .Values.global.nginxIp }}
+        hostnames:
+        - {{ .Values.global.ep }}
+      volumes:
+        - name: vol-pep-engine
+          persistentVolumeClaim:
+            claimName: {{ .Values.volumeClaim.name }}
