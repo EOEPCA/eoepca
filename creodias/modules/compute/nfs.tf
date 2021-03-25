@@ -5,6 +5,10 @@ resource "openstack_compute_instance_v2" "eoepca_nfs" {
   flavor_id  = "20"
   key_pair   = "${openstack_compute_keypair_v2.k8s.name}"
 
+  lifecycle {
+     ignore_changes = [image_name]
+  }
+
   network {
     name = "${var.network_name}"
   }
