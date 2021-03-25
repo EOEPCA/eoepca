@@ -1,0 +1,11 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: um-pep-engine
+  namespace: um
+spec:
+  interval: 30s
+  ref:
+    branch: feature/EOEPCA-307
+  url: https://github.com/EOEPCA/um-pep-engine

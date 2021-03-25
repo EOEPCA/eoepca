@@ -1,0 +1,303 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: data-access
+  namespace: rm-user1
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: vs
+      version: 0.3.15
+      sourceRef:
+        kind: HelmRepository
+        name: eox-charts
+        namespace: rm
+  # valuesFrom:
+  # - kind: Secret
+  #   name: obs-access
+  #   valuesKey: access_key_id
+  #   targetPath: config.objectStorage.cache.access_key_id
+  # - kind: Secret
+  #   name: obs-access
+  #   valuesKey: secret_access_key
+  #   targetPath: config.objectStorage.data.secret_access_key
+  values:
+    config:
+      general:
+        COLLECTION: COLLECTION
+        CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .TIF,.tif,.xml,.jp2
+        GDAL_DISABLE_READDIR_ON_OPEN: "TRUE"
+        COLLECT_STATIC: "false"
+        AWS_VIRTUAL_HOSTING: "FALSE"
+        AWS_S3_ENDPOINT: cf2.cloudferro.com:8080
+        AWS_HTTPS: "YES"
+        REGISTRAR_REPLACE: "true"
+      database:
+        DB_NAME: dbname
+        DB_PORT: "5432"
+        DB_PW: dbpw
+        DB_USER: dbuser
+        POSTGRES_DB: dbname
+        POSTGRES_PASSWORD: dbpw
+        POSTGRES_USER: dbuser
+      django:
+        DJANGO_MAIL: office@eox.at
+        DJANGO_PASSWORD: djangopw
+        DJANGO_USER: djangouser
+      objectStorage:
+        download:
+          type: swift
+          username: "username"
+          password: "password"
+          tenant_name: "tenant_name"
+          tenant_id: "tenant_id"
+          region_name: "region_name"
+          auth_url: "auth_url"
+          auth_url_short: "auth_url_short"
+          auth_version: "auth_version"
+          user_domain_name: "user_domain_name"
+        data:
+          type: S3
+          endpoint_url: https://cf2.cloudferro.com:8080
+          access_key_id: b93da58584fa4e8fb03e494e8cff2def
+          secret_access_key: 9685983167634ab893d74acdd6e42dea
+          region: RegionOne
+          validate_bucket_name: False
+        cache:
+          type: local
+          # type: S3
+          # endpoint_url: "http://data.cloudferro.com"
+          # access_key_id: access
+          # secret_access_key: access
+          # region: RegionOne
+      redis:
+        # REDIS_HOST: redis
+        REDIS_PORT: "6379"
+        REDIS_PREPROCESS_QUEUE_KEY: preprocess_queue
+        REDIS_QUEUE_KEY: seed_queue
+        REDIS_REGISTER_QUEUE_KEY: register_queue
+        REDIS_REGISTERED_SET_KEY: registered_set
+        REDIS_SEED_QUEUE_KEY: seed_queue
+        REDIS_SET_KEY: registered_set
+      client:
+        title: EOEPCA Data Access View Server Client
+        header: "EOEPCA Data Access View Server (VS) Client powered by <a href=\"//eox.at\"><img src=\"//eox.at/wp-content/uploads/2017/09/EOX_Logo.svg\" alt=\"EOX\" style=\"height:25px;margin-left:10px\"/></a>"
+        layers:
+          S2L2A:
+            display_color: '#eb3700'
+            title: Data
+            layer: DATA
+            sub_layers: []
+        overlay_layers: {}
+      # cache related options
+      cache:
+        metadata:
+          title: EOEPCA Data Access Service developed by EOX
+          abstract: EOEPCA Data Access Service developed by EOX
+          url: https://ecma/cache/ows
+          keyword: view service
+          accessconstraints: UNKNOWN
+          fees: UNKNOWN
+          contactname: Stephan Meissl
+          contactphone: Please contact via mail.
+          contactfacsimile: None
+          contactorganization: EOX IT Services GmbH
+          contactcity: Vienna
+          contactstateorprovince: Vienna
+          contactpostcode: 1090
+          contactcountry: Austria
+          contactelectronicmailaddress: office@eox.at
+          contactposition: CTO
+          providername: EOX
+          providerurl: https://eox.at
+          inspire_profile: true
+          inspire_metadataurl: TBD
+          defaultlanguage: eng
+          language: eng
+        services:
+          wms:
+            enabled: true
+          wmts:
+            enabled: true
+        connection_timeout: 10
+        timeout: 120
+        expires: 3600
+        key: /{tileset}/{grid}/{dim}/{z}/{x}/{y}.{ext}
+        tilesets:
+          DATA:
+            title: Data
+            abstract: Data
+      preprocessor:
+        metadata_glob: '*GSC*.xml'
+        type_extractor:
+          xpath:
+            - /gsc:report/gsc:opt_metadata/gml:using/eop:EarthObservationEquipment/eop:platform/eop:Platform/eop:shortName/text()
+        level_extractor:
+          # xpath can also be a list of xpaths to be tried one after another
+          xpath: substring-after(substring-after(/gsc:report/gsc:opt_metadata/gml:metaDataProperty/gsc:EarthObservationMetaData/eop:parentIdentifier/text(), '/'), '/')
+        preprocessing:
+          defaults:
+            move_files: true
+            data_file_globs:
+              - '*.tif'
+              - '*.jp2'
+            output:
+              options:
+                format: COG
+                dstSRS: 'EPSG:4326'
+                dstNodata: 0
+                creationOptions:
+                  - BLOCKSIZE=512
+                  - COMPRESS=DEFLATE
+                  - NUM_THREADS=8
+                  - BIGTIFF=IF_SAFER
+                  - OVERVIEWS=AUTO
+          types: {}
+      registrar:
+        schemes:
+          - type: stac-item
+        backends:
+          - path: registrar_pycsw.backend.PycswBackend
+            kwargs:
+              repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
+              ows_url: https://data-access-user.demo.eoepca.org/ows
+        mapping:
+          '':
+            '': {}
+      # mapping of collection name to objects
+      collections:
+        DATA:
+          product_types: []
+          product_levels: []
+          coverage_types: []
+      products:
+        type_extractor:
+          xpath:
+            - /gsc:report/gsc:opt_metadata/gml:using/eop:EarthObservationEquipment/eop:platform/eop:Platform/eop:shortName/text()
+            - /gsc:report/gsc:sar_metadata/gml:using/eop:EarthObservationEquipment/eop:platform/eop:Platform/eop:shortName/text()
+          namespace_map:
+        level_extractor:
+          xpath:
+          namespace_map:
+        types: {}
+          # S2MSI2A:
+          #   coverages:
+          #   default_browse_locator: null
+          #   browses: {}
+          #   masks: {}
+      coverages: {}
+    database:
+      persistence:
+        enabled: true
+        existingClaim: data-access-db
+      postgresqlUsername: dbuser
+      postgresqlPassword: dbpw
+      postgresqlDatabase: dbname
+      postgresqlPostgresPassword: dbpgpw
+      initdbScripts:
+        enablePostgis.sh: |
+          echo "Enabling postgis"
+          PGPASSWORD="$POSTGRES_POSTGRES_PASSWORD" psql -U postgres -d "${POSTGRES_DB}" -c "CREATE EXTENSION postgis;"
+      replicaCount: 1
+      resources:
+        limits:
+          cpu: "1.5"
+          memory: 6Gi
+        requests:
+          cpu: "0.1"
+          memory: 0.5Gi
+      affinity: {}
+    preprocessor:
+      replicaCount: 1
+      resources:
+        limits:
+          cpu: 1.5
+          memory: 6Gi
+        requests:
+          cpu: 0.1
+          memory: 0.5Gi
+      affinity: {}
+    registrar:
+      image:
+        repository: eoepca/rm-data-access-core
+        tag: latest
+        pullPolicy: Always
+      replicaCount: 1
+      resources:
+        limits:
+          cpu: 1.5
+          memory: 6Gi
+        requests:
+          cpu: 0.1
+          memory: 0.5Gi
+      affinity: {}
+    renderer:
+      image:
+        repository: eoepca/rm-data-access-core
+        tag: latest
+        pullPolicy: Always
+      replicaCount: 1
+      resources:
+        limits:
+          cpu: 1.5
+          memory: 6Gi
+        requests:
+          cpu: 0.5
+          memory: 1.5Gi
+      affinity: {}
+    client:
+      image:
+        repository: registry.gitlab.eox.at/esa/prism/vs/pvs_client
+        tag: release-1.1.1
+      replicaCount: 1
+      resources:
+        limits:
+          cpu: 0.5
+          memory: 1Gi
+        requests:
+          cpu: 0.1
+          memory: 0.1Gi
+    cache:
+      image:
+        repository: registry.gitlab.eox.at/esa/prism/vs/pvs_cache
+        tag: release-1.1.1
+      replicaCount: 1
+      resources:
+        limits:
+          cpu: 0.5
+          memory: 1Gi
+        requests:
+          cpu: 0.1
+          memory: 0.1Gi
+    replicaCount: 1
+    imagePullSecrets: []
+    nameOverride: ""
+    fullnameOverride: ""
+    service:
+      type: ClusterIP
+      port: 80
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        cert-manager.io/cluster-issuer: letsencrypt
+      hosts:
+        - host: data-access-user.demo.eoepca.org
+      tls:
+        - hosts:
+            - data-access-user.demo.eoepca.org
+          secretName: data-access-tls
+    affinity: {}
+    redis:
+      usePassword: false
+      persistence:
+        existingClaim: data-access-redis
+      master:
+        persistence:
+          enabled: true
+          storageClass: managed-nfs-storage
+      cluster:
+        enabled: false
