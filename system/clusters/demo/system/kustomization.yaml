@@ -3,4 +3,4 @@ kind: Kustomization
 
 resources:
   - ./common
-  # - ./flux-system-extended
+  - ./flux-system-extended
