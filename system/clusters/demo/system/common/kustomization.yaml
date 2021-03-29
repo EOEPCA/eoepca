@@ -6,5 +6,6 @@ resources:
   - ./helmrepo-jetstack.yaml
   - ./helmrepo-k8sathome.yaml
   - ./helmrepo-nfs-subdir-external-provisioner.yaml
+  - ./helmrepo-sealed-secrets.yaml
   - ./helmrepo-stable.yaml
   - ./namespace.yaml
