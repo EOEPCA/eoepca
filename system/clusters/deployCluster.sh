@@ -31,8 +31,8 @@ fi
 kubectl config view --minify --flatten > "$TMP_KUBECONFIG"
 export KUBECONFIG="$TMP_KUBECONFIG"
 
-# Custom Resource Definitions
-kubectl apply -f ./CRD
+# # Custom Resource Definitions
+# kubectl apply -f ./CRD
 
 # Initialise flux in the cluster
 flux bootstrap github \
