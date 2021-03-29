@@ -16,7 +16,7 @@ spec:
       enabled: false
     nfs:
       server:
-        address: "192.168.123.18"
+        address: "192.168.100.11"
     domain:
       resman:
         storageClass: eoepca-nfs
