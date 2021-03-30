@@ -18,8 +18,13 @@ metadata:
   namespace: flux-system
 spec:
   template:
-    metadata:
-      annotations:
-        custom: annotation
+    spec:
+      containers:
+        resources:
+          limits:
+            memory: 2Gi
+          requests:
+            memory: 500Mi
+
       labels:
         custom: label
