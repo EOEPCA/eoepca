@@ -25,6 +25,3 @@ spec:
             memory: 2Gi
           requests:
             memory: 500Mi
-
-      labels:
-        custom: label
