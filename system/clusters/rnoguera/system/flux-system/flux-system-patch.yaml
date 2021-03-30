@@ -20,8 +20,8 @@ spec:
   template:
     spec:
       containers:
-        resources:
-          limits:
-            memory: 2Gi
-          requests:
-            memory: 500Mi
+        - resources:
+            limits:
+              memory: 2Gi
+            requests:
+              memory: 500Mi
