@@ -20,7 +20,8 @@ spec:
   template:
     spec:
       containers:
-        - resources:
+        - name: manager
+          resources:
             limits:
               memory: 2Gi
             requests:
