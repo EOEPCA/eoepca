@@ -29,6 +29,7 @@ fi
 
 # Consolidate to a local kubeconfig - avoids problem of flux not handling paths in KUBECONFIG
 kubectl config view --minify --flatten > "$TMP_KUBECONFIG"
+chmod 600 "$TMP_KUBECONFIG"
 export KUBECONFIG="$TMP_KUBECONFIG"
 
 # Pre-flux bootstrapping
