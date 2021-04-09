@@ -6,12 +6,12 @@ metadata:
 spec:
   chart:
     spec:
-      chart: ./charts/pep-engine
+      chart: ./system/charts/pep-engine
       version: 0.1.5
       sourceRef:
         kind: GitRepository
-        name: um-pep-engine
-        namespace: um
+        name: flux-system
+        namespace: flux-system
   values:
     context: rm
     global:
