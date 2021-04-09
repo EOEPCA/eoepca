@@ -16,7 +16,7 @@ spec:
     global:
       pep: ressource-manamgement-pep
       ep: test-rm.185.52.193.87.nip.io
-      domain: https://test-rm.185.52.193.87.nip.io
+      domain: https://test.185.52.193.87.nip.io
       resourceServer: http://data-access-vs-cache/
       pdpUrl: https://test.185.52.193.87.nip.io/pdp
       nginxIp: 185.52.193.87
