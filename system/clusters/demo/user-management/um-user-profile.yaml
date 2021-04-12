@@ -15,7 +15,7 @@ spec:
     global:
       ep: test.demo.eoepca.org
       ssoUrl: test.demo.eoepca.org
-      nginxIp: 185.52.194.199
+      nginxIp: 185.52.195.19
       redirectUri: "http://test.demo.eoepca.org/web_ui/oauth/callback"
       postLogoutRedirectUri: http://test.demo.eoepca.org/web_ui"
     image:

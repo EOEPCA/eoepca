@@ -19,7 +19,7 @@ spec:
       domain: https://test-rm.demo.eoepca.org
       resourceServer: http://data-access-vs-cache/
       pdpUrl: https://test.demo.eoepca.org/pdp
-      nginxIp: 185.52.194.199
+      nginxIp: 185.52.195.19
       proxyHost: rm.test.demo.eoepca.org
       resourceHost: rm.resources.demo.eoepca.org
     image:
