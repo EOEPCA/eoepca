@@ -134,9 +134,20 @@ vs:
                 - OVERVIEWS=AUTO
         types: {}
     registrar:
+      configureEOxServer: false
       schemes:
         - type: stac-item
+        - path: registrar_pycsw.scheme.CWLRegistrationScheme
       backends:
+        - path: registrar.backend.EOxServerBackend
+          schemes:
+            - stac-item
+          kwargs:
+            instance_base_path: /var/www/pvs/dev
+            instance_name: pvs_instance
+            mapping:
+                '':
+                  '': {}
         - path: registrar_pycsw.backend.PycswBackend
           kwargs:
             repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
@@ -199,7 +210,7 @@ vs:
   registrar:
     image:
       repository: eoepca/rm-data-access-core
-      tag: 0.3
+      tag: latest
       pullPolicy: Always
     replicaCount: 1
     resources:
@@ -213,7 +224,7 @@ vs:
   renderer:
     image:
       repository: eoepca/rm-data-access-core
-      tag: 0.3
+      tag: latest
       pullPolicy: Always
     replicaCount: 1
     resources:
