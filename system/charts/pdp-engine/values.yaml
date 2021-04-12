@@ -17,7 +17,7 @@ global:
 
 image: 
   statefulSetReplicas: 1
-  imagePullPolicy: Always
+  imagePullPolicy: IfNotPresent
   image: eoepca/um-pdp-engine:latest
 persistence: 
   accessModes: ReadWriteMany
