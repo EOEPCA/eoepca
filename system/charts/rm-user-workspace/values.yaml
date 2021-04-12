@@ -134,7 +134,7 @@ vs:
                 - OVERVIEWS=AUTO
         types: {}
     registrar:
-      configureEOxServer: false
+      disable_default_eoxserver: true
       schemes:
         - type: stac-item
           filter: stac/.*
