@@ -19,7 +19,7 @@ spec:
       ep: test-rm.185.52.193.87.nip.io
       domain: https://test.185.52.193.87.nip.io
       resourceServer: http://data-access-vs-cache/
-      pdpUrl: https://test.185.52.193.87.nip.io/pdp
+      pdpUrl: pdp-engine.default
       nginxIp: 185.52.193.87
       proxyHost: rm.test.185.52.193.87.nip.io
       resourceHost: rm.resources.185.52.193.87.nip.io
