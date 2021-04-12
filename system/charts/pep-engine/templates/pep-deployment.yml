@@ -29,7 +29,7 @@ spec:
         - configMapRef:
             name: pep-cm
       - name: mongo
-        imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+        imagePullPolicy: IfNotPresent
         image: mongo
         ports:
         - name: http-rp
