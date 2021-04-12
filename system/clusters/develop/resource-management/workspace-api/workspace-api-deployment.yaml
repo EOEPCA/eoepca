@@ -72,7 +72,7 @@ spec:
           requests:
             cpu: 0.05
             memory: 128Mi
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
       imagePullSecrets:
         - name: flux-workspace-api
       restartPolicy: Always
