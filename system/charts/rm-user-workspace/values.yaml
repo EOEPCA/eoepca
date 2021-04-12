@@ -137,7 +137,9 @@ vs:
       configureEOxServer: false
       schemes:
         - type: stac-item
+          filter: stac/.*
         - path: registrar_pycsw.scheme.CWLRegistrationScheme
+          filter: cwl/.*
       backends:
         - path: registrar.backend.EOxServerBackend
           schemes:
