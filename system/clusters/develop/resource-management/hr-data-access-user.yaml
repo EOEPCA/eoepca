@@ -159,9 +159,9 @@ spec:
         disable_default_eoxserver: true
         schemes:
           - type: stac-item
-            filter: stac/.*
+            filter: .*/stac.*
           - path: registrar_pycsw.scheme.CWLRegistrationScheme
-            filter: cwl/.*
+            filter: .*/cwl/.*
         backends:
           - type: eoxserver
             schemes:
