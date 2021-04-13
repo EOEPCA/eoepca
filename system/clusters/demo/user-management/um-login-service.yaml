@@ -35,6 +35,6 @@ spec:
         tls:
           - hosts:
               - test.demo.eoepca.org
-            secretName: tls-certificate
+            secretName: login-service-tls
   timeout: 25m0s
   interval: 1m0s
