@@ -18,7 +18,7 @@ spec:
       repository: eoepca/proc-ades
       pullPolicy: Always
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "dev0.3.3"
+      tag: "dev0.3.4"
     nameOverride: ""
     fullnameOverride: ""
     serviceAccount:
