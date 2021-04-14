@@ -32,7 +32,6 @@ spec:
       ingress:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt
-          eoepca/dummy: testing
         hosts:
           - test.demo.eoepca.org
         tls:
