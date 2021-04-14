@@ -12,8 +12,6 @@ spec:
         name: flux-system
         namespace: flux-system
   values:
-    eoepca:
-      dummy: testing
     config:
       domain: test.185.52.193.87.nip.io
       volumeClaim:
