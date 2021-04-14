@@ -30,11 +30,13 @@ spec:
       nginxIp: 185.52.193.87
     nginx:
       ingress:
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt
         hosts:
           - test.185.52.193.87.nip.io
         tls:
           - hosts:
               - test.185.52.193.87.nip.io
-            secretName: tls-certificate
+            secretName: login-service-tls
   timeout: 25m0s
   interval: 1m0s
