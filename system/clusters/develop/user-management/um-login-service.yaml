@@ -3,6 +3,7 @@ kind: HelmRelease
 metadata:
   name: um-login-service
   namespace: default
+  eoepca-dummy: testing
 spec:
   chart:
     spec:
