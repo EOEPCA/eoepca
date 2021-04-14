@@ -30,6 +30,9 @@ spec:
       nginxIp: 185.52.195.19
     nginx:
       ingress:
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt
+          eoepca/dummy: testing
         hosts:
           - test.demo.eoepca.org
         tls:
