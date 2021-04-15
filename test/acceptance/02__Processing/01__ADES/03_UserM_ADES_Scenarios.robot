@@ -13,9 +13,7 @@ Suite Setup  Suite Setup
 ${WPS_JOB_MONITOR_ROOT}=  /watchjob
 ${WPS_PATH_PREFIX}=  /zoo
 ${WPS_SERVICE_URL}=  ${ADES_BASE_URL}
-${PDP_BASE_URL}=  http://test.185.52.193.87.nip.io/pdp
-${ADES_RESOURCES_API_URL}=  http://ades.resources.185.52.193.87.nip.io
-${ADES_PEP_PROXY}=  http://ades.test.185.52.193.87.nip.io/
+${PDP_BASE_URL}=  ${UM_BASE_URL}/pdp
 ${USERNAME}=  ${USER_A_NAME}
 ${PASSWORD}=  ${USER_A_PASSWORD}
 ${USERNAME_B}=  ${USER_B_NAME}
