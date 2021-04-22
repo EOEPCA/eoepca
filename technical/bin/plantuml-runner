@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+ORIG_DIR="$(pwd)"
+cd "$(dirname "$0")"
+BIN_DIR="$(pwd)"
+cd "${BIN_DIR}/../data"
+
+trap "cd '${ORIG_DIR}'" EXIT
+
+java -jar $(find / -name 'plantuml.jar' 2>/dev/null) $@
+rm -rf \?
