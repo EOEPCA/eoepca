@@ -42,6 +42,7 @@ spec:
         DJANGO_MAIL: office@eox.at
         DJANGO_PASSWORD: djangopw
         DJANGO_USER: djangouser
+        DJANGO_SECRET_KEY: somesecretkey
       objectStorage:
         download:
           type: swift
@@ -61,12 +62,12 @@ spec:
             access_key_id: access
             secret_access_key: access
         cache:
-          type: local
-          # type: S3
-          # endpoint_url: "http://data.cloudferro.com"
-          # access_key_id: access
-          # secret_access_key: access
-          # region: RegionOne
+          type: S3
+          endpoint_url: "cf2.cloudferro.com:8080"
+          access_key_id: 448d0fded41b4be09daa950ee111091b
+          secret_access_key: 7334835d85dc47389a5742f3eb58590e
+          region: RegionOne
+          bucket: cache-bucket
       redis:
         # REDIS_HOST: redis
         REDIS_PORT: "6379"
