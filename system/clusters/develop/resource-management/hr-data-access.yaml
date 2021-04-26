@@ -64,7 +64,7 @@ spec:
         cache:
           type: S3
           endpoint_url: "https://cf2.cloudferro.com:8080/cache-bucket"
-          host: "cf2.cloudferro.com:8080/cache-bucket"
+          host: "cf2.cloudferro.com:8080"
           region: RegionOne
           bucket: cache-bucket
       redis:
