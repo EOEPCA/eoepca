@@ -18,10 +18,11 @@ spec:
   #   name: viewserver-bucket
   #   valuesKey: secret_access_key
   #   targetPath: config.objectStorage.data.secret_access_key
-  # - kind: Secret
-  #   name: viewserver-bucket
-  #   valuesKey: secret_access_key
-  #   targetPath: config.objectStorage.cache.secret_access_key
+  valuesFrom:
+  - secretKeyRef:
+    name: cache-access-secret
+    namespace: rm
+    key: values.yaml
   values:
     config:
       general:
