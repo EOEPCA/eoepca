@@ -20,9 +20,9 @@ spec:
   #   targetPath: config.objectStorage.data.secret_access_key
   valuesFrom:
   - secretKeyRef:
-    name: cache-access-secret
-    namespace: rm
-    key: values.yaml
+      name: cache-access-secret
+      namespace: rm
+      key: values.yaml
   values:
     config:
       general:
