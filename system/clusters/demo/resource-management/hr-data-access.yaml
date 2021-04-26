@@ -161,6 +161,13 @@ spec:
             grids:
               - name: WGS84
                 zoom: 13
+          S2L1C__clouds:
+            title: Sentinel-2 Level 1C clouds
+            abstract: Sentinel-2 Level 1C clouds
+            style: earth
+            grids:
+              - name: WGS84
+                zoom: 13
           S2L2A:
             title: Sentinel-2 Level 2A True Color
             abstract: Sentinel-2 Level 2A True Color
@@ -188,6 +195,13 @@ spec:
           S2L2A__NDVI:
             title: Sentinel-2 Level 2A NDVI
             abstract: Sentinel-2 Level 2A NDVI
+            style: earth
+            grids:
+              - name: WGS84
+                zoom: 13
+          S2L2A__clouds:
+            title: Sentinel-2 Level 2A clouds
+            abstract: Sentinel-2 Level 2A clouds
             style: earth
             grids:
               - name: WGS84
