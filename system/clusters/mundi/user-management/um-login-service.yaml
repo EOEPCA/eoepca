@@ -13,7 +13,7 @@ spec:
         namespace: flux-system
   values:
     config:
-      domain: test.185.52.193.87.nip.io
+      domain: test.80.158.50.102.nip.io
       volumeClaim:
         name: eoepca-userman-pvc
     opendj:
@@ -26,15 +26,15 @@ spec:
       volumeClaim:
         name: eoepca-userman-pvc
     global:
-      domain: test.185.52.193.87.nip.io
-      nginxIp: 185.52.193.87
+      domain: test.80.158.50.102.nip.io
+      nginxIp: 80.158.50.102
     nginx:
       ingress:
         hosts:
-          - test.185.52.193.87.nip.io
+          - test.80.158.50.102.nip.io
         tls:
           - hosts:
-              - test.185.52.193.87.nip.io
+              - test.80.158.50.102.nip.io
             secretName: tls-certificate
   timeout: 25m0s
   interval: 1m0s

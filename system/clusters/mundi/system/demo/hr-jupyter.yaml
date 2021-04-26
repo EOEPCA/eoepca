@@ -13,7 +13,7 @@ spec:
         name: flux-system
         namespace: flux-system
   values:
-    hostname: 185.52.193.87.nip.io
+    hostname: 80.158.50.102.nip.io
     image:
       image: rconway/jupyter:1.1
       # imagePullPolicy: Always
