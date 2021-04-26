@@ -25,7 +25,7 @@ number_of_k8s_masters = 0
 number_of_k8s_masters_no_etcd = 0
 number_of_k8s_masters_no_floating_ip = 1
 number_of_k8s_masters_no_floating_ip_no_etcd = 0
-
+master_root_volume_size_in_gb = 6
 # nodes
 number_of_k8s_nodes = 0
 number_of_k8s_nodes_no_floating_ip = 3

@@ -116,9 +116,9 @@ output "bastion_fips" {
   value = "${module.ips.bastion_fips}"
 }
 
-output "loadbalancer_fips" {
-  value = "${module.loadbalancer.loadbalancer_fips}"
-}
+# output "loadbalancer_fips" {
+#   value = "${module.loadbalancer.loadbalancer_fips}"
+# }
 
 output "k8s_master_ips" {
   value = "${module.compute.k8s_master_ips}"

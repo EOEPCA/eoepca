@@ -10,7 +10,7 @@ BIN_DIR="$(pwd)"
 trap "cd '${ORIG_DIR}'" EXIT
 
 USER=$1
-if [ -z "$USER" ]; then USER=eouser; fi
+if [ -z "$USER" ]; then USER=ubuntu; fi
 
 echo "Setting up node for USER=${USER}"
 
@@ -21,3 +21,6 @@ then
   curl -sfL https://get.docker.com | sh -s -
   sudo usermod -aG docker ${USER}
 fi
+
+sudo sed -i 's/AllowTcpForwarding no/AllowTcpForwarding yes/' /etc/ssh/sshd_config
+sudo systemctl restart sshd.service
