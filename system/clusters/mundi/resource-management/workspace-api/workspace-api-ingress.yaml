@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: workspace-api
+  namespace: rm
+  labels:
+    app.kubernetes.io/instance: workspace-api
+    app.kubernetes.io/name: workspace-api
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+spec:
+  tls:
+    - hosts:
+        - workspace-api.80.158.60.68
+      secretName: workspace-api-tls
+  rules:
+    - host: workspace-api.80.158.60.68
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: workspace-api
+              servicePort: http

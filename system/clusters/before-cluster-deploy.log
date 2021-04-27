@@ -1,0 +1,46 @@
+NAMESPACE       NAME                                            READY   STATUS      RESTARTS   AGE
+ingress-nginx   pod/ingress-nginx-admission-create-fvdnl        0/1     Completed   0          22m
+ingress-nginx   pod/ingress-nginx-admission-patch-77cjx         0/1     Completed   0          22m
+ingress-nginx   pod/ingress-nginx-controller-7bfc4ff4bb-2tqrb   1/1     Running     0          22m
+kube-system     pod/canal-6tw7f                                 2/2     Running     0          22m
+kube-system     pod/canal-d42fc                                 2/2     Running     0          22m
+kube-system     pod/canal-hkbjg                                 2/2     Running     0          22m
+kube-system     pod/canal-lq48h                                 2/2     Running     0          22m
+kube-system     pod/coredns-849545576b-bzp28                    1/1     Running     0          22m
+kube-system     pod/coredns-849545576b-cknmg                    1/1     Running     0          22m
+kube-system     pod/coredns-autoscaler-5dcd676cbd-tkr7l         1/1     Running     0          22m
+kube-system     pod/metrics-server-697746ff48-wx69z             1/1     Running     0          22m
+kube-system     pod/rke-coredns-addon-deploy-job-4l24b          0/1     Completed   0          22m
+kube-system     pod/rke-metrics-addon-deploy-job-p92pt          0/1     Completed   0          22m
+kube-system     pod/rke-network-plugin-deploy-job-5g849         0/1     Completed   0          23m
+kube-system     pod/rke-user-includes-addons-deploy-job-x6v6p   0/1     Completed   0          22m
+
+NAMESPACE       NAME                                         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+default         service/kubernetes                           ClusterIP   10.43.0.1       <none>        443/TCP                      23m
+ingress-nginx   service/ingress-nginx-controller             NodePort    10.43.49.88     <none>        80:31080/TCP,443:31443/TCP   22m
+ingress-nginx   service/ingress-nginx-controller-admission   ClusterIP   10.43.68.158    <none>        443/TCP                      22m
+kube-system     service/kube-dns                             ClusterIP   10.43.0.10      <none>        53/UDP,53/TCP,9153/TCP       22m
+kube-system     service/metrics-server                       ClusterIP   10.43.189.106   <none>        443/TCP                      22m
+
+NAMESPACE     NAME                   DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+kube-system   daemonset.apps/canal   4         4         4       4            4           kubernetes.io/os=linux   22m
+
+NAMESPACE       NAME                                       READY   UP-TO-DATE   AVAILABLE   AGE
+ingress-nginx   deployment.apps/ingress-nginx-controller   1/1     1            1           22m
+kube-system     deployment.apps/coredns                    2/2     2            2           22m
+kube-system     deployment.apps/coredns-autoscaler         1/1     1            1           22m
+kube-system     deployment.apps/metrics-server             1/1     1            1           22m
+
+NAMESPACE       NAME                                                  DESIRED   CURRENT   READY   AGE
+ingress-nginx   replicaset.apps/ingress-nginx-controller-7bfc4ff4bb   1         1         1       22m
+kube-system     replicaset.apps/coredns-849545576b                    2         2         2       22m
+kube-system     replicaset.apps/coredns-autoscaler-5dcd676cbd         1         1         1       22m
+kube-system     replicaset.apps/metrics-server-697746ff48             1         1         1       22m
+
+NAMESPACE       NAME                                            COMPLETIONS   DURATION   AGE
+ingress-nginx   job.batch/ingress-nginx-admission-create        1/1           28s        22m
+ingress-nginx   job.batch/ingress-nginx-admission-patch         1/1           28s        22m
+kube-system     job.batch/rke-coredns-addon-deploy-job          1/1           3s         22m
+kube-system     job.batch/rke-metrics-addon-deploy-job          1/1           2s         22m
+kube-system     job.batch/rke-network-plugin-deploy-job         1/1           15s        23m
+kube-system     job.batch/rke-user-includes-addons-deploy-job   1/1           3s         22m

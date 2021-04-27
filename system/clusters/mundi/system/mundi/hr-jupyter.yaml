@@ -1,0 +1,20 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: jupyter
+  namespace: mundi
+spec:
+  chart:
+    spec:
+      chart: ./system/charts/jupyter
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    hostname: 80.158.60.68
+    image:
+      image: rconway/jupyter:1.1
+      # imagePullPolicy: Always
+  interval: 1m0s

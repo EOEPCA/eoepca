@@ -1,0 +1,26 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: um-user-profile
+  namespace: default
+spec:
+  chart:
+    spec:
+      chart: ./system/charts/user-profile
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    global:
+      ep: test.80.158.60.68
+      ssoUrl: test.80.158.60.68
+      nginxIp: 185.52.195.19
+      redirectUri: "http://test.80.158.60.68/web_ui/oauth/callback"
+      postLogoutRedirectUri: http://test.80.158.60.68/web_ui"
+    image:
+      image: eoepca/um-user-profile:v0.3
+    volumeClaim:
+      name: eoepca-userman-pvc
+  timeout: 25m0s
+  interval: 1m0s

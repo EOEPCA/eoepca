@@ -1,0 +1,44 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kibana
+  namespace: infra
+spec:
+  chart:
+    spec:
+      chart: kibana
+      version: 6.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: common
+  interval: 1h0m0s
+  releaseName: kibana
+  targetNamespace: infra
+  values:
+    global:
+      imagePullSecrets: [flux-docker]
+    metrics:
+      enabled: true
+    persistence:
+      enabled: true
+      storageClass: "managed-nfs-storage"
+      size: 1Gi
+    ingress:
+      enabled: true
+      certManager: true
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        nginx.ingress.kubernetes.io/proxy-read-timeout: '600'
+        nginx.ingress.kubernetes.io/enable-cors: 'true'
+        nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User, X-Auth-Request-Email
+        nginx.ingress.kubernetes.io/auth-signin: https://auth.80.158.60.68/oauth2/start?rd=%2F$server_name$escaped_request_uri
+        nginx.ingress.kubernetes.io/auth-url: https://auth.80.158.60.68/oauth2/auth
+        cert-manager.io/cluster-issuer: letsencrypt
+      hosts:
+      - name: kibana.80.158.60.68
+        tls: true
+        tlsSecret: kibana-tls
+    elasticsearch:
+      hosts: [elasticsearch-elasticsearch-master]
+      port: 9200
