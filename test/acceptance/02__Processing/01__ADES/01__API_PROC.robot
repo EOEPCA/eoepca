@@ -24,7 +24,7 @@ Initial Process List
   Record Initial Process List
 
 Deploy Application
-  Deploy Application  ${CURDIR}${/}data/app-deploy-body.json
+  Deploy Application  ${CURDIR}${/}data/app-deploy-body-atom.json
   Sleep  5  Waiting for process deploy process to complete asynchronously
   Process Is Deployed  ${PROCESS_NAME}
 

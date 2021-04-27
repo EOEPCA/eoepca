@@ -1,0 +1,20 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: jupyter
+  namespace: demo
+spec:
+  chart:
+    spec:
+      chart: ./system/charts/jupyter
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    hostname: demo.eoepca.org
+    image:
+      image: rconway/jupyter:1.1
+      # imagePullPolicy: Always
+  interval: 1m0s

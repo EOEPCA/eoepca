@@ -14,7 +14,7 @@ trap "cd '${ORIG_DIR}'" EXIT
 ACTION="${1:-apply}"
 
 AUTO_APPROVE=
-if [ "$ACTION" = "apply" ]; then AUTO_APPROVE="--auto-approve"; fi
+# if [ "$ACTION" = "apply" ]; then AUTO_APPROVE="--auto-approve"; fi
 
 if test -z "$OS_CLOUD"
 then

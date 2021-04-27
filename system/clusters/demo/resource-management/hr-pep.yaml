@@ -1,0 +1,33 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: ressource-management-pep
+  namespace: rm
+spec:
+  chart:
+    spec:
+      chart: ./system/charts/pep-engine
+      version: 0.1.6
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    context: rm
+    global:
+      pep: ressource-manamgement-pep
+      ep: test-rm.demo.eoepca.org
+      domain: https://test.demo.eoepca.org
+      resourceServer: http://data-access-vs-cache/
+      pdpUrl: pdp-engine.default
+      nginxIp: 185.52.195.19
+      proxyHost: rm.test.demo.eoepca.org
+      resourceHost: rm.resources.demo.eoepca.org
+      proxyNodePort: 31710
+    image:
+      image: eoepca/um-pep-engine:v0.3.2
+    volumeClaim:
+      name: pvc-pep
+
+  timeout: 25m0s
+  interval: 1m0s

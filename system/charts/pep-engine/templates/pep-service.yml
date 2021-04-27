@@ -11,11 +11,10 @@ spec:
     name: proxy-pep
     targetPort: 5566
     protocol: TCP
-    nodePort: 31707
+    nodePort: {{ .Values.global.proxyNodePort | default 31707 }}
   - port: 5576
     name: resources-pep
     targetPort: 5576
     protocol: TCP
   selector:
     app: {{ .Values.global.pep }}
-    
