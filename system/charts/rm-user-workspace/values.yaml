@@ -1,6 +1,3 @@
-global:
-  namespace: rm-user1
-
 vs:
   config:
     general:
@@ -137,9 +134,12 @@ vs:
       disable_default_eoxserver: true
       schemes:
         - type: stac-item
-          filter: stac/.*
+          filter: ".*/wf-.*/.*"
+          kwargs:
+            # use a non-existent property on purpose to fix product-type to None
+            product_type_property: does-not-exist
         - path: registrar_pycsw.scheme.CWLRegistrationScheme
-          filter: cwl/.*
+          filter: ".*application-package/.*"
       backends:
         - path: registrar.backend.EOxServerBackend
           schemes:
