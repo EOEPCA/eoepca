@@ -21,6 +21,8 @@ vs:
       DJANGO_MAIL: office@eox.at
       DJANGO_PASSWORD: djangopw
       DJANGO_USER: djangouser
+      # TODO: replace once newer chart available
+      DJANGO_SECRET_KEY: "WORKSPACE_SECRET_KEY"
     objectStorage:
       download:
         type: swift
