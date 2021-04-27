@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: Secret
-metadata:
-  name: grafana-datasource
-  namespace: infra
-data:
-  grafana-datasource-config.yaml: YXBpVmVyc2lvbjogMQoKZGF0YXNvdXJjZXM6Ci0gbmFtZTogcHJvbWV0aGV1cwogIHR5cGU6IHByb21ldGhldXMKICBhY2Nlc3M6IHByb3h5CiAgaXNEZWZhdWx0OiB0cnVlCiAgdXJsOiBodHRwOi8va3ViZS1wcm9tZXRoZXVzLXByb21ldGhldXMuaW5mcmEuc3ZjOjkwOTAv
