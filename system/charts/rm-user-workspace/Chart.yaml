@@ -25,7 +25,7 @@ appVersion: "0.0.0"
 
 dependencies:
   - name: "vs"
-    version: 1.0.2
+    version: 1.0.3
     repository: "https://charts-public.hub.eox.at/"
 
   - name: "rm-resource-catalogue"
