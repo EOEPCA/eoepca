@@ -36,12 +36,11 @@ vs:
         auth_version: "auth_version"
         user_domain_name: "user_domain_name"
       data:
-        type: S3
-        endpoint_url: https://cf2.cloudferro.com:8080
-        access_key_id: b93da58584fa4e8fb03e494e8cff2def
-        secret_access_key: 9685983167634ab893d74acdd6e42dea
-        region: RegionOne
-        validate_bucket_name: False
+        data:
+          type: S3
+          endpoint_url: https://cf2.cloudferro.com:8080
+          region: RegionOne
+          validate_bucket_name: False
       cache:
         type: local
         # type: S3
