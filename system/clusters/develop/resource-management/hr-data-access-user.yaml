@@ -45,6 +45,7 @@ spec:
         DJANGO_MAIL: office@eox.at
         DJANGO_PASSWORD: djangopw
         DJANGO_USER: djangouser
+        DJANGO_SECRET_KEY: SOME_SECRET_KEY
       objectStorage:
         download:
           type: swift
@@ -129,6 +130,9 @@ spec:
           DATA:
             title: Data
             abstract: Data
+            grids:
+              - name: WGS84
+                zoom: 13
       preprocessor:
         metadata_glob: '*GSC*.xml'
         type_extractor:
