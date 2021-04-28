@@ -105,6 +105,9 @@ vs:
         DATA:
           title: Data
           abstract: Data
+          grids:
+            - name: WGS84
+              zoom: 13
     preprocessor:
       metadata_glob: '*GSC*.xml'
       type_extractor:
@@ -140,7 +143,7 @@ vs:
             # use a non-existent property on purpose to fix product-type to None
             product_type_property: does-not-exist
         - path: registrar_pycsw.scheme.CWLRegistrationScheme
-          filter: ".*application-package/.*"
+          filter: ".*/application-package/.*"
       backends:
         - path: registrar.backend.EOxServerBackend
           schemes:
@@ -149,8 +152,8 @@ vs:
             instance_base_path: /var/www/pvs/dev
             instance_name: pvs_instance
             mapping:
-                '':
-                  '': {}
+              '':
+                '': {}
         - path: registrar_pycsw.backend.PycswBackend
           kwargs:
             repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
