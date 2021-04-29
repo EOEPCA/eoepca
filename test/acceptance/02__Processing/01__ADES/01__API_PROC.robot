@@ -9,8 +9,8 @@ Suite Teardown  Suite Teardown
 
 
 *** Variables ***
-${USERNAME}=  UserA
-${PASSWORD}=  defaultPWD
+${USERNAME}=  ${USER_A_NAME}
+${PASSWORD}=  ${USER_A_PASSWORD}
 ${ADES_WORKSPACE}=  ${USERNAME}
 ${PROCESS_NAME}=  s-expression-0_0_2
 ${API_PROC_PATH_PREFIX}=  /${ADES_WORKSPACE}/wps3

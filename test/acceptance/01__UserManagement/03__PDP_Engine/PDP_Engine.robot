@@ -37,7 +37,8 @@ PDP Get Ownership
 PDP Get Other Token
   [Arguments]  ${well_known}
   ${ep}=  PDP Get TokenEndpoint  ${well_known}
-  ${a}=  Run Process  sh  ${CURDIR}${/}tkn.sh  -t  ${ep}  -i  ${C_ID_UMA}  -p  ${C_SECRET_UMA}
+  ${a}=  Run Process  sh  ${CURDIR}${/}tkn.sh  -t  ${ep}  -i  ${C_ID_UMA}  -s  ${C_SECRET_UMA}  -u  ${USER_A_NAME}  -p  ${USER_A_PASSWORD}  -f  ${CURDIR}${/}2.txt
+  ${a}=  Run Process  sh  ${CURDIR}${/}tkn.sh  -t  ${ep}  -i  ${C_ID_UMA}  -s  ${C_SECRET_UMA}  -u  ${USER_B_NAME}  -p  ${USER_B_PASSWORD}  -f  ${CURDIR}${/}3.txt
   ${U1}=  OperatingSystem.Get File  ${CURDIR}${/}2.txt
   ${U1}=  PDP Get Access Token From Response  ${U1}
   Set Global Variable  ${UA_TK}  ${U1}
