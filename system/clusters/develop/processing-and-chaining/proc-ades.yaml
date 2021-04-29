@@ -97,11 +97,10 @@ spec:
       #  STAGEOUT_OUTPUT: s3://processing_results
 
       #    STAGEOUT_STORAGE_HOST: https://nx13206.your-storageshare.de/
-      #    STAGEOUT_STORAGE_USERNAME: eoepca-storage
+      #    STAGEOUT_STORAGE_USERNAME: eoepca-storagecd 
       #    STAGEOUT_STORAGE_APIKEY: 4k8wMajA5ABaYdk
 
-      useResourceManager: "True"
-      resourceManagerUser: "UserA"
+      useResourceManager: "true"
       resourceManagerEndpoint: "https://workspace-api.185.52.193.87.nip.io"
 
       main:
