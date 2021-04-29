@@ -72,8 +72,8 @@ def main():
 
     # API Proc List Processes
     print("\n### API Proc List Processes ###")
-    response, access_token = demo.proc_list_processes(ades_proc_url, id_token=user_id_token, access_token=access_token)
-    # print("access token:", access_token)
+    response, access_token, process_ids = demo.proc_list_processes(ades_proc_url, id_token=user_id_token, access_token=access_token)
+    print("Process List =", process_ids)
 
     # API Proc Deploy Application
     print("\n### API Proc Deploy Application ###")
@@ -84,14 +84,14 @@ def main():
     # ...pure CWL (application/cwl)...
     # response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body-cwl.json", id_token=user_id_token, access_token=access_token)
     #
-    # print("access token:", access_token)
+    print("Deploy Response =", response.text)
 
     # API Proc Get Application Details
     sleep(5)  # give the ades a chance to deploy before proceeding
     print("\n### API Proc Get Application Details ###")
     app_name = "s-expression-0_0_2"
     response, access_token = demo.proc_get_app_details(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
-    # print("access token:", access_token)
+    print("Application Details =", response.text)
 
     # API Proc Execute Application
     print("\n### API Proc Execute Application ###")
@@ -101,34 +101,29 @@ def main():
     # API Proc Get Job Status
     sleep(5)  # give the ades a chance to register (with the UM) the job status endpoint
     print("\n### API Proc Get Job Status ###")
-    status = "running"
-    while status == 'running':
-        r, access_token = demo.proc_get_job_status(active_ades_url, job_location_path, id_token=user_id_token, access_token=access_token)
-        response = r.json()
-        status = response['status']
-        if status == 'failed': 
-            print(response)
-            break
-        if status == 'successful':
-            print(response['links'][0]['href'])
-            break
-        else:
-            print('Polling - {}'.format(status))
-            sleep(30)
+    response, access_token, status = demo.proc_get_job_status(active_ades_url, job_location_path, id_token=user_id_token, access_token=access_token)
+    print("Job Status Response =", response.text)
+
+    # API Proc Poll for Job completion
+    print("\n### API Proc Poll for Job completion ###")
+    poll_interval = 30
+    response, access_token, status = demo.proc_poll_job_completion(active_ades_url, job_location_path, interval=poll_interval, id_token=user_id_token, access_token=access_token)
 
     # API Proc Get Job Result
     print("\n### API Proc Get Job Result ###")
-    r, access_token = demo.proc_get_job_result(active_ades_url, job_location_path, id_token=user_id_token, access_token=access_token)
+    r, access_token, stacCatalogUri = demo.proc_get_job_result(active_ades_url, job_location_path, id_token=user_id_token, access_token=access_token)
     response = r.json()
+    print("Results STAC file =", stacCatalogUri)
 
     # API Proc Undeploy Application
     print("\n### API Proc Undeploy Application ###")
     app_name = "s-expression-0_0_2"
     response, access_token = demo.proc_undeploy_application(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
+    print("Undeploy Response =", response.text)
 
-    # #===========================================================================
-    # # WPS
-    # #===========================================================================
+    #===========================================================================
+    # WPS
+    #===========================================================================
 
     # WPS Get Capabilities
     print("\n### WPS GET CAPABILITIES ###")

@@ -69,6 +69,7 @@ function run_acceptance_tests() {
   # Whole test suite..
   robot --variable PUBLIC_HOSTNAME:${public_hostname} .
   # Specific tests - uncomment for selected testing...
+  # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.UserManagement .
   # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.UserManagement.UserProfile .
   # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.Processing.ADES .
   # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.Processing.ADES.API_PROC .
