@@ -54,26 +54,16 @@ Init ID Token
   Set Suite Variable  ${ID_TOKEN}  ${id_token}
 
 Record Initial Process List
-  ${resp}=  List Processes
-  @{processes}=  Get Process Names From Response  ${resp}
+  ${resp}  @{processes} =  List Processes
   Should Be True  $processes is not None
   Set Suite Variable  ${INITIAL_PROCESS_LIST}  ${processes}
 
 List Processes
-  ${resp}  ${access_token} =  Proc List Processes  ${API_PROC_SERVICE_URL}  ${ID_TOKEN}  ${ACCESS_TOKEN}
+  ${resp}  ${access_token}  @{processes} =  Proc List Processes  ${API_PROC_SERVICE_URL}  ${ID_TOKEN}  ${ACCESS_TOKEN}
   Status Should Be  200  ${resp}
   Should Be True  $access_token is not None
   Set Suite Variable  ${ACCESS_TOKEN}  ${access_token}
-  [Return]  ${resp}
-
-Get Process Names From Response
-  [Arguments]  ${resp}
-  @{json}=  Set Variable  ${resp.json()}
-  ${process_names}=  Create List
-  FOR  ${process}  IN  @{json}
-    Append To List  ${process_names}  ${process["id"]}
-  END
-  [Return]  ${process_names}
+  [Return]  ${resp}  @{processes}
 
 Get Application Details
   [Arguments]  ${app_name}
@@ -91,10 +81,9 @@ Deploy Application
 
 Process Is Deployed
   [Arguments]  ${app_name}
-  ${resp}=  List Processes
-  @{processes}=  Get Process Names From Response  ${resp}
+  ${resp}  @{processes} =  List Processes
   Should Be True  $processes is not None
-  Should Contain  ${processes}  ${app_name}
+  Should Contain  @{processes}  ${app_name}
 
 Undeploy Application
   [Arguments]  ${app_name}
@@ -105,14 +94,14 @@ Undeploy Application
 
 Process Is Not Deployed
   [Arguments]  ${app_name}
-  ${resp}=  List Processes
-  @{processes}=  Get Process Names From Response  ${resp}
+  ${resp}  @{processes} =  List Processes
   Should Be True  $processes is not None
   Should Not Contain  ${processes}  ${app_name}
 
 Execute Application Success
   [Arguments]  ${app_name}  ${execute_filename}
   ${job_location}=  Execute Application  ${app_name}  ${execute_filename}
+  Sleep  10  Waiting for job status endpoint to be ready
   Check Job Status Success  ${job_location}
 
 Execute Application
@@ -126,16 +115,8 @@ Execute Application
 
 Check Job Status Success
   [Arguments]  ${job_location}
-  ${resp}  ${access_token} =  Proc Job Status  ${ADES_BASE_URL}  ${job_location}  ${ID_TOKEN}  ${ACCESS_TOKEN}
-  FOR  ${index}  IN RANGE  40
-    Sleep  30  Loop wait for processing execution completion
-    ${resp}  ${access_token} =  Proc Job Status  ${ADES_BASE_URL}  ${job_location}  ${ID_TOKEN}  ${ACCESS_TOKEN}
-    Status Should Be  200  ${resp}
-    Should Be True  $access_token is not None
-    Set Suite Variable  ${ACCESS_TOKEN}  ${access_token}
-    ${status}=  Set Variable  ${resp.json()["status"]}
-    Exit For Loop If  "${status}" != "running"
-  END
+  ${interval}=  Set Variable  30
+  ${resp}  ${access_token}  ${status} =  Proc Poll Job Completion  ${ADES_BASE_URL}  ${job_location}  ${interval}  ${ID_TOKEN}  ${ACCESS_TOKEN}
   Should Match  ${resp.json()["status"]}  successful
   Should Match  ${resp.json()["message"]}  Done
   Should Match  ${resp.json()["progress"]}  100
