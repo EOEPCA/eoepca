@@ -100,8 +100,8 @@ spec:
       #    STAGEOUT_STORAGE_USERNAME: eoepca-storage
       #    STAGEOUT_STORAGE_APIKEY: 4k8wMajA5ABaYdk
 
-      useResourceManager: "true"
-      resourceManagerUser: "t2bla"
+      useResourceManager: true
+      resourceManagerUser: "demoA"
       resourceManagerEndpoint: "https://workspace-api.demo.eoepca.org"
 
       main:
