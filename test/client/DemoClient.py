@@ -470,8 +470,8 @@ class DemoClient:
 
     @keyword(name='Clean State Resources')
     def clean_state_resources(self, pep_resource_url, id_token):
-        """Get Resource By Name
-        Returns a resource_id matched by name
+        """Clean State Resources
+        Deletes from the database the list of resources matched on the state.json
         """
         headers = { 'content-type': "application/x-www-form-urlencoded", "cache-control": "no-cache", "Authorization": "Bearer "+id_token}
         for k in self.state["resources"][pep_resource_url]:
@@ -479,8 +479,8 @@ class DemoClient:
 
     @keyword(name='Clean Owner Resources')
     def clean_owner_resources(self, pep_resource_url, id_token):
-        """Get Resource By Name
-        Returns a resource_id matched by name
+        """Clean Owner Resources
+        Deletes from the database the list of resources matched by the ownership of the User identified
         """
         headers = { 'content-type': "application/x-www-form-urlencoded", "cache-control": "no-cache", "Authorization": "Bearer "+id_token}
         res = self.http_request("GET", pep_resource_url +"/resources", headers=headers, verify=False)
