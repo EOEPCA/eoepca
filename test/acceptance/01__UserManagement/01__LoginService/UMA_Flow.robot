@@ -16,7 +16,6 @@ ${PATH_TO_RESOURCE}=  resources/ADES20%Service
 ${WELL_KNOWN_PATH}=  ${UM_BASE_URL}/.well-known/uma2-configuration
 ${PEP_RESOURCE_PORT}=  31709
 ${PEP_PROXY_PORT}=  31707
-${ADES_API_URL}=  http://ades.resources.185.52.193.87.nip.io
 
 *** Test Cases ***
 
@@ -43,7 +42,7 @@ UMA Flow to Retrieve RPT
 
 *** Keywords ***
 UMA Resource Insertion
-  ${a}=  Run Process  python3  ${CURDIR}${/}insADES.py  ${ADES_API_URL}
+  ${a}=  Run Process  python3  ${CURDIR}${/}insADES.py  ${USER_A_NAME}  ${ADES_RESOURCES_API_URL}
   ${resId}=  OperatingSystem.Get File  ${CURDIR}${/}res_id.txt
   Set Global Variable  ${RES_ID_ADES}  ${resId}
 
@@ -157,4 +156,4 @@ PEP Delete Resource
 Cleanup
   OperatingSystem.Remove File  ${CURDIR}${/}1.txt
   #OperatingSystem.Remove File  ${CURDIR}${/}res_id.txt
-  #PEP Delete Resource  ${ADES_API_URL}
+  #PEP Delete Resource  ${ADES_RESOURCES_API_URL}

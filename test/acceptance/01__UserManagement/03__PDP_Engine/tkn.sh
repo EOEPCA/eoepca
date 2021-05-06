@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-USAGE="Usage: tkn.sh -t <token_endpoint> -i <client_id> -p <client_secret>" 
+USAGE="Usage: tkn.sh -t <token_endpoint> -i <client_id> -s <client_secret> -u <user_name> -p <user_password> -f <output-file>"
 TOKEN_ENDPOINT=""
 HTTP="http://"
 URL=""
@@ -15,7 +15,13 @@ while getopts ":t:i:p:" opt; do
       ;;
     i ) CLIENT_ID=$OPTARG
       ;;
-    p ) CLIENT_SECRET=$OPTARG
+    s ) CLIENT_SECRET=$OPTARG
+      ;;
+    u ) USER_NAME=$OPTARG
+      ;;
+    p ) USER_PASSWORD=$OPTARG
+      ;;
+    f ) OUTPUT_FILE=$OPTARG
       ;;
     \? )
         echo "Invalid option: -$OPTARG" 1>&2
@@ -24,5 +30,4 @@ while getopts ":t:i:p:" opt; do
       ;;
   esac
 done
-curl -k -v -XPOST "$TOKEN_ENDPOINT" -H 'cache-control: no-cache' -d "grant_type=password&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&username=UserA&password=defaultPWD&scope=openid" > ./01__UserManagement/03__PDP_Engine/2.txt
-curl -k -v -XPOST "$TOKEN_ENDPOINT" -H 'cache-control: no-cache' -d "grant_type=password&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&username=UserB&password=defaultPWD&scope=openid" > ./01__UserManagement/03__PDP_Engine/3.txt
+curl -k -v -XPOST "$TOKEN_ENDPOINT" -H 'cache-control: no-cache' -d "grant_type=password&client_id=$CLIENT_ID&client_secret=$CLIENT_SECRET&username=${USER_NAME}&password=${USER_PASSWORD}&scope=openid" > "${OUTPUT_FILE}"

@@ -13,12 +13,11 @@ Suite Setup  Suite Setup
 ${WPS_JOB_MONITOR_ROOT}=  /watchjob
 ${WPS_PATH_PREFIX}=  /zoo
 ${WPS_SERVICE_URL}=  ${ADES_BASE_URL}
-${PDP_BASE_URL}=  http://test.185.52.193.87.nip.io/pdp
-${ADES_RESOURCES_API_URL}=  http://ades.resources.185.52.193.87.nip.io
-${ADES_PEP_PROXY}=  http://ades.test.185.52.193.87.nip.io/
-${USERNAME_B}=  UserB
-${USERNAME}=  UserA
-${PASSWORD}=  defaultPWD
+${PDP_BASE_URL}=  ${UM_BASE_URL}/pdp
+${USERNAME}=  ${USER_A_NAME}
+${PASSWORD}=  ${USER_A_PASSWORD}
+${USERNAME_B}=  ${USER_B_NAME}
+${PASSWORD_B}=  ${USER_B_PASSWORD}
 ${ID_TOKEN_USER_A}=
 ${ID_TOKEN_USER_B}=
 ${ACCESS_TOKEN}=
@@ -37,8 +36,8 @@ Protected Application Deployment
   User A Deploys Proc1
   # Manual Registration of Undeploy and Execute processes
   # <TBC>
-  PEP Register Resource  /UserA/wps3/processes/s-expression-0_0_2  ADES Deploy
-  PEP Register Resource  /UserA/wps3/processes/s-expression-0_0_2/jobs  ADES Execute
+  PEP Register Resource  /${USER_A_NAME}/wps3/processes/s-expression-0_0_2  ADES Deploy
+  PEP Register Resource  /${USER_A_NAME}/wps3/processes/s-expression-0_0_2/jobs  ADES Execute
   # </TBC>
   User B Unauthorized Undeploy
   User B Unauthorized Policy Change
@@ -76,7 +75,7 @@ Clean Resources
 
 Suite Setup
   Init ID Token UserA  ${USERNAME}  ${PASSWORD}
-  Init ID Token UserB  ${USERNAME_B}  ${PASSWORD}
+  Init ID Token UserB  ${USERNAME_B}  ${PASSWORD_B}
   Init Resource Protection
 
 Suite Teardown
@@ -105,20 +104,20 @@ Init Resource Protection
 #######   INITIAL PROCESS LIST
 
 List Processes
-  ${resp}  ${access_token} =  Proc List Processes  ${WPS_SERVICE_URL}/${USERNAME}/wps3  ${ID_TOKEN_USER_A}
+  ${resp}  ${access_token}  @{processes} =  Proc List Processes  ${WPS_SERVICE_URL}/${USERNAME}/wps3  ${ID_TOKEN_USER_A}
   Status Should Be  200  ${resp}
   Should Be True  $access_token is not None
   Set Suite Variable  ${ACCESS_TOKEN}  ${access_token}
-  [Return]  ${resp}
+  [Return]  ${resp}  @{processes}
 
 
 #######   ATTEMPT UNAUTHORISED ACCESS PROCESS LIST
 
 List Processes No Auth
-  ${resp}  ${access_token} =  Proc List Processes  ${WPS_SERVICE_URL}/${USERNAME}/wps3
+  ${resp}  ${access_token}  @{processes} =  Proc List Processes  ${WPS_SERVICE_URL}/${USERNAME}/wps3
   Status Should Be  401  ${resp}
   Should Be True  $access_token is None
-  [Return]  ${resp}
+  [Return]  ${resp}  @{processes}
 
 
 #######   PROTECTED APPLICATION DEPLOYMENT
@@ -178,15 +177,15 @@ User B Unauthorized Executes Proc2
   Status Should Be  401  ${r}
 
 User B Unauthorized Status Job1
-  ${r}  ${access_token}=  Proc Job Status  ${WPS_SERVICE_URL}  ${LOCATION}  ${ID_TOKEN_USER_B}
+  ${r}  ${access_token}  ${status}=  Proc Job Status  ${WPS_SERVICE_URL}  ${LOCATION}  ${ID_TOKEN_USER_B}
   Status Should Be  401  ${r}
   
 User A Authorized Status Proc1
   Sleep  5
-  ${r}  ${access_token}=  Proc Job Status  ${WPS_SERVICE_URL}  ${location}  ${ID_TOKEN_USER_A}
+  ${r}  ${access_token}  ${status}=  Proc Job Status  ${WPS_SERVICE_URL}  ${location}  ${ID_TOKEN_USER_A}
   Status Should Be  200  ${r}
   # FOR  ${index}  IN RANGE  40
-  #   ${r}  ${access_token}=  Proc Job Status  ${WPS_SERVICE_URL}  ${LOCATION}  ${ID_TOKEN_USER_B}
+  #   ${r}  ${access_token}  ${status}=  Proc Job Status  ${WPS_SERVICE_URL}  ${LOCATION}  ${ID_TOKEN_USER_B}
   #   Status Should Be  200  ${r}
   #   Should Be True  $access_token is not None
   #   Set Suite Variable  ${ACCESS_TOKEN}  ${access_token}
@@ -206,7 +205,7 @@ User A Authorized Status Policy Change
 
 User B Authorized Status Job1
   Sleep  5
-  ${r}  ${access_token}=  Proc Job Status  ${WPS_SERVICE_URL}  ${location}  ${ID_TOKEN_USER_B}
+  ${r}  ${access_token}  ${status}=  Proc Job Status  ${WPS_SERVICE_URL}  ${location}  ${ID_TOKEN_USER_B}
   Status Should Be  200  ${r}
 
   
