@@ -190,10 +190,6 @@ vs:
     postgresqlPassword: dbpw
     postgresqlDatabase: dbname
     postgresqlPostgresPassword: dbpgpw
-    initdbScripts:
-      enablePostgis.sh: |
-        echo "Enabling postgis"
-        PGPASSWORD="$POSTGRES_POSTGRES_PASSWORD" psql -U postgres -d "${POSTGRES_DB}" -c "CREATE EXTENSION postgis;"
     replicaCount: 1
     resources:
       limits:
