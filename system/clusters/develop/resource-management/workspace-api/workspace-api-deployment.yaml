@@ -65,6 +65,10 @@ spec:
           value: "./system/charts/rm-user-workspace"
         - name: HELM_CHART_VERSION
           value: "0.0.12"
+        - name: S3_ENDPOINT
+          value: "https://cf2.cloudferro.com:8080"
+        - name: S3_REGION
+          value: "RegionOne"
         resources:
           limits:
             cpu: 0.5
