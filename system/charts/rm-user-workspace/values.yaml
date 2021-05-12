@@ -144,19 +144,7 @@ vs:
             product_type_property: does-not-exist
         - path: registrar_pycsw.scheme.CWLRegistrationScheme
           filter: ".*/application-package/.*"
-      backends:
-        - path: registrar.backend.EOxServerBackend
-          schemes:
-            - stac-item
-          kwargs:
-            instance_base_path: /var/www/pvs/dev
-            instance_name: pvs_instance
-            mapping:
-              '':
-                '': {}
-        - path: registrar_pycsw.backend.PycswBackend
-          kwargs:
-            repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
+      # Backend configuration is done directly in the Workspace API
       mapping:
         '':
           '': {}
