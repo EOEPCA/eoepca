@@ -10,12 +10,11 @@ ${USER}=  admin
 ${PWD}=  admin_Abcd1234#
 
 #User Data
-${USER_NAME}=  User
 ${FIRST_NAME}=  User
 ${DISPLAY_NAME}=  User
 ${LAST_NAME}=  User
 ${EMAIL}=  acceptance@test.com
-${PASSWORD}=  defaultPWD
+
 *** Test Cases ***
 
 Log in to the User Profile through the Login Service
@@ -52,11 +51,11 @@ Add Two Users to Gluu
   LoginService Fill Credentials Gluu  ${USER}  ${PWD}
   LoginService Go to Users
   ${title}=  Get Title
-  LoginService Add Person  ${USER_NAME}A  ${FIRST_NAME}A  ${DISPLAY_NAME}A  ${LAST_NAME}A  A${EMAIL}  ${PASSWORD}
+  LoginService Add Person  ${USER_A_NAME}  ${FIRST_NAME}A  ${DISPLAY_NAME}A  ${LAST_NAME}A  A${EMAIL}  ${USER_A_PASSWORD}
   ${title}=  Get Title
   Set Browser Implicit Wait  10
   LoginService Go TabUser
-  LoginService Add Person  ${USER_NAME}B  ${FIRST_NAME}B  ${DISPLAY_NAME}B  ${LAST_NAME}B  B${EMAIL}  ${PASSWORD}
+  LoginService Add Person  ${USER_B_NAME}  ${FIRST_NAME}B  ${DISPLAY_NAME}B  ${LAST_NAME}B  B${EMAIL}  ${USER_B_PASSWORD}
   
 
 *** Keywords ***

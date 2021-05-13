@@ -45,6 +45,7 @@ spec:
         DJANGO_MAIL: office@eox.at
         DJANGO_PASSWORD: djangopw
         DJANGO_USER: djangouser
+        DJANGO_SECRET_KEY: SOME_SECRET_KEY
       objectStorage:
         download:
           type: swift
@@ -129,6 +130,9 @@ spec:
           DATA:
             title: Data
             abstract: Data
+            grids:
+              - name: WGS84
+                zoom: 13
       preprocessor:
         metadata_glob: '*GSC*.xml'
         type_extractor:
@@ -159,9 +163,12 @@ spec:
         disable_default_eoxserver: true
         schemes:
           - type: stac-item
-            filter: .*/stac.*
+            filter: ".*/wf-.*/.*"
+            kwargs:
+              # use a non-existent property on purpose to fix product-type to None
+              product_type_property: does-not-exist
           - path: registrar_pycsw.scheme.CWLRegistrationScheme
-            filter: .*/cwl/.*
+            filter: ".*/application-package/.*"
         backends:
           - type: eoxserver
             schemes:

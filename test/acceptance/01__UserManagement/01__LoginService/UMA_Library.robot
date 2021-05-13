@@ -19,7 +19,7 @@ ${PEP_PROXY_PORT}=  31707
 
 *** Keywords ***
 UMA Resource Insertion
-  ${a}=  Run Process  python3  ${CURDIR}${/}insADES.py  ${ADES_BASE_URL}  ${PEP_RESOURCE_PORT}
+  ${a}=  Run Process  python3  ${CURDIR}${/}insADES.py  ${USER_A_NAME}  ${ADES_BASE_URL}  ${PEP_RESOURCE_PORT}
   ${resId}=  OperatingSystem.Get File  ${CURDIR}${/}res_id.txt
   Set Global Variable  ${RES_ID_ADES}  ${resId}
 
