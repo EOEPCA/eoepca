@@ -145,7 +145,7 @@ resource "null_resource" "provision-bastion" {
     user         = "${var.ssh_user}"
     private_key  = "${chomp(file(trimsuffix(var.public_key_path, ".pub")))}"
     host         = "${var.bastion_fips[count.index]}"
-    
+    timeout      = "20m"
   }
 
   provisioner "remote-exec" {
@@ -433,7 +433,8 @@ resource "opentelekomcloud_compute_instance_v2" "k8s_master_no_floating_ip" {
     private_key  = "${chomp(file(trimsuffix(var.public_key_path, ".pub")))}"
     host         = "${self.access_ip_v4}"
     bastion_host = var.bastion_fips[0]
-    
+    timeout      = "20m"
+
 
   }
 
@@ -496,7 +497,7 @@ resource "opentelekomcloud_compute_instance_v2" "k8s_master_no_floating_ip_custo
     private_key  = "${chomp(file(trimsuffix(var.public_key_path, ".pub")))}"
     host         = "${self.access_ip_v4}"
     bastion_host = var.bastion_fips[0]
-    
+    timeout      = "20m"
 
   }
 
@@ -695,7 +696,7 @@ resource "opentelekomcloud_compute_instance_v2" "k8s_node_no_floating_ip" {
     private_key  = "${chomp(file(trimsuffix(var.public_key_path, ".pub")))}"
     host         = "${self.access_ip_v4}"
     bastion_host = var.bastion_fips[0]
-    
+    timeout      = "20m"
 
   }
 
@@ -761,7 +762,7 @@ resource "opentelekomcloud_compute_instance_v2" "k8s_node_no_floating_ip_custom_
     private_key  = "${chomp(file(trimsuffix(var.public_key_path, ".pub")))}"
     host         = "${self.access_ip_v4}"
     bastion_host = var.bastion_fips[0]
-    
+    timeout      = "20m"
 
   }
 

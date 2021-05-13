@@ -1,0 +1,24 @@
+#----------
+# Example 'clouds.yaml' file
+# ==========================
+#----------
+# Possible file locations:
+# - ./clouds.yaml (i.e. the current directory)
+# - ~/.config/openstack/clouds.yaml
+# - /etc/openstack/clouds.yaml
+#----------
+# Multiple clouds can be configured in the file and then selected with the env var.
+#----------
+# Set env to choose the cloud:
+# `export OS_CLOUD=eoepca`
+#----------
+clouds:
+  develop:
+    auth:
+      username: "rnoguera"
+      password: "Telespazio2021!"
+      project_name: "eu-de_develop"
+      domain_name: "OTC-EU-DE-00000000001000046730"
+      auth_url: "https://iam.eu-de.otc.t-systems.com:443/v3"
+    interface: "public"
+    identity_api_version: 3

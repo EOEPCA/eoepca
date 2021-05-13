@@ -25,6 +25,8 @@ resource "opentelekomcloud_compute_instance_v2" "eoepca_nfs" {
     private_key  = "${chomp(file(trimsuffix(var.public_key_path, ".pub")))}"
     host         = "${self.access_ip_v4}"
     bastion_host = var.bastion_fips[0]
+    timeout      = "20m"
+
   }
 
   provisioner "file" {
