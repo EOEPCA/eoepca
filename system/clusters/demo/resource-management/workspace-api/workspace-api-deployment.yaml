@@ -50,7 +50,7 @@ spec:
           failureThreshold: 1
         env:
         - name: PREFIX_FOR_NAME
-          value: "rm-user"
+          value: "demo-user"
         - name: WORKSPACE_SECRET_NAME
           value: "bucket"
         - name: NAMESPACE_FOR_BUCKET_RESOURCE
