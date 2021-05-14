@@ -1,0 +1,32 @@
+@startuml
+title User Add Resources to Workspace
+
+participant "User\nClient" as client order 10
+participant Workspace as ws order 20
+participant "Storage\n(Platform)" as storage order 30
+participant "Data\nAccess\n(User)" as das order 50
+participant "Resource\nCatalogue\n(User)" as cat order 60
+
+autonumber
+client -> ws : Get Storage Details
+client <-- ws : storage-details
+
+group Upload EO Data
+client -> storage : Put Data
+note right
+EO data
+end note
+client -> ws : Register Data
+ws -> das : Register Data
+ws -> cat : Register Data
+end
+
+group Upload Application Package
+client -> storage : Put Data
+note right
+Application Package
+end note
+client -> ws : Register Application
+ws -> cat : Register Application
+end
+@enduml

@@ -1,0 +1,25 @@
+@startuml
+title User Publish Resource
+
+participant "User\nClient" as client order 10
+participant "Resource\nCatalogue\n(User)" as cat order 20
+participant "Workspace\n(Global)" as wsGlobal order 30
+participant "Data\nAccess\n(Global)" as dasGlobal order 40
+participant "Resource\nCatalogue\n(Global)" as catGlobal order 50
+
+autonumber
+
+client -> cat : Discover Resource
+client <-- cat : resource-metadata
+
+group Data Resource
+client -> wsGlobal : Register Data
+wsGlobal -> dasGlobal : Register Data
+wsGlobal -> catGlobal : Register Data
+end
+
+group Application Package Resource
+client -> wsGlobal : Register Application
+wsGlobal -> catGlobal : Register Application
+end
+@enduml

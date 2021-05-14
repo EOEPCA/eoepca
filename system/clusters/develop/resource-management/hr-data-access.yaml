@@ -8,20 +8,15 @@ spec:
   chart:
     spec:
       chart: vs
-      version: 0.3.18
+      version: 1.1.2
       sourceRef:
         kind: HelmRepository
         name: eox-charts
         namespace: rm
-  # valuesFrom:
-  # - kind: Secret
-  #   name: viewserver-bucket
-  #   valuesKey: secret_access_key
-  #   targetPath: config.objectStorage.data.secret_access_key
-  # - kind: Secret
-  #   name: viewserver-bucket
-  #   valuesKey: secret_access_key
-  #   targetPath: config.objectStorage.cache.secret_access_key
+  valuesFrom:
+  - kind: Secret
+    name: cache-access-secret
+    valuesKey: values.yaml
   values:
     config:
       general:
@@ -43,29 +38,18 @@ spec:
         DJANGO_PASSWORD: djangopw
         DJANGO_USER: djangouser
       objectStorage:
-        download:
-          type: swift
-          username: "username"
-          password: "password"
-          tenant_name: "tenant_name"
-          tenant_id: "tenant_id"
-          region_name: "region_name"
-          auth_url: "auth_url"
-          auth_url_short: "auth_url_short"
-          auth_version: "auth_version"
-          user_domain_name: "user_domain_name"
         data:
-          type: S3
-          endpoint_url: http://data.cloudferro.com
-          access_key_id: access
-          secret_access_key: access
+          data:
+            type: S3
+            endpoint_url: http://data.cloudferro.com
+            access_key_id: access
+            secret_access_key: access
         cache:
-          type: local
-          # type: S3
-          # endpoint_url: "http://data.cloudferro.com"
-          # access_key_id: access
-          # secret_access_key: access
-          # region: RegionOne
+          type: S3
+          endpoint_url: "https://cf2.cloudferro.com:8080/cache-bucket"
+          host: "cf2.cloudferro.com:8080"
+          region: RegionOne
+          bucket: cache-bucket
       redis:
         # REDIS_HOST: redis
         REDIS_PORT: "6379"
@@ -79,18 +63,18 @@ spec:
         title: EOEPCA Data Access View Server Client
         header: "EOEPCA Data Access View Server (VS) Client powered by <a href=\"//eox.at\"><img src=\"//eox.at/wp-content/uploads/2017/09/EOX_Logo.svg\" alt=\"EOX\" style=\"height:25px;margin-left:10px\"/></a>"
         layers:
-          S2L2A:
+          - id: S2L2A
             display_color: '#eb3700'
             title: Sentinel-2 Level 2A True Color
             layer: S2L2A__TRUE_COLOR
             sub_layers:
-              S2L2A__TRUE_COLOR:
+              - id: S2L2A__TRUE_COLOR
                 label: Sentinel-2 Level 2A True Color
-              S2L2A__masked_clouds:
+              - id: S2L2A__masked_clouds
                 label: Sentinel-2 Level 2A True Color with cloud masks
-              S2L2A__FALSE_COLOR:
+              - id: S2L2A__FALSE_COLOR
                 label: Sentinel-2 Level 2A False Color
-              S2L2A__NDVI:
+              - id: S2L2A__NDVI
                 label: Sentinel-2 Level 2A NDVI
         overlay_layers: {}
       # cache related options
@@ -128,22 +112,82 @@ spec:
         expires: 3600
         key: /{tileset}/{grid}/{dim}/{z}/{x}/{y}.{ext}
         tilesets:
+          S2L1C:
+            title: Sentinel-2 Level 1C True Color
+            abstract: Sentinel-2 Level 1C True Color
+            grids:
+              - name: WGS84
+                zoom: 13
+          S2L1C__TRUE_COLOR:
+            title: Sentinel-2 Level 1C True Color
+            abstract: Sentinel-2 Level 1C True Color
+            grids:
+              - name: WGS84
+                zoom: 13
+          S2L1C__masked_clouds:
+            title: Sentinel-2 Level 1C True Color with cloud masks
+            abstract: Sentinel-2 Level 1C True Color with cloud masks
+            grids:
+              - name: WGS84
+                zoom: 13
+          S2L1C__FALSE_COLOR:
+            title: Sentinel-2 Level 1C False Color
+            abstract: Sentinel-2 Level 1C False Color
+            grids:
+              - name: WGS84
+                zoom: 13
+          S2L1C__NDVI:
+            title: Sentinel-2 Level 1C NDVI
+            abstract: Sentinel-2 Level 1C NDVI
+            style: earth
+            grids:
+              - name: WGS84
+                zoom: 13
+          S2L1C__clouds:
+            title: Sentinel-2 Level 1C clouds
+            abstract: Sentinel-2 Level 1C clouds
+            style: earth
+            grids:
+              - name: WGS84
+                zoom: 13
           S2L2A:
             title: Sentinel-2 Level 2A True Color
             abstract: Sentinel-2 Level 2A True Color
+            grids:
+              - name: WGS84
+                zoom: 13
           S2L2A__TRUE_COLOR:
             title: Sentinel-2 Level 2A True Color
             abstract: Sentinel-2 Level 2A True Color
+            grids:
+              - name: WGS84
+                zoom: 13
           S2L2A__masked_clouds:
             title: Sentinel-2 Level 2A True Color with cloud masks
             abstract: Sentinel-2 Level 2A True Color with cloud masks
+            grids:
+              - name: WGS84
+                zoom: 13
           S2L2A__FALSE_COLOR:
             title: Sentinel-2 Level 2A False Color
             abstract: Sentinel-2 Level 2A False Color
+            grids:
+              - name: WGS84
+                zoom: 13
           S2L2A__NDVI:
             title: Sentinel-2 Level 2A NDVI
             abstract: Sentinel-2 Level 2A NDVI
             style: earth
+            grids:
+              - name: WGS84
+                zoom: 13
+          S2L2A__clouds:
+            title: Sentinel-2 Level 2A clouds
+            abstract: Sentinel-2 Level 2A clouds
+            style: earth
+            grids:
+              - name: WGS84
+                zoom: 13
       preprocessor:
         metadata_glob: '*GSC*.xml'
         type_extractor:
@@ -337,10 +381,6 @@ spec:
       postgresqlPassword: dbpw
       postgresqlDatabase: dbname
       postgresqlPostgresPassword: dbpgpw
-      initdbScripts:
-        enablePostgis.sh: |
-          echo "Enabling postgis"
-          PGPASSWORD="$POSTGRES_POSTGRES_PASSWORD" psql -U postgres -d "${POSTGRES_DB}" -c "CREATE EXTENSION postgis;"
       replicaCount: 1
       resources:
         limits:
@@ -389,9 +429,6 @@ spec:
           memory: 1.5Gi
       affinity: {}
     client:
-      image:
-        repository: registry.gitlab.eox.at/esa/prism/vs/pvs_client
-        tag: release-1.1.1
       replicaCount: 1
       resources:
         limits:
@@ -401,9 +438,6 @@ spec:
           cpu: 0.1
           memory: 0.1Gi
     cache:
-      image:
-        repository: registry.gitlab.eox.at/esa/prism/vs/pvs_cache
-        tag: release-1.1.1
       replicaCount: 1
       resources:
         limits:
