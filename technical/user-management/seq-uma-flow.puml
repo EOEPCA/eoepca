@@ -1,13 +1,21 @@
 @startuml
-title User Managed Access (UMA) Flow
+title User Managed Access (UMA) Flow\n(Client Perspective)
+
+hide stereotype
+
+skinparam participant<<client>> {
+  BackgroundColor LightGreen
+  BorderColor Green
+}
 
 participant "LoginService\n[Token Endpoint]" as login order 5
-participant "Client\ne.g. Jupyter\nNotebook" as client order 10
+participant "Client\ne.g. Jupyter\nNotebook" as client<<client>> order 10
 participant PEP as pep order 30
 participant "Resource\nServer\n(e.g. ADES)" as resource order 40
 
 autonumber
 client -> pep : request_resource\n[naive attempt]
+pep -> pep : Policy Check : (ticket)\n(via LoginService)
 client <- pep : unauthorized : (401, ticket)
 login <- client : request_access(id_token, ticket, client_credentials)
 login -> login : Policy Check (via PDP)
