@@ -26,7 +26,7 @@ rules:
     resources:
       - namespaces
   - apiGroups: ["helm.toolkit.fluxcd.io"]
-    verbs: ["create"]
+    verbs: ["create", "patch", "list"]
     resources:
       - helmreleases
   - apiGroups: ["epca.eo"]
