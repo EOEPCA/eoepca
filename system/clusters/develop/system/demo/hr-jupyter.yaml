@@ -15,6 +15,6 @@ spec:
   values:
     hostname: 185.52.193.87.nip.io
     image:
-      image: rconway/jupyter:1.1
+      image: eoepca/jupyterlab:latest
       # imagePullPolicy: Always
   interval: 1m0s

@@ -2,7 +2,7 @@
 hostname: 192.168.49.2.nip.io
 
 image:
-  image: eoepca/jupyter-demo
+  image: eoepca/jupyterlab:latest
   # imagePullPolicy: IfNotPresent
 
 service:
