@@ -61,7 +61,7 @@ vs:
       title: EOEPCA Data Access View Server Client
       header: "EOEPCA Data Access View Server (VS) Client powered by <a href=\"//eox.at\"><img src=\"//eox.at/wp-content/uploads/2017/09/EOX_Logo.svg\" alt=\"EOX\" style=\"height:25px;margin-left:10px\"/></a>"
       layers:
-        S2L2A:
+        - id: DATA
           display_color: '#eb3700'
           title: Data
           layer: DATA
