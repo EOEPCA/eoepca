@@ -35,11 +35,17 @@ sudo chmod o+r ${HOME}/.kube/config
 sudo chmod -R o+r ${HOME}/.minikube/
 sudo chown -R $USER $HOME/.kube $HOME/.minikube
 
-echo "##### Installing Terraform version $TF_VER"
+echo "##### Installing Helm"
 sudo apt-get install unzip
-curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/${TF_VER}/terraform_${TF_VER}_linux_amd64.zip
-unzip /tmp/terraform.zip -d /tmp
-chmod +x /tmp/terraform
-mv /tmp/terraform /usr/local/bin/
+curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 export PATH="~/bin:$PATH"
 sudo chown vagrant -R /home/vagrant
+
+echo "##### Installing default libraries"
+sudo apt-get -y install jq
+sudo apt-get -y install conntrack
+sudo apt-get -y install socat
+sudo apt-get -y install python3-venv
+
+echo "##### Creating data path"
+sudo mkdir -p /data/config/db
