@@ -17,6 +17,8 @@ spec:
       containers:
       - name: jupyter
         image: {{ .Values.image.image }}
+        command: ["jupyter"]
+        args: ["lab", "--NotebookApp.token=''"]
 {{- if .Values.image.imagePullPolicy }}
         imagePullPolicy: {{ .Values.image.imagePullPolicy }}
 {{- end }}
