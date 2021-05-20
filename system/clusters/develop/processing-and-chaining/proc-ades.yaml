@@ -218,8 +218,7 @@ spec:
       # if false the Ades will clean the volume after the workflow has successfully finished running
       processingKeepWorkspace: "False"
       # image pull secrects
-      imagePullSecrets:
-        - name: "terradue"
+      imagePullSecrets: []
       #  custom stagein cwl
       #stageincwl: "files/stageincwl.cwl"
       #maincwl: "files/maincwlmetrics.cwl"
