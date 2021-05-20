@@ -6,4 +6,3 @@ resources:
   - ./proc-ades-gitrepos.yaml
   - ./proc-ades.yaml
   - ./proc-ades-pep.yaml
-  - ./sealed-secret-dockerconfig.yaml
