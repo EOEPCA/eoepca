@@ -154,7 +154,8 @@ vs:
     # mapping of collection name to objects
     collections:
       DATA:
-        product_types: []
+        product_types:
+          - nhi1_nhi1_bitmask_nhi2_nhi2_bitmask
         product_levels: []
         coverage_types: []
     products:
@@ -167,11 +168,11 @@ vs:
         xpath:
         namespace_map:
       types:
-        nhi1_bitmask_nhi2_nhi1_nhi2_bitmask:
+        nhi1_nhi1_bitmask_nhi2_nhi2_bitmask:
           coverages:
             nhi1: nhi1
-            nhi2: nhi2
             nhi1_bitmask: nhi1_bitmask
+            nhi2: nhi2
             nhi2_bitmask: nhi2_bitmask
           default_browse: nhi1
           browses:
@@ -197,19 +198,6 @@ vs:
               significant_figures: 5
               allowed_value_ranges:
                 - [-1, 1]
-        - name: nhi2
-          data_type: Float32
-          bands:
-            - identifier: nhi2
-              name: nhi2
-              definition: http://www.opengis.net/def/property/OGC/0/Radiance
-              description: NHI-2
-              gdal_interpretation: GrayBand
-              nil_values: []
-              uom: nhi2
-              significant_figures: 5
-              allowed_value_ranges:
-                - [-1, 1]
         - name: nhi1_bitmask
           data_type: Byte
           bands:
@@ -223,6 +211,19 @@ vs:
               significant_figures: 1
               allowed_value_ranges:
                 - [0, 1]
+        - name: nhi2
+          data_type: Float32
+          bands:
+            - identifier: nhi2
+              name: nhi2
+              definition: http://www.opengis.net/def/property/OGC/0/Radiance
+              description: NHI-2
+              gdal_interpretation: GrayBand
+              nil_values: []
+              uom: nhi2
+              significant_figures: 5
+              allowed_value_ranges:
+                - [-1, 1]
         - name: nhi2_bitmask
           data_type: Byte
           bands:
