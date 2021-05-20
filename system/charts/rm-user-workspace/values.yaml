@@ -154,7 +154,8 @@ vs:
     # mapping of collection name to objects
     collections:
       DATA:
-        product_types: []
+        product_types:
+          - nhi2_nhi2_bitmask_nhi1_nhi1_bitmask
         product_levels: []
         coverage_types: []
     products:

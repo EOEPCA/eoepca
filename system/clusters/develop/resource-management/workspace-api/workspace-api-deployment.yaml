@@ -64,7 +64,7 @@ spec:
         - name: HELM_CHART_NAME
           value: "./system/charts/rm-user-workspace"
         - name: HELM_CHART_VERSION
-          value: "0.0.19"
+          value: "0.0.20"
         - name: S3_ENDPOINT
           value: "https://cf2.cloudferro.com:8080"
         - name: S3_REGION
