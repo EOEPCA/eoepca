@@ -108,6 +108,7 @@ vs:
         DATA:
           title: Data
           abstract: Data
+          style: viridis
           grids:
             - name: WGS84
               zoom: 13
