@@ -167,7 +167,7 @@ vs:
         xpath:
         namespace_map:
       types:
-        nhi1_nhi1_bitmask_nhi2_nhi2_bitmask:
+        nhi2_nhi2_bitmask_nhi1_nhi1_bitmask:
           coverages:
             nhi1: nhi1
             nhi1_bitmask: nhi1_bitmask
