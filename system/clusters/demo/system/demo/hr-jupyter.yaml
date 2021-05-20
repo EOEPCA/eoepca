@@ -13,7 +13,7 @@ spec:
         name: flux-system
         namespace: flux-system
   values:
-    hostname: 185.52.193.87.nip.io
+    hostname: demo.eoepca.org
     image:
       image: eoepca/jupyterlab:latest
       # imagePullPolicy: Always
