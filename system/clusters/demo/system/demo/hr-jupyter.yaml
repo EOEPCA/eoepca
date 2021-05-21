@@ -16,5 +16,5 @@ spec:
     hostname: demo.eoepca.org
     image:
       image: eoepca/jupyterlab:latest
-      # imagePullPolicy: Always
+      imagePullPolicy: Always
   interval: 1m0s
