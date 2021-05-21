@@ -23,7 +23,7 @@ spec:
       proxyHost: ades.test.185.52.193.87.nip.io
       resourceHost: ades.resources.185.52.193.87.nip.io
     image:
-      image: eoepca/um-pep-engine:v0.3.2
+      image: eoepca/um-pep-engine:v0.3.3
     volumeClaim:
       name: eoepca-proc-pvc
 
