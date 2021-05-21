@@ -2,7 +2,13 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: jupyter
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
+  tls:
+    - hosts:
+        - jupyter.{{ .Values.hostname }}
+      secretName: jupyter-tls
   rules:
   - host: jupyter.{{ .Values.hostname }}
     http:
