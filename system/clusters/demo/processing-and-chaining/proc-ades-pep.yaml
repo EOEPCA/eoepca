@@ -23,7 +23,7 @@ spec:
       proxyHost: ades.test.demo.eoepca.org
       resourceHost: ades.resources.demo.eoepca.org
     image:
-      image: eoepca/um-pep-engine:v0.3.2
+      image: eoepca/um-pep-engine:v0.3.3
     volumeClaim:
       name: eoepca-proc-pvc
 
