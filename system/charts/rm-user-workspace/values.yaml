@@ -65,7 +65,15 @@ vs:
           display_color: '#eb3700'
           title: Data
           layer: DATA
-          sub_layers: []
+          sub_layers:
+            - id: DATA
+              label: NHI-1
+            - id: DATA__nhi2
+              label: NHI-2
+            - id: DATA__nhi1_bitmask
+              label: NHI-1 bitmask
+            - id: DATA__nhi2_bitmask
+              label: NHI-2 bitmask
       overlay_layers: {}
       time_domain: ["2019-01-01T00:00:00Z", "2021-12-31T23:59:59Z"]
       display_time_domain: ["2020-06-01T00:00:00Z", "2021-06-31T23:59:59Z"]
@@ -108,6 +116,28 @@ vs:
         DATA:
           title: Data
           abstract: Data
+          style: viridis
+          grids:
+            - name: WGS84
+              zoom: 13
+        DATA__nhi2:
+          title: Data
+          abstract: Data
+          style: viridis
+          grids:
+            - name: WGS84
+              zoom: 13
+        DATA__nhi1_bitmask:
+          title: Data
+          abstract: Data
+          style: viridis
+          grids:
+            - name: WGS84
+              zoom: 13
+        DATA__nhi2_bitmask:
+          title: Data
+          abstract: Data
+          style: viridis
           grids:
             - name: WGS84
               zoom: 13
@@ -184,6 +214,14 @@ vs:
               grey:
                 expression: nhi2
                 range: [-1, 1]
+            nhi1_bitmask:
+              grey:
+                expression: nhi1_bitmask
+                range: [0, 1]
+            nhi2_bitmask:
+              grey:
+                expression: nhi2_bitmask
+                range: [0, 1]
       coverages:
         - name: nhi1
           data_type: Float32

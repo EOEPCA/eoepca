@@ -1,7 +1,7 @@
 dependencies:
 - name: vs
   repository: https://charts-public.hub.eox.at/
-  version: 1.2.1
+  version: 1.2.2
 - name: rm-resource-catalogue
   repository: file://../rm-resource-catalogue
   version: 0.1.5
