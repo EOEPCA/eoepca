@@ -363,8 +363,11 @@ class DemoClient:
         url = service_base_url + job_location
         headers = { "Accept": "application/json" }
         r, access_token = self.uma_http_request("GET", url, headers=headers, id_token=id_token, access_token=access_token)
-        response_json = r.json()
-        status = response_json['status']
+        if r.status_code == 200:
+            response_json = r.json()
+            status = response_json['status']
+        else:
+            status = f"Unexpected ADES response: {r.status_code}/{r.reason}"
         now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         print(f"[Job Status] = {r.status_code} ({r.reason}) => {now} - {status}")
         return r, access_token, status
@@ -376,11 +379,24 @@ class DemoClient:
         status = "running"
         tr_before = self.trace_requests
         self.trace_requests = False
+        error_count = 0
+        max_error_count = 5
         while status == 'running':
             r, access_token, status = self.proc_get_job_status(service_base_url, job_location, id_token=id_token, access_token=access_token)
-            if status != 'successful' and status != 'failed':
-                sleep(interval)
+            # Expecting a 200 response
+            if r.status_code == 200:
+                error_count = 0
+                if status != 'successful' and status != 'failed':
+                    sleep(interval)
+                else:
+                    break
+            # Unexpected response, latch the error
             else:
+                error_count += 1
+                sleep(interval)
+            # Too many consecutive errors
+            if error_count > max_error_count:
+                print("ERROR: Too many failed attempts to get job status")
                 break
         self.trace_requests = tr_before
         return r, access_token, status
@@ -468,6 +484,19 @@ class DemoClient:
             if name in k['_name']:
                 return k['_id']
 
+    @keyword(name='Get Resource By URI')
+    def get_resource_by_uri(self, pdp_base_url, relative_url, id_token):
+        """Get Resource By Name
+        Returns a resource_id matched by name
+        """
+        headers = { 'content-type': "application/x-www-form-urlencoded", "cache-control": "no-cache", "Authorization": "Bearer "+id_token}
+        res = requests.get( pdp_base_url +"/resources", headers=headers, verify=False)
+        for k in json.loads(res.text):
+            if relative_url == k['_reverse_match_url']:
+                return k['_id']
+
+
+
     @keyword(name='Clean State Resources')
     def clean_state_resources(self, pep_resource_url, id_token):
         """Clean State Resources
@@ -505,3 +534,36 @@ class DemoClient:
             print(f"BODY = {json.dumps(response.json(), indent = 2)}")
         else:
             print(f"BODY = {response.text}")
+
+    @keyword(name='Reset Resource Policy')
+    def reset_resource_policy(self, resources_endpoint, pdp_endpoint, id_token, resource_uri):
+        """Reset Resource Policy
+        Reset the resource protection policy to include only the user identified
+        by the supplied token, using the supplied resource endpoint (PEP).
+        The resource is identified by its URI.
+        """
+        owner_id = self.get_ownership_id(id_token)
+        #resource_id = self.get_resource_by_name(resources_endpoint, resource_name, id_token)
+        resource_id = self.get_resource_by_uri(resources_endpoint, resource_uri, id_token)
+        policy = {
+            "name": "Reset Policy",
+            "description": "reset policy",
+            "config": {
+                "resource_id": resource_id,
+                "action": "view",
+                "rules": [
+                    {
+                        "EQUAL": {
+                            "id": owner_id
+                        }
+                    }
+                ]
+            },
+            "scopes": [
+                "protected_access"
+            ]
+        }
+        tr = self.trace_requests
+        self.trace_requests = False
+        self.update_policy(pdp_endpoint, policy, resource_id, id_token)
+        self.trace_requests = tr
