@@ -38,7 +38,7 @@ persistence:
   statefulSetReplicas: 1
   imagePullPolicy: Always
   restartPolicy: Never
-  image: eoepca/um-login-persistence:v0.3
+  image: eoepca/um-login-persistence:v0.3.1
   configAdapter: GLUU_CONFIG_ADAPTER
   adapter: "kubernetes"
   secretAdapter: GLUU_SECRET_ADAPTER
