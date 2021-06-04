@@ -38,7 +38,7 @@ persistence:
   statefulSetReplicas: 1
   imagePullPolicy: Always
   restartPolicy: Never
-  image: eoepca/um-login-persistence:v0.3.1
+  image: eoepca/um-login-persistence:task381_f
   configAdapter: GLUU_CONFIG_ADAPTER
   adapter: "kubernetes"
   secretAdapter: GLUU_SECRET_ADAPTER
@@ -56,6 +56,11 @@ persistence:
   clientIDv: "59f1fed27153f631bc08"
   clientSecret: LP_CLIENT_SECRET
   clientSecretv: "640baffac0948454c48de2505726f53d11adc8a6"
+
+  coihClientID: COIH_CLIENT_ID
+  coihClientIDv: ""
+  coihClientSecret: COIH_CLIENT_SECRET
+  coihClientSecretv: ""
 #container specific values declared here
 tcpSocket:
   port: 1636

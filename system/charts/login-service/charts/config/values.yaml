@@ -16,6 +16,7 @@ orgName: Deimos Space S.L.U.
 gluuConfAdapter: kubernetes
 ldapType: opendj
 redisPass: aaaa
+pdp_ep: /pdp
 
 nameOverride: ""
 fullNameOverride: ""
