@@ -34,7 +34,8 @@ data:
       "org_name": {{ .Values.orgName | quote }},
       "gluu_config_adapter": {{.Values.gluuConfAdapter | quote }},
       "ldap_type": {{.Values.ldapType | quote }},
-      "redis_pw": {{.Values.redisPass | quote }}
+      "redis_pw": {{.Values.redisPass | quote }},
+      "pdp_ep": {{.Values.pdpEndpoint | quote }}
     }
 
 ---
