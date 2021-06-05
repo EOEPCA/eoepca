@@ -4,6 +4,6 @@ dependencies:
   version: 1.2.2
 - name: rm-resource-catalogue
   repository: file://../rm-resource-catalogue
-  version: 0.1.6
+  version: 0.1.7
 digest: sha256:b0ee0af8982917717eaff50cd2f2fc4d7a2ad1172b0ba553e6cf89fce5c7dc03
 generated: "2021-04-27T17:48:40.475782+02:00"

@@ -37,7 +37,7 @@ spec:
       tls_secret_name: resource-catalogue-tls
     pycsw:
       name: resource-catalogue
-      image: geopython/pycsw:2.8.0-alpha2
+      image: geopython/pycsw:latest
       container_port: 8000
       service_name: resource-catalogue-service
       service_type: ClusterIP
@@ -67,6 +67,7 @@ spec:
           # domaincounts: true
           # spatial_ranking: true
           profiles: apiso
+          # workers: 2
         manager:
           transactions: "false"
           allowed_ips: 127.0.0.1
