@@ -5,5 +5,4 @@ resources:
   - ./namespace.yaml
   - ./um-login-service.yaml
   - ./um-pdp-engine.yaml
-  - ./um-pep-engine-gitrepos.yaml
   - ./um-user-profile.yaml
