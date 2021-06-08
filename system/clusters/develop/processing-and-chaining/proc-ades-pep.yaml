@@ -6,11 +6,11 @@ metadata:
 spec:
   chart:
     spec:
-      chart: ./charts/pep-engine
+      chart: pep-engine
       sourceRef:
-        kind: GitRepository
-        name: um-pep-engine
-        namespace: um
+        kind: HelmRepository
+        name: eoepca
+        namespace: common
   values:
     context: ades
     global:
