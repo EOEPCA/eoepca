@@ -25,7 +25,7 @@ spec:
     image:
       image: eoepca/um-pep-engine:v0.3.2
     volumeClaim:
-      name: pvc-pep
+      name: pvc-workspace-api-pep
 
   timeout: 25m0s
   interval: 1m0s
