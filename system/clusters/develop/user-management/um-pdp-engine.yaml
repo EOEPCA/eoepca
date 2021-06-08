@@ -6,11 +6,11 @@ metadata:
 spec:
   chart:
     spec:
-      chart: ./system/charts/pdp-engine
+      chart: pdp-engine
       sourceRef:
-        kind: GitRepository
-        name: flux-system
-        namespace: flux-system
+        kind: HelmRepository
+        name: eoepca
+        namespace: common
   values:
     global:
       nginxIp: 185.52.193.87
