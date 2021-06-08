@@ -7,11 +7,11 @@ metadata:
 spec:
   chart:
     spec:
-      chart: ./system/charts/jupyter
+      chart: jupiter
       sourceRef:
-        kind: GitRepository
-        name: flux-system
-        namespace: flux-system
+        kind: HelmRepository
+        name: eoepca
+        namespace: common
   values:
     hostname: 185.52.193.87.nip.io
     image:
