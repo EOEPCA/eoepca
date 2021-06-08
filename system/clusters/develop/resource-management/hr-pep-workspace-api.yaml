@@ -1,0 +1,31 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: workspace-api-pep
+  namespace: rm
+spec:
+  chart:
+    spec:
+      chart: ./charts/pep-engine
+      sourceRef:
+        kind: GitRepository
+        name: um-pep-engine
+        namespace: um
+  values:
+    context: rm
+    global:
+      pep: workspace-api-pep
+      ep: test-rm.185.52.193.87.nip.io
+      domain: https://test.185.52.193.87.nip.io
+      resourceServer: http://workspace-api/
+      pdpUrl: pdp-engine.default
+      nginxIp: 185.52.193.87
+      proxyHost: workspace-api.test.185.52.193.87.nip.io
+      resourceHost: workspace-api.resources.185.52.193.87.nip.io
+    image:
+      image: eoepca/um-pep-engine:v0.3.2
+    volumeClaim:
+      name: pvc-pep
+
+  timeout: 25m0s
+  interval: 1m0s
