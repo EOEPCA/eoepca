@@ -40,6 +40,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: eoepca-resman-pvc
+  namespace: rm
   labels:
     eoepca-type: resman
 spec:
