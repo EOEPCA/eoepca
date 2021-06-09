@@ -15,8 +15,10 @@ spec:
     context: ades
     global:
       pep: proc-ades-pep
-      domain: test.185.52.193.87.nip.io
+      ep: test.185.52.193.87.nip.io
+      domain: https://test.185.52.193.87.nip.io
       resourceServer: http://proc-ades/
+      pdpUrl: pdp-engine.default
       nginxIp: 185.52.193.87
       proxyHost: ades.test.185.52.193.87.nip.io
       resourceHost: ades.resources.185.52.193.87.nip.io
@@ -24,7 +26,6 @@ spec:
       image: eoepca/um-pep-engine:v0.3.4
     volumeClaim:
       name: eoepca-proc-pvc
-      create: false
 
   timeout: 25m0s
   interval: 1m0s
