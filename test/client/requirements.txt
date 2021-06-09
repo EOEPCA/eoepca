@@ -47,7 +47,7 @@ ptyprocess==0.6.0
 pycparser==2.20
 pycrypto==2.6.1
 pycryptodomex==3.9.8
-Pygments==2.7.1
+Pygments==2.7.4
 pyjwkest==1.4.2
 pylint==2.6.0
 pyparsing==2.4.7
