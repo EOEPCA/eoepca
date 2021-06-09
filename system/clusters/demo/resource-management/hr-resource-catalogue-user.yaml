@@ -4,14 +4,14 @@ metadata:
   name: resource-catalogue
   namespace: rm-user1
 spec:
-  interval: 5m
+  interval: 5m 
   chart:
     spec:
-      chart: ./system/charts/rm-resource-catalogue
+      chart: rm-resource-catalogue
       sourceRef:
-        kind: GitRepository
-        name: flux-system
-        namespace: flux-system
+        kind: HelmRepository
+        name: eoepca
+        namespace: common
   values:
     global:
       namespace: rm-user1

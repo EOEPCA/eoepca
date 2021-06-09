@@ -6,11 +6,11 @@ metadata:
 spec:
   chart:
     spec:
-      chart: ./charts/ades
+      chart: ades
       sourceRef:
-        kind: GitRepository
-        name: proc-ades
-        namespace: proc
+        kind: HelmRepository
+        name: eoepca
+        namespace: common
   values:
     # values - start
     replicaCount: 1
