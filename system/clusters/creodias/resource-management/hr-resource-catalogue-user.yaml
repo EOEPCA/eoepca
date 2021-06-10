@@ -37,7 +37,7 @@ spec:
       tls_secret_name: resource-catalogue-user-tls
     pycsw:
       name: resource-catalogue
-      image: geopython/pycsw:latest
+      image: geopython/pycsw:latest 
       container_port: 8000
       service_name: resource-catalogue-service
       service_type: ClusterIP
