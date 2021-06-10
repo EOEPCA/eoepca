@@ -13,11 +13,11 @@ spec:
         namespace: common
   values:
     global:
-      ep: test.185.52.193.87.nip.io
-      ssoUrl: test.185.52.193.87.nip.io
-      nginxIp: 185.52.193.87
-      redirectUri: "http://test.185.52.193.87.nip.io/web_ui/oauth/callback"
-      postLogoutRedirectUri: http://test.185.52.193.87.nip.io/web_ui"
+      ep: test.demo.eoepca.org
+      ssoUrl: test.demo.eoepca.org
+      nginxIp: 185.52.195.19
+      redirectUri: "http://test.demo.eoepca.org/web_ui/oauth/callback"
+      postLogoutRedirectUri: http://test.demo.eoepca.org/web_ui"
     image:
       image: eoepca/um-user-profile:v0.3
     volumeClaim:

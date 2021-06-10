@@ -15,13 +15,13 @@ spec:
     context: rm
     global:
       pep: workspace-api-pep
-      ep: test-rm.185.52.193.87.nip.io
-      domain: https://test.185.52.193.87.nip.io
+      ep: test-rm.demo.eoepca.org
+      domain: https://test.demo.eoepca.org
       resourceServer: http://workspace-api/
       pdpUrl: pdp-engine.default
-      nginxIp: 185.52.193.87
-      proxyHost: workspace-api.test.185.52.193.87.nip.io
-      resourceHost: workspace-api.resources.185.52.193.87.nip.io
+      nginxIp: 185.52.195.19
+      proxyHost: workspace-api.test.demo.eoepca.org
+      resourceHost: workspace-api.resources.demo.eoepca.org
     image:
       image: eoepca/um-pep-engine:v0.3.2
     volumeClaim:

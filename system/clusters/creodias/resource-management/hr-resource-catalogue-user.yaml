@@ -32,8 +32,8 @@ spec:
     ingress:
       name: resource-catalogue
       class: nginx
-      host: resource-catalogue.user.185.52.193.87.nip.io
-      tls_host: resource-catalogue.user.185.52.193.87.nip.io
+      host: resource-catalogue.user.demo.eoepca.org
+      tls_host: resource-catalogue.user.demo.eoepca.org
       tls_secret_name: resource-catalogue-user-tls
     pycsw:
       name: resource-catalogue
@@ -52,7 +52,7 @@ spec:
       config:
         server:
           home: /home/pycsw
-          url: http://resource-catalogue.user.185.52.193.87.nip.io/
+          url: http://resource-catalogue.user.demo.eoepca.org/
           mimetype: application/xml; charset=UTF-8
           encoding: UTF-8
           language: en-US
@@ -60,7 +60,7 @@ spec:
           loglevel: DEBUG
           logfile: " "
           # ogc_schemas_base: http://foo
-          federatedcatalogues: https://resource-catalogue.185.52.193.87.nip.io/
+          federatedcatalogues: https://resource-catalogue.demo.eoepca.org/
           # pretty_print: true
           # gzip_compresslevel: 8
           # domainquerytype: range

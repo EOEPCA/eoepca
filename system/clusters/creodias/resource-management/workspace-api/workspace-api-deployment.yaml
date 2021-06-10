@@ -50,7 +50,7 @@ spec:
           failureThreshold: 1
         env:
         - name: PREFIX_FOR_NAME
-          value: "rm-user"
+          value: "demo-user"
         - name: WORKSPACE_SECRET_NAME
           value: "bucket"
         - name: NAMESPACE_FOR_BUCKET_RESOURCE
@@ -70,7 +70,7 @@ spec:
         - name: S3_REGION
           value: "RegionOne"
         - name: WORKSPACE_DOMAIN
-          value: 185.52.193.87.nip.io
+          value: demo.eoepca.org
         resources:
           limits:
             cpu: 0.5

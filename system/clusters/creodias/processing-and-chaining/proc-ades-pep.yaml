@@ -15,13 +15,13 @@ spec:
     context: ades
     global:
       pep: proc-ades-pep
-      ep: test.185.52.193.87.nip.io
-      domain: https://test.185.52.193.87.nip.io
+      ep: test.demo.eoepca.org
+      domain: https://test.demo.eoepca.org
       resourceServer: http://proc-ades/
       pdpUrl: pdp-engine.default
-      nginxIp: 185.52.193.87
-      proxyHost: ades.test.185.52.193.87.nip.io
-      resourceHost: ades.resources.185.52.193.87.nip.io
+      nginxIp: 185.52.195.19
+      proxyHost: ades.test.demo.eoepca.org
+      resourceHost: ades.resources.demo.eoepca.org
     image:
       image: eoepca/um-pep-engine:v0.3.4
     volumeClaim:

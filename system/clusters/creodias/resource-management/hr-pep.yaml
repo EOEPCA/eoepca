@@ -15,13 +15,13 @@ spec:
     context: rm
     global:
       pep: ressource-manamgement-pep
-      ep: test-rm.185.52.193.87.nip.io
-      domain: https://test.185.52.193.87.nip.io
+      ep: test-rm.demo.eoepca.org
+      domain: https://test.demo.eoepca.org
       resourceServer: http://data-access-vs-cache/
       pdpUrl: pdp-engine.default
-      nginxIp: 185.52.193.87
-      proxyHost: rm.test.185.52.193.87.nip.io
-      resourceHost: rm.resources.185.52.193.87.nip.io
+      nginxIp: 185.52.195.19
+      proxyHost: rm.test.demo.eoepca.org
+      resourceHost: rm.resources.demo.eoepca.org
       proxyNodePort: 31710
     image:
       image: eoepca/um-pep-engine:v0.3.2

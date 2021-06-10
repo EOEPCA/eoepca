@@ -48,7 +48,7 @@ spec:
       enabled: true
       annotations: {}
       hosts:
-        - host: ades.185.52.193.87.nip.io
+        - host: ades.demo.eoepca.org
           paths: ["/"]
       tls: []
       #  - secretName: chart-example-tls
@@ -101,8 +101,8 @@ spec:
       #    STAGEOUT_STORAGE_APIKEY: 4k8wMajA5ABaYdk
 
       useResourceManager: "true"
-      resourceManagerEndpoint: "https://workspace-api.185.52.193.87.nip.io"
-      resourceManagerWorkspacePrefix: "rm-user"
+      resourceManagerEndpoint: "https://workspace-api.demo.eoepca.org"
+      resourceManagerWorkspacePrefix: "demo-user"
 
       main:
         cwl: ""
