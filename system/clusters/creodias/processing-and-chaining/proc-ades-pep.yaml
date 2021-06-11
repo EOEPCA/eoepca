@@ -19,8 +19,8 @@ spec:
       nginxIp: 185.52.193.87
     configMap:
       resourceServer: http://proc-ades/
-    image:
-      image: eoepca/um-pep-engine:v0.3.4
+    # image:
+    #   image: eoepca/um-pep-engine:v0.3.4
     volumeClaim:
       name: eoepca-proc-pvc
       create: false
