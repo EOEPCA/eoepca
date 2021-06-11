@@ -18,8 +18,8 @@ spec:
       nginxIp: 185.52.193.87
       redirectUri: "http://test.185.52.193.87.nip.io/web_ui/oauth/callback"
       postLogoutRedirectUri: http://test.185.52.193.87.nip.io/web_ui"
-    image:
-      image: eoepca/um-user-profile:v0.3
+    # image:
+    #   image: eoepca/um-user-profile:v0.3
     volumeClaim:
       name: eoepca-userman-pvc
   timeout: 25m0s
