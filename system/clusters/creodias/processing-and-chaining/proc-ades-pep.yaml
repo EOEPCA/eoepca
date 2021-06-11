@@ -16,8 +16,9 @@ spec:
     global:
       pep: proc-ades-pep
       domain: test.185.52.193.87.nip.io
-      resourceServer: http://proc-ades/
       nginxIp: 185.52.193.87
+    configMap:
+      resourceServer: http://proc-ades/
     image:
       image: eoepca/um-pep-engine:v0.3.4
     volumeClaim:
