@@ -52,7 +52,7 @@ spec:
       config:
         server:
           home: /home/pycsw
-          url: http://resource-catalogue.user.185.52.193.87.nip.io/
+          url: https://resource-catalogue.user.185.52.193.87.nip.io/
           mimetype: application/xml; charset=UTF-8
           encoding: UTF-8
           language: en-US
