@@ -21,6 +21,7 @@ spec:
       resourceServer: http://workspace-api/
     volumeClaim:
       name: pvc-workspace-api-pep
+      create: false
 
   timeout: 25m0s
   interval: 1m0s
