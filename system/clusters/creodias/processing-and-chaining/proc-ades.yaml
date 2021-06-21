@@ -48,7 +48,7 @@ spec:
       enabled: true
       annotations: {}
       hosts:
-        - host: ades.80.158.38.166
+        - host: ades.185.52.193.87.nip.io
           paths: ["/"]
       tls: []
       #  - secretName: chart-example-tls

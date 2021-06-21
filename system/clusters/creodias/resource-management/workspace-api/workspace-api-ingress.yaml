@@ -14,10 +14,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - workspace-api.80.158.38.166
+        - workspace-api.185.52.193.87.nip.io
       secretName: workspace-api-tls
   rules:
-    - host: workspace-api.80.158.38.166
+    - host: workspace-api.185.52.193.87.nip.io
       http:
         paths:
           - path: /
