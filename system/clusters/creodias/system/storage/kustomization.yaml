@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
 - ./hr-nfs-provisioner.yaml
 - ./hr-storage.yaml
+- ./hr-nas.yaml
