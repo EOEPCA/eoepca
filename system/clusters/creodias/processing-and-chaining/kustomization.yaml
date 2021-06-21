@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./proc-ades.yaml
-  - ./proc-ades-pep.yaml
+  # - ./proc-ades-pep.yaml
