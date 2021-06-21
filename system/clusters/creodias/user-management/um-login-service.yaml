@@ -13,7 +13,7 @@ spec:
         namespace: common
   values:
     config:
-      domain: test.185.52.193.87.nip.io
+      domain: test.80.158.38.166
       volumeClaim:
         name: eoepca-userman-pvc
     opendj:
@@ -26,17 +26,17 @@ spec:
       volumeClaim:
         name: eoepca-userman-pvc
     global:
-      domain: test.185.52.193.87.nip.io
-      nginxIp: 185.52.193.87
+      domain: test.80.158.38.166
+      nginxIp: 80.158.38.166
     nginx:
       ingress:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt
         hosts:
-          - test.185.52.193.87.nip.io
+          - test.80.158.38.166
         tls:
           - hosts:
-              - test.185.52.193.87.nip.io
+              - test.80.158.38.166
             secretName: login-service-tls
   timeout: 25m0s
   interval: 1m0s

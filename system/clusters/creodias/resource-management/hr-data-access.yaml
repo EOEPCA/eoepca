@@ -221,7 +221,7 @@ spec:
           - path: registrar_pycsw.backend.PycswBackend
             kwargs:
               repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
-              ows_url: https://data-access.185.52.193.87.nip.io/ows
+              ows_url: https://data-access.80.158.38.166/ows
       # mapping of collection name to objects
       collections:
         S2L1C:
@@ -461,10 +461,10 @@ spec:
         nginx.ingress.kubernetes.io/enable-cors: "true"
         cert-manager.io/cluster-issuer: letsencrypt
       hosts:
-        - host: data-access.185.52.193.87.nip.io
+        - host: data-access.80.158.38.166
       tls:
         - hosts:
-            - data-access.185.52.193.87.nip.io
+            - data-access.80.158.38.166
           secretName: data-access-tls
     affinity: {}
     redis:
