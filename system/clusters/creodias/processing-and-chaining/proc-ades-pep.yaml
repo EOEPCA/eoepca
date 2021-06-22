@@ -19,8 +19,8 @@ spec:
       nginxIp: 185.52.193.87
     configMap:
       resourceServer: http://proc-ades/
-    image:
-      imagePullPolicy: Always
+    # image:
+    #   imagePullPolicy: Always
     volumeClaim:
       name: eoepca-proc-pvc
       create: false
