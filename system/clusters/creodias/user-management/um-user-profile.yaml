@@ -13,14 +13,10 @@ spec:
         namespace: common
   values:
     global:
-      ep: test.185.52.193.87.nip.io
-      ssoUrl: test.185.52.193.87.nip.io
+      domain: test.185.52.193.87.nip.io
       nginxIp: 185.52.193.87
-      redirectUri: "http://test.185.52.193.87.nip.io/web_ui/oauth/callback"
-      postLogoutRedirectUri: http://test.185.52.193.87.nip.io/web_ui"
-    # image:
-    #   image: eoepca/um-user-profile:v0.3
     volumeClaim:
       name: eoepca-userman-pvc
+      create: false
   timeout: 25m0s
   interval: 1m0s
