@@ -14,13 +14,10 @@ spec:
   values:
     global:
       nginxIp: 185.52.193.87
-      domain: https://test.185.52.193.87.nip.io
-      ep: test.185.52.193.87.nip.io
-      auth_server_url: https://test.185.52.193.87.nip.io
-    image:
-      imagePullPolicy: Always
+      domain: test.185.52.193.87.nip.io
     volumeClaim:
       name: eoepca-userman-pvc
+      create: false
 
   timeout: 25m0s
   interval: 1m0s
