@@ -78,6 +78,7 @@ class DemoClient:
         if self.token_endpoint == None:
             headers = { 'content-type': "application/json" }
             r = self.http_request("GET", self.base_url + "/.well-known/uma2-configuration", headers=headers)
+            print(r)
             self.token_endpoint = r.json()["token_endpoint"]
             print(f"token_endpoint: {self.token_endpoint}")
         return self.token_endpoint

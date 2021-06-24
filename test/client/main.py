@@ -28,11 +28,12 @@ def main():
     # register client
     print("\n### REGISTER CLIENT ###")
     demo.register_client()
-
+    
     # id token
     print("\n### USER ID TOKEN ###")
     user_id_token = demo.get_id_token(USER_NAME, USER_PASSWORD)
-
+    
+    
     # # add ADES resource
     # print("\n### ADD ADES RESOURCE ###")
     # demo.register_protected_resource(ades_resource_api_url, ades_user_prefix + "/zoo", user_id_token, "ADES WPS Service", ["Authenticated"])
@@ -74,6 +75,9 @@ def main():
     print("\n### API Proc List Processes ###")
     response, access_token, process_ids = demo.proc_list_processes(ades_proc_url, id_token=user_id_token, access_token=access_token)
     print("Process List =", process_ids)
+
+
+    return
 
     # API Proc Deploy Application
     print("\n### API Proc Deploy Application ###")

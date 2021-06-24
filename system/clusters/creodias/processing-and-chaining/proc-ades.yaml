@@ -102,6 +102,7 @@ spec:
 
       useResourceManager: "true"
       resourceManagerWorkspacePrefix: "rm-user"
+      resourceManagerEndpoint: "https://workspace-api.185.52.193.87.nip.io"
 
       main:
         cwl: ""
