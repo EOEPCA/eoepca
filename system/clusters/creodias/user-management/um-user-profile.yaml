@@ -15,7 +15,7 @@ spec:
     global:
       ep: test.80.158.38.166.nip.io
       ssoUrl: test.80.158.38.166.nip.io
-      nginxIp:80.158.38.166
+      nginxIp: 80.158.38.166
       redirectUri: "http://test.80.158.38.166.nip.io/web_ui/oauth/callback"
       postLogoutRedirectUri: http://test.80.158.38.166.nip.io/web_ui"
     # image:

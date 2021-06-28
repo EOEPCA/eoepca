@@ -16,7 +16,7 @@ spec:
     global:
       pep: workspace-api-pep
       domain: test.80.158.38.166.nip.io
-      nginxIp:80.158.38.166
+      nginxIp: 80.158.38.166
     configMap:
       resourceServer: http://workspace-api/
     volumeClaim:
