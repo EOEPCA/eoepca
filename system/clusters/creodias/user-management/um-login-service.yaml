@@ -27,7 +27,7 @@ spec:
         name: eoepca-userman-pvc
     global:
       domain: test.80.158.38.166.nip.io
-      nginxIp: 80.158.38.166.nip.io
+      nginxIp:80.158.38.166
     nginx:
       ingress:
         annotations:
