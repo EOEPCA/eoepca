@@ -19,9 +19,9 @@ spec:
         address: "192.168.123.10"
     domain:
       resman:
-        storageClass: eoepca-nfs
+        storageClass: csi-nas
       proc:
-        storageClass: eoepca-nfs
+        storageClass: csi-nas
       userman:
-        storageClass: eoepca-nfs
+        storageClass: csi-nas
   interval: 1m0s

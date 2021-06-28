@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name:  pvc-sfs-auto-example
+  name:  managed-nfs-storage
   namespace: default
 spec:
   accessModes:
