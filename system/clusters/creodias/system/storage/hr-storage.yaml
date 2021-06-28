@@ -13,15 +13,7 @@ spec:
         namespace: common
   values:
     host:
-      enabled: false
+      enabled: true
     nfs:
-      server:
-        address: "192.168.123.10"
-    domain:
-      resman:
-        storageClass: csi-nas
-      proc:
-        storageClass: csi-nas
-      userman:
-        storageClass: csi-nas
+      enabled: false
   interval: 1m0s
