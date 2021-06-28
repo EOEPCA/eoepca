@@ -11,10 +11,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - notification-controller.80.158.38.166
+        - notification-controller.80.158.38.166.nip.io
       secretName: notification-controller-tls
   rules:
-  - host: notification-controller.80.158.38.166
+  - host: notification-controller.80.158.38.166.nip.io
     http:
       paths:
       - path: /

@@ -44,7 +44,7 @@ implemented using the EFK stack made of Elasticsearch, Fluentd, and Kibana, all 
 
 Elasticsearch is a search and analytics engine, Fluentd an open source data collector for unified logging and Kibana lets users visualize data with charts and graphs from Elasticsearch
 
-log output from all containers running in the cluster are centrally available and searchable [here](https://kibana.80.158.38.166) (requires authorization - see access managment below)
+log output from all containers running in the cluster are centrally available and searchable [here](https://kibana.80.158.38.166.nip.io) (requires authorization - see access managment below)
 
 ### metrics monitoring
 
@@ -61,9 +61,9 @@ data collection can be easily enabled for all containers via an k8s annotation c
         prometheus.io/port: "80"
 ```
 
-as simple UI for metrics is directly provided via Prometheus and accessible [here](https://prometheus.80.158.38.166) (requires authorization - see access managment below)
+as simple UI for metrics is directly provided via Prometheus and accessible [here](https://prometheus.80.158.38.166.nip.io) (requires authorization - see access managment below)
 
-a more sophisticated UI for interactive monitoring of continuous status and performance metrics is established through Grafana accessible [here](https://grafana.80.158.38.166) (requires authorization - see access managment below), visualizing the gathered time series data for infrastructure and application analytics
+a more sophisticated UI for interactive monitoring of continuous status and performance metrics is established through Grafana accessible [here](https://grafana.80.158.38.166.nip.io) (requires authorization - see access managment below), visualizing the gathered time series data for infrastructure and application analytics
 
 ### access management 
 
@@ -71,8 +71,8 @@ access to public endpoints of the cluster can be protected via ingress annotatio
 
 ```
         nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User, X-Auth-Request-Email
-        nginx.ingress.kubernetes.io/auth-signin: https://auth.80.158.38.166/oauth2/start?rd=%2F$server_name$escaped_request_uri
-        nginx.ingress.kubernetes.io/auth-url: https://auth.80.158.38.166/oauth2/auth
+        nginx.ingress.kubernetes.io/auth-signin: https://auth.80.158.38.166.nip.io/oauth2/start?rd=%2F$server_name$escaped_request_uri
+        nginx.ingress.kubernetes.io/auth-url: https://auth.80.158.38.166.nip.io/oauth2/auth
 ```
 
 using the open source OAuth-Proxy tool connected to an OIDC provider
