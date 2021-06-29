@@ -32,8 +32,8 @@ spec:
     ingress:
       name: resource-catalogue
       class: nginx
-      host: resource-catalogue.80.158.38.166.nip.io
-      tls_host: resource-catalogue.80.158.38.166.nip.io
+      host: resource-catalogue.80.158.19.57.nip.io
+      tls_host: resource-catalogue.80.158.19.57.nip.io
       tls_secret_name: resource-catalogue-tls
     pycsw:
       name: resource-catalogue
@@ -52,7 +52,7 @@ spec:
       config:
         server:
           home: /home/pycsw
-          url: https://resource-catalogue.80.158.38.166.nip.io/
+          url: https://resource-catalogue.80.158.19.57.nip.io/
           mimetype: application/xml; charset=UTF-8
           encoding: UTF-8
           language: en-US
