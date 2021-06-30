@@ -38,6 +38,8 @@ spec:
         enabled: true
         storageClass: "managed-nfs-storage"
         size: 100Gi
+      retention: 3d
+      retentionSize: "30Gi"
     alertmanager:
       ingress:
         enabled: true
