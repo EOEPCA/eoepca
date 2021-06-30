@@ -21,6 +21,7 @@ spec:
       resman:
         storageClass: eoepca-nfs
       proc:
+        enabled: false
         storageClass: eoepca-nfs
       userman:
         storageClass: eoepca-nfs
