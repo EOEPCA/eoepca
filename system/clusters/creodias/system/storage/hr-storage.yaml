@@ -21,7 +21,7 @@ spec:
       resman:
         storageClass: eoepca-nfs
       proc:
-        storageClass: eoepca-nfs
+        storageClass: eoepca-tmp
       userman:
         storageClass: eoepca-nfs
   interval: 1m0s
