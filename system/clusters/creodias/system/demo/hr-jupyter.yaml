@@ -17,4 +17,5 @@ spec:
     image:
       image: eoepca/jupyterlab:latest
       imagePullPolicy: Always
+    elbIp: 80.158.19.57
   interval: 1m0s
