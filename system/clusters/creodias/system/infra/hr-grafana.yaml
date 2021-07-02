@@ -72,3 +72,5 @@ spec:
         value: "true"
       - name: GF_USERS_AUTO_ASSIGN_ORG_ROLE
         value: Admin
+    service:
+      type: NodePort

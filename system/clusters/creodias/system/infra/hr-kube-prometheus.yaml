@@ -60,3 +60,5 @@ spec:
         enabled: true
         storageClass: "managed-nfs-storage"
         size: 1Gi
+    service:
+      type: NodePort

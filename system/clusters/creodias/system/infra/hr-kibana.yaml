@@ -42,3 +42,5 @@ spec:
     elasticsearch:
       hosts: [elasticsearch-elasticsearch-master]
       port: 9200
+    service:
+      type: NodePort

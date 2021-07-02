@@ -4,7 +4,7 @@ metadata:
   name: notification-controller-webhook
   namespace: flux-system
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
   - name: http
     port: 80
