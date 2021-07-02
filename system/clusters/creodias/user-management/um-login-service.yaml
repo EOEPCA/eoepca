@@ -18,18 +18,22 @@ spec:
       volumeClaim:
         name: eoepca-userman-pvc
     opendj:
+      elbIp: 80.158.19.57
       volumeClaim:
         name: eoepca-userman-pvc
     oxauth:
+      elbIp: 80.158.19.57
       volumeClaim:
         name: eoepca-userman-pvc
     oxtrust:
+      elbIp: 80.158.19.57
       volumeClaim:
         name: eoepca-userman-pvc
     global:
       domain: test.80.158.19.57.nip.io
       nginxIp: 80.158.19.57
     nginx:
+      elbIp: 80.158.19.57
       ingress:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt
