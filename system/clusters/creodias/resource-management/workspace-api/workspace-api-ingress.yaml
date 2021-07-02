@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/name: workspace-api
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-    kubernetes.io/ingress.class: nginx
+    kubernetes.io/elb.ip: 80.158.19.57
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
 spec:
