@@ -22,7 +22,7 @@ spec:
       enabled: true
     persistence:
       enabled: true
-      storageClass: "managed-nfs-storage"
+      existingClaim: "managed-nas-storage"
       size: 1Gi
     ingress:
       enabled: true

@@ -17,12 +17,12 @@ spec:
   targetNamespace: infra
   values:
     global:
-      storageClass: "managed-nfs-storage"
+      existingClaim: "managed-nas-storage"
     master:
       replicas: 1
       persistence:
         enabled: true
-        storageClass: "managed-nfs-storage"
+        existingClaim: "managed-nas-storage"
         size: 100Gi
     coordinating:
       replicas: 1
@@ -35,7 +35,7 @@ spec:
       replicas: 1
       persistence:
         enabled: true
-        storageClass: "managed-nfs-storage"
+        existingClaim: "managed-nas-storage"
     ingest:
       replicas: 1
     metrics:

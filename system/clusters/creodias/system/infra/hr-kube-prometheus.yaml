@@ -17,6 +17,8 @@ spec:
   targetNamespace: infra
   values:
     prometheus:
+      service:
+        type: NodePort
       ingress:
         enabled: true
         certManager: true
@@ -36,9 +38,11 @@ spec:
            - prometheus.80.158.19.57.nip.io
       persistence:
         enabled: true
-        storageClass: "managed-nfs-storage"
+        existingClaim: "managed-nas-storage"
         size: 100Gi
     alertmanager:
+      service:
+        type: NodePort
       ingress:
         enabled: true
         certManager: true
@@ -58,7 +62,5 @@ spec:
            - alertmanager.80.158.19.57.nip.io
       persistence:
         enabled: true
-        storageClass: "managed-nfs-storage"
+        existingClaim: "managed-nas-storage"
         size: 1Gi
-    service:
-      type: NodePort
