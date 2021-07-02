@@ -12,6 +12,7 @@ spec:
         name: eoepca
         namespace: common
   values:
+    elbIp: 80.158.19.57
     config:
       domain: test.80.158.19.57.nip.io
       volumeClaim:
