@@ -13,6 +13,7 @@ spec:
         namespace: common
   values:
     context: rm
+    elbIp: 80.158.19.57
     global:
       pep: workspace-api-pep
       domain: test.80.158.19.57.nip.io
