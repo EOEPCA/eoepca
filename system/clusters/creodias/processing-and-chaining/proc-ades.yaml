@@ -46,8 +46,7 @@ spec:
       port: 80
     ingress:
       enabled: true
-      annotations:
-        - kubernetes.io/elb.ip: 80.158.19.57
+      annotations: {kubernetes.io/elb.ip: 80.158.19.57}
       hosts:
         - host: ades.80.158.19.57.nip.io
           paths: ["/"]
