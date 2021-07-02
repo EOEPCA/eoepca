@@ -156,9 +156,18 @@ class DemoClient:
             headers = { 'content-type': "application/json", "Authorization": f"Bearer {id_token}" }
             data = { "resource_scopes":scopes, "icon_uri":uri, "name":name}
             r = self.http_request("POST", f"{resource_api_url}/resources", headers=headers, json=data)
-            
-            a= json.loads(r.text)
-            resource_id= a['id']
+
+            # Handle based-upon response code
+            if r.status_code == 200:
+                try:
+                    response_json = json.loads(r.text)
+                    resource_id= response_json['id']
+                except Exception as e:
+                    print(f"WARNING: registration of resource '{uri}' appears successful, but could not parse response body: {e}")
+            elif r.status_code == 422:
+                print(f"Resource '{uri}' is already registered")
+
+            # Persist the resource id
             if resource_id:
                 self.state["resources"][resource_api_url][uri] = resource_id
                 print(f"resource_id: {resource_id} @{resource_api_url} = {uri}")

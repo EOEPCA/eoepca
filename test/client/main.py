@@ -5,11 +5,11 @@ from time import sleep
 
 def main():
     print("\n### TEST CLIENT ###")
-    USER_NAME="UserA"
+    USER_NAME="eric"
     USER_PASSWORD="defaultPWD"
     domain = "185.52.193.87.nip.io"
     base_url = "https://test." + domain
-    ades_resource_api_url = "http://ades.resources." + domain
+    ades_resource_api_url = "http://ades-pepapi.test." + domain
     ades_url = "http://ades.test." + domain
     ades_user = USER_NAME
     ades_user_prefix = "/" + ades_user
@@ -32,13 +32,10 @@ def main():
     # id token
     print("\n### USER ID TOKEN ###")
     user_id_token = demo.get_id_token(USER_NAME, USER_PASSWORD)
-    
-    
-    # # add ADES resource
-    # print("\n### ADD ADES RESOURCE ###")
-    # demo.register_protected_resource(ades_resource_api_url, ades_user_prefix + "/zoo", user_id_token, "ADES WPS Service", ["Authenticated"])
-    # demo.register_protected_resource(ades_resource_api_url, ades_user_prefix + "/wps3", user_id_token, "ADES API Service", ["Authenticated"])
-    # demo.register_protected_resource(ades_resource_api_url, ades_user_prefix + "/watchjob", user_id_token, "ADES Jobs", ["Authenticated"])
+
+    # Register user's base path as an owned resource
+    print("\n### REGISTER USER'S BASE RESOURCE PATH ###")
+    demo.register_protected_resource(ades_resource_api_url, ades_user_prefix, user_id_token, f"ADES Service for user {USER_NAME}", ["Authenticated"])
 
     # get demo user id token
     # print("\n### DEMO USER TOKENS ###")
@@ -75,9 +72,6 @@ def main():
     print("\n### API Proc List Processes ###")
     response, access_token, process_ids = demo.proc_list_processes(ades_proc_url, id_token=user_id_token, access_token=access_token)
     print("Process List =", process_ids)
-
-
-    return
 
     # API Proc Deploy Application
     print("\n### API Proc Deploy Application ###")
