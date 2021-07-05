@@ -71,7 +71,7 @@ spec:
       maxReplicas: 3
       targetCPUUtilizationPercentage: 80
       # targetMemoryUtilizationPercentage: 80
-    storageClassName: managed-nas-storage
+    #storageClassName: managed-nas-storage
     clusterAdminRoleName: cluster-admin
     nodeSelector: {}
     tolerations: []
@@ -206,7 +206,7 @@ spec:
 
 
       # kubernetes storage class to be used for provisioning volumes. Must be a persistent volume claim compliant (glusterfs-storage)
-      processingStorageClass: managed-nas-storage
+      #processingStorageClass: managed-nas-storage
       # Size of the Kubernetes Tmp Volumes
       processingVolumeTmpSize: "6Gi"
       # Size of the Kubernetes Output Volumes
@@ -234,7 +234,7 @@ spec:
       enabled: true
       # existingUserDataClaim:
       # existingProcServicesClaim:
-      existingUserDataClaim: "managed-nas-storage"
+      #existingUserDataClaim: "managed-nas-storage"
       userDataAccessMode: ReadWriteOnce
       userDataSize: 10Gi
       procServicesAccessMode: ReadWriteOnce
