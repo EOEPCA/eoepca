@@ -16,19 +16,19 @@ spec:
     config:
       domain: test.80.158.19.57.nip.io
       volumeClaim:
-        name: eoepca-userman-pvc
+        name: managed-nas-storage
     opendj:
       elbIp: 80.158.19.57
       volumeClaim:
-        name: eoepca-userman-pvc
+        name: managed-nas-storage
     oxauth:
       elbIp: 80.158.19.57
       volumeClaim:
-        name: eoepca-userman-pvc
+        name: managed-nas-storage
     oxtrust:
       elbIp: 80.158.19.57
       volumeClaim:
-        name: eoepca-userman-pvc
+        name: managed-nas-storage
     global:
       domain: test.80.158.19.57.nip.io
       nginxIp: 80.158.19.57
