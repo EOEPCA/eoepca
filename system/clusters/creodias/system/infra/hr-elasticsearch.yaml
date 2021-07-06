@@ -23,7 +23,6 @@ spec:
       persistence:
         enabled: true
         existingClaim: "managed-nas-storage"
-        size: 1Gi
     coordinating:
       replicas: 1
       heapSize: 512m
