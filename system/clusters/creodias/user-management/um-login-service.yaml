@@ -12,21 +12,21 @@ spec:
         name: eoepca
         namespace: common
   values:
-    elbIp: 80.158.19.57
+    #elbIp: 80.158.19.57
     config:
       domain: test.80.158.19.57.nip.io
       volumeClaim:
         name: managed-nas-storage
     opendj:
-      elbIp: 80.158.19.57
+      #elbIp: 80.158.19.57
       volumeClaim:
         name: managed-nas-storage
     oxauth:
-      elbIp: 80.158.19.57
+      #elbIp: 80.158.19.57
       volumeClaim:
         name: managed-nas-storage
     oxtrust:
-      elbIp: 80.158.19.57
+      #elbIp: 80.158.19.57
       volumeClaim:
         name: managed-nas-storage
     global:
