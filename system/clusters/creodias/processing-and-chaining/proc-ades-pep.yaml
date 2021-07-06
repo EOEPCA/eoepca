@@ -15,17 +15,15 @@ spec:
     context: ades
     global:
       pep: proc-ades-pep
-      ep: test.demo.eoepca.org
-      domain: https://test.demo.eoepca.org
-      resourceServer: http://proc-ades/
-      pdpUrl: pdp-engine.default
+      domain: test.demo.eoepca.org
       nginxIp: 185.52.195.19
-      proxyHost: ades.test.demo.eoepca.org
-      resourceHost: ades.resources.demo.eoepca.org
-    image:
-      image: eoepca/um-pep-engine:v0.3.4
+    configMap:
+      resourceServer: http://proc-ades/
+    # image:
+    #   imagePullPolicy: Always
     volumeClaim:
       name: eoepca-proc-pvc
+      create: false
 
   timeout: 25m0s
   interval: 1m0s

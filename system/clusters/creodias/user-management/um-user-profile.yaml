@@ -13,14 +13,10 @@ spec:
         namespace: common
   values:
     global:
-      ep: test.demo.eoepca.org
-      ssoUrl: test.demo.eoepca.org
+      domain: test.demo.eoepca.org
       nginxIp: 185.52.195.19
-      redirectUri: "http://test.demo.eoepca.org/web_ui/oauth/callback"
-      postLogoutRedirectUri: http://test.demo.eoepca.org/web_ui"
-    image:
-      image: eoepca/um-user-profile:v0.3
     volumeClaim:
       name: eoepca-userman-pvc
+      create: false
   timeout: 25m0s
   interval: 1m0s

@@ -15,17 +15,13 @@ spec:
     context: rm
     global:
       pep: workspace-api-pep
-      ep: test-rm.demo.eoepca.org
-      domain: https://test.demo.eoepca.org
-      resourceServer: http://workspace-api/
-      pdpUrl: pdp-engine.default
+      domain: test.demo.eoepca.org
       nginxIp: 185.52.195.19
-      proxyHost: workspace-api.test.demo.eoepca.org
-      resourceHost: workspace-api.resources.demo.eoepca.org
-    image:
-      image: eoepca/um-pep-engine:v0.3.2
+    configMap:
+      resourceServer: http://workspace-api/
     volumeClaim:
       name: pvc-workspace-api-pep
+      create: false
 
   timeout: 25m0s
   interval: 1m0s

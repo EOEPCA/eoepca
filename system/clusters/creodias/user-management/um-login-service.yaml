@@ -12,6 +12,9 @@ spec:
         name: eoepca
         namespace: common
   values:
+    volumeClaim:
+      name: eoepca-userman-pvc
+      create: false
     config:
       domain: test.demo.eoepca.org
       volumeClaim:

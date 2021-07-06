@@ -52,7 +52,7 @@ spec:
       config:
         server:
           home: /home/pycsw
-          url: http://resource-catalogue.user.demo.eoepca.org/
+          url: https://resource-catalogue.user.demo.eoepca.org/
           mimetype: application/xml; charset=UTF-8
           encoding: UTF-8
           language: en-US

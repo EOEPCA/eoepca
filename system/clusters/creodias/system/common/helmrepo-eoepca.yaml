@@ -4,5 +4,5 @@ metadata:
   name: eoepca
   namespace: common
 spec:
-  interval: 30m
+  interval: 2m
   url: https://eoepca.github.io/helm-charts/
