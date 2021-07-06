@@ -1,0 +1,3 @@
+creodias/terraform.* merge=ours
+creodias/modules merge=ours
+kubernetes/cluster.7z merge=ours
