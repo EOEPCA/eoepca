@@ -19,7 +19,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./system/clusters/creodias//system
+  path: ./system/clusters/creodias/system
   prune: true
   sourceRef:
     kind: GitRepository
