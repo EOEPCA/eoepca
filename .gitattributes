@@ -1,5 +1,5 @@
-creodias/.terraform merge=ours
+creodias/.terraform/**/* merge=ours
 creodias/terraform.* merge=ours
-creodias/modules merge=ours
+creodias/modules/**/* merge=ours
 creodias/eoepca.tfvars merge=ours
 kubernetes/cluster.7z merge=ours
