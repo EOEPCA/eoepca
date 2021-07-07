@@ -12,7 +12,7 @@ spec:
         name: eoepca
         namespace: common
   values:
-    context: rm
+    context: workspace-api
     global:
       pep: workspace-api-pep
       domain: test.demo.eoepca.org
@@ -20,7 +20,7 @@ spec:
     configMap:
       resourceServer: http://workspace-api/
     volumeClaim:
-      name: pvc-workspace-api-pep
+      name: eoepca-resman-pvc
       create: false
 
   timeout: 25m0s
