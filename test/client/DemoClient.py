@@ -276,6 +276,23 @@ class DemoClient:
         return r, access_token
 
     #---------------------------------------------------------------------------
+    # Workspace API : Get Details
+    #---------------------------------------------------------------------------
+
+    @keyword(name='Workspace API Get Details')
+    def wsapi_get_details(self, service_base_url, id_token=None, access_token=None):
+        """Call the 'Workspace API Get Details' endpoint
+        """
+        headers = { "Accept": "application/json" }
+        r, access_token = self.uma_http_request("GET", service_base_url, headers=headers, id_token=id_token, access_token=access_token)
+        print(f"[Workspace API Get Details] = {r.status_code} ({r.reason})")
+        # process_ids = []
+        # if r.status_code == 200:
+        #     for process in r.json():
+        #         process_ids.append(process['id'])
+        return r, access_token
+
+    #---------------------------------------------------------------------------
     # ADES WPS
     #---------------------------------------------------------------------------
 
