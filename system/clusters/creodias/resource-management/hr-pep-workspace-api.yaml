@@ -18,7 +18,7 @@ spec:
       domain: test.185.52.193.87.nip.io
       nginxIp: 185.52.193.87
     configMap:
-      resourceServer: http://workspace-api:8080/
+      resourceServer: http://workspace-api:8080
     volumeClaim:
       name: eoepca-resman-pvc
       create: false
