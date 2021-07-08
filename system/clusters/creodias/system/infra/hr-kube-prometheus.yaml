@@ -63,4 +63,4 @@ spec:
       persistence:
         enabled: true
         existingClaim: "managed-nas-storage"
-        size: 1Gi
+        size: 10Gi
