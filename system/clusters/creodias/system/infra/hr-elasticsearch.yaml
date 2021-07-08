@@ -43,3 +43,5 @@ spec:
       replicas: 1
     metrics:
       enabled: true
+    service:
+      type: NodePort
