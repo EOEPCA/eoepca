@@ -39,7 +39,7 @@ spec:
       persistence:
         enabled: true
         existingClaim: "managed-nas-storage"
-        size: 10Gi
+        size: 11Gi
     alertmanager:
       service:
         type: NodePort
@@ -61,7 +61,9 @@ spec:
            hosts:
            - alertmanager.80.158.38.166.nip.io
         persistence:
+          enabled: true
           existingClaim: "managed-nas-storage"
+          size: 10Gi
       persistence:
         enabled: true
         existingClaim: "managed-nas-storage"
