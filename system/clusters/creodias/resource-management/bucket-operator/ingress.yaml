@@ -8,16 +8,16 @@ metadata:
     app.kubernetes.io/name: bucket-operator
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-    kubernetes.io/elb.ip: 80.158.19.57
+    kubernetes.io/elb.ip: 80.158.38.166
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
 spec:
   tls:
     - hosts:
-        - bucket-operator.80.158.19.57.nip.io
+        - bucket-operator.80.158.38.166.nip.io
       secretName: bucket-operator-tls
   rules:
-    - host: bucket-operator.80.158.19.57.nip.io
+    - host: bucket-operator.80.158.38.166.nip.io
       http:
         paths:
           - path: /

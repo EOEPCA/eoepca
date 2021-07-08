@@ -23,10 +23,10 @@ spec:
     extraArgs:
       provider: oidc
       provider-display-name: "EOEPCA Project"
-      redirect-url: https://auth.80.158.19.57.nip.io/oauth2/callback
+      redirect-url: https://auth.80.158.38.166.nip.io/oauth2/callback
       oidc-issuer-url: https://cognito-idp.eu-central-1.amazonaws.com/eu-central-1_7mjYRQYll
       cookie-secure: "true"
-      cookie-domain: 80.158.19.57.nip.io
+      cookie-domain: 80.158.38.166.nip.io
       cookie-refresh: "0"
       set-authorization-header: "true"
       pass-authorization-header: "true"
@@ -34,9 +34,9 @@ spec:
     ingress:
       enabled: true
       hosts:
-        - auth.80.158.19.57.nip.io
+        - auth.80.158.38.166.nip.io
       annotations:
-        kubernetes.io/elb.ip: 80.158.19.57
+        kubernetes.io/elb.ip: 80.158.38.166
         nginx.ingress.kubernetes.io/proxy-read-timeout: '600'
         nginx.ingress.kubernetes.io/enable-cors: 'true'
         cert-manager.io/cluster-issuer: letsencrypt
@@ -45,7 +45,7 @@ spec:
       tls:
         - secretName: auth-tls
           hosts:
-            - auth.80.158.19.57.nip.io
+            - auth.80.158.38.166.nip.io
     resources:
       limits:
         cpu: 200m

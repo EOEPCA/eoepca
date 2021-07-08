@@ -182,7 +182,7 @@ spec:
           - path: registrar_pycsw.backend.PycswBackend
             kwargs:
               repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
-              ows_url: https://data-access-user.80.158.19.57.nip.io/ows
+              ows_url: https://data-access-user.80.158.38.166.nip.io/ows
         mapping:
           '':
             '': {}
@@ -301,15 +301,15 @@ spec:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/elb.ip: 80.158.19.57
+        kubernetes.io/elb.ip: 80.158.38.166
         nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
         nginx.ingress.kubernetes.io/enable-cors: "true"
         cert-manager.io/cluster-issuer: letsencrypt
       hosts:
-        - host: data-access-user.80.158.19.57.nip.io
+        - host: data-access-user.80.158.38.166.nip.io
       tls:
         - hosts:
-            - data-access-user.80.158.19.57.nip.io
+            - data-access-user.80.158.38.166.nip.io
           secretName: data-access-tls
     affinity: {}
     redis:

@@ -28,15 +28,15 @@ spec:
       enabled: true
       certManager: true
       annotations:
-        kubernetes.io/elb.ip: 80.158.19.57
+        kubernetes.io/elb.ip: 80.158.38.166
         nginx.ingress.kubernetes.io/proxy-read-timeout: '600'
         nginx.ingress.kubernetes.io/enable-cors: 'true'
         nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User, X-Auth-Request-Email
-        nginx.ingress.kubernetes.io/auth-signin: https://auth.80.158.19.57.nip.io/oauth2/start?rd=%2F$server_name$escaped_request_uri
-        nginx.ingress.kubernetes.io/auth-url: https://auth.80.158.19.57.nip.io/oauth2/auth
+        nginx.ingress.kubernetes.io/auth-signin: https://auth.80.158.38.166.nip.io/oauth2/start?rd=%2F$server_name$escaped_request_uri
+        nginx.ingress.kubernetes.io/auth-url: https://auth.80.158.38.166.nip.io/oauth2/auth
         cert-manager.io/cluster-issuer: letsencrypt
       hosts:
-      - name: kibana.80.158.19.57.nip.io
+      - name: kibana.80.158.38.166.nip.io
         tls: true
         tlsSecret: kibana-tls
     elasticsearch:

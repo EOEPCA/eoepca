@@ -4,17 +4,17 @@ metadata:
   name: notification-controller
   namespace: flux-system
   annotations:
-    kubernetes.io/elb.ip: 80.158.19.57
+    kubernetes.io/elb.ip: 80.158.38.166
     nginx.ingress.kubernetes.io/proxy-read-timeout: '600'
     nginx.ingress.kubernetes.io/enable-cors: 'true'
     cert-manager.io/cluster-issuer: letsencrypt
 spec:
   tls:
     - hosts:
-        - notification-controller.80.158.19.57.nip.io
+        - notification-controller.80.158.38.166.nip.io
       secretName: notification-controller-tls
   rules:
-  - host: notification-controller.80.158.19.57.nip.io
+  - host: notification-controller.80.158.38.166.nip.io
     http:
       paths:
       - path: /
