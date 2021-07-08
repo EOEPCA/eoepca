@@ -239,7 +239,7 @@ spec:
       userDataSize: 9Gi
       procServicesAccessMode: ReadWriteOnce
       procServicesSize: 4Gi
-      storageClass: eoepca-host
+      storageClass: csi-nas
     # values - end
   # timeout: 25m0s
   interval: 1m0s
