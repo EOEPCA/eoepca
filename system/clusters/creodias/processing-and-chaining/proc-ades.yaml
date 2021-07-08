@@ -236,9 +236,9 @@ spec:
       # existingProcServicesClaim:
       #existingUserDataClaim: "managed-nas-storage"
       userDataAccessMode: ReadWriteOnce
-      userDataSize: 10Gi
+      userDataSize: 9Gi
       procServicesAccessMode: ReadWriteOnce
-      procServicesSize: 5Gi
+      procServicesSize: 4Gi
       storageClass: eoepca-host
     # values - end
   # timeout: 25m0s
