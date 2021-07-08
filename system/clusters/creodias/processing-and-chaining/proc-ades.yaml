@@ -239,6 +239,7 @@ spec:
       userDataSize: 10Gi
       procServicesAccessMode: ReadWriteOnce
       procServicesSize: 5Gi
+      storageClass: eoepca-host
     # values - end
   # timeout: 25m0s
   interval: 1m0s
