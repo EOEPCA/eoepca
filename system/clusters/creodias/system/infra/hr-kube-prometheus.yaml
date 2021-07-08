@@ -60,6 +60,8 @@ spec:
          - secretName: alertmanager-tls
            hosts:
            - alertmanager.80.158.38.166.nip.io
+        persistence:
+          existingClaim: "managed-nas-storage"
       persistence:
         enabled: true
         existingClaim: "managed-nas-storage"
