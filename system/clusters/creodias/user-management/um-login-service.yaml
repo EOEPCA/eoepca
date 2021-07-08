@@ -20,6 +20,7 @@ spec:
       volumeClaim:
         name: managed-nas-storage
     oxauth:
+      elbIp: 80.158.38.166
       volumeClaim:
         name: managed-nas-storage
     oxtrust:
