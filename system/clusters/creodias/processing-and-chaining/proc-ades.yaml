@@ -236,9 +236,9 @@ spec:
       # existingProcServicesClaim:
       #existingUserDataClaim: "managed-nas-storage"
       userDataAccessMode: ReadWriteMany
-      userDataSize: 10Gi
+      userDataSize: 5Gi
       procServicesAccessMode: ReadWriteMany
-      procServicesSize: 5Gi
+      procServicesSize: 2Gi
       storageClass: csi-nas
     # values - end
   # timeout: 25m0s

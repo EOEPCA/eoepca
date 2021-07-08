@@ -34,7 +34,7 @@ spec:
   - ReadWriteMany
   resources:
     requests:
-      storage: 10Gi
+      storage: 100Gi
   storageClassName: csi-nas
 ---
 apiVersion: v1
