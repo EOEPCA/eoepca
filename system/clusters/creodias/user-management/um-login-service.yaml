@@ -29,9 +29,9 @@ spec:
       domain: test.80.158.38.166.nip.io
       nginxIp: 80.158.38.166
     nginx:
+      elbIp: 80.158.38.166
       ingress:
         annotations:
-          kubernetes.io/elb.ip: 80.158.38.166
           cert-manager.io/cluster-issuer: letsencrypt
         hosts:
           - test.80.158.38.166.nip.io
