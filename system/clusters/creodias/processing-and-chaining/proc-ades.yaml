@@ -18,7 +18,7 @@ spec:
       repository: eoepca/proc-ades
       pullPolicy: Always
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "dev0.4.2"
+      tag: "dev0.4.3"
     nameOverride: ""
     fullnameOverride: ""
     serviceAccount:
@@ -103,6 +103,7 @@ spec:
       useResourceManager: "true"
       resourceManagerWorkspacePrefix: "rm-user"
       resourceManagerEndpoint: "https://workspace-api.test.185.52.193.87.nip.io"
+      platformDomain: "https://test.185.52.193.87.nip.io"
 
       main:
         cwl: ""
@@ -226,6 +227,10 @@ spec:
       
       pod:
         env: {}
+
+      # custom backoff limit for calrissian job
+      backofflimit: 3
+      
         
     wps:
       pepBaseUrl: "http://proc-ades-pep:5576"
