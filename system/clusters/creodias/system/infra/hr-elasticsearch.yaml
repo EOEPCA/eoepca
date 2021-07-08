@@ -19,6 +19,8 @@ spec:
     global:
       existingClaim: "managed-nas-storage"
     master:
+      service:
+        type: NodePort
       replicas: 1
       persistence:
         enabled: true
@@ -31,6 +33,8 @@ spec:
           cpu: 100m
           memory: 1G
     data:
+      service:
+        type: NodePort
       replicas: 1
       persistence:
         enabled: true
