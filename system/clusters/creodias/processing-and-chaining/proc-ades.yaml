@@ -229,7 +229,7 @@ spec:
         env: {}
 
       # custom backoff limit for calrissian job
-      backofflimit: 3
+      backofflimit: 2
       
         
     wps:
