@@ -38,9 +38,10 @@ spec:
            - prometheus.80.158.38.166.nip.io
       persistence:
         enabled: true
+        accessModes: ReadWriteMany        
         storageClass: csi-nas
         existingClaim: "managed-nas-storage"
-        size: 20Gi
+        size: 21Gi
     alertmanager:
       service:
         type: NodePort
@@ -64,10 +65,12 @@ spec:
         persistence:
           enabled: true
           storageClass: csi-nas
+          accessModes: ReadWriteMany        
           existingClaim: "managed-nas-storage"
-          size: 20Gi
+          size: 23Gi
       persistence:
         enabled: true
+        accessModes: ReadWriteMany        
         storageClass: csi-nas
         existingClaim: "managed-nas-storage"
-        size: 20Gi
+        size: 22Gi
