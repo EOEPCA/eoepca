@@ -39,7 +39,7 @@ spec:
       persistence:
         enabled: true
         existingClaim: "managed-nas-storage"
-        size: 40Gi
+        size: 30Gi
     alertmanager:
       service:
         type: NodePort
@@ -63,7 +63,7 @@ spec:
         persistence:
           enabled: true
           existingClaim: "managed-nas-storage"
-          size: 40Gi
+          size: 30Gi
       persistence:
         enabled: true
         existingClaim: "managed-nas-storage"
