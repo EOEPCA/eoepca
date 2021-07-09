@@ -40,7 +40,6 @@ spec:
         enabled: true
         accessModes: ReadWriteMany        
         storageClass: csi-nas
-        existingClaim: "managed-nas-storage"
     alertmanager:
       service:
         type: NodePort
@@ -65,9 +64,7 @@ spec:
           enabled: true
           storageClass: csi-nas
           accessModes: ReadWriteMany        
-          existingClaim: "managed-nas-storage"
       persistence:
         enabled: true
         accessModes: ReadWriteMany        
         storageClass: csi-nas
-        existingClaim: "managed-nas-storage"
