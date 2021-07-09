@@ -40,6 +40,9 @@ spec:
         enabled: true
         accessModes: ReadWriteMany        
         storageClass: csi-nas
+        size: 100Gi
+      retention: 3d
+      retentionSize: "30GB"        
     alertmanager:
       service:
         type: NodePort
@@ -63,8 +66,10 @@ spec:
         persistence:
           enabled: true
           storageClass: csi-nas
-          accessModes: ReadWriteMany        
+          accessModes: ReadWriteMany  
+          size: 5Gi      
       persistence:
         enabled: true
         accessModes: ReadWriteMany        
         storageClass: csi-nas
+        size: 1Gi
