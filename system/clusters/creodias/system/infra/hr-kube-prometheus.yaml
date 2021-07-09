@@ -41,7 +41,6 @@ spec:
         accessModes: ReadWriteMany        
         storageClass: csi-nas
         existingClaim: "managed-nas-storage"
-        size: 5Gi
     alertmanager:
       service:
         type: NodePort
@@ -67,10 +66,8 @@ spec:
           storageClass: csi-nas
           accessModes: ReadWriteMany        
           existingClaim: "managed-nas-storage"
-          size: 6Gi
       persistence:
         enabled: true
         accessModes: ReadWriteMany        
         storageClass: csi-nas
         existingClaim: "managed-nas-storage"
-        size: 50Gi
