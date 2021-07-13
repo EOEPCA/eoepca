@@ -58,11 +58,11 @@ spec:
         - name: WORKSPACE_CONFIG_MAP_NAME
           value: "workspace"
         - name: GIT_REPO_RESOURCE_FOR_HELM_CHART_NAME
-          value: "flux-system"
+          value: "eoepca"
         - name: GIT_REPO_RESOURCE_FOR_HELM_CHART_NAMESPACE
-          value: "flux-system"
+          value: "common"
         - name: HELM_CHART_NAME
-          value: "./system/charts/rm-user-workspace"
+          value: "rm-user-workspace"
         - name: HELM_CHART_VERSION
           value: "0.0.23"
         - name: S3_ENDPOINT
