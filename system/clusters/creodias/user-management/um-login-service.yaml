@@ -20,23 +20,23 @@ spec:
       volumeClaim:
         name: managed-nas-storage
     oxauth:
-      #elbIp: 80.158.38.166
+      elbIp: 80.158.38.166
       volumeClaim:
         name: managed-nas-storage
     oxpassport:
-      #elbIp: 80.158.38.166
+      elbIp: 80.158.38.166
     oxtrust:
-      #elbIp: 80.158.38.166
+      elbIp: 80.158.38.166
       volumeClaim:
         name: managed-nas-storage
     global:
       domain: test.80.158.38.166.nip.io
       nginxIp: 80.158.38.166
     nginx:
-      #elbIp: 80.158.38.166
+      elbIp: 80.158.38.166
       ingress:
         annotations:
-          kubernetes.io/elb.ip: 80.158.38.166
+          #kubernetes.io/elb.ip: 80.158.38.166
           cert-manager.io/cluster-issuer: letsencrypt
         hosts:
           - test.80.158.38.166.nip.io
