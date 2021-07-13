@@ -33,7 +33,7 @@ spec:
       domain: test.80.158.38.166.nip.io
       nginxIp: 80.158.38.166
     nginx:
-      elbIp: 80.158.38.166
+      #elbIp: 80.158.38.166
       ingress:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt
