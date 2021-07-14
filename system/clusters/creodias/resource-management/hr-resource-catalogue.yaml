@@ -20,7 +20,9 @@ spec:
       tls_host: resource-catalogue.185.52.193.87.nip.io
       tls_secret_name: resource-catalogue-tls
     pycsw:
-      image: geopython/pycsw:stac-api
+      image:
+        pullPolicy: Always
+        tag: "stac-api"
       config:
         server:
           url: https://resource-catalogue.185.52.193.87.nip.io/
