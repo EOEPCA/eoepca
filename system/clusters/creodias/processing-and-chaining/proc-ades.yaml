@@ -15,7 +15,6 @@ spec:
     # values - start
     replicaCount: 1
     image:
-      repository: eoepca/proc-ades
       pullPolicy: Always
       # Overrides the image tag whose default is the chart appVersion.
       tag: "dev0.4.5"
