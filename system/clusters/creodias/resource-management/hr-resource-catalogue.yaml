@@ -15,63 +15,15 @@ spec:
   values:
     global:
       namespace: rm
-    db:
-      name: resource-catalogue-db
-      service_name: resource-catalogue-db-service
-      image: postgis/postgis:12-3.1
-      port: 5432
-      database: pycsw
-      user: postgres
-      pass: mypass
-      volume_name: resource-catalogue-db-data
-      volume_path: /var/lib/postgresql/data/pgdata
-      # persistent_volume_name: pvc-adcfed63-9e02-4772-94fb-8a9640359c8d
-      volume_size: 500Mi
-      volume_access_modes: ReadWriteMany
-      volume_storage_type: managed-nfs-storage
     ingress:
-      name: resource-catalogue
-      class: nginx
       host: resource-catalogue.demo.eoepca.org
       tls_host: resource-catalogue.demo.eoepca.org
       tls_secret_name: resource-catalogue-tls
     pycsw:
-      name: resource-catalogue
       image: geopython/pycsw:eoepca-0.9.0
-      container_port: 8000
-      service_name: resource-catalogue-service
-      service_type: ClusterIP
-      service_port: 80
-      service_port_name: http
-      # service_node_port: 30000
-      service_port_protocol: TCP
-      service_target_port: 8000
-      configmap_name: resource-catalogue-configmap
-      volume_name: resource-catalogue-config
-      volume_path: /etc/pycsw
       config:
         server:
-          home: /home/pycsw
           url: https://resource-catalogue.demo.eoepca.org/
-          mimetype: application/xml; charset=UTF-8
-          encoding: UTF-8
-          language: en-US
-          maxrecords: 10
-          loglevel: DEBUG
-          logfile: " "
-          # ogc_schemas_base: http://foo
-          # federatedcatalogues: http://catalog.data.gov/csw
-          # pretty_print: true
-          # gzip_compresslevel: 8
-          # domainquerytype: range
-          # domaincounts: true
-          # spatial_ranking: true
-          profiles: apiso
-          # workers: 2
-        manager:
-          transactions: "false"
-          allowed_ips: 127.0.0.1
-          # csw_harvest_pagesize: 10
         metadata:
           identification_title: pycsw Geospatial Catalogue
           identification_abstract: pycsw is an OGC CSW server implementation written in Python
@@ -95,11 +47,6 @@ spec:
           contact_hours: Hours of Service
           contact_instructions: During hours of service.  Off on weekends.
           contact_role: pointOfContact
-        repository:
-          database: postgresql://postgres:mypass@resource-catalogue-db/pycsw
-          table: records
-          # mappings: path/to/mappings.py
-          # filter: type = 'http://purl.org/dc/dcmitype/Dataset'
         inspire:
           enabled: "true"
           languages_supported: eng,gre
