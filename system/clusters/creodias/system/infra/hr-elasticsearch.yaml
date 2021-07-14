@@ -44,6 +44,8 @@ spec:
     ingest:
       replicas: 1
     metrics:
+      service:
+        type: NodePort
       enabled: true
     service:
       type: NodePort
