@@ -13,11 +13,11 @@ spec:
         namespace: common
   values:
     context: rm
-    elbIp: 80.158.38.166
+    elbIp: 80.158.53.207
     global:
       pep: workspace-api-pep
-      domain: test.80.158.38.166.nip.io
-      nginxIp: 80.158.38.166
+      domain: test.80.158.53.207.nip.io
+      nginxIp: 80.158.53.207
     configMap:
       resourceServer: http://workspace-api/
     volumeClaim:
