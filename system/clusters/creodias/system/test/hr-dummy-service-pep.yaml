@@ -21,6 +21,8 @@ spec:
       resourceServer: http://dummy-service/
     # image:
     #   imagePullPolicy: Always
+    certManager:
+      clusterIssuer: letsencrypt
     volumeClaim:
       name: dummy-service-pep-pvc
       create: false
