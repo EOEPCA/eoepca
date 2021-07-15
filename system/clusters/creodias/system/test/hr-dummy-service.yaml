@@ -1,0 +1,15 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: dummy-service
+  namespace: test
+spec:
+  chart:
+    spec:
+      chart: dummy
+      sourceRef:
+        kind: HelmRepository
+        name: eoepca
+        namespace: common
+  values: {}
+  interval: 1m0s
