@@ -24,6 +24,10 @@ def main():
     wsapi_prefix = "rm-user"
     wsapi_user_prefix = "/workspaces/" + wsapi_prefix + "-" + wsapi_user
 
+    # dummy service
+    dummy_resource_api_url = "http://dummy-service-pepapi.test." + domain
+    dummy_url = "https://dummy-service.test." + domain
+
     #===========================================================================
     # UM setup
     #===========================================================================
@@ -52,6 +56,19 @@ def main():
     demo.register_protected_resource(wsapi_resource_api_url, wsapi_user_prefix, user_id_token, f"Workspace for user {USER_NAME}", ["Authenticated"])
 
     #===========================================================================
+    # Dummy Service
+    #===========================================================================
+
+    dummy_access_token = None
+
+    # Call Dummy Service
+    print("\n### Dummy Service ###")
+    demo.trace_flow = True
+    response, dummy_access_token = demo.dummy_service_call(dummy_url + "/test", id_token=user_id_token, access_token=dummy_access_token)
+    demo.trace_flow = False
+    print(f"\nSummary of request proxied via the PEP...\n{response.text}\n")
+
+    #===========================================================================
     # Workspace API
     #===========================================================================
 
@@ -60,11 +77,20 @@ def main():
 
     # Workspace: Get Details
     print("\n### Workspace: Get Details ###")
+    demo.trace_flow = True
     response, wsapi_access_token = demo.wsapi_get_details(wsapi_user_url, id_token=user_id_token, access_token=wsapi_access_token)
+    demo.trace_flow = False
     print(f"DETAILS = {json.dumps(response.json(), indent = 2)}\n")
 
-    demo.save_state()
-    return
+    # Workspace: Get Details - as user bob
+    # id token
+    print("\n### BOB ID TOKEN ###")
+    bob_id_token = demo.get_id_token("bob", USER_PASSWORD)
+    print("\n### Workspace: Get Details as user bob ###")
+    demo.trace_flow = True
+    response, wsapi_access_token = demo.wsapi_get_details(wsapi_user_url, id_token=bob_id_token, access_token=wsapi_access_token)
+    demo.trace_flow = False
+    # print(f"DETAILS = {json.dumps(response.json(), indent = 2)}\n")
 
     #===========================================================================
     # Processing
