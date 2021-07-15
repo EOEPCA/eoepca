@@ -20,6 +20,10 @@ spec:
       volumeClaim:
         name: eoepca-userman-pvc
     opendj:
+      # This can be useful to workaround helm 'failed to upgrade' errors due to
+      # immutable fields in the 'um-login-service-persistence-init-ss' job
+      # persistence:
+      #   enabled: false
       volumeClaim:
         name: eoepca-userman-pvc
     oxauth:
