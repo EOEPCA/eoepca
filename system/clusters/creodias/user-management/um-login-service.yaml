@@ -21,8 +21,6 @@ spec:
         name: managed-nas-storage
     oxauth:
       elbIp: 80.158.53.207
-      image: 
-        tag: 4.1.3_09
       volumeClaim:
         name: managed-nas-storage
     oxpassport:
