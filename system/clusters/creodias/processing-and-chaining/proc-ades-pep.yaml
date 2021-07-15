@@ -20,7 +20,7 @@ spec:
     configMap:
       resourceServer: http://proc-ades/
     # image:
-    #   imagePullPolicy: Always
+    #   pullPolicy: Always
     volumeClaim:
       name: eoepca-proc-pvc
       create: false

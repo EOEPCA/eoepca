@@ -15,7 +15,7 @@ spec:
   values:
     hostname: 185.52.193.87.nip.io
     # image:
-    #   image: eoepca/jupyterlab
+    #   repository: eoepca/jupyterlab
     #   tag: latest
-    #   imagePullPolicy: Always
+    #   pullPolicy: Always
   interval: 1m0s
