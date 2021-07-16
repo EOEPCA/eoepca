@@ -19,6 +19,8 @@ spec:
       nginxIp: 185.52.195.19
     configMap:
       resourceServer: http://workspace-api:8080
+    certManager:
+      clusterIssuer: letsencrypt
     volumeClaim:
       name: eoepca-resman-pvc
       create: false
