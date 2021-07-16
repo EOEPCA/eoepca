@@ -8,6 +8,7 @@ spec:
   chart:
     spec:
       chart: nfs-subdir-external-provisioner
+      version: 4.0.2
       sourceRef:
         kind: HelmRepository
         name: nfs-subdir-external-provisioner
@@ -34,6 +35,7 @@ spec:
   chart:
     spec:
       chart: nfs-subdir-external-provisioner
+      version: 4.0.2
       sourceRef:
         kind: HelmRepository
         name: nfs-subdir-external-provisioner
