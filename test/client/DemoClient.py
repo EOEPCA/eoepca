@@ -240,6 +240,8 @@ class DemoClient:
             # init headers if needed
             if headers is None:
                 headers = {}
+            # Set ID Token in header
+            headers["X-User-Id"] = id_token
             # use access token if we have one
             if access_token is not None:
                 self.trace(log_prefix, "Attempting to use existing access token")
@@ -273,6 +275,36 @@ class DemoClient:
             else:
                 print(f"UNEXPECTED status code: {r.status_code} for resource {url}")
         # return the response and the access token which may be reusable
+        return r, access_token
+
+    #---------------------------------------------------------------------------
+    # Dummy Service
+    #---------------------------------------------------------------------------
+
+    @keyword(name='Dummy Service Call')
+    def dummy_service_call(self, service_base_url, id_token=None, access_token=None):
+        """Call the 'Dummy Service' endpoint
+        """
+        headers = { "Accept": "application/json" }
+        r, access_token = self.uma_http_request("GET", service_base_url, headers=headers, id_token=id_token, access_token=access_token)
+        print(f"[Dummy Service] = {r.status_code} ({r.reason})")
+        return r, access_token
+
+    #---------------------------------------------------------------------------
+    # Workspace API : Get Details
+    #---------------------------------------------------------------------------
+
+    @keyword(name='Workspace API Get Details')
+    def wsapi_get_details(self, service_base_url, id_token=None, access_token=None):
+        """Call the 'Workspace API Get Details' endpoint
+        """
+        headers = { "Accept": "application/json" }
+        r, access_token = self.uma_http_request("GET", service_base_url, headers=headers, id_token=id_token, access_token=access_token)
+        print(f"[Workspace API Get Details] = {r.status_code} ({r.reason})")
+        # process_ids = []
+        # if r.status_code == 200:
+        #     for process in r.json():
+        #         process_ids.append(process['id'])
         return r, access_token
 
     #---------------------------------------------------------------------------

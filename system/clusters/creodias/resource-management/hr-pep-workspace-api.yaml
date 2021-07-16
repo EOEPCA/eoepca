@@ -18,7 +18,7 @@ spec:
       domain: test.demo.eoepca.org
       nginxIp: 185.52.195.19
     configMap:
-      resourceServer: http://workspace-api/
+      resourceServer: http://workspace-api:8080
     volumeClaim:
       name: eoepca-resman-pvc
       create: false

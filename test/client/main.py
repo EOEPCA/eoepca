@@ -2,6 +2,7 @@
 
 import DemoClient as client
 from time import sleep
+import json
 
 def main():
     print("\n### TEST CLIENT ###")
@@ -9,10 +10,23 @@ def main():
     USER_PASSWORD="defaultPWD"
     domain = "185.52.193.87.nip.io"
     base_url = "https://test." + domain
+
+    # ades
     ades_resource_api_url = "http://ades-pepapi.test." + domain
     ades_url = "http://ades.test." + domain
     ades_user = USER_NAME
     ades_user_prefix = "/" + ades_user
+
+    # workspace-api
+    wsapi_resource_api_url = "http://workspace-api-pepapi.test." + domain
+    wsapi_url = "http://workspace-api.test." + domain
+    wsapi_user = USER_NAME
+    wsapi_prefix = "rm-user"
+    wsapi_user_prefix = "/workspaces/" + wsapi_prefix + "-" + wsapi_user
+
+    # dummy service
+    dummy_resource_api_url = "http://dummy-service-pepapi.test." + domain
+    dummy_url = "https://dummy-service.test." + domain
 
     #===========================================================================
     # UM setup
@@ -33,13 +47,50 @@ def main():
     print("\n### USER ID TOKEN ###")
     user_id_token = demo.get_id_token(USER_NAME, USER_PASSWORD)
 
-    # Register user's base path as an owned resource
-    print("\n### REGISTER USER'S BASE RESOURCE PATH ###")
+    # Register user's ADES base path as an owned resource
+    print("\n### REGISTER USER'S ADES BASE RESOURCE PATH ###")
     demo.register_protected_resource(ades_resource_api_url, ades_user_prefix, user_id_token, f"ADES Service for user {USER_NAME}", ["Authenticated"])
 
-    # get demo user id token
-    # print("\n### DEMO USER TOKENS ###")
-    # demo_id_token = demo.get_id_token("demo", "telespazio")
+    # Register user's Workspace base path as an owned resource
+    print("\n### REGISTER USER'S Workspace BASE RESOURCE PATH ###")
+    demo.register_protected_resource(wsapi_resource_api_url, wsapi_user_prefix, user_id_token, f"Workspace for user {USER_NAME}", ["Authenticated"])
+
+    #===========================================================================
+    # Dummy Service
+    #===========================================================================
+
+    dummy_access_token = None
+
+    # Call Dummy Service
+    print("\n### Dummy Service ###")
+    demo.trace_flow = True
+    response, dummy_access_token = demo.dummy_service_call(dummy_url + "/test", id_token=user_id_token, access_token=dummy_access_token)
+    demo.trace_flow = False
+    print(f"\nSummary of request proxied via the PEP...\n{response.text}\n")
+
+    #===========================================================================
+    # Workspace API
+    #===========================================================================
+
+    wsapi_user_url = wsapi_url + wsapi_user_prefix
+    wsapi_access_token = None
+
+    # Workspace: Get Details
+    print("\n### Workspace: Get Details ###")
+    demo.trace_flow = True
+    response, wsapi_access_token = demo.wsapi_get_details(wsapi_user_url, id_token=user_id_token, access_token=wsapi_access_token)
+    demo.trace_flow = False
+    print(f"DETAILS = {json.dumps(response.json(), indent = 2)}\n")
+
+    # Workspace: Get Details - as user bob
+    # id token
+    print("\n### BOB ID TOKEN ###")
+    bob_id_token = demo.get_id_token("bob", USER_PASSWORD)
+    print("\n### Workspace: Get Details as user bob ###")
+    demo.trace_flow = True
+    response, wsapi_access_token = demo.wsapi_get_details(wsapi_user_url, id_token=bob_id_token, access_token=wsapi_access_token)
+    demo.trace_flow = False
+    # print(f"DETAILS = {json.dumps(response.json(), indent = 2)}\n")
 
     #===========================================================================
     # Processing

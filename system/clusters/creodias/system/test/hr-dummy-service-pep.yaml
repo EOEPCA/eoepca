@@ -1,8 +1,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: proc-ades-pep
-  namespace: proc
+  name: dummy-service-pep
+  namespace: test
 spec:
   chart:
     spec:
@@ -12,17 +12,19 @@ spec:
         name: eoepca
         namespace: common
   values:
-    context: ades
+    context: dummy-service
     global:
-      pep: proc-ades-pep
-      domain: test.demo.eoepca.org
-      nginxIp: 185.52.195.19
+      pep: dummy-service-pep
+      domain: test.185.52.193.87.nip.io
+      nginxIp: 185.52.193.87
     configMap:
-      resourceServer: http://proc-ades/
+      resourceServer: http://dummy-service/
     # image:
     #   pullPolicy: Always
+    certManager:
+      clusterIssuer: letsencrypt
     volumeClaim:
-      name: eoepca-proc-pvc
+      name: dummy-service-pep-pvc
       create: false
 
   timeout: 25m0s
