@@ -13,7 +13,7 @@ def main():
 
     # ades
     ades_resource_api_url = "http://ades-pepapi.test." + domain
-    ades_url = "http://ades.test." + domain
+    ades_url = "https://ades.test." + domain
     ades_user = USER_NAME
     ades_user_prefix = "/" + ades_user
 
