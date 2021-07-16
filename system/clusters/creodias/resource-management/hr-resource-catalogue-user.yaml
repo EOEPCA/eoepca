@@ -21,9 +21,9 @@ spec:
       tls_host: resource-catalogue.user.demo.eoepca.org
       tls_secret_name: resource-catalogue-user-tls
     pycsw:
-      image:
-        pullPolicy: Always
-        tag: "eoepca-0.9.0"
+      # image:
+      #   pullPolicy: Always
+      #   tag: "eoepca-0.9.0"
       config:
         server:
           url: https://resource-catalogue.user.demo.eoepca.org/
