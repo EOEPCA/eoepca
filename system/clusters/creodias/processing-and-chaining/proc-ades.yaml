@@ -14,10 +14,10 @@ spec:
   values:
     # values - start
     replicaCount: 1
-    image:
-      pullPolicy: Always
-      # Overrides the image tag whose default is the chart appVersion.
-      tag: "dev0.4.5"
+    # image:
+    #   pullPolicy: Always
+    #   # Overrides the image tag whose default is the chart appVersion.
+    #   tag: "0.9.0"
     nameOverride: ""
     fullnameOverride: ""
     serviceAccount:
