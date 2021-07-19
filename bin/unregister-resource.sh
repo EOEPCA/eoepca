@@ -28,6 +28,11 @@ echo -n "Delete resource ${resourceId} from workspace-api-pep..."
 kubectl -n rm exec -it svc/workspace-api-pep -c workspace-api-pep -- management_tools remove -r ${resourceId}
 echo " done"
 
+# dummy-service-pep
+echo -n "Delete resource ${resourceId} from dummy-service-pep..."
+kubectl -n test exec -it svc/dummy-service-pep -c dummy-service-pep -- management_tools remove -r ${resourceId}
+echo " done"
+
 # pdp
 echo -n "Delete resource ${resourceId} from pdp..."
 kubectl exec -it svc/pdp-engine -c pdp-engine -- management_tools remove -r ${resourceId}
