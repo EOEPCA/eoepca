@@ -301,7 +301,7 @@ spec:
     ingress:
       enabled: true
       annotations:
-        kubernetes.io/elb.ip: 80.158.38.166
+        kubernetes.io/ingress.class: nginx
         nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
         nginx.ingress.kubernetes.io/enable-cors: "true"
         cert-manager.io/cluster-issuer: letsencrypt
@@ -319,6 +319,6 @@ spec:
       master:
         persistence:
           enabled: true
-          storageClass: managed-nfs-storage
+          storageClass: managed-nas-storage
       cluster:
         enabled: false

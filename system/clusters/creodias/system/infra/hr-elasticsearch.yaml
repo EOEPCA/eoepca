@@ -19,15 +19,11 @@ spec:
     global:
       existingClaim: "managed-nas-storage"
     master:
-      service:
-        type: NodePort
       replicas: 1
       persistence:
         enabled: true
         existingClaim: "managed-nas-storage"
     coordinating:
-      service:
-        type: NodePort
       replicas: 1
       heapSize: 512m
       resources:
@@ -35,8 +31,6 @@ spec:
           cpu: 100m
           memory: 1G
     data:
-      service:
-        type: NodePort
       replicas: 1
       persistence:
         enabled: true
@@ -44,8 +38,4 @@ spec:
     ingest:
       replicas: 1
     metrics:
-      service:
-        type: NodePort
       enabled: true
-    service:
-      type: NodePort

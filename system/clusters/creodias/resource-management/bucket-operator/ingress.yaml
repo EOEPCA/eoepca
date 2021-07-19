@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/name: bucket-operator
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-    kubernetes.io/elb.ip: 80.158.38.166
+    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
 spec:
