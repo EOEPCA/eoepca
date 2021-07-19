@@ -20,13 +20,13 @@ spec:
       volumeClaim:
         name: managed-nas-storage
     oxauth:
-      image: 
-        tag: 4.2.3_08
+      #image: 
+      #  tag: 4.2.3_08
       volumeClaim:
         name: managed-nas-storage
     oxtrust:
-      image: 
-        tag: 4.2.3_04
+      #image: 
+      #  tag: 4.2.3_04
       volumeClaim:
         name: managed-nas-storage
     global:
