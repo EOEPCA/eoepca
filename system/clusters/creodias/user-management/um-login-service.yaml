@@ -13,35 +13,35 @@ spec:
         namespace: common
   values:
     config:
-      domain: test.80.158.38.166.nip.io
+      domain: test.80.158.51.219.nip.io
       volumeClaim:
         name: managed-nas-storage
     opendj:
       volumeClaim:
         name: managed-nas-storage
     oxauth:
-      image: 
-        tag: 4.2.3_08
+      #image: 
+      #  tag: 4.2.3_08
       volumeClaim:
         name: managed-nas-storage
     oxtrust:
-      image: 
-        tag: 4.2.3_04
+      #image: 
+      #  tag: 4.2.3_04
       volumeClaim:
         name: managed-nas-storage
     global:
-      domain: test.80.158.38.166.nip.io
-      nginxIp: 80.158.38.166
+      domain: test.80.158.51.219.nip.io
+      nginxIp: 80.158.51.219
     nginx:
       ingress:
         annotations:
-          #kubernetes.io/elb.ip: 80.158.38.166
+          #kubernetes.io/elb.ip: 80.158.51.219
           cert-manager.io/cluster-issuer: letsencrypt
         hosts:
-          - test.80.158.38.166.nip.io
+          - test.80.158.51.219.nip.io
         tls:
           - hosts:
-              - test.80.158.38.166.nip.io
+              - test.80.158.51.219.nip.io
             secretName: login-service-tls
   timeout: 25m0s
   interval: 1m0s

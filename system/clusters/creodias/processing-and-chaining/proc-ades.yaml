@@ -47,7 +47,7 @@ spec:
     ingress:
       enabled: true
       hosts:
-        - host: ades.80.158.38.166.nip.io
+        - host: ades.80.158.51.219.nip.io
           paths: ["/"]
       tls: []
       #  - secretName: chart-example-tls

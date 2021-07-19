@@ -15,8 +15,8 @@ spec:
     context: ades
     global:
       pep: proc-ades-pep
-      domain: test.80.158.38.166.nip.io
-      nginxIp: 80.158.38.166
+      domain: test.80.158.51.219.nip.io
+      nginxIp: 80.158.51.219
     configMap:
       resourceServer: http://proc-ades/
     image:

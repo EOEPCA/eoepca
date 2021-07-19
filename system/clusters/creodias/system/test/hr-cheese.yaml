@@ -12,7 +12,7 @@ spec:
         name: eoepca
         namespace: common
   values:
-    baseHostname: 80.158.38.166.nip.io
+    baseHostname: 80.158.51.219.nip.io
   
 
   interval: 1m0s

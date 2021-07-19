@@ -70,7 +70,7 @@ spec:
         - name: S3_REGION
           value: "RegionOne"
         - name: WORKSPACE_DOMAIN
-          value: 80.158.38.166.nip.io
+          value: 80.158.51.219.nip.io
         resources:
           limits:
             cpu: 0.5
