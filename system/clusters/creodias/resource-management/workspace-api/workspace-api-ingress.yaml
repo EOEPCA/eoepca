@@ -8,16 +8,16 @@ metadata:
     app.kubernetes.io/name: workspace-api
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-    kubernetes.io/elb.ip: 80.158.53.207
+    kubernetes.io/elb.ip: 80.158.38.166
     nginx.ingress.kubernetes.io/enable-cors: "true"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
 spec:
   tls:
     - hosts:
-        - workspace-api.80.158.53.207.nip.io
+        - workspace-api.80.158.38.166.nip.io
       secretName: workspace-api-tls
   rules:
-    - host: workspace-api.80.158.53.207.nip.io
+    - host: workspace-api.80.158.38.166.nip.io
       http:
         paths:
           - path: /

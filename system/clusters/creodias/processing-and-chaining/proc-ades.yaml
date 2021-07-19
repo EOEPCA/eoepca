@@ -46,9 +46,9 @@ spec:
       port: 80
     ingress:
       enabled: true
-      annotations: {kubernetes.io/elb.ip: 80.158.53.207}
+      annotations: {kubernetes.io/elb.ip: 80.158.38.166}
       hosts:
-        - host: ades.80.158.53.207.nip.io
+        - host: ades.80.158.38.166.nip.io
           paths: ["/"]
       tls: []
       #  - secretName: chart-example-tls

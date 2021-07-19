@@ -15,6 +15,8 @@ kubectl create namespace rm
 kubectl create namespace rm-user-1
 kubectl create namespace test
 kubectl create namespace um
+kubectl create namespace flux-system
+kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=eoepcaci --docker-password=eoepcaBu1ld3r -n flux-system
 
 # Sealed Secrets
 if test -f "sealed-secrets-master.key"; then kubectl apply -f "sealed-secrets-master.key"; fi

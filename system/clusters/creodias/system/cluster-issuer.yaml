@@ -14,4 +14,4 @@ spec:
           ingressTemplate:
             metadata:
               annotations:
-                kubernetes.io/elb.ip: 80.158.53.207
+                kubernetes.io/elb.ip: 80.158.38.166
