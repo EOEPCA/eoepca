@@ -20,7 +20,6 @@ spec:
       volumeClaim:
         name: managed-nas-storage
     oxauth:
-      #elbIp: 80.158.38.166
       image: 
         tag: 4.2.3_08
       volumeClaim:
@@ -28,15 +27,12 @@ spec:
     oxtrust:
       image: 
         tag: 4.2.3_04
-      #elbIp: 80.158.38.166
       volumeClaim:
         name: managed-nas-storage
     global:
-      elbId: f4ba5972-e647-4715-9fb4-1e9926205fd3
       domain: test.80.158.38.166.nip.io
       nginxIp: 80.158.38.166
     nginx:
-      #elbIp: 80.158.38.166
       ingress:
         annotations:
           #kubernetes.io/elb.ip: 80.158.38.166

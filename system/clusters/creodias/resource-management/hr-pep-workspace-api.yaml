@@ -12,8 +12,7 @@ spec:
         name: eoepca
         namespace: common
   values:
-    context: rm
-    elbIp: 80.158.38.166
+    context: rm    
     global:
       pep: workspace-api-pep
       domain: test.80.158.38.166.nip.io

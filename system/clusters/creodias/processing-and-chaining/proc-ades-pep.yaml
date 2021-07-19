@@ -11,8 +11,7 @@ spec:
         kind: HelmRepository
         name: eoepca
         namespace: common
-  values:
-    elbIp: 80.158.38.166
+  values:   
     context: ades
     global:
       pep: proc-ades-pep

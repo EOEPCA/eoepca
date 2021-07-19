@@ -12,7 +12,6 @@ spec:
         name: eoepca
         namespace: common
   values:
-    elbIp: 80.158.38.166
     global:
       nginxIp: 80.158.38.166
       domain: https://test.80.158.38.166.nip.io
