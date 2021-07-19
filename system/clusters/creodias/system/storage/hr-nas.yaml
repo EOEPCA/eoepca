@@ -23,29 +23,3 @@ spec:
     requests:
       storage: 100Gi
   storageClassName: csi-nas
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name:  managed-nas-storage
-  namespace: proc
-spec:
-  accessModes:
-  - ReadWriteMany
-  resources:
-    requests:
-      storage: 100Gi
-  storageClassName: csi-nas
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name:  managed-nas-storage
-  namespace: common
-spec:
-  accessModes:
-  - ReadWriteMany
-  resources:
-    requests:
-      storage: 10Gi
-  storageClassName: csi-nas
