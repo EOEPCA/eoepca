@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: pep-engine
-      version: 0.9.12
+      version: 0.9.13
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -20,8 +20,8 @@ spec:
       nginxIp: 185.52.195.19
     configMap:
       resourceServer: http://proc-ades/
-    # image:
-    #   pullPolicy: Always
+    image:
+      pullPolicy: Always
     certManager:
       clusterIssuer: letsencrypt
     volumeClaim:
