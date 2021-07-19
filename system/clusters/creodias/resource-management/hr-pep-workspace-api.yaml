@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: pep-engine
-      version: 0.9.11
+      version: 0.9.12
       sourceRef:
         kind: HelmRepository
         name: eoepca
