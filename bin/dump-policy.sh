@@ -16,6 +16,11 @@ echo -n "Dumping policy for workspace-api-pep to $ORIG_DIR/workspace-api-pep.jso
 kubectl -n rm exec -it svc/workspace-api-pep -c workspace-api-pep -- management_tools list --all | jq > "$ORIG_DIR"/workspace-api-pep.json
 echo " done"
 
+# dummy-service-pep
+echo -n "Dumping policy for dummy-service-pep to $ORIG_DIR/dummy-service-pep.json..."
+kubectl -n test exec -it svc/dummy-service-pep -c dummy-service-pep -- management_tools list --all | jq > "$ORIG_DIR"/dummy-service-pep.json
+echo " done"
+
 # pdp
 echo -n "Dumping policy for pdp to $ORIG_DIR/pdp.json..."
 kubectl exec -it svc/pdp-engine -c pdp-engine -- management_tools list --all | sed "s/'/\"/g" > "$ORIG_DIR"/pdp.json
