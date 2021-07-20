@@ -28,7 +28,7 @@ spec:
       # persistent_volume_name: pvc-adcfed63-9e02-4772-94fb-8a9640359c8d
       volume_size: 500Mi
       volume_access_modes: ReadWriteMany
-      volume_storage_type: managed-nfs-storage
+      volume_storage_type: csi-nas
     ingress:
       name: resource-catalogue
       class: nginx
