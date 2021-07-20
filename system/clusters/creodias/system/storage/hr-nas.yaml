@@ -20,6 +20,27 @@ spec:
   storageClassName: csi-nas
 ---
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pvc-492f0e39-27e2-476c-9f8c-7a3dd8455444
+  annotations:
+     pv.kubernetes.io/provisioned-by: everest-csi-provisioner
+spec:
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: 100Gi
+  csi:
+    driver: nas.csi.everest.io
+    fsType: nfs
+    volumeAttributes:
+      everest.io/share-export-location: sfs-nas1.eu-de.otc.t-systems.com:/share-cad1238d
+      storage.kubernetes.io/csiProvisionerIdentity: everest-csi-provisioner
+    volumeHandle: d6c95c3c-0c1a-41ab-aa6c-0ed530318d20
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: csi-nas
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: pvc-sfs-example
@@ -32,6 +53,20 @@ spec:
       storage: 10Gi
   storageClassName: csi-nas
   volumeName: pv-sfs-example
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-sfs-test
+  namespace: default
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: csi-nas
+  volumeName: pvc-492f0e39-27e2-476c-9f8c-7a3dd8455444
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
