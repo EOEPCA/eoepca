@@ -1,4 +1,25 @@
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-sfs-example
+  annotations:
+     pv.kubernetes.io/provisioned-by: everest-csi-provisioner
+spec:
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: 10Gi
+  csi:
+    driver: nas.csi.everest.io
+    fsType: nfs
+    volumeAttributes:
+      everest.io/share-export-location: sfs-nas1.eu-de.otc.t-systems.com:/data/dynamic
+      storage.kubernetes.io/csiProvisionerIdentity: everest-csi-provisioner
+    #volumeHandle: 682f00bb-ace0-41d8-9b3e-913c9aa6b695
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: csi-nas
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name:  managed-nas-storage
