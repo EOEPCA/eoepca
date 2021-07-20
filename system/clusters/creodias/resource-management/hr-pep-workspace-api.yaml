@@ -20,8 +20,8 @@ spec:
       nginxIp: 185.52.195.19
     configMap:
       resourceServer: http://workspace-api:8080
-    # image:
-    #   pullPolicy: Always
+    image:
+      pullPolicy: Always
     certManager:
       clusterIssuer: letsencrypt
     volumeClaim:
