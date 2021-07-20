@@ -22,6 +22,20 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  name: pvc-sfs-example
+  namespace: default
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: csi-nas
+  volumeName: pv-sfs-example
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
   name:  managed-nas-storage
   namespace: default
 spec:
