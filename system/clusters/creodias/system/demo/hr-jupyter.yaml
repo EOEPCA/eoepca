@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: jupyter
-      version: 0.9.0
+      version: 0.9.2
       sourceRef:
         kind: HelmRepository
         name: eoepca
