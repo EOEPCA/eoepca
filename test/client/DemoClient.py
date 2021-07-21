@@ -294,6 +294,21 @@ class DemoClient:
     # Workspace API : Get Details
     #---------------------------------------------------------------------------
 
+    @keyword(name='Workspace API Create')
+    def wsapi_create(self, service_base_url, name, id_token=None, access_token=None):
+        """Call the 'Workspace API Create' endpoint
+        """
+        headers = { "Accept": "application/json" }
+        body_data = {}
+        body_data["preferred_name"] = name
+        r, access_token = self.uma_http_request("POST", service_base_url + "/workspaces", headers=headers, id_token=id_token, access_token=access_token, json=body_data)
+        print(f"[Workspace API Create] = {r.status_code} ({r.reason})")
+        # process_ids = []
+        # if r.status_code == 200:
+        #     for process in r.json():
+        #         process_ids.append(process['id'])
+        return r, access_token
+
     @keyword(name='Workspace API Get Details')
     def wsapi_get_details(self, service_base_url, id_token=None, access_token=None):
         """Call the 'Workspace API Get Details' endpoint

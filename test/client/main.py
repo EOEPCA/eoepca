@@ -8,7 +8,7 @@ def main():
     print("\n### TEST CLIENT ###")
     USER_NAME="eric"
     USER_PASSWORD="defaultPWD"
-    domain = "185.52.193.87.nip.io"
+    domain = "demo.eoepca.org"
     base_url = "https://test." + domain
 
     # ades
@@ -19,9 +19,9 @@ def main():
 
     # workspace-api
     wsapi_resource_api_url = "http://workspace-api-pepapi.test." + domain
-    wsapi_url = "http://workspace-api.test." + domain
+    wsapi_url = "https://workspace-api.test." + domain
     wsapi_user = USER_NAME
-    wsapi_prefix = "rm-user"
+    wsapi_prefix = "demo-user"
     wsapi_user_prefix = "/workspaces/" + wsapi_prefix + "-" + wsapi_user
 
     # dummy service
@@ -49,11 +49,16 @@ def main():
 
     # Register user's ADES base path as an owned resource
     print("\n### REGISTER USER'S ADES BASE RESOURCE PATH ###")
-    demo.register_protected_resource(ades_resource_api_url, ades_user_prefix, user_id_token, f"ADES Service for user {USER_NAME}", ["Authenticated"])
+    demo.register_protected_resource(ades_resource_api_url, ades_user_prefix, user_id_token, f"ADES Service for user {USER_NAME}", [])
+
+    # Register Workspace API Swagger docs as public access
+    operator_id_token = demo.get_id_token("operator", USER_PASSWORD)
+    print("\n### REGISTER Workspace API Swagger Docs as Public Access ###")
+    demo.register_protected_resource(wsapi_resource_api_url, "/docs", operator_id_token, f"Workspace API Swagger Docs", ["public_access"])
 
     # Register user's Workspace base path as an owned resource
     print("\n### REGISTER USER'S Workspace BASE RESOURCE PATH ###")
-    demo.register_protected_resource(wsapi_resource_api_url, wsapi_user_prefix, user_id_token, f"Workspace for user {USER_NAME}", ["Authenticated"])
+    demo.register_protected_resource(wsapi_resource_api_url, wsapi_user_prefix, user_id_token, f"Workspace for user {USER_NAME}", [])
 
     #===========================================================================
     # Dummy Service
@@ -74,6 +79,13 @@ def main():
 
     wsapi_user_url = wsapi_url + wsapi_user_prefix
     wsapi_access_token = None
+
+    # Workspace: Create
+    print("\n### Workspace: Create ###")
+    demo.trace_flow = True
+    response, wsapi_access_token = demo.wsapi_create(wsapi_url, wsapi_user, id_token=user_id_token, access_token=wsapi_access_token)
+    demo.trace_flow = False
+    print(f"DETAILS = {json.dumps(response.json(), indent = 2)}\n")
 
     # Workspace: Get Details
     print("\n### Workspace: Get Details ###")
