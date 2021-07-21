@@ -20,7 +20,9 @@ spec:
     configMap:
       resourceServer: http://proc-ades/
     image:
-      imagePullPolicy: Always
+      pullPolicy: Always
+    certManager:
+      clusterIssuer: letsencrypt
     volumeClaim:
       name: eoepca-proc-pvc
       create: false

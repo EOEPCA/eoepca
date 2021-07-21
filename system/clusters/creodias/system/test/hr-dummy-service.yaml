@@ -1,21 +1,15 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: jupyter
-  namespace: demo
+  name: dummy-service
+  namespace: test
 spec:
   chart:
     spec:
-      chart: jupyter
+      chart: dummy
       sourceRef:
         kind: HelmRepository
         name: eoepca
         namespace: common
-  values:
-    hostname: 80.158.51.219.nip.io
-    # image:
-    #   repository: eoepca/jupyterlab
-    #   tag: latest
-    #   pullPolicy: Always
+  values: {}
   interval: 1m0s

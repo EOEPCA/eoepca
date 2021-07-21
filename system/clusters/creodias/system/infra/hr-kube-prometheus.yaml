@@ -40,7 +40,7 @@ spec:
         storageClass: csi-nas
         size: 100Gi
       retention: 3d
-      retentionSize: "30GB"        
+      retentionSize: "30GB"
     alertmanager:
       ingress:
         enabled: true
@@ -68,4 +68,4 @@ spec:
         enabled: true
         accessModes: ReadWriteMany        
         storageClass: csi-nas
-        size: 1Gi
+        size: 10Gi
