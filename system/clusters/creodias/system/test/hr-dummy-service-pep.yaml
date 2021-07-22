@@ -15,8 +15,8 @@ spec:
     context: dummy-service
     global:
       pep: dummy-service-pep
-      domain: test.185.52.193.87.nip.io
-      nginxIp: 185.52.193.87
+      domain: test.80.158.51.219.nip.io
+      nginxIp: 80.158.51.219
     configMap:
       resourceServer: http://dummy-service/
     image:
