@@ -15,6 +15,8 @@ spec:
   values:
     global:
       namespace: rm-user1
+    db:
+      volume_storage_type: csi-nas
     ingress:
       host: resource-catalogue.user.80.158.51.219.nip.io
       tls_host: resource-catalogue.user.80.158.51.219.nip.io
