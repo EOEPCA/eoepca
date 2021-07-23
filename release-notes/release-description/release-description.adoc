@@ -1,4 +1,4 @@
-= ESA's EO Common Architecture v0.3
+= ESA's EO Common Architecture v0.9
 :toc: macro
 
 On 23rd July 2021 we released v0.9 of our EO Exploitation Platform Common Architecture (EOEPCA). Here we provide some additional context and a technical overview.
