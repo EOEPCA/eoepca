@@ -1,7 +1,7 @@
 = ESA's EO Common Architecture v0.3
 :toc: macro
 
-On 10th March 2021 we released v0.3 of our EO Exploitation Platform Common Architecture (EOEPCA). Here we provide some additional context and a technical overview.
+On 23rd July 2021 we released v0.9 of our EO Exploitation Platform Common Architecture (EOEPCA). Here we provide some additional context and a technical overview.
 
 toc::[]
 
@@ -22,34 +22,36 @@ image::eoepca-approach.png[width=100%,pdfwidth=100%,align="center"]
 
 Heavily informed by the outcomes of OGC Innovation Program activities, and taking account of existing platform approaches and industry best practise – we have derived an architecture to meet the use cases that is defined by components as building blocks with well defined service interfaces based upon open standards.
 
-During the last year we have been developing a Reference Implementation to help refine the architecture and to provide re-usable building blocks. Our developments are all open source and available publicly on GitHub. We have just released v0.3 of the reference implementation – which is a beta release that provides a minimum viable set of integrated building blocks.
+During the last year we have been developing a Reference Implementation to help refine the architecture and to provide re-usable building blocks. Our developments are all open source and available publicly on GitHub. We have just released v0.9 of the reference implementation – which is a beta release that provides a minimum viable set of integrated building blocks.
 
 We are also working with Operators whose role is to integrate the emerging reference implementation into their respective operational platforms, and so provide feedback from a platform provider and end-user perspective.
 
-== Beta Release v0.3
+== Beta Release v0.9
 
-Release 0.3 targets system deployment to a Kubernetes cluster using a DevOps continuous integration/delivery approach. Each building block is released as a Docker container with supporting helm chart for Kubernetes deployment. Kubernetes provides an infrastructure-agnostic target for the deployment of our reference system components.
+Release 0.9 targets system deployment to a Kubernetes cluster using a DevOps continuous integration/delivery approach. Each building block is released as a Docker container with supporting helm chart for Kubernetes deployment. Kubernetes provides an infrastructure-agnostic target for the deployment of our reference system components.
 
-The release 0.3 system allows the execution of an end-to-end scenario in which a user can:
+The release 0.9 system allows the execution of an end-to-end scenario in which a user can:
 
 * Develop a containerised application using the Processor Development * Environment
 * Register and login to the platform
-* Access a secured ADES to deploy and execute bespoke processing
+* Deploy their application to their Workspace
+* Access a secured ADES to deploy their application and execute bespoke processing
 * Discover data in the resource catalogue to reference input data
 * Initiate processing execution with outputs staged-out to S3 object store
+* Output data is registered in their Workspace - available through its catalogue & data access services
 
-.*v0.3 Reference Implementation*
+.*v0.9 Reference Implementation*
 image::reference-impl.png[width=100%,pdfwidth=100%,align="center"]
 
 At the heart of the system is the ADES which provides WPS and draft API Processes interfaces – including the Transaction extension for user deploy and execute of custom processes. The Application Package describes the containerised processing application, and can be pushed to a Resource Catalogue for discovery, and from where it can be deployed to an ADES instance.
 
-Data is discovered through the Resource Catalogue, which provides CSW and OpenSearch interfaces. Input data to processing jobs is expressed using OpenSearch URLs. Data Services provide standards-based access to both platform and user-owned data. For our development system these components are integrated with the CREODIAS OpenStack offering and the EO data offering.
+Data is discovered through the Resource Catalogue, which provides OGC CSW. API Records (OAPIR) and OpenSearch interfaces. Input data to processing jobs is expressed using OpenSearch URLs. Data Services provide standards-based access to both platform and user-owned data. For our development system these components are integrated with the CREODIAS OpenStack offering and the EO data offering.
 
 The ADES abstracts the interface between the user’s application and the platform, by staging-in the data inputs and staging-out the processing results on behalf of the application. The abstraction relies upon use of STAC files as manifests for the data in each direction.
 
-The ADES stages out the result-set to an S3 bucket. The Workspace component is not yet integrated to v0.3, and so we are currently using a general access bucket. The User Workspace will be responsible to provision user-specific buckets, the details of which will be made available at runtime to the ADES for a user-centred stage-out. The processing cycle completes with the ADES registering the output results with the User Workspace API by reference to a STAC file that describes the products. Using this, the Workspace maintains user-specific Catalogue and Data Access endpoints which allow the user to further exploit their added-value products.
+The ADES stages out the result-set to their personal S3 bucket that is provisioned by their User Workspace.  The User Workspace is responsible for provisioning user-specific buckets, the details of which are made available at runtime to the ADES for a user-centred stage-out. The processing cycle completes with the ADES registering the output results with the User Workspace API by reference to a STAC file that describes the products. Using this, the Workspace maintains user-specific Catalogue and Data Access endpoints which allow the user to further exploit their added-value products.
 
-For platforms to successfully interoperate they must federate user access in order for requests between services to respect the user's authorisation scope and to account for their actions. The ADES is secured by means of our Identity and Access Management framework, which uses OpenID Connect and User Managed Access standards to enforce all access attempts to the ADES in accordance with configured policy rules. Users authenticate through an external identity provider – GitHub is currently supported, with more to follow. During operation, the ADES configures the policy enforcement through a Resource API in order to protect dynamic endpoints, such as those created when a new application is deployed, or when a new processing job is initiated.
+For platforms to successfully interoperate they must federate user access in order for requests between services to respect the user's authorization scope and to account for their actions. The ADES is secured by means of our Identity and Access Management framework, which uses OpenID Connect and User Managed Access standards to enforce all access attempts to the ADES in accordance with configured policy rules. Users authenticate through an external identity provider – GitHub and ESA's Commercial Operator Identity Hub are currently supported, with more to follow. During operation, the ADES configures the policy enforcement through a Resource API in order to protect dynamic endpoints, such as those created when a new application is deployed, or when a new processing job is initiated.
 
 == Application Deployment and Execution Service (ADES)
 
@@ -100,10 +102,11 @@ image::pde-theia-ide.png[width=85%,pdfwidth=85%,align="center"]
 
 === Resource Catalogue (pycsw)
 
-For the Resource Catalogue we are using pycsw for data, and soon also for processing resources. pycsw has been enhanced by the project team to improve the OpenSearch support with the geo, time and eo extensions.
+For the Resource Catalogue we are using pycsw for data, and also for processing resources. pycsw has been enhanced by the project team to improve the OpenSearch support with the geo, time & eo extensions, and to add support for OGC API Records.
 
 * OGC CSW 3.0.0 and 2.0.2 interfaces
 * OGC OpenSearch Geo/Time/EO Extensions
+* OGC API Records
 * Metadata: ISO-19115-1/2
 * Federated catalogue distributed searching
 
@@ -176,12 +179,9 @@ The architecture defines two APIs to support resource servers in the protection 
 
 == Upcoming Features
 
-Following this release v0.3, the focus of our current develops to feature in our next release includes:
+Following this release v0.9, the focus of our current develops to feature in our next release includes:
 
-* Processing Stage-out to User Workspace
-* Protection of Resource Management services
-* Resource Catalogue, Data Access services and Workspace
-* Application Packages registered in Resource Catalogue
+* Protection of user's owned resources in their Workspace
+* Application deployment (ADES) from Workspace managed Application Package
 * User Processing History linked to processing results
 * Mundi deployment / integration
-
