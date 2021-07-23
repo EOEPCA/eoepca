@@ -17,12 +17,12 @@ spec:
   targetNamespace: infra
   values:
     global:
-      existingClaim: "managed-nas-storage"
+      storageClass: "csi-disk"
     master:
       replicas: 1
       persistence:
         enabled: true
-        existingClaim: "managed-nas-storage"
+        storageClass: "csi-disk"
         size: 100Gi
     coordinating:
       replicas: 1
@@ -35,7 +35,7 @@ spec:
       replicas: 1
       persistence:
         enabled: true
-        existingClaim: "managed-nas-storage"
+        storageClass: "csi-disk"
     ingest:
       replicas: 1
     metrics:
