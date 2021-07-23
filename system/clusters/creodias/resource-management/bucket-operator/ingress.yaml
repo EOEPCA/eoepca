@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: bucket-operator
+  namespace: rm
+  labels:
+    app.kubernetes.io/instance: bucket-operator
+    app.kubernetes.io/name: bucket-operator
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+spec:
+  tls:
+    - hosts:
+        - bucket-operator.demo.eoepca.org
+      secretName: bucket-operator-tls
+  rules:
+    - host: bucket-operator.demo.eoepca.org
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: bucket-operator
+              servicePort: http

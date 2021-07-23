@@ -1,0 +1,19 @@
+@startuml
+title ADES Processing Results Stage-out
+
+participant ADES as ades order 10
+participant Workspace as ws order 20
+participant "Storage\n(Platform)" as storage order 30
+participant "Data\nAccess\n(User)" as das order 50
+participant "Resource\nCatalogue\n(User)" as cat order 60
+
+autonumber
+ades -> ades : Perform Processing
+ades -> ws : Get Storage Details
+ades <-- ws : storage-details
+ades -> storage : Put Data
+ades -> ws : Register Data
+ws -> das : Register Data
+ws -> cat : Register Data
+ades <-- ws : data-details
+@enduml

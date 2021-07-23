@@ -1,0 +1,64 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kube-prometheus
+  namespace: infra
+spec:
+  chart:
+    spec:
+      chart: kube-prometheus
+      version: 3.1.1
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: common
+  interval: 1h0m0s
+  releaseName: kube-prometheus
+  targetNamespace: infra
+  values:
+    prometheus:
+      ingress:
+        enabled: true
+        certManager: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          nginx.ingress.kubernetes.io/proxy-read-timeout: '600'
+          nginx.ingress.kubernetes.io/enable-cors: 'true'
+          nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User, X-Auth-Request-Email
+          nginx.ingress.kubernetes.io/auth-signin: https://auth.demo.eoepca.org/oauth2/start?rd=%2F$server_name$escaped_request_uri
+          nginx.ingress.kubernetes.io/auth-url: https://auth.demo.eoepca.org/oauth2/auth
+          cert-manager.io/cluster-issuer: letsencrypt
+        hosts:
+        - name: prometheus.demo.eoepca.org
+        tls:
+         - secretName: prometheus-tls
+           hosts:
+           - prometheus.demo.eoepca.org
+      persistence:
+        enabled: true
+        storageClass: "managed-nfs-storage"
+        size: 100Gi
+      retention: 3d
+      retentionSize: "30GB"
+    alertmanager:
+      ingress:
+        enabled: true
+        certManager: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          nginx.ingress.kubernetes.io/proxy-read-timeout: '600'
+          nginx.ingress.kubernetes.io/enable-cors: 'true'
+          nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User, X-Auth-Request-Email
+          nginx.ingress.kubernetes.io/auth-signin: https://auth.demo.eoepca.org/oauth2/start?rd=%2F$server_name$escaped_request_uri
+          nginx.ingress.kubernetes.io/auth-url: https://auth.demo.eoepca.org/oauth2/auth
+          cert-manager.io/cluster-issuer: letsencrypt
+        hosts:
+        - name: alertmanager.demo.eoepca.org
+        tls:
+         - secretName: alertmanager-tls
+           hosts:
+           - alertmanager.demo.eoepca.org
+      persistence:
+        enabled: true
+        storageClass: "managed-nfs-storage"
+        size: 1Gi

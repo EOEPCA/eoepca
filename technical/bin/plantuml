@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+ORIG_DIR="$(pwd)"
+cd "$(dirname "$0")"
+BIN_DIR="$(pwd)"
+cd "${ORIG_DIR}"
+
+trap "cd '${ORIG_DIR}'" EXIT
+
+docker run --user $(id -u):$(id -g) --rm -i -v "${BIN_DIR}":/plantuml/bin -v $PWD:/plantuml/data asciidoctor/docker-asciidoctor bash /plantuml/bin/plantuml-runner $@

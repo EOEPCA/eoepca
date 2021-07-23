@@ -12,9 +12,9 @@ with open (str(dir_path)+"/1.txt", "r") as mytxt:
     for line in mytxt:
         d = line
 adminT= json.loads(d)
-payload = { "resource_scopes":[ "Authenticated"], "icon_uri":"/UserA/wps3", "name":"ADES Service Test"}
+payload = { "resource_scopes":[ "Authenticated"], "icon_uri":"/" + sys.argv[1] + "/wps3", "name":"ADES Service Test"}
 headers = { 'content-type': "application/json", "Authorization": "Bearer "+adminT['id_token'] }
-res = requests.post(sys.argv[1]+ "/resources", headers=headers, json=payload, verify=False)
+res = requests.post(sys.argv[2]+ "/resources", headers=headers, json=payload, verify=False)
 #res = requests.post("http://0.0.0.0:31709/resources", headers=headers, json=payload, verify=False)
 
 resource_id = res.text

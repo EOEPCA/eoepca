@@ -1,0 +1,13 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: resource-management
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  path: ./system/clusters/creodias/resource-management
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  validation: client
