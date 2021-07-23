@@ -80,12 +80,12 @@ def main():
     wsapi_user_url = wsapi_url + wsapi_user_prefix
     wsapi_access_token = None
 
-    # Workspace: Create
-    print("\n### Workspace: Create ###")
-    demo.trace_flow = True
-    response, wsapi_access_token = demo.wsapi_create(wsapi_url, wsapi_user, id_token=user_id_token, access_token=wsapi_access_token)
-    demo.trace_flow = False
-    print(f"DETAILS = {json.dumps(response.json(), indent = 2)}\n")
+    # # Workspace: Create
+    # print("\n### Workspace: Create ###")
+    # demo.trace_flow = True
+    # response, wsapi_access_token = demo.wsapi_create(wsapi_url, wsapi_user, id_token=user_id_token, access_token=wsapi_access_token)
+    # demo.trace_flow = False
+    # print(f"DETAILS = {json.dumps(response.json(), indent = 2)}\n")
 
     # Workspace: Get Details
     print("\n### Workspace: Get Details ###")
@@ -94,15 +94,15 @@ def main():
     demo.trace_flow = False
     print(f"DETAILS = {json.dumps(response.json(), indent = 2)}\n")
 
-    # Workspace: Get Details - as user bob
-    # id token
-    print("\n### BOB ID TOKEN ###")
-    bob_id_token = demo.get_id_token("bob", USER_PASSWORD)
-    print("\n### Workspace: Get Details as user bob ###")
-    demo.trace_flow = True
-    response, wsapi_access_token = demo.wsapi_get_details(wsapi_user_url, id_token=bob_id_token, access_token=wsapi_access_token)
-    demo.trace_flow = False
-    # print(f"DETAILS = {json.dumps(response.json(), indent = 2)}\n")
+    # # Workspace: Get Details - as user bob
+    # # id token
+    # print("\n### BOB ID TOKEN ###")
+    # bob_id_token = demo.get_id_token("bob", USER_PASSWORD)
+    # print("\n### Workspace: Get Details as user bob ###")
+    # demo.trace_flow = True
+    # response, wsapi_access_token = demo.wsapi_get_details(wsapi_user_url, id_token=bob_id_token, access_token=wsapi_access_token)
+    # demo.trace_flow = False
+    # # print(f"DETAILS = {json.dumps(response.json(), indent = 2)}\n")
 
     #===========================================================================
     # Processing
