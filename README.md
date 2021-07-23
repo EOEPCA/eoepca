@@ -141,7 +141,7 @@ User Workspace | https://github.com/EOEPCA/rm-workspace-api/ | https://eoepca.gi
 
 EOEPCA system releases are made to provide integrated deployments of the developed building blocks. The release history is as follows:
 
-* xx/07/2021 - [Release 0.9](https://github.com/EOEPCA/eoepca/blob/v0.9/release-notes/release-0.9.md)
+* 23/07/2021 - [Release 0.9](https://github.com/EOEPCA/eoepca/blob/v0.9/release-notes/release-0.9.md)
 * 10/03/2021 - [Release 0.3](https://github.com/EOEPCA/eoepca/blob/v0.3/release-notes/release-0.3.md)
 * 23/11/2020 - [Release 0.2](release-notes/release-0.2.md)
 * 13/08/2020 - [Release 0.1.2](release-notes/release-0.1.2.md)
