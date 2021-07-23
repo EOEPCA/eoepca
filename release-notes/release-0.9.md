@@ -11,7 +11,7 @@ Release 0.9 is a beta that includes versions of the following building blocks:
 * Data Access Services
 * Workspace
 
-See the [Release v0.9 Description](https://github.com/EOEPCA/eoepca/blob/v0.9/release-notes/release-0.9-description/release-0.9-description.adoc "Release v0.9 Description") for more details.
+See the [Release v0.9 Description](https://github.com/EOEPCA/eoepca/blob/v0.9/release-notes/release-description/release-description.adoc "Release v0.9 Description") for more details.
 
 ## What's new
 
