@@ -14,10 +14,10 @@ spec:
   values:
     # values - start
     replicaCount: 1
-    # image:
-    #   pullPolicy: Always
-    #   # Overrides the image tag whose default is the chart appVersion.
-    #   tag: "0.9.0"
+    image:
+      pullPolicy: Always
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: "dev1.0.0"
     nameOverride: ""
     fullnameOverride: ""
     serviceAccount:
@@ -233,6 +233,7 @@ spec:
         
     wps:
       pepBaseUrl: "http://proc-ades-pep:5576"
+      pepClientStatePath: "/opt/zooservices_user/pepclient"
       usePep: "true"
       maincfgtpl: "files/main.cfg.tpl"
     persistence:
