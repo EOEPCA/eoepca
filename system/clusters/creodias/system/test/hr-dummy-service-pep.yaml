@@ -20,6 +20,7 @@ spec:
       nginxIp: 185.52.193.87
     configMap:
       resourceServer: http://dummy-service/
+      workingMode: PARTIAL
     image:
       tag: task415_3
       pullPolicy: Always
