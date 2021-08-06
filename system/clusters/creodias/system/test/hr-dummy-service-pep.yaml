@@ -18,15 +18,12 @@ spec:
       pep: dummy-service-pep
       domain: test.185.52.193.87.nip.io
       nginxIp: 185.52.193.87
-    # configMap:
-    #   workingMode: PARTIAL
+    configMap:
+      workingMode: PARTIAL
     resourceServer:
       name: dummy-service
-      # port: 80
-      # url: http://dummy-service/
-    image:
-      # tag: task415_3
-      pullPolicy: Always
+    # image:
+    #   pullPolicy: Always
     certManager:
       clusterIssuer: letsencrypt
     volumeClaim:
