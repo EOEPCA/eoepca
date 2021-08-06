@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: pep-engine
-      version: 0.9.15
+      version: 0.9.16
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -19,10 +19,13 @@ spec:
       domain: test.185.52.193.87.nip.io
       nginxIp: 185.52.193.87
     configMap:
-      resourceServer: http://dummy-service/
       workingMode: PARTIAL
+    resourceServer:
+      name: dummy-service
+      # port: 80
+      # url: http://dummy-service/
     image:
-      tag: task415_3
+      # tag: task415_3
       pullPolicy: Always
     certManager:
       clusterIssuer: letsencrypt
