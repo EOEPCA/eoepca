@@ -18,8 +18,8 @@ spec:
       pep: dummy-service-pep
       domain: test.185.52.193.87.nip.io
       nginxIp: 185.52.193.87
-    configMap:
-      workingMode: PARTIAL
+    # configMap:
+    #   workingMode: PARTIAL
     resourceServer:
       name: dummy-service
       # port: 80
