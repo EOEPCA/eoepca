@@ -1,0 +1,38 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: dummy-service-agent
+  namespace: test
+spec:
+  chart:
+    spec:
+      chart: uma-user-agent
+      version: 0.0.2
+      sourceRef:
+        kind: HelmRepository
+        name: eoepca
+        namespace: common
+  values:
+    nameOverride: dummy-service-agent
+    image:
+      # tag: 0.0.1
+      pullPolicy: Always
+    context: dummy-service-ractest
+    pepUrl: "http://dummy-service-pep:5566/authorize"
+    system:
+      dnsDomain: test.185.52.193.87.nip.io
+    resourceServer:
+      name: dummy-service
+      # port: 80
+      # url: http://dummy-service/
+    nginxIntegration:
+      enabled: true
+    client:
+      id: "22ba0c56-9780-4b0b-ad71-d745c166ca3b"
+      secret: "0e3e1d0d-9002-4d44-bbff-a170efa18512"
+    logging:
+      level: "debug"
+    certManager:
+      clusterIssuer: letsencrypt
+  timeout: 25m0s
+  interval: 1m0s
