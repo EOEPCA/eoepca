@@ -22,6 +22,8 @@ spec:
       workingMode: PARTIAL
     resourceServer:
       name: dummy-service
+    nginxIntegration:
+      enabled: true
     # image:
     #   pullPolicy: Always
     certManager:
