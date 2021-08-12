@@ -15,7 +15,7 @@ spec:
   values:
     nameOverride: dummy-service-agent
     image:
-      # tag: 0.0.1
+      tag: latest
       pullPolicy: Always
     context: dummy-service-ractest
     pepUrl: "http://dummy-service-pep:5566/authorize"
