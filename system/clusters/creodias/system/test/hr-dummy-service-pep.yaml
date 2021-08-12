@@ -23,7 +23,7 @@ spec:
     resourceServer:
       name: dummy-service
     nginxIntegration:
-      enabled: true
+      enabled: false
     # image:
     #   pullPolicy: Always
     certManager:
