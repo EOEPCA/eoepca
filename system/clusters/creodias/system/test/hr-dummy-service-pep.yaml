@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: pep-engine
-      version: 0.9.18
+      version: 0.9.19
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -23,7 +23,8 @@ spec:
     resourceServer:
       name: dummy-service
     nginxIntegration:
-      enabled: false
+      enabled: true
+      hostname: dummy-service-auth
     # image:
     #   pullPolicy: Always
     certManager:
