@@ -22,7 +22,7 @@ spec:
     pycsw:
       image:
         pullPolicy: Always
-        tag: "stac-api"
+        tag: "eoepca-staging"
       config:
         server:
           url: https://resource-catalogue.185.52.193.87.nip.io/
