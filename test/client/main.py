@@ -9,6 +9,7 @@ def main():
     USER_NAME="eric"
     USER_PASSWORD="defaultPWD"
     domain = "185.52.193.87.nip.io"
+    # domain = "demo.eoepca.org"
     base_url = "https://test." + domain
 
     # ades
@@ -22,6 +23,7 @@ def main():
     wsapi_url = "https://workspace-api.test." + domain
     wsapi_user = USER_NAME
     wsapi_prefix = "rm-user"
+    # wsapi_prefix = "demo-user"
     wsapi_user_prefix = "/workspaces/" + wsapi_prefix + "-" + wsapi_user
 
     # dummy service
@@ -59,6 +61,10 @@ def main():
     # Register user's Workspace base path as an owned resource
     print("\n### REGISTER USER'S Workspace BASE RESOURCE PATH ###")
     demo.register_protected_resource(wsapi_resource_api_url, wsapi_user_prefix, user_id_token, f"Workspace for user {USER_NAME}", [])
+
+    # Register test path in Dummy Service as an owned resource
+    print("\n### REGISTER Dummy Service Test Path RESOURCE PATH ###")
+    demo.register_protected_resource(dummy_resource_api_url, "/test", user_id_token, f"Dummy Service test resource", [])
 
     #===========================================================================
     # Dummy Service
