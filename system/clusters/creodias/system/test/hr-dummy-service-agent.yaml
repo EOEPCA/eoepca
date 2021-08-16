@@ -14,9 +14,9 @@ spec:
         namespace: common
   values:
     nameOverride: dummy-service-agent
-    image:
-      tag: latest
-      pullPolicy: Always
+    # image:
+    #   tag: latest
+    #   pullPolicy: Always
     pepUrl: "http://dummy-service-pep:5566/authorize"
     system:
       dnsDomain: test.demo.eoepca.org
