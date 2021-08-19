@@ -136,7 +136,7 @@ class DemoClient:
         return id_token
 
     @keyword(name='Register Protected Resource')
-    def register_protected_resource(self, resource_api_url, uri, id_token, name, scopes):
+    def register_protected_resource(self, resource_api_url, uri, id_token, name, scopes, ownershipId=None):
         """Register a resource in the PEP
 
         Uses provided user ID token to authorise the request.
@@ -155,6 +155,8 @@ class DemoClient:
         if resource_id == None:
             headers = { 'content-type': "application/json", "Authorization": f"Bearer {id_token}" }
             data = { "resource_scopes":scopes, "icon_uri":uri, "name":name}
+            if ownershipId != None:
+                data["uuid"] = ownershipId
             r = self.http_request("POST", f"{resource_api_url}/resources", headers=headers, json=data)
 
             # Handle based-upon response code
