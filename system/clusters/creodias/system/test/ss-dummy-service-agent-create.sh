@@ -21,11 +21,11 @@ EOF
 }
 
 secretYaml() {
-  kubectl -n test create secret generic dummy-service-agent-new \
+  kubectl -n test create secret generic dummy-service-agent \
     --from-literal="client.yaml=$(clientConfigFile)" \
     --dry-run=client -o yaml
 }
 
 # Create Secret and then pipe to kubeseal to create the SealedSecret
-secretYaml | kubeseal -o yaml --controller-name eoepca-sealed-secrets --controller-namespace infra > ss-dummy-service-agent-new.yaml
+secretYaml | kubeseal -o yaml --controller-name eoepca-sealed-secrets --controller-namespace infra > ss-dummy-service-agent.yaml
 # secretYaml
