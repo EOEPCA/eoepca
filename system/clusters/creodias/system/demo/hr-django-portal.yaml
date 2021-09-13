@@ -15,8 +15,7 @@ spec:
   values:
     hostname: 185.52.193.87.nip.io
     image:
-      tag: 2021.09.09.13.21
+      tag: 2021.09.13.16.04
     configmap:
       user_prefix: rm-user
-      test: True
   interval: 1m0s
