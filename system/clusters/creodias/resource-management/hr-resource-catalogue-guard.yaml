@@ -53,8 +53,7 @@ spec:
       #   pullPolicy: Always
       nginxIntegration:
         enabled: true
-        # hostname: resource-catalogue
-        hostname: resource-catalogue-protected
+        hostname: resource-catalogue
       client:
         credentialsSecretName: ""
       logging:
