@@ -1,0 +1,19 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: django-portal
+  namespace: demo
+spec:
+  chart:
+    spec:
+      chart: django-portal
+      sourceRef:
+        kind: HelmRepository
+        name: eoepca
+        namespace: common
+  values:
+    hostname: 185.52.193.87.nip.io
+    configmap:
+      user_prefix: rm-user
+  interval: 1m0s
