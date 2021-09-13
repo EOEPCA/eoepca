@@ -18,4 +18,5 @@ spec:
       tag: 2021.09.09.13.21
     configmap:
       user_prefix: rm-user
+      test: True
   interval: 1m0s
