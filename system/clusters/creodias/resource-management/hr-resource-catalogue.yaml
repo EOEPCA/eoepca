@@ -27,7 +27,7 @@ spec:
       #   tag: "eoepca-0.9.0"
       config:
         server:
-          url: https://resource-catalogue.demo.eoepca.org/
+          url: https://resource-catalogue-open.demo.eoepca.org/
         metadata:
           identification_title: pycsw Geospatial Catalogue
           identification_abstract: pycsw is an OGC CSW server implementation written in Python
