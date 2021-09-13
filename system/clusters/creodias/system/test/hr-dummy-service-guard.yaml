@@ -58,6 +58,7 @@ spec:
         credentialsSecretName: ""
       logging:
         level: "debug"
+      unauthorizedResponse: 'Bearer realm="https://portal.demo.eoepca.org/oidc/authenticate/"'
     #---------------------------------------------------------------------------
     # END values
     #---------------------------------------------------------------------------
