@@ -4,3 +4,4 @@ resources:
   - ./ns-demo.yaml
   - ./hr-jupyter.yaml
   - ./hr-django-portal.yaml
+  - ./sealed-django-portal-secrets.yaml
