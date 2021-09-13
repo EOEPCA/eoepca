@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: resource-guard
-      version: 0.0.8
+      version: 0.0.10
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -18,7 +18,7 @@ spec:
     #---------------------------------------------------------------------------
     global:
       pep: dummy-service-pep
-      domain: test.demo.eoepca.org
+      domain: demo.eoepca.org
       nginxIp: 185.52.195.19
       resourceServer:
         name: dummy-service
@@ -33,9 +33,11 @@ spec:
       context: dummy-service
       configMap:
         workingMode: PARTIAL
+        asHostname: test
+        pdpHostname: test
       nginxIntegration:
-        enabled: true
-        hostname: dummy-service-auth
+        enabled: false
+        # hostname: dummy-service-auth
       # image:
       #   pullPolicy: Always
       volumeClaim:
