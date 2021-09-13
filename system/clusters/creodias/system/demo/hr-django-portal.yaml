@@ -14,6 +14,8 @@ spec:
         namespace: common
   values:
     hostname: 185.52.193.87.nip.io
+    image:
+      tag: 2021.09.09.13.21
     configmap:
       user_prefix: rm-user
   interval: 1m0s
