@@ -1,0 +1,15 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: resource-catalogue-agent
+  namespace: rm
+spec:
+  encryptedData:
+    client.yaml: AgBA10Bwh+kFPtJXfuFPOvOVqNQ0VuOaQJ9OT8KyXJ3GYL0FWs3Ur6ZnwhvsNMVbfWvULBc+f7FGUdM05DRg3KwA7jfDI7gHSYOuYr4dXKPG6I/ZxBByjbkm8kMGjlFbS674kMnomqGKkIUkxXx4NY3+YSPw0tqk71ntBz17rETOC/6fbJvSyskZuHUww51xJvxN15dbO1Wst88yOWy7/uDVl+b2Y1+Up3/vg8ORgpUYBbBQ5VanSDLnsL8nIVPTs3PUmSvlD5TbA6M4Cq55Ny6Yp75iNU81ygIbRdlrv7i7CYDhH13UKRqspC/RRZYKbGJfUJgDnCy0pinAWvnxMzhbpVUnAVJTvK8TQoDRna+FF7k3MUSy0asBRxyWvOxUmVB4Cq521L5PdwJCh5zjtjZT+OSPscFAOqtKSZRLCnlZWEY7w9/PGu0b3g4+JeGnptNg3bSLS8TvUsIgrWBqJj33KEMfNqQ1hJalbSjrRPbRFe2OqfSkjePK0NrZCCVjkxt0Up0hFbVOzHDKF57con8MP5SIQlnoHVd+SBDJAFmkXwSESz53/AOb5Oqq3xR1kbWxSHhxvBe6M/cxw6/2fSuxcs71NQaADtnIwPvterrRHDDJvgge3X04if92+We3wModvlZRz2jw4BDCTR0OTyEPkcNHxkEYvKNws7BBrZwwqo1zeIf3pYvpmBH0LGAZXcdfYjs/X1MQlBI6bds7CvtrQrtJka/4vTIOxJv0OlkmIBaDU3gYy45smH5rrH5iZbnaAyabjLL1OEocuxlJurgvnP+cx5qmO1lXB7n3RhiqYNJUqQderFm9zMIbIOsA377WzbA=
+  template:
+    metadata:
+      creationTimestamp: null
+      name: resource-catalogue-agent
+      namespace: rm
+

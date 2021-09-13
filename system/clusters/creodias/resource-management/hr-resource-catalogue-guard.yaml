@@ -1,0 +1,65 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: resource-catalogue-guard
+  namespace: rm
+spec:
+  chart:
+    spec:
+      chart: resource-guard
+      version: 0.0.8
+      sourceRef:
+        kind: HelmRepository
+        name: eoepca
+        namespace: common
+  values:
+    #---------------------------------------------------------------------------
+    # Global values
+    #---------------------------------------------------------------------------
+    global:
+      pep: resource-catalogue-pep
+      domain: test.demo.eoepca.org
+      nginxIp: 185.52.195.19
+      resourceServer:
+        name: resource-catalogue-service
+        # port: 80
+        # url: http://resource-catalogue-service/
+      certManager:
+        clusterIssuer: letsencrypt
+    #---------------------------------------------------------------------------
+    # PEP values
+    #---------------------------------------------------------------------------
+    pep-engine:
+      context: resource-catalogue
+      configMap:
+        workingMode: PARTIAL
+      nginxIntegration:
+        enabled: false
+        # hostname: resource-catalogue-auth
+      # image:
+      #   pullPolicy: Always
+      volumeClaim:
+        name: eoepca-resman-pvc
+        create: false
+    #---------------------------------------------------------------------------
+    # UMA User Agent values
+    #---------------------------------------------------------------------------
+    uma-user-agent:
+      fullnameOverride: resource-catalogue-agent
+      # image:
+      #   tag: latest
+      #   pullPolicy: Always
+      nginxIntegration:
+        enabled: true
+        # hostname: resource-catalogue
+        hostname: resource-catalogue-protected
+      client:
+        credentialsSecretName: ""
+      logging:
+        level: "debug"
+    #---------------------------------------------------------------------------
+    # END values
+    #---------------------------------------------------------------------------
+
+  timeout: 25m0s
+  interval: 1m0s
