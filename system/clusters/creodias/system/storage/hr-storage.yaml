@@ -24,5 +24,6 @@ spec:
         enabled: true
         storageClass: eoepca-nfs
       userman:
+        enabled: false
         storageClass: eoepca-nfs
   interval: 1m0s
