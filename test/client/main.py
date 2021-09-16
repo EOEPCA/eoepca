@@ -46,6 +46,7 @@ def main():
     # id token
     print("\n### USER ID TOKEN ###")
     user_id_token = demo.get_id_token(USER_NAME, USER_PASSWORD)
+    print(user_id_token)
 
     # Register user's ADES base path as an owned resource
     print("\n### REGISTER USER'S ADES BASE RESOURCE PATH ###")
@@ -64,7 +65,7 @@ def main():
     # Dummy Service
     #===========================================================================
 
-    dummy_access_token = None
+    # dummy_access_token = None
 
     # Call Dummy Service
     print("\n### Dummy Service ###")
@@ -140,10 +141,13 @@ def main():
     print("\n### API Proc Deploy Application ###")
     #
     # ...by atom feed (application/atom+xml) - with entry containing an OGC OWS Context Offering with application/cwl content...
-    response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body-atom.json", id_token=user_id_token, access_token=access_token)
+    #response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body-atom.json", id_token=user_id_token, access_token=access_token)
     #
     # ...pure CWL (application/cwl)...
-    # response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body-cwl.json", id_token=user_id_token, access_token=access_token)
+    #response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body-cwl.json", id_token=user_id_token, access_token=access_token)
+    # ...same as above but with the cwl stored in a S3 repository
+    response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body-cwl-S3.json", id_token=user_id_token, access_token=access_token)
+
     #
     print("Deploy Response =", response.text)
 
@@ -154,6 +158,7 @@ def main():
     response, access_token = demo.proc_get_app_details(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
     print("Application Details =", response.text)
 
+    
     # API Proc Execute Application
     print("\n### API Proc Execute Application ###")
     app_name = "s-expression-0_0_2"

@@ -21,6 +21,6 @@
       "transmissionMode": "value"
     }
   ],
-  "mode": "sync",
+  "mode": "auto",
   "response": "raw"
 }
