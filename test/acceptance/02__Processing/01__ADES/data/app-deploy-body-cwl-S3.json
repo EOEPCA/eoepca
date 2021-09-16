@@ -1,0 +1,26 @@
+{
+  "inputs": [
+    {
+      "id": "applicationPackage",
+      "input": {
+        "format": {
+          "mimeType": "application/cwl"
+        },
+        "href": "s3://demo-user-eric/application-package/s-expression/s-expression-0_0_2.cwl"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "format": {
+        "mimeType": "string",
+        "schema": "string",
+        "encoding": "string"
+      },
+      "id": "deployResult",
+      "transmissionMode": "value"
+    }
+  ],
+  "mode": "auto",
+  "response": "raw"
+}
