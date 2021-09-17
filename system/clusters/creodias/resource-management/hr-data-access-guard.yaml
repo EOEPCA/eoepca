@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: resource-guard
-      version: 0.0.18
+      version: 0.0.19
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -71,6 +71,10 @@ spec:
             service:
               name: data-access-vs-client
               port: 80
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+          nginx.ingress.kubernetes.io/enable-cors: "true"
+          nginx.ingress.kubernetes.io/rewrite-target: /$1
       client:
         credentialsSecretName: "rm-uma-user-agent"
       logging:
