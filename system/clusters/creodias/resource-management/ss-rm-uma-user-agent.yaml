@@ -1,0 +1,15 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: rm-uma-user-agent
+  namespace: rm
+spec:
+  encryptedData:
+    client.yaml: AgAasH7VATD9LjDnPs0YN5oC3wwnkxrMbv+J0Bd8Mnfwj+j9ZIPwVFT6JYeYp21ksZAnA+qbIBBiC1O5DHHBziIN9kxKtpcvHmbyug9fc6KYNlikSXsuIXI6AQlBMnflaT8ku3jTCeD8354XMGyxP/FrkzCAfpSQIooh+CFTGayndRRnalfQdzWMpttsxUv7PPZtDJlqDiDPM0/BFKFdnf0YPThFCx7gGwFFGjfcVdJMm6NywLjFZ3dZLh832r06oTdu/mllwrk8fZXColQByDvtgd0XsvJVfe3OBkeUt37oFToPbEP9xVs+FAQ/olPNjNYS8rMR4NfCDWjYofMjqbEUVCtaf6k4ZpVxtxPASgWNpAVwwYpplOHaYAKrMoq2kpkPSwWbySr7Ivigpc0EWIlUPF+3Jqns5p85A3fOocaEuWN4XuQP3knIbQiXr/SSBZkLref/4wwnzy6IlVCKFrCGJFQHLDSwGCjBg3pP8mxPduObzYjkbR+PFO/we2AgcO1Xek2zHI/ckFHt1b+FVpt0Feb3r4/4j643fcuttJaMd4Y2PRr52Jc8XIoQZcT/TuKAIWsqHQ/mxT4KDoRJpneCeCvba5SD7345rFyB8uxUpo4rp+2hO6yI4N4zL6JHxrAmwBybv0Nsn16r3205TrI6yjkda29T7sX7CB9bB4PVkkn2xCAhYlJTvysCMgvJCh3r7n/Ose43WLPhtnVVQBQE/yQ1f35vBZ1w5MvIQ6QAzC0+lhzMk6XMQ8+FrEkdGRCzyJVgyPOIn/6LNVcy5YpCzaHqxiqdYTSc1HA3Tt/G3rSzLvO4rHxQt3RXyZiXylASdQ0=
+  template:
+    metadata:
+      creationTimestamp: null
+      name: rm-uma-user-agent
+      namespace: rm
+

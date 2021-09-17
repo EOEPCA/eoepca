@@ -72,7 +72,7 @@ spec:
               name: data-access-vs-client
               port: 80
       client:
-        credentialsSecretName: ""
+        credentialsSecretName: "rm-uma-user-agent"
       logging:
         level: "debug"
       unauthorizedResponse: 'Bearer realm="https://portal.demo.eoepca.org/oidc/authenticate/"'

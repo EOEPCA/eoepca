@@ -10,6 +10,9 @@ onExit() {
 
 trap onExit EXIT
 
+SECRET_NAME="rm-uma-user-agent"
+NAMESPACE="rm"
+
 CLIENT_ID="${1:-set-client-id-here}"
 CLIENT_SECRET="${2:-set-client-secret-here}"
 
@@ -21,10 +24,10 @@ EOF
 }
 
 secretYaml() {
-  kubectl -n rm create secret generic resource-catalogue-agent \
+  kubectl -n "${NAMESPACE}" create secret generic "${SECRET_NAME}" \
     --from-literal="client.yaml=$(clientConfigFile)" \
     --dry-run=client -o yaml
 }
 
 # Create Secret and then pipe to kubeseal to create the SealedSecret
-secretYaml | kubeseal -o yaml --controller-name eoepca-sealed-secrets --controller-namespace infra > ss-resource-catalogue-agent.yaml
+secretYaml | kubeseal -o yaml --controller-name eoepca-sealed-secrets --controller-namespace infra > ss-${SECRET_NAME}.yaml
