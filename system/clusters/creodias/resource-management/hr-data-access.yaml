@@ -461,11 +461,11 @@ spec:
         nginx.ingress.kubernetes.io/enable-cors: "true"
         cert-manager.io/cluster-issuer: letsencrypt
       hosts:
-        - host: data-access.demo.eoepca.org
+        - host: data-access-open.demo.eoepca.org
       tls:
         - hosts:
-            - data-access.demo.eoepca.org
-          secretName: data-access-tls
+            - data-access-open.demo.eoepca.org
+          secretName: data-access-open-tls
     affinity: {}
     redis:
       usePassword: false
