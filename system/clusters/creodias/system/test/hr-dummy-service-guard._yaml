@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: resource-guard
-      version: 0.0.16
+      version: 0.0.17
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -54,6 +54,11 @@ spec:
       nginxIntegration:
         enabled: true
         hostname: dummy-service
+        paths:
+          - path: /
+            service:
+              name: dummy-service
+              port: 80
       client:
         credentialsSecretName: ""
       logging:
