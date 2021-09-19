@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: workspace-api
+  name: harvester
   namespace: rm
   labels:
-    app.kubernetes.io/instance: workspace-api
-    app.kubernetes.io/name: workspace-api
+    app.kubernetes.io/instance: harvester
+    app.kubernetes.io/name: harvester
 spec:
   strategy:
     rollingUpdate:
@@ -14,63 +14,48 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/instance: workspace-api
-      app.kubernetes.io/name: workspace-api
+      app.kubernetes.io/instance: harvester
+      app.kubernetes.io/name: harvester
   template:
     metadata:
-      annotations:
-        prometheus.io/scrape: "true"
+      # annotations:
+      #   prometheus.io/scrape: "true"
       labels:
-        app.kubernetes.io/instance: workspace-api
-        app.kubernetes.io/name: workspace-api
+        app.kubernetes.io/instance: harvester
+        app.kubernetes.io/name: harvester
     spec:
-      serviceAccountName: workspace-api
+      serviceAccountName: harvester
       containers:
-      - name: workspace-api
-        image: eoepca/rm-workspace-api
-        ports:
-        - name: http
-          containerPort: 8080
-          protocol: TCP
-        readinessProbe:
-          httpGet:
-            path: /probe
-            port: 8080
-          initialDelaySeconds: 10
-          timeoutSeconds: 2
-          periodSeconds: 3
-          failureThreshold: 1
-        livenessProbe:
-          httpGet:
-            path: /probe
-            port: 8080
-          initialDelaySeconds: 20
-          timeoutSeconds: 2
-          periodSeconds: 8
-          failureThreshold: 1
+      - name: harvester
+        image: eoepca/rm-harvester
+        # ports:
+        # - name: http
+        #   containerPort: 8080
+        #   protocol: TCP
+        # TODO: figure out probes?
+        # readinessProbe:
+        #   httpGet:
+        #     path: /probe
+        #     port: 8080
+        #   initialDelaySeconds: 10
+        #   timeoutSeconds: 2
+        #   periodSeconds: 3
+        #   failureThreshold: 1
+        # livenessProbe:
+        #   httpGet:
+        #     path: /probe
+        #     port: 8080
+        #   initialDelaySeconds: 20
+        #   timeoutSeconds: 2
+        #   periodSeconds: 8
+        #   failureThreshold: 1
         env:
-        - name: PREFIX_FOR_NAME
-          value: "rm-user"
-        - name: WORKSPACE_SECRET_NAME
-          value: "bucket"
-        - name: NAMESPACE_FOR_BUCKET_RESOURCE
-          value: "rm"
-        - name: WORKSPACE_CONFIG_MAP_NAME
-          value: "workspace"
-        - name: GIT_REPO_RESOURCE_FOR_HELM_CHART_NAME
-          value: "eoepca"
-        - name: GIT_REPO_RESOURCE_FOR_HELM_CHART_NAMESPACE
-          value: "common"
-        - name: HELM_CHART_NAME
-          value: "rm-user-workspace"
-        - name: HELM_CHART_VERSION
-          value: "0.9.4"
-        - name: S3_ENDPOINT
-          value: "https://cf2.cloudferro.com:8080"
-        - name: S3_REGION
-          value: "RegionOne"
-        - name: WORKSPACE_DOMAIN
-          value: 185.52.193.87.nip.io
+        - name: REDIS_HOST
+          value: "redis"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_HARVESTER_QUEUE_KEY
+          value: "harvest"
         resources:
           limits:
             cpu: 0.5
