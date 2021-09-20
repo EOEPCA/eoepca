@@ -6,7 +6,7 @@ metadata:
 data:
   config.yaml: |-
     redis:
-      host: redis
+      host: data-access-redis-master
       port: 6379
     harvesters:
       - name: Creodias-Opensearch
