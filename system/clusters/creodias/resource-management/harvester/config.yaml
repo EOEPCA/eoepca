@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: harvester-config
+  namespace: rm
+data:
+  config.yaml: |-
+    redis:
+      host: data-access-redis-master
+      port: 6379
+    harvesters:
+      - name: Creodias-Opensearch
+        endpoint:
+          url: https://finder.creodias.eu/resto/api/collections/Sentinel2/describe.xml
+          type: OpenSearch
+          format_config:
+            type: 'application/json'
+            property_mapping:
+              start_datetime: 'startDate'
+              end_datetime: 'completionDate'
+              product_identifier: 'productIdentifier'
+          query:
+            time:
+              property: sensed
+              begin: 2019-09-10T00:00:00Z
+              end: 2019-09-11T00:00:00Z
+            collection: null
+            bbox: 14.9,47.7,16.4,48.7
+          filter: {}
+          provider: harvester_eoepca.provider.CREODIASOpenSearchSentinel2Provider
+        queue: register
