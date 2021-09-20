@@ -24,7 +24,7 @@ spec:
         app.kubernetes.io/instance: harvester
         app.kubernetes.io/name: harvester
     spec:
-      serviceAccountName: harvester
+      # serviceAccountName: harvester
       containers:
       - name: harvester
         image: eoepca/rm-harvester
