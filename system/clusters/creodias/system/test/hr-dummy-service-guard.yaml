@@ -44,9 +44,9 @@ spec:
     #---------------------------------------------------------------------------
     uma-user-agent:
       fullnameOverride: dummy-service-agent
-      # image:
-      #   tag: latest
-      #   pullPolicy: Always
+      image:
+        tag: ractest
+        pullPolicy: Always
       nginxIntegration:
         enabled: true
         hostname: dummy-service
