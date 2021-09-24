@@ -55,9 +55,9 @@ spec:
     #---------------------------------------------------------------------------
     uma-user-agent:
       fullnameOverride: dummy-service-agent
-      image:
-        tag: ractest
-        pullPolicy: Always
+      # image:
+      #   tag: mytest
+      #   pullPolicy: Always
       nginxIntegration:
         enabled: true
         hostname: dummy-service
