@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: resource-guard
-      version: 0.0.28
+      version: 0.0.29
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -49,12 +49,17 @@ spec:
       #   pullPolicy: Always
       nginxIntegration:
         enabled: true
-        hostname: resource-catalogue
-        paths:
-          - path: /
-            service:
-              name: resource-catalogue-service
-              port: 80
+        hosts:
+          - host: resource-catalogue
+            paths:
+              - path: /(.*)
+                service:
+                  name: resource-catalogue-service
+                  port: 80
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+          nginx.ingress.kubernetes.io/enable-cors: "true"
+          nginx.ingress.kubernetes.io/rewrite-target: /$1
       client:
         credentialsSecretName: "rm-uma-user-agent"
       logging:

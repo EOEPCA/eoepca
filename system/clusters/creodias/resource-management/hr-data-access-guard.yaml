@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: resource-guard
-      version: 0.0.28
+      version: 0.0.29
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -49,28 +49,29 @@ spec:
       #   pullPolicy: Always
       nginxIntegration:
         enabled: true
-        hostname: data-access
-        paths:
-          - path: /(ows.*)
-            service:
-              name: data-access-vs-renderer
-              port: 80
-          - path: /(opensearch.*)
-            service:
-              name: data-access-vs-renderer
-              port: 80
-          - path: /(admin.*)
-            service:
-              name: data-access-vs-renderer
-              port: 80
-          - path: /cache/(.*)
-            service:
-              name: data-access-vs-cache
-              port: 80
-          - path: /(.*)
-            service:
-              name: data-access-vs-client
-              port: 80
+        hosts:
+          - host: data-access
+            paths:
+              - path: /(ows.*)
+                service:
+                  name: data-access-vs-renderer
+                  port: 80
+              - path: /(opensearch.*)
+                service:
+                  name: data-access-vs-renderer
+                  port: 80
+              - path: /(admin.*)
+                service:
+                  name: data-access-vs-renderer
+                  port: 80
+              - path: /cache/(.*)
+                service:
+                  name: data-access-vs-cache
+                  port: 80
+              - path: /(.*)
+                service:
+                  name: data-access-vs-client
+                  port: 80
         annotations:
           nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
           nginx.ingress.kubernetes.io/enable-cors: "true"
