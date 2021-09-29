@@ -1,0 +1,50 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: um-login-service
+  namespace: default
+spec:
+  chart:
+    spec:
+      chart: login-service
+      version: 0.9.23
+      sourceRef:
+        kind: HelmRepository
+        name: eoepca
+        namespace: common
+  values:
+    volumeClaim:
+      name: eoepca-userman-pvc
+      create: false
+    config:
+      domain: test.185.52.194.224.nip.io
+      volumeClaim:
+        name: eoepca-userman-pvc
+    opendj:
+      # This can be useful to workaround helm 'failed to upgrade' errors due to
+      # immutable fields in the 'um-login-service-persistence-init-ss' job
+      # persistence:
+      #   enabled: false
+      volumeClaim:
+        name: eoepca-userman-pvc
+    oxauth:
+      volumeClaim:
+        name: eoepca-userman-pvc
+    oxtrust:
+      volumeClaim:
+        name: eoepca-userman-pvc
+    global:
+      domain: test.185.52.194.224.nip.io
+      nginxIp: 185.52.194.224
+    nginx:
+      ingress:
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt
+        hosts:
+          - test.185.52.194.224.nip.io
+        tls:
+          - hosts:
+              - test.185.52.194.224.nip.io
+            secretName: login-service-tls
+  timeout: 25m0s
+  interval: 1m0s
