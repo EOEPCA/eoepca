@@ -27,7 +27,7 @@ spec:
       serviceAccountName: workspace-api
       containers:
       - name: workspace-api
-        image: eoepca/rm-workspace-api:v0.9.1
+        image: eoepca/rm-workspace-api:v0.9.2
         ports:
         - name: http
           containerPort: 8080
