@@ -1,13 +1,13 @@
 
 # cluster
-cluster_name = "develop"
+cluster_name = "integration"
 
 # network
 external_net = "31d7e67a-b30a-43f4-8b06-1667c70ba90d"
 floatingip_pool = "external3"
-network_name = "develop"
+network_name = "integration"
 eodata_network_name = "eodata"
-subnet_cidr = "192.168.123.0/24"
+subnet_cidr = "192.168.124.0/24"
 dns_nameservers = ["8.8.8.8", "8.8.4.4"]
 
 #-------------------------------------------------------------------------------
@@ -28,7 +28,7 @@ number_of_k8s_masters_no_floating_ip_no_etcd = 0
 
 # nodes
 number_of_k8s_nodes = 0
-number_of_k8s_nodes_no_floating_ip = 4
+number_of_k8s_nodes_no_floating_ip = 2
 
 #-------------------------------------------------------------------------------
 # Compute
