@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: ades
-      version: 0.9.4
+      version: 0.9.3
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -220,8 +220,7 @@ spec:
       # if false the Ades will clean the volume after the workflow has successfully finished running
       processingKeepWorkspace: "False"
       # image pull secrects
-      imagePullSecrets: 
-        - name: "eoepca-docker-apps"
+      imagePullSecrets: []
       #  custom stagein cwl
       #stageincwl: "files/stageincwl.cwl"
       #maincwl: "files/maincwlmetrics.cwl"
