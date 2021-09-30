@@ -60,7 +60,7 @@ spec:
       # resources, such as Minikube. If you do want to specify resources, uncomment the following
       # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
       limits:
-        cpu: 1
+        cpu: 2
         memory: 4Gi
       requests:
         cpu: 500m
@@ -216,7 +216,7 @@ spec:
       # Max ram to use for a job
       processingMaxRam: "8Gi"
       # Max number of CPU cores to use concurrently for a job
-      processingMaxCores: "2"
+      processingMaxCores: "4"
       # if false the Ades will clean the volume after the workflow has successfully finished running
       processingKeepWorkspace: "False"
       # image pull secrects
