@@ -24,9 +24,9 @@ spec:
       name: proc-ades
     nginxIntegration:
       enabled: false
-    image:
-      tag: task415_4
-      # pullPolicy: Always
+    # image:
+    #   tag: task415_4
+    #   pullPolicy: Always
     certManager:
       clusterIssuer: letsencrypt
     volumeClaim:
