@@ -28,8 +28,9 @@ spec:
       pdpHostname: test
     nginxIntegration:
       enabled: false
-    # image:
-    #   pullPolicy: Always
+    image:
+      tag: task415_4
+      # pullPolicy: Always
     volumeClaim:
       name: eoepca-proc-pvc
       create: false
