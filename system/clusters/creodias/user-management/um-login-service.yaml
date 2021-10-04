@@ -39,7 +39,7 @@ spec:
     nginx:
       ingress:
         annotations:
-          cert-manager.io/cluster-issuer: letsencrypt
+          cert-manager.io/cluster-issuer: letsencrypt-staging
         hosts:
           - test.185.52.194.224.nip.io
         tls:
