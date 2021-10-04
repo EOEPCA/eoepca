@@ -64,13 +64,19 @@ spec:
         - name: HELM_CHART_NAME
           value: "rm-user-workspace"
         - name: HELM_CHART_VERSION
-          value: "0.9.4"
+          value: "0.9.10"
         - name: S3_ENDPOINT
           value: "https://cf2.cloudferro.com:8080"
         - name: S3_REGION
           value: "RegionOne"
         - name: WORKSPACE_DOMAIN
           value: 185.52.193.87.nip.io
+        - name: UMA_CLIENT_ID
+          # TODO
+          value: client-id
+        - name: UMA_CLIENT_SECRET
+          # TODO
+          value: client-secret
         resources:
           limits:
             cpu: 0.5
