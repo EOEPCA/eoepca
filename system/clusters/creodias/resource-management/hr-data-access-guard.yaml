@@ -81,7 +81,7 @@ spec:
       logging:
         level: "debug"
       unauthorizedResponse: 'Bearer realm="https://portal.demo.eoepca.org/oidc/authenticate/"'
-      openAccess: true
+      # openAccess: true
     #---------------------------------------------------------------------------
     # END values
     #---------------------------------------------------------------------------
