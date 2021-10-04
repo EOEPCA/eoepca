@@ -16,7 +16,7 @@ spec:
     global:
       context: ades
       pep: proc-ades-pep
-      domain: test.demo.eoepca.org
+      domain: demo.eoepca.org
       nginxIp: 185.52.195.19
       resourceServer:
         name: proc-ades
@@ -24,6 +24,8 @@ spec:
         clusterIssuer: letsencrypt
     configMap:
       workingMode: FULL
+      asHostname: test
+      pdpHostname: test
     nginxIntegration:
       enabled: false
     # image:
