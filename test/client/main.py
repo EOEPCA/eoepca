@@ -65,7 +65,7 @@ def main():
     # Dummy Service
     #===========================================================================
 
-    # dummy_access_token = None
+    dummy_access_token = None
 
     # Call Dummy Service
     print("\n### Dummy Service ###")
@@ -81,12 +81,12 @@ def main():
     wsapi_user_url = wsapi_url + wsapi_user_prefix
     wsapi_access_token = None
 
-    # # Workspace: Create
-    # print("\n### Workspace: Create ###")
-    # demo.trace_flow = True
-    # response, wsapi_access_token = demo.wsapi_create(wsapi_url, wsapi_user, id_token=user_id_token, access_token=wsapi_access_token)
-    # demo.trace_flow = False
-    # print(f"DETAILS = {json.dumps(response.json(), indent = 2)}\n")
+    # Workspace: Create
+    print("\n### Workspace: Create ###")
+    demo.trace_flow = True
+    response, wsapi_access_token = demo.wsapi_create(wsapi_url, wsapi_user, id_token=user_id_token, access_token=wsapi_access_token)
+    demo.trace_flow = False
+    print(f"DETAILS = {json.dumps(response.json(), indent = 2)}\n")
 
     # Workspace: Get Details
     print("\n### Workspace: Get Details ###")
@@ -95,15 +95,15 @@ def main():
     demo.trace_flow = False
     print(f"DETAILS = {json.dumps(response.json(), indent = 2)}\n")
 
-    # # Workspace: Get Details - as user bob
-    # # id token
-    # print("\n### BOB ID TOKEN ###")
-    # bob_id_token = demo.get_id_token("bob", USER_PASSWORD)
-    # print("\n### Workspace: Get Details as user bob ###")
-    # demo.trace_flow = True
-    # response, wsapi_access_token = demo.wsapi_get_details(wsapi_user_url, id_token=bob_id_token, access_token=wsapi_access_token)
-    # demo.trace_flow = False
-    # # print(f"DETAILS = {json.dumps(response.json(), indent = 2)}\n")
+    # Workspace: Get Details - as user bob
+    # id token
+    print("\n### BOB ID TOKEN ###")
+    bob_id_token = demo.get_id_token("bob", USER_PASSWORD)
+    print("\n### Workspace: Get Details as user bob ###")
+    demo.trace_flow = True
+    response, wsapi_access_token = demo.wsapi_get_details(wsapi_user_url, id_token=bob_id_token, access_token=wsapi_access_token)
+    demo.trace_flow = False
+    # print(f"DETAILS = {json.dumps(response.json(), indent = 2)}\n")
 
     #===========================================================================
     # Processing
@@ -147,8 +147,6 @@ def main():
     #response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body-cwl.json", id_token=user_id_token, access_token=access_token)
     # ...same as above but with the cwl stored in a S3 repository
     response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body-cwl-S3.json", id_token=user_id_token, access_token=access_token)
-
-    #
     print("Deploy Response =", response.text)
 
     # API Proc Get Application Details
@@ -157,7 +155,6 @@ def main():
     app_name = "s-expression-0_0_2"
     response, access_token = demo.proc_get_app_details(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
     print("Application Details =", response.text)
-
     
     # API Proc Execute Application
     print("\n### API Proc Execute Application ###")

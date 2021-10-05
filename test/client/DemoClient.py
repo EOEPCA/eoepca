@@ -97,7 +97,7 @@ class DemoClient:
                 redirectURIs = [""],
                 logoutURI = "",
                 responseTypes = ["code","token","id_token"],
-                scopes = ['openid',  'email', 'user_name ','uma_protection', 'permission'],
+                scopes = ['openid',  'email', 'user_name ','uma_protection', 'permission', 'is_operator'],
                 token_endpoint_auth_method = ENDPOINT_AUTH_CLIENT_POST)
             if self.client["client_id"] and self.client["client_secret"]:
                 self.state["client_id"] = self.client["client_id"]
@@ -124,7 +124,7 @@ class DemoClient:
         client_id, client_secret = self.get_client_credentials()
         headers = { 'cache-control': "no-cache" }
         data = {
-            "scope": "openid user_name",
+            "scope": "openid user_name is_operator",
             "grant_type": "password",
             "username": username,
             "password": password,
