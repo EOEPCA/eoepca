@@ -1,23 +1,23 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: um-pdp-engine
+  name: um-user-profile
   namespace: default
 spec:
   chart:
     spec:
-      chart: pdp-engine
+      chart: user-profile
+      version: 0.9.6
       sourceRef:
         kind: HelmRepository
         name: eoepca
         namespace: common
   values:
     global:
-      nginxIp: 185.52.193.87
-      domain: test.185.52.193.87.nip.io
+      domain: auth.develop.eoepca.org
+      nginxIp: 185.52.192.231
     volumeClaim:
       name: eoepca-userman-pvc
       create: false
-
   timeout: 25m0s
   interval: 1m0s

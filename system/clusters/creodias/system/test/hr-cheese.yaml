@@ -7,10 +7,11 @@ spec:
   chart:
     spec:
       chart: cheese
+      version: 0.9.0
       sourceRef:
         kind: HelmRepository
         name: eoepca
         namespace: common
   values:
-    baseHostname: 185.52.193.87.nip.io
+    baseHostname: develop.eoepca.org
   interval: 1m0s
