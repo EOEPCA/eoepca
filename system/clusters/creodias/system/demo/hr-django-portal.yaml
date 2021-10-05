@@ -16,5 +16,5 @@ spec:
   values:
     domain: demo.eoepca.org
     configmap:
-      user_prefix: rm-user
+      user_prefix: demo-user
   interval: 1m0s
