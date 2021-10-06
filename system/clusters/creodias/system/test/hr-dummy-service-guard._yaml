@@ -1,0 +1,80 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: dummy-service-guard
+  namespace: test
+spec:
+  chart:
+    spec:
+      chart: resource-guard
+      version: 0.0.31
+      sourceRef:
+        kind: HelmRepository
+        name: eoepca
+        namespace: common
+  values:
+    #---------------------------------------------------------------------------
+    # Global values
+    #---------------------------------------------------------------------------
+    global:
+      context: dummy-service
+      pep: dummy-service-pep
+      domain: develop.eoepca.org
+      nginxIp: 185.52.192.231
+      certManager:
+        clusterIssuer: letsencrypt
+    #---------------------------------------------------------------------------
+    # PEP values
+    #---------------------------------------------------------------------------
+    pep-engine:
+      configMap:
+        workingMode: PARTIAL
+        asHostname: test
+        pdpHostname: test
+      customDefaultResources:
+      - name: "Eric's space"
+        description: "Protected Access for eric to his space in the dummy service"
+        resource_uri: "/ericspace"
+        scopes: []
+        default_owner: "d3688daa-385d-45b0-8e04-2062e3e2cd86"
+      - name: "Bob's space"
+        description: "Protected Access for bob to his space in the dummy service"
+        resource_uri: "/bobspace"
+        scopes: []
+        default_owner: "f12c2592-0332-49f4-a4fb-7063b3c2a889"
+      nginxIntegration:
+        enabled: false
+        # hostname: dummy-service-auth
+      # image:
+      #   pullPolicy: Always
+      volumeClaim:
+        name: dummy-service-pep-pvc
+        create: false
+    #---------------------------------------------------------------------------
+    # UMA User Agent values
+    #---------------------------------------------------------------------------
+    uma-user-agent:
+      fullnameOverride: dummy-service-agent
+      # image:
+      #   tag: mytest
+      #   pullPolicy: Always
+      nginxIntegration:
+        enabled: true
+        hosts:
+          - host: dummy-service
+            paths:
+              - path: /
+                service:
+                  name: dummy-service
+                  port: 80
+      client:
+        credentialsSecretName: ""
+      logging:
+        level: "debug"
+      unauthorizedResponse: 'Bearer realm="https://portal.develop.eoepca.org/oidc/authenticate/"'
+    #---------------------------------------------------------------------------
+    # END values
+    #---------------------------------------------------------------------------
+
+  timeout: 25m0s
+  interval: 1m0s

@@ -182,7 +182,7 @@ spec:
           - path: registrar_pycsw.backend.PycswBackend
             kwargs:
               repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
-              ows_url: https://data-access-user.185.52.193.87.nip.io/ows
+              ows_url: https://data-access-user.develop.eoepca.org/ows
         mapping:
           '':
             '': {}
@@ -243,7 +243,7 @@ spec:
       image:
         repository: eoepca/rm-data-access-core
         tag: "0.9.0"
-        pullPolicy: Always
+        # pullPolicy: Always
       replicaCount: 1
       resources:
         limits:
@@ -257,7 +257,7 @@ spec:
       image:
         repository: eoepca/rm-data-access-core
         tag: "0.9.0"
-        pullPolicy: Always
+        # pullPolicy: Always
       replicaCount: 1
       resources:
         limits:
@@ -306,10 +306,10 @@ spec:
         nginx.ingress.kubernetes.io/enable-cors: "true"
         cert-manager.io/cluster-issuer: letsencrypt
       hosts:
-        - host: data-access-user.185.52.193.87.nip.io
+        - host: data-access-user.develop.eoepca.org
       tls:
         - hosts:
-            - data-access-user.185.52.193.87.nip.io
+            - data-access-user.develop.eoepca.org
           secretName: data-access-tls
     affinity: {}
     redis:

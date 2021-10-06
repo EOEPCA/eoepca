@@ -14,10 +14,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - bucket-operator.185.52.193.87.nip.io
+        - bucket-operator.develop.eoepca.org
       secretName: bucket-operator-tls
   rules:
-    - host: bucket-operator.185.52.193.87.nip.io
+    - host: bucket-operator.develop.eoepca.org
       http:
         paths:
           - path: /

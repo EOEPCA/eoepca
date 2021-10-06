@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: pep-engine
-      version: 0.9.14
+      version: 0.9.13
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -16,12 +16,12 @@ spec:
     context: workspace-api
     global:
       pep: workspace-api-pep
-      domain: test.185.52.193.87.nip.io
-      nginxIp: 185.52.193.87
+      domain: develop.eoepca.org
+      nginxIp: 185.52.192.231
     configMap:
       resourceServer: http://workspace-api:8080
-    image:
-      pullPolicy: Always
+    # image:
+    #   pullPolicy: Always
     certManager:
       clusterIssuer: letsencrypt
     volumeClaim:

@@ -8,6 +8,7 @@ def main():
     print("\n### TEST CLIENT ###")
     USER_NAME="eric"
     USER_PASSWORD="defaultPWD"
+<<<<<<< HEAD
 <<<<<<< Updated upstream
     domain = "185.52.193.87.nip.io"
     # domain = "demo.eoepca.org"
@@ -15,28 +16,36 @@ def main():
     domain = "demo.eoepca.org"
 >>>>>>> Stashed changes
     base_url = "https://test." + domain
+=======
+    domain = "develop.eoepca.org"
+    base_url = "https://auth." + domain
+>>>>>>> f9c1bb294df18cbaf5051d85dff051fd116c8e5d
 
     # ades
-    ades_resource_api_url = "http://ades-pepapi.test." + domain
-    ades_url = "https://ades.test." + domain
+    ades_resource_api_url = "http://ades-pepapi." + domain
+    ades_url = "https://ades." + domain
     ades_user = USER_NAME
     ades_user_prefix = "/" + ades_user
 
     # workspace-api
-    wsapi_resource_api_url = "http://workspace-api-pepapi.test." + domain
-    wsapi_url = "https://workspace-api.test." + domain
+    wsapi_resource_api_url = "http://workspace-api-pepapi." + domain
+    wsapi_url = "https://workspace-api." + domain
     wsapi_user = USER_NAME
+<<<<<<< HEAD
 <<<<<<< Updated upstream
     wsapi_prefix = "rm-user"
     # wsapi_prefix = "demo-user"
 =======
     wsapi_prefix = "demo-user"
 >>>>>>> Stashed changes
+=======
+    wsapi_prefix = "demo-user"
+>>>>>>> f9c1bb294df18cbaf5051d85dff051fd116c8e5d
     wsapi_user_prefix = "/workspaces/" + wsapi_prefix + "-" + wsapi_user
 
     # dummy service
-    dummy_resource_api_url = "http://dummy-service-pepapi.test." + domain
-    dummy_url = "https://dummy-service.test." + domain
+    dummy_resource_api_url = "http://dummy-service-pepapi." + domain
+    dummy_url = "https://dummy-service." + domain
 
     #===========================================================================
     # UM setup
@@ -56,6 +65,7 @@ def main():
     # id token
     print("\n### USER ID TOKEN ###")
     user_id_token = demo.get_id_token(USER_NAME, USER_PASSWORD)
+    print(user_id_token)
 
     # Register user's ADES base path as an owned resource
     print("\n### REGISTER USER'S ADES BASE RESOURCE PATH ###")
@@ -69,10 +79,6 @@ def main():
     # Register user's Workspace base path as an owned resource
     print("\n### REGISTER USER'S Workspace BASE RESOURCE PATH ###")
     demo.register_protected_resource(wsapi_resource_api_url, wsapi_user_prefix, user_id_token, f"Workspace for user {USER_NAME}", [])
-
-    # Register test path in Dummy Service as an owned resource
-    print("\n### REGISTER Dummy Service Test Path RESOURCE PATH ###")
-    demo.register_protected_resource(dummy_resource_api_url, "/test", user_id_token, f"Dummy Service test resource", [])
 
     #===========================================================================
     # Dummy Service
@@ -154,11 +160,12 @@ def main():
     print("\n### API Proc Deploy Application ###")
     #
     # ...by atom feed (application/atom+xml) - with entry containing an OGC OWS Context Offering with application/cwl content...
-    response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body-atom.json", id_token=user_id_token, access_token=access_token)
+    #response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body-atom.json", id_token=user_id_token, access_token=access_token)
     #
     # ...pure CWL (application/cwl)...
-    # response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body-cwl.json", id_token=user_id_token, access_token=access_token)
-    #
+    #response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body-cwl.json", id_token=user_id_token, access_token=access_token)
+    # ...same as above but with the cwl stored in a S3 repository
+    response, access_token = demo.proc_deploy_application(ades_proc_url, "../acceptance/02__Processing/01__ADES/data/app-deploy-body-cwl-S3.json", id_token=user_id_token, access_token=access_token)
     print("Deploy Response =", response.text)
 
     # API Proc Get Application Details
@@ -167,7 +174,7 @@ def main():
     app_name = "s-expression-0_0_2"
     response, access_token = demo.proc_get_app_details(ades_proc_url, app_name, id_token=user_id_token, access_token=access_token)
     print("Application Details =", response.text)
-
+    
     # API Proc Execute Application
     print("\n### API Proc Execute Application ###")
     app_name = "s-expression-0_0_2"

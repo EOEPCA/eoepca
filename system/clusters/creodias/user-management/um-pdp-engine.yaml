@@ -7,14 +7,15 @@ spec:
   chart:
     spec:
       chart: pdp-engine
+      version: 0.9.5
       sourceRef:
         kind: HelmRepository
         name: eoepca
         namespace: common
   values:
     global:
-      nginxIp: 185.52.193.87
-      domain: test.185.52.193.87.nip.io
+      nginxIp: 185.52.192.231
+      domain: auth.develop.eoepca.org
     volumeClaim:
       name: eoepca-userman-pvc
       create: false

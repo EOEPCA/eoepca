@@ -7,6 +7,7 @@ spec:
   chart:
     spec:
       chart: ades
+      version: 0.9.3
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -17,7 +18,7 @@ spec:
     image:
       pullPolicy: Always
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "dev1.0.0"
+      tag: "dev0.9.6"
     nameOverride: ""
     fullnameOverride: ""
     serviceAccount:
@@ -47,7 +48,7 @@ spec:
       enabled: true
       annotations: {}
       hosts:
-        - host: ades.185.52.193.87.nip.io
+        - host: ades-open.develop.eoepca.org
           paths: ["/"]
       tls: []
       #  - secretName: chart-example-tls
@@ -59,7 +60,7 @@ spec:
       # resources, such as Minikube. If you do want to specify resources, uncomment the following
       # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
       limits:
-        cpu: 1
+        cpu: 2
         memory: 4Gi
       requests:
         cpu: 500m
@@ -100,9 +101,9 @@ spec:
       #    STAGEOUT_STORAGE_APIKEY: 4k8wMajA5ABaYdk
 
       useResourceManager: "true"
-      resourceManagerWorkspacePrefix: "rm-user"
-      resourceManagerEndpoint: "https://workspace-api.test.185.52.193.87.nip.io"
-      platformDomain: "https://test.185.52.193.87.nip.io"
+      resourceManagerWorkspacePrefix: "develop-user"
+      resourceManagerEndpoint: "https://workspace-api.develop.eoepca.org"
+      platformDomain: "https://auth.develop.eoepca.org"
 
       main:
         cwl: ""
@@ -215,7 +216,7 @@ spec:
       # Max ram to use for a job
       processingMaxRam: "8Gi"
       # Max number of CPU cores to use concurrently for a job
-      processingMaxCores: "2"
+      processingMaxCores: "4"
       # if false the Ades will clean the volume after the workflow has successfully finished running
       processingKeepWorkspace: "False"
       # image pull secrects
@@ -233,7 +234,6 @@ spec:
         
     wps:
       pepBaseUrl: "http://proc-ades-pep:5576"
-      pepClientStatePath: "/opt/zooservices_user/pepclient"
       usePep: "true"
       maincfgtpl: "files/main.cfg.tpl"
     persistence:
