@@ -8,8 +8,12 @@ def main():
     print("\n### TEST CLIENT ###")
     USER_NAME="eric"
     USER_PASSWORD="defaultPWD"
+<<<<<<< Updated upstream
     domain = "185.52.193.87.nip.io"
     # domain = "demo.eoepca.org"
+=======
+    domain = "demo.eoepca.org"
+>>>>>>> Stashed changes
     base_url = "https://test." + domain
 
     # ades
@@ -22,8 +26,12 @@ def main():
     wsapi_resource_api_url = "http://workspace-api-pepapi.test." + domain
     wsapi_url = "https://workspace-api.test." + domain
     wsapi_user = USER_NAME
+<<<<<<< Updated upstream
     wsapi_prefix = "rm-user"
     # wsapi_prefix = "demo-user"
+=======
+    wsapi_prefix = "demo-user"
+>>>>>>> Stashed changes
     wsapi_user_prefix = "/workspaces/" + wsapi_prefix + "-" + wsapi_user
 
     # dummy service

@@ -1,9 +1,9 @@
 $graph:
-- baseCommand: s-expression
+- baseCommand: nhi
   class: CommandLineTool
   hints:
     DockerRequirement:
-      dockerPull: eoepca/s-expression:dev0.0.2
+      dockerPull: registry.hub.docker.com/eoepcaci/nhi:dev0.0.3
   id: clt
   inputs:
     input_reference:
@@ -11,16 +11,16 @@ $graph:
         position: 1
         prefix: --input_reference
       type: Directory
-    s_expression:
+    threshold:
       inputBinding:
         position: 2
-        prefix: --s-expression
+        prefix: --threshold
       type: string
-    cbn:
+    aoi:
       inputBinding:
         position: 3
-        prefix: --cbn
-      type: string
+        prefix: --aoi
+      type: string?
   outputs:
     results:
       outputBinding:
@@ -29,44 +29,51 @@ $graph:
   requirements:
     EnvVarRequirement:
       envDef:
-        PATH: /srv/conda/envs/env_app_snuggs/bin:/srv/conda/envs/env_app_snuggs/bin:/srv/conda/bin:/srv/conda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+        PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/srv/conda/envs/env_app_snuggs/bin
     ResourceRequirement: {}
-  #stderr: std.err
-  #stdout: std.out
+  stderr: std.err
+  stdout: std.out
 - class: Workflow
-  doc: Applies s expressions to EO acquisitions
-  id: s-expression
+  doc: Normalized Hotspot Indices
+  id: nhi
   inputs:
     input_reference:
       doc: Input product reference
       label: Input product reference
-      type: Directory
-    s_expression:
-      doc: s expression
-      label: s expression
+      type: Directory[]
+    threshold:
+      doc: Threshold for hotspot detection
+      label: Threshold for hotspot detection
       type: string
-    cbn:
-      doc: Common band name
-      label: Common band name
-      type: string
-  label: s expressions
+    aoi:
+      doc: Area of interest in Well-known Text (WKT)
+      label: Area of interest in Well-known Text (WKT)
+      type: string?
+  label: nhi
   outputs:
   - id: wf_outputs
     outputSource:
     - step_1/results
-    type: Directory
+    type:
+      items: Directory
+      type: array
+  requirements:
+  - class: ScatterFeatureRequirement
   steps:
     step_1:
       in:
         input_reference: input_reference
-        s_expression: s_expression
-        cbn: cbn
+        threshold: threshold
+        aoi: aoi
       out:
       - results
       run: '#clt'
+      scatter: input_reference
+      scatterMethod: dotproduct
 $namespaces:
   s: https://schema.org/
 cwlVersion: v1.0
-s:softwareVersion: 0.0.2
+s:softwareVersion: 0.0.3
 schemas:
 - http://schema.org/version/9.0/schemaorg-current-http.rdf
+

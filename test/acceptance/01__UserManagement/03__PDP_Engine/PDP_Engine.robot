@@ -13,7 +13,7 @@ ${PORT}=  443
 ${PDP_PATH_TO_VALIDATE}=  pdp/policy/validate
 ${WELL_KNOWN_PATH}=  ${UM_BASE_URL}/.well-known/openid-configuration
 ${SCOPES}=  openid,permission,uma_protection 
-${REQ}=  grant_type=password&client_id=${C_ID_UMA}&client_secret=${C_SECRET_UMA}&username=admin&password=admin_Abcd1234#&scope=${SCOPES}&uri=
+#${REQ}=  grant_type=password&client_id=${C_ID_UMA}&client_secret=${C_SECRET_UMA}&username=admin&password=admin_Abcd1234#&scope=${SCOPES}&uri=
 
 *** Test Cases ***
 
@@ -56,7 +56,7 @@ PDP Get TokenEndpoint
   [Arguments]  ${well_known}
   ${headers}=  Create Dictionary  Content-Type  application/json
   Create Session  ep  ${well_known}  verify=False
-  ${resp}=  Get Request  ep  /
+  ${resp}=  Get On Session  ep  /
   ${json}=  Evaluate  json.loads('''${resp.text}''')  json
   ${tk_endpoint}=  Get From Dictionary  ${json}  token_endpoint
   [Return]  ${tk_endpoint}
@@ -69,7 +69,7 @@ PDP Get Permit Policy
   ${headers}=  Create Dictionary  Content-Type  application/json
   ${data} =  Evaluate  {"Request":{"AccessSubject":[{"Attribute":[{"AttributeId":"id","Value": "${OW_ID}","DataType":"string","IncludeInResult":True}]}],"Action":[{"Attribute":[{"AttributeId":"action-id","Value":"view"}]}],"Resource":[{"Attribute":[{"AttributeId":"resource-id","Value":"${RES_ID_FOUND}","DataType":"string","IncludeInResult":True}]}]}}  json
   Create Session  pdp  ${host}:${port}  verify=False
-  ${resp}=  Get Request  pdp  /${pdp_path_to_validate}  headers=${headers}  json=${data}
+  ${resp}=  Get On Session  pdp  /${pdp_path_to_validate}  headers=${headers}  json=${data}
   ${json}=  Evaluate  json.loads('''${resp.text}''')  json
   ${response}=  Get From Dictionary  ${json}  Response
   ${decision}=  Get From List  ${response}  0
@@ -81,7 +81,7 @@ PDP Get Permit With Invalid Resource Policy
   ${headers}=  Create Dictionary  Content-Type  application/json
   ${data} =  Evaluate  {"Request":{"AccessSubject":[{"Attribute":[{"AttributeId":"id","Value": "admin","DataType":"string","IncludeInResult":True}]}],"Action":[{"Attribute":[{"AttributeId":"action-id","Value":"view"}]}],"Resource":[{"Attribute":[{"AttributeId":"resource-id","Value":"999","DataType":"string","IncludeInResult":True}]}]}}  json
   Create Session  pdp  ${host}:${port}  verify=False
-  ${resp}=  Get Request  pdp  /${pdp_path_to_validate}  headers=${headers}  json=${data}
+  ${resp}=  Get On Session  pdp  /${pdp_path_to_validate}  headers=${headers}  json=${data}
   ${json}=  Evaluate  json.loads('''${resp.text}''')  json
   ${response}=  Get From Dictionary  ${json}  Response
   ${decision}=  Get From List  ${response}  0
@@ -94,7 +94,7 @@ PDP Get Deny Policy Uid
   ${RES_ID_FOUND}=  OperatingSystem.Get File  ${CURDIR}${/}..${/}01__LoginService${/}res_id.txt
   ${data} =  Evaluate  {"Request":{"AccessSubject":[{"Attribute":[{"AttributeId":"id","Value": "999","DataType":"string","IncludeInResult":True}]}],"Action":[{"Attribute":[{"AttributeId":"action-id","Value":"view"}]}],"Resource":[{"Attribute":[{"AttributeId":"resource-id","Value":"${RES_ID_FOUND}","DataType":"string","IncludeInResult":True}]}]}}  json
   Create Session  pdp  ${host}:${port}  verify=False
-  ${resp}=  Get Request  pdp  /${pdp_path_to_validate}  headers=${headers}  json=${data}
+  ${resp}=  Get On Session  pdp  /${pdp_path_to_validate}  headers=${headers}  json=${data}
   ${json}=  Evaluate  json.loads('''${resp.text}''')  json
   ${response}=  Get From Dictionary  ${json}  Response
   ${decision}=  Get From List  ${response}  0
