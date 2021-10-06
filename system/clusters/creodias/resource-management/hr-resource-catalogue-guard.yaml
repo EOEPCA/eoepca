@@ -29,8 +29,8 @@ spec:
     pep-engine:
       configMap:
         workingMode: PARTIAL
-        asHostname: test
-        pdpHostname: test
+        asHostname: auth
+        pdpHostname: auth
       nginxIntegration:
         enabled: false
         # hostname: resource-catalogue-auth
