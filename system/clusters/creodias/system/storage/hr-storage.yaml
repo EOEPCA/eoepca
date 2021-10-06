@@ -14,7 +14,7 @@ spec:
         namespace: common
   values:
     host:
-      enabled: true
+      enabled: false
     nfs:
       server:
         address: "192.168.123.14"

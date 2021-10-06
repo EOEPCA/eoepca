@@ -41,4 +41,3 @@ spec:
         tlsSecret: kibana-tls
     elasticsearch:
       hosts: [elasticsearch-elasticsearch-master]
-      port: 9200

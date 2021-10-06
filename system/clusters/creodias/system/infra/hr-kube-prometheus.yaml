@@ -36,7 +36,6 @@ spec:
            - prometheus.mundi.eoepca.org
       persistence:
         enabled: true
-        accessModes: ReadWriteMany        
         storageClass: managed-nfs-storage
         size: 100Gi
       retention: 3d
@@ -61,6 +60,5 @@ spec:
            - alertmanager.mundi.eoepca.org
       persistence:
         enabled: true
-        accessModes: ReadWriteMany        
         storageClass: managed-nfs-storage
-        size: 10Gi
+        size: 1Gi

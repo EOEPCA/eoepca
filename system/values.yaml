@@ -1,0 +1,5 @@
+hostname: demo.eoepca.org
+image:
+  tag: 2021.09.13.16.04
+configmap:
+  user_prefix: demo-user

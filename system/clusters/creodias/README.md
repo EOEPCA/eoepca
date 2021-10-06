@@ -61,15 +61,9 @@ data collection can be easily enabled for all containers via an k8s annotation c
         prometheus.io/port: "80"
 ```
 
-<<<<<<< HEAD
-as simple UI for metrics is directly provided via Prometheus and accessible [here](https://prometheus.80.158.51.219.nip.io) (requires authorization - see access managment below)
-
-a more sophisticated UI for interactive monitoring of continuous status and performance metrics is established through Grafana accessible [here](https://grafana.80.158.51.219.nip.io) (requires authorization - see access managment below), visualizing the gathered time series data for infrastructure and application analytics
-=======
 as simple UI for metrics is directly provided via Prometheus and accessible [here](https://prometheus.mundi.eoepca.org) (requires authorization - see access managment below)
 
 a more sophisticated UI for interactive monitoring of continuous status and performance metrics is established through Grafana accessible [here](https://grafana.mundi.eoepca.org) (requires authorization - see access managment below), visualizing the gathered time series data for infrastructure and application analytics
->>>>>>> develop
 
 ### access management 
 
@@ -77,13 +71,8 @@ access to public endpoints of the cluster can be protected via ingress annotatio
 
 ```
         nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User, X-Auth-Request-Email
-<<<<<<< HEAD
-        nginx.ingress.kubernetes.io/auth-signin: https://auth.80.158.51.219.nip.io/oauth2/start?rd=%2F$server_name$escaped_request_uri
-        nginx.ingress.kubernetes.io/auth-url: https://auth.80.158.51.219.nip.io/oauth2/auth
-=======
         nginx.ingress.kubernetes.io/auth-signin: https://auth.mundi.eoepca.org/oauth2/start?rd=%2F$server_name$escaped_request_uri
         nginx.ingress.kubernetes.io/auth-url: https://auth.mundi.eoepca.org/oauth2/auth
->>>>>>> develop
 ```
 
 using the open source OAuth-Proxy tool connected to an OIDC provider

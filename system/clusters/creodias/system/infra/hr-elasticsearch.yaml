@@ -17,12 +17,12 @@ spec:
   targetNamespace: infra
   values:
     global:
-      storageClass: "csi-disk"
+      storageClass: "managed-nfs-storage"
     master:
       replicas: 1
       persistence:
         enabled: true
-        storageClass: "csi-disk"
+        storageClass: "managed-nfs-storage"
         size: 100Gi
     coordinating:
       replicas: 1
@@ -35,7 +35,7 @@ spec:
       replicas: 1
       persistence:
         enabled: true
-        storageClass: "csi-disk"
+        storageClass: "managed-nfs-storage"
     ingest:
       replicas: 1
     metrics:
