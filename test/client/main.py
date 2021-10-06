@@ -9,6 +9,7 @@ def main():
     USER_NAME="eric"
     USER_PASSWORD="defaultPWD"
     domain = "demo.eoepca.org"
+
     base_url = "https://test." + domain
 
     # ades
@@ -22,6 +23,7 @@ def main():
     wsapi_url = "https://workspace-api.test." + domain
     wsapi_user = USER_NAME
     wsapi_prefix = "demo-user"
+    # wsapi_prefix = "demo-user"
     wsapi_user_prefix = "/workspaces/" + wsapi_prefix + "-" + wsapi_user
 
     # dummy service

@@ -1,12 +1,21 @@
 {
   "inputs": [
     {
-      "id": "applicationPackage",
+      "id": "input_reference",
       "input": {
         "format": {
-          "mimeType": "application/atom+xml"
+          "mimeType": "application/json"
         },
-        "href": "https://raw.githubusercontent.com/EOEPCA/eoepca/develop/test/acceptance/02__Processing/01__ADES/data/application-package-atom.xml"
+        "href": "https://resource-catalogue.demo.eoepca.org/?mode=opensearch&service=CSW&version=3.0.0&request=GetRecords&elementsetname=full&resulttype=results&typenames=csw:Record&recordids=S2B_MSIL1C_20210402T095029_N0300_R079_T33SVB_20210402T121737.SAFE"
+      }
+    },
+    {
+      "id": "threshold",
+      "input": {
+        "dataType": {
+          "name": "string"
+        },
+        "value": "0.1"
       }
     }
   ],
@@ -17,10 +26,10 @@
         "schema": "string",
         "encoding": "string"
       },
-      "id": "deployResult",
+      "id": "wf_outputs",
       "transmissionMode": "value"
     }
   ],
-  "mode": "auto",
+  "mode": "async",
   "response": "raw"
 }
