@@ -7,6 +7,7 @@ Library  String
 Library  Process
 Library  SSHLibrary
 Library  ../ScimClient.py  ${UM_BASE_URL}/
+Library  ../../../client/DemoClient.py  ${UM_BASE_URL}
 
 *** Variables ***
 ${UMA_USER}=  admin
@@ -26,10 +27,7 @@ UMA Ticket Test
   UMA Get Ticket Valid  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}
 
 UMA Authenticate test
-  ${resp}=  Scim Client Get Details
-  ${g_client_id}=  Get From Dictionary  ${resp}  client_id
-  ${g_client_secret}=  Get From Dictionary  ${resp}  client_secret
-  UMA Get ID Token Valid  ${ADES_BASE_URL}  ${WELL_KNOWN_PATH}  ${UMA_USER}  ${UMA_PWD}  ${g_client_id}  ${g_client_secret}
+  Init ID Token  ${UMA_USER}  ${UMA_PWD}
 
 UMA Flow to Retrieve RPT 
   ${resp}=  Scim Client Get Details
@@ -41,6 +39,13 @@ UMA Flow to Retrieve RPT
   Cleanup
 
 *** Keywords ***
+Init ID Token
+  [Arguments]  ${username}  ${password}
+  ${id_token}=  Get ID Token  ${username}  ${password}
+  Should Be True  $id_token is not None
+  Set Suite Variable  ${ID_TOKEN}  ${id_token}
+
+
 UMA Resource Insertion
   ${a}=  Run Process  python3  ${CURDIR}${/}insADES.py  ${USER_A_NAME}  ${ADES_RESOURCES_API_URL}
   ${resId}=  OperatingSystem.Get File  ${CURDIR}${/}res_id.txt
@@ -57,7 +62,7 @@ UMA Get Ticket
   [Arguments]  ${base_url}  ${token}  ${resource}
   Create Session  pep  ${base_url}  verify=False
   ${headers}=  Create Dictionary  authorization=Bearer ${token}
-  ${resp}=  Get Request  pep  /${resource}  headers=${headers}
+  ${resp}=  Get On Session  pep  /${resource}  headers=${headers}  expected_status=any
   [Return]  ${resp}
 
 UMA Get Ticket Valid
@@ -114,7 +119,7 @@ UMA Get Token Endpoint
   [Arguments]  ${well_known} 
   ${headers}=  Create Dictionary  Content-Type  application/json
   Create Session  ep  ${well_known}  verify=False
-  ${resp}=  Get Request  ep  /
+  ${resp}=  Get On Session  ep  /
   ${json}=  Evaluate  json.loads('''${resp.text}''')  json
   ${tk_endpoint}=  Get From Dictionary  ${json}  token_endpoint
   [Return]  ${tk_endpoint}

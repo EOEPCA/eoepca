@@ -7,6 +7,7 @@ spec:
   chart:
     spec:
       chart: ades
+      version: 0.9.3
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -15,10 +16,9 @@ spec:
     # values - start
     replicaCount: 1
     image:
-      repository: eoepca/proc-ades
       pullPolicy: Always
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "dev0.9.1"
+      tag: "dev0.9.6"
     nameOverride: ""
     fullnameOverride: ""
     serviceAccount:
@@ -47,7 +47,7 @@ spec:
     ingress:
       enabled: true
       hosts:
-        - host: ades.80.158.51.219.nip.io
+        - host: ades-open.mundi.eoepca.org
           paths: ["/"]
       tls: []
       #  - secretName: chart-example-tls
@@ -59,7 +59,7 @@ spec:
       # resources, such as Minikube. If you do want to specify resources, uncomment the following
       # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
       limits:
-        cpu: 1
+        cpu: 2
         memory: 4Gi
       requests:
         cpu: 500m
@@ -70,7 +70,7 @@ spec:
       maxReplicas: 3
       targetCPUUtilizationPercentage: 80
       # targetMemoryUtilizationPercentage: 80
-    #storageClassName: managed-nas-storage
+    storageClassName: managed-nfs-storage
     clusterAdminRoleName: cluster-admin
     nodeSelector: {}
     tolerations: []
@@ -100,9 +100,9 @@ spec:
       #    STAGEOUT_STORAGE_APIKEY: 4k8wMajA5ABaYdk
 
       useResourceManager: "true"
-      resourceManagerWorkspacePrefix: "rm-user"
-      resourceManagerEndpoint: "https://workspace-api.test.185.52.193.87.nip.io"
-      platformDomain: "https://test.185.52.193.87.nip.io"
+      resourceManagerWorkspacePrefix: "develop-user"
+      resourceManagerEndpoint: "https://workspace-api.mundi.eoepca.org"
+      platformDomain: "https://auth.mundi.eoepca.org"
 
       main:
         cwl: ""
@@ -207,7 +207,7 @@ spec:
 
 
       # kubernetes storage class to be used for provisioning volumes. Must be a persistent volume claim compliant (glusterfs-storage)
-      #processingStorageClass: managed-nas-storage
+      processingStorageClass: managed-nfs-storage
       # Size of the Kubernetes Tmp Volumes
       processingVolumeTmpSize: "6Gi"
       # Size of the Kubernetes Output Volumes
@@ -215,7 +215,7 @@ spec:
       # Max ram to use for a job
       processingMaxRam: "8Gi"
       # Max number of CPU cores to use concurrently for a job
-      processingMaxCores: "2"
+      processingMaxCores: "4"
       # if false the Ades will clean the volume after the workflow has successfully finished running
       processingKeepWorkspace: "False"
       # image pull secrects
@@ -239,12 +239,11 @@ spec:
       enabled: true
       # existingUserDataClaim:
       # existingProcServicesClaim:
-      #existingUserDataClaim: "managed-nas-storage"
-      #userDataAccessMode: ReadWriteMany
-      userDataSize: 5Gi
-      #procServicesAccessMode: ReadWriteMany
-      procServicesSize: 2Gi
-      storageClass: csi-disk
+      storageClass: "managed-nfs-storage"
+      userDataAccessMode: ReadWriteOnce
+      userDataSize: 10Gi
+      procServicesAccessMode: ReadWriteOnce
+      procServicesSize: 5Gi
     # values - end
   # timeout: 25m0s
   interval: 1m0s

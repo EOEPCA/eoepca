@@ -11,10 +11,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - notification-controller.80.158.51.219.nip.io
+        - notification-controller.mundi.eoepca.org
       secretName: notification-controller-tls
   rules:
-  - host: notification-controller.80.158.51.219.nip.io
+  - host: notification-controller.mundi.eoepca.org
     http:
       paths:
       - path: /

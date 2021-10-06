@@ -23,10 +23,10 @@ spec:
     extraArgs:
       provider: oidc
       provider-display-name: "EOEPCA Project"
-      redirect-url: https://auth.80.158.51.219.nip.io/oauth2/callback
+      redirect-url: https://auth.mundi.eoepca.org/oauth2/callback
       oidc-issuer-url: https://cognito-idp.eu-central-1.amazonaws.com/eu-central-1_7mjYRQYll
       cookie-secure: "true"
-      cookie-domain: 80.158.51.219.nip.io
+      cookie-domain: mundi.eoepca.org
       cookie-refresh: "0"
       set-authorization-header: "true"
       pass-authorization-header: "true"
@@ -34,7 +34,7 @@ spec:
     ingress:
       enabled: true
       hosts:
-        - auth.80.158.51.219.nip.io
+        - auth.mundi.eoepca.org
       annotations:
         kubernetes.io/ingress.class: nginx
         nginx.ingress.kubernetes.io/proxy-read-timeout: '600'
@@ -45,7 +45,7 @@ spec:
       tls:
         - secretName: auth-tls
           hosts:
-            - auth.80.158.51.219.nip.io
+            - auth.mundi.eoepca.org
     resources:
       limits:
         cpu: 200m

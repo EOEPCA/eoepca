@@ -7,22 +7,29 @@ spec:
   chart:
     spec:
       chart: pep-engine
+      version: 0.9.31
       sourceRef:
         kind: HelmRepository
         name: eoepca
         namespace: common
-  values:   
-    context: ades
+  values:
     global:
+      context: ades
       pep: proc-ades-pep
-      domain: test.80.158.51.219.nip.io
-      nginxIp: 80.158.51.219
+      domain: mundi.eoepca.org
+      nginxIp: 80.158.54.66
+      resourceServer:
+        name: proc-ades
+      certManager:
+        clusterIssuer: letsencrypt
     configMap:
-      resourceServer: http://proc-ades/
-    image:
-      pullPolicy: Always
-    certManager:
-      clusterIssuer: letsencrypt
+      workingMode: FULL
+      asHostname: auth
+      pdpHostname: auth
+    nginxIntegration:
+      enabled: false
+    # image:
+    #   pullPolicy: Always
     volumeClaim:
       name: eoepca-proc-pvc
       create: false

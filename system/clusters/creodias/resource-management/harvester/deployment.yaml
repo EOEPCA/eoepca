@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: harvester
+  namespace: rm
+  labels:
+    app.kubernetes.io/instance: harvester
+    app.kubernetes.io/name: harvester
+spec:
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+    type: RollingUpdate
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: harvester
+      app.kubernetes.io/name: harvester
+  template:
+    metadata:
+      # annotations:
+      #   prometheus.io/scrape: "true"
+      labels:
+        app.kubernetes.io/instance: harvester
+        app.kubernetes.io/name: harvester
+    spec:
+      # serviceAccountName: harvester
+      containers:
+      - name: harvester
+        image: eoepca/rm-harvester
+        # ports:
+        # - name: http
+        #   containerPort: 8080
+        #   protocol: TCP
+        # TODO: figure out probes?
+        # readinessProbe:
+        #   httpGet:
+        #     path: /probe
+        #     port: 8080
+        #   initialDelaySeconds: 10
+        #   timeoutSeconds: 2
+        #   periodSeconds: 3
+        #   failureThreshold: 1
+        # livenessProbe:
+        #   httpGet:
+        #     path: /probe
+        #     port: 8080
+        #   initialDelaySeconds: 20
+        #   timeoutSeconds: 2
+        #   periodSeconds: 8
+        #   failureThreshold: 1
+        env:
+        - name: REDIS_HOST
+          value: "data-access-redis-master"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_HARVESTER_QUEUE_KEY
+          value: "harvest"
+        resources:
+          limits:
+            cpu: 0.5
+            memory: 512Mi
+          requests:
+            cpu: 0.05
+            memory: 128Mi
+        imagePullPolicy: Always
+        volumeMounts:
+          - mountPath: /config.yaml
+            name: harvester-config
+            subPath: config.yaml
+      imagePullSecrets:
+        - name: flux-workspace-api
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+      volumes:
+        - configMap:
+            items:
+              - key: config.yaml
+                path: config.yaml
+            name: harvester-config
+          name: harvester-config

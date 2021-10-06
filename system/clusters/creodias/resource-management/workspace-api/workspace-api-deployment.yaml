@@ -27,7 +27,7 @@ spec:
       serviceAccountName: workspace-api
       containers:
       - name: workspace-api
-        image: eoepca/rm-workspace-api
+        image: eoepca/rm-workspace-api:v0.9.4
         ports:
         - name: http
           containerPort: 8080
@@ -50,7 +50,7 @@ spec:
           failureThreshold: 1
         env:
         - name: PREFIX_FOR_NAME
-          value: "rm-user"
+          value: "develop-user"
         - name: WORKSPACE_SECRET_NAME
           value: "bucket"
         - name: NAMESPACE_FOR_BUCKET_RESOURCE
@@ -64,13 +64,19 @@ spec:
         - name: HELM_CHART_NAME
           value: "rm-user-workspace"
         - name: HELM_CHART_VERSION
-          value: "0.9.1"
+          value: "0.9.13"
         - name: S3_ENDPOINT
           value: "https://cf2.cloudferro.com:8080"
         - name: S3_REGION
           value: "RegionOne"
         - name: WORKSPACE_DOMAIN
-          value: 80.158.51.219.nip.io
+          value: mundi.eoepca.org
+        - name: UMA_CLIENT_ID
+          # TODO
+          value: client-id
+        - name: UMA_CLIENT_SECRET
+          # TODO
+          value: client-secret
         resources:
           limits:
             cpu: 0.5
@@ -78,7 +84,7 @@ spec:
           requests:
             cpu: 0.05
             memory: 128Mi
-        imagePullPolicy: Always
+        # imagePullPolicy: Always
       imagePullSecrets:
         - name: flux-workspace-api
       restartPolicy: Always

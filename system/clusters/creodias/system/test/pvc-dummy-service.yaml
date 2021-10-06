@@ -4,7 +4,7 @@ metadata:
   name: dummy-service-pep-pvc
   namespace: test
 spec:
-  storageClassName: csi-nas
+  storageClassName: managed-nfs-storage
   accessModes:
     - ReadWriteMany
   resources:

@@ -14,10 +14,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - workspace-api.80.158.51.219.nip.io
+        - workspace-api.mundi.eoepca.org
       secretName: workspace-api-tls
   rules:
-    - host: workspace-api.80.158.51.219.nip.io
+    - host: workspace-api.mundi.eoepca.org
       http:
         paths:
           - path: /

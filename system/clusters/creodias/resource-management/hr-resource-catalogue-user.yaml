@@ -8,6 +8,7 @@ spec:
   chart:
     spec:
       chart: rm-resource-catalogue
+      version: 0.9.1
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -15,20 +16,18 @@ spec:
   values:
     global:
       namespace: rm-user1
-    db:
-      volume_storage_type: csi-nas
     ingress:
-      host: resource-catalogue.user.80.158.51.219.nip.io
-      tls_host: resource-catalogue.user.80.158.51.219.nip.io
+      host: resource-catalogue.user.mundi.eoepca.org
+      tls_host: resource-catalogue.user.mundi.eoepca.org
       tls_secret_name: resource-catalogue-user-tls
     pycsw:
-      image:
-        pullPolicy: Always
-        tag: "stac-api"
+      # image:
+      #   pullPolicy: Always
+      #   tag: "eoepca-0.9.0"
       config:
         server:
-          url: https://resource-catalogue.user.80.158.51.219.nip.io/
-          federatedcatalogues: https://resource-catalogue.80.158.51.219.nip.io/
+          url: https://resource-catalogue.user.mundi.eoepca.org/
+          federatedcatalogues: https://resource-catalogue.mundi.eoepca.org/
         metadata:
           identification_title: pycsw Geospatial Catalogue
           identification_abstract: pycsw is an OGC CSW server implementation written in Python

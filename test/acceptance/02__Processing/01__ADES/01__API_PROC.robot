@@ -24,7 +24,7 @@ Initial Process List
   Record Initial Process List
 
 Deploy Application
-  Deploy Application  ${CURDIR}${/}data/app-deploy-body-atom.json
+  Deploy Application  ${CURDIR}${/}data/app-deploy-body-cwl.json
   Sleep  5  Waiting for process deploy process to complete asynchronously
   Process Is Deployed  ${PROCESS_NAME}
 
@@ -60,7 +60,7 @@ Record Initial Process List
 
 List Processes
   ${resp}  ${access_token}  @{processes} =  Proc List Processes  ${API_PROC_SERVICE_URL}  ${ID_TOKEN}  ${ACCESS_TOKEN}
-  Status Should Be  200  ${resp}
+  Should Be Equal As Integers  200  ${resp.status_code}
   Should Be True  $access_token is not None
   Set Suite Variable  ${ACCESS_TOKEN}  ${access_token}
   [Return]  ${resp}  @{processes}
@@ -68,14 +68,14 @@ List Processes
 Get Application Details
   [Arguments]  ${app_name}
   ${resp}  ${access_token} =  Proc App Details  ${API_PROC_SERVICE_URL}  ${app_name}  ${ID_TOKEN}  ${ACCESS_TOKEN}
-  Status Should Be  200  ${resp}
+  Should Be Equal As Integers  200  ${resp.status_code}
   Should Be True  $access_token is not None
   Set Suite Variable  ${ACCESS_TOKEN}  ${access_token}
 
 Deploy Application
   [Arguments]  ${app_filename}
   ${resp}  ${access_token} =  Proc Deploy App  ${API_PROC_SERVICE_URL}  ${app_filename}  ${ID_TOKEN}  ${ACCESS_TOKEN}
-  Status Should Be  201  ${resp}
+  Should Be Equal As Integers  201  ${resp.status_code}
   Should Be True  $access_token is not None
   Set Suite Variable  ${ACCESS_TOKEN}  ${access_token}
 
@@ -88,7 +88,7 @@ Process Is Deployed
 Undeploy Application
   [Arguments]  ${app_name}
   ${resp}  ${access_token} =  Proc Undeploy App  ${API_PROC_SERVICE_URL}  ${app_name}  ${ID_TOKEN}  ${ACCESS_TOKEN}
-  Status Should Be  200  ${resp}
+  Should Be Equal As Integers  200  ${resp.status_code}
   Should Be True  $access_token is not None
   Set Suite Variable  ${ACCESS_TOKEN}  ${access_token}
 
@@ -107,7 +107,7 @@ Execute Application Success
 Execute Application
   [Arguments]  ${app_name}  ${execute_filename}
   ${resp}  ${access_token}  ${job_location} =  Proc Execute App  ${API_PROC_SERVICE_URL}  ${app_name}  ${execute_filename}  ${ID_TOKEN}  ${ACCESS_TOKEN}
-  Status Should Be  201  ${resp}
+  Should Be Equal As Integers  201  ${resp.status_code}
   Should Be True  $access_token is not None
   Should Be True  $job_location is not None
   Set Suite Variable  ${ACCESS_TOKEN}  ${access_token}

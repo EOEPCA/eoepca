@@ -49,14 +49,14 @@ Initial Process List
 
 List Processes
   ${resp}  ${access_token} =  WPS Get Capabilities  ${WPS_SERVICE_URL}  ${ID_TOKEN}  ${ACCESS_TOKEN}
-  Status Should Be  200  ${resp}
+  Should Be Equal As Integers  200  ${resp.status_code}
   Should Be True  $access_token is not None
   Set Suite Variable  ${ACCESS_TOKEN}  ${access_token}
   [Return]  ${resp}
 
 List Processes No Auth
   ${resp}  ${access_token} =  WPS Get Capabilities  ${WPS_SERVICE_URL}
-  Status Should Be  401  ${resp}
+  Should Be Equal As Integers  401  ${resp.status_code}
   Should Be True  $access_token is None
   [Return]  ${resp}
 
