@@ -14,7 +14,8 @@ spec:
         name: eoepca
         namespace: common
   values:
-    hostname: mundi.eoepca.org
+    domain: mundi.eoepca.org
+    authHost: auth
     configmap:
       user_prefix: mundi-user
   interval: 1m0s
