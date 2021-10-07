@@ -86,7 +86,7 @@ spec:
         credentialsSecretName: "rm-uma-user-agent"
       logging:
         level: "debug"
-      unauthorizedResponse: 'Bearer realm="https://portal.develop.eoepca.org/oidc/authenticate/"'
+      unauthorizedResponse: 'Bearer realm="https://develop.eoepca.org/", scope="openid user_name is_operator"'
       openAccess: true
     #---------------------------------------------------------------------------
     # END values
