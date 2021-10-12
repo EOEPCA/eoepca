@@ -12,7 +12,6 @@ kubectl create namespace demo
 kubectl create namespace infra
 kubectl create namespace proc
 kubectl create namespace rm
-kubectl create namespace rm-user-1
 kubectl create namespace test
 kubectl create namespace um
 kubectl create namespace flux-system

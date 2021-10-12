@@ -86,7 +86,7 @@ spec:
         credentialsSecretName: "rm-uma-user-agent"
       logging:
         level: "debug"
-      unauthorizedResponse: 'Bearer realm="https://portal.mundi.eoepca.org/oidc/authenticate/"'
+      unauthorizedResponse: 'Bearer realm="https://mundi.eoepca.org/", scope="openid user_name is_operator"'
       openAccess: true
     #---------------------------------------------------------------------------
     # END values

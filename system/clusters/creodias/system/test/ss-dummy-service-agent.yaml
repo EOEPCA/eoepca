@@ -1,0 +1,15 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: dummy-service-agent
+  namespace: test
+spec:
+  encryptedData:
+    client.yaml: AgAH2DevqmHy56bOY/CxwUVmqCWx7sPl/N0GKTnpyiS8Y95wWbuMPbHKVZXRPYQqox4cv8+H0gv8RCe2SQF7US1E2Aw4JWEoZVjpBPL8Mlx8ToCoboyeL0jkGpapWb26zDg9VVXyd1SJwQmwUtxoBduBU32UVL9IGrQoMqTtLU3dbEKIwUAV6JVONrFNixHr0XAbxarwTxrE/PoltUmqqa9ayTTLQbvU7nbjs7v/35vBRD9BVsgZTk1snv/59Fbwaec7Yo8G7NZZHiOTs4aYXcxXmVz2e2G8Kmr3pLCSwGlHWOl9efeewJ27YTM7siezOlZSHXO+m2uNV5DpFheWs15tOFUeM2oIjJkmDKzJ2hh1SUMHM7ZfSl6/Akqh/xXQIXpY0dHQougzyydb9TYoKyaVZ3WXVVl9UHFyArH2Yxt3U0J/T0w+dsBX5Adb7JViJOZAXLzYhG/25toYvIo4U8sMnKiEQn2IT4vDEPCurKYFts8VKgMbF5NkbSQQw7ifYQBk4BWd9PN2vacSqiH0pa3RWdKg3GJWLs+4LbwfWQQ55aNDzzMdVOodNMXp5jWQkr2LRMp0FPqjx+VK2Tb4bDW4CWfDXOZ3VRkUucLuoC1SbyUL8sdon197UujfYmKktOpAWDe6p9ZmdzQkvDgaYvResUGB5y2jLkTR0lgOx5+r75vnYjV/DcwdZapaI3SvFpT8sryZjxyUlOAkXSj+O7iFVl6tt/h0TrQjHAbM+qeLcKCt7CW8VKsrKGG3H941qKAwfwVWx8go68MEZEaGgJ9Us/wdZ07GzPBPAj4/a712WdT5sYUZdXG7Xb+ppF8tzLtGqlM=
+  template:
+    metadata:
+      creationTimestamp: null
+      name: dummy-service-agent
+      namespace: test
+
