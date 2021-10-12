@@ -13,7 +13,6 @@ spec:
         name: eoepca
         namespace: common
   values:
-    trigger: true
     volumeClaim:
       name: eoepca-userman-pvc
       create: false
