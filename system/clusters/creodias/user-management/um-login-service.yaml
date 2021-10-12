@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: login-service
-      version: 0.9.45
+      version: 0.9.47
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -17,6 +17,7 @@ spec:
       name: eoepca-userman-pvc
       create: false
     config:
+      pullSecret: regcred
       domain: auth.mundi.eoepca.org
       volumeClaim:
         name: eoepca-userman-pvc
@@ -25,16 +26,19 @@ spec:
       # immutable fields in the 'um-login-service-persistence-init-ss' job
       # persistence:
       #   enabled: false
+      pullSecret: regcred
       volumeClaim:
         name: eoepca-userman-pvc
     oxauth:
       #image: 
       #  tag: 4.2.3_08
+      pullSecret: regcred
       volumeClaim:
         name: eoepca-userman-pvc
     oxtrust:
       #image: 
       #  tag: 4.2.3_04
+      pullSecret: regcred
       volumeClaim:
         name: eoepca-userman-pvc
     global:
