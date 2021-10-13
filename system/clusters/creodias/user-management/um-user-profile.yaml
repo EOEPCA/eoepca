@@ -14,7 +14,7 @@ spec:
         namespace: common
   values:    
     global:
-      domain: auth.mundi.eoepca.org
+      domain: test.mundi.eoepca.org
       nginxIp: 80.158.54.66
     volumeClaim:
       name: eoepca-userman-pvc

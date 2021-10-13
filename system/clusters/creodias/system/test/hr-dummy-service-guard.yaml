@@ -29,8 +29,8 @@ spec:
     pep-engine:
       configMap:
         workingMode: PARTIAL
-        asHostname: auth
-        pdpHostname: auth
+        asHostname: test
+        pdpHostname: test
       customDefaultResources:
       - name: "Eric's space"
         description: "Protected Access for eric to his space in the dummy service"

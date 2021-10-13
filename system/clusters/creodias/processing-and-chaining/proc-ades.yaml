@@ -102,7 +102,7 @@ spec:
       useResourceManager: "true"
       resourceManagerWorkspacePrefix: "develop-user"
       resourceManagerEndpoint: "https://workspace-api.mundi.eoepca.org"
-      platformDomain: "https://auth.mundi.eoepca.org"
+      platformDomain: "https://test.mundi.eoepca.org"
 
       main:
         cwl: ""

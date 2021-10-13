@@ -18,7 +18,7 @@ spec:
       create: false
     config:
       pullSecret: regcred
-      domain: auth.mundi.eoepca.org
+      domain: test.mundi.eoepca.org
       volumeClaim:
         name: eoepca-userman-pvc
     opendj:
@@ -42,7 +42,7 @@ spec:
       volumeClaim:
         name: eoepca-userman-pvc
     global:
-      domain: auth.mundi.eoepca.org
+      domain: test.mundi.eoepca.org
       nginxIp: 80.158.54.66
     nginx:
       ingress:
@@ -50,10 +50,10 @@ spec:
           #kubernetes.io/elb.ip: 80.158.54.66
           cert-manager.io/cluster-issuer: letsencrypt
         hosts:
-          - auth.mundi.eoepca.org
+          - test.mundi.eoepca.org
         tls:
           - hosts:
-              - auth.mundi.eoepca.org
-            secretName: um-login-service-tls
+              - test.mundi.eoepca.org
+            secretName: login-service-tls
   timeout: 25m0s
   interval: 1m0s
