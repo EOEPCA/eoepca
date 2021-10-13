@@ -1124,6 +1124,8 @@ spec:
           name: data
         - mountPath: /tmp
           name: tmp
+      imagePullSecrets:
+      - name: regcred
       nodeSelector:
         kubernetes.io/arch: amd64
         kubernetes.io/os: linux
@@ -2046,6 +2048,8 @@ spec:
         volumeMounts:
         - mountPath: /tmp
           name: temp
+      imagePullSecrets:
+      - name: regcred
       nodeSelector:
         kubernetes.io/arch: amd64
         kubernetes.io/os: linux
@@ -2682,6 +2686,8 @@ spec:
         volumeMounts:
         - mountPath: /tmp
           name: temp
+      imagePullSecrets:
+      - name: regcred
       nodeSelector:
         kubernetes.io/arch: amd64
         kubernetes.io/os: linux
@@ -3331,6 +3337,8 @@ spec:
         volumeMounts:
         - mountPath: /tmp
           name: temp
+      imagePullSecrets:
+      - name: regcred
       nodeSelector:
         kubernetes.io/arch: amd64
         kubernetes.io/os: linux
