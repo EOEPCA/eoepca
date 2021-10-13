@@ -14,5 +14,4 @@ spec:
         namespace: common
   values:
     baseHostname: mundi.eoepca.org
-    pullSecret: regcred
   interval: 1m0s
