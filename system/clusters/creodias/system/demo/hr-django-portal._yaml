@@ -15,7 +15,7 @@ spec:
         namespace: common
   values:
     domain: mundi.eoepca.org
-    authHost: auth
+    authHost: test
     configmap:
       user_prefix: mundi-user
     image:
