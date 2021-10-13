@@ -54,6 +54,6 @@ spec:
         tls:
           - hosts:
               - auth.mundi.eoepca.org
-            secretName: login-service-tls
+            secretName: um-login-service-tls
   timeout: 25m0s
   interval: 1m0s
