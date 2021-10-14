@@ -359,3 +359,9 @@ spec:
           repository: eoepca/rm-data-access-core
           tag: "0.9.0"
           # pullPolicy: Always
+      client:
+        image:
+          tag: "release-1.5.2"
+      cache:
+        image:
+          tag: "release-1.5.2"
