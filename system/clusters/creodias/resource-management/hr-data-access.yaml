@@ -334,20 +334,6 @@ spec:
                 masks:
                   clouds:
                     validity: false
-    ingress:
-      enabled: true
-      annotations:
-        kubernetes.io/ingress.class: nginx
-        kubernetes.io/tls-acme: "true"
-        nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-        nginx.ingress.kubernetes.io/enable-cors: "true"
-        cert-manager.io/cluster-issuer: letsencrypt
-      hosts:
-        - host: data-access-open.develop.eoepca.org
-      tls:
-        - hosts:
-            - data-access-open.develop.eoepca.org
-          secretName: data-access-open-tls
     database:
       persistence:
         enabled: true
@@ -363,6 +349,20 @@ spec:
       cluster:
         enabled: false
     kubeConfig:
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          kubernetes.io/tls-acme: "true"
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+          nginx.ingress.kubernetes.io/enable-cors: "true"
+          cert-manager.io/cluster-issuer: letsencrypt
+        hosts:
+          - host: data-access-open.develop.eoepca.org
+        tls:
+          - hosts:
+              - data-access-open.develop.eoepca.org
+            secretName: data-access-open-tls
       registrar:
         image:
           repository: eoepca/rm-data-access-core
