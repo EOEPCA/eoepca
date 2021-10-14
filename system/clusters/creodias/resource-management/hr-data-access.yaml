@@ -226,7 +226,7 @@ spec:
             S2L1C_B12:
               assets:
                 - B12
-          defaultBrowse: TCI
+          defaultBrowse: TRUE_COLOR
           browses:
             TRUE_COLOR:
               red:
