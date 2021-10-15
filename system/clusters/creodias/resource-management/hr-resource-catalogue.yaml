@@ -22,9 +22,9 @@ spec:
       tls_host: resource-catalogue-open.develop.eoepca.org
       tls_secret_name: resource-catalogue-open-tls
     pycsw:
-      # image:
-      #   pullPolicy: Always
-      #   tag: "eoepca-0.9.0"
+      image:
+        pullPolicy: Always
+        tag: "eoepca-staging"
       config:
         server:
           url: https://resource-catalogue.develop.eoepca.org/
