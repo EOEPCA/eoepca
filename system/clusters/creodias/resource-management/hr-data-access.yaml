@@ -30,6 +30,7 @@ spec:
           endpoint_url: http://data.cloudferro.com
           access_key_id: access
           secret_access_key: access
+          region: RegionOne
       cache:
         type: S3
         endpoint_url: "https://cf2.cloudferro.com:8080/cache-bucket"
