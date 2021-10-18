@@ -17,10 +17,10 @@ spec:
     global:
       namespace: rm
     ingress:
-      name: resource-catalogue
-      host: resource-catalogue.mundi.eoepca.org
-      tls_host: resource-catalogue.mundi.eoepca.org
-      tls_secret_name: resource-catalogue-tls
+      name: resource-catalogue-open
+      host: resource-catalogue-open.mundi.eoepca.org
+      tls_host: resource-catalogue-open.mundi.eoepca.org
+      tls_secret_name: resource-catalogue-open-tls
     pycsw:
       # image:
       #   pullPolicy: Always
