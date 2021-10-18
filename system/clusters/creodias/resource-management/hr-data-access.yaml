@@ -370,12 +370,12 @@ spec:
       registrar:
         image:
           repository: eoepca/rm-data-access-core
-          tag: "0.9.5"
+          tag: "0.9.6"
           # pullPolicy: Always
       renderer:
         image:
           repository: eoepca/rm-data-access-core
-          tag: "0.9.5"
+          tag: "0.9.6"
           # pullPolicy: Always
       client:
         image:
