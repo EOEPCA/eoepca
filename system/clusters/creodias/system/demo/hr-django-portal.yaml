@@ -8,13 +8,18 @@ spec:
   chart:
     spec:
       chart: django-portal
-      # version: 0.1.10
+      version: 0.1.12
       sourceRef:
         kind: HelmRepository
         name: eoepca
         namespace: common
   values:
-    hostname: develop.eoepca.org
+    ingress:
+      enabled: true
+    image:
+      tag: 2021.10.18.09.18
+    domain: develop.eoepca.org
+    authHost: auth
     configmap:
       user_prefix: develop-user
   interval: 1m0s
