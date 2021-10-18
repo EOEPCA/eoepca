@@ -261,79 +261,79 @@ spec:
           masks:
             clouds:
               validity: false
-              S2MSI2A:
-                coverages:
-                  S2L2A_B01:
-                    assets:
-                      - B01_60m
-                  S2L2A_B02:
-                    assets:
-                      - B02_10m
-                  S2L2A_B03:
-                    assets:
-                      - B03_10m
-                  S2L2A_B04:
-                    assets:
-                      - B04_10m
-                  S2L2A_B05:
-                    assets:
-                      - B05_20m
-                  S2L2A_B06:
-                    assets:
-                      - B06_20m
-                  S2L2A_B07:
-                    assets:
-                      - B07_20m
-                  S2L2A_B08:
-                    assets:
-                      - B08_10m
-                  S2L2A_B8A:
-                    assets:
-                      - B8A_20m
-                  S2L2A_B09:
-                    assets:
-                      - B09_60m
-                  S2L2A_B11:
-                    assets:
-                      - B11_20m
-                  S2L2A_B12:
-                    assets:
-                      - B12_20m
-                default_browse_locator: TCI_10m
-                browses:
-                  TRUE_COLOR:
-                    red:
-                      expression: B04
-                      range: [0, 4000]
-                      nodata: 0
-                    green:
-                      expression: B03
-                      range: [0, 4000]
-                      nodata: 0
-                    blue:
-                      expression: B02
-                      range: [0, 4000]
-                      nodata: 0
-                  FALSE_COLOR:
-                    red:
-                      expression: B08
-                      range: [0, 4000]
-                      nodata: 0
-                    green:
-                      expression: B04
-                      range: [0, 4000]
-                      nodata: 0
-                    blue:
-                      expression: B03
-                      range: [0, 4000]
-                      nodata: 0
-                  NDVI:
-                    grey:
-                      expression: (B08-B04)/(B08+B04)
-                      range: [-1, 1]
-                masks:
-                  clouds:
-                    validity: false
+        - name: S2MSI2A
+          coverages:
+            S2L2A_B01:
+              assets:
+                - B01_60m
+            S2L2A_B02:
+              assets:
+                - B02_10m
+            S2L2A_B03:
+              assets:
+                - B03_10m
+            S2L2A_B04:
+              assets:
+                - B04_10m
+            S2L2A_B05:
+              assets:
+                - B05_20m
+            S2L2A_B06:
+              assets:
+                - B06_20m
+            S2L2A_B07:
+              assets:
+                - B07_20m
+            S2L2A_B08:
+              assets:
+                - B08_10m
+            S2L2A_B8A:
+              assets:
+                - B8A_20m
+            S2L2A_B09:
+              assets:
+                - B09_60m
+            S2L2A_B11:
+              assets:
+                - B11_20m
+            S2L2A_B12:
+              assets:
+                - B12_20m
+          default_browse_locator: TCI_10m
+          browses:
+            TRUE_COLOR:
+              red:
+                expression: B04
+                range: [0, 4000]
+                nodata: 0
+              green:
+                expression: B03
+                range: [0, 4000]
+                nodata: 0
+              blue:
+                expression: B02
+                range: [0, 4000]
+                nodata: 0
+            FALSE_COLOR:
+              red:
+                expression: B08
+                range: [0, 4000]
+                nodata: 0
+              green:
+                expression: B04
+                range: [0, 4000]
+                nodata: 0
+              blue:
+                expression: B03
+                range: [0, 4000]
+                nodata: 0
+            NDVI:
+              grey:
+                expression: (B08-B04)/(B08+B04)
+                range: [-1, 1]
+          masks:
+            clouds:
+              validity: false
     database:
       persistence:
         enabled: true
@@ -366,12 +366,12 @@ spec:
       registrar:
         image:
           repository: eoepca/rm-data-access-core
-          tag: "0.9.4"
+          tag: "0.9.5"
           # pullPolicy: Always
       renderer:
         image:
           repository: eoepca/rm-data-access-core
-          tag: "0.9.4"
+          tag: "0.9.5"
           # pullPolicy: Always
       client:
         image:
