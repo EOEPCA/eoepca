@@ -17,4 +17,6 @@ spec:
     domain: demo.eoepca.org
     configmap:
       user_prefix: demo-user
+    image:
+      tag: 2021.10.18.09.18
   interval: 1m0s
