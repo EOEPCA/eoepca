@@ -366,12 +366,12 @@ spec:
       registrar:
         image:
           repository: eoepca/rm-data-access-core
-          tag: "0.9.3"
+          tag: "0.9.4"
           # pullPolicy: Always
       renderer:
         image:
           repository: eoepca/rm-data-access-core
-          tag: "0.9.3"
+          tag: "0.9.4"
           # pullPolicy: Always
       client:
         image:
