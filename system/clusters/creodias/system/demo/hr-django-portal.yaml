@@ -16,7 +16,9 @@ spec:
   values:
     ingress:
       enabled: true
-    hostname: develop.eoepca.org
+    image:
+      tag: 2021.10.18.09.18
+    domain: develop.eoepca.org
     configmap:
       user_prefix: develop-user
   interval: 1m0s
