@@ -186,6 +186,8 @@ spec:
             - S2L2A_B12
       productTypes:
         - name: S2MSI1C
+          filter:
+            s2:product_type: S2MSI1C
           coverages:
             S2L1C_B01:
               assets:
@@ -262,6 +264,8 @@ spec:
             clouds:
               validity: false
         - name: S2MSI2A
+          filter:
+            s2:product_type: S2MSI1C
           coverages:
             S2L2A_B01:
               assets:
