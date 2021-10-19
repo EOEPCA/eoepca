@@ -11,6 +11,11 @@ echo -n "Dumping policy for resource-catalogue-pep to $ORIG_DIR/resource-catalog
 kubectl -n rm exec -it svc/resource-catalogue-pep -c resource-catalogue-pep -- management_tools list --all | jq > "$ORIG_DIR"/resource-catalogue-pep.json
 echo " done"
 
+# data-access-pep
+echo -n "Dumping policy for data-access-pep to $ORIG_DIR/data-access-pep.json..."
+kubectl -n rm exec -it svc/data-access-pep -c data-access-pep -- management_tools list --all | jq > "$ORIG_DIR"/data-access-pep.json
+echo " done"
+
 # ades-pep
 echo -n "Dumping policy for ades-pep to $ORIG_DIR/ades-pep.json..."
 kubectl -n proc exec -it svc/proc-ades-pep -c proc-ades-pep -- management_tools list --all > "$ORIG_DIR"/ades-pep.json
