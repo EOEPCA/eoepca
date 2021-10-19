@@ -7,12 +7,12 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: vs
-      version: 1.3.3
+      chart: rm-workspace-api
+      version: 0.1.0
       sourceRef:
         kind: HelmRepository
-        name: eox-charts
-        namespace: rm
+        name: eoepca
+        namespace: common
   values:
     image:
       repository: eoepca/rm-workspace-api
