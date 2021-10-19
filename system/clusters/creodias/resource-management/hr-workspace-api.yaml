@@ -23,7 +23,7 @@ spec:
     ingress:
       enabled: true
       hosts:
-        - host: workspace-api.develop.eopca.org
+        - host: workspace-api.develop.eoepca.org
           paths: ["/"]
       tls: []
 
