@@ -35,7 +35,7 @@ spec:
         type: S3
         endpoint_url: "https://cf2.cloudferro.com:8080/cache-bucket"
         host: "cf2.cloudferro.com:8080"
-        region: RegionOne
+        region_name: RegionOne
         bucket: cache-bucket
     serviceMetadata:
       title: EOEPCA Data Access Service developed by EOX
