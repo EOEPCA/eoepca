@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: resource-guard
-      version: 0.0.34
+      version: 0.0.36
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -79,7 +79,7 @@ spec:
       client:
         credentialsSecretName: "rm-uma-user-agent"
       logging:
-        level: "debug"
+        level: "info"
       unauthorizedResponse: 'Bearer realm="https://portal.demo.eoepca.org/oidc/authenticate/"'
       # openAccess: true
     #---------------------------------------------------------------------------
