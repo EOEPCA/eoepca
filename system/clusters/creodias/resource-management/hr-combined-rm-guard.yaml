@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: resource-guard
-      version: 0.0.40
+      version: 0.0.41
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -50,13 +50,13 @@ spec:
       nginxIntegration:
         enabled: true
         hosts:
-          - host: resource-catalogue-secure
+          - host: resource-catalogue
             paths:
               - path: /(.*)
                 service:
                   name: resource-catalogue-service
                   port: 80
-          - host: data-access-secure
+          - host: data-access
             paths:
               - path: /(ows.*)
                 service:
