@@ -50,13 +50,13 @@ spec:
       nginxIntegration:
         enabled: true
         hosts:
-          - host: resource-catalogue
+          - host: resource-catalogue-secure
             paths:
               - path: /(.*)
                 service:
                   name: resource-catalogue-service
                   port: 80
-          - host: data-access
+          - host: data-access-secure
             paths:
               - path: /(ows.*)
                 service:
