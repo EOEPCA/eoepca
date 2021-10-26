@@ -16,7 +16,7 @@
     
     
       
-        <title>Deploy - EOEPCA</title>
+        <title>Introduction - EOEPCA</title>
       
     
     
@@ -96,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Deploy
+              Introduction
             
           </span>
         </div>
@@ -180,11 +180,15 @@
   
 
 
-  <li class="md-tabs__item">
-    <a href="./" class="md-tabs__link md-tabs__link--active">
-      Deploy
-    </a>
-  </li>
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="./" class="md-tabs__link md-tabs__link--active">
+        Deployment Guide
+      </a>
+    </li>
+  
 
       
         
@@ -275,6 +279,34 @@
     
   
   
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Deployment Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Deployment Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Deployment Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
     <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
@@ -284,9 +316,72 @@
       
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Deploy
+        Introduction
       </a>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kubernetes/" class="md-nav__link">
+        Kubernetes Cluster
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="helm-repositories/" class="md-nav__link">
+        Helm Repositories
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="cluster-prerequisites/" class="md-nav__link">
+        Cluster Prerequisites
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="storage/" class="md-nav__link">
+        Cluster Storage
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -320,7 +415,14 @@
                 
                 
                 <h1 id="deployment-guide">Deployment Guide<a class="headerlink" href="#deployment-guide" title="Permanent link">⚓︎</a></h1>
-<p>TBD</p>
+<p>The Deployment Guide describes how each building-block comprising the EOEPCA Reference Implementation is configured and deployed. A full system deployment is described, in which components are deployed with complementary configurations that facilitate their integration as a coherent system. Nevertheless, each component can be cherry-picked from this system deployment for individual re-use.</p>
+<p>The deployment is organised into the following sections:</p>
+<ul>
+<li>Kubernetes cluster</li>
+<li>Storage</li>
+<li>Login Service</li>
+<li>etc.</li>
+</ul>
                 
               
               
@@ -361,13 +463,13 @@
       
       
         
-        <a href="../about/" class="md-footer__link md-footer__link--next" aria-label="Next: About" rel="next">
+        <a href="kubernetes/" class="md-footer__link md-footer__link--next" aria-label="Next: Kubernetes Cluster" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              About
+              Kubernetes Cluster
             </div>
           </div>
           <div class="md-footer__button md-icon">

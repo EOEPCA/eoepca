@@ -9,21 +9,21 @@
       
       
       
-        <link rel="canonical" href="https://eoepca.github.io/eoepca/about/">
+        <link rel="canonical" href="https://eoepca.github.io/eoepca/deployment-guide/kubernetes/">
       
-      <link rel="icon" href="../img/favicon.ico">
+      <link rel="icon" href="../../img/favicon.ico">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.4">
     
     
       
-        <title>About - EOEPCA</title>
+        <title>Kubernetes Cluster - EOEPCA</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.db9e7362.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.db9e7362.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
         
       
     
@@ -55,7 +55,7 @@
     <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
   
     
-    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#about-eoepca" class="md-skip">
+        <a href="#kubernetes-cluster" class="md-skip">
           Skip to content
         </a>
       
@@ -78,9 +78,9 @@
 
 <header class="md-header md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="EOEPCA" class="md-header__button md-logo" aria-label="EOEPCA" data-md-component="logo">
+    <a href="../.." title="EOEPCA" class="md-header__button md-logo" aria-label="EOEPCA" data-md-component="logo">
       
-  <img src="../img/favicon.ico" alt="logo">
+  <img src="../../img/favicon.ico" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -96,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              About
+              Kubernetes Cluster
             
           </span>
         </div>
@@ -167,26 +167,10 @@
 
 
   <li class="md-tabs__item">
-    <a href=".." class="md-tabs__link">
+    <a href="../.." class="md-tabs__link">
       Home
     </a>
   </li>
-
-      
-        
-  
-  
-
-
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../deployment-guide/" class="md-tabs__link">
-        Deployment Guide
-      </a>
-    </li>
-  
 
       
         
@@ -196,8 +180,24 @@
   
 
 
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link md-tabs__link--active">
+        Deployment Guide
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
   <li class="md-tabs__item">
-    <a href="./" class="md-tabs__link md-tabs__link--active">
+    <a href="../../about/" class="md-tabs__link">
       About
     </a>
   </li>
@@ -232,9 +232,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="EOEPCA" class="md-nav__button md-logo" aria-label="EOEPCA" data-md-component="logo">
+    <a href="../.." title="EOEPCA" class="md-nav__button md-logo" aria-label="EOEPCA" data-md-component="logo">
       
-  <img src="../img/favicon.ico" alt="logo">
+  <img src="../../img/favicon.ico" alt="logo">
 
     </a>
     EOEPCA
@@ -263,7 +263,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         Home
       </a>
     </li>
@@ -276,12 +276,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
       
       
       
@@ -304,7 +306,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../deployment-guide/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         Introduction
       </a>
     </li>
@@ -316,11 +318,58 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../deployment-guide/kubernetes/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Kubernetes Cluster
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Kubernetes Cluster
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rancher-kubernetes-engine-rke" class="md-nav__link">
+    Rancher Kubernetes Engine (RKE)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#local-kubernetes" class="md-nav__link">
+    Local Kubernetes
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -332,7 +381,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../deployment-guide/helm-repositories/" class="md-nav__link">
+      <a href="../helm-repositories/" class="md-nav__link">
         Helm Repositories
       </a>
     </li>
@@ -346,7 +395,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../deployment-guide/cluster-prerequisites/" class="md-nav__link">
+      <a href="../cluster-prerequisites/" class="md-nav__link">
         Cluster Prerequisites
       </a>
     </li>
@@ -360,7 +409,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../deployment-guide/storage/" class="md-nav__link">
+      <a href="../storage/" class="md-nav__link">
         Cluster Storage
       </a>
     </li>
@@ -380,21 +429,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
         About
       </a>
-      
     </li>
   
 
@@ -412,8 +451,27 @@
               
                 
                 
-                <h1 id="about-eoepca">About EOEPCA<a class="headerlink" href="#about-eoepca" title="Permanent link">⚓︎</a></h1>
-<p>TBD</p>
+                <h1 id="kubernetes-cluster">Kubernetes Cluster<a class="headerlink" href="#kubernetes-cluster" title="Permanent link">⚓︎</a></h1>
+<p>The EOEPCA Reference Implementation has been developed with Kubernetes as its deployment target. The system components have been developed, deployed and tested using a cluster at version <code>v1.18.10</code>.</p>
+<h2 id="rancher-kubernetes-engine-rke">Rancher Kubernetes Engine (RKE)<a class="headerlink" href="#rancher-kubernetes-engine-rke" title="Permanent link">⚓︎</a></h2>
+<p>The development, integration and test clusters have been established using <a href="https://rancher.com/products/rke">Rancher Kubernetes Engine (RKE)</a> at version <code>v1.18.10</code>.</p>
+<p>An example of the creation of the EOEPCA Kubernetes clusters can be found on the <a href="https://github.com/EOEPCA/eoepca/tree/develop/kubernetes#readme">GitHub Kubernetes Setup page</a>. <a href="https://creodias.eu/">CREODIAS</a> has been used for the development hosting infrastructure - which provides OpenStack infrastructure that is backed by <a href="https://cloudferro.com/">Cloudferro</a>. An example of the <a href="https://www.terraform.io/">Terraform</a> configurations used to automate the creation of the cloud infrastructure that underpins the RKE deployment can be found on the <a href="https://github.com/EOEPCA/eoepca/tree/develop/creodias#readme">GitHub CREODIAS Setup page</a>.</p>
+<h2 id="local-kubernetes">Local Kubernetes<a class="headerlink" href="#local-kubernetes" title="Permanent link">⚓︎</a></h2>
+<p>To make a full deployment of the EOEPCA Reference Implementation requires a multi-node node cluster with suitable resources. For example, the development cluster comprises:</p>
+<ul>
+<li>1 Master node (2 vCPU, 8 GB RAM)</li>
+<li>5 Worker nodes (4 vCPU, 16 GB RAM)</li>
+<li>1 NFS server (2 vCPU, 8 GB RAM)</li>
+</ul>
+<p>Limited local deployment can be made using a suitable local single-node kuberbetes deployment using, for example, <a href="https://minikube.sigs.k8s.io/">minikube</a> or <a href="https://k3d.io/">k3d</a>.</p>
+<p>For example using <code>k3d</code>&hellip;</p>
+<pre><code>k3d cluster create mycluster \
+  -p &quot;80:80@loadbalancer&quot; \
+  -p &quot;443:443@loadbalancer&quot; \
+  --k3s-arg &quot;--disable=traefik@server:0&quot; \
+  --agents 1
+</code></pre>
+<p>With such a deployment it is possible to deploy individual building-blocks for local development, or building-blocks in combination - within the constraints of the local host resources.</p>
                 
               
               
@@ -438,7 +496,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../deployment-guide/storage/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Cluster Storage" rel="prev">
+        <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Introduction" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -447,11 +505,26 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Cluster Storage
+              Introduction
             </div>
           </div>
         </a>
       
+      
+        
+        <a href="../helm-repositories/" class="md-footer__link md-footer__link--next" aria-label="Next: Helm Repositories" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Helm Repositories
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
       
     </nav>
   
@@ -476,10 +549,10 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "toc.integrate", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "toc.integrate", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.1e84347e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.1e84347e.min.js"></script>
       
     
   </body>
