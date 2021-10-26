@@ -6,7 +6,9 @@
         "format": {
           "mimeType": "application/cwl"
         },
-        "href": "https://raw.githubusercontent.com/EOEPCA/eoepca/develop/test/acceptance/02__Processing/01__ADES/data/application-package-cwl.cwl"
+        "value": {
+          "href": "https://raw.githubusercontent.com/EOEPCA/app-snuggs/main/app-package.cwl"
+        }
       }
     }
   ],
