@@ -27,7 +27,7 @@ spec:
           paths: ["/"]
       tls:
         - hosts:
-            - workspace-api.demo.eoepca.org
+            - workspace-api.develop.eoepca.org
           secretName: workspace-api-tls
 
     # some values for the workspace API
