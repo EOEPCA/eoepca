@@ -1,0 +1,90 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: proc-ades-guard
+  namespace: proc
+spec:
+  chart:
+    spec:
+      chart: resource-guard
+      version: 0.0.45
+      sourceRef:
+        kind: HelmRepository
+        name: eoepca
+        namespace: common
+  values:
+    #---------------------------------------------------------------------------
+    # Global values
+    #---------------------------------------------------------------------------
+    global:
+      context: ades
+      pep: proc-ades-pep
+      domain: demo.eoepca.org
+      nginxIp: 185.52.195.19
+      certManager:
+        clusterIssuer: letsencrypt
+    #---------------------------------------------------------------------------
+    # PEP values
+    #---------------------------------------------------------------------------
+    pep-engine:
+      configMap:
+        workingMode: PARTIAL
+        asHostname: test
+        pdpHostname: test
+      customDefaultResources:
+      - name: "ADES Service for user 'eric'"
+        description: "Protected Access for eric to his space in the ADES"
+        resource_uri: "/eric"
+        scopes: []
+        default_owner: "d3688daa-385d-45b0-8e04-2062e3e2cd86"
+      - name: "ADES Service for user 'bob'"
+        description: "Protected Access for bob to his space in the ADES"
+        resource_uri: "/bob"
+        scopes: []
+        default_owner: "f12c2592-0332-49f4-a4fb-7063b3c2a889"
+      - name: "ADES Service for user 'alice'"
+        description: "Protected Access for alice to her space in the ADES"
+        resource_uri: "/alice"
+        scopes: []
+        default_owner: "07ed7426-4b95-4598-9de2-46f92681daa0"
+      nginxIntegration:
+        enabled: false
+        # hostname: proc-ades-auth
+      # image:
+      #   pullPolicy: Always
+      volumeClaim:
+        name: eoepca-proc-pvc
+        create: false
+    #---------------------------------------------------------------------------
+    # UMA User Agent values
+    #---------------------------------------------------------------------------
+    uma-user-agent:
+      fullnameOverride: proc-ades-agent
+      # image:
+      #   tag: latest
+      #   pullPolicy: Always
+      nginxIntegration:
+        enabled: true
+        hosts:
+          - host: ades
+            paths:
+              - path: /(.*)
+                service:
+                  name: proc-ades
+                  port: 80
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+          nginx.ingress.kubernetes.io/enable-cors: "true"
+          nginx.ingress.kubernetes.io/rewrite-target: /$1
+      client:
+        credentialsSecretName: "proc-uma-user-agent"
+      logging:
+        level: "info"
+      unauthorizedResponse: 'Bearer realm="https://test.demo.eoepca.org/oxauth/auth/passport/passportlogin.htm"'
+      openAccess: false
+    #---------------------------------------------------------------------------
+    # END values
+    #---------------------------------------------------------------------------
+
+  timeout: 25m0s
+  interval: 1m0s
