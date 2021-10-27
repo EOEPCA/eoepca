@@ -318,6 +318,36 @@
               
   
   
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2">
+          Cluster
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Cluster" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Cluster
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
   
     <li class="md-nav__item">
       <a href="../kubernetes/" class="md-nav__link">
@@ -394,10 +424,86 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#letsencrypt-certificates" class="md-nav__link">
+    Letsencrypt Certificates
+  </a>
+  
+    <nav class="md-nav" aria-label="Letsencrypt Certificates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#production" class="md-nav__link">
+    Production
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#staging" class="md-nav__link">
+    Staging
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
       
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_3">
+          EOEPCA
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="EOEPCA" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          EOEPCA
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../persistence/" class="md-nav__link">
+        Persistence
+      </a>
     </li>
   
 
@@ -409,9 +515,16 @@
   
   
     <li class="md-nav__item">
-      <a href="../storage/" class="md-nav__link">
-        Cluster Storage
+      <a href="../login-service/" class="md-nav__link">
+        Login Service
       </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -461,6 +574,14 @@ helm repo update
 # Install the Nginx Ingress Controller helm chart
 helm upgrade -i ingress-nginx ingress-nginx/ingress-nginx --wait
 </code></pre>
+<p>To target the <em>Nginx Ingress Controller</em> the <code>kubernetes.io/ingress.class: nginx</code> annotation must be applied to the Ingress resource&hellip;</p>
+<pre><code class="language-yaml">apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    ...
+</code></pre>
 <h2 id="cert-manager">Cert Manager<a class="headerlink" href="#cert-manager" title="Permanent link">⚓︎</a></h2>
 <pre><code class="language-bash"># Add the helm repository
 helm repo add jetstack https://charts.jetstack.io
@@ -471,6 +592,61 @@ helm upgrade -i cert-manager jetstack/cert-manager \
   --namespace cert-manager \
   --create-namespace \
   --set installCRDs=true
+</code></pre>
+<h2 id="letsencrypt-certificates">Letsencrypt Certificates<a class="headerlink" href="#letsencrypt-certificates" title="Permanent link">⚓︎</a></h2>
+<p>Once the <em>Certificate Manager</em> is deployed, then we can establish <code>ClusterIssuer</code> operators in the cluster to support use of TLS with service <code>Ingress</code> endpoints.</p>
+<p>For <em>Letsencrypt</em> we can define two <code>ClusterIssuer</code> - for <code>production</code> and for <code>staging</code>.</p>
+<p><em>NOTE that these require the cluster to be publicly accessible, in order for the <code>http01</code> acme flow to verify the domain ownership. Local development deployments will typically not have public IP/DNS - in which case the system deployment can proceed, but without TLS support for the service endpoints.</em></p>
+<h3 id="production">Production<a class="headerlink" href="#production" title="Permanent link">⚓︎</a></h3>
+<pre><code class="language-yaml">apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-production
+spec:
+  acme:
+    # You must replace this email address with your own.
+    # Let's Encrypt will use this to contact you about expiring
+    # certificates, and issues related to your account.
+    email: eoepca.systemteam@telespazio.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      # Secret resource that will be used to store the account's private key.
+      name: letsencrypt-production-account-key
+    # Add a single challenge solver, HTTP01 using nginx
+    solvers:
+      - http01:
+          ingress:
+            class: nginx
+</code></pre>
+<h3 id="staging">Staging<a class="headerlink" href="#staging" title="Permanent link">⚓︎</a></h3>
+<pre><code class="language-yaml">apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    # You must replace this email address with your own.
+    # Let's Encrypt will use this to contact you about expiring
+    # certificates, and issues related to your account.
+    email: eoepca.systemteam@telespazio.com
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      # Secret resource that will be used to store the account's private key.
+      name: letsencrypt-staging-account-key
+    # Add a single challenge solver, HTTP01 using nginx
+    solvers:
+      - http01:
+          ingress:
+            class: nginx
+</code></pre>
+<p>To exploit the specified ClusterIssuer the <code>cert-manager.io/cluster-issuer</code> annotation must be applied to the Ingress resource. For example&hellip;</p>
+<pre><code class="language-yaml">apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    ...
 </code></pre>
                 
               
@@ -512,13 +688,13 @@ helm upgrade -i cert-manager jetstack/cert-manager \
       
       
         
-        <a href="../storage/" class="md-footer__link md-footer__link--next" aria-label="Next: Cluster Storage" rel="next">
+        <a href="../persistence/" class="md-footer__link md-footer__link--next" aria-label="Next: Persistence" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Cluster Storage
+              Persistence
             </div>
           </div>
           <div class="md-footer__button md-icon">

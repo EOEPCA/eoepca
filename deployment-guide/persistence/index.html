@@ -9,14 +9,14 @@
       
       
       
-        <link rel="canonical" href="https://eoepca.github.io/eoepca/deployment-guide/storage/">
+        <link rel="canonical" href="https://eoepca.github.io/eoepca/deployment-guide/persistence/">
       
       <link rel="icon" href="../../img/favicon.ico">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.4">
     
     
       
-        <title>Cluster Storage - EOEPCA</title>
+        <title>Persistence - EOEPCA</title>
       
     
     
@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#cluster-storage" class="md-skip">
+        <a href="#persistence" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Cluster Storage
+              Persistence
             
           </span>
         </div>
@@ -319,6 +319,34 @@
   
   
   
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2">
+          Cluster
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Cluster" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Cluster
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
       <a href="../kubernetes/" class="md-nav__link">
         Kubernetes Cluster
@@ -356,6 +384,43 @@
 
             
           
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_3">
+          EOEPCA
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="EOEPCA" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          EOEPCA
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
             
               
   
@@ -372,12 +437,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Cluster Storage
+          Persistence
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Cluster Storage
+        Persistence
       </a>
       
         
@@ -444,6 +509,27 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../login-service/" class="md-nav__link">
+        Login Service
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -478,12 +564,12 @@
               
                 
                 
-                <h1 id="cluster-storage">Cluster Storage<a class="headerlink" href="#cluster-storage" title="Permanent link">⚓︎</a></h1>
+                <h1 id="persistence">Persistence<a class="headerlink" href="#persistence" title="Permanent link">⚓︎</a></h1>
 <p>The EOEPCA building-blocks rely upon Kubernetes <code>Persistent Volumes</code> for their component persistence. Components integrate with the storage provided in the cluster by means of configurable <code>Persistent Volume Claims</code> and/or dynamic <code>Storage Class</code> that are specfied as values at time of deployment. Some components require storage of type  <code>ReadWriteMany</code> - which, for a multi-node cluster, implies a network-based storage solution.</p>
 <h2 id="readwritemany-storage">ReadWriteMany Storage<a class="headerlink" href="#readwritemany-storage" title="Permanent link">⚓︎</a></h2>
 <p>For the EOEPCA development deployment, an NFS server has been established to provide the persistence layer for <code>ReadWriteMany</code> storage.</p>
 <h3 id="pre-defined-persistent-volume-claims">Pre-defined Persistent Volume Claims<a class="headerlink" href="#pre-defined-persistent-volume-claims" title="Permanent link">⚓︎</a></h3>
-<p>The EOEPCA development deployment establishes the following pre-defined Persistent Volume Claims, to provide a simple storage architecture that is organised around the &lsquo;domain areas&rsquo; into which the Reference Implementation is split:</p>
+<p>The EOEPCA development deployment establishes the following pre-defined Persistent Volume Claims, to provide a simple storage architecture that is organised around the &lsquo;domain areas&rsquo; into which the Reference Implementation is split.</p>
 <ul>
 <li><strong>Resource Managment</strong> (<code>resman</code>)<br>
   <em>Creates <code>persistentvolume/eoepca-resman-pv</code> and <code>persistentvolumeclaim/eoepca-resman-pvc</code>.</em></li>
@@ -492,7 +578,8 @@
 <li><strong>User Management</strong> (<code>userman</code>)<br>
   <em>Creates <code>persistentvolume/eoepca-userman-pv</code> and <code>persistentvolumeclaim/eoepca-userman-pvc</code>.</em></li>
 </ul>
-<p>This is acheived through the <a href="https://github.com/EOEPCA/helm-charts/tree/main/charts/storage"><code>storage</code> helm chart</a>, with the following typical configuration&hellip;</p>
+<p><em>NOTE that this is offered only as an example thay suits the approach of the development team. Each building-block has configuration through which its persistence (PV/PVC) can be configured according the needs of the deployment.</em></p>
+<p>The &lsquo;domain-area-based&rsquo; approach is acheived through the <a href="https://github.com/EOEPCA/helm-charts/tree/main/charts/storage"><code>storage</code> helm chart</a>, with the following typical configuration&hellip;</p>
 <pre><code class="language-yaml">host:
   enabled: false
 
@@ -558,7 +645,7 @@ nfs:
 </ul>
 <p>All things being equal, Longhorn is recommended as the best approach for Kubernetes clusters.</p>
 <h2 id="local-cluster-storage">Local Cluster Storage<a class="headerlink" href="#local-cluster-storage" title="Permanent link">⚓︎</a></h2>
-<p>For local development Kubernetes clusters then <code>ReadWriteMany</code> ceases to be a consideration. Thus, for the purposes of the EOEPCA deployment, the default Storage Class included with the local Kubernetes distribution can be used for all storage concerns - e.g. <code>host-only</code> for <code>minikube</code>, <code>local-path</code> for <code>k3d</code>.</p>
+<p>For single-node local development Kubernetes clusters then <code>ReadWriteMany</code> becomes less of a consideration. Thus, for the purposes of the EOEPCA deployment, the default Storage Class included with the local Kubernetes distribution can be used for all storage concerns - e.g. <code>host-only</code> for <code>minikube</code>, <code>local-path</code> for <code>k3d</code>.</p>
 <p>The <a href="https://github.com/rancher/local-path-provisioner">Rancher Local Path Provisioner</a> (<code>local-path</code>) can be installed to any cluster in accordance the <a href="https://github.com/rancher/local-path-provisioner#deployment">instructions on GitHub</a>&hellip;</p>
 <pre><code class="language-bash">kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
 </code></pre>
@@ -602,13 +689,13 @@ nfs:
       
       
         
-        <a href="../../about/" class="md-footer__link md-footer__link--next" aria-label="Next: About" rel="next">
+        <a href="../login-service/" class="md-footer__link md-footer__link--next" aria-label="Next: Login Service" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              About
+              Login Service
             </div>
           </div>
           <div class="md-footer__button md-icon">
