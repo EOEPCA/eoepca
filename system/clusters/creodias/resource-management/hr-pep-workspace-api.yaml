@@ -19,7 +19,7 @@ spec:
       domain: develop.eoepca.org
       nginxIp: 185.52.192.231
       resourceServer:
-        name: workspace-api
+        name: workspace-api-rm-workspace-api
         port: 8080
       certManager:
         clusterIssuer: letsencrypt
