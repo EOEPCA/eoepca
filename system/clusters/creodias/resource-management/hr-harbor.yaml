@@ -32,19 +32,19 @@ spec:
           notary: harbor-notary.develop.eoepca.org
 
     persistence:
-      persistentVolumeClaim: {}
-        #registry:
-        #  storageClass: aws-efs
-        #chartmuseum:
-        #  storageClass: aws-efs
-        #jobservice:
-        #  storageClass: aws-efs
-        #database:
-        #  storageClass: aws-efs
-        #redis:
-        #  storageClass: aws-efs
-        #trivy:
-        #  storageClass: aws-efs
+      persistentVolumeClaim:
+        registry:
+          storageClass: managed-nfs-storage
+        chartmuseum:
+          storageClass: managed-nfs-storage
+        jobservice:
+          storageClass: managed-nfs-storage
+        database:
+          storageClass: managed-nfs-storage
+        redis:
+          storageClass: managed-nfs-storage
+        trivy:
+          storageClass: managed-nfs-storage
 
     externalURL: https://harbor.develop.eoepca.org
 
