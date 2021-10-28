@@ -22,7 +22,7 @@ ${ID_TOKEN_USER_A}=
 ${ID_TOKEN_USER_B}=
 ${ACCESS_TOKEN}=
 ${PDP_URL}=  31709
-${PROCESS_NAME}=  s-expression-0_0_2
+${PROCESS_NAME}=  snuggs-0_3_0
 
 *** Test Cases ***
 
@@ -33,12 +33,12 @@ Attempt Unauthorised Access Process List
   List Processes No Auth
 
 Protected Application Deployment
-  # Clean Owner Resources  ${ADES_RESOURCES_API_URL}  ${ID_TOKEN_USER_A}
+  Clean Owner Resources  ${ADES_RESOURCES_API_URL}  ${ID_TOKEN_USER_A}  ${PROCESS_NAME}
   User A Deploys Proc1
   # Manual Registration of Undeploy and Execute processes
   # <TBC>
   PEP Register Resource  /${USERNAME}/wps3/processes/${PROCESS_NAME}  ADES Deploy
-  PEP Register Resource  /${PASSWORD}/wps3/processes/${PROCESS_NAME}/jobs  ADES Execute
+  PEP Register Resource  /${USERNAME}/wps3/processes/${PROCESS_NAME}/jobs  ADES Execute
   # </TBC>
   User B Unauthorized Undeploy
   User B Unauthorized Policy Change
@@ -49,7 +49,7 @@ Protected Application Execution
   User A Executes Proc1
   # Manual Registration of Status Job processes
   # <TBC>
-  #PEP Register Resource  ${LOCATION}  ADES Status Job
+  PEP Register Resource  ${LOCATION}  ADES Status Job
   # </TBC>
   User B Unauthorized Executes Proc2
   User B Unauthorized Status Job1
@@ -66,8 +66,9 @@ Application Sharing
 
 Clean Resources
   Sleep  5
-  # Clean Owner Resources  ${ADES_RESOURCES_API_URL}  ${ID_TOKEN_USER_A}
-  # Clean Owner Resources  ${ADES_RESOURCES_API_URL}  ${ID_TOKEN_USER_B}
+  Clean Owner Resources  ${ADES_RESOURCES_API_URL}  ${ID_TOKEN_USER_A}  ADES Deploy
+  Clean Owner Resources  ${ADES_RESOURCES_API_URL}  ${ID_TOKEN_USER_A}  ADES Execute
+  Clean Owner Resources  ${ADES_RESOURCES_API_URL}  ${ID_TOKEN_USER_A}  ADES Status Job
 
 
 *** Keywords ***
@@ -107,8 +108,8 @@ Init Resource Protection
 List Processes
   ${resp}  ${access_token}  @{processes} =  Proc List Processes  ${WPS_SERVICE_URL}/${USERNAME}/wps3  ${ID_TOKEN_USER_A}
   Should Be Equal As Integers  200  ${resp.status_code}
-  Should Be True  $access_token is not None
-  Set Suite Variable  ${ACCESS_TOKEN}  ${access_token}
+  #Should Be True  $access_token is not None
+  #Set Suite Variable  ${ACCESS_TOKEN}  ${access_token}
   [Return]  ${resp}  @{processes}
 
 
@@ -124,12 +125,12 @@ List Processes No Auth
 #######   PROTECTED APPLICATION DEPLOYMENT
 
 User A Deploys Proc1
-  ${r}  ${access_token}=  Proc Deploy App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  ${CURDIR}/data${/}app-deploy-body.json  ${ID_TOKEN_USER_A}
+  ${r}  ${access_token}=  Proc Deploy App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  ${CURDIR}/data${/}app-deploy-body-cwl.json  ${ID_TOKEN_USER_A}
   Should Be Equal As Integers  201  ${r.status_code}
 
 User B Unauthorized Undeploy
   ${r}  ${access_token}=  Proc Undeploy App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  ${PROCESS_NAME}  ${ID_TOKEN_USER_B}
-  Should Be Equal As Integers  401  ${r.status_code}
+  Should Be Equal As Integers  403  ${r.status_code}
   Should Be True  $access_token is None
 
 User B Unauthorized Policy Change
@@ -152,7 +153,6 @@ User A Authorized Application Policy Change
   ${r_id}=  Get Resources Execute UserA
   ${data}=  Evaluate  {'name':'Updated ADES Execute','description':'modified','config':{'resource_id':'${r_id}','action':'view','rules':[{'OR':[{'EQUAL':{'id':'${owa}'}},{'EQUAL':{'id':'${owb}'}}]}]},'scopes':['protected_access']}
   ${resp}  ${text}=  Update Policy  ${PDP_BASE_URL}  ${data}  ${r_id}  ${ID_TOKEN_USER_A}
- 
 User B Authorized Execution
   ${r}  ${access_token}  ${location}=  Proc Execute App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  ${PROCESS_NAME}  ${CURDIR}/data${/}app-execute-body.json  ${ID_TOKEN_USER_B}
   #Set Global Variable  ${LOCATION}  ${location}
@@ -175,11 +175,11 @@ User A Executes Proc1
 
 User B Unauthorized Executes Proc2
   ${r}  ${access_token}  ${location}=  Proc Execute App  ${WPS_SERVICE_URL}/${USERNAME}/wps3  ${PROCESS_NAME}  ${CURDIR}/data${/}app-execute-body.json  ${ID_TOKEN_USER_B}
-  Should Be Equal As Integers  401  ${r.status_code}
+  Should Be Equal As Integers  403  ${r.status_code}
 
 User B Unauthorized Status Job1
   ${r}  ${access_token}  ${status}=  Proc Job Status  ${WPS_SERVICE_URL}  ${LOCATION}  ${ID_TOKEN_USER_B}
-  Should Be Equal As Integers  401  ${r.status_code}
+  Should Be Equal As Integers  403  ${r.status_code}
   
 User A Authorized Status Proc1
   Sleep  5

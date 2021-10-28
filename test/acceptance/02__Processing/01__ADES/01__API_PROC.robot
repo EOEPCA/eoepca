@@ -31,8 +31,8 @@ Deploy Application
 Get Application Details
   Get Application Details  ${PROCESS_NAME}
 
-Execute Application
-  Execute Application Success  ${PROCESS_NAME}  ${CURDIR}${/}data/app-execute-body.json
+# Execute Application
+#   Execute Application Success  ${PROCESS_NAME}  ${CURDIR}${/}data/app-execute-body.json
 
 Undeploy Application
   Undeploy Application  ${PROCESS_NAME}

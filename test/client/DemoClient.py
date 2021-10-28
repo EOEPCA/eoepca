@@ -248,12 +248,17 @@ class DemoClient:
             # use access token if we have one
             if access_token is not None:
                 self.trace(log_prefix, "Attempting to use existing access token")
+                print(f"Access token: {access_token}")
+
                 headers["Authorization"] = f"Bearer {access_token}"
             else:
                 self.trace(log_prefix, "No existing access token - making a naive attempt")
             # attempt access
             r = self.http_request(method, url, headers=headers, json=json, data=data)
             # if response is OK then nothing else to do
+            print(f"Headers: {headers}")
+            print(f"Response: {r}")
+
             if r.ok:
                 self.trace(log_prefix, "Successfully accessed resource")
             # if we got a 401 then initiate the UMA flow
@@ -510,14 +515,17 @@ class DemoClient:
         elif resource_id: 
             data={"resource_id": str(resource_id)}
             res = self.http_request("GET", pdp_base_url+"/policy/", headers=headers, json=data, verify=False)
-            policyId= json.loads(res.text)
-            for k in policyId['policies']:
-                policyId = k['_id']
-            res = self.http_request("PUT", pdp_base_url + "/policy/" + policyId, headers=headers, json=policy_cfg, verify=False)
+            policyIds= json.loads(res.text)
+            print(f"Policies: {policyIds['policies']}")
+
+            for k in policyIds['policies']:
+                if k['config']['resource_id'] == resource_id:
+                    res = self.http_request("PUT", pdp_base_url + "/policy/" + k['_id'], headers=headers, json=policy_cfg, verify=False)
         else: res = None
         if res.status_code == 401:
             return 401, res.headers["Error"]
         if res.status_code == 200:
+            print(f"Json: {policy_cfg}")
             return 200, print(f"[Update Policy] = {res.status_code} ({res.reason})")
         return 500, print(f"[Update Policy] = {res.status_code} ({res.reason})")
     
@@ -543,6 +551,7 @@ class DemoClient:
         print(f"[URI] = {pdp_base_url}/resources")
         print(f"[Headers] = {headers}")
         print(f"[Resource by URI] = {res.status_code} ({res.reason}) -> {res.text}")
+        print(f"[Name] = {name}")
         for k in json.loads(res.text):
             if name in k['_name']:
                 return k['_id']
@@ -573,15 +582,20 @@ class DemoClient:
             res = self.http_request("DELETE", pep_resource_url + "/resources/" + str(self.state["resources"][pep_resource_url][k]), headers=headers, verify=False)
 
     @keyword(name='Clean Owner Resources')
-    def clean_owner_resources(self, pep_resource_url, id_token):
+    def clean_owner_resources(self, pep_resource_url, id_token, name):
         """Clean Owner Resources
         Deletes from the database the list of resources matched by the ownership of the User identified
         """
         headers = { 'content-type': "application/x-www-form-urlencoded", "cache-control": "no-cache", "Authorization": "Bearer "+id_token}
         res = self.http_request("GET", pep_resource_url +"/resources", headers=headers, verify=False)
+        print(f"Response = {res.text}")
+        print(f"Url = {pep_resource_url}/resources")
         for k in json.loads(res.text):
-            res = self.http_request("DELETE", pep_resource_url + "/resources/" + k['_id'], headers=headers, verify=False)
-
+            if k['_name'] == name:
+                print(f"Deleting {k['_name']} - {k['_reverse_match_url']}")
+                print(f"Url delete= {pep_resource_url}/resources/{k['_id']}")
+                res = self.http_request("DELETE", pep_resource_url + "/resources/" + k['_id'], headers=headers, verify=False)
+                print(f"Response: {res.status_code} ({res.reason})")
     @keyword(name='Workspace Get Details')
     def workspace_get_details(self, service_base_url, workspace_name, id_token=None, access_token=None):
         """Get details for the workspace with the supplied name
