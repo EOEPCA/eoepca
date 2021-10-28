@@ -21,6 +21,7 @@ spec:
     envVar:
       general:
         REGISTRAR_REPLACE: "true"
+        CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .TIF,.tif,.xml,.jp2
       startup_scripts:
         - /registrar_pycsw/registrar_pycsw/initialize-collections.sh
     storage:
@@ -189,6 +190,7 @@ spec:
         - name: S2MSI1C
           filter:
             s2:product_type: S2MSI1C
+          metadata_assets: []
           coverages:
             S2L1C_B01:
               assets:
@@ -232,6 +234,7 @@ spec:
           defaultBrowse: TRUE_COLOR
           browses:
             TRUE_COLOR:
+              asset: visual
               red:
                 expression: B04
                 range: [0, 4000]
@@ -266,47 +269,49 @@ spec:
               validity: false
         - name: S2MSI2A
           filter:
-            s2:product_type: S2MSI1C
+            s2:product_type: S2MSI2A
+          metadata_assets: []
           coverages:
             S2L2A_B01:
               assets:
-                - B01_60m
+                - B01
             S2L2A_B02:
               assets:
-                - B02_10m
+                - B02
             S2L2A_B03:
               assets:
-                - B03_10m
+                - B03
             S2L2A_B04:
               assets:
-                - B04_10m
+                - B04
             S2L2A_B05:
               assets:
-                - B05_20m
+                - B05
             S2L2A_B06:
               assets:
-                - B06_20m
+                - B06
             S2L2A_B07:
               assets:
-                - B07_20m
+                - B07
             S2L2A_B08:
               assets:
-                - B08_10m
+                - B08
             S2L2A_B8A:
               assets:
-                - B8A_20m
+                - B8A
             S2L2A_B09:
               assets:
-                - B09_60m
+                - B09
             S2L2A_B11:
               assets:
-                - B11_20m
+                - B11
             S2L2A_B12:
               assets:
-                - B12_20m
+                - B12
           default_browse_locator: TCI_10m
           browses:
             TRUE_COLOR:
+              asset: visual-10m
               red:
                 expression: B04
                 range: [0, 4000]
