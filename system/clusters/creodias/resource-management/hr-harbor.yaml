@@ -47,6 +47,8 @@ spec:
           storageClass: managed-nfs-storage
 
     externalURL: https://harbor.develop.eoepca.org
+    # initial password for logging in with user "admin"
+    harborAdminPassword: "eoepcaHarborx83NX3tVpSLAgg9UuusQ"
 
     chartmuseum:
       enabled: false
