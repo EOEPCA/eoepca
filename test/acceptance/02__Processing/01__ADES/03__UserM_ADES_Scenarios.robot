@@ -33,6 +33,8 @@ Attempt Unauthorised Access Process List
   List Processes No Auth
 
 Protected Application Deployment
+  # TODO GUARD related Not deleting the resources
+  # this is need it to make Execution Status Sharing & Application Sharing work
   Clean Owner Resources  ${ADES_RESOURCES_API_URL}  ${ID_TOKEN_USER_A}  ${PROCESS_NAME}
   User A Deploys Proc1
   # Manual Registration of Undeploy and Execute processes
@@ -62,10 +64,13 @@ Execution Status Sharing
 Application Sharing
   User A Authorized Application Policy Change
   User B Authorized Execution
+  # TODO GUARD related 501 probably related to access_token
   User B Authorized Undeploy
 
 Clean Resources
   Sleep  5
+  # TODO GUARD related Not deleting the resources
+  # this is need it to make Execution Status Sharing & Application Sharing work
   Clean Owner Resources  ${ADES_RESOURCES_API_URL}  ${ID_TOKEN_USER_A}  ADES Deploy
   Clean Owner Resources  ${ADES_RESOURCES_API_URL}  ${ID_TOKEN_USER_A}  ADES Execute
   Clean Owner Resources  ${ADES_RESOURCES_API_URL}  ${ID_TOKEN_USER_A}  ADES Status Job
@@ -108,6 +113,7 @@ Init Resource Protection
 List Processes
   ${resp}  ${access_token}  @{processes} =  Proc List Processes  ${WPS_SERVICE_URL}/${USERNAME}/wps3  ${ID_TOKEN_USER_A}
   Should Be Equal As Integers  200  ${resp.status_code}
+  # TODO GUARD related now the access token is None
   #Should Be True  $access_token is not None
   #Set Suite Variable  ${ACCESS_TOKEN}  ${access_token}
   [Return]  ${resp}  @{processes}

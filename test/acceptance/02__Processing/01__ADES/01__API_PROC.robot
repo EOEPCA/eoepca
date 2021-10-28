@@ -31,10 +31,11 @@ Deploy Application
 Get Application Details
   Get Application Details  ${PROCESS_NAME}
 
-# Execute Application
-#   Execute Application Success  ${PROCESS_NAME}  ${CURDIR}${/}data/app-execute-body.json
+Execute Application
+  Execute Application Success  ${PROCESS_NAME}  ${CURDIR}${/}data/app-execute-body.json
 
 Undeploy Application
+  # TODO GUARD related 501 probably related to access_token
   Undeploy Application  ${PROCESS_NAME}
   Sleep  5  Waiting for process undeploy process to complete asynchronously
   Process Is Not Deployed  ${PROCESS_NAME}
