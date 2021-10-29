@@ -54,7 +54,7 @@ spec:
             paths:
               - path: /(.*)
                 service:
-                  name: workspace-api-rm-workspace-api
+                  name: workspace-api
                   port: 8080
         annotations:
           nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
