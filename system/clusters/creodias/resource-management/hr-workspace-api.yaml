@@ -21,14 +21,14 @@ spec:
       tag: "0.9.6"
 
     ingress:
-      enabled: true
-      hosts:
-        - host: workspace-api.develop.eoepca.org
-          paths: ["/"]
-      tls:
-        - hosts:
-            - workspace-api.develop.eoepca.org
-          secretName: workspace-api-tls
+      enabled: false
+      # hosts:
+      #   - host: workspace-api.develop.eoepca.org
+      #     paths: ["/"]
+      # tls:
+      #   - hosts:
+      #       - workspace-api.develop.eoepca.org
+      #     secretName: workspace-api-tls
 
     # some values for the workspace API
     prefixForName: "develop-user"
