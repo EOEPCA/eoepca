@@ -31,6 +31,7 @@ spec:
         workingMode: PARTIAL
         asHostname: test
         pdpHostname: test
+        limitUses: 100
       nginxIntegration:
         enabled: false
         # hostname: combined-rm-auth
