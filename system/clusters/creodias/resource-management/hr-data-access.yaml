@@ -370,11 +370,11 @@ spec:
           nginx.ingress.kubernetes.io/enable-cors: "true"
           cert-manager.io/cluster-issuer: letsencrypt
         hosts:
-          - host: data-access-open.develop.eoepca.org
+          - host: data-access.develop.eoepca.org
         tls:
           - hosts:
-              - data-access-open.develop.eoepca.org
-            secretName: data-access-open-tls
+              - data-access.develop.eoepca.org
+            secretName: data-access-tls
       registrar:
         image:
           repository: eoepca/rm-data-access-core
