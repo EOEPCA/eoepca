@@ -9,14 +9,14 @@
       
       
       
-        <link rel="canonical" href="https://eoepca.github.io/eoepca/deployment-guide/kubernetes/">
+        <link rel="canonical" href="https://eoepca.github.io/eoepca/deployment-guide/resource-protection/">
       
       <link rel="icon" href="../../img/favicon.ico">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.4">
     
     
       
-        <title>Kubernetes Cluster - EOEPCA</title>
+        <title>Resource Protection - EOEPCA</title>
       
     
     
@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#kubernetes-cluster" class="md-skip">
+        <a href="#resource-protection" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Kubernetes Cluster
+              Resource Protection
             
           </span>
         </div>
@@ -318,16 +318,14 @@
               
   
   
-    
-  
   
     
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" >
       
       
       
@@ -348,58 +346,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Kubernetes Cluster
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../kubernetes/" class="md-nav__link">
         Kubernetes Cluster
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#rancher-kubernetes-engine-rke" class="md-nav__link">
-    Rancher Kubernetes Engine (RKE)
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#local-kubernetes" class="md-nav__link">
-    Local Kubernetes
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -444,14 +395,16 @@
               
   
   
+    
+  
   
     
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" checked>
       
       
       
@@ -500,11 +453,92 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../resource-protection/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Resource Protection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Resource Protection
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#helm-chart" class="md-nav__link">
+    Helm Chart
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#values" class="md-nav__link">
+    Values
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#client-credentials" class="md-nav__link">
+    Client Credentials
+  </a>
+  
+    <nav class="md-nav" aria-label="Client Credentials">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#client-registration" class="md-nav__link">
+    Client Registration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#client-secret" class="md-nav__link">
+    Client Secret
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-information" class="md-nav__link">
+    Additional Information
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -551,27 +585,153 @@
               
                 
                 
-                <h1 id="kubernetes-cluster">Kubernetes Cluster<a class="headerlink" href="#kubernetes-cluster" title="Permanent link">⚓︎</a></h1>
-<p>The EOEPCA Reference Implementation has been developed with Kubernetes as its deployment target. The system components have been developed, deployed and tested using a cluster at version <code>v1.18.10</code>.</p>
-<h2 id="rancher-kubernetes-engine-rke">Rancher Kubernetes Engine (RKE)<a class="headerlink" href="#rancher-kubernetes-engine-rke" title="Permanent link">⚓︎</a></h2>
-<p>The development, integration and test clusters have been established using <a href="https://rancher.com/products/rke">Rancher Kubernetes Engine (RKE)</a> at version <code>v1.18.10</code>.</p>
-<p>An example of the creation of the EOEPCA Kubernetes clusters can be found on the <a href="https://github.com/EOEPCA/eoepca/tree/develop/kubernetes#readme">GitHub Kubernetes Setup page</a>. <a href="https://creodias.eu/">CREODIAS</a> has been used for the development hosting infrastructure - which provides OpenStack infrastructure that is backed by <a href="https://cloudferro.com/">Cloudferro</a>. An example of the <a href="https://www.terraform.io/">Terraform</a> configurations used to automate the creation of the cloud infrastructure that underpins the RKE deployment can be found on the <a href="https://github.com/EOEPCA/eoepca/tree/develop/creodias#readme">GitHub CREODIAS Setup page</a>.</p>
-<h2 id="local-kubernetes">Local Kubernetes<a class="headerlink" href="#local-kubernetes" title="Permanent link">⚓︎</a></h2>
-<p>To make a full deployment of the EOEPCA Reference Implementation requires a multi-node node cluster with suitable resources. For example, the development cluster comprises:</p>
+                <h1 id="resource-protection">Resource Protection<a class="headerlink" href="#resource-protection" title="Permanent link">⚓︎</a></h1>
+<p>EOEPCA defines <em>Building Blocks</em> within a micro-service architecture. The services are subject to protection within an <em>Identity and Access Management (IAM)</em> approach that includes:</p>
 <ul>
-<li>1 Master node (2 vCPU, 8 GB RAM)</li>
-<li>5 Worker nodes (4 vCPU, 16 GB RAM)</li>
-<li>1 NFS server (2 vCPU, 8 GB RAM)</li>
+<li>Login Service (Authorization Server)</li>
+<li>Policy Decision Point (PDP)</li>
+<li>Policy Enforcement Point (PEP)</li>
 </ul>
-<p>Limited local deployment can be made using a suitable local single-node kuberbetes deployment using, for example, <a href="https://minikube.sigs.k8s.io/">minikube</a> or <a href="https://k3d.io/">k3d</a>.</p>
-<p>For example using <code>k3d</code>&hellip;</p>
-<pre><code>k3d cluster create mycluster \
-  -p &quot;80:80@loadbalancer&quot; \
-  -p &quot;443:443@loadbalancer&quot; \
-  --k3s-arg &quot;--disable=traefik@server:0&quot; \
-  --agents 1
+<p>Building Blocks that act as a <em>Resource Server</em> are individually protected by a Policy Enforcement Point (PEP). The PEP enforces the authorization decision in collaboration with the Login Service and Policy Decision Point (PDP).</p>
+<p>The PEP expects to interface to a client (user agent, e.g. browser) using <a href="https://docs.kantarainitiative.org/uma/wg/rec-oauth-uma-grant-2.0.html"><em>User Managed Access (UMA)</em></a> flows. It is not typical for a client to support <em>UMA flows</em>, and so the PEP can be deployed with a companion <em>UMA User Agent</em> component that interfaces between the client and the PEP, and performs the UMA Flow on behalf of the client.</p>
+<p><strong>The <em>Resource Guard</em> is a &lsquo;convenience&rsquo; component that deploys the PEP &amp; UMA User Agent as a cooperating pair.</strong></p>
+<p>The Resource Guard &lsquo;inserts itself&rsquo; into the request path of the target Resource Server using the <code>auth_request</code> facility offered by Nginx. Thus, the Resource Guard deploys with an Ingress specification that:</p>
+<ul>
+<li>Configures the <code>auth_request</code> module to defer access authorization to the <code>uma-user-agent</code> service</li>
+<li>Configures the ingress rules (host/path) for the target Resource Server</li>
+</ul>
+<h2 id="helm-chart">Helm Chart<a class="headerlink" href="#helm-chart" title="Permanent link">⚓︎</a></h2>
+<p>The <em>Resource Guard</em> is deployed via the <code>resource-guard</code> helm chart from the <a href="https://eoepca.github.io/helm-charts">EOEPCA Helm Chart Repository</a>.</p>
+<p>The chart is configured via values that are fully documented in the <a href="https://github.com/EOEPCA/helm-charts/tree/main/charts/resource-guard#readme">README for the <code>resource-guard</code> chart</a>.</p>
+<p>It is expected to deploy multiple instances of the Resource Guard chart, one for each Resource Server to be protected.</p>
+<pre><code class="language-bash">helm install --values myservice-guard-values.yaml myservice-guard eoepca/resource-guard
 </code></pre>
-<p>With such a deployment it is possible to deploy individual building-blocks for local development, or building-blocks in combination - within the constraints of the local host resources.</p>
+<h2 id="values">Values<a class="headerlink" href="#values" title="Permanent link">⚓︎</a></h2>
+<p>The helm chart is deployed with values that are passed through to the subcharts for the <code>pep-engine</code> and <code>uma-user-agent</code>. Typical values to be specified include:</p>
+<ul>
+<li>Host/domain details for the Login Service and PDP, e.g. <code>auth.172.17.0.1.nip.io</code></li>
+<li>IP Address of the public facing reverse proxy (Nginx Ingress Controller), e.g. <code>172.17.0.1</code></li>
+<li>Name of Persistent Volume Claim for <code>pep-engine</code> persistence, e.g. <code>myservice-pep-pvc</code><br></li>
+<li>TLS Certificate Provider, e.g. <code>letsencrypt-production</code></li>
+<li>Optional specification of default resources with which to initialise the policy database for the component</li>
+<li>Ingress rules definition for reverse-proxy to the target Resource Server</li>
+<li>Name of <code>Secret</code> that contains the client credentials used by the <code>uma-user-agent</code> to interface with the Login Service.<br>
+  <em>See <a href="#client-secret">section Client Secret</a> below</em></li>
+</ul>
+<p>Example <code>myservice-guard-values.yaml</code>&hellip;</p>
+<pre><code class="language-yaml">#---------------------------------------------------------------------------
+# Global values
+#---------------------------------------------------------------------------
+global:
+  context: myservice
+  pep: myservice-pep
+  domain: 172.17.0.1.nip.io
+  nginxIp: 172.17.0.1
+  certManager:
+    clusterIssuer: letsencrypt-production
+#---------------------------------------------------------------------------
+# PEP values
+#---------------------------------------------------------------------------
+pep-engine:
+  configMap:
+    workingMode: PARTIAL
+    asHostname: auth
+    pdpHostname: auth
+  customDefaultResources:
+  - name: &quot;Eric's space&quot;
+    description: &quot;Protected Access for eric to his space in myservice&quot;
+    resource_uri: &quot;/ericspace&quot;
+    scopes: []
+    default_owner: &quot;d3688daa-385d-45b0-8e04-2062e3e2cd86&quot;
+  nginxIntegration:
+    enabled: false
+  volumeClaim:
+    name: myservice-pep-pvc
+    create: false
+#---------------------------------------------------------------------------
+# UMA User Agent values
+#---------------------------------------------------------------------------
+uma-user-agent:
+  fullnameOverride: myservice-agent
+  nginxIntegration:
+    enabled: true
+    hosts:
+      - host: myservice
+        paths:
+          - path: /(.*)
+            service:
+              name: myservice
+              port: 80
+          - path: /(doc.*)
+            service:
+              name: myservice-docs
+              port: 80
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-read-timeout: &quot;600&quot;
+      nginx.ingress.kubernetes.io/enable-cors: &quot;true&quot;
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
+  client:
+    credentialsSecretName: &quot;myservice-agent&quot;
+  logging:
+    level: &quot;debug&quot;
+  unauthorizedResponse: 'Bearer realm=&quot;https://auth.172.17.0.1.nip.io/oxauth/auth/passport/passportlogin.htm&quot;'
+#---------------------------------------------------------------------------
+# END values
+#---------------------------------------------------------------------------
+</code></pre>
+<h2 id="client-credentials">Client Credentials<a class="headerlink" href="#client-credentials" title="Permanent link">⚓︎</a></h2>
+<p>The <code>uma-user-agent</code> requires <em>Client Credentials</em> for its interactions with the <code>login-service</code>. The <code>uma-user-agent</code> expects to read these credentials from the file <code>client.yaml</code>, in the form&hellip;</p>
+<pre><code>client-id: &lt;my-client-id&gt;
+client-secret: &lt;my-secret&gt;
+</code></pre>
+<h3 id="client-registration">Client Registration<a class="headerlink" href="#client-registration" title="Permanent link">⚓︎</a></h3>
+<p>To obtain the <em>Client Credentials</em> required by the <code>uma-user-agent</code> it is necessary to register a client with the <code>login-service</code>, or use the credentials for an existing client.</p>
+<p>A <a href="https://github.com/EOEPCA/eoepca/blob/develop/bin/register-client">helper script</a> is provided to register a basic client and obtain the required credentials. The script is available in the <a href="https://github.com/EOEPCA/eoepca"><code>eoepca system</code> repository</a>, and can be obtained as follows&hellip;</p>
+<pre><code class="language-bash">git clone git@github.com:EOEPCA/eoepca
+cd eoepca
+</code></pre>
+<p>The <code>register-client</code> helper script requires some command-line arguments&hellip;</p>
+<pre><code>Usage:
+  register_client &lt;authorization-server-hostname&gt; &lt;client-name&gt;
+</code></pre>
+<p>For example&hellip;</p>
+<pre><code class="language-bash">./bin/register-client auth.172.17.0.1.nip.io myclient
+
+INFO: Preparing docker image... [done]
+
+Client successfully registered.
+Make a note of the credentials:
+  client_id = a98ba66e-e876-46e1-8619-5e130a38d1a4
+  client_secret = 73914cfc-c7dd-4b54-8807-ce17c3645558
+</code></pre>
+<p><strong>NOTE that the <code>register-client</code> helper relies upon <a href="https://docs.docker.com/engine/"><code>docker</code></a> to build and run the script.</strong></p>
+<h3 id="client-secret">Client Secret<a class="headerlink" href="#client-secret" title="Permanent link">⚓︎</a></h3>
+<p>The <code>client.yaml</code> configuration file is made available via a Kubernetes Secret&hellip;</p>
+<pre><code class="language-bash">kubectl -n myservice-ns create secret generic myservice-agent \
+  --from-file=client.yaml \
+  --dry-run=client -o yaml \
+  &gt; myservice-agent-secret.yaml
+</code></pre>
+<pre><code class="language-yaml">apiVersion: v1
+kind: Secret
+metadata:
+  name: myservice-agent
+  namespace: myservice-ns
+data:
+  client.yaml: Y2xpZW50LWlkOiBhOThiYTY2ZS1lODc2LTQ2ZTEtODYxOS01ZTEzMGEzOGQxYTQKY2xpZW50LXNlY3JldDogNzM5MTRjZmMtYzdkZC00YjU0LTg4MDctY2UxN2MzNjQ1NTU4
+</code></pre>
+<p>The <code>resource-guard</code> deployment is configured with the name of the <code>Secret</code> through the helm chart value <code>client.credentialsSecretName</code>.</p>
+<h2 id="additional-information">Additional Information<a class="headerlink" href="#additional-information" title="Permanent link">⚓︎</a></h2>
+<p>Additional information regarding the <em>Resource Guard</em> can be found at:</p>
+<ul>
+<li><a href="https://github.com/EOEPCA/helm-charts/tree/main/charts/resource-guard">Helm Chart</a></li>
+<li><a href="https://github.com/EOEPCA/helm-charts/tree/main/charts/resource-guard#readme">README</a></li>
+<li>GitHub Repository:<ul>
+<li><a href="https://github.com/EOEPCA/um-pep-engine">pep-engine</a></li>
+<li><a href="https://github.com/EOEPCA/uma-user-agent">uma-user-agent</a></li>
+</ul>
+</li>
+</ul>
                 
               
               
@@ -596,7 +756,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Introduction" rel="prev">
+        <a href="../login-service/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Login Service" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -605,20 +765,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Introduction
+              Login Service
             </div>
           </div>
         </a>
       
       
         
-        <a href="../helm-repositories/" class="md-footer__link md-footer__link--next" aria-label="Next: Helm Repositories" rel="next">
+        <a href="../../about/" class="md-footer__link md-footer__link--next" aria-label="Next: About" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Helm Repositories
+              About
             </div>
           </div>
           <div class="md-footer__button md-icon">

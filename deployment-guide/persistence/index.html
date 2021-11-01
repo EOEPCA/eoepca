@@ -523,6 +523,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resource-protection/" class="md-nav__link">
+        Resource Protection
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -643,9 +657,9 @@ nfs:
 <li><strong><a href="https://longhorn.io/">Longhorn</a></strong><br>
   Longhorn offers a solution that is similar to that of GlusterFS, except that Longhorn is ‘cloud-native’ in that its service layer deploys within the Kubernetes cluster itself. Thus, the storage nodes are also the cluster compute nodes by design.</li>
 </ul>
-<p>All things being equal, Longhorn is recommended as the best approach for Kubernetes clusters.</p>
+<p><strong><em>All things being equal, Longhorn is recommended as the best approach for Kubernetes clusters.</em></strong></p>
 <h2 id="local-cluster-storage">Local Cluster Storage<a class="headerlink" href="#local-cluster-storage" title="Permanent link">⚓︎</a></h2>
-<p>For single-node local development Kubernetes clusters then <code>ReadWriteMany</code> becomes less of a consideration. Thus, for the purposes of the EOEPCA deployment, the default Storage Class included with the local Kubernetes distribution can be used for all storage concerns - e.g. <code>host-only</code> for <code>minikube</code>, <code>local-path</code> for <code>k3d</code>.</p>
+<p>For the purposes of the EOEPCA deployment, the default Storage Class included with the local Kubernetes distribution can be used for all storage concerns - e.g. <code>host-only</code> for <code>minikube</code>, <code>local-path</code> for <code>k3d</code>.</p>
 <p>The <a href="https://github.com/rancher/local-path-provisioner">Rancher Local Path Provisioner</a> (<code>local-path</code>) can be installed to any cluster in accordance the <a href="https://github.com/rancher/local-path-provisioner#deployment">instructions on GitHub</a>&hellip;</p>
 <pre><code class="language-bash">kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
 </code></pre>

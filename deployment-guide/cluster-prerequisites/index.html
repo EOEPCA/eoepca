@@ -451,6 +451,53 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#sealed-secrets" class="md-nav__link">
+    Sealed Secrets
+  </a>
+  
+    <nav class="md-nav" aria-label="Sealed Secrets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#minio-object-storage" class="md-nav__link">
+    MinIO Object Storage
+  </a>
+  
+    <nav class="md-nav" aria-label="MinIO Object Storage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#s3cmd-configuration" class="md-nav__link">
+    s3cmd Configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#references_1" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -517,6 +564,20 @@
     <li class="md-nav__item">
       <a href="../login-service/" class="md-nav__link">
         Login Service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resource-protection/" class="md-nav__link">
+        Resource Protection
       </a>
     </li>
   
@@ -648,6 +709,91 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-production
     ...
 </code></pre>
+<h2 id="sealed-secrets">Sealed Secrets<a class="headerlink" href="#sealed-secrets" title="Permanent link">⚓︎</a></h2>
+<p>The EOEPCA development team maintain their deployment configurations in GitHub - for declarative, reproducible cluster deployments.</p>
+<p>Various <code>Secret</code> are relied upon by the system services. Secrets should not be exposed by commit to GitHub.</p>
+<p>Instead <a href="https://github.com/bitnami-labs/sealed-secrets"><code>SealedSecret</code></a> are committed to GitHub, which are encrypted, and can only be decrypted by the <code>sealed-secret-controller</code> that runs within the cluster. The <code>sealed-secret-controller</code> decrypts the <code>SealedSecret</code> to a regular <code>Secret</code> (of the same name) that can then be consumed by the cluster components.</p>
+<p>The <code>sealed-secret-controller</code> is deployed to the cluster using the helm chart&hellip;</p>
+<pre><code class="language-bash">helm repo add bitnami-sealed-secrets https://bitnami-labs.github.io/sealed-secrets
+helm repo update
+helm install --version 1.13.2 --create-namespace --namespace infra \
+  eoepca-sealed-secrets bitnami-sealed-secrets/sealed-secrets
+</code></pre>
+<p>Once the controller is deployed within the cluster, then the <a href="https://github.com/bitnami-labs/sealed-secrets/releases/tag/v0.15.0"><code>kubeseal</code></a> command can be used to create a <code>SealedSecret</code> from a regular <code>Secret</code>, as follows&hellip;</p>
+<p>Create example Secret&hellip;</p>
+<pre><code class="language-bash">kubectl -n test create secret generic mysecret \
+  --from-literal=password=changeme \
+  --dry-run=client -o yaml \
+  &gt; mysecret.yaml
+</code></pre>
+<p>Create SealedSecret from Secret using kubeseal&hellip;</p>
+<pre><code class="language-bash">kubeseal -o yaml \
+  --controller-name eoepca-sealed-secrets \
+  --controller-namespace infra \
+  &lt; mysecret.yaml \
+  &gt; mysecret-sealed.yaml
+</code></pre>
+<h3 id="references">References<a class="headerlink" href="#references" title="Permanent link">⚓︎</a></h3>
+<ul>
+<li><a href="https://github.com/bitnami-labs/sealed-secrets">Sealed Secrets on GitHub</a></li>
+<li><a href="https://github.com/bitnami-labs/sealed-secrets/releases/tag/v0.15.0"><code>kubeseal</code> Release</a></li>
+</ul>
+<h2 id="minio-object-storage">MinIO Object Storage<a class="headerlink" href="#minio-object-storage" title="Permanent link">⚓︎</a></h2>
+<p>Various building blocks require access to an S3-compatible object storage service. In particular the ADES processing service expects to stage-out its processing results to S3 object storage. Ideally the cloud provider for your deployment will make available a suitable object storage service.</p>
+<p>As a workaround, in the absence of an existing object storage, it is possible to use <a href="https://min.io/">MinIO</a> to establish an object storage service within the Kubernetes cluster. We use the <a href="https://bitnami.com/stack/minio/helm">minio helm chart provided by bitnami</a>.</p>
+<pre><code class="language-bash"># Add the bitnami helm repository
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+
+# Install the minio helm chart
+helm upgrade -i minio -f minio-values.yaml bitnami/minio
+</code></pre>
+<p>The minio deployment is customised via the values file <code>minio-values.yaml</code>, for example&hellip;</p>
+<pre><code class="language-yaml">auth:
+  rootUser: eoepca
+  rootPassword: changeme
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  hostname: minio-console.172.17.0.1.nip.io
+
+apiIngress:
+  enabled: true
+  ingressClassName: nginx
+  hostname: minio.172.17.0.1.nip.io
+
+persistence:
+  storageClass: local-path
+</code></pre>
+<h3 id="s3cmd-configuration">s3cmd Configuration<a class="headerlink" href="#s3cmd-configuration" title="Permanent link">⚓︎</a></h3>
+<p>The <code>s3cmd</code> can be configured for access to the MinIO deployment. The <code>--configure</code> option can be used to prepare a suitable configuration file for <code>s3cmd</code>&hellip;</p>
+<pre><code class="language-bash">s3cmd -c mys3cfg --configure
+</code></pre>
+<p>In response to the prompts, the following configuration selections are applicable to the above settings&hellip;</p>
+<pre><code>Access Key: eoepca
+Secret Key: changeme
+Default Region: us-east-1
+S3 Endpoint: minio.172.17.0.1.nip.io
+DNS-style bucket+hostname:port template for accessing a bucket: minio.172.17.0.1.nip.io
+Encryption password: 
+Path to GPG program: /usr/bin/gpg
+Use HTTPS protocol: False
+HTTP Proxy server name: 
+HTTP Proxy server port: 0
+</code></pre>
+<p>Save the configuration file, and check access to the S3 object store with&hellip;</p>
+<pre><code class="language-bash"># Create a bucket
+s3cmd -c mys3cfg mb s3://eoepca
+
+# List buckets
+s3cmd -c mys3cfg ls
+</code></pre>
+<h3 id="references_1">References<a class="headerlink" href="#references_1" title="Permanent link">⚓︎</a></h3>
+<ul>
+<li><a href="https://bitnami.com/stack/minio/helm">MinIO Helm Chart</a></li>
+<li><a href="https://github.com/bitnami/charts/tree/master/bitnami/minio">MinIO Helm Chart on GitHub</a></li>
+</ul>
                 
               
               
