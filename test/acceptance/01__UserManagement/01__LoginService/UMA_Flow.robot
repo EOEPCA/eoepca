@@ -6,40 +6,81 @@ Library  OperatingSystem
 Library  String
 Library  Process
 Library  SSHLibrary
-Library  ../ScimClient.py  ${UM_BASE_URL}/
+# Library  ../ScimClient.py  ${UM_BASE_URL}/
 Library  ../../../client/DemoClient.py  ${UM_BASE_URL}
+
+Suite Setup  Suite Setup
+Suite Teardown  Suite Teardown
 
 *** Variables ***
 ${UMA_USER}=  admin
 ${UMA_PWD}=  admin_Abcd1234#
 ${UMA_PATH_PREFIX}=  /wps3
-${PATH_TO_RESOURCE}=  resources/ADES20%Service
-${WELL_KNOWN_PATH}=  ${UM_BASE_URL}/.well-known/uma2-configuration
+${PATH_TO_RESOURCE}=  test
+${UMA2_CONFIG_PATH}=  /.well-known/uma2-configuration
 ${PEP_RESOURCE_PORT}=  31709
 ${PEP_PROXY_PORT}=  31707
 
 *** Test Cases ***
 
-UMA getEndpoints
-  UMA Get Token Endpoint  ${WELL_KNOWN_PATH}  
+UMA Get Endpoints
+  UMA Get Token Endpoint  ${UM_BASE_URL}
 
 UMA Ticket Test
-  UMA Get Ticket Valid  ${ADES_BASE_URL}  ${RPT_TOKEN}  ${PATH_TO_RESOURCE}
+  UMA Get Ticket  ${DUMMY_PEP_AUTH_HOSTNAME}  ${RPT_TOKEN}  "/test"  "GET"
 
-UMA Authenticate test
-  Init ID Token  ${UMA_USER}  ${UMA_PWD}
+UMA RPT Test
+  ${resp}  ${as_uri}  ${ticket}=  UMA Get Ticket  ${DUMMY_PEP_AUTH_HOSTNAME}  ${RPT_TOKEN}  "/test"  "GET"
+  ${g_client_id}  ${g_client_secret}=  Get Client Credentials
+  Log  Client ID is ${g_client_id}
+  Log  Client Secret is ${g_client_secret}
+  ${id_token}=  Get ID Token  ${USER_A_NAME}  ${USER_A_PASSWORD}
+  Should Not Be Empty  ${id_token}
+  ${rpt}=  UMA Get RPT From Ticket  ${id_token}  ${as_uri}  ${ticket}  ${g_client_id}  ${g_client_secret}
+  Should Not Be Empty  ${rpt}
 
-UMA Flow to Retrieve RPT 
-  # TODO GUARD related I didn't noticed this before access_token???
-  ${resp}=  Scim Client Get Details
-  ${g_client_id}=  Get From Dictionary  ${resp}  client_id
-  ${g_client_secret}=  Get From Dictionary  ${resp}  client_secret
-  Set Global Variable  ${C_ID_UMA}  ${g_client_id}
-  Set Global Variable  ${C_SECRET_UMA}  ${g_client_secret}
-  UMA Flow Setup  ${ADES_BASE_URL}  ${ID_TOKEN}  ${PATH_TO_RESOURCE}  ${WELL_KNOWN_PATH}  ${UMA_USER}  ${UMA_PWD}  ${g_client_id}  ${g_client_secret}
-  Cleanup
+Authorized Access
+  ${id_token}=  Get ID Token  ${USER_A_NAME}  ${USER_A_PASSWORD}
+  Should Not Be Empty  ${id_token}
+  Create Session  session  https://${DUMMY_SERVICE_HOSTNAME}  verify=False
+  ${headers}=  Create Dictionary  X-User-Id=${id_token}
+  ${resp}=  GET On Session  session  /ericspace  headers=${headers}  expected_status=any
+  Status Should Be  200
+
+Unauthorized Access
+  Create Session  session  https://${DUMMY_SERVICE_HOSTNAME}  verify=False
+  ${resp}=  GET On Session  session  /ericspace  expected_status=any
+  Status Should Be  401
+
+Forbidden Access
+  ${id_token}=  Get ID Token  ${USER_B_NAME}  ${USER_B_PASSWORD}
+  Should Not Be Empty  ${id_token}
+  Create Session  session  https://${DUMMY_SERVICE_HOSTNAME}  verify=False
+  ${headers}=  Create Dictionary  X-User-Id=${id_token}
+  ${resp}=  GET On Session  session  /ericspace  headers=${headers}  expected_status=any
+  Status Should Be  403
+
+# UMA Authenticate test
+#   Init ID Token  ${UMA_USER}  ${UMA_PWD}
+
+# UMA Flow to Retrieve RPT 
+#   # TODO GUARD related I didn't noticed this before access_token???
+#   ${resp}=  Scim Client Get Details
+#   ${g_client_id}=  Get From Dictionary  ${resp}  client_id
+#   ${g_client_secret}=  Get From Dictionary  ${resp}  client_secret
+#   Set Global Variable  ${C_ID_UMA}  ${g_client_id}
+#   Set Global Variable  ${C_SECRET_UMA}  ${g_client_secret}
+#   UMA Flow Setup  ${ADES_BASE_URL}  ${ID_TOKEN}  ${PATH_TO_RESOURCE}  ${UMA_USER}  ${UMA_PWD}  ${g_client_id}  ${g_client_secret}
+#   Cleanup
 
 *** Keywords ***
+
+Suite Setup
+  Log  Suite Setup  DEBUG
+
+Suite Teardown
+  Client Save State
+
 Init ID Token
   [Arguments]  ${username}  ${password}
   ${id_token}=  Get ID Token  ${username}  ${password}
@@ -54,22 +95,18 @@ UMA Resource Insertion
 
 
 UMA Flow Setup
-  [Arguments]  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
-  ${tkn}=  UMA Handler of Codes  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
+  [Arguments]  ${base_url}  ${token}  ${resource}  ${user}  ${pwd}  ${client_id}  ${client_secret}
+  ${tkn}=  UMA Handler of Codes  ${base_url}  ${token}  ${resource}  ${user}  ${pwd}  ${client_id}  ${client_secret}
   Set Global Variable  ${RPT_TOKEN}  ${tkn}
   [Return]  ${tkn} 
 
 UMA Get Ticket
-  [Arguments]  ${base_url}  ${token}  ${resource}
-  Create Session  pep  ${base_url}  verify=False
-  ${headers}=  Create Dictionary  authorization=Bearer ${token}
-  ${resp}=  Get On Session  pep  /${resource}  headers=${headers}  expected_status=any
-  [Return]  ${resp}
-
-UMA Get Ticket Valid
-  [Arguments]  ${base_url}  ${token}  ${resource}
-  ${resp}=  UMA Get Ticket  ${base_url}  ${token}  ${resource}
-  [Return]  ${resp}
+  [Arguments]  ${pep_hostname}  ${token}  ${resource_uri}  ${request_method}
+  Create Session  pep  https://${pep_hostname}  verify=False
+  ${headers}=  Create Dictionary  X-Request-Uri=${resource_uri}  X-Request-Method=${request_method}  Authorization=Bearer ${token}
+  ${resp}=  GET On Session  pep  /authorize  headers=${headers}  expected_status=any
+  ${as_uri}  ${ticket}=  UMA Get Ticket From Response  ${resp}
+  [Return]  ${resp}  ${as_uri}  ${ticket}
 
 UMA Get ID Token
   [Arguments]  ${base_url}  ${user}  ${pwd}  ${client_id}  ${client_secret}  ${token_endpoint}
@@ -89,8 +126,8 @@ UMA Call Shell ID Token
   [Return]  ${n}
 
 UMA Get ID Token Valid
-  [Arguments]  ${base_url}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
-  ${endpoint}=  UMA Get Token Endpoint  ${well_known}
+  [Arguments]  ${as_uri}  ${user}  ${pwd}  ${client_id}  ${client_secret}
+  ${endpoint}=  UMA Get Token Endpoint  ${as_uri}
   ${resp}=  UMA Call Shell ID Token  ${endpoint}  ${client_id}  ${client_secret}
   ${id_token}=  UMA Get ID Token From Response  ${resp}
   Set Global Variable  ${ID_TOKEN}  ${id_token}
@@ -110,16 +147,16 @@ UMA Call Shell Access Token
   [Return]  ${a.stdout}
 
 UMA Get Access Token Valid
-  [Arguments]  ${well_known}  ${ticket}  ${token}  ${client_id}  ${client_secret}  
-  ${endpoint}=  UMA Get Token Endpoint  ${well_known}
+  [Arguments]  ${as_uri}  ${ticket}  ${token}  ${client_id}  ${client_secret}  
+  ${endpoint}=  UMA Get Token Endpoint  ${as_uri}
   ${resp}=  UMA Call Shell Access Token  ${ticket}  ${token}  ${client_id}  ${client_secret}  ${endpoint}
   ${rpt_token}=  UMA Get Access Token From Response  ${resp}
   [Return]  ${rpt_token}
 
 UMA Get Token Endpoint
-  [Arguments]  ${well_known} 
+  [Arguments]  ${as_uri}
   ${headers}=  Create Dictionary  Content-Type  application/json
-  Create Session  ep  ${well_known}  verify=False
+  Create Session  ep  ${as_uri}/${UMA2_CONFIG_PATH}  verify=False
   ${resp}=  Get On Session  ep  /
   ${json}=  Evaluate  json.loads('''${resp.text}''')  json
   ${tk_endpoint}=  Get From Dictionary  ${json}  token_endpoint
@@ -127,9 +164,35 @@ UMA Get Token Endpoint
   
 UMA Get Ticket From Response
   [Arguments]  ${resp}
-  ${location_header}=  Get From Dictionary  ${resp.headers}  WWW-Authenticate
-  ${ticket}=  Fetch From Right  ${location_header}  ticket=
-  [Return]  ${ticket}
+  Status Should Be  401  ${resp}
+  @{www_authenticate}=  Split String  ${resp.headers["Www-Authenticate"]}  ,
+  Should Not Be Empty  ${www_authenticate}
+  FOR  ${item}  IN  @{www_authenticate}
+    @{item}=  Split String  ${item}  =
+    Length Should Be  ${item}  2
+    IF  "${item[0]}" == "as_uri"
+      ${as_uri}=  Set Variable  ${item[1]}
+    END
+    IF  "${item[0]}" == "ticket"
+      ${ticket}=  Set Variable  ${item[1]}
+    END
+  END
+  Should Not Be Empty  ${as_uri}
+  Should Not Be Empty  ${ticket}
+  [Return]  ${as_uri}  ${ticket}
+
+UMA Get RPT From Ticket
+  [Arguments]  ${id_token}  ${as_uri}  ${ticket}  ${client_id}  ${client_secret}
+  ${token_endpoint}=  UMA Get Token Endpoint  ${as_uri}
+  Should Not Be Empty  ${token_endpoint}
+  Create Session  session  ${token_endpoint}  verify=False
+  ${headers}=  Create Dictionary  content-type  application/x-www-form-urlencoded  cache-control  no-cache
+  ${data}=  Create Dictionary  claim_token_format  http://openid.net/specs/openid-connect-core-1_0.html#IDToken  claim_token  ${id_token}  ticket  ${ticket}  grant_type  urn:ietf:params:oauth:grant-type:uma-ticket  client_id  ${client_id}  client_secret  ${client_secret}  scope  openid
+  ${resp}=  Post On Session  session  ${None}  headers=${headers}  data=${data}
+  Status Should Be  200  ${resp}
+  ${rpt}=  Get From Dictionary  ${resp.json()}  access_token
+  Should Not Be Empty  ${rpt}
+  [Return]  ${rpt}
 
 UMA Get ID Token From Response
   [Arguments]  ${resp}
@@ -144,12 +207,11 @@ UMA Get Access Token From Response
   [Return]  ${access_token} 
 
 UMA Handler of Codes
-  [Arguments]  ${base_url}  ${token}  ${resource}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}  
-  ${id_token}=  UMA Get ID Token Valid  ${base_url}  ${well_known}  ${user}  ${pwd}  ${client_id}  ${client_secret}
+  [Arguments]  ${base_url}  ${token}  ${resource}  ${user}  ${pwd}  ${client_id}  ${client_secret}  
+  ${id_token}=  UMA Get ID Token Valid  ${base_url}  ${user}  ${pwd}  ${client_id}  ${client_secret}
   UMA Resource Insertion
-  ${resp_ticket}=  UMA Get Ticket Valid  ${base_url}  ${token}  ${UMA_PATH_PREFIX}
-  ${ticket}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Ticket From Response  ${resp_ticket}
-  ${access_token}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Access Token Valid  ${well_known}  ${ticket}  ${id_token}  ${client_id}  ${client_secret}
+  ${resp_ticket}=  ${as_uri}=  ${ticket}=  UMA Get Ticket  ${base_url}  ${token}  ${UMA_PATH_PREFIX}
+  ${access_token}=  builtIn.Run Keyword If  "${resp_ticket.status_code}"=="401"  UMA Get Access Token Valid  ${base_url}  ${ticket}  ${id_token}  ${client_id}  ${client_secret}
   [Return]  ${access_token}
 
 PEP Delete Resource
