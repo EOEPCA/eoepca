@@ -218,7 +218,7 @@ spec:
       # Max number of CPU cores to use concurrently for a job
       processingMaxCores: "4"
       # if false the Ades will clean the volume after the workflow has successfully finished running
-      processingKeepWorkspace: "False"
+      processingKeepWorkspace: "True"
       # image pull secrects
       imagePullSecrets: []
       #  custom stagein cwl
