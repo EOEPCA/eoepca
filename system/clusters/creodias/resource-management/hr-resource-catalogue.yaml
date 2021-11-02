@@ -17,10 +17,10 @@ spec:
     global:
       namespace: rm
     ingress:
-      name: resource-catalogue-open
-      host: resource-catalogue-open.develop.eoepca.org
-      tls_host: resource-catalogue-open.develop.eoepca.org
-      tls_secret_name: resource-catalogue-open-tls
+      name: resource-catalogue
+      host: resource-catalogue.develop.eoepca.org
+      tls_host: resource-catalogue.develop.eoepca.org
+      tls_secret_name: resource-catalogue-tls
     pycsw:
       image:
         repository: geopython/pycsw
