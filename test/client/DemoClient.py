@@ -108,6 +108,7 @@ class DemoClient:
         else:
             print(f"client_id: {self.state['client_id']} [REUSED]")
 
+    @keyword(name='Get Client Credentials')
     def get_client_credentials(self):
         """Returns the client credentials (client_id/secret)
 
