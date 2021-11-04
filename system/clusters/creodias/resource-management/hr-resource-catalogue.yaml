@@ -16,6 +16,9 @@ spec:
   values:
     global:
       namespace: rm
+    db:
+      persistent_volume_name: pvc-d458f548-a4d9-4bfa-b819-0679fc4547ee
+      volume_storage_type: managed-nfs-storage-retain
     ingress:
       name: resource-catalogue
       host: resource-catalogue.develop.eoepca.org
