@@ -116,7 +116,7 @@ spec:
           class: CommandLineTool
           hints:
             DockerRequirement:
-              dockerPull: terradue/stars:1.0.0-beta.7
+              dockerPull: terradue/stars:1.0.0-beta.11
           id: stars
           arguments:
           - copy
@@ -153,7 +153,7 @@ spec:
           class: CommandLineTool
           hints:
             DockerRequirement:
-              dockerPull: terradue/stars-t2:0.6.18.19
+              dockerPull: terradue/stars:1.0.0-beta.11
           id: stars
           arguments:
           - copy
