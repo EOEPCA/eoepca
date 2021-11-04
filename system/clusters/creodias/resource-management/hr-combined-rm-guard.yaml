@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: resource-guard
-      version: 0.0.50
+      version: 0.0.51
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -28,7 +28,6 @@ spec:
     #---------------------------------------------------------------------------
     pep-engine:
       configMap:
-        workingMode: PARTIAL
         asHostname: test
         pdpHostname: test
         # limitUses: 100
