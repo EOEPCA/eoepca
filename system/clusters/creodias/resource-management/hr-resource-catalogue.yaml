@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: rm-resource-catalogue
-      version: 0.9.4
+      version: 1.0.0
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -16,6 +16,8 @@ spec:
   values:
     global:
       namespace: rm
+    db:
+      persistent_volume_name: pvc-8170bd2e-8b06-4fe4-a739-21624f5a7908
     ingress:
       name: resource-catalogue-open
       host: resource-catalogue-open.demo.eoepca.org
