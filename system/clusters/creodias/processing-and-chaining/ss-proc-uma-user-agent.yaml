@@ -1,0 +1,15 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: proc-uma-user-agent
+  namespace: proc
+spec:
+  encryptedData:
+    client.yaml: AgAntZNElmN6IeTg1Lyd75+acvaC/9BovHywqnJ94Vz5s1was+1A+3JNUcgO49R+yRSlFoJhFPTmJlIysp3Ml6FSPnopBeRNLqsSdUHio57psmZiDKoqWFgTWQreoPlm20KtYOTsDCixajtGDr4lpIBhS6R+JpeESiZNPwVRGqhH288Hm2fm7imPYv1LpbbLcqLqxtJn0RKi8tahbz0+jcpUW2Ujz0FSDDkSJDvQE2baR+x2qTxDoQQVOS3OYLX4rlqaO7/PdygeQG89mn4tXmuw17kXDNU4NwDleJq215xngUENDuU2io5EzLF4mfixckwK+VfMHv+jO47IB7jM7kuVXZnmGr5BrQCAhPtW5JfcpPjIQFilFz4TeSBWGgYiNj/YJI0gtEEo7Sj06pIa+pAIN210o+g/AwDjsNxcjyfp51/BPZwsNparj2LH/X8XqXjthyp4YNxNlpUm/NVkU5cvebnJWZJzngWqPcHZEEFSuhOzBW6SAe+x+HQIeBIXT7VmA0Bf9EqViEH6pdt164h9HbwMnGSt9jzgK6c+tVzpodQg3YG7LZ8QXgjAHCP5o6eIDQ/DJLknWagQL2T/kT+NTZYtefRcZAVSAJcXwmVrze/UFiodtM7FG2mnTtkWIiiTmgB0EiDH/Am2EmnOV8axNGEPCccXXzctYc+In/Q22Qg9kbDZDzdcyhcWT3d0fnZGvSvhtXaOuUuLHjUlrB4q4TdYkinNORoDHe+G7+4QrsU348xwDSfrzmxAp3ersB0iWVqxeLBFEgMWp+zPh7daRlx75XnhyxFzIlyTxO42gpKEDtM34Qk6ZQLE4+k4WIsA63g=
+  template:
+    metadata:
+      creationTimestamp: null
+      name: proc-uma-user-agent
+      namespace: proc
+

@@ -30,6 +30,7 @@ UMA Authenticate test
   Init ID Token  ${UMA_USER}  ${UMA_PWD}
 
 UMA Flow to Retrieve RPT 
+  # TODO GUARD related I didn't noticed this before access_token???
   ${resp}=  Scim Client Get Details
   ${g_client_id}=  Get From Dictionary  ${resp}  client_id
   ${g_client_secret}=  Get From Dictionary  ${resp}  client_secret

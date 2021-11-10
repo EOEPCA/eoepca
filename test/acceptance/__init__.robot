@@ -5,8 +5,8 @@ Suite Setup  EOEPCA Suite Setup
 *** Keywords ***
 EOEPCA Suite Setup
   Set Global Variable  ${UM_BASE_URL}  https://test.${PUBLIC_HOSTNAME}
-  Set Global Variable  ${ADES_BASE_URL}  http://ades.test.${PUBLIC_HOSTNAME}
-  Set Global Variable  ${ADES_RESOURCES_API_URL}  http://ades-pepapi.test.${PUBLIC_HOSTNAME}
+  Set Global Variable  ${ADES_BASE_URL}  http://ades.${PUBLIC_HOSTNAME}
+  Set Global Variable  ${ADES_RESOURCES_API_URL}  http://ades-pepapi.${PUBLIC_HOSTNAME}
   Set Global Variable  ${RPT_TOKEN}  0
   Set Global Variable  ${USER_A_NAME}  eric
   Set Global Variable  ${USER_A_PASSWORD}  defaultPWD

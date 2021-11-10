@@ -1,8 +1,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: dummy-service-guard
-  namespace: test
+  name: resource-catalogue-guard
+  namespace: rm
 spec:
   chart:
     spec:
@@ -17,8 +17,8 @@ spec:
     # Global values
     #---------------------------------------------------------------------------
     global:
-      context: dummy-service
-      pep: dummy-service-pep
+      context: resource-catalogue
+      pep: resource-catalogue-pep
       domain: mundi.eoepca.org
       nginxIp: 80.158.54.66
       certManager:
@@ -30,47 +30,41 @@ spec:
       configMap:
         asHostname: test
         pdpHostname: test
-      customDefaultResources:
-      - name: "Eric's space"
-        description: "Protected Access for eric to his space in the dummy service"
-        resource_uri: "/ericspace"
-        scopes: []
-        default_owner: "de287a74-a581-45b2-b66b-b14ddaf44173"
-      - name: "Bob's space"
-        description: "Protected Access for bob to his space in the dummy service"
-        resource_uri: "/bobspace"
-        scopes: []
-        default_owner: "b3e6315e-df2f-4e84-81e8-3d9173675076"
       nginxIntegration:
         enabled: false
-        # hostname: dummy-service-auth
+        # hostname: resource-catalogue-auth
       # image:
       #   pullPolicy: Always
       volumeClaim:
-        name: dummy-service-pep-pvc
+        name: eoepca-resman-pvc
         create: false
     #---------------------------------------------------------------------------
     # UMA User Agent values
     #---------------------------------------------------------------------------
     uma-user-agent:
-      fullnameOverride: dummy-service-agent
+      fullnameOverride: resource-catalogue-agent
       # image:
-      #   tag: mytest
+      #   tag: latest
       #   pullPolicy: Always
       nginxIntegration:
         enabled: true
         hosts:
-          - host: dummy-service
+          - host: resource-catalogue
             paths:
-              - path: /
+              - path: /(.*)
                 service:
-                  name: dummy-service
+                  name: resource-catalogue-service
                   port: 80
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+          nginx.ingress.kubernetes.io/enable-cors: "true"
+          nginx.ingress.kubernetes.io/rewrite-target: /$1
       client:
-        credentialsSecretName: ""
+        credentialsSecretName: "rm-uma-user-agent"
       logging:
-        level: "debug"
+        level: "info"
       unauthorizedResponse: 'Bearer realm="https://portal.mundi.eoepca.org/oidc/authenticate/"'
+      openAccess: true
     #---------------------------------------------------------------------------
     # END values
     #---------------------------------------------------------------------------

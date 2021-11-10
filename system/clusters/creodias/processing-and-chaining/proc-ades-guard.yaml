@@ -1,8 +1,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: dummy-service-guard
-  namespace: test
+  name: proc-ades-guard
+  namespace: proc
 spec:
   chart:
     spec:
@@ -17,8 +17,8 @@ spec:
     # Global values
     #---------------------------------------------------------------------------
     global:
-      context: dummy-service
-      pep: dummy-service-pep
+      context: ades
+      pep: proc-ades-pep
       domain: mundi.eoepca.org
       nginxIp: 80.158.54.66
       certManager:
@@ -31,46 +31,56 @@ spec:
         asHostname: test
         pdpHostname: test
       customDefaultResources:
-      - name: "Eric's space"
-        description: "Protected Access for eric to his space in the dummy service"
-        resource_uri: "/ericspace"
+      - name: "ADES Service for user 'eric'"
+        description: "Protected Access for eric to his space in the ADES"
+        resource_uri: "/eric"
         scopes: []
-        default_owner: "de287a74-a581-45b2-b66b-b14ddaf44173"
-      - name: "Bob's space"
-        description: "Protected Access for bob to his space in the dummy service"
-        resource_uri: "/bobspace"
+        default_owner: "d3688daa-385d-45b0-8e04-2062e3e2cd86"
+      - name: "ADES Service for user 'bob'"
+        description: "Protected Access for bob to his space in the ADES"
+        resource_uri: "/bob"
         scopes: []
-        default_owner: "b3e6315e-df2f-4e84-81e8-3d9173675076"
+        default_owner: "f12c2592-0332-49f4-a4fb-7063b3c2a889"
+      - name: "ADES Service for user 'alice'"
+        description: "Protected Access for alice to her space in the ADES"
+        resource_uri: "/alice"
+        scopes: []
+        default_owner: "07ed7426-4b95-4598-9de2-46f92681daa0"
       nginxIntegration:
         enabled: false
-        # hostname: dummy-service-auth
+        # hostname: proc-ades-auth
       # image:
       #   pullPolicy: Always
       volumeClaim:
-        name: dummy-service-pep-pvc
+        name: eoepca-proc-pvc
         create: false
     #---------------------------------------------------------------------------
     # UMA User Agent values
     #---------------------------------------------------------------------------
     uma-user-agent:
-      fullnameOverride: dummy-service-agent
+      fullnameOverride: proc-ades-agent
       # image:
-      #   tag: mytest
+      #   tag: latest
       #   pullPolicy: Always
       nginxIntegration:
         enabled: true
         hosts:
-          - host: dummy-service
+          - host: ades
             paths:
-              - path: /
+              - path: /(.*)
                 service:
-                  name: dummy-service
+                  name: proc-ades
                   port: 80
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+          nginx.ingress.kubernetes.io/enable-cors: "true"
+          nginx.ingress.kubernetes.io/rewrite-target: /$1
       client:
-        credentialsSecretName: ""
+        credentialsSecretName: "proc-uma-user-agent"
       logging:
-        level: "debug"
-      unauthorizedResponse: 'Bearer realm="https://portal.mundi.eoepca.org/oidc/authenticate/"'
+        level: "info"
+      unauthorizedResponse: 'Bearer realm="https://test.mundi.eoepca.org/oxauth/auth/passport/passportlogin.htm"'
+      openAccess: false
     #---------------------------------------------------------------------------
     # END values
     #---------------------------------------------------------------------------

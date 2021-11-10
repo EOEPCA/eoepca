@@ -6,9 +6,7 @@
         "format": {
           "mimeType": "application/cwl"
         },
-        "value": {
-          "href": "https://raw.githubusercontent.com/EOEPCA/app-snuggs/main/app-package.cwl"
-        }
+        "href": "s3://demo-user-eric/application-package/s-expression/s-expression-0_0_2.cwl"
       }
     }
   ],

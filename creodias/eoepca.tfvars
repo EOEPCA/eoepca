@@ -1,13 +1,13 @@
 
 # cluster
-cluster_name = "develop"
+cluster_name = "demo"
 
 # network
 external_net = "31d7e67a-b30a-43f4-8b06-1667c70ba90d"
 floatingip_pool = "external3"
-network_name = "develop"
+network_name = "demo"
 eodata_network_name = "eodata"
-subnet_cidr = "192.168.123.0/24"
+subnet_cidr = "192.168.100.0/24"
 dns_nameservers = ["8.8.8.8", "8.8.4.4"]
 
 #-------------------------------------------------------------------------------

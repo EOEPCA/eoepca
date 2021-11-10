@@ -23,5 +23,5 @@ spec:
     configmap:
       user_prefix: mundi-user
     image:
-      tag: 2021.10.07.10.27
+      tag: 2021.10.18.09.18
   interval: 1m0s

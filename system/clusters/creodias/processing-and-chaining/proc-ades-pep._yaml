@@ -1,12 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: dummy-service-pep
-  namespace: test
+  name: proc-ades-pep
+  namespace: proc
 spec:
   chart:
     spec:
       chart: pep-engine
+      version: 0.9.38
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -14,19 +15,24 @@ spec:
   values:
     imagePullSecrets:
       - name: regcred  
-    context: dummy-service
     global:
-      pep: dummy-service-pep
-      domain: test.80.158.54.66.nip.io
+      context: ades
+      pep: proc-ades-pep
+      domain: mundi.eoepca.org
       nginxIp: 80.158.54.66
     configMap:
-      resourceServer: http://dummy-service/
+      workingMode: FULL
+    resourceServer:
+      name: proc-ades
+    nginxIntegration:
+      enabled: false
     image:
-      pullPolicy: Always
+      tag: task415_5
+      # pullPolicy: Always
     certManager:
       clusterIssuer: letsencrypt
     volumeClaim:
-      name: dummy-service-pep-pvc
+      name: eoepca-proc-pvc
       create: false
 
   timeout: 25m0s
