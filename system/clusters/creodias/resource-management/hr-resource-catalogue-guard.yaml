@@ -27,6 +27,8 @@ spec:
     # PEP values
     #---------------------------------------------------------------------------
     pep-engine:
+      imagePullSecrets:
+        - name: regcred         
       configMap:
         workingMode: PARTIAL
         asHostname: test
@@ -43,6 +45,8 @@ spec:
     # UMA User Agent values
     #---------------------------------------------------------------------------
     uma-user-agent:
+      imagePullSecrets:
+        - name: regcred         
       fullnameOverride: resource-catalogue-agent
       # image:
       #   tag: latest

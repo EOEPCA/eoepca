@@ -27,6 +27,8 @@ spec:
     # PEP values
     #---------------------------------------------------------------------------
     pep-engine:
+      imagePullSecrets:
+        - name: regcred    
       configMap:
         asHostname: test
         pdpHostname: test
