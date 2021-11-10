@@ -53,6 +53,8 @@ spec:
     # UMA User Agent values
     #---------------------------------------------------------------------------
     uma-user-agent:
+      imagePullSecrets:
+        - name: regcred
       fullnameOverride: dummy-service-agent
       # image:
       #   tag: mytest
