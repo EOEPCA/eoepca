@@ -8,12 +8,14 @@ spec:
   chart:
     spec:
       chart: django-portal
-      version: 0.1.11
+      version: 0.1.13
       sourceRef:
         kind: HelmRepository
         name: eoepca
         namespace: common
   values:
+    imagePullSecrets:
+      - name: regcred
     ingress:
       enabled: true
     domain: mundi.eoepca.org
