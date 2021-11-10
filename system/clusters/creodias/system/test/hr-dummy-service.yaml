@@ -13,6 +13,8 @@ spec:
         name: eoepca
         namespace: common
   values:
+    imagePullSecrets:
+      - name: regcred
     ingress:
       enabled: true
       annotations:

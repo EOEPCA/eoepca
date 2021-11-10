@@ -12,6 +12,8 @@ spec:
         name: eoepca
         namespace: common
   values:
+    imagePullSecrets:
+      - name: regcred  
     context: dummy-service
     global:
       pep: dummy-service-pep

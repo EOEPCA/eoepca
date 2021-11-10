@@ -7,12 +7,14 @@ spec:
   chart:
     spec:
       chart: pep-engine
-      version: 0.9.31
+      version: 0.9.38
       sourceRef:
         kind: HelmRepository
         name: eoepca
         namespace: common
   values:
+    imagePullSecrets:
+      - name: regcred  
     global:
       context: ades
       pep: proc-ades-pep

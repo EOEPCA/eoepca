@@ -7,12 +7,14 @@ spec:
   chart:
     spec:
       chart: user-profile
-      version: 0.9.6
+      version: 0.9.9
       sourceRef:
         kind: HelmRepository
         name: eoepca
         namespace: common
-  values:    
+  values:
+    imagePullSecrets:
+      - name: regcred    
     global:
       domain: test.mundi.eoepca.org
       nginxIp: 80.158.54.66

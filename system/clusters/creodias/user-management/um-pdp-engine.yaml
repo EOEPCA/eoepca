@@ -7,12 +7,14 @@ spec:
   chart:
     spec:
       chart: pdp-engine
-      version: 0.9.5
+      version: 0.9.8
       sourceRef:
         kind: HelmRepository
         name: eoepca
         namespace: common
   values:
+    imagePullSecrets:
+      - name: regcred
     global:
       nginxIp: 80.158.54.66
       domain: test.mundi.eoepca.org

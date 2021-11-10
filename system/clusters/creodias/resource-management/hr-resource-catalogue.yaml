@@ -8,12 +8,14 @@ spec:
   chart:
     spec:
       chart: rm-resource-catalogue
-      version: 0.9.4
+      version: 1.0.1
       sourceRef:
         kind: HelmRepository
         name: eoepca
         namespace: common
   values:
+    imagePullSecrets:
+      - name: regcred    
     global:
       namespace: rm
     ingress:
