@@ -13,7 +13,8 @@ spec:
         name: eoepca
         namespace: common
   values:
-    imagePullSecrets: regcred
+    imagePullSecrets:
+      - name: regcred
     # values - start
     replicaCount: 1
     image:
@@ -220,7 +221,9 @@ spec:
       # if false the Ades will clean the volume after the workflow has successfully finished running
       processingKeepWorkspace: "False"
       # image pull secrects
-      imagePullSecrets: regcred
+      imagePullSecrets:
+        - name: regcred
+
       #  custom stagein cwl
       #stageincwl: "files/stageincwl.cwl"
       #maincwl: "files/maincwlmetrics.cwl"
