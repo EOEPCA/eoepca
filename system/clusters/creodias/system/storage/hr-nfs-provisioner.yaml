@@ -22,7 +22,7 @@ spec:
       archiveOnDelete: false
       allowVolumeExpansion: true
     nfs:
-      server: "192.168.123.14"
+      server: "192.168.0.222"
       path: /data/dynamic
   interval: 1m0s
 ---
@@ -48,6 +48,6 @@ spec:
       reclaimPolicy: Retain
       allowVolumeExpansion: true
     nfs:
-      server: "192.168.123.14"
+      server: "192.168.0.222"
       path: /data/dynamic
   interval: 1m0s
