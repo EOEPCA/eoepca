@@ -41,6 +41,4 @@ flux bootstrap github \
   --repository=eoepca \
   --branch="${BRANCH}" \
   --team=Developers \
-  --path="system/clusters/${TARGET}/system" \
-  --image-pull-secret=regcred
-
+  --path="system/clusters/${TARGET}/system"
