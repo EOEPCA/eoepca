@@ -27,6 +27,8 @@ spec:
     # PEP values
     #---------------------------------------------------------------------------
     pep-engine:
+      imagePullSecrets:
+        - name: regcred    
       configMap:
         asHostname: test
         pdpHostname: test
@@ -58,6 +60,8 @@ spec:
     # UMA User Agent values
     #---------------------------------------------------------------------------
     uma-user-agent:
+      imagePullSecrets:
+        - name: regcred    
       fullnameOverride: proc-ades-agent
       # image:
       #   tag: latest
