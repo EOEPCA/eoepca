@@ -7,14 +7,14 @@ spec:
   chart:
     spec:
       chart: pdp-engine
-      version: 0.9.5
+      version: 0.9.9
       sourceRef:
         kind: HelmRepository
         name: eoepca
         namespace: common
   values:
-    image:
-      tag: task464_1 
+    # image:
+    #   tag: v1.0
     global:
       nginxIp: 185.52.195.19
       domain: test.demo.eoepca.org
