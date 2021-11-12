@@ -44,6 +44,7 @@ spec:
     global:
       domain: test.mundi.eoepca.org
       nginxIp: 80.158.54.66
+      namespace: um
     nginx:
       ingress:
         annotations:
