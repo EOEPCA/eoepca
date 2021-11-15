@@ -283,7 +283,7 @@ metadata:
   namespace: ingress-nginx
   annotations: 
     kubernetes.io/elb.class: union
-    kubernetes.io/elb.id: cdcfeb1c-66c2-47f8-83b4-572f65eb8aaf
+    kubernetes.io/elb.id: 0c7eddcc-50e7-4251-a9d0-c64014f2c597
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Cluster
