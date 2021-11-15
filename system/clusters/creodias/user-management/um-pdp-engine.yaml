@@ -13,8 +13,9 @@ spec:
         name: eoepca
         namespace: common
   values:
-    # image:
-    #   tag: v1.0
+    image:
+      # tag: v1.0
+      pullPolicy: Always
     global:
       nginxIp: 185.52.195.19
       domain: test.demo.eoepca.org
