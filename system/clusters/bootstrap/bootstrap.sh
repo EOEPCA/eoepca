@@ -14,6 +14,7 @@ kubectl create namespace proc
 kubectl create namespace rm
 kubectl create namespace test
 kubectl create namespace um
+kubectl create namespace rm-user1
 
 # Sealed Secrets
 if test -f "sealed-secrets-master.key"; then kubectl apply -f "sealed-secrets-master.key"; fi
