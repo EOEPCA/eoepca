@@ -1,11 +1,12 @@
 *** Settings ***
-Documentation  Tests for the UMA Flow
+Documentation  Tests for the PDP
 Library  Collections
 Library  RequestsLibrary
 Library  OperatingSystem
 Library  String
 Library  Process
 Library  SSHLibrary
+Library  ../../../client/DemoClient.py  ${UM_BASE_URL}
 
 *** Variables ***
 ${HOST}=  ${UM_BASE_URL}
@@ -17,20 +18,27 @@ ${SCOPES}=  openid,permission,uma_protection
 
 *** Test Cases ***
 
-PDP Permit Policy
-  PDP Get Permit Policy  ${HOST}  ${PORT}  ${PDP_PATH_TO_VALIDATE}
+PDP Richard
+  ${eric_id_token}=  Get Id Token  eric  defaultPWD
+  Log  eric's ID token is ${eric_id_token}
+  ${ericspace_id}=  Get Resource By URI  ${DUMMY_SERVICE_RESOURCES_API_URL}  /ericspace  ${eric_id_token}
+  Log  Resource ID for /ericspace is ${ericspace_id}
 
-PDP Permit Policy Invalid ResourceID
-  PDP Get Permit With Invalid Resource Policy  ${HOST}  ${PORT}  ${PDP_PATH_TO_VALIDATE}
+# PDP Permit Policy
+#   PDP Get Permit Policy  ${HOST}  ${PORT}  ${PDP_PATH_TO_VALIDATE}
 
-PDP Deny Policy Valid ResourceID Invalid Uid
-  #PDP Get Deny Policy Uid  ${HOST}  ${PORT}  ${PDP_PATH_TO_VALIDATE}
-  Cleanup
+# PDP Permit Policy Invalid ResourceID
+#   PDP Get Permit With Invalid Resource Policy  ${HOST}  ${PORT}  ${PDP_PATH_TO_VALIDATE}
+
+# PDP Deny Policy Valid ResourceID Invalid Uid
+#   #PDP Get Deny Policy Uid  ${HOST}  ${PORT}  ${PDP_PATH_TO_VALIDATE}
+#   Cleanup
  
 *** Keywords ***
 
 PDP Get Ownership
-  ${a}=  Run Process  python3  ${CURDIR}${/}getOwnership.py  ${ID_TOKEN}
+  ${id_token}=  Get Id Token  eric  defaultPWD
+  ${a}=  Run Process  python3  ${CURDIR}${/}getOwnership.py  ${id_token}
   ${owId}=  OperatingSystem.Get File  ${CURDIR}${/}ownership_id.txt
   Set Global Variable  ${OW_ID}  ${owId}
 

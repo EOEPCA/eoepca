@@ -7,6 +7,7 @@ EOEPCA Suite Setup
   Set Global Variable  ${UM_BASE_URL}  https://test.${PUBLIC_HOSTNAME}
   Set Global Variable  ${DUMMY_SERVICE_HOSTNAME}  dummy-service.${PUBLIC_HOSTNAME}
   Set Global Variable  ${DUMMY_PEP_AUTH_HOSTNAME}  dummy-service-pep.${PUBLIC_HOSTNAME}
+  Set Global Variable  ${DUMMY_SERVICE_RESOURCES_API_URL}  http://dummy-service-pepapi.${PUBLIC_HOSTNAME}
   Set Global Variable  ${ADES_BASE_URL}  http://ades.${PUBLIC_HOSTNAME}
   Set Global Variable  ${ADES_RESOURCES_API_URL}  http://ades-pepapi.${PUBLIC_HOSTNAME}
   Set Global Variable  ${RPT_TOKEN}  0
