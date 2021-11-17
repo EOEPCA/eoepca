@@ -10,4 +10,4 @@ onExit() {
 
 trap onExit EXIT
 
-exec docker run --name mkdocs-serve -u $(id -u):$(id -g) --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material serve --dev-addr 0.0.0.0:8000
+exec docker run --name mkdocs-serve -u $(id -u):$(id -g) --rm -it -p 8000:8000 -v $(dirname ${PWD}):/docs squidfunk/mkdocs-material serve -f docs/mkdocs.yml --dev-addr 0.0.0.0:8000

@@ -10,4 +10,4 @@ onExit() {
 
 trap onExit EXIT
 
-exec docker run --name mkdocs -u $(id -u):$(id -g) --rm -it -v ${PWD}:/docs squidfunk/mkdocs-material "$@"
+exec docker run --name mkdocs -u $(id -u):$(id -g) --rm -it -v $(dirname ${PWD}):/docs squidfunk/mkdocs-material  "$@" -f docs/mkdocs.yml
