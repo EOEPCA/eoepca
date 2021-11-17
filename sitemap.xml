@@ -1,48 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://eoepca.github.io/eoepca/</loc>
-         <lastmod>2021-11-01</lastmod>
+         <loc>https://docs.eoepca.org/</loc>
+         <lastmod>2021-11-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://eoepca.github.io/eoepca/about/</loc>
-         <lastmod>2021-11-01</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eoepca.github.io/eoepca/deployment-guide/</loc>
-         <lastmod>2021-11-01</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eoepca.github.io/eoepca/deployment-guide/cluster-prerequisites/</loc>
-         <lastmod>2021-11-01</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eoepca.github.io/eoepca/deployment-guide/helm-repositories/</loc>
-         <lastmod>2021-11-01</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eoepca.github.io/eoepca/deployment-guide/kubernetes/</loc>
-         <lastmod>2021-11-01</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eoepca.github.io/eoepca/deployment-guide/login-service/</loc>
-         <lastmod>2021-11-01</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eoepca.github.io/eoepca/deployment-guide/persistence/</loc>
-         <lastmod>2021-11-01</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eoepca.github.io/eoepca/deployment-guide/resource-protection/</loc>
-         <lastmod>2021-11-01</lastmod>
+         <loc>https://docs.eoepca.org/documentation/</loc>
+         <lastmod>2021-11-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
