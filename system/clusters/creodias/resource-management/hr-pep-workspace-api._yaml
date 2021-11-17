@@ -20,6 +20,11 @@ spec:
       pep: workspace-api-pep
       domain: mundi.eoepca.org
       nginxIp: 80.158.54.66
+      resourceServer:
+        name: workspace-api-rm-workspace-api
+        port: 8080
+      certManager:
+        clusterIssuer: letsencrypt
     configMap:
       resourceServer: http://workspace-api:8080
     # image:

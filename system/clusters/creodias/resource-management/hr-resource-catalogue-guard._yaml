@@ -28,8 +28,9 @@ spec:
     #---------------------------------------------------------------------------
     pep-engine:
       imagePullSecrets:
-        - name: regcred       
+        - name: regcred         
       configMap:
+        workingMode: PARTIAL
         asHostname: test
         pdpHostname: test
       nginxIntegration:
@@ -66,8 +67,8 @@ spec:
       client:
         credentialsSecretName: "rm-uma-user-agent"
       logging:
-        level: "info"
-      unauthorizedResponse: 'Bearer realm="https://portal.mundi.eoepca.org/oidc/authenticate/"'
+        level: "debug"
+      unauthorizedResponse: 'Bearer realm="https://mundi.eoepca.org/", scope="openid user_name is_operator"'
       openAccess: true
     #---------------------------------------------------------------------------
     # END values

@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: data-access-guard
+  name: workspace-api-guard
   namespace: rm
 spec:
   chart:
     spec:
       chart: resource-guard
-      version: 0.0.31
+      version: 0.0.49
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -17,25 +17,23 @@ spec:
     # Global values
     #---------------------------------------------------------------------------
     global:
-      context: data-access
-      pep: data-access-pep
-      domain: mundi.eoepca.org
-      nginxIp: 80.158.54.66
+      context: workspace-api
+      pep: workspace-api-pep
+      domain: develop.eoepca.org
+      nginxIp: 185.52.192.231
       certManager:
         clusterIssuer: letsencrypt
     #---------------------------------------------------------------------------
     # PEP values
     #---------------------------------------------------------------------------
     pep-engine:
-      imagePullSecrets:
-        - name: regcred         
       configMap:
         workingMode: PARTIAL
-        asHostname: test
-        pdpHostname: test
+        asHostname: auth
+        pdpHostname: auth
       nginxIntegration:
         enabled: false
-        # hostname: data-access-auth
+        # hostname: workspace-api-auth
       # image:
       #   pullPolicy: Always
       volumeClaim:
@@ -45,37 +43,19 @@ spec:
     # UMA User Agent values
     #---------------------------------------------------------------------------
     uma-user-agent:
-      imagePullSecrets:
-        - name: regcred         
-      fullnameOverride: data-access-agent
+      fullnameOverride: workspace-api-agent
       # image:
       #   tag: latest
       #   pullPolicy: Always
       nginxIntegration:
         enabled: true
         hosts:
-          - host: data-access
+          - host: workspace-api
             paths:
-              - path: /(ows.*)
-                service:
-                  name: data-access-vs-renderer
-                  port: 80
-              - path: /(opensearch.*)
-                service:
-                  name: data-access-vs-renderer
-                  port: 80
-              - path: /(admin.*)
-                service:
-                  name: data-access-vs-renderer
-                  port: 80
-              - path: /cache/(.*)
-                service:
-                  name: data-access-vs-cache
-                  port: 80
               - path: /(.*)
                 service:
-                  name: data-access-vs-client
-                  port: 80
+                  name: workspace-api
+                  port: 8080
         annotations:
           nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
           nginx.ingress.kubernetes.io/enable-cors: "true"
@@ -83,9 +63,9 @@ spec:
       client:
         credentialsSecretName: "rm-uma-user-agent"
       logging:
-        level: "debug"
-      unauthorizedResponse: 'Bearer realm="https://mundi.eoepca.org/", scope="openid user_name is_operator"'
-      # openAccess: true
+        level: "info"
+      unauthorizedResponse: 'Bearer realm="https://auth.develop.eoepca.org/oxauth/auth/passport/passportlogin.htm"'
+      openAccess: false
     #---------------------------------------------------------------------------
     # END values
     #---------------------------------------------------------------------------

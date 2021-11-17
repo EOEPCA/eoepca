@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: rm-resource-catalogue
-      version: 1.0.1
+      version: 1.0.2
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -19,16 +19,18 @@ spec:
     global:
       namespace: rm
     db:
-      persistent_volume_name: pvc-8170bd2e-8b06-4fe4-a739-21624f5a7908
+      persistent_volume_name: pvc-d458f548-a4d9-4bfa-b819-0679fc4547ee
     ingress:
-      name: resource-catalogue-open
-      host: resource-catalogue-open.mundi.eoepca.org
-      tls_host: resource-catalogue-open.mundi.eoepca.org
-      tls_secret_name: resource-catalogue-open-tls
+      enabled: true
+      name: resource-catalogue
+      host: resource-catalogue.mundi.eoepca.org
+      tls_host: resource-catalogue.mundi.eoepca.org
+      tls_secret_name: resource-catalogue-tls
     pycsw:
-      # image:
-      #   pullPolicy: Always
-      #   tag: "eoepca-0.9.0"
+      image:
+        repository: geopython/pycsw
+        pullPolicy: Always
+        # tag: "eoepca-staging"
       config:
         server:
           url: https://resource-catalogue.mundi.eoepca.org/
