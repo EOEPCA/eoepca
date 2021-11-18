@@ -18,8 +18,8 @@ spec:
       - name: regcred    
     global:
       namespace: rm
-    db:
-      volume_name: resource-catalogue-db-data-bis
+    # db:
+    #   persistent_volume_name: pvc-d458f548-a4d9-4bfa-b819-0679fc4547ee
     ingress:
       enabled: true
       name: resource-catalogue
