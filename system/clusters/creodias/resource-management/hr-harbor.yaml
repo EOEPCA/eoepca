@@ -1,0 +1,59 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: harbor
+  namespace: rm
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: harbor
+      version: 1.7.3
+      sourceRef:
+        kind: HelmRepository
+        name: harbor
+        namespace: common
+  values:
+    expose:
+      ingress:
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          cert-manager.io/cluster-issuer: letsencrypt
+          nginx.ingress.kubernetes.io/proxy-read-timeout: '600'
+
+          # from chart:
+          ingress.kubernetes.io/ssl-redirect: "true"
+          ingress.kubernetes.io/proxy-body-size: "0"
+          nginx.ingress.kubernetes.io/ssl-redirect: "true"
+          nginx.ingress.kubernetes.io/proxy-body-size: "0"
+
+        hosts:
+          core: harbor.demo.eoepca.org
+          notary: harbor-notary.demo.eoepca.org
+
+    persistence:
+      persistentVolumeClaim:
+        registry:
+          storageClass: managed-nfs-storage
+        chartmuseum:
+          storageClass: managed-nfs-storage
+        jobservice:
+          storageClass: managed-nfs-storage
+        database:
+          storageClass: managed-nfs-storage
+        redis:
+          storageClass: managed-nfs-storage
+        trivy:
+          storageClass: managed-nfs-storage
+
+    externalURL: https://harbor.demo.eoepca.org
+    # initial password for logging in with user "admin"
+    harborAdminPassword: "eoepcaHarborx83NX3tVpSLAgg9UuusQ"
+
+    chartmuseum:
+      enabled: false
+    trivy:
+      enabled: false
+    notary:
+      enabled: false
+
