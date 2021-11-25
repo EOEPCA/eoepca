@@ -14,7 +14,6 @@ spec:
         name: eoepca
         namespace: common
   values:
-    foo: bar
     global:
       namespace: rm
     db:
