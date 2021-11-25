@@ -12,6 +12,5 @@ spec:
         kind: HelmRepository
         name: eoepca
         namespace: common
-  values:
-    foo: bar
+  values: {}
   interval: 1m0s
