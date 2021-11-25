@@ -7,3 +7,5 @@ pyjwkest
 pycrypto
 eoepca-scim
 pycryptodome
+owslib
+pyops
