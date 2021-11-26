@@ -102,7 +102,7 @@ spec:
 
       useResourceManager: "true"
       resourceManagerWorkspacePrefix: "demo-user"
-      resourceManagerEndpoint: "https://workspace-api.test.demo.eoepca.org"
+      resourceManagerEndpoint: "https://workspace-api.demo.eoepca.org"
       platformDomain: "https://test.demo.eoepca.org"
 
       main:
