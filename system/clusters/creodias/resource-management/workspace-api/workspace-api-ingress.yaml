@@ -1,11 +1,11 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: workspace-api
+  name: workspace-api-open
   namespace: rm
   labels:
-    app.kubernetes.io/instance: workspace-api
-    app.kubernetes.io/name: workspace-api
+    app.kubernetes.io/instance: workspace-api-open
+    app.kubernetes.io/name: workspace-api-open
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
     kubernetes.io/ingress.class: nginx
@@ -14,10 +14,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - workspace-api.demo.eoepca.org
-      secretName: workspace-api-tls
+        - workspace-api-open.demo.eoepca.org
+      secretName: workspace-api-open-tls
   rules:
-    - host: workspace-api.demo.eoepca.org
+    - host: workspace-api-open.demo.eoepca.org
       http:
         paths:
           - path: /
