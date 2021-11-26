@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: ades
-      version: 0.9.3
+      version: 1.0.0
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -18,7 +18,7 @@ spec:
     image:
       pullPolicy: Always
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "dev0.9.6"
+      tag: "dev1.0.1"
     nameOverride: ""
     fullnameOverride: ""
     serviceAccount:
