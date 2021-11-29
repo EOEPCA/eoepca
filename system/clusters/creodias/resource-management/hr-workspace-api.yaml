@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: rm-workspace-api
-      version: 0.1.12
+      version: 0.1.13
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -19,7 +19,7 @@ spec:
       repository: eoepca/rm-workspace-api
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "0.9.8"
+      tag: "0.9.9"
 
     ingress:
       enabled: true
@@ -46,3 +46,5 @@ spec:
     harborUrl: "https://harbor.develop.eoepca.org"
     harborUsername: "admin"
     harborPassword: "eoepcaHarborx83NX3tVpSLAgg9UuusQ"
+    umaClientSecretName: "rm-uma-user-agent"
+    umaClientSecretNamespace: "rm"
