@@ -18,8 +18,6 @@ spec:
     image:
       repository: eoepca/rm-workspace-api
       pullPolicy: IfNotPresent
-      # Overrides the image tag whose default is the chart appVersion.
-      tag: "0.9.8"
 
     ingress:
       enabled: true
