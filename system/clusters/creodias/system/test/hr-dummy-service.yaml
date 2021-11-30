@@ -12,5 +12,20 @@ spec:
         kind: HelmRepository
         name: eoepca
         namespace: common
-  values: {}
+  values:
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        ingress.kubernetes.io/ssl-redirect: "false"
+        cert-manager.io/cluster-issuer: letsencrypt
+      hosts:
+        - host: dummy-service-open.demo.eoepca.org
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+      tls:
+        - hosts:
+            - dummy-service-open.demo.eoepca.org
+          secretName: dummy-service-tls
   interval: 1m0s
