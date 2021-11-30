@@ -23,6 +23,8 @@ spec:
   #   valuesKey: secret_access_key
   #   targetPath: config.objectStorage.data.secret_access_key
   values:
+    imagePullSecrets:
+      - name: regcred  
     config:
       general:
         COLLECTION: COLLECTION
