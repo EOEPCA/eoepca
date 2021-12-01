@@ -4,6 +4,8 @@ from owslib.csw import CatalogueServiceWeb as CSW
 from owslib.fes import And, Or, PropertyIsEqualTo, PropertyIsGreaterThanOrEqualTo, PropertyIsLessThanOrEqualTo, PropertyIsLike, BBox, SortBy, SortProperty
 from owslib.wms import WebMapService
 import pyops
+import requests
+from bs4 import BeautifulSoup
 
 @library
 class CatalogueServiceWeb:
@@ -141,4 +143,14 @@ class CatalogueServiceWeb:
 
     @keyword(name='Open Search')
     def search_os(self, params=None):
+        print(params)
         return self.client.search(params)
+
+    @keyword(name='Search With Requests')
+    def search_req(self, endpoint):
+        print(endpoint)
+        S = requests.Session()
+        R = S.get(url=endpoint)
+        bs = BeautifulSoup(R.text, 'xml')
+        print(bs.prettify())
+        return R.text
