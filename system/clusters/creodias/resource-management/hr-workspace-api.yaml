@@ -44,3 +44,5 @@ spec:
     harborUrl: "https://harbor.demo.eoepca.org"
     harborUsername: "admin"
     harborPassword: "eoepcaHarborx83NX3tVpSLAgg9UuusQ"
+    umaClientSecretName: "rm-uma-user-agent"
+    umaClientSecretNamespace: "rm"
