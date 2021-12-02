@@ -37,12 +37,12 @@ spec:
         description: "Protected Access for eric to his space in the dummy service"
         resource_uri: "/ericspace"
         scopes: []
-        default_owner: "de287a74-a581-45b2-b66b-b14ddaf44173"
+        default_owner: "cbbf3a8a-e2c2-40e8-8c3e-894a9ba0b9ce"
       - name: "Bob's space"
         description: "Protected Access for bob to his space in the dummy service"
         resource_uri: "/bobspace"
         scopes: []
-        default_owner: "b3e6315e-df2f-4e84-81e8-3d9173675076"
+        default_owner: "cffeb126-b27a-4ca8-accf-be668e8683f3"
       nginxIntegration:
         enabled: false
         # hostname: dummy-service-auth
