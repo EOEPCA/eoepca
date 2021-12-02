@@ -28,8 +28,8 @@ spec:
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
 
         hosts:
-          core: harbor.develop.eoepca.org
-          notary: harbor-notary.develop.eoepca.org
+          core: harbor.mundi.eoepca.org
+          notary: harbor-notary.mundi.eoepca.org
 
     persistence:
       persistentVolumeClaim:
@@ -46,7 +46,7 @@ spec:
         trivy:
           storageClass: managed-nfs-storage
 
-    externalURL: https://harbor.develop.eoepca.org
+    externalURL: https://harbor.mundi.eoepca.org
     # initial password for logging in with user "admin"
     harborAdminPassword: "eoepcaHarborx83NX3tVpSLAgg9UuusQ"
 

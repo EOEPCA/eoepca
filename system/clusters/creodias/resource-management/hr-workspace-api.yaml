@@ -24,15 +24,15 @@ spec:
     ingress:
       enabled: true
       hosts:
-        - host: workspace-api.develop.eoepca.org
+        - host: workspace-api.mundi.eoepca.org
           paths: ["/"]
       tls:
         - hosts:
-            - workspace-api.develop.eoepca.org
+            - workspace-api.mundi.eoepca.org
           secretName: workspace-api-tls
 
     # some values for the workspace API
-    prefixForName: "develop-user"
+    prefixForName: "mundi-user"
     workspaceSecretName: "bucket"
     namespaceForBucketResource: "rm"
     workspaceConfigMapName: "workspace"
@@ -42,7 +42,7 @@ spec:
     helmChartVersion: "0.9.16"
     s3Endpoint: "https://cf2.cloudferro.com:8080"
     s3Region: "RegionOne"
-    workspaceDomain: develop.eoepca.org
-    harborUrl: "https://harbor.develop.eoepca.org"
+    workspaceDomain: mundi.eoepca.org
+    harborUrl: "https://harbor.mundi.eoepca.org"
     harborUsername: "admin"
     harborPassword: "eoepcaHarborx83NX3tVpSLAgg9UuusQ"

@@ -6,6 +6,11 @@ BIN_DIR="$(pwd)"
 
 trap "cd '${ORIG_DIR}'" EXIT
 
+# combined-rm-pep
+echo -n "Dumping policy for combined-rm-pep to $ORIG_DIR/combined-rm-pep.json..."
+kubectl -n rm exec -it svc/combined-rm-pep -c combined-rm-pep -- management_tools list --all | jq > "$ORIG_DIR"/combined-rm-pep.json
+echo " done"
+
 # resource-catalogue-pep
 echo -n "Dumping policy for resource-catalogue-pep to $ORIG_DIR/resource-catalogue-pep.json..."
 kubectl -n rm exec -it svc/resource-catalogue-pep -c resource-catalogue-pep -- management_tools list --all | jq > "$ORIG_DIR"/resource-catalogue-pep.json

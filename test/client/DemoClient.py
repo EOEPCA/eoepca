@@ -108,6 +108,7 @@ class DemoClient:
         else:
             print(f"client_id: {self.state['client_id']} [REUSED]")
 
+    @keyword(name='Get Client Credentials')
     def get_client_credentials(self):
         """Returns the client credentials (client_id/secret)
 
@@ -542,13 +543,13 @@ class DemoClient:
         return jwt_decoded["sub"]
 
     @keyword(name='Get Resource By Name')
-    def get_resource_by_name(self, pdp_base_url, name, id_token):
+    def get_resource_by_name(self, pep_base_url, name, id_token):
         """Get Resource By Name
         Returns a resource_id matched by name
         """
         headers = { 'content-type': "application/x-www-form-urlencoded", "cache-control": "no-cache", "Authorization": "Bearer "+id_token}
-        res = requests.get( pdp_base_url +"/resources", headers=headers, verify=False)
-        print(f"[URI] = {pdp_base_url}/resources")
+        res = requests.get( pep_base_url +"/resources", headers=headers, verify=False)
+        print(f"[URI] = {pep_base_url}/resources")
         print(f"[Headers] = {headers}")
         print(f"[Resource by URI] = {res.status_code} ({res.reason}) -> {res.text}")
         print(f"[Name] = {name}")
@@ -557,13 +558,13 @@ class DemoClient:
                 return k['_id']
 
     @keyword(name='Get Resource By URI')
-    def get_resource_by_uri(self, pdp_base_url, relative_url, id_token):
+    def get_resource_by_uri(self, pep_base_url, relative_url, id_token):
         """Get Resource By Name
         Returns a resource_id matched by name
         """
         headers = { 'content-type': "application/x-www-form-urlencoded", "cache-control": "no-cache", "Authorization": "Bearer "+id_token}
-        res = requests.get( pdp_base_url +"/resources", headers=headers, verify=False)
-        print(f"[URI] = {pdp_base_url}/resources")
+        res = requests.get( pep_base_url +"/resources", headers=headers, verify=False)
+        print(f"[URI] = {pep_base_url}/resources")
         print(f"[Headers] = {headers}")
         print(f"[Resource by URI] = {res.status_code} ({res.reason}) -> {res.text}")
         for k in json.loads(res.text):

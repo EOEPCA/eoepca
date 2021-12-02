@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: ades
-      version: 0.9.10
+      version: 1.0.0
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -20,7 +20,7 @@ spec:
     image:
       pullPolicy: Always
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "0.9.8"
+      # tag: "0.9.8"
     nameOverride: ""
     fullnameOverride: ""
     serviceAccount:
@@ -166,13 +166,18 @@ spec:
             - -res
             - $( inputs.process + ".res" )
             - valueFrom: |
-                      ${
-                      var args=[];
-                      for (var i = 0; i < inputs.wf_outputs.length; i++) {
+                ${
+                    if( !Array.isArray(inputs.wf_outputs) )
+                    {
+                        return inputs.wf_outputs.path + "/catalog.json";
+                    }
+                    var args=[];
+                    for (var i = 0; i < inputs.wf_outputs.length; i++)
+                    {
                         args.push(inputs.wf_outputs[i].path + "/catalog.json");
-                      }
-                      return args;
-                      }
+                    }
+                    return args;
+                }
           inputs:
             ADES_STAGEOUT_AWS_PROFILE:
               type: string?

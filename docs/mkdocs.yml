@@ -1,0 +1,64 @@
+site_name: EO Exploitation Platform Common Architecture
+site_url: https://docs.eoepca.org
+repo_url: https://github.com/EOEPCA/eoepca
+edit_uri: ""
+
+nav:
+  - Home: index.md
+  - Documentation: documentation.md
+
+theme:
+  # name: mkdocs
+  # name: readthedocs
+  name: material # https://squidfunk.github.io/mkdocs-material/creating-your-site/
+  # locale: en
+  # custom_dir: my_theme_customizations/
+  # static_templates:
+  #   - sitemap.html
+  # include_sidebar: false
+
+  # highlightjs: true
+  # hljs_languages:
+  #   - yaml
+  navigation_depth: 3
+
+  # For `material` theme...
+  logo: img/favicon.ico
+  favicon: img/favicon.ico
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    # - navigation.expand
+    - toc.integrate
+    - navigation.top
+
+markdown_extensions:
+  - tables
+  - toc:
+      permalink: ⚓︎
+      toc_depth: 3
+  - smarty
+  - sane_lists
+
+# docs_dir: docs
+# site_dir: site
+# extra_css:
+#     - css/extra.css
+#     - css/second_extra.css
+# extra_javascript: []
+# extra_templates: []
+# extra: {}
+# use_directory_urls: true
+# strict: false
+# dev_addr: 127.0.0.1:8000
+# plugins:
+#   - search:
+#     separator: '[\s\-\.]+'
+#     min_search_length: 3
+#     lang: en
+#     prebuild_index: False
+#     indexing: full
+#   - your_other_plugin
