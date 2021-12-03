@@ -231,7 +231,8 @@ spec:
       # if false the Ades will clean the volume after the workflow has successfully finished running
       processingKeepWorkspace: "True"
       # image pull secrects
-      imagePullSecrets: []
+      imagePullSecrets:
+        - name: eoepca-docker-apps
       #  custom stagein cwl
       #stageincwl: "files/stageincwl.cwl"
       #maincwl: "files/maincwlmetrics.cwl"
