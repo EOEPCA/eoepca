@@ -14,9 +14,14 @@ spec:
         name: eox-charts
         namespace: rm
   valuesFrom:
-  - kind: Secret
+  - secretKeyRef:
     name: cache-access-secret
-    valuesKey: values.yaml
+    namespace: rm
+    key: values.yaml
+    optional: false
+  # - kind: Secret
+  #   name: cache-access-secret
+  #   valuesKey: values.yaml
   values:
     global:
       env:
