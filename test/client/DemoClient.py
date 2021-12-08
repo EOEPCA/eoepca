@@ -505,7 +505,7 @@ class DemoClient:
         return r, access_token
 
     @keyword(name='Update Policy')
-    def update_policy(self, pdp_base_url, policy_cfg, resource_id, id_token=None, policy_id=None):
+    def update_policy(self, pdp_base_url, policy_cfg, resource_id, id_token=None, policy_id=None, action='get'):
         """Updates a policy
         If a Policy_ID is passed there will only be ownership comprobation
         """
@@ -520,8 +520,9 @@ class DemoClient:
             print(f"Policies: {policyIds['policies']}")
 
             for k in policyIds['policies']:
-                if k['config']['resource_id'] == resource_id:
+                if k['config']['resource_id'] == resource_id and k['config']['action'] == action:
                     res = self.http_request("PUT", pdp_base_url + "/policy/" + k['_id'], headers=headers, json=policy_cfg, verify=False)
+                    print(k)
         else: res = None
         if res.status_code == 401:
             return 401, res.headers["Error"]
