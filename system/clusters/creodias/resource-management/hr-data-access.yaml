@@ -370,6 +370,37 @@ spec:
               repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
               ows_url: https://data-access.develop.eoepca.org/ows
 
+    harvester:
+      image:
+        repository: eoepca/rm-harvester
+        # tag: latest
+      config:
+        redis:
+          host: data-access-redis-master
+          port: 6379
+        harvesters:
+          - name: Creodias-Opensearch
+            resource:
+              url: https://finder.creodias.eu/resto/api/collections/Sentinel2/describe.xml
+              type: OpenSearch
+              format_config:
+                type: 'application/json'
+                property_mapping:
+                  start_datetime: 'startDate'
+                  end_datetime: 'completionDate'
+                  productIdentifier: 'productIdentifier'
+              query:
+                time:
+                  property: sensed
+                  begin: 2019-09-10T00:00:00Z
+                  end: 2019-09-11T00:00:00Z
+                collection: null
+                bbox: 14.9,47.7,16.4,48.7
+            filter: {}
+            postprocessor:
+              type: harvester_eoepca.provider.CREODIASOpenSearchSentinel2Provider
+            queue: register
+
     database:
       persistence:
         enabled: true
