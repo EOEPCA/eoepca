@@ -399,7 +399,7 @@ spec:
             filter: {}
             postprocessor:
               type: harvester_eoepca.provider.CREODIASOpenSearchSentinel2Provider
-            queue: register
+            queue: register_queue
 
     database:
       persistence:
