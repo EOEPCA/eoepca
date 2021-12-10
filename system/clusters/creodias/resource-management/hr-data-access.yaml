@@ -373,7 +373,7 @@ spec:
     harvester:
       image:
         repository: eoepca/rm-harvester
-        # tag: latest
+        tag: latest
       config:
         redis:
           host: data-access-redis-master
