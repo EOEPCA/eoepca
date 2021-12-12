@@ -365,7 +365,7 @@ spec:
         tag: "0.9.12"
       config:
         backends:
-          - path: registrar_pycsw.backend.PycswBackend
+          - path: registrar_pycsw.backend.PycswItemBackend
             kwargs:
               repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
               ows_url: https://data-access.develop.eoepca.org/ows
