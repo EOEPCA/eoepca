@@ -39,7 +39,7 @@ spec:
     gitRepoResourceForHelmChartName: "eoepca"
     gitRepoResourceForHelmChartNamespace: "common"
     helmChartName: "rm-user-workspace"
-    helmChartVersion: "0.9.20"
+    helmChartVersion: "0.9.21"
     s3Endpoint: "https://cf2.cloudferro.com:8080"
     s3Region: "RegionOne"
     workspaceDomain: demo.eoepca.org
