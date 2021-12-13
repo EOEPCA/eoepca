@@ -199,6 +199,8 @@ spec:
         - name: S2MSI1C
           filter:
             s2:product_type: S2MSI1C
+          collections:
+            - S2L1C
           metadata_assets: []
           coverages:
             S2L1C_B01:
@@ -279,6 +281,8 @@ spec:
         - name: S2MSI2A
           filter:
             s2:product_type: S2MSI2A
+          collections:
+            - S2L2A
           metadata_assets: []
           coverages:
             S2L2A_B01:
