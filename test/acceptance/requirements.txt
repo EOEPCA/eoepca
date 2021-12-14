@@ -21,7 +21,7 @@ Jinja2==3.0.3
 lxml==4.6.4
 MarkupSafe==2.0.1
 outcome==1.1.0
-OWSLib @ git+git://github.com/geopython/OWSLib@4a73688c2073404a3e1c0ce6cc752865e111b65f
+OWSLib @ git+https://github.com/geopython/OWSLib@4a73688c2073404a3e1c0ce6cc752865e111b65f
 paramiko==2.8.1
 pkg_resources==0.0.0
 pycparser==2.21
@@ -31,7 +31,7 @@ pycryptodomex==3.11.0
 pyjwkest==1.4.2
 PyNaCl==1.4.0
 pyOpenSSL==21.0.0
-pyops @ git+git://github.com/EOFarm/pyops@4b53b097d098e880605056f0bcad8ca7993a2c62
+pyops @ git+https://github.com/EOFarm/pyops@4b53b097d098e880605056f0bcad8ca7993a2c62
 pyproj==3.3.0
 python-dateutil==2.8.2
 pytz==2021.3
