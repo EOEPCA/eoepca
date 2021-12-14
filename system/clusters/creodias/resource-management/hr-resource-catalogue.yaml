@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: rm-resource-catalogue
-      version: 1.0.2
+      version: 1.0.5
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -18,31 +18,27 @@ spec:
       - name: regcred    
     global:
       namespace: rm
-    # db:
-    #   persistent_volume_name: pvc-d458f548-a4d9-4bfa-b819-0679fc4547ee
+    db:
+      volume_size: 5Gi
     ingress:
       enabled: true
       name: resource-catalogue
-      host: resource-catalogue.mundi.eoepca.org
-      tls_host: resource-catalogue.mundi.eoepca.org
-      tls_secret_name: resource-catalogue-tls
+      host: resource-catalogue.demo.eoepca.org
+      tls_host: resource-catalogue.demo.eoepca.org
+      tls_secret_name: resource-catalogue-open-tls
     pycsw:
-      image:
-        repository: geopython/pycsw
-        pullPolicy: Always
-        # tag: "eoepca-staging"
       config:
         server:
           url: https://resource-catalogue.mundi.eoepca.org/
         metadata:
-          identification_title: pycsw Geospatial Catalogue
-          identification_abstract: pycsw is an OGC CSW server implementation written in Python
+          identification_title: EOEPCA Resource Catalogue
+          identification_abstract: Based on pycsw, a Python OGC CSW server implementation
           identification_keywords: catalogue,discovery,metadata
           identification_keywords_type: theme
           identification_fees: None
           identification_accessconstraints: None
-          provider_name: Organization Name
-          provider_url: https://pycsw.org/
+          provider_name: EOEPCA
+          provider_url: https://eoepca.org/
           contact_name: Lastname, Firstname
           contact_position: Position Title
           contact_address: Mailing Address
@@ -59,7 +55,7 @@ spec:
           contact_role: pointOfContact
         inspire:
           enabled: "true"
-          languages_supported: eng,gre
+          languages_supported: eng
           default_language: eng
           date: YYYY-MM-DD
           gemet_keywords: Utility and governmental services

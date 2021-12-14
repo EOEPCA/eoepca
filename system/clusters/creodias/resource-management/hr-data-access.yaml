@@ -8,79 +8,85 @@ spec:
   chart:
     spec:
       chart: vs
-      version: 2.0.2
+      version: 2.0.3
       sourceRef:
         kind: HelmRepository
         name: eox-charts
         namespace: rm
   valuesFrom:
+  # - secretKeyRef:
+  #     name: cache-access-secret
+  #     namespace: rm
+  #     key: values.yaml
+  #     optional: false
   - kind: Secret
     name: cache-access-secret
     valuesKey: values.yaml
+
   values:
-    imagePullSecrets:
-      - name: regcred  
-    envVar:
-      general:
+    global:
+      env:
         REGISTRAR_REPLACE: "true"
         CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .TIF,.tif,.xml,.jp2
-      startup_scripts:
-        - /registrar_pycsw/registrar_pycsw/initialize-collections.sh
-    storage:
-      data:
+        startup_scripts:
+          - /registrar_pycsw/registrar_pycsw/initialize-collections.sh
+
+      ingress:
+        annotations:
+          kubernetes.io/ingress.class: nginx
+          kubernetes.io/tls-acme: "true"
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+          nginx.ingress.kubernetes.io/enable-cors: "true"
+          cert-manager.io/cluster-issuer: letsencrypt
+        hosts:
+          - host: data-access.mundi.eoepca.org
+        tls:
+          - hosts:
+              - data-access.mundi.eoepca.org
+            secretName: data-access-tls
+
+      storage:
         data:
+          data:
+            type: S3
+            endpoint_url: http://data.cloudferro.com
+            access_key_id: access
+            secret_access_key: access
+            region_name: RegionOne
+            validate_bucket_name: false
+        cache:
           type: S3
-          endpoint_url: http://data.cloudferro.com
-          access_key_id: access
-          secret_access_key: access
+          endpoint_url: "https://cf2.cloudferro.com:8080/cache-bucket"
+          host: "cf2.cloudferro.com:8080"
           region_name: RegionOne
-          validate_bucket_name: false
-      cache:
-        type: S3
-        endpoint_url: "https://cf2.cloudferro.com:8080/cache-bucket"
-        host: "cf2.cloudferro.com:8080"
-        region_name: RegionOne
-        region: RegionOne
-        bucket: cache-bucket
-    serviceMetadata:
-      title: EOEPCA Data Access Service developed by EOX
-      abstract: EOEPCA Data Access Service developed by EOX
-      header: "EOEPCA Data Access View Server (VS) Client powered by <a href=\"//eox.at\"><img src=\"//eox.at/wp-content/uploads/2017/09/EOX_Logo.svg\" alt=\"EOX\" style=\"height:25px;margin-left:10px\"/></a>"
-      url: https://ecma/cache/ows
-      keyword: view service
-      accessConstraints: UNKNOWN
-      fees: UNKNOWN
-      contactName: Stephan Meissl
-      contactPhone: Please contact via mail.
-      contactFacsimile: None
-      contactOrganization: EOX IT Services GmbH
-      contactCity: Vienna
-      contactStateOrProvince: Vienna
-      contactPostcode: 1090
-      contactCountry: Austria
-      contactElectronicMailAddress: office@eox.at
-      contactPosition: CTO
-      providerName: EOX
-      providerUrl: https://eox.at
-      inspireProfile: true
-      inspireMetadataUrl: TBD
-      defaultLanguage: eng
-      language: eng
-    serviceConfig:
-      cache:
-        wmsEnabled: true
-        wmtsEnabled: true
-        connectionTimeout: 10
-        timeout: 120
-        expires: 3600
-        key: /{tileset}/{grid}/{dim}/{z}/{x}/{y}.{ext}
-      registrar:
-        backends:
-          - path: registrar_pycsw.backend.PycswBackend
-            kwargs:
-              repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
-              ows_url: https://data-access.mundi.eoepca.org/ows
-    dataScheme:
+          region: RegionOne
+          bucket: cache-bucket
+
+      metadata:
+        title: EOEPCA Data Access Service developed by EOX
+        abstract: EOEPCA Data Access Service developed by EOX
+        header: "EOEPCA Data Access View Server (VS) Client powered by <a href=\"//eox.at\"><img src=\"//eox.at/wp-content/uploads/2017/09/EOX_Logo.svg\" alt=\"EOX\" style=\"height:25px;margin-left:10px\"/></a>"
+        url: https://ecma/cache/ows
+        keyword: view service
+        accessConstraints: UNKNOWN
+        fees: UNKNOWN
+        contactName: Stephan Meissl
+        contactPhone: Please contact via mail.
+        contactFacsimile: None
+        contactOrganization: EOX IT Services GmbH
+        contactCity: Vienna
+        contactStateOrProvince: Vienna
+        contactPostcode: 1090
+        contactCountry: Austria
+        contactElectronicMailAddress: office@eox.at
+        contactPosition: CTO
+        providerName: EOX
+        providerUrl: https://eox.at
+        inspireProfile: true
+        inspireMetadataUrl: TBD
+        defaultLanguage: eng
+        language: eng
+
       layers:
         - id: S2L1C
           title: Sentinel-2 Level 1C True Color
@@ -194,6 +200,8 @@ spec:
         - name: S2MSI1C
           filter:
             s2:product_type: S2MSI1C
+          collections:
+            - S2L1C
           metadata_assets: []
           coverages:
             S2L1C_B01:
@@ -274,6 +282,8 @@ spec:
         - name: S2MSI2A
           filter:
             s2:product_type: S2MSI2A
+          collections:
+            - S2L2A
           metadata_assets: []
           coverages:
             S2L2A_B01:
@@ -348,6 +358,58 @@ spec:
           masks:
             clouds:
               validity: false
+
+    renderer:
+      image:
+        repository: eoepca/rm-data-access-core
+        tag: "0.9.12"
+
+    registrar:
+      image:
+        repository: eoepca/rm-data-access-core
+        tag: "0.9.12"
+      config:
+        backends:
+          - path: registrar_pycsw.backend.PycswItemBackend
+            kwargs:
+              repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
+              ows_url: https://data-access.mundi.eoepca.org/ows
+
+    harvester:
+      image:
+        repository: eoepca/rm-harvester
+        tag: 0.9.3
+      config:
+        redis:
+          host: data-access-redis-master
+          port: 6379
+        harvesters:
+          - name: Creodias-Opensearch
+            resource:
+              url: https://finder.creodias.eu/resto/api/collections/Sentinel2/describe.xml
+              type: OpenSearch
+              format_config:
+                type: 'application/json'
+                property_mapping:
+                  start_datetime: 'startDate'
+                  end_datetime: 'completionDate'
+                  productIdentifier: 'productIdentifier'
+              query:
+                time:
+                  property: sensed
+                  begin: 2019-09-10T00:00:00Z
+                  end: 2019-09-11T00:00:00Z
+                collection: null
+                bbox: 14.9,47.7,16.4,48.7
+            filter: {}
+            postprocess:
+              type: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel2Postprocessor
+            queue: register_queue
+
+    client:
+      image:
+        tag: release-2.0.2
+
     database:
       persistence:
         enabled: true
@@ -362,34 +424,9 @@ spec:
           storageClass: managed-nfs-storage
       cluster:
         enabled: false
-    kubeConfig:
-      ingress:
-        enabled: true
-        annotations:
-          kubernetes.io/ingress.class: nginx
-          kubernetes.io/tls-acme: "true"
-          nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-          nginx.ingress.kubernetes.io/enable-cors: "true"
-          cert-manager.io/cluster-issuer: letsencrypt
-        hosts:
-          - host: data-access.develop.eoepca.org
-        tls:
-          - hosts:
-              - data-access.develop.eoepca.org
-            secretName: data-access-tls
-      registrar:
-        image:
-          repository: eoepca/rm-data-access-core
-          tag: "0.9.8"
-          # pullPolicy: Always
-      renderer:
-        image:
-          repository: eoepca/rm-data-access-core
-          tag: "0.9.8"
-          # pullPolicy: Always
-      client:
-        image:
-          tag: "release-1.5.2"
-      cache:
-        image:
-          tag: "release-1.5.2"
+
+    ingestor:
+      replicaCount: 0
+
+    preprocessor:
+      replicaCount: 0

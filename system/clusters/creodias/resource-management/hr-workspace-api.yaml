@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: rm-workspace-api
-      version: 0.1.12
+      version: 0.1.15
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -19,7 +19,7 @@ spec:
       repository: eoepca/rm-workspace-api
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "0.9.8"
+      tag: "0.9.15"
 
     ingress:
       enabled: true
@@ -39,7 +39,7 @@ spec:
     gitRepoResourceForHelmChartName: "eoepca"
     gitRepoResourceForHelmChartNamespace: "common"
     helmChartName: "rm-user-workspace"
-    helmChartVersion: "0.9.16"
+    helmChartVersion: "0.9.23"
     s3Endpoint: "https://cf2.cloudferro.com:8080"
     s3Region: "RegionOne"
     workspaceDomain: mundi.eoepca.org
