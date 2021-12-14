@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: rm-resource-catalogue
-      version: 1.0.0
+      version: 1.0.5
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -17,28 +17,26 @@ spec:
     global:
       namespace: rm
     db:
-      persistent_volume_name: pvc-8170bd2e-8b06-4fe4-a739-21624f5a7908
+      volume_size: 5Gi
     ingress:
-      name: resource-catalogue-open
-      host: resource-catalogue-open.demo.eoepca.org
-      tls_host: resource-catalogue-open.demo.eoepca.org
+      enabled: true
+      name: resource-catalogue
+      host: resource-catalogue.demo.eoepca.org
+      tls_host: resource-catalogue.demo.eoepca.org
       tls_secret_name: resource-catalogue-open-tls
     pycsw:
-      # image:
-      #   pullPolicy: Always
-      #   tag: "eoepca-0.9.0"
       config:
         server:
           url: https://resource-catalogue.demo.eoepca.org/
         metadata:
-          identification_title: pycsw Geospatial Catalogue
-          identification_abstract: pycsw is an OGC CSW server implementation written in Python
+          identification_title: EOEPCA Resource Catalogue
+          identification_abstract: Based on pycsw, a Python OGC CSW server implementation
           identification_keywords: catalogue,discovery,metadata
           identification_keywords_type: theme
           identification_fees: None
           identification_accessconstraints: None
-          provider_name: Organization Name
-          provider_url: https://pycsw.org/
+          provider_name: EOEPCA
+          provider_url: https://eoepca.org/
           contact_name: Lastname, Firstname
           contact_position: Position Title
           contact_address: Mailing Address
@@ -55,7 +53,7 @@ spec:
           contact_role: pointOfContact
         inspire:
           enabled: "true"
-          languages_supported: eng,gre
+          languages_supported: eng
           default_language: eng
           date: YYYY-MM-DD
           gemet_keywords: Utility and governmental services
