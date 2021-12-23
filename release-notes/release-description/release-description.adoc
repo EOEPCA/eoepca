@@ -1,7 +1,7 @@
 = ESA's EO Common Architecture v0.9
 :toc: macro
 
-On 23rd July 2021 we released v0.9 of our EO Exploitation Platform Common Architecture (EOEPCA). Here we provide some additional context and a technical overview.
+On 24th December 2021 we released v1.0.0 of our EO Exploitation Platform Common Architecture (EOEPCA). Here we provide some additional context and a technical overview.
 
 toc::[]
 
@@ -15,14 +15,14 @@ Interoperability through open standards is a key guiding force for the Common Ar
 * Platform developers are more likely to invest their efforts in standard implementations that have wide usage
 * Off the shelf solutions are more likely to be found for standards-based solutions
 
-Our starting point is the Use Case analysis that considers the exploitation platform from the perspective of various users, including Experts who perform analysis and create added-value resources, Consumers of those resources, and Platform Providers that provision and operate the platform.
+Our starting point is the Use Case analysis that considers the exploitation platform from the perspective of various users, including Experts who perform analysis and create added-value resources, Consumers of those resources, and Platform Providers that provision and operate the platform.
 
 .*Common Architecture Approach*
 image::eoepca-approach.png[width=100%,pdfwidth=100%,align="center"]
 
-Heavily informed by the outcomes of OGC Innovation Program activities, and taking account of existing platform approaches and industry best practise – we have derived an architecture to meet the use cases that is defined by components as building blocks with well defined service interfaces based upon open standards.
+Heavily informed by the outcomes of OGC Innovation Program activities, and taking account of existing platform approaches and industry best practise - we have derived an architecture to meet the use cases that is defined by components as building blocks with well defined service interfaces based upon open standards.
 
-During the last year we have been developing a Reference Implementation to help refine the architecture and to provide re-usable building blocks. Our developments are all open source and available publicly on GitHub. We have just released v0.9 of the reference implementation – which is a beta release that provides a minimum viable set of integrated building blocks.
+During the last year we have been developing a Reference Implementation to help refine the architecture and to provide re-usable building blocks. Our developments are all open source and available publicly on GitHub. We have just released v0.9 of the reference implementation - which is a beta release that provides a minimum viable set of integrated building blocks.
 
 We are also working with Operators whose role is to integrate the emerging reference implementation into their respective operational platforms, and so provide feedback from a platform provider and end-user perspective.
 
@@ -43,26 +43,26 @@ The release 0.9 system allows the execution of an end-to-end scenario in which a
 .*v0.9 Reference Implementation*
 image::reference-impl.png[width=100%,pdfwidth=100%,align="center"]
 
-At the heart of the system is the ADES which provides WPS and draft API Processes interfaces – including the Transaction extension for user deploy and execute of custom processes. The Application Package describes the containerised processing application, and can be pushed to a Resource Catalogue for discovery, and from where it can be deployed to an ADES instance.
+At the heart of the system is the ADES which provides WPS and draft API Processes interfaces - including the Transaction extension for user deploy and execute of custom processes. The Application Package describes the containerised processing application, and can be pushed to a Resource Catalogue for discovery, and from where it can be deployed to an ADES instance.
 
 Data is discovered through the Resource Catalogue, which provides OGC CSW. API Records (OAPIR) and OpenSearch interfaces. Input data to processing jobs is expressed using OpenSearch URLs. Data Services provide standards-based access to both platform and user-owned data. For our development system these components are integrated with the CREODIAS OpenStack offering and the EO data offering.
 
-The ADES abstracts the interface between the user’s application and the platform, by staging-in the data inputs and staging-out the processing results on behalf of the application. The abstraction relies upon use of STAC files as manifests for the data in each direction.
+The ADES abstracts the interface between the user's application and the platform, by staging-in the data inputs and staging-out the processing results on behalf of the application. The abstraction relies upon use of STAC files as manifests for the data in each direction.
 
 The ADES stages out the result-set to their personal S3 bucket that is provisioned by their User Workspace.  The User Workspace is responsible for provisioning user-specific buckets, the details of which are made available at runtime to the ADES for a user-centred stage-out. The processing cycle completes with the ADES registering the output results with the User Workspace API by reference to a STAC file that describes the products. Using this, the Workspace maintains user-specific Catalogue and Data Access endpoints which allow the user to further exploit their added-value products.
 
-For platforms to successfully interoperate they must federate user access in order for requests between services to respect the user's authorization scope and to account for their actions. The ADES is secured by means of our Identity and Access Management framework, which uses OpenID Connect and User Managed Access standards to enforce all access attempts to the ADES in accordance with configured policy rules. Users authenticate through an external identity provider – GitHub and ESA's Commercial Operator Identity Hub are currently supported, with more to follow. During operation, the ADES configures the policy enforcement through a Resource API in order to protect dynamic endpoints, such as those created when a new application is deployed, or when a new processing job is initiated.
+For platforms to successfully interoperate they must federate user access in order for requests between services to respect the user's authorization scope and to account for their actions. The ADES is secured by means of our Identity and Access Management framework, which uses OpenID Connect and User Managed Access standards to enforce all access attempts to the ADES in accordance with configured policy rules. Users authenticate through an external identity provider - GitHub and ESA's Commercial Operator Identity Hub are currently supported, with more to follow. During operation, the ADES configures the policy enforcement through a Resource API in order to protect dynamic endpoints, such as those created when a new application is deployed, or when a new processing job is initiated.
 
 == Application Deployment and Execution Service (ADES)
 
-At the heart of the exploitation platform is the ability of the expert user to deploy and execute their own algorithms within the platform, close to the data. Expert users encapsulate their application as a Docker container, and we have embraced the Common Workflow Language to describe its inputs, outputs and invocation profile.
+At the heart of the exploitation platform is the ability of the expert user to deploy and execute their own algorithms within the platform, close to the data. Expert users encapsulate their application as a Docker container, and we have embraced the Common Workflow Language to describe its inputs, outputs and invocation profile.
 
 The ADES is built-upon the Zoo-project WPS server which provides WPS 1.0, 2.0 and draft API Processes interfaces, including support for custom application deployment through the Transaction extension. The ADES uses the Calrissian workflow engine which provides a Kubernetes native CWL runner, in which each job is executed in its own Kubernetes namespace.
 
 .*Application Deployment and Execution Service (ADES)*
 image::ades-approach.png[width=70%,pdfwidth=70%,align="center"]
 
-The highlighted interfaces are those for DEPLOY and EXECUTE. For EXECUTE we follow the JSON bindings described by the draft API Processes specification. For the DEPLOY operation, for which there is no specific body format defined, we re-use that of the EXECUTE request. The DEPLOY operation is treated as an execute request of a ‘DeployProcess’ operation, with the application package being provided as an input to this execute request. A similar approach is taken for the UNDEPLOY operation.
+The highlighted interfaces are those for DEPLOY and EXECUTE. For EXECUTE we follow the JSON bindings described by the draft API Processes specification. For the DEPLOY operation, for which there is no specific body format defined, we re-use that of the EXECUTE request. The DEPLOY operation is treated as an execute request of a `DeployProcess` operation, with the application package being provided as an input to this execute request. A similar approach is taken for the UNDEPLOY operation.
 
 The Application Package is specified as a standard CWL Workflow. The DEPLOY operation expects to receive the application package either as an atom feed entry containing an OGC OWS Content Offering, or as a direct reference to the CWL.
 
@@ -70,7 +70,7 @@ In order to provide a generic ADES implementation that is platform independent, 
 
 == Processor Development Environment (PDE)
 
-The Processor Development Environment runs as a standalone VM providing a core toolset to support the development, test and packaging of processing applications – in an environment that seeks to replicate the conditions an application experiences when running in the ADES on a platform. All of this is exposed through an integrated web interface.
+The Processor Development Environment runs as a standalone VM providing a core toolset to support the development, test and packaging of processing applications - in an environment that seeks to replicate the conditions an application experiences when running in the ADES on a platform. All of this is exposed through an integrated web interface.
 
 .*Processor Development Environment (PDE)*
 image::pde-overview.png[width=70%,pdfwidth=70%,align="center"]
@@ -127,10 +127,10 @@ Data is naturally heterogeneous between different data sources, communities and 
 * OpenSearch links for data (input/output) references +
 Data (input/output) is referenced consistently through OpenSearch links, which provides machine-readable metadata to facilitate data handling.
 
-* ADES stage-in/out ‘adaptor’ +
-ADES stage-in/out provides an adapter between the source, the platform and the end-user application. Platform providers can ‘plugin’ custom implementations.
+* ADES stage-in/out 'adaptor' +
+ADES stage-in/out provides an adapter between the source, the platform and the end-user application. Platform providers can 'plugin' custom implementations.
 
-* Minimise ‘data in motion’ - cloud optimised data formats +
+* Minimise 'data in motion' - cloud optimised data formats +
 Ideally, the application can consume the data directly, which is important to gain the benefit of cloud optimised data formats.
 
 * Data abstraction services, e.g. WCS, EDR, DAPA +
@@ -138,12 +138,12 @@ Use of data access services such as WCS, in which the raw data files/formats are
 
 === Workspace
 
-The Workspace is responsible to coordinate a user’s resources within the platform. In doing so it provides an abstraction of the underlying infrastructure. The Workspace provisions storage within the underlying infrastructure, typically buckets, on behalf of the user. Components needing access to this user storage, such as the ADES staging out processing results, interrogate the Workspace to obtain details of the storage.
+The Workspace is responsible to coordinate a user's resources within the platform. In doing so it provides an abstraction of the underlying infrastructure. The Workspace provisions storage within the underlying infrastructure, typically buckets, on behalf of the user. Components needing access to this user storage, such as the ADES staging out processing results, interrogate the Workspace to obtain details of the storage.
 
 .*Workspace API*
 image::workspace-api.png[width=60%,pdfwidth=60%,align="center"]
 
-Similarly the Workspace provides an interface through which stored data can be registered by supplying a STAC manifest – thus allowing the Workspace to establish the data in the user’s catalogue. The Workspace provides user-specific endpoints for Resource Catalogue and Data Access services which facilitates the use of user resources in processing workflows.
+Similarly the Workspace provides an interface through which stored data can be registered by supplying a STAC manifest - thus allowing the Workspace to establish the data in the user's catalogue. The Workspace provides user-specific endpoints for Resource Catalogue and Data Access services which facilitates the use of user resources in processing workflows.
 
 == Identity and Access Management (IAM)
 
