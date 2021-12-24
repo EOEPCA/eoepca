@@ -1,6 +1,6 @@
-# EOEPCA System - Release 1.0.0
+# EOEPCA System - Release 1.0
 
-Release 1.0.0 is a first formal release that includes versions of the following building blocks:
+Release 1.0 is a first formal release that includes versions of the following building blocks:
 * Login Service
 * User Profile
 * Policy Enforcement Point (PEP)
@@ -14,7 +14,7 @@ Release 1.0.0 is a first formal release that includes versions of the following 
 See the [Release v1.0 Description](https://github.com/EOEPCA/eoepca/blob/v1.0/release-notes/release-description/release-description.adoc "Release v1.0 Description") for more details.
 
 
-## Release 1.0.0 Scope
+## Release 1.0 Scope
 
 The release demonstrates the following capabilities:
 * User authentication:
@@ -123,7 +123,7 @@ Alternatvely, for deployment advice, see the [Deployment Guide](https://deployme
 * Version: 1.0.0
 * Chart version: 1.0.0
 * Helm chart: https://github.com/EOEPCA/helm-charts/tree/login-service-1.0.0/charts/login-service
-* Example: https://github.com/EOEPCA/eoepca/blob/v1.0.0/system/clusters/creodias/user-management/um-login-service.yaml
+* Example: https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/user-management/um-login-service.yaml
 
 #### Resources
 
@@ -164,7 +164,7 @@ Resource Guard:
 * Version: 1.0.0
 * Chart version: 1.0.0
 * Helm chart: https://github.com/EOEPCA/helm-charts/tree/resource-guard-1.0.0/charts/resource-guard
-* Example (ADES Protection): https://github.com/EOEPCA/eoepca/blob/v1.0.0/system/clusters/creodias/processing-and-chaining/proc-ades-guard.yaml
+* Example (ADES Protection): https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/processing-and-chaining/proc-ades-guard.yaml
 * README: https://github.com/EOEPCA/helm-charts/blob/resource-guard-1.0.0/charts/resource-guard/README.md
 * Deployment Guide: https://deployment-guide.docs.eoepca.org/resource-protection/
 
@@ -173,7 +173,7 @@ Resource Guard:
 * Version: 1.0.0
 * Chart version: 1.0.0
 * Helm chart: https://github.com/EOEPCA/helm-charts/tree/pep-engine-1.0.0/charts/pep-engine
-* Example (ADES Protection): https://github.com/EOEPCA/eoepca/blob/v1.0.0/system/clusters/creodias/processing-and-chaining/proc-ades-guard.yaml#L29
+* Example (ADES Protection): https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/processing-and-chaining/proc-ades-guard.yaml#L29
 
 ##### Resources
 
@@ -201,7 +201,7 @@ Additional container images:
 * Version: 1.0.0
 * Chart version: 1.0.0
 * Helm chart: https://github.com/EOEPCA/helm-charts/tree/uma-user-agent-1.0.0/charts/uma-user-agent
-* Example (ADES Protection): https://github.com/EOEPCA/eoepca/blob/v1.0.0/system/clusters/creodias/processing-and-chaining/proc-ades-guard.yaml#L60
+* Example (ADES Protection): https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/processing-and-chaining/proc-ades-guard.yaml#L60
 
 ##### Resources
 
@@ -224,7 +224,7 @@ Resources to support deployment and configuration...
 * Version: v1.0
 * Chart version: 1.0.0
 * Helm chart: https://github.com/EOEPCA/helm-charts/tree/pdp-engine-1.0.0/charts/pdp-engine
-* Example: https://github.com/EOEPCA/eoepca/blob/v1.0.0/system/clusters/creodias/user-management/um-pdp-engine.yaml
+* Example: https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/user-management/um-pdp-engine.yaml
 
 #### Resources
 
@@ -253,7 +253,7 @@ Additional container images:
 * Version: v1.0
 * Chart version: 1.0.0
 * Helm chart: https://github.com/EOEPCA/helm-charts/tree/user-profile-1.0.0/charts/user-profile
-* Example: https://github.com/EOEPCA/eoepca/blob/v1.0.0/system/clusters/creodias/user-management/um-user-profile.yaml
+* Example: https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/user-management/um-user-profile.yaml
 
 #### Resources
 
@@ -280,7 +280,7 @@ Resources to support deployment and configuration...
 * Version: 1.0.0
 * Chart version: 1.0.0
 * Helm chart: https://github.com/EOEPCA/helm-charts/tree/ades-1.0.0/charts/ades
-* Example: https://github.com/EOEPCA/eoepca/blob/v1.0.0/system/clusters/creodias/processing-and-chaining/proc-ades.yaml
+* Example: https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/processing-and-chaining/proc-ades.yaml
 
 #### Resources
 
@@ -326,7 +326,7 @@ Sample application packages for deployment and execution on the ADES:
 * Version: 3.0.0
 * Chart version: 1.0.5
 * Helm chart: https://github.com/EOEPCA/helm-charts/tree/rm-resource-catalogue-1.0.5/charts/rm-resource-catalogue
-* Example: https://github.com/EOEPCA/eoepca/blob/v1.0.0/system/clusters/creodias/resource-management/hr-resource-catalogue.yaml
+* Example: https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/resource-management/hr-resource-catalogue.yaml
 
 #### Resources
 
@@ -353,7 +353,7 @@ Additional container images:
 * Version: 2.0.3
 * Chart version: 2.0.3
 * Helm chart: https://gitlab.eox.at/esa/prism/vs/
-* Example: https://github.com/EOEPCA/eoepca/blob/v1.0.0/system/clusters/creodias/resource-management/hr-data-access.yaml
+* Example: https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/resource-management/hr-data-access.yaml
 
 #### Resources
 
@@ -391,7 +391,7 @@ Additional container images:
 * Version: 1.0.0
 * Chart version: 1.0.0
 * Helm chart: https://github.com/EOEPCA/helm-charts/tree/rm-workspace-api-1.0.0/charts/rm-workspace-api/
-* Example: https://github.com/EOEPCA/eoepca/blob/v1.0.0/system/clusters/creodias/resource-management/hr-workspace-api.yaml
+* Example: https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/resource-management/hr-workspace-api.yaml
 
 #### Resources
 
@@ -414,7 +414,7 @@ Resources to support deployment and configuration...
 
 * Version: 0.3.2
 * No helm chart (coming soon) - installed directly with k8s yaml
-* Kubernetes yaml: https://github.com/EOEPCA/eoepca/tree/v1.0.0/system/clusters/creodias/resource-management/bucket-operator/
+* Kubernetes yaml: https://github.com/EOEPCA/eoepca/tree/v1.0/system/clusters/creodias/resource-management/bucket-operator/
 
 #### Resources
 

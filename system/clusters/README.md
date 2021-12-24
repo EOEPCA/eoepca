@@ -2,6 +2,8 @@
 
 For development, the EOEPCA system is deployed to a target Kubernetes cluster with a GitOps approach using Flux Continuous Delivery (https://fluxcd.io/).
 
+NOTE that, as an alternative approach, the [Deployment Guide](https://deployment-guide.docs.eoepca.org/) provides a more detailed description of the deployment and configuration of the components, supported by some shell scripts that deploy the components directly using `helm` (rather than using `flux` GitOps). The Deployment Guide represents a more informative introduction, and the supporting scripts assume `minikube` out-of-the-box.
+
 ## Deploy EOEPCA System
 
 ### Install Flux
@@ -14,7 +16,7 @@ curl -s https://toolkit.fluxcd.io/install.sh | sudo bash
 
 ### KUBECONFIG Note
 
-The 'flux' commands relies upon the `KUBECONFIG` environment variable - defaulting to `~/.kube/config` is it is not set. However, it seems that it does not support a `KUBECONFIG` expressed as a path (which is supported by `kubectl`). **This should be taken into account when executing flux commands.**
+The 'flux' commands relies upon the `KUBECONFIG` environment variable - defaulting to `~/.kube/config` if it is not set. However, it seems that it does not support a `KUBECONFIG` expressed as a path (which is supported by `kubectl`). **This should be taken into account when executing flux commands.**
 
 NOTE that the EOEPCA deploy/undeploy scripts take account of this automatically.
 

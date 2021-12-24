@@ -1,7 +1,7 @@
-= ESA's EO Common Architecture v1.0.0
+= ESA's EO Common Architecture v1.0
 :toc: macro
 
-On 24th December 2021 we released v1.0.0 of our EO Exploitation Platform Common Architecture (EOEPCA). Here we provide some additional context and a technical overview.
+On 24th December 2021 we released v1.0 of our EO Exploitation Platform Common Architecture (EOEPCA). Here we provide some additional context and a technical overview.
 
 toc::[]
 
@@ -34,7 +34,7 @@ image::eoepca-approach.png[width=100%,pdfwidth=100%,align="center"]
 
 Heavily informed by the outcomes of OGC Innovation Program activities, and taking account of existing platform approaches and industry best practise - we have derived an architecture to meet the use cases that is defined by components as building blocks with well defined service interfaces based upon open standards.
 
-During the 18 months we have been developing a Reference Implementation to help refine the architecture and to provide re-usable building blocks. Our developments are all open source and available publicly on GitHub. We have just released v1.0.0 of the reference implementation - that provides a minimum viable set of integrated building blocks.
+During the 18 months we have been developing a Reference Implementation to help refine the architecture and to provide re-usable building blocks. Our developments are all open source and available publicly on GitHub. We have just released v1.0 of the reference implementation - that provides a minimum viable set of integrated building blocks.
 
 We are also working with Operators whose role is to integrate the emerging reference implementation into their respective operational platforms, and so provide feedback from a platform provider and end-user perspective.
 
@@ -56,11 +56,11 @@ image::eoepca-use-cases.png[width=100%,pdfwidth=100%,align="center"]
 
 *_Platform Providers_* want to facilitate usage of their data and resources, by establishing interoperability with other platforms in the Network of Resources, and offering users a seamless cross-platform experience.
 
-== Release v1.0.0
+== Release v1.0
 
-Release 1.0.0 targets system deployment to a Kubernetes cluster using a DevOps continuous integration/delivery approach. Each building block is released as a Docker container with supporting helm chart for Kubernetes deployment. Kubernetes provides an infrastructure-agnostic target for the deployment of our reference system components.
+Release 1.0 targets system deployment to a Kubernetes cluster using a DevOps continuous integration/delivery approach. Each building block is released as a Docker container with supporting helm chart for Kubernetes deployment. Kubernetes provides an infrastructure-agnostic target for the deployment of our reference system components.
 
-The release 1.0.0 system allows the execution of an end-to-end scenario in which a user can:
+The release 1.0 system allows the execution of an end-to-end scenario in which a user can:
 
 * Develop a containerised application using the Processor Development Environment
 * Register and login to the platform
@@ -70,7 +70,7 @@ The release 1.0.0 system allows the execution of an end-to-end scenario in which
 * Initiate processing execution with outputs staged-out to S3 object store
 * Output data is registered in their secure Workspace - available through its catalogue & data access services
 
-.*v1.0.0 Reference Implementation*
+.*v1.0 Reference Implementation*
 image::reference-impl.png[width=100%,pdfwidth=100%,align="center"]
 
 At the heart of the system is the ADES which provides WPS and API Processes interfaces - including the Transaction extension for user deploy and execute of custom processes. The Application Package describes the containerised processing application, and can be pushed to a Resource Catalogue for discovery, and from where it can be deployed to an ADES instance.
@@ -100,7 +100,7 @@ In order to provide a generic ADES implementation that is platform independent, 
 
 == Processor Development Environment (PDE)
 
-NOTE: The initial version of the PDE, that is included in eoepca-v1.0.0, is engineered as a virtual machine that can be instantiated locally or within a cloud environment. This VM-based approached to the PDE is being deprecated in favour of a 'cloud-native' approach in which the PDE will be fully containerised for Kubernetes deployment. The cloud-native PDE will be released in a later version of the EOEPCA system.
+NOTE: The initial version of the PDE, that is included in eoepca-v1.0, is engineered as a virtual machine that can be instantiated locally or within a cloud environment. This VM-based approached to the PDE is being deprecated in favour of a 'cloud-native' approach in which the PDE will be fully containerised for Kubernetes deployment. The cloud-native PDE will be released in a later version of the EOEPCA system.
 
 The Processor Development Environment runs as a standalone VM providing a core toolset to support the development, test and packaging of processing applications - in an environment that seeks to replicate the conditions an application experiences when running in the ADES on a platform. All of this is exposed through an integrated web interface.
 
