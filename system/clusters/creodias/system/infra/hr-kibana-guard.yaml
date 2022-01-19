@@ -43,7 +43,7 @@ spec:
       # image:
       #   pullPolicy: Always
       volumeClaim:
-        name: eoepca-resman-pvc
+        name: infra-pvc
         create: false
     #---------------------------------------------------------------------------
     # UMA User Agent values
