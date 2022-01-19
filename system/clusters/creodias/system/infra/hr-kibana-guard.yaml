@@ -30,6 +30,7 @@ spec:
       configMap:
         asHostname: test
         pdpHostname: test
+        limitUses: 100
       defaultResources:
         - name: "Base Path"
           description: "Base path for Protected Access to service (operators only)"
@@ -66,6 +67,9 @@ spec:
           nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
           nginx.ingress.kubernetes.io/enable-cors: "true"
           nginx.ingress.kubernetes.io/rewrite-target: /$1
+      retries:
+        authorizationAttempt: 5
+        httpRequest: 5
       client:
         credentialsSecretName: "kibana-agent"
       logging:
