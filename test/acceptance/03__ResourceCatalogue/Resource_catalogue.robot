@@ -24,9 +24,10 @@ Get Operations Information
 Get Records Information
   Get Csw Records Filtered
 
-Workspace Catalogue
-  Reload Catalogue  ${WORKSPACE_CATALOGUE}/csw
-  Get Csw Records
+# Test suspended until `owslib.csw` is able to support token-based access to protected endpoint
+# Workspace Catalogue
+#   Reload Catalogue  ${WORKSPACE_CATALOGUE}/csw
+#   Get Csw Records
 
 Opensearch
   Load Opensearch  ${CATALOGUE_BASE_URL}/opensearch

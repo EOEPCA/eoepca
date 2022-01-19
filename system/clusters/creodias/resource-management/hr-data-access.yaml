@@ -22,7 +22,6 @@ spec:
   - kind: Secret
     name: cache-access-secret
     valuesKey: values.yaml
-
   values:
     global:
       env:
@@ -362,12 +361,12 @@ spec:
     renderer:
       image:
         repository: eoepca/rm-data-access-core
-        tag: "0.9.12"
+        tag: 1.0.0
 
     registrar:
       image:
         repository: eoepca/rm-data-access-core
-        tag: "0.9.12"
+        tag: 1.0.0
       config:
         backends:
           - path: registrar_pycsw.backend.PycswItemBackend
@@ -378,7 +377,7 @@ spec:
     harvester:
       image:
         repository: eoepca/rm-harvester
-        tag: 0.9.3
+        tag: 1.0.0
       config:
         redis:
           host: data-access-redis-master

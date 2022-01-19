@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: resource-guard
-      version: 0.9.0
+      version: 1.0.0
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -37,17 +37,17 @@ spec:
         description: "Protected Access for eric to his space in the ADES"
         resource_uri: "/eric"
         scopes: []
-        default_owner: "d3688daa-385d-45b0-8e04-2062e3e2cd86"
+        default_owner: "cbbf3a8a-e2c2-40e8-8c3e-894a9ba0b9ce"
       - name: "ADES Service for user 'bob'"
         description: "Protected Access for bob to his space in the ADES"
         resource_uri: "/bob"
         scopes: []
-        default_owner: "f12c2592-0332-49f4-a4fb-7063b3c2a889"
+        default_owner: "cffeb126-b27a-4ca8-accf-be668e8683f3"
       - name: "ADES Service for user 'alice'"
         description: "Protected Access for alice to her space in the ADES"
         resource_uri: "/alice"
         scopes: []
-        default_owner: "07ed7426-4b95-4598-9de2-46f92681daa0"
+        default_owner: "2c4eef49-e2de-4e4b-b4bb-4e9a12776a43"
       nginxIntegration:
         enabled: false
         # hostname: proc-ades-auth

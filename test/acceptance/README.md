@@ -31,7 +31,7 @@ At the conclusion of a successful run of the acceptance tests, the summary statu
 
 ## Test Results
 
-The test results can be visualised in the [output log file](./log.html), as follows...
+The test results can be visualised in the [output log file](./log-example.html), as follows...
 ```
 $ xdg-open log.html
 ```

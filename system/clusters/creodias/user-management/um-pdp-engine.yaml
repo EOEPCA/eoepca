@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: pdp-engine
-      version: 0.9.8
+      version: 1.0.0
       sourceRef:
         kind: HelmRepository
         name: eoepca

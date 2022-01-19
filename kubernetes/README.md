@@ -120,4 +120,4 @@ $ kubectl get all -A
 
 ## Next Steps
 
-Once the Kubernetes cluster is provisioned, the next step is to proceed with the deployment of the [EOEPCA system](../terraform/test/README.md).
+Once the Kubernetes cluster is provisioned, the next step is to proceed with the deployment of the [EOEPCA system](../system/clusters/README.md).
