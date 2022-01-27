@@ -364,6 +364,7 @@ spec:
         tag: 1.0.0
 
     registrar:
+      replicaCount: 4
       image:
         repository: eoepca/rm-data-access-core
         tag: 1.0.0
