@@ -19,11 +19,11 @@ spec:
     db:
       volume_size: 5Gi
     ingress:
-      enabled: true
-      name: resource-catalogue
-      host: resource-catalogue.demo.eoepca.org
-      tls_host: resource-catalogue.demo.eoepca.org
-      tls_secret_name: resource-catalogue-open-tls
+      enabled: false
+      # name: resource-catalogue
+      # host: resource-catalogue.demo.eoepca.org
+      # tls_host: resource-catalogue.demo.eoepca.org
+      # tls_secret_name: resource-catalogue-open-tls
     pycsw:
       config:
         server:
