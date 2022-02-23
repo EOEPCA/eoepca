@@ -15,8 +15,9 @@ spec:
         namespace: common
   values:
     domain: demo.eoepca.org
+    authHost: test
     configmap:
       user_prefix: demo-user
     image:
-      tag: 2022.01.31.15.18
+      tag: 2022.02.23.15.25
   interval: 1m0s
