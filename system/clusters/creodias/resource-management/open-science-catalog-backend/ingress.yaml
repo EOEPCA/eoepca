@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: open-science-catalog-backend
+  namespace: rm
+  labels:
+    app.kubernetes.io/instance: open-science-catalog-backend
+    app.kubernetes.io/name: open-science-catalog-backend
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+spec:
+  tls:
+    - hosts:
+        - open-science-catalog-backend.develop.eoepca.org
+      secretName: open-science-catalog-backend-tls
+  rules:
+    - host: open-science-catalog-backend.develop.eoepca.org
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: open-science-catalog-backend
+              servicePort: http
