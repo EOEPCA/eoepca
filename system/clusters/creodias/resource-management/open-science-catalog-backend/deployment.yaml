@@ -41,7 +41,7 @@ spec:
             port: 8080
         env:
         - name: GITHUB_REPO_ID
-          value: totycro/stacs
+          value: eoepca/open-science-catalog-metadata
         - name: GITHUB_TOKEN
           valueFrom:
             secretKeyRef:
