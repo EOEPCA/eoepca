@@ -112,6 +112,9 @@ spec:
 
             queue: register_queue
 
+    cache:
+      replicaCount: 0
+
     client:
       replicaCount: 0
 
