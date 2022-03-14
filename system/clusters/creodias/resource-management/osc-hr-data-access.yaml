@@ -95,7 +95,7 @@ spec:
     harvester:
       image:
         repository: eoepca/rm-harvester
-        tag: 0.9.3
+        tag: 1.0.1
       config:
         redis:
           host: data-access-redis-master
