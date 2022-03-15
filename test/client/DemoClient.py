@@ -125,7 +125,7 @@ class DemoClient:
         client_id, client_secret = self.get_client_credentials()
         headers = { 'cache-control': "no-cache" }
         data = {
-            "scope": "openid user_name is_operator",
+            "scope": "openid user_name profile is_operator",
             "grant_type": "password",
             "username": username,
             "password": password,
@@ -169,7 +169,6 @@ class DemoClient:
                     print(f"WARNING: registration of resource '{uri}' appears successful, but could not parse response body: {e}")
             elif r.status_code == 422:
                 print(f"Resource '{uri}' is already registered")
-                print('Response: ' + str(r))
 
             # Persist the resource id
             if resource_id:
@@ -249,17 +248,12 @@ class DemoClient:
             # use access token if we have one
             if access_token is not None:
                 self.trace(log_prefix, "Attempting to use existing access token")
-                print(f"Access token: {access_token}")
-
                 headers["Authorization"] = f"Bearer {access_token}"
             else:
                 self.trace(log_prefix, "No existing access token - making a naive attempt")
             # attempt access
             r = self.http_request(method, url, headers=headers, json=json, data=data)
             # if response is OK then nothing else to do
-            print(f"Headers: {headers}")
-            print(f"Response: {r}")
-
             if r.ok:
                 self.trace(log_prefix, "Successfully accessed resource")
             # if we got a 401 then initiate the UMA flow
@@ -331,6 +325,30 @@ class DemoClient:
         #         process_ids.append(process['id'])
         return r, access_token
 
+    
+    @keyword(name="Workspace Registration")
+    def workspace_register(
+        self,
+        service_base_url,
+        workspace_name,
+        resource_url,
+        id_token=None,
+        access_token=None,
+    ):
+        url = service_base_url + "/workspaces/" + workspace_name + "/register"
+        headers = {"Accept": "application/json"}
+        data = {"type": "cwl", "url": resource_url}
+        r, access_token = self.uma_http_request(
+            "POST",
+            url,
+            headers=headers,
+            id_token=id_token,
+            access_token=access_token,
+            json=data,
+        )
+        
+        print(f"[Workspace Registration] = {r.status_code} ({r.reason}) ({r.text}) ")
+    
     #---------------------------------------------------------------------------
     # ADES WPS
     #---------------------------------------------------------------------------
@@ -649,3 +667,28 @@ class DemoClient:
         self.trace_requests = False
         self.update_policy(pdp_endpoint, policy, resource_id, id_token)
         self.trace_requests = tr
+
+    def register_um_client(self):
+        """Register ourselves as a client of the platform.
+
+        Skips registration if client is already registered (client_id/secret loaded from state file).
+        """
+        if not "client_id" in self.state:
+            if self.scim_client == None:
+                self.scim_client = EOEPCA_Scim(self.base_url + "/")
+            self.client = self.scim_client.registerClient(
+                "UM Demo Client",
+                grantTypes = ["client_credentials", "password", "urn:ietf:params:oauth:grant-type:uma-ticket"],
+                redirectURIs = ["https://test.demo.eoepca.org/oxauth/auth/passport/img/github.png"],
+                logoutURI = "",
+                responseTypes = ["code","token","id_token"],
+                scopes = ['openid',  'email', 'user_name ','uma_protection', 'permission', 'is_operator', 'profile'],
+                token_endpoint_auth_method = ENDPOINT_AUTH_CLIENT_POST)
+            if self.client["client_id"] and self.client["client_secret"]:
+                self.state["client_id"] = self.client["client_id"]
+                self.state["client_secret"] = self.client["client_secret"]
+                print(f"client_id: {self.state['client_id']}")
+            else:
+                print("ERROR: Incomplete client credentials")
+        else:
+            print(f"client_id: {self.state['client_id']} [REUSED]")
