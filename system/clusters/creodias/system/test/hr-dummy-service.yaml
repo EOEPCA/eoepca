@@ -26,5 +26,5 @@ spec:
       tls:
        - secretName: dummy-service-openx-tls
          hosts:
-           - dummy-service-open.develop.eoepca.org
+           - dummy-service-openx.develop.eoepca.org
   interval: 1m0s
