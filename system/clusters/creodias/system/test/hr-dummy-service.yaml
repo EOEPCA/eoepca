@@ -16,14 +16,15 @@ spec:
     ingress:
       enabled: true
       annotations:
+        eoepca: testing
         cert-manager.io/cluster-issuer: letsencrypt
         kubernetes.io/ingress.class: nginx
       hosts:
-        - host: dummy-service-open.develop.eoepca.org
+        - host: dummy-service-openx.develop.eoepca.org
           paths:
             - path: /
       tls:
-       - secretName: dummy-service-open-tls
+       - secretName: dummy-service-openx-tls
          hosts:
            - dummy-service-open.develop.eoepca.org
   interval: 1m0s
