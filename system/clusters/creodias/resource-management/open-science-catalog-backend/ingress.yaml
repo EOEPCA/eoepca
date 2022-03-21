@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: open-science-catalog-backend
@@ -22,5 +22,7 @@ spec:
         paths:
           - path: /
             backend:
-              serviceName: open-science-catalog-backend
-              servicePort: http
+              service:
+                name: open-science-catalog-backend
+                port:
+                  number: 80
