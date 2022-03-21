@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: dummy
-      version: 0.9.2
+      version: 1.0.1
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -16,15 +16,16 @@ spec:
     ingress:
       enabled: true
       annotations:
-        eoepca: testing
-        cert-manager.io/cluster-issuer: letsencrypt
         kubernetes.io/ingress.class: nginx
+        ingress.kubernetes.io/ssl-redirect: "false"
+        nginx.ingress.kubernetes.io/ssl-redirect: "false"
+        cert-manager.io/cluster-issuer: letsencrypt
       hosts:
-        - host: dummy-service-openx.develop.eoepca.org
+        - host: dummy-service-openx.demo.eoepca.org
           paths:
             - path: /
       tls:
-       - secretName: dummy-service-openx-tls
-         hosts:
-           - dummy-service-openx.develop.eoepca.org
+        - hosts:
+            - dummy-service-openx.demo.eoepca.org
+          secretName: dummy-service-openx-tls
   interval: 1m0s
