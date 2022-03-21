@@ -20,10 +20,10 @@ spec:
     - host: bucket-operator.demo.eoepca.org
       http:
         paths:
-        - backend:
-            service:
-              name: bucket-operator
-              port:
-                number: 80
-          path: /
-          pathType: ImplementationSpecific
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bucket-operator
+                port:
+                  number: 80
