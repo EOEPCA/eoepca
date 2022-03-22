@@ -83,7 +83,7 @@ class DemoClient:
             print(f"token_endpoint: {self.token_endpoint}")
         return self.token_endpoint
 
-    def register_client(self):
+    def register_client(self, redirect_uris = [""]):
         """Register ourselves as a client of the platform.
 
         Skips registration if client is already registered (client_id/secret loaded from state file).
@@ -94,10 +94,11 @@ class DemoClient:
             self.client = self.scim_client.registerClient(
                 "Demo Client",
                 grantTypes = ["client_credentials", "password", "urn:ietf:params:oauth:grant-type:uma-ticket"],
-                redirectURIs = [""],
+                redirectURIs = redirect_uris,
                 logoutURI = "",
                 responseTypes = ["code","token","id_token"],
-                scopes = ['openid',  'email', 'user_name ','uma_protection', 'permission', 'is_operator'],
+                scopes = ['openid',  'email', 'user_name ','uma_protection', 'permission', 'is_operator', 'profile'],
+                subject_type = "public",
                 token_endpoint_auth_method = ENDPOINT_AUTH_CLIENT_POST)
             if self.client["client_id"] and self.client["client_secret"]:
                 self.state["client_id"] = self.client["client_id"]
@@ -667,28 +668,3 @@ class DemoClient:
         self.trace_requests = False
         self.update_policy(pdp_endpoint, policy, resource_id, id_token)
         self.trace_requests = tr
-
-    def register_um_client(self):
-        """Register ourselves as a client of the platform.
-
-        Skips registration if client is already registered (client_id/secret loaded from state file).
-        """
-        if not "client_id" in self.state:
-            if self.scim_client == None:
-                self.scim_client = EOEPCA_Scim(self.base_url + "/")
-            self.client = self.scim_client.registerClient(
-                "UM Demo Client",
-                grantTypes = ["client_credentials", "password", "urn:ietf:params:oauth:grant-type:uma-ticket"],
-                redirectURIs = ["https://test.demo.eoepca.org/oxauth/auth/passport/img/github.png"],
-                logoutURI = "",
-                responseTypes = ["code","token","id_token"],
-                scopes = ['openid',  'email', 'user_name ','uma_protection', 'permission', 'is_operator', 'profile'],
-                token_endpoint_auth_method = ENDPOINT_AUTH_CLIENT_POST)
-            if self.client["client_id"] and self.client["client_secret"]:
-                self.state["client_id"] = self.client["client_id"]
-                self.state["client_secret"] = self.client["client_secret"]
-                print(f"client_id: {self.state['client_id']}")
-            else:
-                print("ERROR: Incomplete client credentials")
-        else:
-            print(f"client_id: {self.state['client_id']} [REUSED]")
