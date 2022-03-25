@@ -1,0 +1,30 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: ingress-nginx
+  namespace: ingress-nginx
+spec:
+  chart:
+    spec:
+      chart: ingress-nginx
+      version: 4.0.18
+      sourceRef:
+        kind: HelmRepository
+        name: nginx
+        namespace: common
+  values:
+    controller:
+      # useful for migration of 'old' (pre k8s v1.22) Ingress definitions
+      watchIngressWithoutClass: true
+      ingressClassResource:
+        default: true
+      # service setup expected by CREODIAS Load Balancer
+      # NodePort on high-numbered ports
+      service:
+        type: NodePort
+        nodePorts:
+          http: 31080
+          https: 31443
+      publishService:
+        enabled: false
+  interval: 1m0s
