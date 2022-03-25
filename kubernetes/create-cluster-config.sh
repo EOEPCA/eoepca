@@ -74,9 +74,6 @@ $(worker_nodes)
 ingress:
   provider: none
 
-addons_include:
-  - ./ingress-controller/deploy-baremetal-creodias.yaml
-
 $(bastion_host)
 
 $(docker_registry)
