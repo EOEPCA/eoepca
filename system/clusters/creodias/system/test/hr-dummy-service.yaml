@@ -22,11 +22,11 @@ spec:
         nginx.ingress.kubernetes.io/ssl-redirect: "false"
         cert-manager.io/cluster-issuer: letsencrypt
       hosts:
-        - host: dummy-service-openx.demo.eoepca.org
+        - host: dummy-service-open.develop.eoepca.org
           paths:
             - path: /
       tls:
         - hosts:
-            - dummy-service-openx.demo.eoepca.org
-          secretName: dummy-service-openx-tls
+            - dummy-service-open.develop.eoepca.org
+          secretName: dummy-service-open-tls
   interval: 1m0s
