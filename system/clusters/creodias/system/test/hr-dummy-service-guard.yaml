@@ -58,7 +58,7 @@ spec:
       #   tag: mytest
       #   pullPolicy: Always
       nginxIntegration:
-        enabled: true
+        enabled: false
         hosts:
           - host: dummy-service
             paths:
