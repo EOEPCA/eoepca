@@ -361,7 +361,7 @@ spec:
     renderer:
       image:
         repository: eoepca/rm-data-access-core
-        tag: 1.0.1
+        tag: 1.0.2
       ingress:
         enabled: false
 
@@ -369,7 +369,7 @@ spec:
       replicaCount: 4
       image:
         repository: eoepca/rm-data-access-core
-        tag: 1.0.1
+        tag: 1.0.2
       config:
         backends:
           - path: registrar_pycsw.backend.PycswItemBackend
