@@ -22,7 +22,7 @@ spec:
       # tag: "1.0.0"
 
     ingress:
-      enabled: false
+      enabled: true
       hosts:
         - host: workspace-api-open.demo.eoepca.org
           paths: ["/"]
