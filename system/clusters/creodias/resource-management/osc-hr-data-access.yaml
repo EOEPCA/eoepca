@@ -38,12 +38,8 @@ spec:
       storage:
         data:
           data:
-            type: S3
-            endpoint_url: http://data.cloudferro.com
-            access_key_id: access
-            secret_access_key: access
-            region_name: RegionOne
-            validate_bucket_name: false
+            type: http
+            endpoint_url: https://eoepca.github.io/
         cache:
           type: S3
           endpoint_url: "https://cf2.cloudferro.com:8080/cache-bucket"
@@ -83,7 +79,7 @@ spec:
     registrar:
       image:
         repository: eoepca/rm-data-access-core
-        tag: 1.0.1
+        tag: 1.0.3
       config:
         disableDefaultEoxserver: true
         backends:
