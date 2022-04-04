@@ -79,7 +79,7 @@ spec:
     registrar:
       image:
         repository: eoepca/rm-data-access-core
-        tag: 1.0.4
+        tag: 1.0.5
       config:
         disableDefaultEoxserver: true
         backends:
