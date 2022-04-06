@@ -108,6 +108,13 @@ spec:
 
             queue: register_queue
 
+    scheduler:
+      config:
+        schedules:
+        - name: OSC-Static
+          schedule: 6 hours # 5 minutes
+          queue: harvester_queue
+
     cache:
       replicaCount: 0
 
