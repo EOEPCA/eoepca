@@ -241,7 +241,7 @@ spec:
       # processing pods node selector:
       #processingNodeSelector: {}
       # Calrissian image tag
-      calrissianImage: "terradue/calrissian:0.11.0-sprint1"
+      #calrissianImage: "terradue/calrissian:0.11.0-sprint1"
       
       pod:
         env: {}
