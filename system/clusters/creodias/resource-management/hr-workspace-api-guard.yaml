@@ -66,7 +66,7 @@ spec:
               - path: /(.*)
                 service:
                   name: workspace-api
-                  port: http
+                  port: 80
         annotations:
           nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
           nginx.ingress.kubernetes.io/enable-cors: "true"
