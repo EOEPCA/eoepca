@@ -8,7 +8,7 @@ trap "cd '${ORIG_DIR}'" EXIT
 
 CLUSTER_NAME="${1}"
 CLUSTER_YML_FILE="${2:-cluster.yml}"
-KUBERNETES_VERSION="v1.20.14-rancher1-1"
+KUBERNETES_VERSION="v1.22.5-rancher1-1"
 
 if test -z "$CLUSTER_NAME"
 then
@@ -73,9 +73,6 @@ $(worker_nodes)
 
 ingress:
   provider: none
-
-addons_include:
-  - ./ingress-controller/deploy-baremetal-creodias.yaml
 
 $(bastion_host)
 
