@@ -49,7 +49,9 @@ spec:
       annotations: {}
       hosts:
         - host: ades-open.demo.eoepca.org
-          paths: ["/"]
+          paths: 
+            - path: /
+              pathType: ImplementationSpecific
       tls: []
       #  - secretName: chart-example-tls
       #    hosts:
