@@ -39,7 +39,7 @@ spec:
     gitRepoResourceForHelmChartName: "eoepca"
     gitRepoResourceForHelmChartNamespace: "common"
     helmChartName: "rm-user-workspace"
-    helmChartVersion: "1.0.3"
+    helmChartVersion: "1.0.4"
     #helmChartStorageClassName: "managed-nfs-storage"
     helmChartStorageClassName: "invalid-test-storage-class"
     s3Endpoint: "https://cf2.cloudferro.com:8080"
