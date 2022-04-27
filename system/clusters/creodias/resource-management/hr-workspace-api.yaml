@@ -40,8 +40,8 @@ spec:
     gitRepoResourceForHelmChartNamespace: "common"
     helmChartName: "rm-user-workspace"
     helmChartVersion: "1.0.6"
-    #helmChartStorageClassName: "managed-nfs-storage"
-    helmChartStorageClassName: "invalid-test-storage-class"
+    helmChartStorageClassName: "managed-nfs-storage"
+    # helmChartStorageClassName: "invalid-test-storage-class"
     s3Endpoint: "https://cf2.cloudferro.com:8080"
     s3Region: "RegionOne"
     workspaceDomain: develop.eoepca.org
