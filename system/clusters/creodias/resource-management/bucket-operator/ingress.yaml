@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: bucket-operator
@@ -20,7 +20,10 @@ spec:
     - host: bucket-operator.demo.eoepca.org
       http:
         paths:
-          - path: /
-            backend:
-              serviceName: bucket-operator
-              servicePort: http
+        - backend:
+            service:
+              name: portal
+              port:
+                number: 80
+          path: /
+          pathType: ImplementationSpecific
