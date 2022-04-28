@@ -4,7 +4,6 @@ metadata:
   name: bucket-operator
   namespace: rm
 spec:
-  interval: 5m
   chart:
     spec:
       chart: bucket-operator
@@ -15,3 +14,4 @@ spec:
         namespace: common
   values:
     domain: develop.eoepca.org
+  interval: 1m0s
