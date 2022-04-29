@@ -21,6 +21,10 @@ See the [Release v1.1 Description](https://github.com/EOEPCA/eoepca/blob/v1.1/re
 
 TBD...
 
+* Resource Catalogue: database deployment switched to stateful set
+* Resource Catalogue: OpenSearch EO parameter detection fix
+* Resource Catalogue: OGC API Records: change items startindex to offset
+* Resource Catalogue: fixed compatibility with latest Werkzeug version
 * add your fixes here
 * ...
 
@@ -28,6 +32,12 @@ TBD...
 
 TBD...
 
+* Resource Catalogue implements OGC API Records virtual collections (pycsw RFC 10)
+* Resource Catalogue compatible with STAC API 1.0.0-rc1
+* Resource Catalogue supports custom database mappings
+* Resource Catalogue a Reference Implementation of OGC GeoRSS 1.0
+* Resource Catalogue: update based on latest CQL2 models
+* Resource Catalogue: Support for Kubernetes 2.22 ingress
 * add your new features here
 * ...
 
@@ -341,8 +351,8 @@ Sample application packages for deployment and execution on the ADES:
 ### Resource Catalogue
 
 * Version: 3.0.0
-* Chart version: 1.0.5
-* Helm chart: https://github.com/EOEPCA/helm-charts/tree/rm-resource-catalogue-1.0.5/charts/rm-resource-catalogue
+* Chart version: 1.1.0
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/rm-resource-catalogue-1.1.0/charts/rm-resource-catalogue
 * Example: https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/resource-management/hr-resource-catalogue.yaml
 
 #### Resources
@@ -358,8 +368,8 @@ Resources to support deployment and configuration...
 
 #### Containers
 
-* **pycsw (version 1.0.0)**
-  * Image: geopython/pycsw:eoepca-1.0.0
+* **pycsw (version 1.1.0)**
+  * Image: geopython/pycsw:eoepca-1.1.0
 
 Additional container images:
 * Database: postgis/postgis:12-3.1
