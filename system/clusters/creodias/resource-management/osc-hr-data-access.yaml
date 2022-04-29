@@ -114,7 +114,7 @@ spec:
       config:
         schedules:
         - name: OSC-Static
-          schedule: 5 minutes
+          schedule: 60 minutes
           queue: harvester_queue
 
     cache:
