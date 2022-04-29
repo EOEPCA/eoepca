@@ -109,6 +109,8 @@ spec:
             queue: register_queue
 
     scheduler:
+      image:
+        tag: release-2.0.2
       config:
         schedules:
         - name: OSC-Static
