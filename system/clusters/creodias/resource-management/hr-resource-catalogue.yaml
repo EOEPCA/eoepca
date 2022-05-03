@@ -18,6 +18,9 @@ spec:
       namespace: rm
     db:
       volume_size: 5Gi
+      config:
+        enabled: true
+        cpu_tuple_cost: 0.3
     ingress:
       enabled: false
       # name: resource-catalogue
