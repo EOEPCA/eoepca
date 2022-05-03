@@ -13,5 +13,7 @@ spec:
         name: eoepca
         namespace: common
   values:
+    image:
+      tag: 1.1.0
     domain: develop.eoepca.org
   interval: 1m0s
