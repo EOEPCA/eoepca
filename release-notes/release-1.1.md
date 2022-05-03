@@ -25,6 +25,8 @@ TBD...
 * Resource Catalogue: OpenSearch EO parameter detection fix
 * Resource Catalogue: OGC API Records: change items startindex to offset
 * Resource Catalogue: fixed compatibility with latest Werkzeug version
+* Processing and Chaining: nodeselector fix for processing pods
+* Processing and Chaining: k8s role creation fix for processing job namespaces
 * add your fixes here
 * ...
 
@@ -38,6 +40,10 @@ TBD...
 * Resource Catalogue a Reference Implementation of OGC GeoRSS 1.0
 * Resource Catalogue: update based on latest CQL2 models
 * Resource Catalogue: Support for Kubernetes 2.22 ingress
+* Processing and Chaining: support for sub-workflows in application packages
+* Processing and Chaining: support for application packages with multiple workflows
+* Processing and Chaining: support for k8s version 1.22.x
+* Processing and Chaining: optimized method to parse the processing results
 * add your new features here
 * ...
 
