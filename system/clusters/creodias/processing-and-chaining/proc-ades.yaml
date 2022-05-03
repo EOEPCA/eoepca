@@ -157,7 +157,7 @@ spec:
           doc: "Run Stars for staging input data"
           class: CommandLineTool
           hints:
-            DockerRequiremeent:
+            DockerRequirement:
               dockerPull: terradue/stars:1.0.0-beta.11
           id: stars
           arguments:
