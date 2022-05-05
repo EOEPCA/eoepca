@@ -16,10 +16,10 @@ spec:
   values:
     fullnameOverride: workspace-api
     image:
-      repository: eoepca/rm-workspace-api
+      # repository: eoepca/rm-workspace-api
       pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "1.0.2"
+      # tag: "1.0.2"
 
     ingress:
       enabled: true
