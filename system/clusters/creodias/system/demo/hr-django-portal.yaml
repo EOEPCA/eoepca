@@ -19,5 +19,5 @@ spec:
     configmap:
       user_prefix: demo-user
     image:
-      tag: 2022.04.27.12.34
+      tag: 2022.05.05.08.25
   interval: 1m0s
