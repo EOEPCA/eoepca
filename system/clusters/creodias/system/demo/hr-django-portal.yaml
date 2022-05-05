@@ -16,8 +16,8 @@ spec:
   values:
     ingress:
       enabled: true
-    # image:
-    #   tag: 2021.10.18.09.18
+    image:
+      tag: 2022.05.05.08.25
     domain: develop.eoepca.org
     authHost: auth
     configmap:
