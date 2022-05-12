@@ -27,6 +27,7 @@ TBD...
 * Resource Catalogue: fixed compatibility with latest Werkzeug version
 * Processing and Chaining: nodeselector fix for processing pods
 * Processing and Chaining: k8s role creation fix for processing job namespaces
+* Policy Decision Point (PDP): fixed default authenticated validation for policies
 * add your fixes here
 * ...
 
@@ -44,6 +45,11 @@ TBD...
 * Processing and Chaining: support for application packages with multiple workflows
 * Processing and Chaining: support for k8s version 1.22.x
 * Processing and Chaining: optimized method to parse the processing results
+* Policy Decision Point (PDP): validation option based on Terms and Conditions
+* Policy Decision Point (PDP): endpoint for managing Terms and Conditions
+* Policy Enforcement Point (PEP): option for retrieving resource information by providing the protected URI
+* Login Service: support for OSC role attributes
+
 * add your new features here
 * ...
 
@@ -153,9 +159,9 @@ Alternatvely, for deployment advice, see the [Deployment Guide](https://deployme
 
 ### Login Service
 
-* Version: 1.0.0
-* Chart version: 1.0.0
-* Helm chart: https://github.com/EOEPCA/helm-charts/tree/login-service-1.0.0/charts/login-service
+* Version: v1.1.2
+* Chart version: 1.1.4
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/login-service-1.1.4/charts/login-service
 * Example: https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/user-management/um-login-service.yaml
 
 #### Resources
@@ -176,8 +182,8 @@ Resources to support deployment and configuration...
   * GitHub: https://github.com/EOEPCA/um-login-passport
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/um-login-passport
 
-* **um-login-persistence (version v1.0)**
-  * Image: eoepca/um-login-persistence:v1.0
+* **um-login-persistence (version v1.1)**
+  * Image: eoepca/um-login-persistence:v1.1
   * GitHub: https://github.com/EOEPCA/um-login-persistence
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/um-login-persistence
 
@@ -203,9 +209,9 @@ Resource Guard:
 
 #### Policy Enforcement Point (PEP)
 
-* Version: 1.0.0
-* Chart version: 1.0.0
-* Helm chart: https://github.com/EOEPCA/helm-charts/tree/pep-engine-1.0.0/charts/pep-engine
+* Version: v1.1.1
+* Chart version: 1.1.2
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/pep-engine-1.1.2/charts/pep-engine
 * Example (ADES Protection): https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/processing-and-chaining/proc-ades-guard.yaml#L29
 
 ##### Resources
@@ -221,8 +227,8 @@ Resources to support deployment and configuration...
 
 ##### Containers
 
-* **um-pep-engine (version 1.0.0)**
-  * Image: eoepca/um-pep-engine:v1.0
+* **um-pep-engine (version v1.1)**
+  * Image: eoepca/um-pep-engine:v1.1
   * GitHub: https://github.com/EOEPCA/um-pep-engine
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/um-pep-engine
 
@@ -254,9 +260,9 @@ Resources to support deployment and configuration...
 
 ### Policy Decision Point (PDP)
 
-* Version: v1.0
-* Chart version: 1.0.0
-* Helm chart: https://github.com/EOEPCA/helm-charts/tree/pdp-engine-1.0.0/charts/pdp-engine
+* Version: v1.1.1
+* Chart version: 1.1.2
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/pdp-engine-1.1.2/charts/pdp-engine
 * Example: https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/user-management/um-pdp-engine.yaml
 
 #### Resources
@@ -272,8 +278,8 @@ Resources to support deployment and configuration...
 
 #### Containers
 
-* **um-pdp-engine (version v1.0)**
-  * Image: eoepca/um-pdp-engine:v1.0
+* **um-pdp-engine (version v1.1)**
+  * Image: eoepca/um-pdp-engine:v1.1
   * GitHub: https://github.com/EOEPCA/um-pdp-engine
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/um-pdp-engine
 
@@ -283,9 +289,9 @@ Additional container images:
 
 ### User Profile
 
-* Version: v1.0
-* Chart version: 1.0.0
-* Helm chart: https://github.com/EOEPCA/helm-charts/tree/user-profile-1.0.0/charts/user-profile
+* Version: v1.1.1
+* Chart version: 1.1.2
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/user-profile-1.1.2/charts/user-profile
 * Example: https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/user-management/um-user-profile.yaml
 
 #### Resources
@@ -300,8 +306,8 @@ Resources to support deployment and configuration...
 
 #### Containers
 
-* **um-user-profile (version 1.0.0)**
-  * Image: eoepca/um-user-profile:v1.0
+* **um-user-profile (version 1.1)**
+  * Image: eoepca/um-user-profile:v1.1
   * GitHub: https://github.com/EOEPCA/um-user-profile
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/um-user-profile
 
