@@ -31,6 +31,8 @@ spec:
         server:
           url: https://resource-catalogue.osc.develop.eoepca.org/
           maxrecords: 100
+          loglevel: DEBUG
+          logfile: "/tmp/pycsw.log"
         metadata:
           identification_title: Open Science Catalogue
           identification_abstract: pycsw is an OGC CSW server implementation written in Python
