@@ -7,14 +7,16 @@ spec:
   chart:
     spec:
       chart: rm-bucket-operator
-      version: 0.9.5
+      version: 0.9.8
       sourceRef:
         kind: HelmRepository
         name: eoepca
         namespace: common
   values:
-    image:
-      name: 'eoepca/rm-bucket-operator'
-      # tag: '1.1.0'
     domain: develop.eoepca.org
+    data:
+      SPRING_PROFILES_ACTIVE: 'rm'
+      OS_MEMBERROLEID: '9fe2ff9ee4384b1894a90878d3e92bab'
+      OS_SERVICEPROJECTID: 'c21467d0a0414252a79e29d38f03ff98'
+      USER_EMAIL_PATTERN: 'eoepca+<name>@eox.at'    
   interval: 1m0s
