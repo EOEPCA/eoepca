@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: rm-bucket-operator
-      version: 0.9.8
+      version: 0.9.9
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -15,8 +15,7 @@ spec:
   values:
     domain: develop.eoepca.org
     data:
-      SPRING_PROFILES_ACTIVE: 'rm'
       OS_MEMBERROLEID: '9fe2ff9ee4384b1894a90878d3e92bab'
       OS_SERVICEPROJECTID: 'c21467d0a0414252a79e29d38f03ff98'
-      USER_EMAIL_PATTERN: 'eoepca+<name>@eox.at'    
+      USER_EMAIL_PATTERN: 'eoepca+<name>@eoepca.org'
   interval: 1m0s
