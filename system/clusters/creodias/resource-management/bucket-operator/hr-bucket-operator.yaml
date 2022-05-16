@@ -18,4 +18,4 @@ spec:
       OS_MEMBERROLEID: '9fe2ff9ee4384b1894a90878d3e92bab'
       OS_SERVICEPROJECTID: 'c21467d0a0414252a79e29d38f03ff98'
       USER_EMAIL_PATTERN: 'eoepca+<name>@eoepca.org'
-interval: 1m0s
+  interval: 1m0s
