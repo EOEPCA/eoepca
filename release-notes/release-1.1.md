@@ -389,10 +389,10 @@ Additional container images:
 
 ### Data Access Services
 
-* Version: 2.0.3
-* Chart version: 2.0.3
+* Version: 2.1.4
+* Chart version: 2.1.4
 * Helm chart: https://gitlab.eox.at/esa/prism/vs/
-* Example: https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/resource-management/hr-data-access.yaml
+* Example: https://github.com/EOEPCA/eoepca/blob/v1.1/system/clusters/creodias/resource-management/hr-data-access.yaml
 
 #### Resources
 
@@ -407,19 +407,19 @@ Resources to support deployment and configuration...
 
 #### Containers
 
-* **rm-data-access-core (version 1.0.0)**
-  * Image: eoepca/rm-data-access-core:1.0.0
+* **rm-data-access-core (version 1.1.0)**
+  * Image: eoepca/rm-data-access-core:1.1.0
   * GitHub: https://github.com/EOEPCA/rm-data-access
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/rm-data-access-core
 
-* **rm-harvester (version 1.0.0)**
-  * Image: eoepca/rm-harvester:1.0.0
+* **rm-harvester (version 1.1.0)**
+  * Image: eoepca/rm-harvester:1.1.0
   * GitHub: https://github.com/EOEPCA/rm-harvester
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/rm-harvester
 
 Additional container images:
-* Cache: registry.gitlab.eox.at/vs/cache:release-2.0.2
-* Client: registry.gitlab.eox.at/vs/client:release-2.0.2
+* Cache: registry.gitlab.eox.at/vs/cache:release-2.0.9
+* Client: registry.gitlab.eox.at/vs/client:release-2.0.18
 * Database: bitnami/postgresql:11.13.0-debian-10-r40
 * Redis: bitnami/redis:6.0.8-debian-10-r0
 * Scheduler: registry.gitlab.eox.at/vs/scheduler:release-2.0.0
@@ -427,10 +427,10 @@ Additional container images:
 
 ### Workspace
 
-* Version: 1.0.0
-* Chart version: 1.0.0
-* Helm chart: https://github.com/EOEPCA/helm-charts/tree/rm-workspace-api-1.0.0/charts/rm-workspace-api/
-* Example: https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/resource-management/hr-workspace-api.yaml
+* Version: 1.1.1
+* Chart version: 1.1.1
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/rm-workspace-api-1.1.1/charts/rm-workspace-api/
+* Example: https://github.com/EOEPCA/eoepca/blob/v1.1/system/clusters/creodias/resource-management/hr-workspace-api.yaml
 
 #### Resources
 
@@ -443,17 +443,17 @@ Resources to support deployment and configuration...
 
 #### Containers
 
-* **rm-workspace-api (version 1.0.0)**
-  * Image: eoepca/rm-workspace-api:1.0.0
+* **rm-workspace-api (version 1.1.2)**
+  * Image: eoepca/rm-workspace-api:1.1.2
   * GitHub: https://github.com/EOEPCA/rm-workspace-api
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/rm-workspace-api
 
 
 ### Bucket Operator
 
-* Version: 0.3.2
+* Version: 0.9.9
 * No helm chart (coming soon) - installed directly with k8s yaml
-* Kubernetes yaml: https://github.com/EOEPCA/eoepca/tree/v1.0/system/clusters/creodias/resource-management/bucket-operator/
+* Kubernetes yaml: https://github.com/EOEPCA/eoepca/tree/v1.1/system/clusters/creodias/resource-management/bucket-operator/
 
 #### Resources
 
@@ -465,6 +465,6 @@ Resources to support deployment and configuration...
 
 #### Containers
 
-* **bucket-operator (version 0.3.2)**
-  * Image: registry.gitlab.eox.at/eox/hub/bucket-operator:0.3.2
+* **bucket-operator (version 1.1.0)**
+  * Image: registry.gitlab.eox.at/eox/hub/bucket-operator:1.1.0
   * GitHub: https://github.com/EOEPCA/rm-bucket-operator/
