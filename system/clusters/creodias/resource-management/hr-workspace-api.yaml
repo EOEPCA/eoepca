@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: rm-workspace-api
-      version: 1.0.10
+      version: 1.1.1
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -35,11 +35,11 @@ spec:
     prefixForName: "develop-user"
     workspaceSecretName: "bucket"
     namespaceForBucketResource: "rm"
-    workspaceConfigMapName: "workspace"
+    # workspaceConfigMapName: "workspace"
     gitRepoResourceForHelmChartName: "eoepca"
     gitRepoResourceForHelmChartNamespace: "common"
-    helmChartName: "rm-user-workspace"
-    helmChartVersion: "1.0.6"
+    # helmChartName: "rm-user-workspace"
+    # helmChartVersion: "1.0.6"
     helmChartStorageClassName: "managed-nfs-storage"
     # helmChartStorageClassName: "invalid-test-storage-class"
     s3Endpoint: "https://cf2.cloudferro.com:8080"
