@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: open-science-catalog-frontend
+  namespace: rm
+  labels:
+    app.kubernetes.io/instance: open-science-catalog-frontend
+    app.kubernetes.io/name: open-science-catalog-frontend
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/instance: open-science-catalog-frontend
+    app.kubernetes.io/name: open-science-catalog-frontend
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: http
