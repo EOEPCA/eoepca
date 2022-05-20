@@ -41,7 +41,7 @@ spec:
             port: 3000
         env:
         - name: STATIC_ENDPOINT
-          value: https://eoepca.github.io/open-science-catalog-metadata
+          value: https://metadata.osc.develop.eoepca.org/open-science-catalog-metadata/
         - name: DYNAMIC_ENDPOINT
           value: https://resource-catalogue.osc.develop.eoepca.org
         - name: BACKEND_ENDPOINT
