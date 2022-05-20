@@ -25,4 +25,5 @@ spec:
         backend:
           service:
             name: app-reverse-proxy
-            port: http
+            port:
+              number: 80
