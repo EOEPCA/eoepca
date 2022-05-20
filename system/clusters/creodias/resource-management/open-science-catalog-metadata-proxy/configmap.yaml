@@ -27,15 +27,11 @@ data:
         include /etc/nginx/conf.d/app.conf;
     }
   app.conf: |
-    upstream github-io {
-      server eoepca.github.io;
-      keepalive 15;
-    }
     server {
       listen 80;
       server_name _;
       location / {
-        proxy_pass http://github-io;
+        proxy_pass https://eoepca.github.io;
         proxy_http_version 1.1;
         proxy_set_header Connection "Keep-Alive";
         proxy_set_header Proxy-Connection "Keep-Alive";
