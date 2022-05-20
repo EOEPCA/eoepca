@@ -21,7 +21,9 @@ spec:
       - name: app-reverse-proxy
         image: nginx
         ports:
-        - containerPort: 80
+        - name: http
+          containerPort: 80
+          protocol: TCP
         resources:
           requests:
             cpu: 100m
