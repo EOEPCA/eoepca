@@ -10,12 +10,15 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app-reverse-proxy
+      app.kubernetes.io/instance: app-reverse-proxy
+      app.kubernetes.io/name: app-reverse-proxy
   template:
     metadata:
+      annotations:
+        prometheus.io/scrape: "true"
       labels:
-        app: app-reverse-proxy
-        category: reverse-proxy
+        app.kubernetes.io/instance: app-reverse-proxy
+        app.kubernetes.io/name: app-reverse-proxy
     spec:
       containers:
       - name: app-reverse-proxy
