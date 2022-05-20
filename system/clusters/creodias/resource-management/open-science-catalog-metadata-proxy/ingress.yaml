@@ -15,9 +15,9 @@ spec:
   tls:
     - secretName: app-mydomain-com-tls
       hosts:
-        - metadata.opensciencedata.esa.int
+        - metadata.osc.develop.eoepca.org
   rules:
-  - host: metadata.opensciencedata.esa.int
+  - host: metadata.osc.develop.eoepca.org
     http:
       paths:
       - path: /
