@@ -4,8 +4,8 @@ metadata:
   name: app-reverse-proxy
   namespace: osc
   labels:
-    app: app-reverse-proxy
-    category: reverse-proxy
+    app.kubernetes.io/instance: app-reverse-proxy
+    app.kubernetes.io/name: app-reverse-proxy
 spec:
   replicas: 1
   selector:

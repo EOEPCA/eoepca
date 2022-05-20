@@ -28,7 +28,7 @@ data:
     }
   app.conf: |
     upstream github-io {
-      server eoepca.github.io/open-science-catalog-metadata;
+      server eoepca.github.io;
       keepalive 15;
     }
     server {

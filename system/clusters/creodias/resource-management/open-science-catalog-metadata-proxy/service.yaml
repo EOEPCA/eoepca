@@ -3,12 +3,16 @@ kind: Service
 metadata:
   name: app-reverse-proxy
   namespace: osc
+  labels:
+    app.kubernetes.io/instance: app-reverse-proxy
+    app.kubernetes.io/name: app-reverse-proxy
 spec:
-  ports:
-  - name: http
-    protocol: TCP
-    targetPort: 80
-    port: 80
+  type: ClusterIP
   selector:
-    app: app-reverse-proxy
-    category: reverse-proxy
+    app.kubernetes.io/instance: app-reverse-proxy
+    app.kubernetes.io/name: app-reverse-proxy
+  ports:
+    - name: http
+      protocol: TCP
+      targetPort: 80
+      port: 80
