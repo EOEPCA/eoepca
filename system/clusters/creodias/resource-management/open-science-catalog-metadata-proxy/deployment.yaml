@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-reverse-proxy
+  namespace: osc
+  labels:
+    app: app-reverse-proxy
+    category: reverse-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-reverse-proxy
+  template:
+    metadata:
+      labels:
+        app: app-reverse-proxy
+        category: reverse-proxy
+    spec:
+      containers:
+      - name: app-reverse-proxy
+        image: nginx
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 100m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 50Mi
+        volumeMounts:
+        - name: app-rp-config-cm-vol
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+          readOnly: true
+        - name: app-rp-config-cm-vol
+          mountPath: /etc/nginx/conf.d/app.conf
+          subPath: app.conf
+          readOnly: true
+      volumes:
+      # https://medium.com/swlh/quick-fix-mounting-a-configmap-to-an-existing-volume-in-kubernetes-using-rancher-d01c472a10ad
+      - configMap:
+          name: app-rp-config-cm
+          items:
+          - key: nginx.conf
+            path: nginx.conf
+          - key: app.conf
+            path: app.conf
+        name: app-rp-config-cm-vol

@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-rp-config-cm
+  namespace: osc
+data:
+  nginx.conf: |
+    user www-data;
+    worker_processes auto;
+    pid /run/nginx.pid;
+    events {
+        worker_connections 1024;
+    }
+    http {
+        sendfile on;
+        tcp_nopush on;
+        tcp_nodelay on;
+        keepalive_timeout 65;
+        types_hash_max_size 2048;
+        include /etc/nginx/mime.types;
+        default_type application/octet-stream;
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        ssl_prefer_server_ciphers on;
+        error_log /var/log/nginx/error.log;
+        gzip on;
+        gzip_disable "msie6";
+        include /etc/nginx/conf.d/app.conf;
+    }
+  app.conf: |
+    upstream github-io {
+      server eoepca.github.io/open-science-catalog-metadata;
+      keepalive 15;
+    }
+    server {
+      listen 80;
+      server_name _;
+      location / {
+        proxy_pass http://github-io;
+        proxy_http_version 1.1;
+        proxy_set_header Connection "Keep-Alive";
+        proxy_set_header Proxy-Connection "Keep-Alive";
+        proxy_redirect off;
+      }
+      add_header Access-Control-Allow-Origin *;
+    }
