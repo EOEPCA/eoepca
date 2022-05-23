@@ -46,6 +46,6 @@ spec:
     harborPassword: "eoepcaHarborx83NX3tVpSLAgg9UuusQ"
     umaClientSecretName: "rm-uma-user-agent"
     umaClientSecretNamespace: "rm"
-    authServerIp: "1.2.3.4"
+    authServerIp: "185.52.195.19"
     authServerHostname: "test"
-    clusterIssuer: "test"
+    clusterIssuer: "letsencrypt"
