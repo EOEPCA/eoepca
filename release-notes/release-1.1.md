@@ -53,6 +53,15 @@ TBD...
 * add your new features here
 * ...
 
+## Known Issues
+
+The following issues are known to affect the `v1.1` release. The intention is to fix these issues as soon as possible and make a delta `v1.1.1` release as soon as possible...
+
+* EOEPCA-621 - Data Access renderer paerformance issues with CREODIAS JPEG2000 files
+* Data Access problems reading products from CREODIAS object storage
+* EOEPCA-622 - Workspace API using hard-coded defaults for the PEP configuration of created user workspaces
+* Workspace API does not flow the configured value for `umaClientSecretName` into the helm values of the uma-user-agent that is instantiated within the user namespace
+
 ## Release 1.0 Scope
 
 The release demonstrates the following capabilities:
