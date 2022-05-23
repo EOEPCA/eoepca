@@ -33,13 +33,13 @@ spec:
           maxrecords: 100
         metadata:
           identification_title: Open Science Catalogue
-          identification_abstract: pycsw is an OGC CSW server implementation written in Python
+          identification_abstract: Open Science Catalogue powered by pycsw
           identification_keywords: catalogue,discovery,metadata
           identification_keywords_type: theme
           identification_fees: None
           identification_accessconstraints: None
-          provider_name: Organization Name
-          provider_url: https://pycsw.org/
+          provider_name: European Space Agency
+          provider_url: https://opensciencedata.esa.int/
           contact_name: Lastname, Firstname
           contact_position: Position Title
           contact_address: Mailing Address
@@ -49,7 +49,7 @@ spec:
           contact_country: Country
           contact_phone: +xx-xxx-xxx-xxxx
           contact_fax: +xx-xxx-xxx-xxxx
-          contact_email: Email Address
+          contact_email: EOScience@esa.int
           contact_url: Contact URL
           contact_hours: Hours of Service
           contact_instructions: During hours of service.  Off on weekends.
