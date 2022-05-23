@@ -42,6 +42,8 @@ spec:
         env:
         - name: STATIC_ENDPOINT
           value: https://metadata.osc.develop.eoepca.org/open-science-catalog-metadata/
+        - name: STATIC_BASE_TO_REPLACE
+          value: https://eoepca.github.io/open-science-catalog-metadata
         - name: DYNAMIC_ENDPOINT
           value: https://resource-catalogue.osc.develop.eoepca.org
         - name: BACKEND_ENDPOINT
