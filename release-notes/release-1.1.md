@@ -19,39 +19,35 @@ See the [Release v1.1 Description](https://github.com/EOEPCA/eoepca/blob/v1.1/re
 
 ### Summary of Fixes
 
-TBD...
+Performance enhancements, refinements and fixes to the v1.0 features.
 
 * Resource Catalogue: database deployment switched to stateful set
 * Resource Catalogue: OpenSearch EO parameter detection fix
 * Resource Catalogue: OGC API Records: change items startindex to offset
 * Resource Catalogue: fixed compatibility with latest Werkzeug version
-* Processing and Chaining: nodeselector fix for processing pods
-* Processing and Chaining: k8s role creation fix for processing job namespaces
+* ADES: nodeselector fix for processing pods
+* ADES: k8s role creation fix for processing job namespaces
 * Policy Decision Point (PDP): fixed default authenticated validation for policies
-* add your fixes here
-* ...
 
 ### New Features
 
-TBD...
-
+* Upgrade of supported Kubernetes version from 1.18 -> 1.22
 * Resource Catalogue implements OGC API Records virtual collections (pycsw RFC 10)
 * Resource Catalogue compatible with STAC API 1.0.0-rc1
 * Resource Catalogue supports custom database mappings
 * Resource Catalogue a Reference Implementation of OGC GeoRSS 1.0
 * Resource Catalogue: update based on latest CQL2 models
-* Resource Catalogue: Support for Kubernetes 2.22 ingress
+* Data Access: support for STAC in the data access harvester
 * Processing and Chaining: support for sub-workflows in application packages
 * Processing and Chaining: support for application packages with multiple workflows
 * Processing and Chaining: support for k8s version 1.22.x
 * Processing and Chaining: optimized method to parse the processing results
+* Fully containerised Processor Development Environment with authentication
+* Identity & Authorization support for external tools (e.g. QGIS)
+* Login Service: support for OSC role attributes
 * Policy Decision Point (PDP): validation option based on Terms and Conditions
 * Policy Decision Point (PDP): endpoint for managing Terms and Conditions
 * Policy Enforcement Point (PEP): option for retrieving resource information by providing the protected URI
-* Login Service: support for OSC role attributes
-
-* add your new features here
-* ...
 
 ## Known Issues
 
@@ -59,8 +55,6 @@ The following issues are known to affect the `v1.1` release. The intention is to
 
 * EOEPCA-621 - Data Access renderer paerformance issues with CREODIAS JPEG2000 files
 * EOEPCA-623 - Data Access problems reading products from CREODIAS object storage
-* EOEPCA-622 - Workspace API using hard-coded defaults for the PEP configuration of created user workspaces
-* EOEPCA-624 - Workspace API does not flow the configured value for `umaClientSecretName` into the helm values of the uma-user-agent that is instantiated within the user namespace
 
 ## Release 1.0 Scope
 
@@ -91,12 +85,12 @@ The release demonstrates the following capabilities:
   * Integration of Calrissian CWL Workflow engine<br>
     *Provides native Kubernetes integration and out-of-the-box support for a variety of execution patterns - such fan-in, fan-out, etc.*
   * Dedicated user 'context' within ADES service
-* Processor Development Environment
-  * JupyterLab interface to interact with code and data
+* Processor Development Environment (PDE)
+  * JupyterHub for multi-user sessions
+  * JupyterHub integrated with Login Service for user authentication
+  * JupyterLab for user PDE instance
+  * Jupyter Notebooks for interactive analysis
   * Theia IDE to develop using an integrated development environment
-  * Local S3 Object Storage with MinIO to store EO data and results
-  * Jenkins instance to build the code with Continuous Integration
-  * Docker-in-Docker (with an Ubuntu host)
   * Tools for application package testing
 * Resource Catalogue
   * Implements ISO Metadata Application Profile 1.0.0
@@ -168,10 +162,10 @@ Alternatvely, for deployment advice, see the [Deployment Guide](https://deployme
 
 ### Login Service
 
-* Version: v1.1.2
-* Chart version: 1.1.4
-* Helm chart: https://github.com/EOEPCA/helm-charts/tree/login-service-1.1.4/charts/login-service
-* Example: https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/user-management/um-login-service.yaml
+* Version: v1.1.1
+* Chart version: 1.1.5
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/login-service-1.1.5/charts/login-service
+* Example: https://github.com/EOEPCA/eoepca/blob/v1.1/system/clusters/creodias/user-management/um-login-service.yaml
 
 #### Resources
 
@@ -209,19 +203,19 @@ Additional container images:
 The Resource Guard acts as an umbrella for the protection of resource servers via the `pep-engine` (Policy Enforcement Point) and `uma-user-agent` (UMA User Agent) components.
 
 Resource Guard:
-* Version: 1.0.0
-* Chart version: 1.0.0
-* Helm chart: https://github.com/EOEPCA/helm-charts/tree/resource-guard-1.0.0/charts/resource-guard
-* Example (ADES Protection): https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/processing-and-chaining/proc-ades-guard.yaml
-* README: https://github.com/EOEPCA/helm-charts/blob/resource-guard-1.0.0/charts/resource-guard/README.md
+* Version: u1.0.3:p1.1.3
+* Chart version: 1.0.6
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/resource-guard-1.0.6/charts/resource-guard
+* Example (ADES Protection): https://github.com/EOEPCA/eoepca/blob/v1.1/system/clusters/creodias/processing-and-chaining/proc-ades-guard.yaml
+* README: https://github.com/EOEPCA/helm-charts/blob/resource-guard-1.0.6/charts/resource-guard/README.md
 * Deployment Guide: https://deployment-guide.docs.eoepca.org/resource-protection/
 
 #### Policy Enforcement Point (PEP)
 
-* Version: v1.1.1
-* Chart version: 1.1.2
-* Helm chart: https://github.com/EOEPCA/helm-charts/tree/pep-engine-1.1.2/charts/pep-engine
-* Example (ADES Protection): https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/processing-and-chaining/proc-ades-guard.yaml#L29
+* Version: v1.1
+* Chart version: 1.1.3
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/pep-engine-1.1.3/charts/pep-engine
+* Example (ADES Protection): https://github.com/EOEPCA/eoepca/blob/v1.1/system/clusters/creodias/processing-and-chaining/proc-ades-guard.yaml#L29
 
 ##### Resources
 
@@ -246,10 +240,10 @@ Additional container images:
 
 #### UMA User Agent
 
-* Version: 1.0.0
-* Chart version: 1.0.0
-* Helm chart: https://github.com/EOEPCA/helm-charts/tree/uma-user-agent-1.0.0/charts/uma-user-agent
-* Example (ADES Protection): https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/processing-and-chaining/proc-ades-guard.yaml#L60
+* Version: 1.0.2
+* Chart version: 1.0.3
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/uma-user-agent-1.0.3/charts/uma-user-agent
+* Example (ADES Protection): https://github.com/EOEPCA/eoepca/blob/v1.1/system/clusters/creodias/processing-and-chaining/proc-ades-guard.yaml#L60
 
 ##### Resources
 
@@ -261,18 +255,18 @@ Resources to support deployment and configuration...
 
 ##### Containers
 
-* **uma-user-agent (version 1.0.0)**
-  * Image: eoepca/uma-user-agent:1.0.0
+* **uma-user-agent (version 1.0.3)**
+  * Image: eoepca/uma-user-agent:1.0.3
   * GitHub: https://github.com/EOEPCA/uma-user-agent
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/uma-user-agent
 
 
 ### Policy Decision Point (PDP)
 
-* Version: v1.1.1
-* Chart version: 1.1.2
-* Helm chart: https://github.com/EOEPCA/helm-charts/tree/pdp-engine-1.1.2/charts/pdp-engine
-* Example: https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/user-management/um-pdp-engine.yaml
+* Version: v1.1
+* Chart version: 1.1.3
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/pdp-engine-1.1.3/charts/pdp-engine
+* Example: https://github.com/EOEPCA/eoepca/blob/v1.1/system/clusters/creodias/user-management/um-pdp-engine.yaml
 
 #### Resources
 
@@ -298,10 +292,10 @@ Additional container images:
 
 ### User Profile
 
-* Version: v1.1.1
-* Chart version: 1.1.2
-* Helm chart: https://github.com/EOEPCA/helm-charts/tree/user-profile-1.1.2/charts/user-profile
-* Example: https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/user-management/um-user-profile.yaml
+* Version: v1.1
+* Chart version: 1.1.3
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/user-profile-1.1.3/charts/user-profile
+* Example: https://github.com/EOEPCA/eoepca/blob/v1.1/system/clusters/creodias/user-management/um-user-profile.yaml
 
 #### Resources
 
@@ -325,10 +319,10 @@ Resources to support deployment and configuration...
 
 ### ADES
 
-* Version: 1.0.0
-* Chart version: 1.0.0
-* Helm chart: https://github.com/EOEPCA/helm-charts/tree/ades-1.0.0/charts/ades
-* Example: https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/processing-and-chaining/proc-ades.yaml
+* Version: 1.2.0
+* Chart version: 1.1.10
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/ades-1.1.10/charts/ades
+* Example: https://github.com/EOEPCA/eoepca/blob/v1.1/system/clusters/creodias/processing-and-chaining/proc-ades.yaml
 
 #### Resources
 
@@ -341,8 +335,8 @@ Resources to support deployment and configuration...
 
 #### Containers
 
-* **proc-ades (version 1.0.0)**
-  * Image: eoepca/proc-ades:1.0.0
+* **proc-ades (version 1.2.0)**
+  * Image: eoepca/proc-ades:1.2.0
   * GitHub: https://github.com/EOEPCA/proc-ades
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/proc-ades
 
@@ -353,10 +347,15 @@ Additional container images:
 
 ### Processor Development Environment (PDE)
 
-The initial version of the PDE, that is included in eoepca-v1.0, is engineered as a virtual machine that can be instantiated locally or within a cloud environment. This VM-based approached to the PDE is being deprecated in favour of a 'cloud-native' approach in which the PDE will be fully containerised for Kubernetes deployment. The cloud-native PDE will be released in a later version of the EOEPCA system.
+* Version: 2.0.2
+* Chart version: 1.1.12
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/pde-jupyterhub-1.1.12/charts/pde-jupyterhub
+* Example: https://github.com/EOEPCA/eoepca/blob/v1.1/system/clusters/creodias/processing-and-chaining/pde-hub.yaml
 
-* Version: 0.3
-* README: https://github.com/EOEPCA/proc-pde/blob/0.3/README.md
+#### Containers
+
+* **jupyterhub/k8s-hub (version 1.1.2)**
+  * Image: jupyterhub/k8s-hub:1.1.2
 
 
 ### Sample Applications
@@ -374,7 +373,7 @@ Sample application packages for deployment and execution on the ADES:
 * Version: 3.0.0
 * Chart version: 1.1.0
 * Helm chart: https://github.com/EOEPCA/helm-charts/tree/rm-resource-catalogue-1.1.0/charts/rm-resource-catalogue
-* Example: https://github.com/EOEPCA/eoepca/blob/v1.0/system/clusters/creodias/resource-management/hr-resource-catalogue.yaml
+* Example: https://github.com/EOEPCA/eoepca/blob/v1.1/system/clusters/creodias/resource-management/hr-resource-catalogue.yaml
 
 #### Resources
 
@@ -389,7 +388,7 @@ Resources to support deployment and configuration...
 
 #### Containers
 
-* **pycsw (version 1.1.0)**
+* **pycsw (version eoepca-1.1.0)**
   * Image: geopython/pycsw:eoepca-1.1.0
 
 Additional container images:
@@ -398,8 +397,8 @@ Additional container images:
 
 ### Data Access Services
 
-* Version: 2.1.4
-* Chart version: 2.1.4
+* Version: 2.0.3
+* Chart version: 2.0.3
 * Helm chart: https://gitlab.eox.at/esa/prism/vs/
 * Example: https://github.com/EOEPCA/eoepca/blob/v1.1/system/clusters/creodias/resource-management/hr-data-access.yaml
 
@@ -427,8 +426,8 @@ Resources to support deployment and configuration...
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/rm-harvester
 
 Additional container images:
-* Cache: registry.gitlab.eox.at/vs/cache:release-2.0.9
-* Client: registry.gitlab.eox.at/vs/client:release-2.0.18
+* Cache: registry.gitlab.eox.at/vs/cache:release-2.0.2
+* Client: registry.gitlab.eox.at/vs/client:release-2.0.2
 * Database: bitnami/postgresql:11.13.0-debian-10-r40
 * Redis: bitnami/redis:6.0.8-debian-10-r0
 * Scheduler: registry.gitlab.eox.at/vs/scheduler:release-2.0.0
@@ -436,9 +435,9 @@ Additional container images:
 
 ### Workspace
 
-* Version: 1.1.1
-* Chart version: 1.1.1
-* Helm chart: https://github.com/EOEPCA/helm-charts/tree/rm-workspace-api-1.1.1/charts/rm-workspace-api/
+* Version: 1.0.3
+* Chart version: 1.1.4
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/rm-workspace-api-1.1.4/charts/rm-workspace-api/
 * Example: https://github.com/EOEPCA/eoepca/blob/v1.1/system/clusters/creodias/resource-management/hr-workspace-api.yaml
 
 #### Resources
@@ -452,17 +451,18 @@ Resources to support deployment and configuration...
 
 #### Containers
 
-* **rm-workspace-api (version 1.1.2)**
-  * Image: eoepca/rm-workspace-api:1.1.2
+* **rm-workspace-api (version 1.0.3)**
+  * Image: eoepca/rm-workspace-api:1.0.3
   * GitHub: https://github.com/EOEPCA/rm-workspace-api
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/rm-workspace-api
 
 
 ### Bucket Operator
 
-* Version: 0.9.9
-* No helm chart (coming soon) - installed directly with k8s yaml
-* Kubernetes yaml: https://github.com/EOEPCA/eoepca/tree/v1.1/system/clusters/creodias/resource-management/bucket-operator/
+* Version: 1.1.0
+* Chart version: 0.9.9
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/rm-bucket-operator-0.9.9/charts/rm-bucket-operator/
+* Example: https://github.com/EOEPCA/eoepca/blob/v1.1/system/clusters/creodias/resource-management/bucket-operator/hr-bucket-operator.yaml
 
 #### Resources
 
@@ -475,5 +475,5 @@ Resources to support deployment and configuration...
 #### Containers
 
 * **bucket-operator (version 1.1.0)**
-  * Image: registry.gitlab.eox.at/eox/hub/bucket-operator:1.1.0
+  * Image: eoepca/rm-bucket-operator:1.1.0
   * GitHub: https://github.com/EOEPCA/rm-bucket-operator/
