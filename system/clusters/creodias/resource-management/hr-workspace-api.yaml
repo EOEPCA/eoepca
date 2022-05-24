@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: rm-workspace-api
-      version: 1.1.4
+      version: 1.1.5
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -53,3 +53,4 @@ spec:
     authServerIp: "185.52.192.231"
     authServerHostname: "auth"
     clusterIssuer: "letsencrypt"
+    resourceCatalogVolumeStorageType: "TEST-storage-class-TEST"
