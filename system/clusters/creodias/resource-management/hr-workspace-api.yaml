@@ -53,4 +53,4 @@ spec:
     authServerIp: "185.52.192.231"
     authServerHostname: "auth"
     clusterIssuer: "letsencrypt"
-    resourceCatalogVolumeStorageType: "TEST-storage-class-TEST"
+    resourceCatalogVolumeStorageType: "managed-nfs-storage-retain"
