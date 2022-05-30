@@ -30,6 +30,7 @@ spec:
       config:
         server:
           url: https://resource-catalogue.mundi.eoepca.org/
+          federatedcatalogues: https://sentinel2.browse.catalog.mundiwebservices.com/csw
         metadata:
           identification_title: EOEPCA Resource Catalogue
           identification_abstract: Based on pycsw, a Python OGC CSW server implementation
