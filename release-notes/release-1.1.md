@@ -354,6 +354,11 @@ Additional container images:
 
 #### Containers
 
+* **pde-container (version 1.0.3)**
+  * Image: eoepca/pde-container:1.0.3
+  * GitHub: https://github.com/EOEPCA/pde-container
+  * DockerHub: https://hub.docker.com/repository/docker/eoepca/pde-container
+
 * **jupyterhub/k8s-hub (version 1.1.2)**
   * Image: jupyterhub/k8s-hub:1.1.2
 
