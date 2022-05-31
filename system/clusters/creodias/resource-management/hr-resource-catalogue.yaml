@@ -27,6 +27,11 @@ spec:
       tls_host: resource-catalogue.mundi.eoepca.org
       tls_secret_name: resource-catalogue-open-tls
     pycsw:
+      image:
+        repository: geopython/pycsw
+        pullPolicy: IfNotPresent
+        # Overrides the image tag whose default is the chart appVersion.
+        tag: "latest"
       config:
         server:
           url: https://resource-catalogue.mundi.eoepca.org/
