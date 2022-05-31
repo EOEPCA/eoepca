@@ -377,7 +377,7 @@ spec:
     harvester:
       image:
         repository: eoepca/rm-harvester
-        tag: 0.9.3
+        tag: 1.1.0
       config:
         redis:
           host: data-access-redis-master
@@ -402,7 +402,7 @@ spec:
                 bbox: 14.9,47.7,16.4,48.7
             filter: {}
             postprocess:
-              type: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel2Postprocessor
+              - type: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel2Postprocessor
             queue: register_queue
 
     client:
