@@ -38,13 +38,12 @@ Performance enhancements, refinements and fixes to the v1.0 features.
 * Resource Catalogue a Reference Implementation of OGC GeoRSS 1.0
 * Resource Catalogue: update based on latest CQL2 models
 * Data Access: support for STAC in the data access harvester
-* Processing and Chaining: support for sub-workflows in application packages
-* Processing and Chaining: support for application packages with multiple workflows
-* Processing and Chaining: support for k8s version 1.22.x
-* Processing and Chaining: optimized method to parse the processing results
-* Fully containerised Processor Development Environment with authentication
+* ADES: support for sub-workflows in application packages
+* ADES: support for application packages with multiple workflows
+* ADES: optimized method to parse the processing results
+* PDE: Fully containerised Processor Development Environment with authentication
 * Identity & Authorization support for external tools (e.g. QGIS)
-* Login Service: support for OSC role attributes
+* Login Service: support for role attributes as requested by the Open Science Catalogue
 * Policy Decision Point (PDP): validation option based on Terms and Conditions
 * Policy Decision Point (PDP): endpoint for managing Terms and Conditions
 * Policy Enforcement Point (PEP): option for retrieving resource information by providing the protected URI
@@ -53,9 +52,9 @@ Performance enhancements, refinements and fixes to the v1.0 features.
 
 The following issues are known to affect the `v1.1` release. The intention is to fix these issues as soon as possible and make a delta `v1.1.1` release as soon as possible...
 
-* EOEPCA-621 - Data Access renderer paerformance issues with CREODIAS JPEG2000 files
+* EOEPCA-621 - Data Access renderer performance issues with CREODIAS JPEG2000 files
 
-## Release 1.0 Scope
+## Release 1.1 Scope
 
 The release demonstrates the following capabilities:
 * User authentication:
@@ -401,8 +400,8 @@ Additional container images:
 
 ### Data Access Services
 
-* Version: 2.0.3
-* Chart version: 2.0.3
+* Version: 2.1.4
+* Chart version: 2.1.4
 * Helm chart: https://gitlab.eox.at/esa/prism/vs/
 * Example: https://github.com/EOEPCA/eoepca/blob/v1.1/system/clusters/creodias/resource-management/hr-data-access.yaml
 
@@ -419,8 +418,8 @@ Resources to support deployment and configuration...
 
 #### Containers
 
-* **rm-data-access-core (version 1.1.0)**
-  * Image: eoepca/rm-data-access-core:1.1.0
+* **rm-data-access-core (version 1.1.1)**
+  * Image: eoepca/rm-data-access-core:1.1.1
   * GitHub: https://github.com/EOEPCA/rm-data-access
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/rm-data-access-core
 
@@ -430,11 +429,11 @@ Resources to support deployment and configuration...
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/rm-harvester
 
 Additional container images:
-* Cache: registry.gitlab.eox.at/vs/cache:release-2.0.2
-* Client: registry.gitlab.eox.at/vs/client:release-2.0.2
+* Cache: registry.gitlab.eox.at/vs/cache:release-2.0.9
+* Client: registry.gitlab.eox.at/vs/client:release-2.0.18
 * Database: bitnami/postgresql:11.13.0-debian-10-r40
 * Redis: bitnami/redis:6.0.8-debian-10-r0
-* Scheduler: registry.gitlab.eox.at/vs/scheduler:release-2.0.0
+* Scheduler: registry.gitlab.eox.at/vs/scheduler:release-2.0.2
 
 
 ### Workspace
