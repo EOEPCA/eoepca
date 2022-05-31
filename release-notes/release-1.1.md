@@ -54,7 +54,6 @@ Performance enhancements, refinements and fixes to the v1.0 features.
 The following issues are known to affect the `v1.1` release. The intention is to fix these issues as soon as possible and make a delta `v1.1.1` release as soon as possible...
 
 * EOEPCA-621 - Data Access renderer paerformance issues with CREODIAS JPEG2000 files
-* EOEPCA-623 - Data Access problems reading products from CREODIAS object storage
 
 ## Release 1.0 Scope
 
