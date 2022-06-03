@@ -366,7 +366,7 @@ spec:
     registrar:
       image:
         repository: eoepca/rm-data-access-core
-        tag: 1.1.1
+        tag: latest
       config:
         backends:
           - path: registrar_pycsw.backend.PycswItemBackend
