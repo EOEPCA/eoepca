@@ -361,12 +361,12 @@ spec:
     renderer:
       image:
         repository: eoepca/rm-data-access-core
-        tag: "0.9.12"
+        tag: 1.1.1
 
     registrar:
       image:
         repository: eoepca/rm-data-access-core
-        tag: "0.9.12"
+        tag: 1.1.1
       config:
         backends:
           - path: registrar_pycsw.backend.PycswItemBackend
