@@ -36,6 +36,10 @@ spec:
       # tls_host: resource-catalogue.demo.eoepca.org
       # tls_secret_name: resource-catalogue-open-tls
     pycsw:
+      # image:
+      #   repository: geopython/pycsw
+      #   pullPolicy: Always
+      #   tag: "eoepca-staging"
       config:
         server:
           url: https://resource-catalogue.demo.eoepca.org/
@@ -64,7 +68,7 @@ spec:
           contact_role: pointOfContact
         inspire:
           enabled: "true"
-          languages_supported: eng
+          languages_supported: eng,gre
           default_language: eng
           date: YYYY-MM-DD
           gemet_keywords: Utility and governmental services
