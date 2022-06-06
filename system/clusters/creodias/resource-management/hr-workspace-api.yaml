@@ -15,33 +15,29 @@ spec:
         namespace: common
   values:
     fullnameOverride: workspace-api
-    image:
+    image: {}
       # repository: eoepca/rm-workspace-api
-      pullPolicy: IfNotPresent
+      # pullPolicy: IfNotPresent
       # Overrides the image tag whose default is the chart appVersion.
       # tag: "1.0.2"
 
     ingress:
       enabled: true
       hosts:
-        - host: workspace-api.develop.eoepca.org
+        - host: workspace-api-open.develop.eoepca.org
           paths: ["/"]
       tls:
         - hosts:
-            - workspace-api.develop.eoepca.org
+            - workspace-api-open.develop.eoepca.org
           secretName: workspace-api-tls
 
     # some values for the workspace API
     prefixForName: "develop-user"
     workspaceSecretName: "bucket"
     namespaceForBucketResource: "rm"
-    # workspaceConfigMapName: "workspace"
     gitRepoResourceForHelmChartName: "eoepca"
     gitRepoResourceForHelmChartNamespace: "common"
-    # helmChartName: "rm-user-workspace"
-    # helmChartVersion: "1.0.6"
     helmChartStorageClassName: "managed-nfs-storage"
-    # helmChartStorageClassName: "invalid-test-storage-class"
     s3Endpoint: "https://cf2.cloudferro.com:8080"
     s3Region: "RegionOne"
     workspaceDomain: develop.eoepca.org

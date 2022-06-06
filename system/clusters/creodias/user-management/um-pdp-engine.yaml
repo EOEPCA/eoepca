@@ -13,6 +13,9 @@ spec:
         name: eoepca
         namespace: common
   values:
+    # image:
+      # tag: v1.0
+      # pullPolicy: Always
     global:
       nginxIp: 185.52.192.231
       domain: auth.develop.eoepca.org

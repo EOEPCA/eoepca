@@ -123,6 +123,7 @@ spec:
       processingMaxCores: "4"
       # if false the Ades will clean the volume after the workflow has successfully finished running
       processingKeepWorkspace: "False"
+      processingKeepWorkspaceIfFailed: "False"
       # image pull secrects
       imagePullSecrets: []
       #  custom stagein cwl

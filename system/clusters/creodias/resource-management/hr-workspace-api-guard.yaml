@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: combined-rm-guard
+  name: workspace-api-guard
   namespace: rm
 spec:
   chart:
@@ -17,8 +17,8 @@ spec:
     # Global values
     #---------------------------------------------------------------------------
     global:
-      context: combined-rm
-      pep: combined-rm-pep
+      context: workspace-api
+      pep: workspace-api-pep
       domain: develop.eoepca.org
       nginxIp: 185.52.192.231
       certManager:
@@ -28,12 +28,23 @@ spec:
     #---------------------------------------------------------------------------
     pep-engine:
       configMap:
-        workingMode: PARTIAL
-        asHostname: test
-        pdpHostname: test
+        asHostname: auth
+        pdpHostname: auth
+        # limitUses: 100
+      customDefaultResources:
+      - name: "Eric's workspace"
+        description: "Protected Access for eric to his user workspace"
+        resource_uri: "/workspaces/demo-user-eric"
+        scopes: []
+        default_owner: "de287a74-a581-45b2-b66b-b14ddaf44173"
+      - name: "Bob's workspace"
+        description: "Protected Access for bob to his user workspace"
+        resource_uri: "/workspaces/demo-user-bob"
+        scopes: []
+        default_owner: "b3e6315e-df2f-4e84-81e8-3d9173675076"
       nginxIntegration:
         enabled: false
-        # hostname: combined-rm-auth
+        # hostname: workspace-api-auth
       # image:
       #   pullPolicy: Always
       volumeClaim:
@@ -43,41 +54,19 @@ spec:
     # UMA User Agent values
     #---------------------------------------------------------------------------
     uma-user-agent:
-      fullnameOverride: combined-rm-agent
+      fullnameOverride: workspace-api-agent
       # image:
       #   tag: latest
       #   pullPolicy: Always
       nginxIntegration:
         enabled: true
         hosts:
-          - host: resource-catalogue
+          - host: workspace-api
             paths:
               - path: /(.*)
                 service:
-                  name: resource-catalogue-service
-                  port: 80
-          - host: data-access
-            paths:
-              - path: /(ows.*)
-                service:
-                  name: data-access-vs-renderer
-                  port: 80
-              - path: /(opensearch.*)
-                service:
-                  name: data-access-vs-renderer
-                  port: 80
-              - path: /(admin.*)
-                service:
-                  name: data-access-vs-renderer
-                  port: 80
-              - path: /cache/(.*)
-                service:
-                  name: data-access-vs-cache
-                  port: 80
-              - path: /(.*)
-                service:
-                  name: data-access-vs-client
-                  port: 80
+                  name: workspace-api
+                  port: 8080
         annotations:
           nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
           nginx.ingress.kubernetes.io/enable-cors: "true"
@@ -85,9 +74,9 @@ spec:
       client:
         credentialsSecretName: "rm-uma-user-agent"
       logging:
-        level: "debug"
-      unauthorizedResponse: 'Bearer realm="https://develop.eoepca.org/", scope="openid user_name is_operator"'
-      openAccess: true
+        level: "info"
+      unauthorizedResponse: 'Bearer realm="https://portal.develop.eoepca.org/oidc/authenticate/"'
+      # openAccess: true
     #---------------------------------------------------------------------------
     # END values
     #---------------------------------------------------------------------------

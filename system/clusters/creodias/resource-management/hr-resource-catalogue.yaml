@@ -16,12 +16,25 @@ spec:
   values:
     global:
       namespace: rm
+    # db:
+    #   volume_size: 5Gi
+    #   config:
+    #     enabled: true
+    #     shared_buffers: 2GB
+    #     effective_cache_size: 6GB
+    #     maintenance_work_mem: 512MB
+    #     checkpoint_completion_target: 0.9
+    #     wal_buffers: 16MB
+    #     default_statistics_target: 100
+    #     random_page_cost: 4
+    #     work_mem: 4MB
+    #     cpu_tuple_cost: 0.4
     ingress:
-      enabled: true
-      name: resource-catalogue
-      host: resource-catalogue.develop.eoepca.org
-      tls_host: resource-catalogue.develop.eoepca.org
-      tls_secret_name: resource-catalogue-tls
+      enabled: false
+      # name: resource-catalogue
+      # host: resource-catalogue.develop.eoepca.org
+      # tls_host: resource-catalogue.develop.eoepca.org
+      # tls_secret_name: resource-catalogue-open-tls
     pycsw:
       image:
         repository: geopython/pycsw
@@ -31,14 +44,14 @@ spec:
         server:
           url: https://resource-catalogue.develop.eoepca.org/
         metadata:
-          identification_title: pycsw Geospatial Catalogue
-          identification_abstract: pycsw is an OGC CSW server implementation written in Python
+          identification_title: EOEPCA Resource Catalogue
+          identification_abstract: Based on pycsw, a Python OGC CSW server implementation
           identification_keywords: catalogue,discovery,metadata
           identification_keywords_type: theme
           identification_fees: None
           identification_accessconstraints: None
-          provider_name: Organization Name
-          provider_url: https://pycsw.org/
+          provider_name: EOEPCA
+          provider_url: https://eoepca.org/
           contact_name: Lastname, Firstname
           contact_position: Position Title
           contact_address: Mailing Address
