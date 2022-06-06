@@ -70,14 +70,14 @@ The system is designed for deployment to cloud infrastructure orchestrated by a 
 
 The EOEPCA system deployment comprises several steps. Instructions are provided for both cloud deployment, and local deployment for development purposes.
 
-For the latest release (v1.0) ensure that the [correct version](https://github.com/EOEPCA/eoepca/blob/v1.0/README.md "v1.0 README") of this README is followed.
+For the latest release (v1.1) ensure that the [correct version](https://github.com/EOEPCA/eoepca/blob/v1.1/README.md "v1.1 README") of this README is followed.
 
 The first step is to fork this repository into your GitHub account. Use of fork (rather than clone) is recommended to support our GitOps approach to deployment with Flux Continuous Delivery, which requires write access to your git repository for deployment configurations.<br>
 Having forked, clone the repository to your local platform...
 ```
 $ git clone git@github.com:<user>/eoepca.git
 $ cd eoepca
-$ git checkout v1.0
+$ git checkout v1.1
 ```
 NOTE that this clones the specific tag that is well tested. The `develop` branch should alternatively be used for the latest development.
 
@@ -86,10 +86,10 @@ Step | Cloud (OpenStack) | Local Developer
 Infrastructure | [CREODIAS](./creodias/README.md) | n/a *(local developer platform)*
 Kubernetes Cluster | [Rancher Kubernetes Engine](./kubernetes/README.md) | [Minikube](./minikube/README.md)
 EOEPCA System Deployment<br>(`flux`) | [EOEPCA GitOps](./system/clusters/README.md) | [EOEPCA GitOps](./system/clusters/README.md)
-EOEPCA System Deployment<br>([Deployment Guide](https://deployment-guide.docs.eoepca.org/)) | [Deployment Guide]([./system/clusters/README.md](https://deployment-guide.docs.eoepca.org/)) | [Deployment Guide](https://deployment-guide.docs.eoepca.org/)
+EOEPCA System Deployment<br>([Deployment Guide](https://deployment-guide.docs.eoepca.org/)) | [Deployment Guide](https://deployment-guide.docs.eoepca.org/) | [Deployment Guide](https://deployment-guide.docs.eoepca.org/)
 Acceptance Test | [Run Test Suite](./test/acceptance/README.md) | [Run Test Suite](./test/acceptance/README.md)
 
-NOTE that, with release v1.0, the number of system components has been expanded to the point where it is more difficult to make a full system deployment in minikube, due to the required resource demands.
+NOTE that, with release v1.1, the number of system components has been expanded to the point where it is more difficult to make a full system deployment in minikube, due to the required resource demands. Nevertheless, it is possible to make a minikube deployment to a single node with sufficient resources (4 cpu, 16GB) - as illustrated by the [Deployment Guide](https://deployment-guide.docs.eoepca.org/).
 
 NOTE also that the [Deployment Guide](https://deployment-guide.docs.eoepca.org/) provides a more detailed description of the deployment and configuration of the components, supported by some shell scripts that deploy the components directly using `helm` (rather than using `flux` GitOps). The Deployment Guide represents a more informative introduction, and the supporting scripts assume `minikube` out-of-the-box.
 
@@ -144,6 +144,7 @@ User Workspace | https://github.com/EOEPCA/rm-workspace-api/ | https://eoepca.gi
 
 EOEPCA system releases are made to provide integrated deployments of the developed building blocks. The release history is as follows:
 
+* 31/05/2022 - [Release 1.1](https://github.com/EOEPCA/eoepca/blob/v1.1/release-notes/release-1.1.md)
 * 24/12/2021 - [Release 1.0](https://github.com/EOEPCA/eoepca/blob/v1.0/release-notes/release-1.0.md)
 * 23/07/2021 - [Release 0.9](https://github.com/EOEPCA/eoepca/blob/v0.9/release-notes/release-0.9.md)
 * 10/03/2021 - [Release 0.3](https://github.com/EOEPCA/eoepca/blob/v0.3/release-notes/release-0.3.md)
