@@ -20,8 +20,8 @@ def main():
     ades_user_prefix = "/" + ades_user
 
     # workspace-api
-    wsapi_resource_api_url = "http://workspace-api-pepapi.test." + domain
-    wsapi_url = "https://workspace-api.test." + domain
+    wsapi_resource_api_url = "http://workspace-api-pepapi." + domain
+    wsapi_url = "https://workspace-api." + domain
     wsapi_user = USER_NAME
     # wsapi_prefix = "rm-user"
     wsapi_prefix = "demo-user"
