@@ -62,7 +62,7 @@ function deduce_public_ip() {
 }
 
 function run_acceptance_tests() {
-  public_hostname="${PUBLIC_IP}.nip.io"
+  public_hostname="develop.eoepca.org"
   echo "INFO: Using PUBLIC HOSTNAME: ${public_hostname}"
 
   echo "INFO: Invoking acceptance tests..."
@@ -71,10 +71,13 @@ function run_acceptance_tests() {
   # Specific tests - uncomment for selected testing...
   # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.UserManagement .
   # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.UserManagement.LoginService .
+  # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.UserManagement.UserProfile .
+  # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.UserManagement.PDP_Engine .
   # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.Processing.ADES .
   # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.Processing.ADES.API_PROC .
   # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.Processing.ADES.WPS .
-  # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.Processing.ADES.03_UserM_ADES_Scenarios .
+  # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.Processing.ADES.UserM_ADES_Scenarios .
+  # robot --variable PUBLIC_HOSTNAME:${public_hostname} --suite Acceptance.ResourceCatalogue .
 }
 
 function main() {

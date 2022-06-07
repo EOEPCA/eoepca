@@ -14,23 +14,25 @@ ${USERNAME}=  ${USER_A_NAME}
 ${PASSWORD}=  ${USER_A_PASSWORD}
 ${ID_TOKEN}=
 ${ACCESS_TOKEN}=
-${FILENAME}=  S2B_MSIL1C_20210402T095029_N0300_R079_T33SVB_20210402T121737
-${WORKSPACE_CATALOGUE}=  https://resource-catalogue.${USER_PREFIX}-${USERNAME}.${PUBLIC_HOSTNAME}/csw
+${FILENAME}=  S2B_MSIL1C_20210402T095029_N0300_R079_T33SUA_20210402T121737
+${WORKSPACE_CATALOGUE}=  https://resource-catalogue.${USER_PREFIX}-${USERNAME}.${PUBLIC_HOSTNAME}
 
 *** Test Cases ***
-# Get Operations Information
-#   Get Csw Operations
+Get Operations Information
+  Get Csw Operations
 
-# Get Records Information
-#   Get Csw Records Filtered
+Get Records Information
+  Get Csw Records Filtered
 
+# Test suspended until `owslib.csw` is able to support token-based access to protected endpoint
 # Workspace Catalogue
-#   Reload Catalogue  ${WORKSPACE_CATALOGUE}
+#   Reload Catalogue  ${WORKSPACE_CATALOGUE}/csw
 #   Get Csw Records
 
 Opensearch
   Load Opensearch  ${CATALOGUE_BASE_URL}/opensearch
   Search Opensearch
+  Search Requests
 
 *** Keywords ***
 Suite Setup
@@ -82,4 +84,13 @@ Get Csw Records
 
 Search Opensearch
   ${results}=  Open Search
+  ${length}=    Get length    ${results}
+  should be equal as numbers  ${length}  10
+  ${results2}=  Open Search  {"{eo:cloudCover?}": {"value": "]20"}}
+  ${length2}=    Get length    ${results2}
+  should be equal as numbers  ${length2}  10
 
+Search Requests
+  ${results}=  Search With Requests  ${CATALOGUE_BASE_URL}/opensearch/?mode=opensearch&service=CSW&version=3.0.0&request=GetRecords&elementsetname=full&resulttype=results&typenames=csw:Record
+  ${results}=  Search With Requests  ${CATALOGUE_BASE_URL}/opensearch/?mode=opensearch&service=CSW&version=3.0.0&request=GetRecords&elementsetname=full&resulttype=results&typenames=csw:Record&eo:parentIdentifier=S2MSI2A
+  ${results}=  Search With Requests  ${WORKSPACE_CATALOGUE}/opensearch/?mode=opensearch&service=CSW&version=3.0.0&request=GetRecords&elementsetname=full&resulttype=results&typenames=csw:Record

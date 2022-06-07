@@ -1,4 +1,0 @@
-[[mainDesign]]
-= Design
-
-TBD

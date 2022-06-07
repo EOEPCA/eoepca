@@ -12,7 +12,7 @@ Suite Teardown  Suite Teardown
 ${USERNAME}=  ${USER_A_NAME}
 ${PASSWORD}=  ${USER_A_PASSWORD}
 ${ADES_WORKSPACE}=  ${USERNAME}
-${PROCESS_NAME}=  s-expression-0_0_2
+${PROCESS_NAME}=  snuggs-0_3_0
 ${API_PROC_PATH_PREFIX}=  /${ADES_WORKSPACE}/wps3
 ${API_PROC_SERVICE_URL}=  ${ADES_BASE_URL}${API_PROC_PATH_PREFIX}
 ${ID_TOKEN}=
@@ -35,6 +35,7 @@ Execute Application
   Execute Application Success  ${PROCESS_NAME}  ${CURDIR}${/}data/app-execute-body.json
 
 Undeploy Application
+  # TODO GUARD related 501 probably related to access_token
   Undeploy Application  ${PROCESS_NAME}
   Sleep  5  Waiting for process undeploy process to complete asynchronously
   Process Is Not Deployed  ${PROCESS_NAME}

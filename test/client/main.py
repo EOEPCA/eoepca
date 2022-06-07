@@ -8,10 +8,10 @@ def main():
     print("\n### TEST CLIENT ###")
     USER_NAME="eric"
     USER_PASSWORD="defaultPWD"
-
+    # domain = "185.52.193.87.nip.io"
     domain = "develop.eoepca.org"
-    base_url = "https://auth." + domain
 
+    base_url = "https://auth." + domain
 
     # ades
     ades_resource_api_url = "http://ades-pepapi." + domain
@@ -23,8 +23,8 @@ def main():
     wsapi_resource_api_url = "http://workspace-api-pepapi." + domain
     wsapi_url = "https://workspace-api." + domain
     wsapi_user = USER_NAME
-    wsapi_prefix = "rm-user"
-  
+    # wsapi_prefix = "rm-user"
+    wsapi_prefix = "develop-user"
     wsapi_user_prefix = "/workspaces/" + wsapi_prefix + "-" + wsapi_user
 
     # dummy service
@@ -64,6 +64,25 @@ def main():
     print("\n### REGISTER USER'S Workspace BASE RESOURCE PATH ###")
     demo.register_protected_resource(wsapi_resource_api_url, wsapi_user_prefix, user_id_token, f"Workspace for user {USER_NAME}", [])
 
+    # # Special path for eric
+    # print("\n### Special path for eric ###")
+    # eric_id_token = demo.get_id_token("eric", USER_PASSWORD)
+    # demo.register_protected_resource(dummy_resource_api_url, "/ericspace", eric_id_token, f"Special path for eric", [])
+
+    # # Special path for bob
+    # print("\n### Special path for bob ###")
+    # bob_id_token = demo.get_id_token("bob", USER_PASSWORD)
+    # demo.register_protected_resource(dummy_resource_api_url, "/bobspace", bob_id_token, f"Special path for bob", [])
+
+    # # TEST EOEPCA-424
+    # # OPERATOR register /test424 path (ADES) on behalf of user ERIC
+    # print("\n### OPERATOR register /test424 path (ADES) on behalf of user ERIC ###")
+    # operator_id_token = demo.get_id_token("operator", USER_PASSWORD)
+    # eric_id_token = demo.get_id_token("eric", USER_PASSWORD)
+    # eric_uuid = demo.get_ownership_id(eric_id_token)
+    # operator_access_token = None
+    # demo.register_protected_resource(ades_resource_api_url, "/test424", operator_id_token, f"Dummy Service Test424 resource", [], eric_uuid)
+
     #===========================================================================
     # Dummy Service
     #===========================================================================
@@ -73,7 +92,7 @@ def main():
     # Call Dummy Service
     print("\n### Dummy Service ###")
     demo.trace_flow = True
-    response, dummy_access_token = demo.dummy_service_call(dummy_url + "/test", id_token=user_id_token, access_token=dummy_access_token)
+    response, dummy_access_token = demo.dummy_service_call(dummy_url + "/ericspace", id_token=user_id_token, access_token=dummy_access_token)
     demo.trace_flow = False
     print(f"\nSummary of request proxied via the PEP...\n{response.text}\n")
 

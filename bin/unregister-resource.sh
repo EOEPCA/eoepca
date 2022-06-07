@@ -18,6 +18,21 @@ fi
 
 resourceId="$1"
 
+# combined-rm-pep
+echo -n "Delete resource ${resourceId} from combined-rm-pep..."
+kubectl -n rm exec -it svc/combined-rm-pep -c combined-rm-pep -- management_tools remove -r ${resourceId}
+echo " done"
+
+# # resource-catalogue-pep
+# echo -n "Delete resource ${resourceId} from resource-catalogue-pep..."
+# kubectl -n rm exec -it svc/resource-catalogue-pep -c resource-catalogue-pep -- management_tools remove -r ${resourceId}
+# echo " done"
+
+# # data-access-pep
+# echo -n "Delete resource ${resourceId} from data-access-pep..."
+# kubectl -n rm exec -it svc/data-access-pep -c data-access-pep -- management_tools remove -r ${resourceId}
+# echo " done"
+
 # ades-pep
 echo -n "Delete resource ${resourceId} from ades-pep..."
 kubectl -n proc exec -it svc/proc-ades-pep -c proc-ades-pep -- management_tools remove -r ${resourceId}

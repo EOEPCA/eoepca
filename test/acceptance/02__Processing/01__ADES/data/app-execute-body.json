@@ -3,19 +3,10 @@
     {
       "id": "input_reference",
       "input": {
-        "format": {
-          "mimeType": "application/json"
-        },
-        "href": "https://resource-catalogue.185.52.193.87.nip.io/opensearch?service=CSW&version=3.0.0&request=GetRecords&elementsetname=full&resulttype=results&typenames=csw:Record&recordids=S2B_MSIL2A_20200902T090559_N0214_R050_T34SFH_20200902T113910.SAFE"
-      }
-    },
-    {
-      "id": "cbn",
-      "input": {
         "dataType": {
-          "name": "string"
+          "name": "application/json"
         },
-        "value": "ndvi"
+        "value": "https://earth-search.aws.element84.com/v0/collections/sentinel-s2-l2a-cogs/items/S2B_36RTT_20191205_0_L2A"
       }
     },
     {
@@ -24,7 +15,7 @@
         "dataType": {
           "name": "string"
         },
-        "value": "(/ (- nir red) (+ nir red))"
+        "value": "nbr:(/ (- B05 B02) (+ B05 B02))"
       }
     }
   ],
@@ -39,6 +30,6 @@
       "transmissionMode": "value"
     }
   ],
-  "mode": "async",
+  "mode": "auto",
   "response": "raw"
 }

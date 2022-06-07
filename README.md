@@ -59,9 +59,9 @@
 
 EO Exploitation Platform Common Architecture (EOEPCA)
 
-The goal of the “Common Architecture” is to define and agree the technical interfaces for the future exploitation of Earth Observation data in a distributed environment. The Common Architecture will thus provide the interfaces to facilitate the federation of different EO resources into a “Network of EO Resources”. The “Common Architecture” will be defined using open interfaces that link the different resources (building blocks) so that a user can efficiently access and consume the disparate services of the “Network of EO Resources”.
+The goal of the “Common Architecture” is to define and agree the technical interfaces for the future exploitation of Earth Observation data in a distributed environment. The Common Architecture will thus provide the interfaces to facilitate the federation of different EO resources into a “Network of EO Resources”. The “Common Architecture” will be defined using open interfaces that link the different Resource Servers (building blocks) so that a user can efficiently access and consume the disparate services of the “Network of EO Resources”.
 
-This repository represents the system integration of the building block that comprise the **Reference Implementation** of the Common Architecture.
+This repository represents the system integration of the building blocks that comprise the **Reference Implementation** of the Common Architecture.
 
 The system is designed for deployment to cloud infrastructure orchestrated by a Kubernetes cluster. We include here the automation required to provision, deploy and test the emerging EOEPCA system.
 
@@ -70,14 +70,14 @@ The system is designed for deployment to cloud infrastructure orchestrated by a 
 
 The EOEPCA system deployment comprises several steps. Instructions are provided for both cloud deployment, and local deployment for development purposes.
 
-For the latest release (v0.3) ensure that the [correct version](https://github.com/EOEPCA/eoepca/blob/v0.3/README.md "v0.3 README") of this README is followed.
+For the latest release (v1.1) ensure that the [correct version](https://github.com/EOEPCA/eoepca/blob/v1.1/README.md "v1.1 README") of this README is followed.
 
 The first step is to fork this repository into your GitHub account. Use of fork (rather than clone) is recommended to support our GitOps approach to deployment with Flux Continuous Delivery, which requires write access to your git repository for deployment configurations.<br>
 Having forked, clone the repository to your local platform...
 ```
 $ git clone git@github.com:<user>/eoepca.git
 $ cd eoepca
-$ git checkout v0.3
+$ git checkout v1.1
 ```
 NOTE that this clones the specific tag that is well tested. The `develop` branch should alternatively be used for the latest development.
 
@@ -85,10 +85,13 @@ Step | Cloud (OpenStack) | Local Developer
 -----|-------------------|----------------
 Infrastructure | [CREODIAS](./creodias/README.md) | n/a *(local developer platform)*
 Kubernetes Cluster | [Rancher Kubernetes Engine](./kubernetes/README.md) | [Minikube](./minikube/README.md)
-EOEPCA System Deployment | [EOEPCA GitOps](./system/clusters/README.md) | [EOEPCA GitOps](./system/clusters/README.md)
+EOEPCA System Deployment<br>(`flux`) | [EOEPCA GitOps](./system/clusters/README.md) | [EOEPCA GitOps](./system/clusters/README.md)
+EOEPCA System Deployment<br>([Deployment Guide](https://deployment-guide.docs.eoepca.org/)) | [Deployment Guide](https://deployment-guide.docs.eoepca.org/) | [Deployment Guide](https://deployment-guide.docs.eoepca.org/)
 Acceptance Test | [Run Test Suite](./test/acceptance/README.md) | [Run Test Suite](./test/acceptance/README.md)
 
-NOTE that, with release v0.3, the number of system components has been expanded to the point where it is more difficult to make a full system deployment in minikube, due to the required resource demands.
+NOTE that, with release v1.1, the number of system components has been expanded to the point where it is more difficult to make a full system deployment in minikube, due to the required resource demands. Nevertheless, it is possible to make a minikube deployment to a single node with sufficient resources (4 cpu, 16GB) - as illustrated by the [Deployment Guide](https://deployment-guide.docs.eoepca.org/).
+
+NOTE also that the [Deployment Guide](https://deployment-guide.docs.eoepca.org/) provides a more detailed description of the deployment and configuration of the components, supported by some shell scripts that deploy the components directly using `helm` (rather than using `flux` GitOps). The Deployment Guide represents a more informative introduction, and the supporting scripts assume `minikube` out-of-the-box.
 
 ### Hostnames and DNS
 
@@ -96,7 +99,9 @@ To ease development/testing, the EOEPCA deployment is configured to use host/ser
 
 Thus, we use host/service names of the form `<service-name>.<public-ip>.nip.io`, where the `<public-ip>` is the public-facing IP-address of the deployment. For cloud deployment the public IP is that of the cloud load-balancer, or for minikube it is the `minikube ip` - for example `workspace.192.168.49.2.nip.io`.
 
-The deployment scripts (linked in the above table) attempt to intelligently determine the public IP and so configure the service DNS names without intervention. For example, the output of CREODIAS infrastructure setup is interrogated to determine the IP-address of the public cloud load-balancer, which is then injected into the deployment configuration. Similarly for a local developer setup in which the 'local' kubernetes IP-address is used (deduced as the IP address of the k8s node (assumed single node)).
+NOTE that we also maintain a deployment under the domain `demo.eoepca.org` - upon which this release has been prepared.
+
+Our public endpoint address is baked into our deployment configuration - in particular the Kubernetes Ingress resources. To re-use our deployment configuration these Ingress values must be updated to suit your deployment environment.
 
 ## System Documentation
 
@@ -122,7 +127,8 @@ Building Block | Repository | Documentation
 ---------------|------------|--------------
 Application Deployment & Execution Service (ADES) | https://github.com/EOEPCA/proc-ades | https://eoepca.github.io/proc-ades/<br>https://github.com/EOEPCA/proc-ades/wiki
 Processor Development Environment (PDE) | https://github.com/EOEPCA/proc-pde | https://github.com/EOEPCA/proc-pde/blob/master/README.md
-Sample Application | https://github.com/EOEPCA/app-s-expression | https://github.com/EOEPCA/app-s-expression/blob/main/README.md
+Sample Application: s-expression | https://github.com/EOEPCA/app-s-expression | https://github.com/EOEPCA/app-s-expression/blob/main/README.md
+Sample Application: nhi | https://github.com/EOEPCA/app-nhi | https://github.com/EOEPCA/app-nhi/blob/main/README.md
 
 ### Resource Management
 
@@ -130,6 +136,7 @@ Building Block | Repository | Documentation
 ---------------|------------|--------------
 Resource Catalogue | https://github.com/geopython/pycsw | https://eoepca.github.io/rm-resource-catalogue/<br>https://docs.pycsw.org/en/latest/
 Data Access Services | https://github.com/EOEPCA/rm-data-access/ | https://eoepca.github.io/rm-data-access/
+User Workspace | https://github.com/EOEPCA/rm-workspace-api/ | https://eoepca.github.io/rm-workspace-api/
 
 
 <!-- Releases -->
@@ -137,6 +144,9 @@ Data Access Services | https://github.com/EOEPCA/rm-data-access/ | https://eoepc
 
 EOEPCA system releases are made to provide integrated deployments of the developed building blocks. The release history is as follows:
 
+* 31/05/2022 - [Release 1.1](https://github.com/EOEPCA/eoepca/blob/v1.1/release-notes/release-1.1.md)
+* 24/12/2021 - [Release 1.0](https://github.com/EOEPCA/eoepca/blob/v1.0/release-notes/release-1.0.md)
+* 23/07/2021 - [Release 0.9](https://github.com/EOEPCA/eoepca/blob/v0.9/release-notes/release-0.9.md)
 * 10/03/2021 - [Release 0.3](https://github.com/EOEPCA/eoepca/blob/v0.3/release-notes/release-0.3.md)
 * 23/11/2020 - [Release 0.2](release-notes/release-0.2.md)
 * 13/08/2020 - [Release 0.1.2](release-notes/release-0.1.2.md)
