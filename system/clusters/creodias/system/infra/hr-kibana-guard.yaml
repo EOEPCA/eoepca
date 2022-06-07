@@ -1,8 +1,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: dummy-service-guard
-  namespace: test
+  name: kibana-guard
+  namespace: infra
 spec:
   chart:
     spec:
@@ -17,64 +17,64 @@ spec:
     # Global values
     #---------------------------------------------------------------------------
     global:
-      context: dummy-service
-      pep: dummy-service-pep
-      domain: mundi.eoepca.org
-      nginxIp: 80.158.54.66
+      context: kibana
+      pep: kibana-pep
+      domain: demo.eoepca.org
+      nginxIp: 185.52.195.19
       certManager:
         clusterIssuer: letsencrypt
     #---------------------------------------------------------------------------
     # PEP values
     #---------------------------------------------------------------------------
     pep-engine:
-      imagePullSecrets:
-        - name: regcred    
       configMap:
         asHostname: test
         pdpHostname: test
-      customDefaultResources:
-      - name: "Eric's space"
-        description: "Protected Access for eric to his space in the dummy service"
-        resource_uri: "/ericspace"
-        scopes: []
-        default_owner: "cbbf3a8a-e2c2-40e8-8c3e-894a9ba0b9ce"
-      - name: "Bob's space"
-        description: "Protected Access for bob to his space in the dummy service"
-        resource_uri: "/bobspace"
-        scopes: []
-        default_owner: "cffeb126-b27a-4ca8-accf-be668e8683f3"
+        limitUses: 100
+      defaultResources:
+        - name: "Base Path"
+          description: "Base path for Protected Access to service (operators only)"
+          resource_uri: "/"
+          scopes:
+            - "protected_access"
+          default_owner: "0000000000000"
       nginxIntegration:
         enabled: false
-        # hostname: dummy-service-auth
+        # hostname: kibana-auth
       # image:
       #   pullPolicy: Always
       volumeClaim:
-        name: dummy-service-pep-pvc
+        name: infra-pvc
         create: false
     #---------------------------------------------------------------------------
     # UMA User Agent values
     #---------------------------------------------------------------------------
     uma-user-agent:
-      imagePullSecrets:
-        - name: regcred
-      fullnameOverride: dummy-service-agent
+      fullnameOverride: kibana-agent
       # image:
       #   tag: mytest
       #   pullPolicy: Always
       nginxIntegration:
         enabled: true
         hosts:
-          - host: dummy-service
+          - host: kibana
             paths:
-              - path: /
+              - path: /(.*)
                 service:
-                  name: dummy-service
-                  port: 80
+                  name: kibana
+                  port: 5601
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+          nginx.ingress.kubernetes.io/enable-cors: "true"
+          nginx.ingress.kubernetes.io/rewrite-target: /$1
+      retries:
+        authorizationAttempt: 5
+        httpRequest: 5
       client:
-        credentialsSecretName: ""
+        credentialsSecretName: "kibana-agent"
       logging:
-        level: "debug"
-      unauthorizedResponse: 'Bearer realm="https://portal.mundi.eoepca.org/oidc/authenticate/"'
+        level: "info"
+      unauthorizedResponse: 'Bearer realm="https://portal.demo.eoepca.org/oidc/authenticate/"'
     #---------------------------------------------------------------------------
     # END values
     #---------------------------------------------------------------------------

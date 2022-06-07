@@ -16,9 +16,6 @@ nodes:
 ingress:
   provider: none
 
-addons_include:
-  - ./ingress-controller/deploy-baremetal-creodias.yaml
-
 bastion_host:
   address: 185.52.192.68
   user: eouser

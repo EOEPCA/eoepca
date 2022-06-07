@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: vs
-      version: 2.0.3
+      version: 2.1.4
       sourceRef:
         kind: HelmRepository
         name: eox-charts
@@ -359,14 +359,18 @@ spec:
               validity: false
 
     renderer:
+      replicaCount: 4
       image:
         repository: eoepca/rm-data-access-core
-        tag: 1.0.0
+        tag: 1.1.1
+      ingress:
+        enabled: false
 
     registrar:
+      replicaCount: 1
       image:
         repository: eoepca/rm-data-access-core
-        tag: 1.0.0
+        tag: 1.1.1
       config:
         backends:
           - path: registrar_pycsw.backend.PycswItemBackend
@@ -377,7 +381,7 @@ spec:
     harvester:
       image:
         repository: eoepca/rm-harvester
-        tag: 1.0.0
+        tag: 1.1.0
       config:
         redis:
           host: data-access-redis-master
@@ -402,12 +406,14 @@ spec:
                 bbox: 14.9,47.7,16.4,48.7
             filter: {}
             postprocess:
-              type: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel2Postprocessor
+              - type: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel2Postprocessor
             queue: register_queue
 
     client:
       image:
-        tag: release-2.0.2
+        tag: release-2.0.18
+      ingress:
+        enabled: false
 
     database:
       persistence:
@@ -426,6 +432,12 @@ spec:
 
     ingestor:
       replicaCount: 0
+      ingress:
+        enabled: false
 
     preprocessor:
       replicaCount: 0
+
+    cache:
+      ingress:
+        enabled: false

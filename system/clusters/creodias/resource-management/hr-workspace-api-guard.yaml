@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: resource-guard
-      version: 1.0.0
+      version: 1.0.6
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -66,7 +66,7 @@ spec:
               - path: /(.*)
                 service:
                   name: workspace-api
-                  port: http
+                  port: 8080
         annotations:
           nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
           nginx.ingress.kubernetes.io/enable-cors: "true"

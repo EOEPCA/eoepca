@@ -11,15 +11,15 @@ echo -n "Dumping policy for combined-rm-pep to $ORIG_DIR/combined-rm-pep.json...
 kubectl -n rm exec -it svc/combined-rm-pep -c combined-rm-pep -- management_tools list --all | jq > "$ORIG_DIR"/combined-rm-pep.json
 echo " done"
 
-# resource-catalogue-pep
-echo -n "Dumping policy for resource-catalogue-pep to $ORIG_DIR/resource-catalogue-pep.json..."
-kubectl -n rm exec -it svc/resource-catalogue-pep -c resource-catalogue-pep -- management_tools list --all | jq > "$ORIG_DIR"/resource-catalogue-pep.json
-echo " done"
+# # resource-catalogue-pep
+# echo -n "Dumping policy for resource-catalogue-pep to $ORIG_DIR/resource-catalogue-pep.json..."
+# kubectl -n rm exec -it svc/resource-catalogue-pep -c resource-catalogue-pep -- management_tools list --all | jq > "$ORIG_DIR"/resource-catalogue-pep.json
+# echo " done"
 
-# data-access-pep
-echo -n "Dumping policy for data-access-pep to $ORIG_DIR/data-access-pep.json..."
-kubectl -n rm exec -it svc/data-access-pep -c data-access-pep -- management_tools list --all | jq > "$ORIG_DIR"/data-access-pep.json
-echo " done"
+# # data-access-pep
+# echo -n "Dumping policy for data-access-pep to $ORIG_DIR/data-access-pep.json..."
+# kubectl -n rm exec -it svc/data-access-pep -c data-access-pep -- management_tools list --all | jq > "$ORIG_DIR"/data-access-pep.json
+# echo " done"
 
 # ades-pep
 echo -n "Dumping policy for ades-pep to $ORIG_DIR/ades-pep.json..."
