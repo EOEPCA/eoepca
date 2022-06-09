@@ -1,0 +1,79 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: osc-resource-guard
+  namespace: rm
+spec:
+  chart:
+    spec:
+      chart: resource-guard
+      version: 1.0.6
+      sourceRef:
+        kind: HelmRepository
+        name: eoepca
+        namespace: common
+  values:
+    #---------------------------------------------------------------------------
+    # Global values
+    #---------------------------------------------------------------------------
+    global:
+      context: osc-resource
+      pep: osc-resource-pep
+      domain: develop.eoepca.org
+      nginxIp: 185.52.192.231
+      certManager:
+        clusterIssuer: letsencrypt
+    #---------------------------------------------------------------------------
+    # PEP values
+    #---------------------------------------------------------------------------
+    pep-engine:
+      configMap:
+        asHostname: auth
+        pdpHostname: auth
+      # customDefaultResources:
+      # - name: "Eric's space"
+      #   description: "Protected Access for eric to his space in the dummy service"
+      #   resource_uri: "/ericspace"
+      #   scopes: []
+      #   default_owner: "de287a74-a581-45b2-b66b-b14ddaf44173"
+      # - name: "Bob's space"
+      #   description: "Protected Access for bob to his space in the dummy service"
+      #   resource_uri: "/bobspace"
+      #   scopes: []
+      #   default_owner: "b3e6315e-df2f-4e84-81e8-3d9173675076"
+      nginxIntegration:
+        enabled: false
+        # hostname: dummy-service-auth
+      # image:
+      #   pullPolicy: Always
+      volumeClaim:
+        name: osc-resource-pep-pvc
+        create: false
+    #---------------------------------------------------------------------------
+    # UMA User Agent values
+    #---------------------------------------------------------------------------
+    uma-user-agent:
+      fullnameOverride: osc-resource-agent
+      # image:
+      #   tag: mytest
+      #   pullPolicy: Always
+      nginxIntegration:
+        enabled: true
+        hosts:
+          - host: open-science-catalog-backend
+            paths:
+              - path: /
+                service:
+                  name: open-science-catalog-backend
+                  port: 80
+      client:
+        credentialsSecretName: ""
+      logging:
+        level: "debug"
+      unauthorizedResponse: 'Bearer realm="https://auth.develop.eoepca.org/oxauth/auth/passport/passportlogin.htm"'
+    #---------------------------------------------------------------------------
+    # END values
+    #---------------------------------------------------------------------------
+
+  timeout: 25m0s
+  interval: 1m0s
