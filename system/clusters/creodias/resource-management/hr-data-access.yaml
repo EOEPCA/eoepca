@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: vs
-      version: 2.1.4
+      version: 2.1.6
       sourceRef:
         kind: HelmRepository
         name: eox-charts
@@ -411,9 +411,24 @@ spec:
 
     client:
       image:
-        tag: release-2.0.18
+        tag: release-2.0.21
       ingress:
         enabled: false
+
+      config:
+        eoxserverDownloadEnabled: true
+        timeDomain:
+          - "2002-01-01T00:00:00Z"
+          - "customClientDateFuture1"
+        displayTimeDomain:
+          - "customClientDatePast1"
+          - "customClientDateFuture1"
+        selectedTimeDomain:
+          - "customClientDatePast2"
+          - "today"
+        customClientDaysPast1: 90
+        customClientDaysPast2: 60
+        customClientDaysFuture1: 7
 
     database:
       persistence:
