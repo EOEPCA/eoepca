@@ -427,7 +427,7 @@ spec:
           - "customClientDatePast2"
           - "today"
         customClientDaysPast1: 90
-        customClientDaysPast2: 60
+        customClientDaysPast2: 1
         customClientDaysFuture1: 7
 
     database:
