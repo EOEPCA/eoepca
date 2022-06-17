@@ -41,7 +41,7 @@ spec:
             port: 8080
         env:
         - name: GITHUB_REPO_ID
-          value: eoepca/open-science-catalog-metadata
+          value: eoepca/open-science-catalog-metadata-staging
         - name: GITHUB_TOKEN
           valueFrom:
             secretKeyRef:
