@@ -1,0 +1,64 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: vs
+spec:
+  interval: 60m
+  chart:
+    spec:
+      chart: vs
+      version: 2.1.4
+      sourceRef:
+        kind: HelmRepository
+        name: eox-charts
+        namespace: rm
+  values:
+    global:
+      namespace: "{{ workspace_name }}"
+
+      storage:
+        data:
+          data:
+            # TODO: this values are secret pass them as secret
+            access_key_id: {{ access_key_id }}
+            secret_access_key: {{ secret_access_key }}
+            bucket: {{ bucket }}
+            endpoint_url: https://cf2.cloudferro.com:8080
+            region: RegionOne
+
+    harvester:
+      config:
+        harvesters:
+          - name: harvest-bucket-catalog
+            resource:
+              type: "STACCatalog"
+              source:
+                type: "S3"
+                bucket: bucket
+                access_key_id: access_key_id
+                secret_access_key: secret_access_key
+                endpoint_url: https://cf2.cloudferro.com:8080
+                region_name: RegionOne
+                validate_bucket_name: False
+                public: False
+                queue": "register_queue"
+    registrar:
+      config:
+        backends: 
+          - path: "registrar.backend.eoxserver.EOxServerBackend"
+            kwargs:
+              instance_base_path: "/var/www/pvs/dev"
+              instance_name: "pvs_instance"
+              product_types: []
+              auto_create_product_types: True
+          - path: "registrar_pycsw.backend.PycswItemBackend"
+            kwargs: 
+            repository_database_uri: "postgresql://postgres:mypass@resource-catalogue-db/pycsw"
+            ows_url: f"https://data-access.{{ workspace_name }}.develop.eoepca.org/ows"
+            public_s3_url: f"https://cf2.cloudferro.com:8080/{projectid}:{bucket}"
+        pathBackends: 
+          - path: "registrar_pycsw.backend.PycswCWLBackend"
+            kwargs:
+              repository_database_uri:  "postgresql://postgres:mypass@resource-catalogue-db/pycsw"
+              ows_url: f"https://data-access.{{ workspace_name }}.develop.eoepca.org/ows"
+              public_s3_url: f"https://cf2.cloudferro.com:8080/{projectid}:{bucket}"
