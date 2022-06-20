@@ -44,7 +44,7 @@ spec:
                 queue": "register_queue"
     registrar:
       config:
-        backends: 
+        backends:
           - path: "registrar.backend.eoxserver.EOxServerBackend"
             kwargs:
               instance_base_path: "/var/www/pvs/dev"
@@ -52,10 +52,10 @@ spec:
               product_types: []
               auto_create_product_types: True
           - path: "registrar_pycsw.backend.PycswItemBackend"
-            kwargs: 
-            repository_database_uri: "postgresql://postgres:mypass@resource-catalogue-db/pycsw"
-            ows_url: "https://data-access.{{ workspace_name }}.develop.eoepca.org/ows"
-            public_s3_url: "https://cf2.cloudferro.com:8080/{projectid}:{bucket}"
+            kwargs:
+              repository_database_uri: "postgresql://postgres:mypass@resource-catalogue-db/pycsw"
+              ows_url: "https://data-access.{{ workspace_name }}.develop.eoepca.org/ows"
+              public_s3_url: "https://cf2.cloudferro.com:8080/{projectid}:{bucket}"
         pathBackends: 
           - path: "registrar_pycsw.backend.PycswCWLBackend"
             kwargs:
