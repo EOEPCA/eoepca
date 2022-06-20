@@ -15,9 +15,15 @@ spec:
   values:
     global:
       namespace: "{{ workspace_name }}"
-      db:
-        volume_storage_type: managed-nfs-storage-retain
-      pycsw:
-        config:
-          server:
-            url: "https://resource-catalogue.{{ workspace_name }}.develop.eoepca.org"
+    db:
+      volume_storage_type: managed-nfs-storage-retain
+    ingress:
+      enabled: false
+      # name: resource-catalogue
+      # host: resource-catalogue-open.<user-namespace>.demo.eoepca.org
+      # tls_host: resource-catalogue-open.<user-namespace>.demo.eoepca.org
+      # tls_secret_name: resource-catalogue-open-tls
+    pycsw:
+      config:
+        server:
+          url: "https://resource-catalogue.{{ workspace_name }}.develop.eoepca.org"
