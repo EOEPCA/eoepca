@@ -23,6 +23,8 @@ spec:
     name: cache-access-secret
     valuesKey: values.yaml
   values:
+    imagePullSecrets:
+      - name: regcred
     global:
       env:
         REGISTRAR_REPLACE: "true"

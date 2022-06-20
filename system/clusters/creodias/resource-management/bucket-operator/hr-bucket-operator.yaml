@@ -13,6 +13,8 @@ spec:
         name: eoepca
         namespace: common
   values:
+    imagePullSecrets:
+      - name: regcred
     domain: mundi.eoepca.org
     data:
       OS_MEMBERROLEID: '9fe2ff9ee4384b1894a90878d3e92bab'

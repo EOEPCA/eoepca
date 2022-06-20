@@ -14,6 +14,8 @@ spec:
         name: eoepca
         namespace: common
   values:
+    imagePullSecrets:
+      - name: regcred  
     fullnameOverride: workspace-api
     image: {}
       # repository: eoepca/rm-workspace-api
