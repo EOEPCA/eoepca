@@ -63,3 +63,18 @@ spec:
               repository_database_uri:  "postgresql://postgres:mypass@resource-catalogue-db/pycsw"
               ows_url: "https://data-access.{{ workspace_name }}.develop.eoepca.org/ows"
               public_s3_url: "https://cf2.cloudferro.com:8080/{projectid}:{bucket}"
+    database:
+      persistence:
+        enabled: true
+        existingClaim: ""  # we want the claim to be generated
+        storageClass: managed-nfs-storage
+        size: "100Gi"
+
+    redis:
+      persistence:
+        existingClaim: ""
+      master:
+        persistence:
+          storageClass: managed-nfs-storage
+          size: "1Gi"
+          existingClaim: ""
