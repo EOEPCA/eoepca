@@ -17,7 +17,7 @@ spec:
         namespace: "{{ workspace_name }}"
         pep: "{{ workspace_name }}-pep"
         domain: develop.eoepca.org
-        ginxIp: "185.52.192.231"
+        nginxIp: "185.52.192.231"
         certManager:
             clusterIssuer: letsencrypt
         context: "{{ workspace_name }}-resource-guard"
