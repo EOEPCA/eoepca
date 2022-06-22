@@ -84,3 +84,9 @@ spec:
     client:
       ingress:
         enabled: false
+    renderer:
+      ingress:
+        enabled: false
+    ingestor:
+      ingress:
+        enabled: false
