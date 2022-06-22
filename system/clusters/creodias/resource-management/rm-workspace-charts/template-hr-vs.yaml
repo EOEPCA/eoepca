@@ -78,3 +78,9 @@ spec:
           storageClass: managed-nfs-storage
           size: "1Gi"
           existingClaim: ""
+    cache:
+      ingress:
+        enabled: false
+    client:
+      ingress:
+        enabled: false
