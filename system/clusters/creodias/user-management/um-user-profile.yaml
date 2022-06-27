@@ -2,12 +2,12 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: um-user-profile
-  namespace: default
+  namespace: um
 spec:
   chart:
     spec:
       chart: user-profile
-      version: 1.1.3
+      version: 1.1.4
       sourceRef:
         kind: HelmRepository
         name: eoepca
