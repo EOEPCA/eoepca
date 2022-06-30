@@ -27,3 +27,7 @@ spec:
       config:
         server:
           url: "https://resource-catalogue.{{ workspace_name }}.develop.eoepca.org"
+        # ???: do we need a `metadata` element?
+        # metadata: {}
+        # ???: do we need a `inspire` element?
+        # inspire: {}
