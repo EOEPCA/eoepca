@@ -14,92 +14,69 @@ spec:
         namespace: common
   values:
     global:
-        # ???: indented too far - not sure how fussy yaml is!
-        # !!!: yaml accepts indented block where the whole block is indented consistently.
-        #      using a consistent style would be good for readability though.
-        # ???: I don't think `global.namespace` is used
-        namespace: "{{ workspace_name }}"
-        pep: "{{ workspace_name }}-pep"
-        domain: develop.eoepca.org
-        nginxIp: "185.52.192.231"
-        certManager:
-            clusterIssuer: letsencrypt
-        # ???: I think that `{{ workspace_name }}` is sufficient for context
-        # context: "{{ workspace_name }}-resource-guard"
-        context: "{{ workspace_name }}"
-        # ???: `default_owner` is not used by the chart - is this simply used
-        #      to remember the value by putting in the HelmRelease for future reference?
-        # !!!: yes
-        default_owner: {{ default_owner }} # NOTE: do not remove, we need to store this here for redeploys
+      pep: "{{ workspace_name }}-pep"
+      domain: develop.eoepca.org
+      nginxIp: "185.52.192.231"
+      certManager:
+        clusterIssuer: letsencrypt
+      context: "{{ workspace_name }}"
+      default_owner: {{ default_owner }} # NOTE: do not remove, we need to store this here for redeploys
     pep-engine:
-        # ???: indented too far - not sure how fussy yaml is!
-        configMap:
-            workingMode: "PARTIAL"  # ???: this is the default, so could be omitted
-            asHostname: auth
-            pdpHostname: auth
-        nginxIntegration:
-            enabled: False
-        volumeClaim:
-            # ???: suggested better name for pvc
-            # name: "eoepca-resman-pvc-{{ workspace_name }}"
-            name: "{{ workspace_name }}-pep-pvc"
-            create: "true"
-        defaultResources: 
-            # ???: tweak to `name`
-            # - name: "Workspace {{ workspace_name }}"
-            - name: "Workspace {{ workspace_name }} Root"
-              description: "Root URL of a users workspace"
-              resource_uri: "/"
-              scopes: []
-              default_owner: {{ default_owner }}
+      configMap:
+        asHostname: auth
+        pdpHostname: auth
+      nginxIntegration:
+        enabled: False
+      volumeClaim:
+        name: "{{ workspace_name }}-pep-pvc"
+        create: "true"
+      defaultResources:
+        - name: "Workspace {{ workspace_name }} Root"
+          description: "Root URL of a users workspace"
+          resource_uri: "/"
+          scopes: []
+          default_owner: {{ default_owner }}
     uma-user-agent:
-        # ???: indented too far - not sure how fussy yaml is!
-        fullnameOverride: "{{ workspace_name }}-agent"
-        nginxIntegration:
-            # ???: syntax fix
-            # enabled: True,
-            enabled: true
-            hosts:
-              - host: "resource-catalogue.{{ workspace_name }}"
-                paths:
-                  - path: "/(.*)"
-                    service:
-                      name: "resource-catalogue-service"
-                      port: 80
-              - host: "data-access.{{ workspace_name }}"
-                paths:
-                    # ???: Question - where does the `workspace-` service prefix come from (compared to `data-access` in the system deployment)
-                    #      - i.e. not clear where `workspace-` is defined in template `template-hr-vs.yaml`.
-                    - path: "/(ows.*)"
-                      service:
-                        name: "workspace-renderer"
-                        port: 80
-                    - path: "/(opensearch.*)"
-                      service:
-                          name: "workspace-renderer"
-                          port: 80
-                    - path: "/(admin.*)"
-                      service:
-                          name: "workspace-renderer"
-                          port: 80
-                    - path: "/cache/(.*)"
-                      service:
-                          name: "workspace-cache"
-                          port: 80
-                    - path: "/(.*)"
-                      service:
-                          name: "workspace-client"
-                          port: 80
-            annotations:
-              nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-              nginx.ingress.kubernetes.io/enable-cors: "true"
-              nginx.ingress.kubernetes.io/rewrite-target: "/$1"
-        client:
-            # ???: This secret must be available in the workspace namespace.
-            #      Previously it was 'copied' there by the workspace API.
-            #      Presume this is still the case with the new templated approach.
-            # !!!: Yes, it is still copied by the workspace-api.
-            credentialsSecretName: rm-uma-user-agent
-        logging:
-            level: info
-        unauthorizedResponse: 'Bearer realm="https://portal.develop.eoepca.org/oidc/authenticate/"'
+      fullnameOverride: "{{ workspace_name }}-agent"
+      nginxIntegration:
+        enabled: true
+        hosts:
+          - host: "resource-catalogue.{{ workspace_name }}"
+            paths:
+              - path: "/(.*)"
+                service:
+                  name: "resource-catalogue-service"
+                  port: 80
+          - host: "data-access.{{ workspace_name }}"
+            paths:
+              # ???: Question - where does the `workspace-` service prefix come from (compared to `data-access` in the system deployment)
+              #      - i.e. not clear where `workspace-` is defined in template `template-hr-vs.yaml`.
+              - path: "/(ows.*)"
+                service:
+                  name: "workspace-renderer"
+                  port: 80
+              - path: "/(opensearch.*)"
+                service:
+                  name: "workspace-renderer"
+                  port: 80
+              - path: "/(admin.*)"
+                service:
+                  name: "workspace-renderer"
+                  port: 80
+              - path: "/cache/(.*)"
+                service:
+                  name: "workspace-cache"
+                  port: 80
+              - path: "/(.*)"
+                service:
+                  name: "workspace-client"
+                  port: 80
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+          nginx.ingress.kubernetes.io/enable-cors: "true"
+          nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+      client:
+        credentialsSecretName: rm-uma-user-agent
+      logging:
+        level: info
+      unauthorizedResponse: 'Bearer realm="https://portal.develop.eoepca.org/oidc/authenticate/"'
