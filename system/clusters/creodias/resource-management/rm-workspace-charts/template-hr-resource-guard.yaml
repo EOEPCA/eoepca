@@ -49,27 +49,25 @@ spec:
                   port: 80
           - host: "data-access.{{ workspace_name }}"
             paths:
-              # ???: Question - where does the `workspace-` service prefix come from (compared to `data-access` in the system deployment)
-              #      - i.e. not clear where `workspace-` is defined in template `template-hr-vs.yaml`.
               - path: "/(ows.*)"
                 service:
-                  name: "workspace-renderer"
+                  name: "vs-renderer"
                   port: 80
               - path: "/(opensearch.*)"
                 service:
-                  name: "workspace-renderer"
+                  name: "vs-renderer"
                   port: 80
               - path: "/(admin.*)"
                 service:
-                  name: "workspace-renderer"
+                  name: "vs-renderer"
                   port: 80
               - path: "/cache/(.*)"
                 service:
-                  name: "workspace-cache"
+                  name: "vs-cache"
                   port: 80
               - path: "/(.*)"
                 service:
-                  name: "workspace-client"
+                  name: "vs-client"
                   port: 80
         annotations:
           nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
