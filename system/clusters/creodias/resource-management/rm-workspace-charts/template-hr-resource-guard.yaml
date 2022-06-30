@@ -15,6 +15,8 @@ spec:
   values:
     global:
         # ???: indented too far - not sure how fussy yaml is!
+        # !!!: yaml accepts indented block where the whole block is indented consistently.
+        #      using a consistent style would be good for readability though.
         # ???: I don't think `global.namespace` is used
         namespace: "{{ workspace_name }}"
         pep: "{{ workspace_name }}-pep"
@@ -27,6 +29,7 @@ spec:
         context: "{{ workspace_name }}"
         # ???: `default_owner` is not used by the chart - is this simply used
         #      to remember the value by putting in the HelmRelease for future reference?
+        # !!!: yes
         default_owner: {{ default_owner }} # NOTE: do not remove, we need to store this here for redeploys
     pep-engine:
         # ???: indented too far - not sure how fussy yaml is!
@@ -95,6 +98,7 @@ spec:
             # ???: This secret must be available in the workspace namespace.
             #      Previously it was 'copied' there by the workspace API.
             #      Presume this is still the case with the new templated approach.
+            # !!!: Yes, it is still copied by the workspace-api.
             credentialsSecretName: rm-uma-user-agent
         logging:
             level: info

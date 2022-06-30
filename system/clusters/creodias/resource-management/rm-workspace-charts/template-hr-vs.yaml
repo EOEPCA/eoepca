@@ -77,6 +77,9 @@ spec:
                 bucket: bucket
                 access_key_id: {{ access_key_id }}  # ???: should be a template variable?
                 secret_access_key: {{ secret_access_key }}  # ???: should be a template variable?
+                # !!!: these values are in fact jinja2 template variables, the VS chart currently
+                #      needs them to be defined as values and they are derived from the bucket
+                #      secret.
                 endpoint_url: https://cf2.cloudferro.com:8080
                 region_name: RegionOne
                 validate_bucket_name: False
@@ -121,6 +124,8 @@ spec:
       # usePassword: false  # ???: is this needed?
       persistence:
         # ???: should we specify a `storageClass` if not using an existing claim
+        # !!!: it's possible that this setting doesn't really do anything and only
+        #      the persistence block in `master` is used.
         existingClaim: ""
       master:
         persistence:
