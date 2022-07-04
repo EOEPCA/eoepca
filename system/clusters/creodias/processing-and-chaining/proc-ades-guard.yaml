@@ -30,22 +30,22 @@ spec:
       configMap:
         asHostname: auth
         pdpHostname: auth
-      # customDefaultResources:
-      # - name: "ADES Service for user 'eric'"
-      #   description: "Protected Access for eric to his space in the ADES"
-      #   resource_uri: "/eric"
-      #   scopes: []
-      #   default_owner: "d3688daa-385d-45b0-8e04-2062e3e2cd86"
-      # - name: "ADES Service for user 'bob'"
-      #   description: "Protected Access for bob to his space in the ADES"
-      #   resource_uri: "/bob"
-      #   scopes: []
-      #   default_owner: "f12c2592-0332-49f4-a4fb-7063b3c2a889"
-      # - name: "ADES Service for user 'alice'"
-      #   description: "Protected Access for alice to her space in the ADES"
-      #   resource_uri: "/alice"
-      #   scopes: []
-      #   default_owner: "07ed7426-4b95-4598-9de2-46f92681daa0"
+      customDefaultResources:
+      - name: "ADES Service for user 'eric'"
+        description: "Protected Access for eric to his space in the ADES"
+        resource_uri: "/eric"
+        scopes: []
+        default_owner: "de287a74-a581-45b2-b66b-b14ddaf44173"
+      - name: "ADES Service for user 'bob'"
+        description: "Protected Access for bob to his space in the ADES"
+        resource_uri: "/bob"
+        scopes: []
+        default_owner: "b3e6315e-df2f-4e84-81e8-3d9173675076"
+      - name: "ADES Service for user 'alice'"
+        description: "Protected Access for alice to her space in the ADES"
+        resource_uri: "/alice"
+        scopes: []
+        default_owner: "66e71ae0-2a24-4d19-bcdd-e4dc50de9a04"
       nginxIntegration:
         enabled: false
         # hostname: proc-ades-auth
