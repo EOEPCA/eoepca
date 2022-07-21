@@ -17,7 +17,7 @@ spec:
       # tag: v1.0
       # pullPolicy: Always
     global:
-      nginxIp: 185.52.192.231
+      nginxIp: 185.52.195.19
       domain: test.demo.eoepca.org
     volumeClaim:
       name: eoepca-userman-pvc
