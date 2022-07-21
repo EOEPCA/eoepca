@@ -17,7 +17,7 @@ spec:
       name: eoepca-userman-pvc
       create: false
     config:
-      domain: auth.develop.eoepca.org
+      domain: test.demo.eoepca.org
       volumeClaim:
         name: eoepca-userman-pvc
     opendj:
@@ -34,17 +34,17 @@ spec:
       volumeClaim:
         name: eoepca-userman-pvc
     global:
-      domain: auth.develop.eoepca.org
+      domain: test.demo.eoepca.org
       nginxIp: 185.52.192.231
     nginx:
       ingress:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt
         hosts:
-          - auth.develop.eoepca.org
+          - test.demo.eoepca.org
         tls:
           - hosts:
-              - auth.develop.eoepca.org
+              - test.demo.eoepca.org
             secretName: login-service-tls
   timeout: 25m0s
   interval: 1m0s
