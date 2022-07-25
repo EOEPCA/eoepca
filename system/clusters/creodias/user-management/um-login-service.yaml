@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: login-service
-      version: 1.1.14
+      version: 1.1.16
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -36,6 +36,7 @@ spec:
     global:
       domain: auth.develop.eoepca.org
       nginxIp: 185.52.192.231
+      namespace: um
     nginx:
       ingress:
         annotations:
