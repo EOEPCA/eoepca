@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: resource-guard
-      version: 1.0.6
+      version: 1.0.7
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -18,7 +18,6 @@ spec:
     #---------------------------------------------------------------------------
     global:
       context: dummy-service
-      pep: dummy-service-pep
       domain: develop.eoepca.org
       nginxIp: 185.52.192.231
       certManager:
@@ -53,7 +52,6 @@ spec:
     # UMA User Agent values
     #---------------------------------------------------------------------------
     uma-user-agent:
-      fullnameOverride: dummy-service-agent
       # image:
       #   tag: mytest
       #   pullPolicy: Always

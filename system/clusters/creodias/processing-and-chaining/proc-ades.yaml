@@ -270,7 +270,7 @@ spec:
       
         
     wps:
-      pepBaseUrl: "http://proc-ades-pep:5576"
+      pepBaseUrl: "http://ades-pep:5576"
       usePep: "true"
       maincfgtpl: "files/main.cfg.tpl"
     persistence:
