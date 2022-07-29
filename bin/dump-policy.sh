@@ -23,7 +23,7 @@ echo " done"
 
 # ades-pep
 echo -n "Dumping policy for ades-pep to $ORIG_DIR/ades-pep.json..."
-kubectl -n proc exec -it svc/proc-ades-pep -c proc-ades-pep -- management_tools list --all > "$ORIG_DIR"/ades-pep.json
+kubectl -n proc exec -it svc/ades-pep -c ades-pep -- management_tools list --all > "$ORIG_DIR"/ades-pep.json
 echo " done"
 
 # workspace-api-pep
