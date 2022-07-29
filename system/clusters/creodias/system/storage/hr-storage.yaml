@@ -19,11 +19,11 @@ spec:
       server:
         address: "192.168.100.11"
     domain:
-      resman:
-        storageClass: eoepca-nfs
-      proc:
-        enabled: true
-        storageClass: eoepca-nfs
+      # resman:
+      #   storageClass: eoepca-nfs
+      # proc:
+      #   enabled: true
+      #   storageClass: eoepca-nfs
       userman:
         storageClass: eoepca-nfs
   interval: 1m0s
