@@ -29,5 +29,5 @@ spec:
       tls:
         - hosts:
             - dummy-service-open.demo.eoepca.org
-          secretName: dummy-service-tls
+          secretName: dummy-service-open-tls
   interval: 1m0s
