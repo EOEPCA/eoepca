@@ -7,14 +7,13 @@ spec:
   chart:
     spec:
       chart: resource-guard
-      version: 1.0.6
+      version: 1.0.7
       sourceRef:
         kind: HelmRepository
         name: eoepca
         namespace: common
   values:
     global:
-      pep: "{{ workspace_name }}-pep"
       domain: develop.eoepca.org
       nginxIp: "185.52.192.231"
       certManager:
@@ -37,7 +36,6 @@ spec:
           scopes: []
           default_owner: {{ default_owner }}
     uma-user-agent:
-      fullnameOverride: "{{ workspace_name }}-agent"
       nginxIntegration:
         enabled: true
         hosts:
