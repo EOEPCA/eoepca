@@ -362,7 +362,7 @@ spec:
       # replicaCount: 4
       image:
         repository: eoepca/rm-data-access-core
-        tag: 1.1.1
+        tag: 1.2-dev1
       ingress:
         enabled: false
 
