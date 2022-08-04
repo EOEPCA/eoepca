@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+* {
+  font-family: open sans;
+}
+
+body {
+  background-color: #081742;
+}
+
+.brand-logo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 150px;
+}
+
+input[type="submit"],
+button[type="submit"] {
+    border: 2px solid #5986a5;
+    background: #5986a5;
+}
+
+input[type="submit"]:hover {
+  color: #081742;
+  background-color: #5986a5;
+  border: 2px solid #081742;
+}
+
+.btn {
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+}
+
+.btn:active {
+  color: #fff;
+  background-color: #0b2a46;
+  border-color: #0b2a46;
+}
+
+input[type="text"], 
+input[type="password"], 
+input[type="email"], 
+input[type="tel"], 
+input[type="date"], 
+input[type="number"] {
+  color: black;
+  background-color: #E5E5E5;
+}
+
+input[type="text"]:focus, 
+input[type="password"]:focus, 
+input[type="email"]:focus, 
+input[type="tel"]:focus, 
+input[type="date"]:focus, 
+input[type="number"]:focus {
+  outline: 1px solid #081742;
+}
+
+.login-form {
+  float: none;
+  margin: 0 auto; 
+  background-color: #FFFFFF; 
+  margin-top: 7%; 
+  padding: 40px;
+}
+
+@media (max-width: 991px) {
+  .login-form {
+    margin-top: 70px; 
+  }
+}
+
+.form-control {
+  box-shadow: none;
+}
+
+.form-control-label {
+  color: #003E87;
+  line-height: 3;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+
+.input-with-label span, label {
+  font-family: open sans;
+  text-transform: none;
+  letter-spacing: normal;
+}

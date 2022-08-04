@@ -1,0 +1,154 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<f:view transient="true">
+		<h:head>
+			<meta name="description" content="Identity4EO"/>
+			<script type="text/javascript" src="#{oxAuthConfigurationService.jsLocation}/jquery-1.12.4.min.js"></script>
+			<script type="text/javascript">
+			
+			
+			  function setCallbackCookie() {
+				document.cookie = "callback_url="+document.referrer;
+			  }
+			  
+			  function getCallbackCookie() {
+				var name = "callback_url=";
+				var decodedCookie = decodeURIComponent(document.cookie);
+				var ca = decodedCookie.split(';');
+				for(var i = 0; i &lt; ca.length; i++) {
+					var c = ca[i];
+					while (c.charAt(0) == ' ') {
+						c = c.substring(1);
+					}
+					if (c.indexOf(name) == 0) {
+						return c.substring(name.length, c.length);
+					}
+				}
+				return "None";
+			  }
+			  
+			  function removeCallbackCookie() {
+				document.cookie = 'callback_url' + '=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+			  }
+			  
+			  
+			  var n = "/";
+			  var ref = document.referrer;  
+			  var current = window.location.href;
+			  var refHost = document.referrer.split('/')[2];
+
+			  var currentHost = window.location.host;
+			  
+			  if (refHost == currentHost) {
+				regURL = "https://"+window.location.host+"/identity/register.htm";
+				if (ref.indexOf(regURL) !== -1) {
+					var dest = getCallbackCookie();
+					if (dest !== "None") {
+					  removeCallbackCookie();
+					  window.location.href = dest;
+					}
+				}          
+			  }
+			  else {
+				setCallbackCookie();
+			  }
+			  
+			</script>
+			<script type='text/javascript' src='ext/resources/js/bootstrap.min.js'></script>
+			<script type='text/javascript' src='ext/resources/js/scripts.js'></script>
+			<script type='text/javascript' src='ext/resources/js/jquery.js?ver=1.12.4'></script>	
+			<link rel='stylesheet' id='ebor-body-font-css'  href='https://fonts.googleapis.com/css?family=Open+Sans%3A400%2C500%2C600&#038;ver=4.8' type='text/css' media='all' />
+			<link rel='stylesheet' id='ebor-heading-font-css'  href='https://fonts.googleapis.com/css?family=Raleway%3A100%2C400%2C300%2C500%2C600%2C700&#038;ver=4.8' type='text/css' media='all' />
+			<link rel='stylesheet' id='ebor-lato-font-css'  href='https://fonts.googleapis.com/css?family=Lato%3A300%2C400&#038;ver=4.8' type='text/css' media='all' />
+			<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+			<link rel='stylesheet' id='ebor-bootstrap-css'  href='ext/resources/css/bootstrap.css' type='text/css' media='all' />
+			<link rel='stylesheet' id='ebor-theme-styles-css'  href='ext/resources/css/ebor-theme-styles.css' type='text/css' media='all' />
+			<link rel='stylesheet' id='ebor-fonts-css'  href='ext/resources/css/fonts.css' type='text/css' media='all' />
+
+			<link rel='stylesheet' id='ebor-style-inline-css'  href='ext/resources/css/eoepca-inline.css' type='text/css' media='all' />
+			<link rel='stylesheet' id='ebor-style-css'  href='ext/resources/css/styles.css' type='text/css' media='all' />
+		  <link rel='stylesheet' id='custom' href='ext/resources/css/login.css' type='text/css' media='all' />
+		</h:head>
+        <title><h:outputText value="Identity4EO Login"/></title>
+	   <h:body>
+       <a class="brand-logo"><img src="ext/resources/img/esa.png" alt="Logo"/></a>
+		   <div class="perm-fixed-nav">
+				<div class="main-container">
+					<div id="content" class="col-md-4 login-form">
+						<div>
+							<h:form id="loginForm">
+								<h:panelGroup rendered="#{not identity.loggedIn}">
+									<div class="inner-form-container row-fluid">
+										<ul class="offset2 span10">
+											<s:token allowMultiplePosts="true"/>
+											<h:messages style="color:red;"/>
+											<div class="row-fluid">
+												<span class="input-name span3"> <h:outputLabel
+														for="username" value="Username" styleClass="form-control-label"/>
+												</span>
+
+												<div class="span6">
+													<h:inputText id="username" value="#{credentials.username}"
+																 autocomplete="off"/>
+												</div>
+											</div>
+											<div class="row-fluid">
+												<span class="input-name span3"> <h:outputLabel
+														for="password" value="Password" styleClass="form-control-label"/>
+												</span>
+												<div class="span6">
+													<h:inputSecret id="password" value="#{credentials.password}"
+																   autocomplete="off"/>
+
+												</div>
+											</div>
+											<li class="row-fluid submit-container">
+												<div class="gradient contact-button green span2 offset3">
+													<div id="submit_block" class="login_input">
+														<h:commandButton id="loginButton" 
+																		 value="Login"
+                                     styleClass="btn"
+																		 action="#{authenticator.authenticate}"/>
+													</div>
+													<span class="sprite-green_click_icon"></span>
+												</div>
+											</li>
+                                            <li class="row-fluid">
+												<div class="span9">
+													<a class="need-account,register"
+													   href="/identity/person/passwordReminder.htm" target="_blank">Forgot your password?</a>
+												</div>
+											</li>
+											<li class="row-fluid">
+												<div id="identity" class="span9"> 
+												Need a EOEPCA account? <a class="need-account,register" href="../../identity/register.htm" target="_blank">Register!</a>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</h:panelGroup>
+							</h:form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<script type="text/javascript">
+				var styleSheets = document.styleSheets;
+				var id = 'skinning_both';
+				for (var i = 0; i &lt; styleSheets.length; i++) {
+					var hrefValue = styleSheets[i].href;
+						if  (hrefValue !== null) {
+							if (hrefValue.indexOf(id) !== -1) {
+								document.styleSheets[i].disabled = true;
+							}
+						}
+				}
+			</script>
+		</h:body>
+	</f:view>
+</html>

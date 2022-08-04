@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/WEB-INF/incl/layout/newtemplate.xhtml">
+	<f:metadata>
+		<f:viewAction
+			action="#{permissionService.requestPermission('#{identity.loggedIn}')}" />
+		<f:viewAction action="#{conversationService.endConversation}" />
+		<f:viewAction action="#{homeAction.init}" onPostback="false" />
+	</f:metadata>
+	<ui:define name="body">
+		<section class="content"> 
+			<ui:fragment rendered="#{permissionService.hasPermission('configuration', 'access')}">
+			<div class="row">
+					<div class="col-md-3 col-sm-6 col-xs-12">
+						<div class="info-box">
+							<span class="info-box-icon bg-green"> <i
+								class="fa  fa-bar-chart-o" style="line-height: 2em !important;" />
+							</span>
+							<div class="info-box-content">
+								<ui:param name="_configuration"
+									value="#{configurationService.configuration}" />
+								<ui:param name="_stat"
+									value="#{configurationService.getOxtrustStat()}" />
+								<span class="info-box-text">#{msg['home.freeMemory']}</span>
+								<h:outputText styleClass="info-box-number"
+									value="#{_stat.freeMemory}%" />
+								<span> </span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-6 col-xs-12">
+						<div class="info-box">
+							<span class="info-box-icon bg-red"> <i class="fa fa-tasks"
+								style="line-height: 2em !important;" />
+							</span>
+							<div class="info-box-content">
+								<span class="info-box-text">#{msg['home.freeDiskSpace']}</span>
+								<h:outputText styleClass="info-box-number"
+									value="#{_stat.freeDiskSpace}%" />
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-6 col-xs-12">
+						<div class="info-box">
+							<span class="info-box-icon bg-yellow"> <i
+								class="fa fa-power-off" style="line-height: 2em !important;" />
+							</span>
+							<div class="info-box-content">
+								<span class="info-box-text">#{msg['home.systemUptime']}</span>
+								<h:outputText converter="uptimeConverter"
+									styleClass="info-box-number" value="#{_stat.systemUptime}" />
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-6 col-xs-12">
+						<div class="info-box">
+							<span class="info-box-icon bg-yellow"> <i
+								class="fa  fa-cloud" style="line-height: 2em !important;" />
+							</span>
+							<div class="info-box-content">
+								<span class="info-box-text">#{msg['home.ipAddress']}</span>
+								<h:outputText styleClass="info-box-number"
+									value="#{_stat.ipAddress}" />
+							</div>
+						</div>
+					</div>
+				</div>
+             <div>
+             <div>
+             <p> Select a dashboard: </p>
+               <button onclick="setAuthn();" class="btn-primary">Authentication Stats</button>
+               <button onclick="setAuthz();" class="btn-primary">Authorization Stats</button>
+             </div> 
+              <iframe id="stats" width="100%" height="1300px"></iframe>
+        		  <script>
+                function setAuthn() {
+                  var a = document.getElementById("stats");
+          			  a.src = "https://"+window.location.host+"/analytics/app/kibana#/dashboard/d47c1590-d347-11e7-823a-0ba379210771?embed=true&amp;_g=(refreshInterval%3A(display%3A'5%20seconds'%2Cpause%3A!f%2Csection%3A1%2Cvalue%3A5000)%2Ctime%3A(from%3Anow-5y%2Cmode%3Aquick%2Cto%3Anow))";
+                      a.height="1300px";
+                }
+                function setAuthz() {
+            			var a = document.getElementById("stats");
+            			a.src = "https://"+window.location.host+"/analytics/app/kibana#/dashboard/f19bca20-9f6d-11e7-89be-4fcfa83a41da?embed=true&amp;_g=(refreshInterval%3A(display%3A'5%20seconds'%2Cpause%3A!f%2Csection%3A1%2Cvalue%3A5000)%2Ctime%3A(from%3Anow-7d%2Cmode%3Aquick%2Cto%3Anow))";
+                  a.height="650px";
+                }
+                setAuthn();
+          		</script>
+             </div>
+            </ui:fragment>
+
+        </section>
+
+        <!-- Scripts -->
+		<script
+			src="#{oxTrustConfigurationService.cssLocation}/../theme/dist/js/jquery-ui-1.12.1.min.js"
+			type="text/javascript" />
+		<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+		<script>
+			$.widget.bridge('uibutton', $.ui.button);
+		</script>
+		<script
+			src="#{oxTrustConfigurationService.cssLocation}/../theme/dist/js/raphael-min.js" />
+		<script
+			src="#{oxTrustConfigurationService.cssLocation}/../theme/plugins/morris/morris.min.js"
+			type="text/javascript" />
+		<script
+			src="#{oxTrustConfigurationService.cssLocation}/../theme/plugins/knob/jquery.knob.js"
+			type="text/javascript" />
+		<script
+			src="#{oxTrustConfigurationService.cssLocation}/../theme/plugins/datepicker/bootstrap-datepicker.js"
+			type="text/javascript" />
+		<script
+			src="#{oxTrustConfigurationService.cssLocation}/../theme/plugins/iCheck/icheck.min.js"
+			type="text/javascript" />
+		<script
+			src="#{oxTrustConfigurationService.cssLocation}/../theme/plugins/slimScroll/jquery.slimscroll.min.js"
+			type="text/javascript" />
+		<script
+			src="#{oxTrustConfigurationService.cssLocation}/../theme/plugins/chartjs/Chart.min.js"
+			type="text/javascript" />
+		<script src="#{request.contextPath}/resources/js/dashboard.js"
+			type="text/javascript" />
+    </ui:define>
+</ui:composition>
