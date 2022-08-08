@@ -7,10 +7,10 @@ spec:
   chart:
     spec:
       chart: oauth2-proxy
-      version: 4.0.1
+      version: 6.2.2
       sourceRef:
         kind: HelmRepository
-        name: k8sathome
+        name: oauth2-proxy
         namespace: common
   interval: 1h0m0s
   releaseName: oauth2-proxy
