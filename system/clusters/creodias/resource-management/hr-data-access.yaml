@@ -366,11 +366,19 @@ spec:
       ingress:
         enabled: false
 
+      resources:
+        limits:
+          cpu: 1.5
+          memory: 6Gi
+        requests:
+          cpu: 1.5
+          memory: 6Gi
+
     registrar:
       replicaCount: 1
       image:
         repository: eoepca/rm-data-access-core
-        tag: latest
+        tag: 1.1.2
       config:
         backends:
           - path: registrar_pycsw.backend.PycswItemBackend
