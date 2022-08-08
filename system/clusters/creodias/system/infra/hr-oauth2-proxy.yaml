@@ -40,7 +40,7 @@ spec:
         nginx.ingress.kubernetes.io/proxy-read-timeout: '600'
         nginx.ingress.kubernetes.io/enable-cors: 'true'
         cert-manager.io/cluster-issuer: letsencrypt
-        nginx.ingress.kubernetes.io/configuration-snippet: "location \"~^/(?<target_host>[^/]+\\.185\\.52\\.193\\.87\\.nip\\.io)(?<remaining_uri>.*)$\"
+        nginx.ingress.kubernetes.io/configuration-snippet: "location \"~^/(?<target_host>[^/]+\\.develop\\.eoepca\\.org)(?<remaining_uri>.*)$\"
           {\r\n  rewrite ^ $scheme://$target_host$remaining_uri;\r\n}\r\n"
       tls:
         - secretName: auth-tls
