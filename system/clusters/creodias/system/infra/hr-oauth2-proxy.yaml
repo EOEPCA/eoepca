@@ -18,8 +18,8 @@ spec:
   values:
     config:
       existingSecret: oauth2-proxy
-    image:
-      tag: "v6.1.1"
+    # image:
+    #   tag: "v6.1.1"
     extraArgs:
       provider: oidc
       provider-display-name: "EOEPCA Project"
