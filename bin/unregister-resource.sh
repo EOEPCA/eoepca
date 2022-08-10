@@ -35,7 +35,7 @@ echo " done"
 
 # ades-pep
 echo -n "Delete resource ${resourceId} from ades-pep..."
-kubectl -n proc exec -it svc/proc-ades-pep -c proc-ades-pep -- management_tools remove -r ${resourceId}
+kubectl -n proc exec -it svc/ades-pep -c ades-pep -- management_tools remove -r ${resourceId}
 echo " done"
 
 # workspace-api-pep
@@ -50,5 +50,5 @@ echo " done"
 
 # pdp
 echo -n "Delete resource ${resourceId} from pdp..."
-kubectl exec -it svc/pdp-engine -c pdp-engine -- management_tools remove -r ${resourceId}
+kubectl -n um exec -it svc/pdp-engine -c pdp-engine -- management_tools remove -r ${resourceId}
 echo " done"
