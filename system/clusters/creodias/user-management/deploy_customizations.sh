@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-NAMESPACE="staging"
+NAMESPACE="um"
 cd customizations/oxauth
 tar -czvf ../../customizations_oxauth.tar.gz .
 cd ../oxtrust
