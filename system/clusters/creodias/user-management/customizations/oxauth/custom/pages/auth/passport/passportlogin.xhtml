@@ -1,0 +1,232 @@
+<!DOCTYPE composition
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:b="http://bootsfaces.net/ui">
+	<f:metadata>
+		<f:viewAction action="#{authenticator.prepareAuthenticationForStep}"
+			if="#{not identity.loggedIn}" />
+	</f:metadata>
+<f:view transient="true">
+	<h:head>
+		<meta name="description" content="Id4eo" />
+		<script type="text/javascript" src="../../ext/resources/js/jquery-1.12.4.min.js"></script>
+		<script type='text/javascript' src='../../ext/resources/js/bootstrap.min.js'></script>
+		<script type='text/javascript' src='../../ext/resources/js/scripts.js'></script>
+		<link rel='stylesheet' id='ebor-body-font-css'
+			href='https://fonts.googleapis.com/css?family=Open+Sans%3A400%2C500%2C600&#038;ver=4.8' type='text/css'
+			media='all' />
+		<link rel='stylesheet' id='ebor-heading-font-css'
+			href='https://fonts.googleapis.com/css?family=Raleway%3A100%2C400%2C300%2C500%2C600%2C700&#038;ver=4.8'
+			type='text/css' media='all' />
+		<link rel='stylesheet' id='ebor-lato-font-css'
+			href='https://fonts.googleapis.com/css?family=Lato%3A300%2C400&#038;ver=4.8' type='text/css' media='all' />
+		<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+		<link rel='stylesheet' id='ebor-bootstrap-css' href='../../ext/resources/css/bootstrap.css' type='text/css'
+			media='all' />
+		<link rel='stylesheet' id='ebor-theme-styles-css' href='../../ext/resources/css/ebor-theme-styles.css'
+			type='text/css' media='all' />
+		<link rel='stylesheet' id='ebor-fonts-css' href='../../ext/resources/css/fonts.css' type='text/css'
+			media='all' />
+		<link rel='stylesheet' id='ebor-style-css' href='../../ext/resources/css/styles.css' type='text/css'
+			media='all' />
+		<link rel='stylesheet' id='custom' href='../../ext/resources/css/passportlogin.css' type='text/css'
+			media='all' />
+	</h:head>
+	<title>
+		<h:outputText value="EOEPCA Login" />
+	</title>
+	<h:body>
+		<a class="brand-logo"><img src="../../ext/resources/img/brand-logo.png" alt="Logo" /></a>
+		<div class="perm-fixed-nav">
+			<div class="main-container">
+				<div id="content" class="col-md-4 login-form">
+					<div>
+						<h:form id="loginForm">
+							<h:panelGroup rendered="#{not identity.loggedIn}">
+								<div class="inner-form-container row-fluid">
+									<ul class="offset2 span10">
+										<h:inputHidden id="provider" />
+										<h:messages style="color:red;" />
+										<div class="row-fluid">
+											<span class="input-name span3">
+												<h:outputLabel for="username" value="Username" styleClass="form-control-label"/>
+											</span>
+											<div class="span6">
+												<h:inputText id="username" value="#{credentials.username}"
+													autocomplete="off" />
+											</div>
+										</div>
+										<div class="row-fluid">
+											<span class="input-name span3">
+												<h:outputLabel for="password" value="Password" styleClass="form-control-label"/>
+											</span>
+											<div class="span6">
+												<h:inputSecret id="password" value="#{credentials.password}"
+													autocomplete="off" />
+											</div>
+										</div>
+										<li class="row-fluid submit-container">
+											<div class="gradient contact-button green span2 offset3">
+												<div id="submit_block" class="login_input">
+													<h:commandButton id="loginButton" value="Login"
+														action="#{authenticator.authenticate}" />
+												</div>
+												<span class="sprite-green_click_icon"></span>
+											</div>
+										</li>
+										<li class="row-fluid">
+											<div class="span9">
+												<a class="need-account,register"
+													href="/identity/person/passwordReminder.htm">Forgot your
+													password?</a>
+											</div>
+										</li>
+										<li class="row-fluid">
+											<div id="identity" class="span9">
+												Need an EOEPCA account? <a class="need-account,register"
+													href="../../../identity/register.htm">Register!</a>
+											</div>
+										</li>
+										<div id="providers">
+											<div class="row-fluid" visibility="hidden" id="provider_panel">
+												<div class="panel panel-default panel-order">
+													<div class="panel-body" id="add_here">
+														<div id="signinButton"></div>
+													</div>
+												</div>
+											</div>
+											<div class="coih-message-wrapper" style="display: none;">
+											</div>	
+										</div>
+									</ul>
+								</div>
+							</h:panelGroup>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			function idp_redirect(provider) {
+				var form = document.forms.loginForm;
+				form["loginForm:provider"].value = provider;
+				form["loginForm:loginButton"].click();
+			}
+
+			function dynamic_link(provider, logo_img, name) {
+				name = name ? name : provider;
+				if (logo_img == null) {
+					logo_img = "/oxauth/img/glu_icon.png"
+				}
+
+				imgMarkup = '<img style="cursor:pointer;max-width:48px" alt="'
+						+ name
+						+ '" onclick="idp_redirect(\''
+						+ provider
+						+ '\')" src="' + logo_img + '"></img>';
+				leftMarkup = '<div style="padding:10px">' + imgMarkup + '</div>';
+				rightMarkup = '<h4>' + name + '</h4>'
+				$('#add_here').append(
+						'<div class="row" style="align-items:center">' + leftMarkup + rightMarkup
+								+ '<hr /></div>');
+			}
+
+			jQuery(document).ready(
+					function() {
+						jQuery("img[alt*='coih']").css("position", "relative");
+                        var jsonProviders = '${identity.getWorkingParameter('externalProviders')}'
+                        try {
+                            var providers = JSON.parse(jsonProviders)
+							var coihIndex = -1;
+							var providersSize = 0;
+                            for (var idprv in providers) {
+                                dynamic_link(idprv, providers[idprv].logo_img, providers[idprv].displayName)
+								if (providers[idprv].displayName.toLowerCase().includes('coih')) {
+									jQuery('.coih-message-wrapper').css("display", "flex");
+									coihIndex = providersSize;
+								}
+								providersSize++;
+                            }
+							if (providersSize > 0) {
+								// for some reason for loops were causing a page crash, so this solution works for up to 5 providers
+								const coih = jQuery('.coih-message-wrapper');
+								const dummy = '<div style="min-width:48px;margin:0 10px 0 10px;"/>';
+								var index = 0;
+								if (coihIndex > 0) {
+									coih.prepend(dummy);
+								}
+								if (coihIndex > 1) {
+									coih.prepend(dummy);
+								}
+								if (coihIndex > 2) {
+									coih.prepend(dummy);
+								}
+								if (coihIndex > 3) {
+									coih.prepend(dummy);
+								}
+								// to support more n providers, copy paste above if n times changing condition to (coihIndex > 3 + 1, coihIndex > 3 + 2, ..., coihIndex > 3 + n)
+								// also see next comment below
+								if (providersSize > coihIndex + 1) {
+									coih.append(dummy);
+								}
+								if (providersSize > coihIndex + 2) {
+									coih.append(dummy);
+								}
+								if (providersSize > coihIndex + 3) {
+									coih.append(dummy);
+								}
+								if (providersSize > coihIndex + 4) {
+									coih.append(dummy);
+								}
+								// to support more n providers, copy paste above if n times changing condition to (providersSize > coihIndex + 4 + 1, providersSize > coihIndex + 4 + 2, ..., providersSize > coihIndex + 4 + n)
+							}
+							else {
+								jQuery('#providers').remove();
+							}
+                        } catch (e) {
+							console.error(e)
+                        }
+						//error message display
+						var errormsg = window.location.href.split("=");
+						if (errormsg[1]) {
+							history.replaceState({}, 'oxAuth-Login',
+									'/oxauth/auth/passport/passport-login');
+							jQuery('.errormsg').html(
+									decodeURIComponent(errormsg[1]));
+							jQuery('.errormsg').css('display', 'block');
+						}
+						jQuery('#signinButton').after(jQuery("img[alt!='Logo']").addClass('provider-logo'));
+						jQuery('hr').remove();
+						jQuery('h4').remove();
+						jQuery('.row').remove();
+						jQuery('#signinButton').remove();
+					});
+		</script>
+		<script type="text/javascript">
+			window.onload = function () {
+				setTimeout(fillCredential, 1000);
+			}
+			function fillCredential() {
+				var username = window.localStorage.getItem('form-username');
+				var password = window.localStorage.getItem('form-password');
+				$(".usernameField").val(username);
+				$(".passwordField").val(password);
+			}
+
+			function storeCrendential() {
+				var username = $(".usernameField").val();
+				var password = $(".passwordField").val();
+				window.localStorage.setItem('form-username', username);
+				window.localStorage.setItem('form-password', password);
+			}
+			function checkRememberMe() {
+				if ($('.rememberField:checked').val()) {
+					storeCrendential();
+				}
+			}
+		</script>
+	</h:body>
+</f:view>
+
+</html>
