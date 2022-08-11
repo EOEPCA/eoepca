@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:rich="http://richfaces.org/rich" template="/WEB-INF/incl/layout/fullWidthEmpty.xhtml">
+    <ui:define name="head">
+        <link href="#{oxTrustConfigurationService.cssLocation}/../theme/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="#{oxTrustConfigurationService.cssLocation}/../theme/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+        <link href="#{oxTrustConfigurationService.cssLocation}/../theme/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
+        <link href="#{oxTrustConfigurationService.cssLocation}/../theme/plugins/iCheck/square/blue.css" rel="stylesheet" type="text/css" />
+        <link href="#{oxTrustConfigurationService.cssLocation}/../theme/plugins/morris/morris.css" rel="stylesheet" type="text/css" />
+        <link href="#{oxTrustConfigurationService.cssLocation}/../theme/plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
+        <link href="#{oxTrustConfigurationService.cssLocation}/../theme/dist/css/custom.css" rel="stylesheet" type="text/css" />
+        <style type="text/css">
+            @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+            @import url('https://fonts.googleapis.com/css?family=Raleway');
+            * {
+                font-family: open sans;
+            }        
+            .message {
+                color: white;
+                font-size: 1.7em;
+            }
+            .brand-logo {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                width: 100px;
+            }
+            .btn {
+                width: 320px;
+                background: #F47D08 !important;
+                border: 2px solid #F47D08 !important;
+                border-radius: 0 !important;
+                color: white;
+                font-size: 11px !important;
+                font-family:Raleway;
+                height: 50px;
+                line-height: 35px;
+                font-size:11px !important;
+                text-transform: uppercase !important;
+                font-weight: bold !important;
+                letter-spacing: 1px !important;
+            }
+            .lockscreen-wrapper {
+              text-align: center;
+            }
+            .lockscreen-logo {
+              margin-top: 10%;
+              margin-bottom: 10px !important;
+            }
+            .btn:hover, a.btn:active {
+                color: #081742 !important;
+                background-color: #F47D08 !important;
+                border: 2px solid white !important;
+            }
+            a.btn:visited, a.btn:active {
+                color: none !important;
+            } 
+            a:visited {
+              color: white !important;
+            }
+      </style>
+    </ui:define>
+    <ui:define name="body">
+        <img src="../identity/ext/resources/img/brand-logo.png" alt="Logo" class="brand-logo" />
+        <section class="content">
+            <div class="lockscreen-wrapper">
+                <div class="lockscreen-logo">
+                    <h:outputText styleClass="message" escape="false" value="#{registerPersonAction.postRegistrationInformation}" />
+                </div>    
+                <a href="login.htm" class="btn">Sign in</a>
+                <!--window.close no longer works on chrome/firefox-->
+                <!--<a onclick="window.close();" class="btn">Sign in</a>-->
+            </div>
+        </section>
+    </ui:define>
+</ui:composition>

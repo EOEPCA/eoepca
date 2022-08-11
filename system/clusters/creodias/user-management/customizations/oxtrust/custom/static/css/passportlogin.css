@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+* {
+  font-family: open sans;
+}
+
+body {
+  background-color: #081742;
+}
+
+.brand-logo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 100px;
+}
+
+input[type="submit"],
+button[type="submit"] {
+    border: 2px solid #F47D08;
+    background: #F47D08;
+}
+
+input[type="submit"]:hover {
+  color: #081742;
+  background-color: #F47D08;
+  border: 2px solid #081742;
+}
+
+.btn {
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+}
+
+.btn:active {
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+
+input[type="text"], 
+input[type="password"], 
+input[type="email"], 
+input[type="tel"], 
+input[type="date"], 
+input[type="number"] {
+  color: black;
+  background-color: #E5E5E5;
+}
+
+input[type="text"]:focus, 
+input[type="password"]:focus, 
+input[type="email"]:focus, 
+input[type="tel"]:focus, 
+input[type="date"]:focus, 
+input[type="number"]:focus {
+  outline: 1px solid #081742;
+}
+
+.login-form {
+  float: none;
+  margin: 0 auto; 
+  background-color: #FFFFFF; 
+  margin-top: 7%; 
+  padding: 40px;
+}
+
+@media (max-width: 991px) {
+  .login-form {
+    margin-top: 70px; 
+  }
+}
+
+.form-control {
+  box-shadow: none;
+}
+
+.form-control-label {
+  color: #003E87;
+  line-height: 3;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+
+.input-with-label span, label {
+  font-family: open sans;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.panel {
+  margin: 24px 0 0 0 !important;
+}
+
+.panel-body {
+  padding: 0 15px 0 15px !important;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+}
+
+.provider-logo {
+  margin: 10px;
+  max-height: 48px;
+  max-width: 48px;
+}
+
+.coih-message-wrapper:after, .coih-message-wrapper:before {
+  content: " ";
+}
+
+.coih-message-wrapper {
+  padding: 0 15px 0 15px !important;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: flex-start;
+}
