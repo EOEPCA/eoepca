@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: vs
-      version: 2.1.4
+      version: 2.1.14
       sourceRef:
         kind: HelmRepository
         name: eox-charts
@@ -359,25 +359,26 @@ spec:
               validity: false
 
     renderer:
+      replicaCount: 4
+      image:
+        repository: eoepca/rm-data-access-core
+        tag: 1.2-dev1
+      ingress:
+        enabled: false
+
       resources:
         limits:
           cpu: 1.5
           memory: 6Gi
         requests:
-          cpu: 0.5
-          memory: 0.5Gi
-      replicaCount: 6
-      image:
-        repository: eoepca/rm-data-access-core
-        tag: 1.1.1
-      ingress:
-        enabled: false
+          cpu: 1.5
+          memory: 6Gi
 
     registrar:
       replicaCount: 1
       image:
         repository: eoepca/rm-data-access-core
-        tag: 1.1.1
+        tag: 1.1.2
       config:
         backends:
           - path: registrar_pycsw.backend.PycswItemBackend
@@ -418,9 +419,24 @@ spec:
 
     client:
       image:
-        tag: release-2.0.18
+        tag: release-2.0.21
       ingress:
         enabled: false
+
+      config:
+        eoxserverDownloadEnabled: true
+        timeDomain:
+          - "2002-01-01T00:00:00Z"
+          - "customClientDateFuture1"
+        displayTimeDomain:
+          - "customClientDatePast1"
+          - "customClientDateFuture1"
+        selectedTimeDomain:
+          - "customClientDatePast2"
+          - "today"
+        customClientDaysPast1: 90
+        customClientDaysPast2: 1
+        customClientDaysFuture1: 7
 
     database:
       persistence:

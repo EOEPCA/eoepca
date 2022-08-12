@@ -7,10 +7,10 @@ spec:
   chart:
     spec:
       chart: oauth2-proxy
-      version: 4.0.1
+      version: 6.2.2
       sourceRef:
         kind: HelmRepository
-        name: k8sathome
+        name: oauth2-proxy
         namespace: common
   interval: 1h0m0s
   releaseName: oauth2-proxy
@@ -23,7 +23,7 @@ spec:
     extraArgs:
       provider: oidc
       provider-display-name: "EOEPCA Project"
-      redirect-url: https://auth.demo.eoepca.org/oauth2/callback
+      redirect-url: https://auth-proxy.demo.eoepca.org/oauth2/callback
       oidc-issuer-url: https://cognito-idp.eu-central-1.amazonaws.com/eu-central-1_7mjYRQYll
       cookie-secure: "true"
       cookie-domain: demo.eoepca.org
@@ -34,18 +34,18 @@ spec:
     ingress:
       enabled: true
       hosts:
-        - auth.demo.eoepca.org
+        - auth-proxy.demo.eoepca.org
       annotations:
         kubernetes.io/ingress.class: nginx
         nginx.ingress.kubernetes.io/proxy-read-timeout: '600'
         nginx.ingress.kubernetes.io/enable-cors: 'true'
         cert-manager.io/cluster-issuer: letsencrypt
-        nginx.ingress.kubernetes.io/configuration-snippet: "location \"~^/(?<target_host>[^/]+\\.185\\.52\\.193\\.87\\.nip\\.io)(?<remaining_uri>.*)$\"
+        nginx.ingress.kubernetes.io/configuration-snippet: "location \"~^/(?<target_host>[^/]+\\.demo\\.eoepca\\.org)(?<remaining_uri>.*)$\"
           {\r\n  rewrite ^ $scheme://$target_host$remaining_uri;\r\n}\r\n"
       tls:
         - secretName: auth-tls
           hosts:
-            - auth.demo.eoepca.org
+            - auth-proxy.demo.eoepca.org
     resources:
       limits:
         cpu: 200m

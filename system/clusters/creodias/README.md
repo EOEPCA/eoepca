@@ -71,8 +71,8 @@ access to public endpoints of the cluster can be protected via ingress annotatio
 
 ```
         nginx.ingress.kubernetes.io/auth-response-headers: X-Auth-Request-User, X-Auth-Request-Email
-        nginx.ingress.kubernetes.io/auth-signin: https://auth.demo.eoepca.org/oauth2/start?rd=%2F$server_name$escaped_request_uri
-        nginx.ingress.kubernetes.io/auth-url: https://auth.demo.eoepca.org/oauth2/auth
+        nginx.ingress.kubernetes.io/auth-signin: https://auth-proxy.demo.eoepca.org/oauth2/start?rd=%2F$server_name$escaped_request_uri
+        nginx.ingress.kubernetes.io/auth-url: https://auth-proxy.demo.eoepca.org/oauth2/auth
 ```
 
 using the open source OAuth-Proxy tool connected to an OIDC provider
