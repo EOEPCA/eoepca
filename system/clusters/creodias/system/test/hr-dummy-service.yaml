@@ -25,6 +25,7 @@ spec:
         - host: dummy-service-open.develop.eoepca.org
           paths:
             - path: /
+              pathType: ImplementationSpecific
       tls:
         - hosts:
             - dummy-service-open.develop.eoepca.org

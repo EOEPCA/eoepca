@@ -57,13 +57,15 @@ spec:
       #   pullPolicy: Always
       nginxIntegration:
         enabled: true
-        hosts:
-          - host: dummy-service
-            paths:
-              - path: /
-                service:
-                  name: dummy-service
-                  port: 80
+        # The chart defaults use the value `global.context` (port `80`) to populate
+        # the host, so no need to bother.
+        # hosts:
+        #   - host: dummy-service
+        #     paths:
+        #       - path: /
+        #         service:
+        #           name: dummy-service
+        #           port: 80
       client:
         credentialsSecretName: ""
       logging:
