@@ -49,23 +49,23 @@ spec:
             paths:
               - path: "/(ows.*)"
                 service:
-                  name: "workspace-renderer"
+                  name: "vs-renderer"
                   port: 80
               - path: "/(opensearch.*)"
                 service:
-                  name: "workspace-renderer"
+                  name: "vs-renderer"
                   port: 80
               - path: "/(admin.*)"
                 service:
-                  name: "workspace-renderer"
+                  name: "vs-renderer"
                   port: 80
               - path: "/cache/(.*)"
                 service:
-                  name: "workspace-cache"
+                  name: "vs-cache"
                   port: 80
               - path: "/(.*)"
                 service:
-                  name: "workspace-client"
+                  name: "vs-client"
                   port: 80
         annotations:
           nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
