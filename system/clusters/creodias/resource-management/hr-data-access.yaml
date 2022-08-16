@@ -359,7 +359,7 @@ spec:
               validity: false
 
     renderer:
-      replicaCount: 2
+      # replicaCount: 4
       image:
         repository: eoepca/rm-data-access-core
         tag: 1.2-dev1
