@@ -465,3 +465,7 @@ spec:
     cache:
       ingress:
         enabled: false
+
+    seeder:
+      minzoom: 0
+      maxzoom: 6  # restrict to only 6 for testing for now
