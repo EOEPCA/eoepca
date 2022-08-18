@@ -19,9 +19,9 @@ PASS="${3:-set-pass-here}"
 
 secretYaml() {
   kubectl -n "${NAMESPACE}" create secret generic "${SECRET_NAME}" \
-    --from-literal="domainname=${DOMAIN}" \
-    --from-literal="password=${PASS}" \
-    --from-literal="username=${USER}" \
+    --from-literal="OS_DOMAIN=${DOMAIN}" \
+    --from-literal="OS_PASSWORD=${PASS}" \
+    --from-literal="OS_USERNAME=${USER}" \
     --dry-run=client -o yaml
 }
 
