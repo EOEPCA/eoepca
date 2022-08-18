@@ -17,18 +17,11 @@ DOMAIN="${1:-set-domain-here}"
 USER="${2:-set-user-here}"
 PASS="${3:-set-pass-here}"
 
-clientConfigFile() {
-  cat - <<EOF
-domainname: ${DOMAIN}
-password: ${PASS}
-username: ${USER}
-}
-EOF
-}
-
 secretYaml() {
   kubectl -n "${NAMESPACE}" create secret generic "${SECRET_NAME}" \
-    --from-literal="client.yaml=$(clientConfigFile)" \
+    --from-literal="domainname=${DOMAIN}" \
+    --from-literal="password=${PASS}" \
+    --from-literal="username=${USER}" \
     --dry-run=client -o yaml
 }
 
