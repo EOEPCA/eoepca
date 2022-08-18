@@ -21,7 +21,7 @@ clientConfigFile() {
   cat - <<EOF
 domainname: ${DOMAIN}
 password: ${PASS}
-username: ${USER="${2:-set-user-here}"
+username: ${USER}
 }
 EOF
 }
