@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: rm-bucket-operator
-      version: 0.9.11
+      version: 0.9.12
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -15,7 +15,7 @@ spec:
   values:
     image:
       name: eoepca/rm-bucket-operator-mundi
-      tag: 2022.08.19.09.53
+      tag: 2022.08.22.10.14
     imagePullSecrets:
       - name: regcred
     domain: mundi.eoepca.org
@@ -23,4 +23,5 @@ spec:
       OS_MEMBERROLEID: '9fe2ff9ee4384b1894a90878d3e92bab'
       OS_SERVICEPROJECTID: 'c21467d0a0414252a79e29d38f03ff98'
       USER_EMAIL_PATTERN: 'eoepca+<name>@eoepca.org'
+      ENDPOINT: "https://iam.eu-de.otc.t-systems.com/v3"
   interval: 1m0s
