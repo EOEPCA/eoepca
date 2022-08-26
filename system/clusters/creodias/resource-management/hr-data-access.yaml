@@ -95,6 +95,9 @@ spec:
             - name: WGS84
               zoom: 13
           parentLayer: S2L1C
+          search:
+            histogramBinCount: 10
+            histogramThreshold: 30
         - id: S2L1C__TRUE_COLOR
           title: Sentinel-2 Level 1C True Color
           abstract: Sentinel-2 Level 2A True Color
@@ -131,6 +134,9 @@ spec:
             - name: WGS84
               zoom: 13
           parentLayer: S2L2A
+          search:
+            histogramBinCount: 10
+            histogramThreshold: 30
         - id: S2L2A__TRUE_COLOR
           title: Sentinel-2 Level 2A True Color
           abstract: Sentinel-2 Level 2A True Color
