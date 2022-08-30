@@ -384,6 +384,7 @@ spec:
       replicaCount: 1
       image:
         repository: eoepca/rm-data-access-core
+        pullPolicy: Always
         tag: latest
       config:
         backends:
