@@ -33,12 +33,12 @@ spec:
       customDefaultResources:
       - name: "Eric's workspace"
         description: "Protected Access for eric to his user workspace"
-        resource_uri: "/workspaces/demo-user-eric"
+        resource_uri: "/workspaces/develop-user-eric"
         scopes: []
         default_owner: "de287a74-a581-45b2-b66b-b14ddaf44173"
       - name: "Bob's workspace"
         description: "Protected Access for bob to his user workspace"
-        resource_uri: "/workspaces/demo-user-bob"
+        resource_uri: "/workspaces/develop-user-bob"
         scopes: []
         default_owner: "b3e6315e-df2f-4e84-81e8-3d9173675076"
       nginxIntegration:
