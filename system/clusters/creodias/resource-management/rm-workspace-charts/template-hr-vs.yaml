@@ -93,7 +93,7 @@ spec:
             queue: register_queue
             replace: true
             backends:
-              - path: "registrar.backend.eoxserver.EOxServerBackend"
+              - path: "registrar.backend.eoxserver.ItemBackend"
                 kwargs:
                   instance_base_path: "/var/www/pvs/dev"
                   instance_name: "pvs_instance"
