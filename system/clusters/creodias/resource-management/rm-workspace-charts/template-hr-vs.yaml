@@ -83,7 +83,7 @@ spec:
       replicaCount: 1
       image:
         repository: eoepca/rm-data-access-core
-        tag: 1.2-dev5
+        tag: 1.2-dev6
       config:
         # ???: this has more config than system `data-acces`, which only has a single `backends.path`
         disableDefaultRoute: true
