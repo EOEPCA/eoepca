@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: vs
-      version: 2.2.4
+      version: 2.2.6
       sourceRef:
         kind: HelmRepository
         name: eox-charts
@@ -96,8 +96,8 @@ spec:
               zoom: 13
           parentLayer: S2L1C
           search:
-            histogramBinCount: 10
-            histogramThreshold: 30
+            histogramBinCount: 15
+            histogramThreshold: 80
         - id: S2L1C__TRUE_COLOR
           title: Sentinel-2 Level 1C True Color
           abstract: Sentinel-2 Level 2A True Color
@@ -135,8 +135,8 @@ spec:
               zoom: 13
           parentLayer: S2L2A
           search:
-            histogramBinCount: 10
-            histogramThreshold: 30
+            histogramBinCount: 15
+            histogramThreshold: 80
         - id: S2L2A__TRUE_COLOR
           title: Sentinel-2 Level 2A True Color
           abstract: Sentinel-2 Level 2A True Color
@@ -453,7 +453,7 @@ spec:
 
     client:
       image:
-        tag: release-2.0.21
+        tag: release-2.0.27
       ingress:
         enabled: false
 
