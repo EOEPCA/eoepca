@@ -453,7 +453,7 @@ spec:
 
     client:
       image:
-        tag: release-2.0.27
+        tag: release-2.0.28
       ingress:
         enabled: false
 
