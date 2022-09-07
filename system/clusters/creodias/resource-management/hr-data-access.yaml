@@ -327,7 +327,7 @@ spec:
             S2L2A_B12:
               assets:
                 - B12
-          default_browse_locator: TCI_10m
+          defaultBrowse: TRUE_COLOR
           browses:
             TRUE_COLOR:
               asset: visual-10m
