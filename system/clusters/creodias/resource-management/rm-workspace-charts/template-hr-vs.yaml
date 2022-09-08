@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: vs
-      version: 2.1.6
+      version: 2.2.4
       sourceRef:
         kind: HelmRepository
         name: eox-charts
@@ -83,27 +83,58 @@ spec:
       replicaCount: 1
       image:
         repository: eoepca/rm-data-access-core
-        tag: 1.1.1
+        #tag: 1.2-dev7
+        tag: latest
+        pullPolicy: Always
       config:
         # ???: this has more config than system `data-acces`, which only has a single `backends.path`
-        backends:
-          - path: "registrar.backend.eoxserver.EOxServerBackend"
-            kwargs:
-              instance_base_path: "/var/www/pvs/dev"
-              instance_name: "pvs_instance"
-              product_types: []
-              auto_create_product_types: True
-          - path: "registrar_pycsw.backend.PycswItemBackend"
-            kwargs:
-              repository_database_uri: "postgresql://postgres:mypass@resource-catalogue-db/pycsw"
-              ows_url: "https://data-access.{{ workspace_name }}.demo.eoepca.org/ows"
-              public_s3_url: "https://cf2.cloudferro.com:8080/{projectid}:{bucket}"
-        pathBackends:
-          - path: "registrar_pycsw.backend.PycswCWLBackend"
-            kwargs:
-              repository_database_uri: "postgresql://postgres:mypass@resource-catalogue-db/pycsw"
-              ows_url: "https://data-access.{{ workspace_name }}.demo.eoepca.org/ows"
-              public_s3_url: "https://cf2.cloudferro.com:8080/{projectid}:{bucket}"
+        disableDefaultRoute: true
+        routes:
+          items:
+            path: registrar.route.stac.ItemRoute
+            queue: register_queue
+            replace: true
+            backends:
+              - path: "registrar.backend.eoxserver.ItemBackend"
+                kwargs:
+                  instance_base_path: "/var/www/pvs/dev"
+                  instance_name: "pvs_instance"
+                  product_types: []
+                  auto_create_product_types: True
+              - path: "registrar_pycsw.backend.ItemBackend"
+                kwargs:
+                  repository_database_uri: "postgresql://postgres:mypass@resource-catalogue-db/pycsw"
+                  ows_url: "https://data-access.{{ workspace_name }}.demo.eoepca.org/ows"
+                  public_s3_url: "https://cf2.cloudferro.com:8080/{projectid}:{bucket}"
+
+          collections:
+            path: registrar.route.stac.CollectionRoute
+            queue: register_collection_queue
+            replace: true
+            backends:
+              - path: registrar_pycsw.backend.CollectionBackend
+                kwargs:
+                  repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
+
+          ades:
+            path: registrar.route.json.JSONRoute
+            queue: register_ades_queue
+            replace: true
+            backends:
+              - path: registrar_pycsw.backend.ADESBackend
+                kwargs:
+                  repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
+
+          application:
+            path: registrar.route.json.JSONRoute
+            queue: register_application_queue
+            replace: true
+            backends:
+              - path: registrar_pycsw.backend.CWLBackend
+                kwargs:
+                  repository_database_uri: "postgresql://postgres:mypass@resource-catalogue-db/pycsw"
+                  ows_url: "https://data-access.{{ workspace_name }}.demo.eoepca.org/ows"
+                  public_s3_url: "https://cf2.cloudferro.com:8080/{projectid}:{bucket}"
 
     database:
       persistence:
