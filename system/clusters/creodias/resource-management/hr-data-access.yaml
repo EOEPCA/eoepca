@@ -477,6 +477,11 @@ spec:
         enabled: true
         existingClaim: data-access-db
 
+      postgresqlTcpKeepalivesInterval: "30"
+      postgresqlTcpKeepalivesIdle: "600"
+      postgresqlTcpKeepalivesCount: "10"
+      postgresqlMaxConnections: "300"
+
     redis:
       usePassword: false
       persistence:
