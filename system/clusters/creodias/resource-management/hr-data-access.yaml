@@ -26,7 +26,7 @@ spec:
     global:
       env:
         REGISTRAR_REPLACE: "true"
-        CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .TIF,.tif,.xml,.jp2
+        CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .TIF,.tif,.xml,.jp2,.jpg
         startup_scripts:
           - /registrar_pycsw/registrar_pycsw/initialize-collections.sh
 
