@@ -423,7 +423,7 @@ spec:
     harvester:
       image:
         repository: eoepca/rm-harvester
-        tag: 1.1.0
+        tag: 1.2-dev1
       config:
         redis:
           host: data-access-redis-master
