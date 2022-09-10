@@ -368,7 +368,7 @@ spec:
       replicaCount: 2
       image:
         repository: eoepca/rm-data-access-core
-        tag: 1.2-dev10
+        tag: 1.2-dev11
       ingress:
         enabled: false
 
@@ -385,7 +385,7 @@ spec:
       image:
         repository: eoepca/rm-data-access-core
         pullPolicy: Always
-        tag: latest
+        tag: 1.2-dev11
       config:
         defaultBackends:
           - path: registrar_pycsw.backend.ItemBackend
@@ -449,7 +449,7 @@ spec:
             filter: {}
             postprocess:
               - type: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel2Postprocessor
-            queue: register_queue
+            queue: register
 
     client:
       image:
