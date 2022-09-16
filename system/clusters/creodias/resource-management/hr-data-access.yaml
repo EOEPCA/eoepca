@@ -385,7 +385,7 @@ spec:
       image:
         repository: eoepca/rm-data-access-core
         pullPolicy: Always
-        tag: 1.2-dev14
+        tag: latest
       config:
         defaultBackends:
           - path: registrar_pycsw.backend.ItemBackend
