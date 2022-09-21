@@ -36,7 +36,7 @@ spec:
             secret_access_key: {{ secret_access_key }}
             bucket: {{ bucket }}
             endpoint_url: https://cf2.cloudferro.com:8080
-            region: RegionOne
+            region_name: RegionOne
 
       # ???: is `cache` needed?
       # cache: {}
