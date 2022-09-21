@@ -77,7 +77,7 @@ spec:
                 region_name: RegionOne
                 validate_bucket_name: False
                 public: False
-                queue": "register_queue"
+                queue: "register_queue"
 
     registrar:
       replicaCount: 1
