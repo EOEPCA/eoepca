@@ -15,7 +15,7 @@ spec:
   values:
     image:
       name: eoepca/rm-bucket-operator-mundi
-      tag: 2022.08.26.10.56
+      tag: 2022.09.22.13.58
     imagePullSecrets:
       - name: regcred
     domain: mundi.eoepca.org
