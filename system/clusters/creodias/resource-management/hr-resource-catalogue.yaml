@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: rm-resource-catalogue
-      version: 1.2.0-dev1
+      version: 1.2.0-dev2
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -39,7 +39,7 @@ spec:
       image:
         repository: geopython/pycsw
         pullPolicy: Always
-        tag: "latest"
+        tag: "eoepca-staging"
       config:
         server:
           url: https://resource-catalogue.develop.eoepca.org/
