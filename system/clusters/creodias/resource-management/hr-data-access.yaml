@@ -368,7 +368,9 @@ spec:
       replicaCount: 2
       image:
         repository: eoepca/rm-data-access-core
-        tag: 1.2-dev15
+        # tag: 1.2-dev15
+        tag: latest
+        pullPolicy: Always
       ingress:
         enabled: false
 
@@ -384,8 +386,9 @@ spec:
       replicaCount: 1
       image:
         repository: eoepca/rm-data-access-core
-        # pullPolicy: Always
-        tag: 1.2-dev15
+        # tag: 1.2-dev15
+        tag: latest
+        pullPolicy: Always
       config:
         defaultBackends:
           - path: registrar_pycsw.backend.ItemBackend
@@ -424,7 +427,9 @@ spec:
     harvester:
       image:
         repository: eoepca/rm-harvester
-        tag: 1.2-dev2
+        # tag: 1.2-dev2
+        tag: latest
+        pullPolicy: Always
       config:
         redis:
           host: data-access-redis-master
@@ -455,6 +460,8 @@ spec:
     client:
       image:
         tag: release-2.0.33
+        # tag: latest
+        # pullPolicy: Always
       ingress:
         enabled: false
 
