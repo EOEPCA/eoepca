@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: vs
-      version: 2.2.4
+      version: 2.2.8
       sourceRef:
         kind: HelmRepository
         name: eox-charts
@@ -368,7 +368,7 @@ spec:
       replicaCount: 2
       image:
         repository: eoepca/rm-data-access-core
-        tag: 1.2-dev14
+        tag: 1.2-dev15
       ingress:
         enabled: false
 
@@ -384,8 +384,8 @@ spec:
       replicaCount: 1
       image:
         repository: eoepca/rm-data-access-core
-        pullPolicy: Always
-        tag: latest
+        # pullPolicy: Always
+        tag: 1.2-dev15
       config:
         defaultBackends:
           - path: registrar_pycsw.backend.ItemBackend
@@ -424,7 +424,7 @@ spec:
     harvester:
       image:
         repository: eoepca/rm-harvester
-        tag: 1.2-dev1
+        tag: 1.2-dev2
       config:
         redis:
           host: data-access-redis-master
