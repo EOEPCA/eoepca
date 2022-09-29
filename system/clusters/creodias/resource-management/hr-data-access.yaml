@@ -26,7 +26,7 @@ spec:
     global:
       env:
         REGISTRAR_REPLACE: "true"
-        CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .TIF,.tif,.xml,.jp2
+        CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .TIF,.tif,.xml,.jp2,.jpg,.jpeg
         startup_scripts:
           - /registrar_pycsw/registrar_pycsw/initialize-collections.sh
 
@@ -368,7 +368,7 @@ spec:
       replicaCount: 4
       image:
         repository: eoepca/rm-data-access-core
-        tag: 1.2-dev1
+        tag: 1.2-dev14
       ingress:
         enabled: false
 
@@ -392,6 +392,7 @@ spec:
             kwargs:
               repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
               ows_url: https://data-access.develop.eoepca.org/ows
+        defaultSuccessQueue: seed_queue
         # routes:
         #   collections:
         #     path: registrar.route.stac.Collection
@@ -423,7 +424,7 @@ spec:
     harvester:
       image:
         repository: eoepca/rm-harvester
-        tag: 1.1.0
+        tag: 1.2-dev1
       config:
         redis:
           host: data-access-redis-master
@@ -449,11 +450,11 @@ spec:
             filter: {}
             postprocess:
               - type: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel2Postprocessor
-            queue: register_queue
+            queue: register
 
     client:
       image:
-        tag: release-2.0.28
+        tag: release-2.0.33
       ingress:
         enabled: false
 
