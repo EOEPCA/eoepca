@@ -27,8 +27,8 @@ spec:
     #---------------------------------------------------------------------------
     pep-engine:
       configMap:
-        asHostname: test
-        pdpHostname: test
+        asHostname: auth
+        pdpHostname: auth
         # limitUses: 100
       customDefaultResources:
       - name: "Eric's workspace"

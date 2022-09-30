@@ -22,8 +22,8 @@ spec:
       default_owner: {{ default_owner }} # NOTE: do not remove, we need to store this here for redeploys
     pep-engine:
       configMap:
-        asHostname: test
-        pdpHostname: test
+        asHostname: auth
+        pdpHostname: auth
       nginxIntegration:
         enabled: False
       volumeClaim:

@@ -27,8 +27,8 @@ spec:
     #---------------------------------------------------------------------------
     pep-engine:
       configMap:
-        asHostname: test
-        pdpHostname: test
+        asHostname: auth
+        pdpHostname: auth
       customDefaultResources:
       - name: "ADES Service for user 'eric'"
         description: "Protected Access for eric to his space in the ADES"
