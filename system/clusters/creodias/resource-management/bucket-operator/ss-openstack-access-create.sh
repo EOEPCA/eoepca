@@ -14,7 +14,7 @@ SECRET_NAME="openstack"
 NAMESPACE="rm"
 
 OS_USERNAME="${1:-set-username-here}"
-OS_PASSWORD="${1:-set-password-here}"
+OS_PASSWORD="${2:-set-password-here}"
 OS_DOMAINNAME="${3:-set-domain-name-here}"
 
 secretYaml() {
