@@ -77,7 +77,7 @@ spec:
         credentialsSecretName: "proc-uma-user-agent"
       logging:
         level: "info"
-      unauthorizedResponse: 'Bearer realm="https://test.demo.eoepca.org/oxauth/auth/passport/passportlogin.htm"'
+      unauthorizedResponse: 'Bearer realm="https://auth.demo.eoepca.org/oxauth/auth/passport/passportlogin.htm"'
       openAccess: false
     #---------------------------------------------------------------------------
     # END values

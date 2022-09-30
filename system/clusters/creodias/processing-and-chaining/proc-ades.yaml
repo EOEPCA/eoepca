@@ -105,7 +105,7 @@ spec:
       useResourceManager: "true"
       resourceManagerWorkspacePrefix: "demo-user"
       resourceManagerEndpoint: "https://workspace-api.demo.eoepca.org"
-      platformDomain: "https://test.demo.eoepca.org"
+      platformDomain: "https://auth.demo.eoepca.org"
 
       # kubernetes storage class to be used for provisioning volumes. Must be a persistent volume claim compliant (glusterfs-storage)
       processingStorageClass: managed-nfs-storage
