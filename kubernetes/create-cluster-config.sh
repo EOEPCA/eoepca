@@ -8,7 +8,7 @@ trap "cd '${ORIG_DIR}'" EXIT
 
 CLUSTER_NAME="${1}"
 CLUSTER_YML_FILE="${2:-cluster.yml}"
-KUBERNETES_VERSION="v1.22.5-rancher1-1"
+KUBERNETES_VERSION="v1.22.11-rancher1-1"
 
 if test -z "$CLUSTER_NAME"
 then
