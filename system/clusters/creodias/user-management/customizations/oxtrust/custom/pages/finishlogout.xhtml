@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:rich="http://richfaces.org/rich" template="/WEB-INF/incl/layout/fullWidthEmpty.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:a4j="http://richfaces.org/a4j" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ox="http://xmlns.jcp.org/jsf/composite/ox" xmlns:rich="http://richfaces.org/rich" xmlns:richext="http://xmlns.jcp.org/jsf/composite/richext" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="/WEB-INF/incl/layout/fullWidthEmpty.xhtml">
+    <f:metadata>
+        <f:viewAction action="#{logoutAction.postLogout}" onPostback="false" />
+    </f:metadata>
     <ui:define name="head">
         <link href="#{oxTrustConfigurationService.cssLocation}/../theme/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="#{oxTrustConfigurationService.cssLocation}/../theme/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
@@ -17,6 +20,7 @@
             .message {
                 color: white;
                 font-size: 1.7em;
+                margin-bottom: 50px;
             }
             .brand-logo {
                 position: absolute;
@@ -42,33 +46,33 @@
             .lockscreen-wrapper {
               text-align: center;
             }
-            .lockscreen-logo { 
-              margin: 100px 0 25px 0;
+            .lockscreen-logo {
+              margin: 100px 0 50px 0;
             }
             .btn:hover, a.btn:active {
                 color: lightgrey !important;
                 background-color: #035a8b !important;
             }
-            a.btn:visited, a.btn:active {
-                color: none !important;
-            } 
             .btn.active, .btn:active {
               box-shadow: none !important;
             } 
+            a.btn:visited, a.btn:active {
+                color: none !important;
+            }    
             a:visited {
               color: white !important;
             }
       </style>
     </ui:define>
     <ui:define name="body">
-        <img src="ext/resources/img/brand-logo.png" alt="Logo" class="brand-logo" />
-        <section class="content">
-            <div class="lockscreen-wrapper">
-                <div class="lockscreen-logo">
-<h:outputText styleClass="message" escape="false" rendered="#{registerPersonAction.postRegistrationInformation eq 'You successfully registered. Enjoy!' or 'Registration failed. Please try again, or contact the system administrator.'}" value="#{registerPersonAction.postRegistrationInformation}" />
-                    <h:outputText styleClass="message" escape="false" rendered="#{registerPersonAction.postRegistrationInformation eq 'You successfully registered. Please contact site administration to enable your account.'}" value="A confirmation e-mail has been sent to your address." />                </div>    
-                <a href="login.htm" class="btn">Sign in</a>
+        <img src="../identity/ext/resources/img/brand-logo.png" alt="Logo" class="brand-logo" />
+        <div class="lockscreen-wrapper">
+            <div class="lockscreen-logo">
+                <b class="message">Logout successful!</b>
             </div>
-        </section>
+            <!-- User name -->
+            <!--div class="lockscreen-name" style="text-align: center;font-size: 1.2em !important;margin-top: 10px; margin-bottom: 10px;">Thank you for using <b>GLUU</b>.</div-->
+            <a href="login.htm" class="btn">Sign in Again</a>
+        </div>
     </ui:define>
 </ui:composition>

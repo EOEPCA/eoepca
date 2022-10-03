@@ -5,8 +5,7 @@
 }
 
 body {
- background-repeat: no-repeat;
-background-image: url(/oxauth/ext/resources/img/background.jpg);
+  background-image: url(ext/resources/img/background.png);
   background-size: cover;
   background-color: black;
 }
@@ -34,6 +33,12 @@ input[type="submit"]:hover {
   transition: all 0.3s ease;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
+}
+
+.btn:active {
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
 }
 
 input[type="text"], 
@@ -65,7 +70,7 @@ input[type="number"]:focus {
 
 @media (max-width: 991px) {
   .login-form {
-    margin-top: 120px; 
+    margin-top: 125px; 
   }
 }
 
@@ -85,6 +90,36 @@ input[type="number"]:focus {
   font-family: open sans;
   text-transform: none;
   letter-spacing: normal;
+}
+
+.panel {
+  margin: 24px 0 0 0 !important;
+}
+
+.panel-body {
+  padding: 0 15px 0 15px !important;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+}
+
+.provider-logo {
+  margin: 10px;
+  max-height: 48px;
+  max-width: 48px;
+}
+
+.coih-message-wrapper:after, .coih-message-wrapper:before {
+  content: " ";
+}
+
+.coih-message-wrapper {
+  padding: 0 15px 0 15px !important;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: flex-start;
 }
 
 .btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {

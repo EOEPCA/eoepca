@@ -7,7 +7,7 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 	<f:view transient="true">
 		<h:head>
-			<meta name="description" content="Identity4EO"/>
+			<meta name="description" content="EOEPCA"/>
 			<script type="text/javascript" src="#{oxAuthConfigurationService.jsLocation}/jquery-1.12.4.min.js"></script>
 			<script type="text/javascript">
 			
@@ -45,7 +45,7 @@
 			  var currentHost = window.location.host;
 			  
 			  if (refHost == currentHost) {
-				regURL = "https://"+window.location.host+"/identity/register.htm";
+				regURL = "https://"+window.location.host+"/identity/register";
 				if (ref.indexOf(regURL) !== -1) {
 					var dest = getCallbackCookie();
 					if (dest !== "None") {
@@ -74,9 +74,9 @@
 			<link rel='stylesheet' id='ebor-style-css'  href='ext/resources/css/styles.css' type='text/css' media='all' />
 		  <link rel='stylesheet' id='custom' href='ext/resources/css/login.css' type='text/css' media='all' />
 		</h:head>
-        <title><h:outputText value="Identity4EO Login"/></title>
+        <title><h:outputText value="EOEPCA Login"/></title>
 	   <h:body>
-       <a class="brand-logo"><img src="ext/resources/img/esa.png" alt="Logo"/></a>
+       <a class="brand-logo"><img src="ext/resources/img/brand-logo.png" alt="Logo"/></a>
 		   <div class="perm-fixed-nav">
 				<div class="main-container">
 					<div id="content" class="col-md-4 login-form">
@@ -111,7 +111,7 @@
 												<div class="gradient contact-button green span2 offset3">
 													<div id="submit_block" class="login_input">
 														<h:commandButton id="loginButton" 
-																		 value="Login"
+																		 value="Sign in"
                                      styleClass="btn"
 																		 action="#{authenticator.authenticate}"/>
 													</div>

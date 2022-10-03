@@ -9,7 +9,7 @@
 	</f:metadata>
 <f:view transient="true">
 	<h:head>
-		<meta name="description" content="Id4eo" />
+		<meta name="description" content="EOEPCA" />
 		<script type="text/javascript" src="../../ext/resources/js/jquery-1.12.4.min.js"></script>
 		<script type='text/javascript' src='../../ext/resources/js/bootstrap.min.js'></script>
 		<script type='text/javascript' src='../../ext/resources/js/scripts.js'></script>
@@ -28,6 +28,9 @@
 			type='text/css' media='all' />
 		<link rel='stylesheet' id='ebor-fonts-css' href='../../ext/resources/css/fonts.css' type='text/css'
 			media='all' />
+
+		<link rel='stylesheet' id='ebor-style-inline-css' href='../../ext/resources/css/eoepca-inline.css'
+			type='text/css' media='all' />
 		<link rel='stylesheet' id='ebor-style-css' href='../../ext/resources/css/styles.css' type='text/css'
 			media='all' />
 		<link rel='stylesheet' id='custom' href='../../ext/resources/css/passportlogin.css' type='text/css'
@@ -69,7 +72,7 @@
 										<li class="row-fluid submit-container">
 											<div class="gradient contact-button green span2 offset3">
 												<div id="submit_block" class="login_input">
-													<h:commandButton id="loginButton" value="Login"
+													<h:commandButton id="loginButton" value="Sign in"
 														action="#{authenticator.authenticate}" />
 												</div>
 												<span class="sprite-green_click_icon"></span>
@@ -84,10 +87,22 @@
 										</li>
 										<li class="row-fluid">
 											<div id="identity" class="span9">
-												Need an EOEPCA account? <a class="need-account,register"
+												Need a EOEPCA account? <a class="need-account,register"
 													href="../../../identity/register.htm">Register!</a>
 											</div>
 										</li>
+										<s:div style="font-size:60%; margin-top: 20px">
+											<p>
+												<h:outputText value="Make sure to read and accept our" />
+												<a target="_blank" href="../../ext/resources/policy/id4eo_privacy.html">
+													<h:outputText value="Privacy Policy" />
+												</a>
+												<h:outputText value=" and " />
+												<a target="_blank" href="../../ext/resources/terms/TOS.html">
+													<h:outputText value="Terms of Service." />
+												</a>
+											</p>
+										</s:div>
 										<div id="providers">
 											<div class="row-fluid" visibility="hidden" id="provider_panel">
 												<div class="panel panel-default panel-order">
@@ -96,7 +111,8 @@
 													</div>
 												</div>
 											</div>
-											<div class="coih-message-wrapper" style="display: none;">
+											<div class="coih-message-wrapper" style="display: none;">	
+												<div id="coih-message">For Commercial Users</div>
 											</div>	
 										</div>
 									</ul>
@@ -151,7 +167,7 @@
 							if (providersSize > 0) {
 								// for some reason for loops were causing a page crash, so this solution works for up to 5 providers
 								const coih = jQuery('.coih-message-wrapper');
-								const dummy = '<div style="min-width:48px;margin:0 10px 0 10px;"/>';
+								const dummy = '<div style="min-width:96px;"/>';
 								var index = 0;
 								if (coihIndex > 0) {
 									coih.prepend(dummy);

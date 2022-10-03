@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:b="http://bootsfaces.net/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ox="http://xmlns.jcp.org/jsf/composite/ox"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:richext="http://xmlns.jcp.org/jsf/composite/richext"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    template="/WEB-INF/incl/layout/fullWidthEmpty.xhtml">
+    <ui:param name="showGlobalMessages" value="false"/>
+    <ui:define name="head">
+        <style type="text/css">
+            @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+            @import url('https://fonts.googleapis.com/css?family=Raleway');
+            * {
+                font-family: open sans;
+            }        
+            .error {
+                color: white;
+                font-size: 1.7em;
+            }
+            .brand-logo {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                width: 100px;
+            }
+            .lockscreen-name {
+                color: white;
+                text-align: center;
+                font-size: 1.4em;
+                margin-bottom: 2px;
+            }
+            .lockscreen-wrapper {
+              text-align: center;
+            }
+            .lockscreen-logo {
+                margin: 100px 0 15px 0;
+            }
+            .btn {
+                width: 320px;
+                background: #035a8b !important;
+                border: 2px solid #035a8b !important;
+                border-radius: 0 !important;
+                color: white !important;
+                font-size: 11px !important;
+                font-family: Raleway;
+                height: 50px;
+                line-height: 35px;
+                font-size:11px !important;
+                text-transform: uppercase !important;
+                font-weight: bold !important;
+                letter-spacing: 1px !important;
+            }
+            .btn:hover, a.btn:active {
+                color: lightgrey !important;
+                background-color: #035a8b !important;
+            }
+            .btn.active, .btn:active {
+              box-shadow: none !important;
+            } 
+            .alert-info, .alert-danger {
+                background-color: lightgrey;
+                border-color: transparent;
+                border: 0;
+                color: white;
+            }
+            a.btn:visited, a.btn:active {
+                color: none !important;
+            }        
+            a:visited {
+              color: white !important;
+            }   
+            a {
+                color: white;
+                text-decoration: underline;
+                margin-top: 20px !important;
+                font-size: 1.2em;
+            }        
+            a:hover {
+                color: #0090FF !important;
+              }    
+          </style>
+    </ui:define>
+    <ui:define name="body">
+        <img src="../identity/ext/resources/img/brand-logo.png" alt="Logo" class="brand-logo" />
+        <div class="lockscreen-wrapper">
+            <div class="lockscreen-logo error">
+                <b>Error</b>
+            </div>
+            <!-- User name -->
+            <div class="lockscreen-name">
+                #{msg['error.conversation.wrong']}...
+                <br />
+                <b:messages redisplay="true" recursive="true" globalOnly="true" severity="info,warn,error,fatal" />
+                <br /> 
+            </div>
+            <a href="/">Go to application page</a>
+        </div>
+    </ui:define>
+</ui:composition>

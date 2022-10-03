@@ -214,6 +214,7 @@ ul.social-icons {
 }
 html, body {
 	overflow-x: hidden;
+	overflow-y: auto !important;
 }
 .admin-bar nav.fixed, 
 .admin-bar nav.absolute {
@@ -803,7 +804,7 @@ div.wpcf7-validation-errors,
 	padding: 10px;
 	background-color: #fcf8e3;
 	color: #c09853;
-	border: 2px solid #faebcc;
+	border: 2px solid #faebcc;
 }
 div.wpcf7-mail-sent-ok {
 	margin: 0;
@@ -844,4 +845,32 @@ div.wpcf7 p {
 
 .bg-secondary input[type="text"], .bg-secondary input[type="password"], .bg-secondary input[type="email"], .bg-secondary input[type="tel"], .bg-secondary input[type="date"], .bg-secondary input[type="number"] {
     background: #fff;
+}
+
+.btn-primary.active, .btn-primary:active, .open>.dropdown-toggle.btn-primary {
+    color: #fff;
+    background-color: #035a8b !important;
+}
+
+.rf-msg-err, .rf-msgs-err, .rf-msgs-inf {
+	padding-left: 0 !important;
+} 
+
+input[type="submit"]:focus, button[type="submit"]:focus {
+    outline: 1px solid black !important;
+}
+
+.btn:focus {
+	color: lightgrey;
+}
+
+body {
+	background-image: url(/oxauth/ext/resources/img/background.jpg);
+    background-size: cover;
+    background-color: black;
+}
+
+.btn.focus, .btn:focus {
+    outline: 0;
+    box-shadow: none;
 }
