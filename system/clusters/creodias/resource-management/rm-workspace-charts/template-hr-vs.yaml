@@ -32,11 +32,13 @@ spec:
           data:
             # TODO: this values are secret pass them as secret
             type: "S3"
+            endpoint_url: https://cf2.cloudferro.com:8080
             access_key_id: {{ access_key_id }}
             secret_access_key: {{ secret_access_key }}
             bucket: {{ bucket }}
-            endpoint_url: https://cf2.cloudferro.com:8080
-            region: RegionOne
+            region_name: RegionOne
+            validate_bucket_name: false
+
         # Object storage for data access cache
         cache: {}
           # type: S3
