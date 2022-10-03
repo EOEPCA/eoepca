@@ -3,7 +3,7 @@ kind: HelmRelease
 metadata:
   name: resource-guard
 spec:
-  interval: 60m
+  interval: 5m
   chart:
     spec:
       chart: resource-guard
@@ -13,13 +13,19 @@ spec:
         name: eoepca
         namespace: common
   values:
+    #---------------------------------------------------------------------------
+    # Global values
+    #---------------------------------------------------------------------------
     global:
+      context: "{{ workspace_name }}"
       domain: demo.eoepca.org
       nginxIp: "185.52.195.19"
       certManager:
         clusterIssuer: letsencrypt
-      context: "{{ workspace_name }}"
       default_owner: {{ default_owner }} # NOTE: do not remove, we need to store this here for redeploys
+    #---------------------------------------------------------------------------
+    # PEP values
+    #---------------------------------------------------------------------------
     pep-engine:
       configMap:
         asHostname: auth
@@ -35,6 +41,9 @@ spec:
           resource_uri: "/"
           scopes: []
           default_owner: {{ default_owner }}
+    #---------------------------------------------------------------------------
+    # UMA User Agent values
+    #---------------------------------------------------------------------------
     uma-user-agent:
       nginxIntegration:
         enabled: true
@@ -54,6 +63,10 @@ spec:
               - path: "/(opensearch.*)"
                 service:
                   name: "vs-renderer"
+                  port: 80
+              - path: /(coverages/metadata.*)
+                service:
+                  name: data-access-renderer
                   port: 80
               - path: "/(admin.*)"
                 service:
@@ -76,3 +89,6 @@ spec:
       logging:
         level: info
       unauthorizedResponse: 'Bearer realm="https://portal.demo.eoepca.org/oidc/authenticate/"'
+    #---------------------------------------------------------------------------
+    # END values
+    #---------------------------------------------------------------------------
