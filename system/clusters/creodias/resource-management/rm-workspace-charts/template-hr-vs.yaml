@@ -3,23 +3,22 @@ kind: HelmRelease
 metadata:
   name: vs
 spec:
-  interval: 60m
+  interval: 5m
   chart:
     spec:
       chart: vs
-      version: 2.2.4
+      version: 2.2.8
       sourceRef:
         kind: HelmRepository
         name: eox-charts
         namespace: rm
   values:
     global:
-      # ???: is this missing...
-      # env:
-      #   REGISTRAR_REPLACE: "true"
-      #   CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .TIF,.tif,.xml,.jp2
-      #   startup_scripts:
-      #     - /registrar_pycsw/registrar_pycsw/initialize-collections.sh
+      env:
+        REGISTRAR_REPLACE: "true"
+        CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .TIF,.tif,.xml,.jp2,.jpg,.jpeg
+        # startup_scripts:
+        #   - /registrar_pycsw/registrar_pycsw/initialize-collections.sh
 
       # the tls host is still needed to provide the hostname for the view server client
       ingress:
@@ -29,6 +28,7 @@ spec:
 
       storage:
         data:
+          # Storage details for data source
           data:
             # TODO: this values are secret pass them as secret
             type: "S3"
@@ -36,58 +36,51 @@ spec:
             secret_access_key: {{ secret_access_key }}
             bucket: {{ bucket }}
             endpoint_url: https://cf2.cloudferro.com:8080
-            region_name: RegionOne
+            region: RegionOne
+        # Object storage for data access cache
+        cache: {}
+          # type: S3
+          # endpoint_url: "https://cf2.cloudferro.com:8080/cache-bucket"
+          # host: "cf2.cloudferro.com:8080"
+          # region_name: RegionOne
+          # region: RegionOne
+          # bucket: cache-bucket
 
-      # ???: is `cache` needed?
-      # cache: {}
+      # Service metadata
+      metadata:
+        title: Data Access Service - {{ workspace_name }}
+        # more - see values for `vs` chart...
 
-      # ???: is `metadata` needed?
-      # metadata: {}
+      # product types - linked to data assets
+      productTypes: []
 
-      # ???: is `layers` needed?
-      # layers: []
+      # collections - linked to product types
+      collections: {}
 
-      # ???: is `collections` needed?
-      # collections: {}
+      # layers for WMS service
+      layers: []
 
-      # ???: is `productTypes` needed?
-      # productTypes: []
-
-    harvester:
+    renderer:
       image:
-        repository: eoepca/rm-harvester
-        tag: 1.1.0
-      config:
-        # ???: is `redis` needed?
-        # redis:
-        #   host: data-access-redis-master
-        #   port: 6379
-        harvesters:
-          # ???: this is different to the system `data-access` which
-          # uses `Creodias-Opensearch` of type `OpenSearch`
-          - name: harvest-bucket-catalog
-            queue: register_queue
-            resource:
-              type: "STACCatalog"
-              source:
-                type: "S3"
-                bucket: bucket
-                access_key_id: {{ access_key_id }}
-                secret_access_key: {{ secret_access_key }}
-                endpoint_url: https://cf2.cloudferro.com:8080
-                region_name: RegionOne
-                validate_bucket_name: False
-                public: False
+        repository: eoepca/rm-data-access-core
+        tag: 1.2-dev15
+      ingress:
+        enabled: false
+      # resources:
+      #   limits:
+      #     cpu: 1.5
+      #     memory: 3Gi
+      #   requests:
+      #     cpu: 0.5
+      #     memory: 1Gi
 
     registrar:
       replicaCount: 1
       image:
         repository: eoepca/rm-data-access-core
-        #tag: 1.2-dev7
-        tag: latest
-        pullPolicy: Always
+        tag: 1.2-dev15
+        # pullPolicy: Always
       config:
-        # ???: this has more config than system `data-acces`, which only has a single `backends.path`
         disableDefaultRoute: true
         routes:
           items:
@@ -106,7 +99,6 @@ spec:
                   repository_database_uri: "postgresql://postgres:mypass@resource-catalogue-db/pycsw"
                   ows_url: "https://data-access.{{ workspace_name }}.develop.eoepca.org/ows"
                   public_s3_url: "https://cf2.cloudferro.com:8080/{projectid}:{bucket}"
-
           collections:
             path: registrar.route.stac.CollectionRoute
             queue: register_collection_queue
@@ -115,7 +107,6 @@ spec:
               - path: registrar_pycsw.backend.CollectionBackend
                 kwargs:
                   repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
-
           ades:
             path: registrar.route.json.JSONRoute
             queue: register_ades_queue
@@ -124,7 +115,6 @@ spec:
               - path: registrar_pycsw.backend.ADESBackend
                 kwargs:
                   repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
-
           application:
             path: registrar.route.json.JSONRoute
             queue: register_application_queue
@@ -136,35 +126,37 @@ spec:
                   ows_url: "https://data-access.{{ workspace_name }}.develop.eoepca.org/ows"
                   public_s3_url: "https://cf2.cloudferro.com:8080/{projectid}:{bucket}"
 
-    database:
-      persistence:
-        enabled: true
-        existingClaim: "" # we want the claim to be generated
-        storageClass: managed-nfs-storage
-        size: "100Gi"
-
-    redis:
-      usePassword: false
-      persistence:
-        existingClaim: ""
-      master:
-        persistence:
-          storageClass: managed-nfs-storage
-          size: "1Gi"
-          existingClaim: ""
-
-    cache:
-      ingress:
-        enabled: false
+    harvester:
+      image:
+        repository: eoepca/rm-harvester
+        tag: 1.2-dev2
+      config:
+        redis:
+          host: vs-redis-master
+          port: 6379
+        harvesters:
+          # Static STAC catalogue in the user's bucket storage
+          - name: harvest-bucket-catalog
+            resource:
+              type: "STACCatalog"
+              source:
+                type: "S3"
+                bucket: bucket
+                access_key_id: {{ access_key_id }}
+                secret_access_key: {{ secret_access_key }}
+                endpoint_url: https://cf2.cloudferro.com:8080
+                region_name: RegionOne
+                validate_bucket_name: False
+                public: False
+                queue: "register_queue"
 
     client:
       image:
-        tag: release-2.0.21
+        tag: release-2.0.33
       ingress:
         enabled: false
-      # ???: do we need this config element?
-      # config:
-      #   eoxserverDownloadEnabled: true
+      config:
+        eoxserverDownloadEnabled: true
       #   timeDomain:
       #     - "2002-01-01T00:00:00Z"
       #     - "customClientDateFuture1"
@@ -178,11 +170,27 @@ spec:
       #   customClientDaysPast2: 1
       #   customClientDaysFuture1: 7
 
-    renderer:
-      image:
-        repository: eoepca/rm-data-access-core
-        tag: 1.1.1
-      ingress:
+    database:
+      persistence:
+        enabled: true
+        existingClaim: "" # we want the claim to be generated
+        storageClass: managed-nfs-storage
+        size: "100Gi"
+      # postgresqlTcpKeepalivesInterval: "30"
+      # postgresqlTcpKeepalivesIdle: "600"
+      # postgresqlTcpKeepalivesCount: "10"
+      # postgresqlMaxConnections: "300"
+
+    redis:
+      usePassword: false
+      persistence:
+        existingClaim: ""
+      master:
+        persistence:
+          storageClass: managed-nfs-storage
+          size: "1Gi"
+          existingClaim: ""
+      cluster:
         enabled: false
 
     ingestor:
@@ -192,3 +200,12 @@ spec:
 
     preprocessor:
       replicaCount: 0
+
+    cache:
+      ingress:
+        enabled: false
+
+    seeder:
+      config:
+        minzoom: 0
+        maxzoom: 6  # restrict to only 6 for testing for now
