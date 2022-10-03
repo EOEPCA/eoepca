@@ -121,6 +121,8 @@ spec:
             path: registrar.route.json.JSONRoute
             queue: register_application_queue
             replace: true
+            kwargs:
+              href_field: url
             backends:
               - path: registrar_pycsw.backend.CWLBackend
                 kwargs:
