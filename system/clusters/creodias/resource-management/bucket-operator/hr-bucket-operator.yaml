@@ -18,7 +18,7 @@ spec:
       tag: 2022.09.22.13.58
     imagePullSecrets:
       - name: regcred
-    domain: test.mundi.eoepca.org
+    domain: mundi.eoepca.org
     data:
       OS_MEMBERROLEID: '1bd1e85ab70144809a6edf645e7484b3'
       OS_SERVICEPROJECTID: 'd73e7bf60aa64a20a01752be507a1ab9'
