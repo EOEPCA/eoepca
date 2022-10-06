@@ -7,12 +7,12 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: vs
-      version: 2.2.8
+      chart: data-access
+      version: 1.2.0
       sourceRef:
         kind: HelmRepository
-        name: eox-charts
-        namespace: rm
+        name: eoepca
+        namespace: common
   valuesFrom:
   # - secretKeyRef:
   #     name: cache-access-secret
@@ -364,151 +364,95 @@ spec:
             clouds:
               validity: false
 
-    renderer:
-      replicaCount: 2
-      image:
-        repository: eoepca/rm-data-access-core
-        # tag: 1.2-dev15
-        tag: latest
-        pullPolicy: Always
-      ingress:
-        enabled: false
+    vs:
+      renderer:
+        replicaCount: 2
 
-      resources:
-        limits:
-          cpu: 1.5
-          memory: 3Gi
-        requests:
-          cpu: 0.5
-          memory: 1Gi
+        resources:
+          limits:
+            cpu: 1.5
+            memory: 3Gi
+          requests:
+            cpu: 0.5
+            memory: 1Gi
 
-    registrar:
-      replicaCount: 1
-      image:
-        repository: eoepca/rm-data-access-core
-        # tag: 1.2-dev15
-        tag: latest
-        pullPolicy: Always
-      config:
-        defaultBackends:
-          - path: registrar_pycsw.backend.ItemBackend
-            kwargs:
-              repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
-              ows_url: https://data-access.develop.eoepca.org/ows
-        defaultSuccessQueue: seed_queue
-        # routes:
-        #   collections:
-        #     path: registrar.route.stac.Collection
-        #     queue: register_collection_queue
-        #     replace: true
-        #     backends:
-        #       - path: registrar_pycsw.backend.CollectionBackend
-        #         kwargs:
-        #           repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
+      registrar:
+        replicaCount: 1
+        config:
+          defaultBackends:
+            - path: registrar_pycsw.backend.ItemBackend
+              kwargs:
+                repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
+                ows_url: https://data-access.develop.eoepca.org/ows
+          defaultSuccessQueue: seed_queue
+          # routes:
+          #   collections:
+          #     path: registrar.route.stac.Collection
+          #     queue: register_collection_queue
+          #     replace: true
+          #     backends:
+          #       - path: registrar_pycsw.backend.CollectionBackend
+          #         kwargs:
+          #           repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
 
-        #   ades:
-        #     path: registrar.route.json.JSONRoute
-        #     queue: register_ades_queue
-        #     replace: true
-        #     backends:
-        #       - path: registrar_pycsw.backend.ADESBackend
-        #         kwargs:
-        #           repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
+          #   ades:
+          #     path: registrar.route.json.JSONRoute
+          #     queue: register_ades_queue
+          #     replace: true
+          #     backends:
+          #       - path: registrar_pycsw.backend.ADESBackend
+          #         kwargs:
+          #           repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
 
-        #   application:
-        #     path: registrar.route.json.JSONRoute
-        #     queue: register_application_queue
-        #     replace: true
-        #     backends:
-        #       - path: registrar_pycsw.backend.CWLBackend
-        #         kwargs:
-        #           repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
+          #   application:
+          #     path: registrar.route.json.JSONRoute
+          #     queue: register_application_queue
+          #     replace: true
+          #     backends:
+          #       - path: registrar_pycsw.backend.CWLBackend
+          #         kwargs:
+          #           repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
 
-    harvester:
-      image:
-        repository: eoepca/rm-harvester
-        # tag: 1.2-dev2
-        tag: latest
-        pullPolicy: Always
-      config:
-        redis:
-          host: data-access-redis-master
-          port: 6379
-        harvesters:
-          - name: Creodias-Opensearch
-            resource:
-              url: https://finder.creodias.eu/resto/api/collections/Sentinel2/describe.xml
-              type: OpenSearch
-              format_config:
-                type: 'application/json'
-                property_mapping:
-                  start_datetime: 'startDate'
-                  end_datetime: 'completionDate'
-                  productIdentifier: 'productIdentifier'
-              query:
-                time:
-                  property: sensed
-                  begin: 2019-09-10T00:00:00Z
-                  end: 2019-09-11T00:00:00Z
-                collection: null
-                bbox: 14.9,47.7,16.4,48.7
-            filter: {}
-            postprocess:
-              - type: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel2Postprocessor
-            queue: register
+      harvester:
+        config:
+          redis:
+            host: data-access-redis-master
+            port: 6379
+          harvesters:
+            - name: Creodias-Opensearch
+              resource:
+                url: https://finder.creodias.eu/resto/api/collections/Sentinel2/describe.xml
+                type: OpenSearch
+                format_config:
+                  type: 'application/json'
+                  property_mapping:
+                    start_datetime: 'startDate'
+                    end_datetime: 'completionDate'
+                    productIdentifier: 'productIdentifier'
+                query:
+                  time:
+                    property: sensed
+                    begin: 2019-09-10T00:00:00Z
+                    end: 2019-09-11T00:00:00Z
+                  collection: null
+                  bbox: 14.9,47.7,16.4,48.7
+              filter: {}
+              postprocess:
+                - type: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel2Postprocessor
+              queue: register
 
-    client:
-      image:
-        tag: release-2.0.33
-        # tag: latest
-        # pullPolicy: Always
-      ingress:
-        enabled: false
-
-      config:
-        eoxserverDownloadEnabled: true
-        timeDomain:
-          - "2002-01-01T00:00:00Z"
-          - "customClientDateFuture1"
-        displayTimeDomain:
-          - "customClientDatePast1"
-          - "customClientDateFuture1"
-        selectedTimeDomain:
-          - "customClientDatePast2"
-          - "today"
-        customClientDaysPast1: 90
-        customClientDaysPast2: 1
-        customClientDaysFuture1: 7
-
-    database:
-      persistence:
-        enabled: true
-        existingClaim: data-access-db
-
-    redis:
-      usePassword: false
-      persistence:
-        existingClaim: data-access-redis
-      master:
-        persistence:
-          enabled: true
-          storageClass: managed-nfs-storage
-      cluster:
-        enabled: false
-
-    ingestor:
-      replicaCount: 0
-      ingress:
-        enabled: false
-
-    preprocessor:
-      replicaCount: 0
-
-    cache:
-      ingress:
-        enabled: false
-
-    seeder:
-      config:
-        minzoom: 0
-        maxzoom: 6  # restrict to only 6 for testing for now
+      client:
+        config:
+          eoxserverDownloadEnabled: true
+          timeDomain:
+            - "2002-01-01T00:00:00Z"
+            - "customClientDateFuture1"
+          displayTimeDomain:
+            - "customClientDatePast1"
+            - "customClientDateFuture1"
+          selectedTimeDomain:
+            - "customClientDatePast2"
+            - "today"
+          customClientDaysPast1: 90
+          customClientDaysPast2: 1
+          customClientDaysFuture1: 7

@@ -1,216 +1,169 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:a4j="http://richfaces.org/a4j"
-        xmlns:f="http://xmlns.jcp.org/jsf/core"
-        xmlns:h="http://xmlns.jcp.org/jsf/html"
-        xmlns:ox="http://xmlns.jcp.org/jsf/composite/ox"
-        xmlns:rich="http://richfaces.org/rich"
-        xmlns:b="http://bootsfaces.net/ui"
-        xmlns:richext="http://xmlns.jcp.org/jsf/composite/richext"
-        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-        template="/WEB-INF/incl/layout/fullWidthEmpty.xhtml">
-        <f:metadata>
-                <f:viewParam name="inum" value="#{registerPersonAction.inum}" />
-                <f:viewAction action="#{conversationService.initConversation}" />
-                <f:viewAction action="#{registerPersonAction.initPerson}"
-                        if="#{registerPersonAction.person == null}" onPostback="false" />
-        </f:metadata>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:a4j="http://richfaces.org/a4j" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ox="http://xmlns.jcp.org/jsf/composite/ox" xmlns:rich="http://richfaces.org/rich" xmlns:b="http://bootsfaces.net/ui" xmlns:richext="http://xmlns.jcp.org/jsf/composite/richext" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" template="/WEB-INF/incl/layout/fullWidthEmpty.xhtml">
+    <f:metadata>
+        <f:viewParam name="inum" value="#{registerPersonAction.inum}" />
+        <f:viewAction action="#{conversationService.initConversation}" />
+        <f:viewAction action="#{registerPersonAction.initPerson}" if="#{registerPersonAction.person == null}" onPostback="false" />
+    </f:metadata>
 
-        <ui:define name="head">
-                <style>
-.login-box, .register-box {
-        width: 800px !important;
-}
+    <ui:define name="head">
+        <meta name="description" content="EOEPCA" />
+        <script type="text/javascript" src="../identity/ext/resources/js/jquery-1.12.4.min.js"></script>
+        <script type='text/javascript' src='../identity/ext/resources/js/bootstrap.min.js'></script>
+        <script type='text/javascript' src='../identity/ext/resources/js/scripts.js'></script>
+        <script type='text/javascript' src='../identity/ext/resources/js/jquery.js?ver=1.12.4'></script>
+        <link rel='stylesheet' id='ebor-theme-styles-css' href='../identity/ext/resources/css/ebor-theme-styles.css' type='text/css' media='all' />
+        <link rel='stylesheet' id='ebor-body-font-css' href='https://fonts.googleapis.com/css?family=Open+Sans%3A400%2C500%2C600&#038;ver=4.8' type='text/css' media='all' />
+        <link rel='stylesheet' id='ebor-heading-font-css' href='https://fonts.googleapis.com/css?family=Raleway%3A100%2C400%2C300%2C500%2C600%2C700&#038;ver=4.8' type='text/css' media='all' />
+        <link rel='stylesheet' id='ebor-lato-font-css' href='https://fonts.googleapis.com/css?family=Lato%3A300%2C400&#038;ver=4.8' type='text/css' media='all' />
+        <link rel='stylesheet' id='ebor-bootstrap-css' href='../identity/ext/resources/css/bootstrap.css' type='text/css' media='all' />
+        <link rel='stylesheet' id='ebor-fonts-css' href='../identity/ext/resources/css/fonts.css' type='text/css' media='all' />
+        <link rel='stylesheet' id='ebor-style-inline-css' href='../identity/ext/resources/css/eoepca-inline.css' type='text/css' media='all' />
+        <link rel='stylesheet' id='ebor-style-css' href='../identity/ext/resources/css/styles.css' type='text/css' media='all' />
+        <link rel='stylesheet' id='ebor-style-css' href='../identity/ext/resources/css/register.css' type='text/css' media='all' />
+        <ui:fragment rendered="#{not registerPersonAction.captchaDisabled}">
+            <script async="async" defer="defer" src="https://www.google.com/recaptcha/api.js" />
+        </ui:fragment>
+    </ui:define>
+    <title>
+        <h:outputText value="EOEPCA Register" />
+    </title>
+    <ui:define name="body">
+        <script type="text/javascript">
+            var styleSheets = document.styleSheets;
+            var id = 'skinning';
+            for (var i = 0; i &lt; styleSheets.length; i++) {
+                var hrefValue = styleSheets[i].href;
+                if  (hrefValue !== null) {
+                    if (hrefValue.indexOf(id) !== -1) {
+                        document.styleSheets[i].disabled = true;
+                    }
+                }
+            }
+        </script>
+        <a class="brand-logo">
+            <img src="../identity/ext/resources/img/brand-logo.png" alt="Logo" />
+        </a>
+        <div id="formArea" class="perm-fixed-nav">
+            <div class="main-container">
+                <!-- Registration Form -->
+                <h:form id="personRegistrationForm">
+                    <rich:panel id="panel">
+                        <div id="content" class="col-md-6">
+                            <div id="wrapper" style="float: none; margin: 0 auto;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="register" class="title">Register</div>
+                                    </div>
+                                </div>
 
-.login-logo, .register-logo {
-        margin-bottom: 0px;
-}
+                                <rich:messages layout="list" showDetail="false" showSummary="true"></rich:messages>
 
-iframe {
-        margin-left: 86%;
-}
-
-.rf-p-b {
-        padding-top: 0px !important;
-}
-
-.wrapper {
-        overflow-y: visible !important;
-        overflow-x: visible !important;
-}
-
-.panel-primary>.panel-heading {
-        background-color: #00BE79 !important;
-}
-
-.panel-primary>.panel-heading {
-        background-color: #00BE79 !important;
-}
-
-.panel-primary {
-        border-color: #00BE79 !important;
-}
-</style>
-                <ui:fragment rendered="#{not registerPersonAction.captchaDisabled}">
-                        <script async="async" defer="defer"
-                                src="https://www.google.com/recaptcha/api.js" />
-                </ui:fragment>
-        </ui:define>
-        <ui:define name="body">
-                <div id="formArea">
-                        <div id="addPerson">
-                                <!-- Registration Form -->
-                                <h:form id="personRegistrationForm">
-                                        <div class="login-box" style="margin-top: 0px !important;">
-                                                <b:messages redisplay="true" recursive="true"
-                                                        globalOnly="true" severity="info,warn,error,fatal" />
-                                                <b:panel title="User Registration" look="primary"
-                                                        iconAwesome="fa-user-plus" collapsible="false"
-                                                        style="background: white; color: black;">
-                                                        <div class="row" style="margin-bottom: 1px;">
-                                                                <div class="col-md-12">
-                                                                        <div id="register" style="color: #1ab26b;">
-                                                                                <p class="text-center">
-                                                                                        #{msg['register.toCreateAnAccount']}
-                                                                                        <h:link styleClass="text-center" includeViewParams="false"
-                                                                                                outcome="/login.htm" style="color:blue;font-weight:bold;"
-                                                                                                value="#{msg['register.alreadyHaveAnAccount']}" />
-                                                                                </p>
-                                                                        </div>
-                                                                </div>
-                                                        </div>
-                                                        <div class="formColumn row" style="">
-                                                                <div class="col-md-12">
-                                                                        <ui:param name="_mandatoryAttributes"
-                                                                                value="#{registerPersonAction.mandatoryAttributes}" />
-                                                                        <div id="registrationFormHolder">
-                                                                                <a4j:repeat rowKeyVar="_custAttrIdx"
-                                                                                        value="#{registerPersonAction.person.customAttributes}"
-                                                                                        var="_custAttr">
-                                                                                        <a4j:outputPanel>
-                                                                                                <ui:param name="_mandatory" value="#{_custAttr.mandatory}" />
-                                                                                                <ox:decorate id="_custAttrIdx"
-                                                                                                        label="#{(empty _custAttr.metadata) ? _custAttr.name : _custAttr.metadata.displayName }"
-                                                                                                        rendered="#{not registerPersonAction.hiddenAttributes.contains(_custAttr.name) and not _custAttr.name.equals('exampleSpecialAttribute')  and (_custAttr.metadata.displayName ne 'Email')}"
-                                                                                                        style="margin-left: -15px;">
-                                                                                                        <h:inputText class="form-control"
-                                                                                                        id="custId_#{_custAttr.metadata.displayName}"
-                                                                                                        label="#{(empty _custAttr.metadata) ? _custAttr.name : _custAttr.metadata.displayName }"
-                                                                                                        maxlength="60"
-                                                                                                        rendered="#{not _custAttr.readonly and (_custAttr.metadata.dataType ne 'DATE') and (_custAttr.metadata.displayName ne 'Gender, male or female') }"
-                                                                                                        required="#{_mandatory}" size="40"
-                                                                                                        tabindex="#{_custAttrIdx + 1}" value="#{_custAttr.value}">
-                                                                                                        <f:validator validatorId="extendedRegexValidator">
-                                                                                                        <f:attribute name="pattern"
-                                                                                                        value="#{((empty _custAttr) or (empty _custAttr.metadata) or (empty _custAttr.metadata.attributeValidation) or (empty _custAttr.metadata.attributeValidation.regexp)) ? '.*' : _custAttr.metadata.attributeValidation.regexp}" />
-                                                                                                        </f:validator>
-                                                                                                        <rich:validator event="keyup" />
-                                                                                                        </h:inputText>
-                                                                                                        <h:selectOneMenu value="#{_custAttr.value}"
-                                                                                                        styleClass="form-control"
-                                                                                                        rendered="#{not _custAttr.readonly and (_custAttr.metadata.dataType ne 'DATE') and (_custAttr.metadata.displayName eq 'Gender, male or female') }">
-                                                                                                        <f:selectItem itemValue="female" itemLabel="female" />
-                                                                                                        <f:selectItem itemValue="male" itemLabel="male" />
-                                                                                                        </h:selectOneMenu>
-                                                                                                        <h:message for="custId_#{_custAttr.metadata.displayName}" />
-                                                                                                        <h:outputText id="custIdText"
-                                                                                                        rendered="#{_custAttr.readonly}" size="40"
-                                                                                                        value="#{_custAttr.value}">
-                                                                                                        </h:outputText>
-                                                                                                        <h:outputText value=" " />
-                                                                                                        <!-- Date Attribute -->
-                                                                                                        <rich:calendar datePattern="EEE MMM dd HH:mm:ss Z yyyy"
-                                                                                                        readonly="#{_custAttr.readonly}"
-                                                                                                        rendered="#{not _custAttr.readonly and (_custAttr.metadata.dataType eq 'DATE')}"
-                                                                                                        value="#{_custAttr.value}" />
-
-                                                                                                </ox:decorate>
-                                                                                                <!-- Special Attribute. Is this intended to be a combobox-based attribute? -->
-                                                                                                <ox:decorate id="_custAttrIdx2"
-                                                                                                        label="#{(empty _custAttr.metadata) ? _custAttr.name : _custAttr.metadata.displayName }"
-                                                                                                        rendered="#{not registerPersonAction.hiddenAttributes.contains(_custAttr.name) and _custAttr.name.equals('exampleSpecialAttribute')}">
-                                                                                                        <h:selectOneMenu id="custId" required="#{_mandatory}"
-                                                                                                        tabindex="#{_custAttrIdx + 1}" value="#{_custAttr.value}">
-                                                                                                        <f:selectItem id="item1" itemLabel="News" itemValue="1" />
-                                                                                                        <f:selectItem id="item2" itemLabel="Sports" itemValue="2" />
-                                                                                                        <f:selectItem id="item3" itemLabel="Music" itemValue="3" />
-                                                                                                        <f:selectItem id="item4" itemLabel="Java" itemValue="4" />
-                                                                                                        <f:selectItem id="item5" itemLabel="Web" itemValue="5" />
-                                                                                                        <f:validateBean />
-                                                                                                        </h:selectOneMenu>
-                                                                                                        <h:outputText value=" " />
-                                                                                                </ox:decorate>
-                                                                                                <rich:tooltip
-                                                                                                        rendered="#{((not empty _custAttr) and (not empty _custAttr.metadata) and ( not empty _custAttr.metadata.gluuTooltip))}"
-                                                                                                        value="#{_custAttr.metadata.gluuTooltip}" />
-                                                                                        </a4j:outputPanel>
-                                                                                </a4j:repeat>
-                                                                                <ox:decorate id="passwordField"
-                                                                                        label="#{msg['register.password']}"
-                                                                                        style="margin-left: -15px;"
-                                                                                        template="/WEB-INF/incl/layout/edit.xhtml">
-                                                                                        <h:inputSecret autocomplete="off" class="form-control"
-                                                                                                id="password" binding="#{passwordComponent}" maxlength="60"
-                                                                                                redisplay="true" required="true" size="40" tabindex="6"
-                                                                                                value="#{registerPersonAction.password}" />
-                                                                                        <h:outputText value=" " />
-                                                                                </ox:decorate>
-                                                                                <ox:decorate id="repeatPasswordField"
-                                                                                        label="#{msg['register.repeatPassword']}"
-                                                                                        style="margin-left: -15px;"
-                                                                                        template="/WEB-INF/incl/layout/edit.xhtml">
-                                                                                        <h:inputSecret autocomplete="off" class="form-control"
-                                                                                                id="passwordValidation" maxlength="60" redisplay="true"
-                                                                                                required="true" size="40" tabindex="7"
-                                                                                                value="#{registerPersonAction.repeatPassword}">
-                                                                                                <f:validator validatorId="equalsValidator" />
-                                                                                                <f:attribute name="otherValue"
-                                                                                                        value="#{passwordComponent.value}" />
-                                                                                        </h:inputSecret>
-                                                                                        <h:outputText value=" " />
-                                                                                </ox:decorate>
-                                                                                <ox:decorate id="email" label="#{msg['register.email']} "
-                                                                                        style="margin-left: -15px;"
-                                                                                        template="/WEB-INF/incl/layout/edit.xhtml">
-                                                                                        <h:inputText autocomplete="off" class="form-control"
-                                                                                                id="emailValidation" maxlength="60" redisplay="true"
-                                                                                                required="true"
-                                                                                                requiredMessage="#{msg['register.pleaseEnterYourEmailAddress']}"
-                                                                                                size="40" tabindex="7"
-                                                                                                validator="#{registerPersonAction.validateEmail}"
-                                                                                                value="#{registerPersonAction.email}">
-                                                                                                <f:ajax event="keyup" execute="@this"
-                                                                                                        render="emailValidationMessage" />
-                                                                                        </h:inputText>
-                                                                                        <h:message id="emailValidationMessage" for="emailValidation"
-                                                                                                styleClass="rf-msg-det rf-msg-err" />
-                                                                                        <h:outputText value=" " />
-                                                                                </ox:decorate>
-                                                                        </div>
-                                                                        <ui:fragment
-                                                                                rendered="#{not registerPersonAction.captchaDisabled}">
-                                                                                <s class="g-recaptcha text-center" style="magirn-left: 20%;"
-                                                                                        data-sitekey="#{recaptchaService.recaptchaSiteKey}" />
-                                                                        </ui:fragment>
-                                                                        <div class="row">
-                                                                                <div class="col-md-12">
-                                                                                        <div id="updateButtons" style="margin-top: 20px;">
-                                                                                                <h:commandButton action="#{registerPersonAction.register}"
-                                                                                                        class="btn btn-primary btn-flat" style="width:90px;"
-                                                                                                        value="#{msg['register.register']}" />
-                                                                                                <h:commandButton action="#{registerPersonAction.cancel}"
-                                                                                                        class="btn btn-primary btn-flat" immediate="true"
-                                                                                                        style="margin-left:3px; width:90px;"
-                                                                                                        value="#{msg['register.cancel']}" />
-                                                                                        </div>
-                                                                                </div>
-                                                                        </div>
-                                                                </div>
-                                                        </div>
-                                                </b:panel>
+                                <div id="login-box-body" class="login-box-body" style="margin-top:10px;">
+                                    <div class="formColumn row">
+                                        <div class="col-md-12">
+                                            <ui:param name="_mandatoryAttributes" value="#{registerPersonAction.mandatoryAttributes}" />
+                                            <div id="registrationFormHolder">
+                                                <a4j:repeat id='form' rowKeyVar="_custAttrIdx" value="#{registerPersonAction.person.customAttributes}" var="_custAttr">
+                                                    <a4j:outputPanel>
+                                                        <ui:param name="_mandatory" value="#{_custAttr.mandatory}" />
+                                                        <ox:decorate  id="custAttr" label="#{(empty _custAttr.metadata) ? _custAttr.name : _custAttr.metadata.displayName }" rendered="#{not registerPersonAction.hiddenAttributes.contains(_custAttr.name) and not _custAttr.name.equals('exampleSpecialAttribute') and (_custAttr.metadata.displayName ne 'Email')}">
+                                                            <h:inputText class="form-control" id="custAttrInput" label="#{(empty _custAttr.metadata) ? _custAttr.name : _custAttr.metadata.displayName }" maxlength="60" rendered="#{not _custAttr.readonly and (_custAttr.metadata.dataType ne 'DATE') and (_custAttr.metadata.displayName ne 'Gender, male or female') and (_custAttr.metadata.displayName ne 'User Type')}" required="#{_mandatory}" size="40" tabindex="#{_custAttrIdx + 1}" value="#{_custAttr.value}" requiredMessage="#{_custAttr.metadata.displayName} is required.">
+                                                                <f:validator validatorId="extendedRegexValidator">
+                                                                    <f:attribute name="pattern" value="#{((empty _custAttr) or (empty _custAttr.metadata) or (empty _custAttr.metadata.attributeValidation) or (empty _custAttr.metadata.attributeValidation.regexp)) ? '.*' : _custAttr.metadata.attributeValidation.regexp}" />
+                                                                </f:validator>
+                                                                <rich:validator event="keyup" />
+                                                                <h:message id="custAttrValidationMessage" for="custAttrInput" styleClass="rf-msg-det rf-msg-err" />
+                                                                <h:outputText value="" />
+                                                            </h:inputText>
+                                                            <h:selectOneMenu  value="#{_custAttr.value}" label="User Type" tabindex="#{_custAttrIdx + 1}" rendered="#{not _custAttr.readonly and (_custAttr.metadata.name eq 'userType')}" required="true" requiredMessage="User Type is required.">
+                                                                <f:selectItem itemLabel="General" itemValue="general" />
+                                                                <f:selectItem itemLabel="Research" itemValue="research" />
+                                                                <f:validateBean />
+                                                            </h:selectOneMenu>
+                                                            <h:message for="custAttrInput" />
+                                                            <h:outputText id="custIdText" rendered="#{_custAttr.readonly}" size="40" value="#{_custAttr.value}"></h:outputText>
+                                                        </ox:decorate>
+                                                        <rich:tooltip rendered="#{((not empty _custAttr) and (not empty _custAttr.metadata) and ( not empty _custAttr.metadata.gluuTooltip))}" value="#{_custAttr.metadata.gluuTooltip}" />
+                                                    </a4j:outputPanel>
+                                                </a4j:repeat>
+                                                <ox:decorate id="email" label="#{msg['register.email']} " style="margin-left: -15px;" template="/WEB-INF/incl/layout/edit.xhtml">
+                                                    <h:inputText autocomplete="off" class="form-control" id="email" maxlength="60" redisplay="true" required="true" requiredMessage="#{msg['register.pleaseEnterYourEmailAddress']}" size="40" tabindex="6" value="#{registerPersonAction.email}" validatorMessage="Please enter a valid email address.">
+                                                        <f:ajax event="keyup" execute="@this" render="emailValidationMessage" />
+                                                        <f:validateRegex pattern="^(\w|\.|\_|\‐|\-)+[@](\w|\_|\.|\‐|\-)+[.]\w{2,3}$" />
+                                                    </h:inputText>
+                                                </ox:decorate>
+                                                <ox:decorate id="passwordField" label="#{msg['register.password']}" style="margin-left: -15px;" template="/WEB-INF/incl/layout/edit.xhtml">
+                                                    <h:inputSecret autocomplete="off" class="form-control" id="password" binding="#{passwordComponent}" maxlength="60" redisplay="true" required="true" size="40" tabindex="7" value="#{registerPersonAction.password}" requiredMessage="Password is required."/>
+                                                </ox:decorate>
+                                                <ox:decorate id="repeatPasswordField" label="#{msg['register.repeatPassword']}" style="margin-left: -15px;" template="/WEB-INF/incl/layout/edit.xhtml">
+                                                    <h:inputSecret autocomplete="off" class="form-control" id="passwordRepeat" maxlength="60" redisplay="true" required="true" size="40" tabindex="8" value="#{registerPersonAction.repeatPassword}"  requiredMessage="Password is required." validatorMessage="Passwords do not match.">
+                                                        <f:validator validatorId="equalsValidator"/>
+                                                        <f:attribute name="otherValue" value="#{passwordComponent.value}" />
+                                                    </h:inputSecret>
+                                                </ox:decorate>
+                                                <ox:decorate id="policies">
+                                                    <div style="margin-top: 20; margin-bottom: 5">
+                                                        <h:selectBooleanCheckbox style="height: auto; margin: 0px; width:12px; display:inline;" class="form-control" validatorMessage="Please accept our Privacy Policy and Terms of Service." id="checkPolicy" required="true" value="False">
+                                                            <f:validateLength minimum="2" maximum="4" />
+                                                        </h:selectBooleanCheckbox>
+                                                        <h:outputText value="I have read and accepted the " style="margin-left: 10px;" />
+                                                        <a target="_blank" href="/oxauth/ext/resources/policy/id4eo_privacy.html">
+                                                            <h:outputText value="Privacy Policy" />
+                                                        </a>
+                                                        and
+                                                        <a target="_blank" href="/oxauth/ext/resources/terms/TOS.html">
+                                                            <h:outputText value="Terms of Service." />
+                                                        </a>
+                                                        <h:outputText value="&#160;" />
+                                                    </div>
+                                                </ox:decorate>
+                                                <div>
+                                                    <h:outputText style="font-size:0.9em;text-align:justify;" value="When sending a message through the present contact form, your personal data is collected only for User Management. Your data can be accessed by the team managing the contact form database, and by the service to which the query is directed. It will not be disseminated outside the boundaries of these services or for other activities than User Management. This data will be kept until the end of the project (May 2019). Please note that for accessing the data provided as well as requesting, if necessary, rectification, opposition or cancellation, in the terms established by the General Data Protection Regulation, you need to send a written communication to admins at the email address" />
+                                                    <a href="mailto:spatialops@deimos-space.com" target="_top">spatialops@deimos-space.com.</a>
+                                                </div>
+                                            </div>
+                                            <!-- Captcha -->
+                                            <ui:fragment rendered="#{not registerPersonAction.captchaDisabled}">
+                                                <s class="g-recaptcha" data-sitekey="#{recaptchaService.recaptchaSiteKey}" />
+                                            </ui:fragment>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div id="updateButtons" class="buttons-container row">
+                                                    <div class="col-xs-6">
+                                                   
+                                                    <h:commandButton action="#{registerPersonAction.cancel}" class="btn btn-primary btn-flat cancel-button" immediate="true" value="#{msg['register.cancel']}" />
+                                                
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                     <h:commandButton action="#{registerPersonAction.register}" class="btn btn-primary btn-flat register-button" value="#{msg['register.register']}" />
+                                                    </div>
+                                                        
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                </h:form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                </div>
-        </ui:define>
+                        <script type="text/javascript">
+                            function setCallbackCookie() {
+                              document.cookie = "callback_url="+document.referrer+";domain="+window.location.host+";path=/";
+                            }
+
+                            var ref = document.referrer;  
+                            var refHost = document.referrer.split('/')[2];
+                            var currentHost = window.location.host;
+                            
+                            if (refHost !== currentHost) {
+                              setCallbackCookie();
+                            }
+                        </script>
+                    </rich:panel>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
 </ui:composition>

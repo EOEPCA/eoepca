@@ -38,5 +38,5 @@ echo " done"
 
 # pdp
 echo -n "Dumping policy for pdp to $ORIG_DIR/pdp.json..."
-kubectl exec -it svc/pdp-engine -c pdp-engine -- management_tools list --all > "$ORIG_DIR"/pdp.json
+kubectl -n um exec -it svc/pdp-engine -c pdp-engine -- management_tools list --all > "$ORIG_DIR"/pdp.json
 echo " done"

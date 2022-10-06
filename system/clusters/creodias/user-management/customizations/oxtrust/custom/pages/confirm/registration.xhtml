@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+       template="/WEB-INF/incl/layout/fullWidthEmpty.xhtml">
+
+        <f:metadata>
+                <f:viewAction action="#{conversationService.initConversation}" />
+                <f:viewAction action="#{registerPersonAction.confirm}"
+                        onPostback="false" />
+        </f:metadata>
+
+<ui:define name="head">
+                        <link href="#{oxTrustConfigurationService.cssLocation}/../theme/dist/css/custom.css" rel="stylesheet" type="text/css"/>
+      <style type="text/css">
+            @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+            @import url('https://fonts.googleapis.com/css?family=Raleway');
+            * {
+                font-family: open sans;
+            }
+            @media (max-width: 991px) {
+                #content {
+                margin-top: 200px !important;
+            }
+        }
+            .message {
+                color: white;
+                font-size: 1.7em;
+                margin-bottom: 50px;
+            }
+            .brand-logo {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                width: 100px;
+            }
+            .btn {
+                width: 320px;
+                background: #035a8b !important;
+                border: 2px solid #035a8b !important;
+                border-radius: 0 !important;
+                color: white;
+                font-size: 11px !important;
+                font-family:Raleway;
+                height: 50px;
+                line-height: 35px;
+                font-size:11px !important;
+                text-transform: uppercase !important;
+                font-weight: bold !important;
+                letter-spacing: 1px !important;
+            }
+            .btn:hover, a.btn:active {
+                color: #081742 !important;
+                background-color: #035a8b !important;
+            }
+            a.btn:visited, a.btn:active {
+                color: none !important;
+            }
+            a:visited {
+              color: white !important;
+            }
+            .row {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+            }
+      </style>
+    </ui:define>
+
+        <ui:define name="body">
+<img src="../../identity/ext/resources/img/brand-logo.png" alt="Logo" class="brand-logo" />
+<section class="content" style="margin-top: 70px">
+                        <h:panelGroup
+                                rendered="#{registerPersonAction.confirmationOkay}">
+                                <div class="row">
+                                        <div class="col-md-2 col-sm-2 col-xs-2"></div>
+                                        <div class="col-md-8 col-sm-8 col-xs-8">
+                                                <h1
+                                                        style="color: white; font-weight: 400; font-size: 2em; margin-bottom: 20px"
+                                                        class="text-center">Registration completed</h1>
+                                        </div>
+                                        <div class="col-md-2 col-sm-2 col-xs-2"></div>
+                                </div>
+                                <div class="row"
+                                        style="margin-left: 20%; margin-right: 20%">
+                                        <div style="color: white; font-size: 1.2em; margin-bottom: 20px" class="text-center">
+                                                <h:outputText escape="false"
+                                                        value="Your registration process is completed." />
+                                        </div>
+                                        <div style="margin-top: 1%; color: white; font-size: 2em;"
+                                                class="text-center">
+                                                <a class="btn" href="/">Sign in</a>
+                                        </div>
+                                </div>
+                        </h:panelGroup>
+                        <h:panelGroup
+                                rendered="#{not registerPersonAction.confirmationOkay}">
+                                <div class="row">
+                                        <div class="col-md-2 col-sm-2 col-xs-2"></div>
+                                        <div class="col-md-8 col-sm-8 col-xs-8">
+                                                <h1
+                                                        style="color: white; font-weight: 400; font-size: 2em; margin-bottom: 20px"
+                                                        class="text-center">Invalid code</h1>
+                                        </div>
+                                        <div class="col-md-2 col-sm-2 col-xs-2"></div>
+                                </div>
+                                <div class="row"
+                                        style="margin-left: 20%; margin-right: 20%;">
+                                        <div style="color: white; font-size: 1.2em; margin-bottom: 20px" class="text-center">
+                                                <h:outputText escape="false"
+                                                        value="Registration code is not valid or expired. Please contact site administator." />
+                                        </div>
+                                        <div style="margin-top: 1%; color: white; font-size: 2em;"
+                                                class="text-center">
+                                                <a class="btn" href="/">Back to application
+                                                        page</a>
+                                        </div>
+                                </div>
+                        </h:panelGroup>
+                </section>
+        </ui:define>
+</ui:composition>

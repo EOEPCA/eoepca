@@ -7,85 +7,68 @@
         <link href="#{oxTrustConfigurationService.cssLocation}/../theme/plugins/iCheck/square/blue.css" rel="stylesheet" type="text/css" />
         <link href="#{oxTrustConfigurationService.cssLocation}/../theme/plugins/morris/morris.css" rel="stylesheet" type="text/css" />
         <link href="#{oxTrustConfigurationService.cssLocation}/../theme/plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
-        <link href="#{oxTrustConfigurationService.cssLocation}/../theme/dist/css/custom.css" rel="stylesheet" type="text/css" />
-        <style type="text/css">
+        <style>
             @import url('https://fonts.googleapis.com/css?family=Open+Sans');
             @import url('https://fonts.googleapis.com/css?family=Raleway');
             * {
                 font-family: open sans;
             }        
-            .error {
-                color: white;
-                font-size: 1.7em;
-            }
             .brand-logo {
                 position: absolute;
                 top: 10px;
                 left: 10px;
                 width: 100px;
             }
-            .lockscreen-name {
+            .wrapper {
+              text-align: center;
+            }
+            .error-title {
+                margin: 125px 0 20px 0;
+                color: white;
+                font-size: 1.7em;
+                font-weight: bold;
+            }
+            .error-message {
                 color: white;
                 text-align: center;
                 font-size: 1.4em;
-                margin-bottom: 2px;
-            }
-            .lockscreen-wrapper {
-              text-align: center;
-            }
-            .lockscreen-logo {
-                margin-bottom: 0px !important; 
-                margin-top: 10%;
-            }
-            .btn {
-                width: 320px;
-                background: #F47D08 !important;
-                border: 2px solid #F47D08 !important;
-                border-radius: 0 !important;
-                color: white !important;
-                font-size: 11px !important;
-                font-family: Raleway;
-                height: 50px;
-                line-height: 35px;
-                font-size:11px !important;
-                text-transform: uppercase !important;
-                font-weight: bold !important;
-                letter-spacing: 1px !important;
-            }
-            .btn:hover, a.btn:active {
-                color: #081742 !important;
-                background-color: #F47D08 !important;
-                border: 2px solid white !important;
+                margin-bottom: -5px;
             }
             .alert-info, .alert-danger {
-                background-color: #081742;
+                background-color: lightgrey;
                 border-color: transparent;
                 border: 0;
                 color: white;
             }
-            a.btn:visited, a.btn:active {
-                color: none !important;
-            }        
             a:visited {
               color: white !important;
-            }               
-		  </style>
+            } 
+            a {
+                color: white;
+                text-decoration: underline;
+                margin-top: 20px !important;
+                font-size: 16px !important;
+            }
+            a:hover {
+                color: #0090FF !important;
+              }
+        </style>
     </ui:define>
     <ui:define name="body">
         <img src="../identity/ext/resources/img/brand-logo.png" alt="Logo" class="brand-logo" />
         <div class="lockscreen-wrapper">
-            <div class="lockscreen-logo error">
-                <b>#{msg['error.oops']}</b>
+            <div class="error-title">
+                Error
             </div>
-            <!-- User name -->
-            <div class="lockscreen-name">
-                #{msg['error.wrong']}
-                <br />
+            <div>
+                <p>
+                    <h5 class="error-message" style="margin-bottom: 20px;">An unexpected error happened...</h5>
+                  </p>
+                  <div class="body">
                 <b:messages redisplay="true" recursive="true" globalOnly="true" severity="info,warn,error,fatal" />
-                <br />
-                <span style="font-size: 14px;">#{msg['error.returnToTheApplication']}</span>
+                  </div>
             </div>
-            <a class="btn" href="#{request.contextPath}/home.htm">#{msg['error.return']}</a>
+            <a href="/" style="color: white;text-decoration: underline;margin-top: 20px !important;">Go to application page</a>
         </div>
     </ui:define>
 </ui:composition>

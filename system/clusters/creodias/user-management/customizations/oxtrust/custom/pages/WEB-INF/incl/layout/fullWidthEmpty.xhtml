@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:a="http://richfaces.org/a4j"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:gluufn="http://www.gluu.org/jsf/functions"
+	contenttype="text/html" locale="#{language.localeCode}">
+	<h:head>
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+			<title>EOEPCA</title>
+			<script type="text/javascript">
+			if (top != self)
+				top.location.href = self.document.location;
+			if (parent != self)
+				top.location.href = location.href;
+			if (top.frames.length != 0)
+				top.location.href = self.document.location;
+			if (window != window.top)
+				top.location.href = location.href;
+			</script>
+			<link rel="shortcut icon" href="#{request.contextPath}/servlet/favicon?v=#{faviconImageServlet.faviconTimestamp}"/>
+			<link rel="icon" href="#{request.contextPath}/servlet/favicon?v=#{faviconImageServlet.faviconTimestamp}"/>
+			<!-- Stylesheets -->
+			<!--link href="#{oxTrustConfigurationService.cssLocation}/../theme/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+			<link href="#{oxTrustConfigurationService.cssLocation}/../theme/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css"/>
+			<link href="#{oxTrustConfigurationService.cssLocation}/../theme/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css"/>
+			<link href="#{oxTrustConfigurationService.cssLocation}/../theme/plugins/iCheck/square/blue.css" rel="stylesheet" type="text/css"/>
+			<link href="#{oxTrustConfigurationService.cssLocation}/../theme/plugins/morris/morris.css" rel="stylesheet" type="text/css"/>
+			<link href="#{oxTrustConfigurationService.cssLocation}/../theme/plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css"/>
+			<link href="#{oxTrustConfigurationService.cssLocation}/../theme/dist/css/custom.css" rel="stylesheet" type="text/css"/-->
+			<ui:insert name="head"/>
+			<ui:param name="themeColor" value="#{organizationService.organization.themeColor}"/>
+			<ui:fragment rendered="#{not empty themeColor}">
+				<style type="text/css">
+.rf-tb-itm, .rf-tb-emp {
+	height: 33px;
+	background-color: #{gluufn:getColor(themeColor, "00ff00")
+}
+				</style>
+			</ui:fragment>
+			<style>
+      
+				body {
+					background-image: url(/identity/ext/resources/img/background.jpg);
+background-repeat: no-repeat;
+					background-size: cover;
+					background-color: black;
+				}
+      
+input[type=text], input[type=email], input[type=password], input[autocomplete=off],
+	input[type=url] {
+	padding: 6px 20px 6px 20px;
+	margin-left: 2px !important;
+}
+
+input[type=checkbox]:focus {
+	border: none;
+}
+
+input[type=submit] {
+	cursor: pointer;
+}
+
+textarea:focus {
+	margin-left: 2px !important;
+	border: 1px solid black;
+}
+
+textarea {
+	padding: 5px;
+	margin-left: 2px !important;
+}
+
+
+.btn-primary, .btn-success, .btn-danger {
+	border: 0 none;
+	cursor: pointer;
+	border-radius: 5px !important;
+}
+
+.icheckbox_square-blue {
+	border-radius: 50% !important;
+	border: 1px solid #ccc !important
+}
+
+.icheckbox_square-blue:focus {
+	border-radius: 50% !important;
+	border: none;
+}
+
+select {
+	border-radius: 5px !important;
+}
+
+.roundedSelectBox {
+	border: 2px solid #ccc;
+	border-radius: 5px !important;
+}
+
+a:hover {
+  color: #0090FF;
+}
+
+.rf-msg-err, .rf-msgs-err {
+  background-image: url(/identity/ext/resources/img/error.png);
+  background-size: 15px;
+}
+
+.rf-msg-inf, .rf-msgs-inf {
+  background-image: url(/identity/ext/resources/img/info.png);
+  background-size: 15px;
+}
+
+.rf-msgs-sum {
+  color: red;
+}
+
+
+</style>
+		</h:head>
+		<h:body>
+		<div class="wrapper">
+			<div>
+				<b:growl id="growlMsg" globalOnly="true" placementFrom="top"
+					show-detail="true" show-summary="false" allowDismiss="true"
+					severity="info,warn,error,fatal" delay="3000" escape="false"
+					auto-update="true" />
+				<ui:insert name="body" />
+			</div>
+		</div>
+		<!-- Scripts -->
+		<script
+			src='#{oxTrustConfigurationService.cssLocation}/../theme/dist/js/jquery-1.12.4.min.js'
+			type="text/javascript"></script>
+		<script
+			src="#{oxTrustConfigurationService.cssLocation}/../theme/bootstrap/js/bootstrap.min.js"
+			type="text/javascript"></script>
+		<script
+			src="#{oxTrustConfigurationService.cssLocation}/../theme/dist/js/app.min.js"
+			type="text/javascript"></script>
+		<script
+			src="#{oxTrustConfigurationService.cssLocation}/../theme/plugins/iCheck/icheck.min.js"
+			type="text/javascript"></script>
+	</h:body>
+	</f:view>
+</html>

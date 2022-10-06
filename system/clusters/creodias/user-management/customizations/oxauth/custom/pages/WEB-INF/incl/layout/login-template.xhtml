@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <f:view transient="true" locale="#{language.localeCode}">
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>EOEPCA</title>
+            <link rel="icon" href="#{request.contextPath}/servlet/favicon" type='image/x-icon' />
+            <link type="text/css" rel="stylesheet" href="#{oxAuthConfigurationService.getCssLocation()}/style.css" />
+            <link type="text/css" rel="stylesheet" href="#{oxAuthConfigurationService.getCssLocation()}/bootstrap.min.css" />
+            <link rel="stylesheet" href="#{oxAuthConfigurationService.getCssLocation()}/fontawesome.min.css" />
+            <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600" />
+			<link rel='stylesheet' id='ebor-style-css'  href='ext/resources/css/styles.css' type='text/css' media='all' />
+
+            <script src="#{oxAuthConfigurationService.getJsLocation()}/jquery-3.4.1.min.js" />
+            <script src="#{oxAuthConfigurationService.getJsLocation()}/bootstrap.min.js" />
+            <script src="#{oxAuthConfigurationService.getJsLocation()}/platform.js" />
+            <style>
+                @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+                @import url('https://fonts.googleapis.com/css?family=Raleway');
+                * {
+                    font-family: open sans;
+                }        
+                .brand-logo {
+                    position: absolute;
+                    top: 10px;
+                    left: 10px;
+                    width: 100px;
+                }
+                .wrapper {
+                  text-align: center;
+                }
+                .error-title {
+                    margin: 125px 0 20px 0;
+                    color: white;
+                    font-size: 1.7em;
+                    font-weight: bold;
+                }
+                .error-message {
+                    color: white;
+                    text-align: center;
+                    font-size: 1.4em;
+                    margin-bottom: -5px;
+                }
+                .alert-info, .alert-danger {
+                    background-color: lightgrey;
+                    border-color: transparent;
+                    border: 0;
+                    color: white;
+                }
+                a:visited {
+                  color: white !important;
+                } 
+                a {
+                    color: white;
+                    text-decoration: underline;
+                    margin-top: 20px !important;
+                }
+                a:hover {
+                    color: #0090FF !important;;
+                  }
+        </style>
+        </h:head>
+        <h:body>
+            <div class="body">
+                <ui:insert name="body" />
+            </div>
+        </h:body>
+    </f:view>
+</html>
