@@ -27,7 +27,7 @@ spec:
       image:
         repository: geopython/pycsw
         pullPolicy: Always
-        tag: "eoepca-test"
+        tag: "eoepca-staging"
       config:
         server:
           url: "https://resource-catalogue.{{ workspace_name }}.develop.eoepca.org"
