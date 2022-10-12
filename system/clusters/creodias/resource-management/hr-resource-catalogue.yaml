@@ -43,6 +43,9 @@ spec:
       config:
         server:
           url: https://resource-catalogue.develop.eoepca.org/
+        manager:
+          transactions: "true"
+          allowed_ips: "*"
         metadata:
           identification_title: EOEPCA Resource Catalogue
           identification_abstract: Based on pycsw, a Python OGC CSW server implementation
