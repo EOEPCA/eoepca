@@ -80,7 +80,7 @@ spec:
       replicaCount: 1
       image:
         repository: eoepca/rm-data-access-core
-        tag: 1.2-dev18
+        tag: 1.2-dev19
         # pullPolicy: Always
       config:
         disableDefaultRoute: true
