@@ -36,6 +36,7 @@ spec:
     global:
       domain: auth.demo.eoepca.org
       nginxIp: 185.52.195.19
+      namespace: um
     nginx:
       ingress:
         annotations:

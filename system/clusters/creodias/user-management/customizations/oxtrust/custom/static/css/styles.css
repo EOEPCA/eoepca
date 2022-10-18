@@ -214,6 +214,7 @@ ul.social-icons {
 }
 html, body {
 	overflow-x: hidden;
+	overflow-y: auto !important;
 }
 .admin-bar nav.fixed, 
 .admin-bar nav.absolute {
@@ -844,4 +845,28 @@ div.wpcf7 p {
 
 .bg-secondary input[type="text"], .bg-secondary input[type="password"], .bg-secondary input[type="email"], .bg-secondary input[type="tel"], .bg-secondary input[type="date"], .bg-secondary input[type="number"] {
     background: #fff;
+}
+
+.btn-primary.active, .btn-primary:active, .open>.dropdown-toggle.btn-primary {
+    color: #fff;
+    background-color: #035a8b !important;
+}
+
+.rf-msg-err, .rf-msgs-err, .rf-msgs-inf {
+	padding-left: 0 !important;
+} 
+
+input[type="submit"]:focus, button[type="submit"]:focus {
+	outline: 1px solid black !important;
+}
+
+.btn:focus {
+	color: lightgrey;
+}
+
+body {
+	background-image: url(/identity/ext/resources/img/background.jpg);
+background-repeat: no-repeat;
+	background-size: cover;
+	background-color: black;
 }

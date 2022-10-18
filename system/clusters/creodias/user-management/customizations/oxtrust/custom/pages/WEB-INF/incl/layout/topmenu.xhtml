@@ -1,0 +1,124 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:gluufn="http://www.gluu.org/jsf/functions"
+	xmlns:rich="http://richfaces.org/rich">
+
+<h:form>
+	<header class="main-header">
+		<!-- Logo -->
+		<style>
+			.main-header .custom_logo {
+				background-image: url(/identity/ext/resources/img/brand-logo.png) !important;
+    background-size: 100% !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    float: left !important;
+    height: 50px !important;
+    width: 45px !important;
+    margin-left: 20px !important;
+			}
+            .main-header .custom_logo:active {
+				background-image: url(/identity/ext/resources/img/brand-logo.png) !important;
+    background-size: 100% !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    float: left !important;
+    height: 50px !important;
+    width: 45px !important;
+    margin-left: 20px !important;
+			}
+			.main-header .navbar-static-top, .navbar-nav>.user-menu>.dropdown-menu>.user-footer {
+				background-color: #222d32 !important;
+			}
+		</style>
+		<a href="#{request.contextPath}/home.htm" class="custom_logo"></a>
+		<!-- Header Navbar: style can be found in header.less -->
+			<nav class="navbar navbar-static-top">
+								<!-- Sidebar toggle button-->
+				<a href="#" class="sidebar-toggle"
+					data-toggle="offcanvas" role="button"> <span class="sr-only">Toggle
+						navigation</span>
+				</a>
+								<!-- Navbar Right Menu -->
+				<div class="navbar-custom-menu">
+					<ul class="nav navbar-nav">
+						<!-- Tasks: style can be found in dropdown.less -->
+						<li class="dropdown tasks-menu"><i
+								class="fa flag"></i> <span class="label"> 
+								<h:selectOneMenu style="margin-top:15px !important;"
+										value="#{language.localeCode}" onchange="submit()"
+										valueChangeListener="#{language.countryLocaleCodeChanged}">
+										<f:selectItems value="#{language.countriesInMap}" />
+									</h:selectOneMenu>
+							</span>
+							</li>
+						<!-- User Account: style can be found in dropdown.less -->
+						<li class="dropdown user user-menu"><a href="#"
+							class="dropdown-toggle" data-toggle="dropdown"><span
+								class="hidden-xs"><i class="fa fa-user"></i> <h:outputText
+										style="font-size: 18px; color: whitesmoke;"
+										value="    #{gluufn:getPersonDisplayName(identity.user)}" /></span>
+						</a>
+							<ul class="dropdown-menu">
+								<!-- User image -->
+								<li class="user-header"
+									style="background: #222D32 !important; height: 140px;">
+									<p style="font-size: 18px; color: whitesmoke;">
+										<h:outputText value="User: " />
+										<b:label severity="success"
+											text="#{gluufn:getPersonDisplayName(identity.user)}" />
+									</p>
+									<p style="font-size: 18px; color: whitesmoke;">
+										<br />
+										<h:outputText value="#{msg['topmenu.organization']} " />
+										<b:label
+											text="#{organizationService.organization.displayName}"
+											severity="success" />
+										<br />
+									</p>
+								</li>
+								<li class="user-footer">
+									<div class="pull-left">
+										<b:commandLink includeViewParams="false"
+											href="#{request.contextPath}/profile/person/viewProfile.htm"
+											value="#{msg['topmenu.profile']}" iconAwesome="fa-user"
+											styleClass="btn bg-green btn-flat profileButton"
+											rendered="#{identity.loggedIn}" />
+									</div>
+									<div class="pull-right">
+										<b:commandLink includeViewParams="false" outcome="/logout.htm"
+											value="#{msg['topmenu.logout']}" iconAwesome="fa-sign-out"
+											styleClass="btn bg-green btn-flat logoutButton"
+											rendered="#{identity.loggedIn}" />
+									</div>
+								</li>
+							</ul></li>
+					</ul>
+				</div>
+			</nav>
+	</header>
+</h:form>
+	
+<script type="text/javascript">
+//<![CDATA[
+function switch_style(css_title)
+{
+  var i,link_tag;
+  for (i = 0,link_tag=document.getElementsByTagName('link');  i < link_tag.length ; i++) 
+  {
+  if ((link_tag[i].rel.indexOf('stylesheet') != -1) &&
+    link_tag[i].title) {
+    link_tag[i].disabled = true ;
+    if (link_tag[i].title == css_title) {
+      link_tag[i].disabled = false ;
+    }
+  }
+}
+}
+//]]>
+</script>
+
+</ui:composition>

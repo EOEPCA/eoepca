@@ -1,0 +1,22 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html" template="/WEB-INF/incl/layout/login-template.xhtml">
+    <ui:param name="showGlobalMessages" value="false" />
+    <ui:define name="body">
+        <img src="ext/resources/img/brand-logo.png" alt="Logo" class="brand-logo" />
+        <div class="wrapper">
+            <div class="error-title">
+                Error
+            </div>
+            <div class="error-message">
+                    <p>
+                      <h5 style="margin-bottom: 20px;">An unexpected error happened...</h5>
+                    </p>
+                    <div class="body">
+                        <h:messages id="globalMessage" styleClass="message" errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg" globalOnly="true" />
+                    </div>
+                </div>
+                <a href="/" style="color: white;text-decoration: underline;margin-top: 20px !important;">Go to application page</a>
+        </div>
+
+    </ui:define>
+</ui:composition>
