@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: data-access
-      version: 1.2.0
+      version: 1.2.0-rc1
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -378,10 +378,6 @@ spec:
 
       registrar:
         replicaCount: 1
-        image:
-          repository: eoepca/rm-data-access-core
-          tag: latest
-          pullPolicy: Always
         config:
           defaultBackends:
             - path: registrar_pycsw.backend.ItemBackend
