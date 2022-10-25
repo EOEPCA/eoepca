@@ -4,8 +4,8 @@ configMapGenerator:
   - name: workspace-charts
     namespace: rm
     files:
-      - template-hr-vs.yaml
-      - template-hr-rm-resource-catalogue.yaml
+      - template-hr-data-access.yaml
+      - template-hr-resource-catalogue.yaml
       - template-hr-resource-guard.yaml
 generatorOptions:
   disableNameSuffixHash: true
