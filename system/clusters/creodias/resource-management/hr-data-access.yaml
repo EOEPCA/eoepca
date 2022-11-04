@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: data-access
-      version: 1.2.0
+      version: 1.2.1
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -693,9 +693,6 @@ spec:
     vs:
       renderer:
         replicaCount: 4
-        image:
-          tag: 1.2-dev22
-
         resources:
           limits:
             cpu: 1.5
@@ -706,8 +703,6 @@ spec:
 
       registrar:
         replicaCount: 1
-        image:
-          tag: 1.2-dev22
         config:
           defaultBackends:
             - path: registrar_pycsw.backend.ItemBackend
