@@ -13,21 +13,24 @@ trap onExit EXIT
 SECRET_NAME="jupyterhub-secrets"
 NAMESPACE="pde-hub"
 
-JUPYTERHUB_CRYPT_KEY=$(openssl rand -hex 32)
 OAUTH_CLIENT_ID="${1:-set-client-id-here}"
 OAUTH_CLIENT_SECRET="${2:-set-client-secret-here}"
 
 clientConfigFile() {
   cat - <<EOF
-JUPYTERHUB_CRYPT_KEY: ${JUPYTERHUB_CRYPT_KEY}  
-OAUTH_CLIENT_ID: ${OAUTH_CLIENT_ID}
-OAUTH_CLIENT_SECRET: ${OAUTH_CLIENT_SECRET}
+hub:
+  config:
+    GenericOAuthenticator:
+      client_id: ${OAUTH_CLIENT_ID}
+      client_secret: ${OAUTH_CLIENT_SECRET}
+    JupyterHub:
+      authenticator_class: generic-oauth  
 EOF
 }
 
 secretYaml() {
   kubectl -n "${NAMESPACE}" create secret generic "${SECRET_NAME}" \
-    --from-literal="client.yaml=$(clientConfigFile)" \
+    --from-literal="values.yaml=$(clientConfigFile)" \
     --dry-run=client -o yaml
 }
 

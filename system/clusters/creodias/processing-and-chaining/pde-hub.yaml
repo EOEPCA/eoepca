@@ -1,0 +1,179 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: jupyterhub
+  namespace: pde-hub
+spec:
+  chart:
+    spec:
+      chart: jupyterhub
+      version: 2.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: jupyterhub
+        namespace: common
+  values:
+    hub:
+      db:
+        pvc:
+          storageClassName: managed-nfs-storage
+      networkPolicy:
+        enabled: false       
+      extraEnv:
+        JUPYTERHUB_ENV: "dev"
+        JUPYTERHUB_SINGLE_USER_IMAGE: "eoepca/pde-container:1.0.3"
+        STORAGE_CLASS: "managed-nfs-storage"
+        OAUTH2_USERNAME_KEY: "user_name"
+        OAUTH_CALLBACK_URL: "https://pde.demo.eoepca.org/hub/oauth_callback"
+        OAUTH2_USERDATA_URL: "https://auth.demo.eoepca.org/oxauth/restv1/userinfo"
+        OAUTH2_TOKEN_URL: "https://auth.demo.eoepca.org/oxauth/restv1/token"
+        OAUTH2_AUTHORIZE_URL: "https://auth.demo.eoepca.org/oxauth/restv1/authorize"
+        OAUTH_LOGOUT_REDIRECT_URL: "https://auth.demo.eoepca.org/oxauth/restv1/end_session?post_logout_redirect_uri=https://pde.demo.eoepca.org"
+      existingSecret: jupyterhub-secrets    
+      extraConfig:
+        00-first-config: |
+          from traitlets import Unicode
+          from tornado.httputil import url_concat
+          from tornado.httpclient import HTTPRequest    
+          from oauthenticator.generic import GenericOAuthenticator
+          class EoepcaOAuthenticator(GenericOAuthenticator):
+              login_service = Unicode("EOEPCA", config=True)
+              id_token = None
+              def _get_user_data(self, token_response):
+                  access_token = token_response['access_token']
+                  token_type = token_response['token_type'].capitalize()
+
+                  # Determine who the logged in user is
+                  headers = {
+                      "Accept": "application/json",
+                      "User-Agent": "JupyterHub",
+                      "Authorization": "{} {}".format(token_type, access_token)
+                  }
+                  if self.userdata_url:
+                      url = url_concat(self.userdata_url, self.userdata_params)
+                  else:
+                      raise ValueError("Please set the OAUTH2_USERDATA_URL environment variable")
+
+                  if self.userdata_token_method == "url":
+                      url = url_concat(self.userdata_url, dict(access_token=access_token))
+
+                  req = HTTPRequest(url, headers=headers)
+                  return self.fetch(req, "fetching user data")
+
+              @staticmethod
+              def _create_auth_state(token_response, user_data_response):
+                  access_token = token_response['access_token']
+                  refresh_token = token_response.get('refresh_token', None)
+                  scope = token_response.get('scope', '')
+                  id_token = token_response['id_token']
+                  if isinstance(scope, str):
+                      scope = scope.split(' ')
+
+                  return {
+                      'access_token': access_token,
+                      'refresh_token': refresh_token,
+                      'oauth_user': user_data_response,
+                      'scope': scope,
+                      'id_token': id_token
+                  }
+              
+              async def pre_spawn_start(self, user, spawner):
+                  """Pass upstream_token to spawner via environment variable"""
+                  auth_state = await user.get_auth_state()
+                  if not auth_state:
+                      # auth_state not enabled
+                      return
+                  spawner.environment['ID_TOKEN'] = auth_state['id_token']
+          jupyterhub_env = os.environ["JUPYTERHUB_ENV"].upper()
+          jupyterhub_hub_pod_namespace = os.environ["POD_NAMESPACE"].split(" ")[0]
+          jupyterhub_single_user_image = os.environ["JUPYTERHUB_SINGLE_USER_IMAGE"]
+          jupyterhub_auth_method = os.environ.get("JUPYTERHUB_AUTH_METHOD", "pam")
+          jupyterhub_oauth_callback_url = os.environ.get("JUPYTERHUB_OAUTH_CALLBACK_URL", "")
+          jupyterhub_hub_host = f"hub.{jupyterhub_hub_pod_namespace}"
+          c.JupyterHub.authenticator_class = EoepcaOAuthenticator
+
+          c.Authenticator.enable_auth_state = True
+          c.Authenticator.scope = 'openid email user_name is_operator'.split(' ')
+
+          c.JupyterHub.cookie_secret_file = "/srv/jupyterhub/cookie_secret"
+          # Proxy config
+          c.JupyterHub.cleanup_servers = False
+          # Network
+          c.JupyterHub.allow_named_servers = False
+          c.JupyterHub.ip = "0.0.0.0"
+          c.JupyterHub.hub_ip = "0.0.0.0"
+          c.JupyterHub.hub_connect_ip = jupyterhub_hub_host
+          # Misc
+          c.JupyterHub.cleanup_servers = False
+
+          # Logs
+          c.JupyterHub.log_level = "DEBUG"
+
+          # Spawner
+          c.JupyterHub.spawner_class = "kubespawner.KubeSpawner"
+          c.KubeSpawner.environment = {
+              "JUPYTER_ENABLE_LAB": "true",
+          }
+          c.KubeSpawner.default_url = '/lab'
+
+          c.KubeSpawner.uid = 1001
+          c.KubeSpawner.fs_gid = 100
+          c.KubeSpawner.hub_connect_ip = jupyterhub_hub_host
+
+          # SecurityContext
+          c.KubeSpawner.privileged = True
+
+          # ServiceAccount
+          c.KubeSpawner.service_account = "default"
+          c.KubeSpawner.start_timeout = 60 * 5
+          c.KubeSpawner.image = jupyterhub_single_user_image
+          c.KubernetesSpawner.verify_ssl = True
+          c.KubeSpawner.pod_name_template = (
+              "jupyter-{username}-" + os.environ["JUPYTERHUB_ENV"].lower()
+          )
+          # Namespace
+          c.KubeSpawner.namespace = jupyterhub_hub_pod_namespace
+          # Volumes
+          c.KubeSpawner.storage_capacity = "10Gi"
+          c.KubeSpawner.storage_class = os.environ['STORAGE_CLASS']
+          c.KubeSpawner.storage_pvc_ensure = True
+          c.KubeSpawner.pvc_name_template = (
+              "claim-{username}-" + os.environ["JUPYTERHUB_ENV"].lower()
+          )
+          c.KubeSpawner.volumes = [
+              {
+                  "name": "volume-workspace-{username}-" + os.environ["JUPYTERHUB_ENV"].lower(),
+                  "persistentVolumeClaim": {
+                      "claimName": "claim-{username}-" + os.environ["JUPYTERHUB_ENV"].lower()
+                  },
+                  
+              },
+          ]
+          c.KubeSpawner.volume_mounts = [
+              {
+                  "name": "volume-workspace-{username}-" + os.environ["JUPYTERHUB_ENV"].lower(),
+                  "mountPath": "/workspace",
+              }
+          ]
+    ingress:
+      enabled: true
+      annotations:
+        eoepca: demo-cluster
+        kubernetes.io/ingress.class: nginx
+        ingress.kubernetes.io/ssl-redirect: "false"
+        nginx.ingress.kubernetes.io/ssl-redirect: "false"
+        cert-manager.io/cluster-issuer: letsencrypt
+      hosts:
+        - pde.demo.eoepca.org
+      tls:
+        - hosts:
+            - pde.demo.eoepca.org
+          secretName: pde-tls
+    singleuser:
+      image:
+        name: eoepca/pde-container
+        tag: "latest"
+        pullPolicy: IfNotPresent
+      defaultUrl: "/lab"
+      allowPrivilegeEscalation: true
+  interval: 1m0s
