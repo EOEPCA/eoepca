@@ -1,7 +1,7 @@
-= ESA's EO Common Architecture v1.1
+= ESA's EO Common Architecture v1.2
 :toc: macro
 
-On 31st May 2022 we released v1.1 of our EO Exploitation Platform Common Architecture (EOEPCA). Here we provide some additional context and a technical overview.
+On 15th November 2022 we released v1.2 of our EO Exploitation Platform Common Architecture (EOEPCA). Here we provide some additional context and a technical overview.
 
 toc::[]
 
@@ -34,7 +34,7 @@ image::eoepca-approach.png[width=100%,pdfwidth=100%,align="center"]
 
 Heavily informed by the outcomes of OGC Innovation Program activities, and taking account of existing platform approaches and industry best practise - we have derived an architecture to meet the use cases that is defined by components as building blocks with well defined service interfaces based upon open standards.
 
-During the 18 months we have been developing a Reference Implementation to help refine the architecture and to provide re-usable building blocks. Our developments are all open source and available publicly on GitHub. We have just released v1.1 of the reference implementation - that provides a minimum viable set of integrated building blocks.
+We have been developing a Reference Implementation to help refine the architecture and to provide re-usable building blocks. Our developments are all open source and available publicly on GitHub. We have just released v1.2 of the reference implementation providing a set of integrated building blocks.
 
 We are also working with Operators whose role is to integrate the emerging reference implementation into their respective operational platforms, and so provide feedback from a platform provider and end-user perspective.
 
@@ -56,11 +56,11 @@ image::eoepca-use-cases.png[width=100%,pdfwidth=100%,align="center"]
 
 *_Platform Providers_* want to facilitate usage of their data and resources, by establishing interoperability with other platforms in the Network of Resources, and offering users a seamless cross-platform experience.
 
-== Release v1.1
+== Release v1.2
 
-Release 1.1 targets system deployment to a Kubernetes cluster using a DevOps continuous integration/delivery approach. Each building block is released as a Docker container with supporting helm chart for Kubernetes deployment. Kubernetes provides an infrastructure-agnostic target for the deployment of our reference system components.
+Release 1.2 targets system deployment to a Kubernetes cluster using a DevOps continuous integration/delivery approach. Each building block is released as a Docker container with supporting helm chart for Kubernetes deployment. Kubernetes provides an infrastructure-agnostic target for the deployment of our reference system components.
 
-The release 1.1 system allows the execution of an end-to-end scenario in which a user can:
+The release 1.2 system allows the execution of an end-to-end scenario in which a user can:
 
 * Develop a containerised application using the Processor Development Environment
 * Register and login to the platform
@@ -70,7 +70,7 @@ The release 1.1 system allows the execution of an end-to-end scenario in which a
 * Initiate processing execution with outputs staged-out to S3 object store
 * Output data is registered in their secure Workspace - available through its catalogue & data access services
 
-.*v1.1 Reference Implementation*
+.*v1.2 Reference Implementation*
 image::reference-impl.png[width=100%,pdfwidth=100%,align="center"]
 
 At the heart of the system is the ADES which provides WPS and API Processes interfaces - including the Transaction extension for user deploy and execute of custom processes. The Application Package describes the containerised processing application, and can be pushed to a Resource Catalogue for discovery, and from where it can be deployed to an ADES instance.
@@ -87,12 +87,12 @@ For platforms to successfully interoperate they must federate user access in ord
 
 At the heart of the exploitation platform is the ability of the expert user to deploy and execute their own algorithms within the platform, close to the data. Expert users encapsulate their application as a container image, and we have embraced the Common Workflow Language to describe its inputs, outputs and invocation profile.
 
-The ADES is built-upon the Zoo-project WPS server which provides WPS 1.0, 2.0 and API Processes interfaces, including support for custom application deployment through the Transaction extension. The ADES uses the Calrissian workflow engine which provides a Kubernetes native CWL runner, in which each job is executed in its own Kubernetes namespace.
+The ADES is built-upon the Zoo-project WPS server which provides OGC WPS 1.0, 2.0 and OGC API Processes 1.0 standard interfaces, including support for custom application deployment through Part 2 (Deploy, Replace, Undeploy) extension. The ADES uses the Calrissian workflow engine which provides a Kubernetes native CWL runner, in which each job is executed in its own Kubernetes namespace.
 
 .*Application Deployment and Execution Service (ADES)*
 image::ades-approach.png[width=70%,pdfwidth=70%,align="center"]
 
-The highlighted interfaces are those for DEPLOY and EXECUTE. For EXECUTE we follow the JSON bindings described by the API Processes specification. For the DEPLOY operation, for which there is no specific body format defined, we re-use that of the EXECUTE request. The DEPLOY operation is treated as an execute request of a `DeployProcess` operation, with the application package being provided as an input to this execute request. A similar approach is taken for the UNDEPLOY operation.
+The highlighted interfaces are those for DEPLOY and EXECUTE - in accordance with the draft OGC API Processes Part 2, and the OGC Best Practise for Application Packages.
 
 The Application Package is specified as a standard CWL Workflow. The DEPLOY operation expects to receive the application package either as an atom feed entry containing an OGC OWS Content Offering, or as a direct reference to the CWL.
 
@@ -125,7 +125,7 @@ For the Resource Catalogue we are using `pycsw` for data, and also for processin
 
 * OGC CSW 3.0.0 and 2.0.2 interfaces
 * OGC API Records
-* STAC
+* SpatioTemporal Asset Catalog (STAC) 1.0.0-rc1
 * OGC OpenSearch Geo/Time/EO Extensions
 * Metadata: ISO-19115-1/2
 * Federated catalogue distributed searching
