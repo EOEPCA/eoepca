@@ -99,12 +99,13 @@ To ease development/testing, the EOEPCA deployment is configured to use host/ser
 
 Thus, we use host/service names of the form `<service-name>.<public-ip>.nip.io`, where the `<public-ip>` is the public-facing IP-address of the deployment. For cloud deployment the public IP is that of the cloud load-balancer, or for minikube it is the `minikube ip` - for example `workspace.192.168.49.2.nip.io`.
 
-NOTE that we also maintain a deployment under the domain `demo.eoepca.org` - upon which this release has been prepared.
+> NOTE that we also maintain deployments for development and test, under the domains `develop.eoepca.org` and `demo.eoepca.org`. 
 
 Our public endpoint address is baked into our deployment configuration - in particular the Kubernetes Ingress resources. To re-use our deployment configuration these Ingress values must be updated to suit your deployment environment.
 
 ## System Documentation
 
+* [Deployment Guide](https://deployment-guide.docs.eoepca.org/v1.2/)
 * [Use Case Analysis Document](https://eoepca.github.io/use-case-analysis/)
 * [Master System Design Document](https://eoepca.github.io/master-system-design/)
 * [Master System ICD Document](https://eoepca.github.io/master-system-icd/)
@@ -144,14 +145,17 @@ User Workspace | https://github.com/EOEPCA/rm-workspace-api/ | https://eoepca.gi
 
 EOEPCA system releases are made to provide integrated deployments of the developed building blocks. The release history is as follows:
 
-* 31/05/2022 - [Release 1.1](https://github.com/EOEPCA/eoepca/blob/v1.1/release-notes/release-1.1.md)
-* 24/12/2021 - [Release 1.0](https://github.com/EOEPCA/eoepca/blob/v1.0/release-notes/release-1.0.md)
-* 23/07/2021 - [Release 0.9](https://github.com/EOEPCA/eoepca/blob/v0.9/release-notes/release-0.9.md)
-* 10/03/2021 - [Release 0.3](https://github.com/EOEPCA/eoepca/blob/v0.3/release-notes/release-0.3.md)
-* 23/11/2020 - [Release 0.2](release-notes/release-0.2.md)
-* 13/08/2020 - [Release 0.1.2](release-notes/release-0.1.2.md)
-* 06/08/2020 - [Release 0.1.1](release-notes/release-0.1.1.md)
-* 22/06/2020 - [Release 0.1](release-notes/release-0.1.md)
+| Date | Release |
+| :---: | :---: |
+| 15/11/2022 | [Release 1.2](https://github.com/EOEPCA/eoepca/blob/v1.2/release-notes/release-1.2.md) |
+| 31/05/2022 | [Release 1.1](https://github.com/EOEPCA/eoepca/blob/v1.1/release-notes/release-1.1.md) |
+| 24/12/2021 | [Release 1.0](https://github.com/EOEPCA/eoepca/blob/v1.0/release-notes/release-1.0.md) |
+| 23/07/2021 | [Release 0.9](https://github.com/EOEPCA/eoepca/blob/v0.9/release-notes/release-0.9.md) |
+| 10/03/2021 | [Release 0.3](https://github.com/EOEPCA/eoepca/blob/v0.3/release-notes/release-0.3.md) |
+| 23/11/2020 | [Release 0.2](release-notes/release-0.2.md) |
+| 13/08/2020 | [Release 0.1.2](release-notes/release-0.1.2.md) |
+| 06/08/2020 | [Release 0.1.1](release-notes/release-0.1.1.md) |
+| 22/06/2020 | [Release 0.1](release-notes/release-0.1.md) |
 
 <!-- ISSUES -->
 ## Issues

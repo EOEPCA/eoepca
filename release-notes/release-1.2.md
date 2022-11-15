@@ -1,15 +1,18 @@
 # EOEPCA System - Release 1.2
 
-Release 1.2 includes versions of the following building blocks:
-* Login Service
-* User Profile
-* Policy Enforcement Point (PEP)
-* Policy Decision Point (PDP)
-* Application Deployment & Execution Service (ADES)
-* Processor Development Environment (PDE)
-* Resource Catalogue
-* Data Access Services
-* Workspace
+Release 1.2 includes versions of the following building blocks...
+
+| Component | Chart | Application |
+| --- | :---: | :---: |
+| Login Service | `1.2.0` | `v1.1.2` |
+| User Profile | `1.1.6` | `v1.1` |
+| Resource Guard<br>-> PEP (Policy Enforcement Point)<br>-> UMA User Agent | `1.2.0`<br>`1.1.5`<br>`1.2.0` | `u1.2.0:p1.1.5`<br>`v1.1`<br>`v1.2.0` |
+| PDP (Policy Decision Point) | `1.1.6` | `v1.1` |
+| ADES (Application Deployment & Execution Service) | `2.0.1` | `2.0.4` |
+| PDE (Processor Development Environment) | `1.1.12` | `2.0.2` |
+| Resource Catalogue | `1.2.0` | `3.0.0` |
+| Data Access | `1.2.1` | `2.2.8` |
+| Workspace | `1.2.0` | `1.2.0` |
 
 See the [Release v1.2 Description](https://github.com/EOEPCA/eoepca/blob/v1.2/release-notes/release-description/release-description.adoc "Release v1.2 Description") for more details.
 
@@ -17,31 +20,33 @@ See the [Release v1.2 Description](https://github.com/EOEPCA/eoepca/blob/v1.2/re
 
 The release includes bugfixes to the v1.1 building blocks, plus the following main enhancements...
 
-* ADES: ades v2 aligned to OGC API Processes 1.0 standard
-* ADES: improved documentation for stage-in/out - see https://github.com/EOEPCA/proc-ades/wiki/Stagein%20Stageout%20Interfaces
-* ADES: improvements to execution error reporting
-* ADES: support for CWL parsing of multi-type inputs
-* ADES: fix for 'too long' workflow ID
-* Resource Catalogue: support for Application Packages (of type `application`), in accordance with the OGC Best Practise for APs
-* Resource Catalogue: registration of Collections as resources
-* Resource Catalogue: registration of ADES instances as resources (of type `service`)
-* Resource Catalogue: improvements to resultset ATOM representation
-* Data Access: improvements to the `renderer` for performance and resilience
-* Data Access: performance improvements to the View Server web client
-* Data Access: add `seeder` service for cache pre-population
-* Workspace API: use of templates to reduce sub-chart dependencies
-* Workspace API: remove `flux` pre-requisite
-* Workspace API: registration of Application Packages, Collections and ADES
-* Login Service: add Registration page
-* Login Service: support for integration of customised GUI look-and-feel
-* Login Service: support for custom-specified Kubernetes namespace
-* PDP: support for custom-specified Kubernetes namespace
-* PDP: support for TLS endpoint protection
-* User Profile: support for custom-specified Kubernetes namespace
-* User Profile: support for TLS endpoint protection
-* Data: demonstration of support for Landsat-8 data harvested from CREODIAS
+| Component | Feature |
+| --- | --- |
+| ADES | ades v2 aligned to OGC API Processes 1.0 standard |
+| ADES | improved documentation for stage-in/out - see https://github.com/EOEPCA/proc-ades/wiki/Stagein%20Stageout%20Interfaces |
+| ADES | improvements to execution error reporting |
+| ADES | support for CWL parsing of multi-type inputs |
+| ADES | fix for 'too long' workflow ID |
+| Resource Catalogue | support for Application Packages (of type `application`), in accordance with the OGC Best Practise for APs |
+| Resource Catalogue | registration of Collections as resources |
+| Resource Catalogue | registration of ADES instances as resources (of type `service`) |
+| Resource Catalogue | improvements to resultset ATOM representation |
+| Data Access | improvements to the `renderer` for performance and resilience |
+| Data Access | performance improvements to the View Server web client |
+| Data Access | add `seeder` service for cache pre-population |
+| "Data Holding" | support for Landsat-8 data harvested from CREODIAS |
+| Workspace API | use of templates to reduce sub-chart dependencies |
+| Workspace API | remove `flux` pre-requisite |
+| Workspace API | registration of Application Packages, Collections and ADES |
+| Login Service | add Registration page |
+| Login Service | support for integration of customised GUI look-and-feel |
+| Login Service | support for custom-specified Kubernetes namespace |
+| PDP | support for custom-specified Kubernetes namespace |
+| PDP | support for TLS endpoint protection |
+| User Profile | support for custom-specified Kubernetes namespace |
+| User Profile | support for TLS endpoint protection |
 
-> NOTE that this release include major release 2.0 of the ADES. Significantly ADES 2.0 has an updated REST interface that now conforms to the OGC API Processes 1.0 standard - whereas the ADES 1.0 implemented a draft of this standard from OGC Testbed-14. See the ADES wiki pages for [**deploy**](https://github.com/EOEPCA/proc-ades/wiki/Deploy%20an%20application) and [**execute**](https://github.com/EOEPCA/proc-ades/wiki/Submit%20a%20processing%20job) to understand the differences.
+> NOTE that this release includes major release 2.0 of the ADES. Significantly, ADES 2.0 has an updated REST interface that now conforms to the OGC API Processes 1.0 standard - whereas the ADES 1.0 implemented a draft of this standard from OGC Testbed-14. See the ADES wiki pages for [**deploy**](https://github.com/EOEPCA/proc-ades/wiki/Deploy%20an%20application) and [**execute**](https://github.com/EOEPCA/proc-ades/wiki/Submit%20a%20processing%20job) to understand the differences.
 
 ## Known Issues
 
