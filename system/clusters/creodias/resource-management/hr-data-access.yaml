@@ -740,7 +740,7 @@ spec:
 
       harvester:
         image:
-          tag: latest
+          tag: 1.2.1-dev1
         config:
           redis:
             host: data-access-redis-master
