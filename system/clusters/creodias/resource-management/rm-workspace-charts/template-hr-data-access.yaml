@@ -76,6 +76,9 @@ spec:
 
       registrar:
         replicaCount: 1
+        image:
+          tag: "latest"
+          pullPolicy: Always
         config:
           disableDefaultRoute: true
           routes:
@@ -125,6 +128,9 @@ spec:
                     public_s3_url: "https://cf2.cloudferro.com:8080/{{ projectid }}:{{ bucket }}"
 
       harvester:
+        image:
+          tag: 1.3-dev1
+          pullPolicy: Always
         config:
           redis:
             host: vs-redis-master
