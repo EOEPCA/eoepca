@@ -129,7 +129,7 @@ spec:
 
       harvester:
         image:
-          tag: 1.3-dev1
+          tag: "latest"
           pullPolicy: Always
         config:
           redis:
