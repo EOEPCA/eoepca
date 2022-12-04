@@ -693,6 +693,9 @@ spec:
     vs:
       renderer:
         replicaCount: 4
+        image:
+          tag: 1.2.3
+          pullPolicy: Always
         resources:
           limits:
             cpu: 1.5
@@ -703,6 +706,9 @@ spec:
 
       registrar:
         replicaCount: 1
+        image:
+          tag: 1.2.3
+          pullPolicy: Always
         config:
           defaultBackends:
             - path: registrar_pycsw.backend.ItemBackend
