@@ -6,46 +6,12 @@ metadata:
 spec:
   chart:
     spec:
-      chart: login-service
-      version: 1.2.0
+      chart: dummy
+      version: 1.0.1
       sourceRef:
         kind: HelmRepository
         name: eoepca
         namespace: common
-  values:
-    volumeClaim:
-      name: eoepca-userman-pvc
-      create: false
-    config:
-      domain: auth.develop.eoepca.org
-      volumeClaim:
-        name: eoepca-userman-pvc
-    opendj:
-      # This can be useful to workaround helm 'failed to upgrade' errors due to
-      # immutable fields in the 'um-login-service-persistence-init-ss' job
-      # persistence:
-      #   enabled: false
-      volumeClaim:
-        name: eoepca-userman-pvc
-    oxauth:
-      volumeClaim:
-        name: eoepca-userman-pvc
-    oxtrust:
-      volumeClaim:
-        name: eoepca-userman-pvc
-    global:
-      domain: auth.develop.eoepca.org
-      nginxIp: 185.52.192.231
-      namespace: um
-    nginx:
-      ingress:
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt
-        hosts:
-          - auth.develop.eoepca.org
-        tls:
-          - hosts:
-              - auth.develop.eoepca.org
-            secretName: login-service-tls
+  values: {}
   timeout: 25m0s
   interval: 1m0s
