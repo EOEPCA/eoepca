@@ -35,12 +35,12 @@ spec:
         description: "Protected Access for eric to his user workspace"
         resource_uri: "/workspaces/develop-user-eric"
         scopes: []
-        default_owner: "de287a74-a581-45b2-b66b-b14ddaf44173"
+        default_owner: "62746a9d-76f4-459c-80e3-ff7617929b31"
       - name: "Bob's workspace"
         description: "Protected Access for bob to his user workspace"
         resource_uri: "/workspaces/develop-user-bob"
         scopes: []
-        default_owner: "b3e6315e-df2f-4e84-81e8-3d9173675076"
+        default_owner: "d67793d6-95e4-449b-a522-dfd5703d34a6"
       nginxIntegration:
         enabled: false
         # hostname: workspace-api-auth
