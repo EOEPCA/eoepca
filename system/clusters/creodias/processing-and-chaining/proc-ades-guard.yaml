@@ -34,17 +34,17 @@ spec:
         description: "Protected Access for eric to his space in the ADES"
         resource_uri: "/eric"
         scopes: []
-        default_owner: "de287a74-a581-45b2-b66b-b14ddaf44173"
+        default_owner: "62746a9d-76f4-459c-80e3-ff7617929b31"
       - name: "ADES Service for user 'bob'"
         description: "Protected Access for bob to his space in the ADES"
         resource_uri: "/bob"
         scopes: []
-        default_owner: "b3e6315e-df2f-4e84-81e8-3d9173675076"
+        default_owner: "d67793d6-95e4-449b-a522-dfd5703d34a6"
       - name: "ADES Service for user 'alice'"
         description: "Protected Access for alice to her space in the ADES"
         resource_uri: "/alice"
         scopes: []
-        default_owner: "66e71ae0-2a24-4d19-bcdd-e4dc50de9a04"
+        default_owner: "b45881ec-20d9-4ace-af5b-dfa147e62c4c"
       nginxIntegration:
         enabled: false
         # hostname: proc-ades-auth
