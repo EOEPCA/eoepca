@@ -705,7 +705,7 @@ spec:
         replicaCount: 1
         image:
           repository: eoepca/rm-data-access-core
-          tag: 1.2.4
+          tag: 1.2.5
         config:
           defaultBackends:
             - path: registrar_pycsw.backend.ItemBackend
