@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: ades
-      version: 2.0.3
+      version: 2.0.4
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -91,6 +91,7 @@ spec:
         STAGEIN_AWS_SERVICEURL: http://data.cloudferro.com
         STAGEIN_AWS_ACCESS_KEY_ID: test
         STAGEIN_AWS_SECRET_ACCESS_KEY: test
+        STAGEIN_AWS_REGION: RegionOne
 
       #  STAGEOUT_AWS_SERVICEURL: https://cf2.cloudferro.com:8080
       #  STAGEOUT_AWS_ACCESS_KEY_ID: 4ceda7292edc4cc997d133079b469900
