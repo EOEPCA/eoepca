@@ -1,7 +1,7 @@
 = ESA's EO Common Architecture v1.2
 :toc: macro
 
-On 15th November 2022 we released v1.2 of our EO Exploitation Platform Common Architecture (EOEPCA). Here we provide some additional context and a technical overview.
+On 20th December 2022 we released v1.2 of our EO Exploitation Platform Common Architecture (EOEPCA). Here we provide some additional context and a technical overview.
 
 toc::[]
 

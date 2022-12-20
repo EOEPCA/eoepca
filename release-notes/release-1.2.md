@@ -4,14 +4,14 @@ Release 1.2 includes versions of the following building blocks...
 
 | Component | Chart | Application |
 | --- | :---: | :---: |
-| Login Service | `1.2.0` | `v1.1.2` |
+| Login Service | `1.2.1` | `v1.1.2` |
 | User Profile | `1.1.6` | `v1.1` |
 | Resource Guard<br>-> PEP (Policy Enforcement Point)<br>-> UMA User Agent | `1.2.0`<br>`1.1.5`<br>`1.2.0` | `u1.2.0:p1.1.5`<br>`v1.1`<br>`v1.2.0` |
 | PDP (Policy Decision Point) | `1.1.6` | `v1.1` |
-| ADES (Application Deployment & Execution Service) | `2.0.1` | `2.0.4` |
+| ADES (Application Deployment & Execution Service) | `2.0.4` | `2.0.8` |
 | PDE (Processor Development Environment) | `1.1.12` | `2.0.2` |
 | Resource Catalogue | `1.2.0` | `3.0.0` |
-| Data Access | `1.2.1` | `2.2.8` |
+| Data Access | `1.2.5` | `2.2.8` |
 | Workspace | `1.2.0` | `1.2.0` |
 
 See the [Release v1.2 Description](https://github.com/EOEPCA/eoepca/blob/v1.2/release-notes/release-description/release-description.adoc "Release v1.2 Description") for more details.
@@ -27,6 +27,9 @@ The release includes bugfixes to the v1.1 building blocks, plus the following ma
 | ADES | improvements to execution error reporting |
 | ADES | support for CWL parsing of multi-type inputs |
 | ADES | fix for 'too long' workflow ID |
+| ADES | fix for undeploy |
+| ADES | fix stage-in from S3 |
+| ADES | fix stage-out to workspace |
 | Resource Catalogue | support for Application Packages (of type `application`), in accordance with the OGC Best Practise for APs |
 | Resource Catalogue | registration of Collections as resources |
 | Resource Catalogue | registration of ADES instances as resources (of type `service`) |
@@ -34,6 +37,8 @@ The release includes bugfixes to the v1.1 building blocks, plus the following ma
 | Data Access | improvements to the `renderer` for performance and resilience |
 | Data Access | performance improvements to the View Server web client |
 | Data Access | add `seeder` service for cache pre-population |
+| Data Access | fix registration of processing results to user workspace |
+| Data Access | fix WCS rendering |
 | "Data Holding" | support for Landsat-8 data harvested from CREODIAS |
 | Workspace API | use of templates to reduce sub-chart dependencies |
 | Workspace API | remove `flux` pre-requisite |
@@ -162,8 +167,8 @@ Alternatvely, for deployment advice, see the [Deployment Guide](https://deployme
 ### Login Service
 
 * Version: v1.1.2
-* Chart version: 1.2.0
-* Helm chart: https://github.com/EOEPCA/helm-charts/tree/login-service-1.2.0/charts/login-service
+* Chart version: 1.2.1
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/login-service-1.2.1/charts/login-service
 * Example: https://github.com/EOEPCA/eoepca/blob/v1.2/system/clusters/creodias/user-management/um-login-service.yaml
 
 #### Resources
@@ -318,9 +323,9 @@ Resources to support deployment and configuration...
 
 ### ADES
 
-* Version: 2.0.4
-* Chart version: 2.0.1
-* Helm chart: https://github.com/EOEPCA/helm-charts/tree/ades-2.0.1/charts/ades
+* Version: 2.0.8
+* Chart version: 2.0.4
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/ades-2.0.4/charts/ades
 * Example: https://github.com/EOEPCA/eoepca/blob/v1.2/system/clusters/creodias/processing-and-chaining/proc-ades.yaml
 
 #### Resources
@@ -334,13 +339,13 @@ Resources to support deployment and configuration...
 
 #### Containers
 
-* **proc-ades (version 2.0.4)**
-  * Image: eoepca/proc-ades:2.0.4
+* **proc-ades (version 2.0.8)**
+  * Image: eoepca/proc-ades:2.0.8
   * GitHub: https://github.com/EOEPCA/proc-ades
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/proc-ades
 
 Additional container images:
-* Stage-in: terradue/stars:2.4.15
+* Stage-in: terradue/stars:2.9.2
 * Stage-out: terradue/stars:1.0.0-beta.11
 
 
@@ -375,8 +380,8 @@ Sample application packages for deployment and execution on the ADES:
 ### Resource Catalogue
 
 * Version: 3.0.0
-* Chart version: 1.1.0
-* Helm chart: https://github.com/EOEPCA/helm-charts/tree/rm-resource-catalogue-1.1.0/charts/rm-resource-catalogue
+* Chart version: 1.2.0
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/rm-resource-catalogue-1.2.0/charts/rm-resource-catalogue
 * Example: https://github.com/EOEPCA/eoepca/blob/v1.2/system/clusters/creodias/resource-management/hr-resource-catalogue.yaml
 
 #### Resources
@@ -402,8 +407,8 @@ Additional container images:
 ### Data Access Services
 
 * Version: 2.2.8
-* Chart version: 1.2.1
-* Helm chart: https://github.com/EOEPCA/helm-charts/tree/data-access-1.2.1/charts/data-access
+* Chart version: 1.2.5
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/data-access-1.2.5/charts/data-access
 * Example: https://github.com/EOEPCA/eoepca/blob/v1.2/system/clusters/creodias/resource-management/hr-data-access.yaml
 
 #### Resources
@@ -419,8 +424,8 @@ Resources to support deployment and configuration...
 
 #### Containers
 
-* **rm-data-access-core (version 1.2.1)**
-  * Image: eoepca/rm-data-access-core:1.2.1
+* **rm-data-access-core (version 1.2.5)**
+  * Image: eoepca/rm-data-access-core:1.2.5
   * GitHub: https://github.com/EOEPCA/rm-data-access
   * DockerHub: https://hub.docker.com/repository/docker/eoepca/rm-data-access-core
 
@@ -465,8 +470,8 @@ Resources to support deployment and configuration...
 ### Bucket Operator
 
 * Version: 1.1.0
-* Chart version: 0.9.12
-* Helm chart: https://github.com/EOEPCA/helm-charts/tree/rm-bucket-operator-0.9.12/charts/rm-bucket-operator/
+* Chart version: 0.9.9
+* Helm chart: https://github.com/EOEPCA/helm-charts/tree/rm-bucket-operator-0.9.9/charts/rm-bucket-operator/
 * Example: https://github.com/EOEPCA/eoepca/blob/v1.2/system/clusters/creodias/resource-management/bucket-operator/hr-bucket-operator.yaml
 
 #### Resources
