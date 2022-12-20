@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: data-access
-      version: 1.2.3
+      version: 1.2.5
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -17,7 +17,6 @@ spec:
       env:
         REGISTRAR_REPLACE: "true"
         CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .TIF,.tif,.xml,.jp2,.jpg,.jpeg
-        AWS_HTTPS: "TRUE"
         startup_scripts: []
 
       # the tls host is still needed to provide the hostname for the view server client
