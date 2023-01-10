@@ -759,10 +759,11 @@ spec:
             S1IWGRD1C_VH:
               assets:
                 - vh
-          defaultBrowse: QUICKLOOK
+          # defaultBrowse: QUICKLOOK
+          defaultBrowse: COMPOSITE
           browses:
-            QUICKLOOK:
-              asset: thumbnail
+            # QUICKLOOK:
+            #   asset: thumbnail
             COMPOSITE:
               red:
                 expression: VV
