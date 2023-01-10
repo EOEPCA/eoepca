@@ -263,6 +263,11 @@ spec:
             - L8L1GT_B05
             - L8L1GT_B06
             - L8L1GT_B07
+        S1IWGRD1C:
+          product_types:
+            - S1IWGRD1C_VVVH
+          product_levels: []
+          coverage_types: []
       coverageTypes:
         # Landsat-8 L1TP
         - name: "L8L1TP_B01"
@@ -434,6 +439,54 @@ spec:
                   value: 0
               uom: "W/m2/um"
               wavelength: 2.2
+        - name: S1IWGRD1C_VV
+          data_type: "Uint16"
+          bands:
+            - identifier: "VV"
+              name: "VV"
+              definition: "http://www.opengis.net/def/property/OGC/0/Radiance"
+              description: "VV"
+              nil_values:
+                - reason: "http://www.opengis.net/def/nil/OGC/0/unknown"
+                  value: 0
+              # uom: "W/m2/um"
+              wavelength: 5.5465763
+        - name: S1IWGRD1C_VH
+          data_type: "Uint16"
+          bands:
+            - identifier: "VH"
+              name: "VH"
+              definition: "http://www.opengis.net/def/property/OGC/0/Radiance"
+              description: "VH"
+              nil_values:
+                - reason: "http://www.opengis.net/def/nil/OGC/0/unknown"
+                  value: 0
+              # uom: "W/m2/um"
+              wavelength: 5.5465763
+        - name: S1IWGRD1C_HH
+          data_type: "Uint16"
+          bands:
+            - identifier: "HH"
+              name: "HH"
+              definition: "http://www.opengis.net/def/property/OGC/0/Radiance"
+              description: "HH"
+              nil_values:
+                - reason: "http://www.opengis.net/def/nil/OGC/0/unknown"
+                  value: 0
+              # uom: "W/m2/um"
+              wavelength: 5.5465763
+        - name: S1IWGRD1C_HV
+          data_type: "Uint16"
+          bands:
+            - identifier: "HV"
+              name: "HV"
+              definition: "http://www.opengis.net/def/property/OGC/0/Radiance"
+              description: "HV"
+              nil_values:
+                - reason: "http://www.opengis.net/def/nil/OGC/0/unknown"
+                  value: 0
+              # uom: "W/m2/um"
+              wavelength: 5.5465763
       productTypes:
         - name: S2MSI1C
           filter:
@@ -690,6 +743,41 @@ spec:
           masks:
             clouds:
               validity: false
+        - name: S1IWGRD1C_VVVH
+          filter:
+            constellation: Sentinel-1
+            sar:instrument_mode: IW
+            sar:product_type: GRD
+            sar:polarizations: ["VV", "VH"]
+          collections:
+            - S1IWGRD1C
+          metadata_assets: []
+          coverages:
+            S1IWGRD1C_VV:
+              assets:
+                - vv
+            S1IWGRD1C_VH:
+              assets:
+                - vh
+          defaultBrowse: QUICKLOOK
+          browses:
+            QUICKLOOK:
+              asset: thumbnail
+            COMPOSITE:
+              red:
+                expression: VV
+                range: [8, 1200]
+                nodata: 0
+              green:
+                expression: VH
+                range: [5000, 12000]
+                nodata: 0
+              blue:
+                expression: VV/VH
+                range: [5000, 12000]
+                nodata: 0
+
+
     vs:
       renderer:
         replicaCount: 4
