@@ -266,7 +266,6 @@ spec:
         S1IWGRD1C:
           product_types:
             - S1IWGRD1C_VVVH
-          product_levels: []
           coverage_types: []
       coverageTypes:
         # Landsat-8 L1TP
@@ -782,6 +781,9 @@ spec:
     vs:
       renderer:
         replicaCount: 4
+        image:
+          tag: "latest"
+          pullPolicy: Always
         resources:
           limits:
             cpu: 1.5
