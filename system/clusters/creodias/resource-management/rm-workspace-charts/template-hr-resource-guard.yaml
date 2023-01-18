@@ -32,9 +32,12 @@ spec:
         pdpHostname: auth
       nginxIntegration:
         enabled: False
+      # volumeClaim:
+      #   name: "{{ workspace_name }}-pep-pvc"
+      #   create: "true"
       volumeClaim:
-        name: "{{ workspace_name }}-pep-pvc"
-        create: "true"
+        name: eoepca-resman-pvc
+        create: false
       defaultResources:
         - name: "Workspace {{ workspace_name }} Root"
           description: "Root URL of a users workspace"
