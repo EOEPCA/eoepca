@@ -161,7 +161,7 @@ See the [open issues](https://github.com/EOEPCA/eoepca/issues) for a list of pro
 <!-- LICENSE -->
 ## License
 
-The EOEPCA SYSTEM is distributed under the European Space Agency - ESA Software Community Licence Permissive – v2.4. See `LICENSE` for more information.
+The EOEPCA SYSTEM is distributed under the Apache-2.0 License. See `LICENSE` for more information.
 
 Building-blocks and their sub-components are individually licensed. See their respective source repositories for details.
 
