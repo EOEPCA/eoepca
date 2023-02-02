@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: workspace-deploy-test
+data:
+  my-test-config: "Welcome to {{ workspace_name }}, your bucket is {{ bucket }}"

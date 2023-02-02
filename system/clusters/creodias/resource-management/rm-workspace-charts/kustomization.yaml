@@ -7,5 +7,6 @@ configMapGenerator:
       - template-hr-data-access.yaml
       - template-hr-resource-catalogue.yaml
       - template-hr-resource-guard.yaml
+      - template-cm.yaml
 generatorOptions:
   disableNameSuffixHash: true
