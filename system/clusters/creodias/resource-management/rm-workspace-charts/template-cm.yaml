@@ -4,3 +4,24 @@ metadata:
   name: workspace-deploy-test
 data:
   my-test-config: "Welcome to {{ workspace_name }}, your bucket is {{ bucket }}"
+  aws-credentials: |
+    [default]
+    aws_access_key_id = {{ access_key_id }}
+    aws_secret_access_key = {{ secret_access_key }}
+  aws-config: |
+    [default]
+    region = {{ s3_region }}
+    s3 =
+      endpoint_url = {{ s3_endpoint_url }}
+    s3api =
+      endpoint_url = {{ s3_endpoint_url }}
+
+    [plugins]
+    endpoint = awscli_plugin_endpoint
+  docker-config: |
+    {
+      "auths": {
+        "{{ container_registry_host }}": {
+          "auth": "{{ container_registry_credentials }}"
+        }
+    }
