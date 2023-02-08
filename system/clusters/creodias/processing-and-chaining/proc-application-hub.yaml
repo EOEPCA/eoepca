@@ -39,10 +39,9 @@ spec:
         enabled: true
         annotations: {}
         hosts:
-          - host: applicationhub-open.demo.eoepca.org
-            paths: 
+          - host: jupyterhub.demo.eoepca.org
+            paths:
               - path: /
-                pathType: ImplementationSpecific
         tls: []
   
   interval: 1m0s
