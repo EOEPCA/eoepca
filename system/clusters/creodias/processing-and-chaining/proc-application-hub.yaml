@@ -20,6 +20,18 @@ spec:
           tag: "2.0.0"
           pullPolicy:
           pullSecrets: []
+
+        db:
+          type: sqlite-pvc
+          upgrade:
+          pvc:
+            annotations: {}
+            selector: {}
+            accessModes:
+              - ReadWriteOnce
+            storage: 1Gi
+            subPath:
+            storageClassName: managed-nfs-storage
       
       singleuser:
         image:
