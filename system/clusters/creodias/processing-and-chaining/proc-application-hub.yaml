@@ -43,3 +43,5 @@ spec:
     #         - path: /
     #           pathType: ImplementationSpecific
     #   tls: []
+  
+  interval: 1m0s
