@@ -1,0 +1,45 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: proc-application-hub
+  namespace: proc
+spec:
+  chart:
+    spec:
+      chart: application-hub
+      version: 2.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: eoepca
+        namespace: common
+  values:
+    hub:
+      image:
+        name: jupyterhub/k8s-hub
+        tag: "2.0.0"
+        pullPolicy:
+        pullSecrets: []
+    
+    singleuser:
+      image:
+        name: jupyter/minimal-notebook
+        tag: "2343e33dec46"
+      profileList: 
+      - display_name:  "Minimal environment"
+        description: "To avoid too much bells and whistles: Python.",
+        default: "True"
+      - display_name:  "EOEPCA profile"
+        description: "Sample profile"
+        kubespawner_override:
+          cpu_limit": 4
+          mem_limit": "8G"
+
+    ingress:
+      enabled: true
+      annotations: {}
+      hosts:
+        - host: applicationhub-open.demo.eoepca.org
+          paths: 
+            - path: /
+              pathType: ImplementationSpecific
+      tls: []
