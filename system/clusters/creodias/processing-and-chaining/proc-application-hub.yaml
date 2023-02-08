@@ -35,14 +35,14 @@ spec:
             cpu_limit": 4
             mem_limit": "8G"
 
-    # ingress:
-    #   enabled: true
-    #   annotations: {}
-    #   hosts:
-    #     - host: applicationhub-open.demo.eoepca.org
-    #       paths: 
-    #         - path: /
-    #           pathType: ImplementationSpecific
-    #   tls: []
+      ingress:
+        enabled: true
+        annotations: {}
+        hosts:
+          - host: applicationhub-open.demo.eoepca.org
+            paths: 
+              - path: /
+                pathType: ImplementationSpecific
+        tls: []
   
   interval: 1m0s
