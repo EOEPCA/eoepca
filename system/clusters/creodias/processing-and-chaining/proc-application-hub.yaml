@@ -26,7 +26,7 @@ spec:
         tag: "2343e33dec46"
       profileList: 
       - display_name:  "Minimal environment"
-        description: "To avoid too much bells and whistles: Python.",
+        description: "To avoid too much bells and whistles: Python."
         default: "True"
       - display_name:  "EOEPCA profile"
         description: "Sample profile"
