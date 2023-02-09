@@ -16,13 +16,13 @@ spec:
     jupyterhub:
       hub:
 
-      args:
-        - "cat /usr/local/etc/applicationhub/jupyterhub_config.py &&"
-        - "jupyterhub"
-        - "--config"
-        - "/usr/local/etc/applicationhub/jupyterhub_config.py"
-        - "--debug"
-        - "--upgrade-db"
+        args:
+          - "cat /usr/local/etc/applicationhub/jupyterhub_config.py &&"
+          - "jupyterhub"
+          - "--config"
+          - "/usr/local/etc/applicationhub/jupyterhub_config.py"
+          - "--debug"
+          - "--upgrade-db"
 
 
         image:
