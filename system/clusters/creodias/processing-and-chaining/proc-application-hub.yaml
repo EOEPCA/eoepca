@@ -15,6 +15,16 @@ spec:
   values:
     jupyterhub:
       hub:
+
+      args:
+        - "cat /usr/local/etc/applicationhub/jupyterhub_config.py &&"
+        - "jupyterhub"
+        - "--config"
+        - "/usr/local/etc/applicationhub/jupyterhub_config.py"
+        - "--debug"
+        - "--upgrade-db"
+
+
         image:
           name: jupyterhub/k8s-hub
           tag: "2.0.0"
