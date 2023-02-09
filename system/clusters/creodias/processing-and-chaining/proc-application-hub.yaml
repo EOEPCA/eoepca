@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: application-hub
-      version: 2.0.16
+      version: 2.0.17
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -15,24 +15,6 @@ spec:
   values:
     jupyterhub:
       hub:
-
-        args:
-          - "jupyterhub"
-          - "--config"
-          - "/tmp/jupyterhub_config.py"
-          - "--debug"
-          - "--upgrade-db"
-
-        extraVolumes:
-          - name: applicationhub-jupyter-config
-            configMap:
-              name: applicationhub-jupyter-config
-              defaultMode: 0744
-        extraVolumeMounts:
-          - name: applicationhub-jupyter-config
-            mountPath: /tmp/jupyterhub_config.py
-            subPath: jupyterhub_config.py
-
         image:
           name: jupyterhub/k8s-hub
           tag: "2.0.0"
