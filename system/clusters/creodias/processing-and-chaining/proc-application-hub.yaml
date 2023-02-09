@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: application-hub
-      version: 2.0.12
+      version: 2.0.13
       sourceRef:
         kind: HelmRepository
         name: eoepca
