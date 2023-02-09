@@ -21,6 +21,15 @@ spec:
           pullPolicy:
           pullSecrets: []
 
+        service:
+          type: ClusterIP
+          annotations: {}
+          ports:
+            nodePort: 80
+          extraPorts: []
+          loadBalancerIP:
+
+
         db:
           type: sqlite-pvc
           upgrade:
