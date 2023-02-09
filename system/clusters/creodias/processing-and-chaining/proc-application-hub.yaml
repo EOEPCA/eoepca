@@ -17,10 +17,9 @@ spec:
       hub:
 
         args:
-          - "ls /usr/local/etc/applicationhub/ &&"
           - "jupyterhub"
           - "--config"
-          - "/usr/local/etc/applicationhub/jupyterhub_config.py"
+          - "/tmp/jupyterhub_config.py"
           - "--debug"
           - "--upgrade-db"
 
@@ -31,7 +30,7 @@ spec:
               defaultMode: 0744
         extraVolumeMounts:
           - name: applicationhub-jupyter-config
-            mountPath: /usr/local/etc/applicationhub/jupyterhub_config.py
+            mountPath: /tmp/jupyterhub_config.py
             subPath: jupyterhub_config.py
 
         image:
