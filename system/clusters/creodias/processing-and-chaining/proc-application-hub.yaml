@@ -15,6 +15,18 @@ spec:
   values:
     jupyterhub:
       hub:
+
+        extraEnv: 
+            JUPYTERHUB_ENV: "dev"
+            JUPYTERHUB_SINGLE_USER_IMAGE: "eoepca/pde-container:1.0.3"
+            OAUTH_CALLBACK_URL: "https://jupyterhub.develop.eoepca.org/hub/oauth_callback"
+            OAUTH2_USERDATA_URL: "https://auth.develop.eoepca.org/oxauth/restv1/userinfo"
+            OAUTH2_TOKEN_URL: "https://auth.develop.eoepca.org/oxauth/restv1/token"
+            OAUTH2_AUTHORIZE_URL: "https://auth.develop.eoepca.org/oxauth/restv1/authorize"
+            OAUTH_LOGOUT_REDIRECT_URL: "https://auth.develop.eoepca.org/oxauth/restv1/end_session?post_logout_redirect_uri=https://jupyterhub.develop.eoepca.org"
+            OAUTH2_USERNAME_KEY: "user_name"
+            STORAGE_CLASS: "managed-nfs-storage"
+
         image:
           name: jupyterhub/k8s-hub
           tag: "2.0.0"
