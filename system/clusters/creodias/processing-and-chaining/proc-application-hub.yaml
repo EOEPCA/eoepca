@@ -58,12 +58,14 @@ spec:
 
       ingress:
         enabled: true
-        annotations: {}
+        annotations: 
+          kubernetes.io/ingress.class: nginx
         hosts:
           - host: applicationhub.demo.eoepca.org
             paths: 
               - path: /
                 pathType: ImplementationSpecific
         tls: []
+
     
   interval: 1m0s
