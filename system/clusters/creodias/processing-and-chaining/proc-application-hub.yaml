@@ -17,13 +17,22 @@ spec:
       hub:
 
         args:
-          - "cat /usr/local/etc/applicationhub/jupyterhub_config.py &&"
+          - "ls /usr/local/etc/applicationhub/ &&"
           - "jupyterhub"
           - "--config"
           - "/usr/local/etc/applicationhub/jupyterhub_config.py"
           - "--debug"
           - "--upgrade-db"
 
+        extraVolumes:
+          - name: applicationhub-jupyter-config
+            configMap:
+              name: applicationhub-jupyter-config
+              defaultMode: 0744
+        extraVolumeMounts:
+          - name: applicationhub-jupyter-config
+            mountPath: /usr/local/etc/applicationhub/jupyterhub_config.py
+            subPath: jupyterhub_config.py
 
         image:
           name: jupyterhub/k8s-hub
