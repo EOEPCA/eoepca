@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: rm-bucket-operator-wrapper
-      version: 0.0.1
+      version: 0.0.2
       sourceRef:
         kind: HelmRepository
         name: eoepca
