@@ -17,7 +17,7 @@ spec:
     fullnameOverride: workspace-api
     image: # {}
       # repository: eoepca/rm-workspace-api
-      # pullPolicy: IfNotPresent
+      pullPolicy: Always
       # Overrides the image tag whose default is the chart appVersion.
       tag: "pr-17-merge"
 
