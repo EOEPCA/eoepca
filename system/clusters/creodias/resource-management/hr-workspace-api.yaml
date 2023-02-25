@@ -45,4 +45,4 @@ spec:
     workspaceChartsConfigMap: "workspace-charts"
     bucketEndpointUrl: "http://bucket-operator-wrapper:8080/bucket"
     pepBaseUrl: ""  # TODO: find out actual base URL
-    autoProtectionEnabled: "True"
+    autoProtectionEnabled: "False"
