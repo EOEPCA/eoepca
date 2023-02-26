@@ -44,5 +44,5 @@ spec:
     umaClientSecretNamespace: "rm"
     workspaceChartsConfigMap: "workspace-charts"
     bucketEndpointUrl: "http://bucket-operator-wrapper:8080/bucket"
-    pepBaseUrl: ""  # TODO: find out actual base URL
-    autoProtectionEnabled: "False"
+    pepBaseUrl: "http://workspace-api-pep:5576/resources"
+    autoProtectionEnabled: "True"
