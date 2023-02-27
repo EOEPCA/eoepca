@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+JUPYTERHUB_CRYPT_KEY="****"
+OAUTH_CLIENT_ID="*****"
+OAUTH_CLIENT_SECRET="*****"
+
 ORIG_DIR="$(pwd)"
 cd "$(dirname "$0")"
 BIN_DIR="$(pwd)"
