@@ -13,6 +13,19 @@ spec:
         name: eoepca
         namespace: common
   values:
+    ingress:
+      enabled: true
+      annotations: {}
+      hosts:
+        - host: applicationhub.develop.eoepca.org
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+      tls:
+        - secretName: applicationhub-tls
+          hosts:
+          - applicationhub.develop.eoepca.org
+          
     jupyterhub:
       hub:
 
