@@ -26,6 +26,8 @@ spec:
     # PEP values
     #---------------------------------------------------------------------------
     pep-engine:
+      image:
+        pullPolicy: Always
       configMap:
         asHostname: auth
         pdpHostname: auth
@@ -44,8 +46,6 @@ spec:
       nginxIntegration:
         enabled: false
         # hostname: workspace-api-auth
-      # image:
-      #   pullPolicy: Always
       volumeClaim:
         name: eoepca-resman-pvc
         create: false

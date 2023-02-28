@@ -27,6 +27,8 @@ spec:
     # PEP values
     #---------------------------------------------------------------------------
     pep-engine:
+      image:
+        pullPolicy: Always
       configMap:
         asHostname: auth
         pdpHostname: auth

@@ -26,6 +26,8 @@ spec:
     # PEP values
     #---------------------------------------------------------------------------
     pep-engine:
+      image:
+        pullPolicy: Always
       configMap:
         asHostname: auth
         pdpHostname: auth
@@ -43,8 +45,6 @@ spec:
       nginxIntegration:
         enabled: false
         # hostname: dummy-service-auth
-      # image:
-      #   pullPolicy: Always
       volumeClaim:
         name: dummy-service-pep-pvc
         create: false

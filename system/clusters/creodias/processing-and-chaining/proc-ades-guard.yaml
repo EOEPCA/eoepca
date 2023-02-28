@@ -26,6 +26,8 @@ spec:
     # PEP values
     #---------------------------------------------------------------------------
     pep-engine:
+      image:
+        pullPolicy: Always
       configMap:
         asHostname: auth
         pdpHostname: auth
@@ -48,8 +50,6 @@ spec:
       nginxIntegration:
         enabled: false
         # hostname: proc-ades-auth
-      # image:
-      #   pullPolicy: Always
       volumeClaim:
         name: eoepca-proc-pvc
         create: false

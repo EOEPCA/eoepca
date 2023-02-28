@@ -26,6 +26,8 @@ spec:
     # PEP values
     #---------------------------------------------------------------------------
     pep-engine:
+      image:
+        pullPolicy: Always
       configMap:
         asHostname: auth
         pdpHostname: auth
@@ -40,8 +42,6 @@ spec:
       nginxIntegration:
         enabled: false
         # hostname: kibana-auth
-      # image:
-      #   pullPolicy: Always
       volumeClaim:
         name: infra-pvc
         create: false
