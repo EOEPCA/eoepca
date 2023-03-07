@@ -19,7 +19,7 @@ spec:
       # repository: eoepca/rm-workspace-api
       pullPolicy: Always
       # Overrides the image tag whose default is the chart appVersion.
-      tag: "1.3-dev4"
+      tag: "1.3-dev5"
 
     ingress:
       enabled: true
