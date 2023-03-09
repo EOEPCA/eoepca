@@ -17,7 +17,7 @@ spec:
     existingSecret: rm-minio-root-credentials
 
     persistence:
-      enabled: false
+      storageClass: managed-nfs-storage-retain
 
     ingress:
       enabled: true
