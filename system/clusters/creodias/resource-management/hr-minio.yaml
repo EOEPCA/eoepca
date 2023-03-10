@@ -22,6 +22,8 @@ spec:
     ingress:
       enabled: true
       ingressClassName: nginx
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
       path: /
       hosts:
         - minio.develop.eoepca.org
@@ -33,6 +35,8 @@ spec:
     consoleIngress:
       enabled: true
       ingressClassName: nginx
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
       path: /
       hosts:
         - console.minio.develop.eoepca.org
