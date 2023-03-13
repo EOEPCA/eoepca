@@ -39,16 +39,22 @@ spec:
           scopes: []
           default_owner: "0000000000000"
       customDefaultResources:
-      - name: "Eric's workspace"
-        description: "Protected Access for eric to his user workspace"
-        resource_uri: "/workspaces/demo-user-eric"
-        scopes: []
-        default_owner: "0c383b93-c2e3-47e9-a7d0-bd7ec49da939"
-      - name: "Bob's workspace"
-        description: "Protected Access for bob to his user workspace"
-        resource_uri: "/workspaces/demo-user-bob"
-        scopes: []
-        default_owner: "5c82550f-ae47-4848-b682-8894c6e4a865"
+        - name: "Workspace API Swagger Docs"
+          description: "Public access to workspace API swagger docs"
+          resource_uri: "/docs"
+          scopes:
+            - "public_access"
+          default_owner: "0000000000000"
+        - name: "Eric's workspace"
+          description: "Protected Access for eric to his user workspace"
+          resource_uri: "/workspaces/demo-user-eric"
+          scopes: []
+          default_owner: "0c383b93-c2e3-47e9-a7d0-bd7ec49da939"
+        - name: "Bob's workspace"
+          description: "Protected Access for bob to his user workspace"
+          resource_uri: "/workspaces/demo-user-bob"
+          scopes: []
+          default_owner: "5c82550f-ae47-4848-b682-8894c6e4a865"
       nginxIntegration:
         enabled: false
         # hostname: workspace-api-auth
