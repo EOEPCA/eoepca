@@ -43,6 +43,6 @@ spec:
     umaClientSecretName: "rm-uma-user-agent"
     umaClientSecretNamespace: "rm"
     workspaceChartsConfigMap: "workspace-charts"
-    bucketEndpointUrl: "http://bucket-operator-wrapper:8080/bucket"
+    bucketEndpointUrl: "http://minio-bucket-api:8080/bucket"
     pepBaseUrl: "http://workspace-api-pep:5576/resources"
     autoProtectionEnabled: "True"
