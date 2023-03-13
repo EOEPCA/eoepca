@@ -32,6 +32,12 @@ spec:
         asHostname: auth
         pdpHostname: auth
         # limitUses: 100
+      defaultResources:
+        - name: "Workspace API Base Path"
+          description: "Protected root path for operators only"
+          resource_uri: "/"
+          scopes: []
+          default_owner: "0000000000000"
       customDefaultResources:
       - name: "Eric's workspace"
         description: "Protected Access for eric to his user workspace"
