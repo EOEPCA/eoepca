@@ -2,6 +2,7 @@ import requests
 import base64
 import os 
 import sys
+import jwt
 from time import sleep
 from datetime import datetime
 from urllib3.exceptions import InsecureRequestWarning
@@ -71,8 +72,8 @@ class DemoClient:
     #---------------------------------------------------------------------------
 
     def get_token_endpoint(self):
-        """Get the URL of the token endpoint.
 
+        """Get the URL of the token endpoint.
         Requires no authentication.
         """
         if self.token_endpoint == None:
@@ -227,6 +228,14 @@ class DemoClient:
         access_token = r.json()["access_token"]
         return access_token
 
+    def notuma_http_request(self, method, url, headers=None, id_token=None, access_token=None, json=None, data=None):
+        if headers is None:
+            headers = {}
+        if id_token is not None:
+            headers["Authorization"] = f"Bearer {id_token}"
+        r = self.http_request(method, url, headers=headers, json=json, data=data)
+        return r, None
+
     def uma_http_request(self, method, url, headers=None, id_token=None, access_token=None, json=None, data=None):
         """Helper to perform an http request via a UMA flow.
 
@@ -299,13 +308,17 @@ class DemoClient:
     #---------------------------------------------------------------------------
 
     @keyword(name='Workspace API Create')
-    def wsapi_create(self, service_base_url, name, id_token=None, access_token=None):
+    def wsapi_create(self, service_base_url, name, owner=None, id_token=None, access_token=None):
         """Call the 'Workspace API Create' endpoint
         """
         headers = { "Accept": "application/json" }
         body_data = {}
         body_data["preferred_name"] = name
-        r, access_token = self.uma_http_request("POST", service_base_url + "/workspaces", headers=headers, id_token=id_token, access_token=access_token, json=body_data)
+        if owner is not None:
+            body_data["default_owner"] = owner
+        elif id_token is not None:
+            body_data["default_owner"] = jwt.decode(id_token, options={"verify_signature": False})["sub"]
+        r, access_token = self.notuma_http_request("POST", service_base_url + "/workspaces", headers=headers, id_token=id_token, access_token=access_token, json=body_data)
         print(f"[Workspace API Create] = {r.status_code} ({r.reason})")
         # process_ids = []
         # if r.status_code == 200:
