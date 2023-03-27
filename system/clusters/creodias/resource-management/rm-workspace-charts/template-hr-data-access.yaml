@@ -215,7 +215,7 @@ spec:
       ingestor:
         replicaCount: 0
         ingress:
-          enabled: true
+          enabled: false  # doesn't support subpaths yet
           hosts:
           - host: data-access.subpath.develop.eoepca.org
 
