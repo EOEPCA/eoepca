@@ -23,10 +23,10 @@ spec:
       ingress:
         enabled: true
         hosts:
-          - host: data-access.{{ workspace_name }}.develop.eoepca.org
+          - host: data-access.subpath.develop.eoepca.org
         tls:
           - hosts:
-              - data-access.{{ workspace_name }}.develop.eoepca.org
+              - data-access.subpath.develop.eoepca.org
         prefix:
           enabled: true
           value: "{{ workspace_name }}"
