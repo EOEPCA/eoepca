@@ -21,13 +21,15 @@ spec:
 
       # the tls host is still needed to provide the hostname for the view server client
       ingress:
+        enabled: true
+        hosts:
+          - host: data-access.subpath.develop.eoepca.org
         tls:
           - hosts:
-              - data-access.{{ workspace_name }}.develop.eoepca.org
-
-      prefix:
-        enabled: false
-        value: "{{ workspace_name }}"
+              - data-access.subpath.develop.eoepca.org
+        prefix:
+          enabled: true
+          value: "{{ workspace_name }}"
 
       storage:
         data:
@@ -69,7 +71,11 @@ spec:
       renderer:
         replicaCount: 1
         ingress:
-          enabled: false
+          enabled: true
+          hosts:
+          - host: data-access.subpath.develop.eoepca.org
+
+
         # resources:
         #   limits:
         #     cpu: 1.5
@@ -165,7 +171,9 @@ spec:
 
       client:
         ingress:
-          enabled: false
+          enabled: true
+          hosts:
+          - host: data-access.subpath.develop.eoepca.org
         config:
           eoxserverDownloadEnabled: true
         #   timeDomain:
@@ -207,14 +215,21 @@ spec:
       ingestor:
         replicaCount: 0
         ingress:
-          enabled: false
+          enabled: false  # doesn't support subpaths yet
+          hosts:
+          - host: data-access.subpath.develop.eoepca.org
+
 
       preprocessor:
         replicaCount: 0
 
       cache:
         ingress:
-          enabled: false
+          enabled: true
+          hosts:
+          - host: data-access.subpath.develop.eoepca.org
+
+
 
       seeder:
         config:
