@@ -226,8 +226,8 @@ spec:
       # Max number of CPU cores to use concurrently for a job
       processingMaxCores: "4"
       # if false the Ades will clean the volume after the workflow has successfully finished running
-      processingKeepWorkspace: "True"
-      processingKeepWorkspaceIfFailed: "True"
+      processingKeepWorkspace: "False"
+      processingKeepWorkspaceIfFailed: "False"
       # image pull secrects
       imagePullSecrets: []
       #  custom stagein cwl
@@ -238,7 +238,7 @@ spec:
         env: {}
 
       # custom backoff limit for calrissian job
-      backofflimit: 3
+      backofflimit: 2
       
         
     wps:
