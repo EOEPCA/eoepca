@@ -199,7 +199,15 @@ spec:
                   export AWS__ServiceURL=$(inputs.ADES_STAGEIN_AWS_SERVICEURL)
                   export AWS_ACCESS_KEY_ID=$(inputs.ADES_STAGEIN_AWS_ACCESS_KEY_ID)
                   export AWS_SECRET_ACCESS_KEY=$(inputs.ADES_STAGEIN_AWS_SECRET_ACCESS_KEY)
-                  Stars copy -v -rel -r 4 -o ./ --harvest $1
+                  url=$1
+                  if curl --output /dev/null --silent --head --fail "$url"; then
+                    echo "URL: $url"
+                  else
+                    echo "URL does not exist: $url"
+                    exit 1
+                  fi
+
+                  Stars copy -v -rel -r 4 -o ./ --harvest $url
             EnvVarRequirement:
               envDef:
                 PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
