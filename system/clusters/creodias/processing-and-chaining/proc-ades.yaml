@@ -46,7 +46,8 @@ spec:
       port: 80
     ingress:
       enabled: true
-      annotations: {}
+      annotations:
+        nginx.ingress.kubernetes.io/ssl-redirect: "false"
       hosts:
         - host: ades-open.demo.eoepca.org
           paths: 
