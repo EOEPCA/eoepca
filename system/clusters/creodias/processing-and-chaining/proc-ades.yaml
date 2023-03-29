@@ -162,8 +162,8 @@ spec:
                   export AWS__AuthenticationRegion=$(inputs.ADES_STAGEOUT_AWS_REGION)
                   export AWS_ACCESS_KEY_ID=$(inputs.ADES_STAGEOUT_AWS_ACCESS_KEY_ID)
                   export AWS_SECRET_ACCESS_KEY=$(inputs.ADES_STAGEOUT_AWS_SECRET_ACCESS_KEY)
-                  echo "Stars copy -v -r 4 -o $(inputs.ADES_STAGEOUT_OUTPUT)/$(inputs.process) $(inputs.wf_outputs.path)/catalog.json""
-                  Stars copy -v -r 4 -o $(inputs.ADES_STAGEOUT_OUTPUT)/$(inputs.process) $(inputs.wf_outputs.path)/catalog.json"
+                  echo "Stars copy -v -r 4 -o $(inputs.ADES_STAGEOUT_OUTPUT)/$(inputs.process) $(inputs.wf_outputs[0])/catalog.json"
+                  Stars copy -v -r 4 -o $(inputs.ADES_STAGEOUT_OUTPUT)/$(inputs.process) $(inputs.wf_outputs[0])/catalog.json"
 
 
       stagein:
