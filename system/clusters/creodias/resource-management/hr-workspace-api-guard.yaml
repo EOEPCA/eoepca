@@ -4,6 +4,7 @@ metadata:
   name: workspace-api-guard
   namespace: rm
 spec:
+  suspend: true
   chart:
     spec:
       chart: resource-guard

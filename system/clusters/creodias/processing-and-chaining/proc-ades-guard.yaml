@@ -4,6 +4,7 @@ metadata:
   name: proc-ades-guard
   namespace: proc
 spec:
+  suspend: true
   chart:
     spec:
       chart: resource-guard
