@@ -4,7 +4,7 @@ metadata:
   name: dummy-service-guard
   namespace: test
 spec:
-  suspend: true
+  suspend: false
   chart:
     spec:
       chart: resource-guard
