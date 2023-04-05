@@ -1,0 +1,16 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: harbor
+  namespace: rm
+spec:
+  encryptedData:
+    HARBOR_ADMIN_PASSWORD: AgAqB4eIxBAD4grPl6zulXKmFz/3gOReCVOOzIBHMz86wMBS3eCO4RDhf/VvleYHPBwkqUU9yj/4AL0xhh4wV1nlCdMwHNmSQ+AEwbZOhJKbhq+3gW7aaAwc/EvsCeXVg8IopKiZVzMcA3B3bretcjQl2b0WIw1mI6PC9MwsVYlUPCh0MoCLiL2y+ehuPMCYjqViklh3tpolTKn2+/aWbwr4DkDT14FG14IAOcziWfIcCd0ZwwslKSHVWQPVsPP3NLhHvCs1PJ891DVdv8KXOC5KUtUA6SAdTAqi0RgJ5cZ9Os6L5MRj2HgOOUw4cXO4XSQgVkd7DMNAQmCrhvbv6OrJqefYi1/4z8/Fy8YrxbiIZn8lV0C1RPz6H1/GBNYYlzduTB+keQiXi0hwNZlmjcIDW2Kpw6IG28GVO4dodX1A4X/tZ6H5KyYhPhhlv/k9TwggCyigBQc8vNGA7lcwgI073elB6XIqOfKA0FTVag2BS8OJSK1UCWYnGeVuxW9UfJPZBBhxaOtWh4/+vCBoL8M2D1lg+R4ZnSm300v/TWhsxsNpfyo/P6gEscHEgz3zQrTLMHMjMbzpYkT0Q+MkhoY8roH5EXu9URKNnOUhs2cdMYcqYst7s0O9aXh0pLpule7T6BOF21Unq16vQ8kTJLWn1S9eZkz+WtZcB+tyHk0wkhTaQeYBzkBO6dbTo4E8TMBBNlt2zkutx27RTVhb+gdv4Jcvt4e/jYAUmZhgTWCdkw==
+  template:
+    metadata:
+      creationTimestamp: null
+      name: harbor
+      namespace: rm
+    type: Opaque
+
