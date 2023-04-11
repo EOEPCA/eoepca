@@ -93,7 +93,7 @@ spec:
         STAGEIN_AWS_SECRET_ACCESS_KEY: test
         STAGEIN_AWS_REGION: RegioneOne
 
-        STAGEOUT_AWS_SERVICEURL: https://cf2.cloudferro.com:8080
+        STAGEOUT_AWS_SERVICEURL: https://minio.develop.eoepca.org
 
       useResourceManager: "true"
       resourceManagerWorkspacePrefix: "develop-user"
