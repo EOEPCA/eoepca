@@ -24,6 +24,7 @@ spec:
       ingressClassName: nginx
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
+        nginx.ingress.kubernetes.io/proxy-body-size: 0m
       path: /
       hosts:
         - minio.develop.eoepca.org
@@ -37,6 +38,7 @@ spec:
       ingressClassName: nginx
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
+        nginx.ingress.kubernetes.io/proxy-body-size: 0m
       path: /
       hosts:
         - console.minio.develop.eoepca.org
