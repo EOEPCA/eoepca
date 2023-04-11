@@ -93,7 +93,7 @@ spec:
         STAGEIN_AWS_SECRET_ACCESS_KEY: test
         STAGEIN_AWS_REGION: RegioneOne
 
-        STAGEOUT_AWS_SERVICEURL: https://cf2.cloudferro.com:8080
+        STAGEOUT_AWS_SERVICEURL: https://minio.develop.eoepca.org
 
       useResourceManager: "true"
       resourceManagerWorkspacePrefix: "develop-user"
@@ -339,7 +339,7 @@ spec:
       # Max number of CPU cores to use concurrently for a job
       processingMaxCores: "4"
       # if false the Ades will clean the volume after the workflow has successfully finished running
-      processingKeepWorkspace: "True"
+      processingKeepWorkspace: "false"
       processingKeepWorkspaceIfFailed: "True"
       # image pull secrects
       imagePullSecrets: []
