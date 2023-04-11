@@ -343,9 +343,6 @@ spec:
       processingKeepWorkspaceIfFailed: "True"
       # image pull secrects
       imagePullSecrets: []
-      #  custom stagein cwl
-      #stageincwl: "files/stageincwl.cwl"
-      #maincwl: "files/maincwlmetrics.cwl"
 
       pod:
         env: {}
