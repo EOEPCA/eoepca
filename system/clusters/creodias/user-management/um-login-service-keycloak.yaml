@@ -1,0 +1,33 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: um-login-service-keycloak
+  namespace: um
+spec:
+  chart:
+    spec:
+      chart: login-service-keycloak
+      version: 0.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: eoepca
+        namespace: common
+  values:
+    config:
+      domain: keycloak.develop.eoepca.org
+    global:
+      domain: keycloak.develop.eoepca.org
+      nginxIp: 185.52.192.231
+      namespace: um
+    nginx:
+      ingress:
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt
+        hosts:
+          - keycloak.develop.eoepca.org
+        tls:
+          - hosts:
+              - keycloak.develop.eoepca.org
+            secretName: login-service-keycloak-tls
+  timeout: 25m0s
+  interval: 1m0s

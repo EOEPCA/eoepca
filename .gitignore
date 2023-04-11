@@ -16,3 +16,5 @@ terraform/test/terraform-provider-kubectl
 __pycache__/
 
 .vscode/
+
+.idea
