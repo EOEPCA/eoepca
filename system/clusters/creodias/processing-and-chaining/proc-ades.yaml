@@ -93,15 +93,7 @@ spec:
         STAGEIN_AWS_SECRET_ACCESS_KEY: test
         STAGEIN_AWS_REGION: RegioneOne
 
-        STAGEOUT_AWS_SERVICEURL: https://cf2.cloudferro.com:8080
-      #  STAGEOUT_AWS_ACCESS_KEY_ID: 4ceda7292edc4cc997d133079b469900
-      #  STAGEOUT_AWS_SECRET_ACCESS_KEY: 7d824cbfc90147318fa6ac7fe0e9a174
-      #  STAGEOUT_AWS_REGION: RegionOne
-      #  STAGEOUT_OUTPUT: s3://processing_results
-
-      #    STAGEOUT_STORAGE_HOST: https://nx13206.your-storageshare.de/
-      #    STAGEOUT_STORAGE_USERNAME: eoepca-storagecd 
-      #    STAGEOUT_STORAGE_APIKEY: 4k8wMajA5ABaYdk
+        STAGEOUT_AWS_SERVICEURL: https://minio.develop.eoepca.org
 
       useResourceManager: "true"
       resourceManagerWorkspacePrefix: "develop-user"
@@ -112,58 +104,102 @@ spec:
         yaml: "{}"
 
 
+      main:
+          cwl: |
+              class: Workflow
+              $namespaces:
+                  cwltool: http://commonwl.org/cwltool#
+              doc: Main stage manager
+              id: main
+              label: macro-cwl
+              inputs: {}
+              outputs: {}
+              hints:
+                  "cwltool:Secrets":
+                      secrets: []
+              requirements:
+                  SubworkflowFeatureRequirement: {}
+                  ScatterFeatureRequirement: {}
+                  InlineJavascriptRequirement: {}
+
       stageout:
         cwl: |
-          cwlVersion: v1.0
-          doc: "Run Stars for staging results"
-          class: CommandLineTool
-          hints:
-            DockerRequirement:
-              dockerPull: terradue/stars:2.3.0
-            "cwltool:Secrets":
-              secrets:
-                - ADES_STAGEOUT_AWS_SERVICEURL
-                - ADES_STAGEOUT_AWS_REGION
-                - ADES_STAGEOUT_AWS_ACCESS_KEY_ID
-                - ADES_STAGEOUT_AWS_SECRET_ACCESS_KEY
-          id: stars
-          inputs:
-            ADES_STAGEOUT_AWS_SERVICEURL:
-              type: string?
-            ADES_STAGEOUT_AWS_ACCESS_KEY_ID:
-              type: string?
-            ADES_STAGEOUT_AWS_SECRET_ACCESS_KEY:
-              type: string?
-            ADES_STAGEOUT_OUTPUT:
-              type: string?
-            ADES_STAGEOUT_AWS_REGION:
-              type: string?
-            process:
-              type: string
-          outputs:
-            s3_catalog_output:
-              outputBinding:
-                outputEval: ${ return inputs.ADES_STAGEOUT_OUTPUT + "/" + inputs.process + "/catalog.json"; }
-              type: string
-          baseCommand: ['/bin/bash', 'stageout.sh']
-          requirements:
-            InlineJavascriptRequirement: {}
-            EnvVarRequirement:
-              envDef:
-                PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-            ResourceRequirement: {}
-            InitialWorkDirRequirement:
-              listing:
-              - entryname: stageout.sh
-                entry: |-
-                  #!/bin/bash
-                  export AWS__ServiceURL=$(inputs.ADES_STAGEOUT_AWS_SERVICEURL)
-                  export AWS__Region=$(inputs.ADES_STAGEOUT_AWS_REGION)
-                  export AWS__AuthenticationRegion=$(inputs.ADES_STAGEOUT_AWS_REGION)
-                  export AWS_ACCESS_KEY_ID=$(inputs.ADES_STAGEOUT_AWS_ACCESS_KEY_ID)
-                  export AWS_SECRET_ACCESS_KEY=$(inputs.ADES_STAGEOUT_AWS_SECRET_ACCESS_KEY)
-                  echo "Stars copy -v -r 4 -o $(inputs.ADES_STAGEOUT_OUTPUT)/$(inputs.process) $(inputs.wf_outputs[0])/catalog.json"
-                  Stars copy -v -r 4 -o $(inputs.ADES_STAGEOUT_OUTPUT)/$(inputs.process) $(inputs.wf_outputs[0])/catalog.json"
+              cwlVersion: v1.0
+              baseCommand: ['/bin/bash', 'stageout.sh']
+              doc: "Run Stars for staging results"
+              class: CommandLineTool
+              hints:
+                DockerRequirement:
+                  dockerPull: terradue/stars:2.3.1
+                "cwltool:Secrets":
+                  secrets:
+                  - ADES_STAGEOUT_AWS_SERVICEURL
+                  - ADES_STAGEOUT_AWS_REGION
+                  - ADES_STAGEOUT_AWS_ACCESS_KEY_ID
+                  - ADES_STAGEOUT_AWS_SECRET_ACCESS_KEY
+              id: stars
+              arguments:
+                - copy
+                - -v
+                - -r
+                - '4'
+                - -o
+                - $( inputs.ADES_STAGEOUT_OUTPUT + "/" + inputs.process )
+                - -res
+                - $( inputs.process + ".res" )
+                - valueFrom: |
+                          ${
+                              if( !Array.isArray(inputs.wf_outputs) ) 
+                              {
+                                  return inputs.wf_outputs.path + "/catalog.json";
+                              }
+                              var args=[];
+                              for (var i = 0; i < inputs.wf_outputs.length; i++) 
+                              {
+                                  args.push(inputs.wf_outputs[i].path + "/catalog.json");
+                              }
+                              return args;
+                          }
+              inputs: 
+                ADES_STAGEOUT_AWS_PROFILE:
+                  type: string?
+                ADES_STAGEOUT_AWS_SERVICEURL: 
+                  type: string?
+                ADES_STAGEOUT_AWS_ACCESS_KEY_ID: 
+                  type: string?
+                ADES_STAGEOUT_AWS_SECRET_ACCESS_KEY: 
+                  type: string?
+                aws_profiles_location:
+                  type: File?
+                ADES_STAGEOUT_OUTPUT:
+                  type: string?
+                ADES_STAGEOUT_AWS_REGION:
+                  type: string?
+                process:
+                  type: string?
+              outputs: 
+                s3_catalog_output:
+                  outputBinding:
+                    outputEval: ${  return inputs.ADES_STAGEOUT_OUTPUT + "/" + inputs.process + "/catalog.json"; }
+                  type: string
+              requirements:
+                InitialWorkDirRequirement:
+                  listing:
+                  - entryname: stageout.sh
+                    entry: |-
+                      #!/bin/bash
+                      export AWS__ServiceURL=$(inputs.ADES_STAGEOUT_AWS_SERVICEURL)
+                      export AWS__Region=$(inputs.ADES_STAGEOUT_AWS_REGION)
+                      export AWS__AuthenticationRegion=$(inputs.ADES_STAGEOUT_AWS_REGION)
+                      export AWS_ACCESS_KEY_ID=$(inputs.ADES_STAGEOUT_AWS_ACCESS_KEY_ID)
+                      export AWS_SECRET_ACCESS_KEY=$(inputs.ADES_STAGEOUT_AWS_SECRET_ACCESS_KEY)
+                      Stars $@
+                InlineJavascriptRequirement: {}
+                EnvVarRequirement:
+                  envDef:
+                    PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+                ResourceRequirement: {}
+
 
 
       stagein:
@@ -190,7 +226,6 @@ spec:
           outputs: {}
           baseCommand: ['/bin/bash', 'stagein.sh']
           requirements:
-
             InitialWorkDirRequirement:
               listing:
               - entryname: stagein.sh
@@ -206,12 +241,90 @@ spec:
                     echo "URL does not exist: $url"
                     exit 1
                   fi
-
                   Stars copy -v -rel -r 4 -o ./ --harvest $url
             EnvVarRequirement:
               envDef:
                 PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
             ResourceRequirement: {}
+
+      rulez:
+        cwl: |
+          rulez:
+            version: 1
+
+          parser:
+            type: $graph
+            driver: cwl
+
+          onstage:
+            driver: cwl
+
+            stage_in:
+              connection_node: node_stage_in
+              if_scatter:
+                scatterMethod: dotproduct
+              input:
+                template:
+                  overwrite: True
+
+            on_stage:
+              connection_node: on_stage
+
+            stage_out:
+              connection_node: node_stage_out
+              scatter: False
+              if_scatter:
+                scatterMethod: dotproduct
+              follow_node: node_metrics_out
+
+
+          output:
+            driver: cwl
+            name: '-'
+            type: $graph
+
+
+          cwl:
+            GlobalInput:
+              Directory: string
+              Directory[]: string[]
+
+            OptionalInput:
+              Directory: string?
+              Directory[]: string[]?
+
+            stage_in:
+              Directory:
+                type: string
+                inputBinding:
+                  position: 2
+
+              Directory[]:
+                type: string[]
+                inputBinding:
+                  position: 2
+
+            stage_out:
+              Directory:
+                type: Directory
+
+              Directory[]:
+                type: Directory[]
+
+            outputBindingResult:
+              command:
+                Directory:
+                  outputBinding:
+                    glob: .
+                  type: Directory
+                Directory[]:
+                  outputBinding:
+                    glob: .
+                  type: Directory[]
+              stepOut:
+                type:
+                  items: Directory
+                  type: array
 
 
 
