@@ -13,8 +13,14 @@ spec:
         name: eoepca
         namespace: common
   values:
+    volumeClaim:
+      name: eoepca-userman-pvc
+      create: false
     config:
       domain: keycloak.develop.eoepca.org
+    postgres:
+      volumeClaim:
+        name: eoepca-userman-pvc
     global:
       domain: keycloak.develop.eoepca.org
       nginxIp: 185.52.192.231
