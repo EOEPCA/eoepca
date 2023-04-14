@@ -178,7 +178,7 @@ spec:
                 process:
                   type: string?
               outputs: 
-                s3_catalog_output:
+                StacCatalogUri:
                   outputBinding:
                     outputEval: ${  return inputs.ADES_STAGEOUT_OUTPUT + "/" + inputs.process + "/catalog.json"; }
                   type: string
