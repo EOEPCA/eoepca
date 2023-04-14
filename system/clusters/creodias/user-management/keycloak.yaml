@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: keycloak
-      version: 0.6.0
+      version: 0.7.0
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -21,9 +21,6 @@ spec:
       create: false
     config:
       domain: keycloak.develop.eoepca.org
-    postgres:
-      volumeClaim:
-        name: eoepca-userman-pvc
     global:
       domain: keycloak.develop.eoepca.org
       nginxIp: 185.52.192.231
