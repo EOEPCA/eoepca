@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: keycloak
-      version: 0.13.0
+      version: 0.14.0
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -19,21 +19,21 @@ spec:
     volumeClaim:
       name: eoepca-userman-pvc
       create: false
-    config:
-      domain: keycloak.develop.eoepca.org
     global:
       domain: keycloak.develop.eoepca.org
       nginxIp: 185.52.192.231
       namespace: um
-    nginx:
-      ingress:
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt
-        hosts:
-          - keycloak.develop.eoepca.org
-        tls:
-          - hosts:
-              - keycloak.develop.eoepca.org
-            secretName: login-service-keycloak-tls
+    ingress:
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+      hosts:
+        - host: keycloak.develop.eoepca.org
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - secretName: keycloak-tls-certificate
+          hosts:
+            - keycloak.develop.eoepca.org
   timeout: 25m0s
   interval: 1m0s
