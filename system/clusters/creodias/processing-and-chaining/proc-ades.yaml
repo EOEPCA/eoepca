@@ -18,7 +18,7 @@ spec:
     image:
       pullPolicy: Always
       # Overrides the image tag whose default is the chart appVersion.
-      # tag: "2.0.5"
+      tag: "dev2.0.13"
     nameOverride: ""
     fullnameOverride: ""
     serviceAccount:
