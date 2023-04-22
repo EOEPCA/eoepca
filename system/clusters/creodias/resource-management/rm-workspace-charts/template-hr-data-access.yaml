@@ -76,6 +76,8 @@ spec:
 
       registrar:
         replicaCount: 1
+        image:
+          tag: "1.2.8"
         config:
           disableDefaultRoute: true
           routes:
