@@ -18,7 +18,7 @@ spec:
     image:
       pullPolicy: Always
       # Overrides the image tag whose default is the chart appVersion.
-      #tag: "dev2.0.13"
+      tag: "dev2.0.14"
     nameOverride: ""
     fullnameOverride: ""
     serviceAccount:
@@ -95,7 +95,7 @@ spec:
 
         STAGEOUT_AWS_SERVICEURL: https://minio.develop.eoepca.org
 
-      useResourceManager: "true"
+      useResourceManager: "false"
       resourceManagerWorkspacePrefix: "develop-user"
       resourceManagerEndpoint: "https://workspace-api.develop.eoepca.org"
       platformDomain: "https://auth.develop.eoepca.org"
@@ -354,7 +354,7 @@ spec:
         
     wps:
       pepBaseUrl: "http://ades-pep:5576"
-      usePep: "true"
+      usePep: "false"
       maincfgtpl: "files/main.cfg.tpl"
     persistence:
       enabled: true
