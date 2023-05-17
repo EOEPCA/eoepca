@@ -103,7 +103,7 @@ spec:
                     instance_name: "pvs_instance"
                     product_types: []
                     auto_create_product_types: True
-                    automatic_visibilities: ["wms","wcs"]
+                    automatic_visibilities: ["wms", "wcs"]
                 - path: "registrar_pycsw.backend.ItemBackend"
                   kwargs:
                     repository_database_uri: "postgresql://postgres:mypass@resource-catalogue-db/pycsw"
