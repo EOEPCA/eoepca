@@ -1,0 +1,35 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: registration-api
+  namespace: rm
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: rm-registration-api
+      version: 1.3-dev0
+      sourceRef:
+        kind: HelmRepository
+        name: eoepca
+        namespace: common
+  values:
+    fullnameOverride: registration-api
+    image: # {}
+      # repository: eoepca/rm-registration-api
+      pullPolicy: Always
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: "latest"
+
+    ingress:
+      enabled: true
+      hosts:
+        - host: registration-api-open.develop.eoepca.org
+          paths: ["/"]
+      tls:
+        - hosts:
+            - registration-api-open.develop.eoepca.org
+          secretName: registration-api-tls
+
+    # some values for the workspace API
+    workspaceK8sNamespace: "rm"
