@@ -53,9 +53,9 @@ spec:
     # UMA User Agent values
     #---------------------------------------------------------------------------
     uma-user-agent:
-      # image:
-      #   tag: mytest
-      #   pullPolicy: Always
+      image:
+        tag: v1.2.2
+        pullPolicy: Always
       nginxIntegration:
         enabled: true
         # The chart defaults use the value `global.context` (port `80`) to populate
@@ -71,6 +71,7 @@ spec:
         credentialsSecretName: ""
       logging:
         level: "debug"
+      openAccess: true
       unauthorizedResponse: 'Bearer realm="https://portal.develop.eoepca.org/oidc/authenticate/"'
     #---------------------------------------------------------------------------
     # END values
