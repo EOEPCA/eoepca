@@ -33,3 +33,4 @@ spec:
 
     # some values for the workspace API
     workspaceK8sNamespace: "rm"
+    redisServiceName: "data-access-redis-master"
