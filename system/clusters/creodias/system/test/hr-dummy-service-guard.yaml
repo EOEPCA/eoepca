@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: resource-guard
-      version: 1.2.4
+      version: 1.2.5
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -53,9 +53,9 @@ spec:
     # UMA User Agent values
     #---------------------------------------------------------------------------
     uma-user-agent:
-      image:
-        tag: v1.2.2
-        pullPolicy: Always
+      # image:
+      #   tag: v1.2.2
+      #   pullPolicy: Always
       nginxIntegration:
         enabled: true
         # The chart defaults use the value `global.context` (port `80`) to populate
