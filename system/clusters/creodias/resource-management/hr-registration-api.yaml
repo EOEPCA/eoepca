@@ -15,11 +15,11 @@ spec:
         namespace: common
   values:
     fullnameOverride: registration-api
-    # image: # {}
-      # repository: eoepca/rm-registration-api
-      # pullPolicy: Always
+    image: # {}
+      repository: eoepca/rm-registration-api
+      pullPolicy: Always
       # Overrides the image tag whose default is the chart appVersion.
-      # tag: "latest"
+      tag: "latest"
 
     ingress:
       enabled: true
