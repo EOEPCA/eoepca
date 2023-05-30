@@ -850,6 +850,15 @@ spec:
                   kwargs:
                     repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
 
+            xml:
+              path: registrar.route.json.JSONRoute
+              queue: register_xml_queue
+              replace: true
+              backends:
+                - path: registrar_pycsw.backend.XMLBackend
+                  kwargs:
+                    repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
+
       harvester:
         image:
           tag: "latest"
