@@ -145,6 +145,14 @@ spec:
                 - path: registrar_pycsw.backend.CatalogueBackend
                   kwargs:
                     repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
+            json:
+              path: registrar.route.json.JSONRoute
+              queue: register_json_queue
+              replace: true
+              backends:
+                - path: registrar_pycsw.backend.JSONBackend
+                  kwargs:
+                    repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
 
       harvester:
         image:
