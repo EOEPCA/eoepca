@@ -37,7 +37,7 @@ spec:
           data:
             # TODO: this values are secret pass them as secret
             type: "S3"
-            endpoint_url: https://cf2.cloudferro.com:8080
+            endpoint_url: https://minio.develop.eoepca.org
             access_key_id: {{ access_key_id }}
             secret_access_key: {{ secret_access_key }}
             bucket: {{ bucket }}
@@ -108,7 +108,7 @@ spec:
                   kwargs:
                     repository_database_uri: "postgresql://postgres:mypass@resource-catalogue-db/pycsw"
                     ows_url: "https://data-access.{{ workspace_name }}.develop.eoepca.org/ows"
-                    public_s3_url: "https://cf2.cloudferro.com:8080/{{ projectid }}:{{ bucket }}"
+                    public_s3_url: "https://minio.develop.eoepca.org/{{ projectid }}:{{ bucket }}"
             collections:
               path: registrar.route.stac.CollectionRoute
               queue: register_collection_queue
@@ -136,7 +136,7 @@ spec:
                   kwargs:
                     repository_database_uri: "postgresql://postgres:mypass@resource-catalogue-db/pycsw"
                     ows_url: "https://data-access.{{ workspace_name }}.develop.eoepca.org/ows"
-                    public_s3_url: "https://cf2.cloudferro.com:8080/{{ projectid }}:{{ bucket }}"
+                    public_s3_url: "https://minio.develop.eoepca.org/{{ projectid }}:{{ bucket }}"
             catalogue:
               path: registrar.route.json.JSONRoute
               queue: register_catalogue_queue
@@ -181,7 +181,7 @@ spec:
                   bucket: bucket
                   access_key_id: {{ access_key_id }}
                   secret_access_key: {{ secret_access_key }}
-                  endpoint_url: https://cf2.cloudferro.com:8080
+                  endpoint_url: https://minio.develop.eoepca.org
                   region_name: RegionOne
                   validate_bucket_name: False
                   public: False
