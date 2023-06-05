@@ -23,13 +23,13 @@ spec:
       ingress:
         enabled: true
         hosts:
-          - host: data-access.subpath.develop.eoepca.org
+          - host: data-access.{{ workspace_name }}.develop.eoepca.org
         tls:
           - hosts:
-              - data-access.subpath.develop.eoepca.org
+              - data-access.{{ workspace_name }}.develop.eoepca.org
         prefix:
-          enabled: true
-          value: "{{ workspace_name }}"
+          enabled: false
+          # value: "{{ workspace_name }}"
 
       storage:
         data:
@@ -73,7 +73,7 @@ spec:
         ingress:
           enabled: true
           hosts:
-          - host: data-access.subpath.develop.eoepca.org
+          - host: data-access.{{ workspace_name }}.develop.eoepca.org
 
 
         # resources:
@@ -190,7 +190,7 @@ spec:
         ingress:
           enabled: true
           hosts:
-          - host: data-access.subpath.develop.eoepca.org
+          - host: data-access.{{ workspace_name }}.develop.eoepca.org
         config:
           eoxserverDownloadEnabled: true
         #   timeDomain:
@@ -234,7 +234,7 @@ spec:
         ingress:
           enabled: false  # doesn't support subpaths yet
           hosts:
-          - host: data-access.subpath.develop.eoepca.org
+          - host: data-access.{{ workspace_name }}.develop.eoepca.org
 
 
       preprocessor:
@@ -244,7 +244,7 @@ spec:
         ingress:
           enabled: true
           hosts:
-          - host: data-access.subpath.develop.eoepca.org
+          - host: data-access.{{ workspace_name }}.develop.eoepca.org
 
 
 
