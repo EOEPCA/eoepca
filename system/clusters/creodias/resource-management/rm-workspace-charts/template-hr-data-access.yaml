@@ -21,9 +21,7 @@ spec:
 
       # the tls host is still needed to provide the hostname for the view server client
       ingress:
-        enabled: true
-        hosts:
-          - host: data-access.{{ workspace_name }}.develop.eoepca.org
+        enabled: false
         tls:
           - hosts:
               - data-access.{{ workspace_name }}.develop.eoepca.org
@@ -71,24 +69,23 @@ spec:
       renderer:
         replicaCount: 1
         ingress:
-          enabled: true
-          hosts:
-          - host: data-access.{{ workspace_name }}.develop.eoepca.org
-
-
-        # resources:
-        #   limits:
-        #     cpu: 1.5
-        #     memory: 3Gi
-        #   requests:
-        #     cpu: 0.5
-        #     memory: 1Gi
+          enabled: salse
+        resources:
+          requests:
+            cpu: 100m
+            memory: 300Mi
+          limits:
+            memory: 3Gi
 
       registrar:
         replicaCount: 1
         # image:
           # tag: "latest"
           # pullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
         config:
           disableDefaultRoute: true
           routes:
@@ -166,6 +163,10 @@ spec:
         # image:
           # tag: "latest"
           # pullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
         config:
           redis:
             host: vs-redis-master
@@ -188,10 +189,9 @@ spec:
 
       client:
         ingress:
-          enabled: true
-          hosts:
-          - host: data-access.{{ workspace_name }}.develop.eoepca.org
+          enabled: false
         config:
+          serviceUrl: "//data-access.{{ workspace_name }}.develop.eoepca.org/"
           eoxserverDownloadEnabled: true
         #   timeDomain:
         #     - "2002-01-01T00:00:00Z"
@@ -229,26 +229,27 @@ spec:
         cluster:
           enabled: false
 
+      scheduler:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+
       ingestor:
         replicaCount: 0
         ingress:
           enabled: false  # doesn't support subpaths yet
-          hosts:
-          - host: data-access.{{ workspace_name }}.develop.eoepca.org
-
 
       preprocessor:
         replicaCount: 0
 
       cache:
+        replicaCount: 0
         ingress:
-          enabled: true
-          hosts:
-          - host: data-access.{{ workspace_name }}.develop.eoepca.org
-
-
+          enabled: false
 
       seeder:
+        replicaCount: 0
         config:
           minzoom: 0
           maxzoom: 6  # restrict to only 6 for testing for now
