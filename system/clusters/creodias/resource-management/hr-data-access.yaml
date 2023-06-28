@@ -797,6 +797,10 @@ spec:
         # image:
           # tag: "latest"
           # pullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
         config:
           defaultBackends:
             - path: registrar_pycsw.backend.ItemBackend
@@ -863,6 +867,10 @@ spec:
         # image:
           # tag: "latest"
           # pullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
         config:
           redis:
             host: data-access-redis-master
@@ -928,3 +936,26 @@ spec:
           customClientDaysPast1: 90
           customClientDaysPast2: 1
           customClientDaysFuture1: 7
+
+      #-------------------------------------------------------------------------
+      # vs.ingestor
+      #-------------------------------------------------------------------------
+      ingestor:
+        ingress:
+          enabled: false
+
+      #-------------------------------------------------------------------------
+      # vs.cache
+      #-------------------------------------------------------------------------
+      cache:
+        ingress:
+          enabled: false
+
+      #-------------------------------------------------------------------------
+      # vs.scheduler
+      #-------------------------------------------------------------------------
+      scheduler:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
