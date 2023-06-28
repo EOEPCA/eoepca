@@ -29,7 +29,12 @@ spec:
 
         hosts:
           core: harbor.develop.eoepca.org
-          notary: harbor-notary.develop.eoepca.org
+
+      tls:
+        enabled: true
+        certSource: secret
+        secret:
+          secretName: "harbor-tls"
 
     persistence:
       persistentVolumeClaim:
@@ -56,4 +61,3 @@ spec:
       enabled: false
     notary:
       enabled: false
-
