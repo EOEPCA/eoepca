@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: user-profile
-      version: 1.1.6
+      version: 1.1.7
       sourceRef:
         kind: HelmRepository
         name: eoepca
