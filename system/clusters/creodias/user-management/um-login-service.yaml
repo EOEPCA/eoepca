@@ -63,6 +63,6 @@ spec:
         tls:
           - hosts:
               - auth.develop.eoepca.org
-            secretName: tls-certificate
+            secretName: gluu-tls-certificate
   timeout: 25m0s
   interval: 1m0s
