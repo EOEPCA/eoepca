@@ -878,7 +878,7 @@ spec:
           harvesters:
             - name: Creodias-Opensearch
               resource:
-                url: https://finder.creodias.eu/resto/api/collections/Sentinel2/describe.xml
+                url: https://datahub.creodias.eu/resto/api/collections/Sentinel2/describe.xml
                 type: OpenSearch
                 format_config:
                   type: 'application/json'
@@ -899,7 +899,7 @@ spec:
               queue: register
             - name: Creodias-Opensearch-Sentinel1
               resource:
-                url: https://finder.creodias.eu/resto/api/collections/Sentinel1/describe.xml
+                url: https://datahub.creodias.eu/resto/api/collections/Sentinel1/describe.xml
                 type: OpenSearch
                 format_config:
                   type: 'application/json'
