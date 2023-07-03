@@ -69,7 +69,7 @@ spec:
       renderer:
         replicaCount: 1
         ingress:
-          enabled: salse
+          enabled: false
         resources:
           requests:
             cpu: 100m
@@ -105,7 +105,7 @@ spec:
                   kwargs:
                     repository_database_uri: "postgresql://postgres:mypass@resource-catalogue-db/pycsw"
                     ows_url: "https://data-access.{{ workspace_name }}.develop.eoepca.org/ows"
-                    public_s3_url: "https://minio.develop.eoepca.org/{{ projectid }}:{{ bucket }}"
+                    public_s3_url: "https://minio.develop.eoepca.org/{{ bucket }}"
             collections:
               path: registrar.route.stac.CollectionRoute
               queue: register_collection_queue
@@ -133,7 +133,7 @@ spec:
                   kwargs:
                     repository_database_uri: "postgresql://postgres:mypass@resource-catalogue-db/pycsw"
                     ows_url: "https://data-access.{{ workspace_name }}.develop.eoepca.org/ows"
-                    public_s3_url: "https://minio.develop.eoepca.org/{{ projectid }}:{{ bucket }}"
+                    public_s3_url: "https://minio.develop.eoepca.org/{{ bucket }}"
             catalogue:
               path: registrar.route.json.JSONRoute
               queue: register_catalogue_queue
