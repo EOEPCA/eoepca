@@ -19,57 +19,60 @@ spec:
     volumeClaim:
       name: eoepca-userman-pvc
       create: false
-    keycloak:
+    identity-keycloak:
       ingress:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt
         hosts:
-          - host: keycloak.develop.eoepca.org
+          - host: identity.keycloak.develop.eoepca.org
             paths:
               - path: /
                 pathType: Prefix
         tls:
-          - secretName: keycloak-tls-certificate
+          - secretName: identity-keycloak-tls-certificate
             hosts:
-              - keycloak.develop.eoepca.org
+              - identity.keycloak.develop.eoepca.org
+    identity-postgres:
+      volumeClaim:
+        name: eoepca-userman-pvc
     identity-api:
       ingress:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt
         hosts:
-          - host: identity-api.develop.eoepca.org
+          - host: identity.api.develop.eoepca.org
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - secretName: identity-api-tls-certificate
             hosts:
-              - identity-api.develop.eoepca.org
+              - identity.api.develop.eoepca.org
     identity-manager:
       ingress:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt
         hosts:
-          - host: identity-manager.develop.eoepca.org
+          - host: identity.manager.develop.eoepca.org
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - secretName: identity-manager-tls-certificate
             hosts:
-              - identity-manager.develop.eoepca.org
-    oauth2-proxy:
+              - identity.manager.develop.eoepca.org
+    identity-proxy:
       ingress:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt
         hosts:
-          - host: oauth2-proxy.develop.eoepca.org
+          - host: identity.proxy.develop.eoepca.org
             paths:
               - path: /
                 pathType: Prefix
         tls:
-          - secretName: oauth2-proxy-tls-certificate
+          - secretName: identity-proxy-tls-certificate
             hosts:
-              - oauth2-proxy.develop.eoepca.org
+              - identity.proxy.develop.eoepca.org
   timeout: 5m0s
   interval: 1m0s
