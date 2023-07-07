@@ -18,6 +18,7 @@ spec:
 
     persistence:
       storageClass: managed-nfs-storage-retain
+      size: 50Gi
 
     ingress:
       enabled: true
