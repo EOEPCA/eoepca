@@ -15,6 +15,7 @@ spec:
         namespace: common
   values:
     existingSecret: rm-minio-root-credentials
+    replicas: 2
 
     persistence:
       storageClass: managed-nfs-storage-retain
