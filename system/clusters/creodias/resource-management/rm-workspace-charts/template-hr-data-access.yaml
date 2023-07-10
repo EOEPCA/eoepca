@@ -21,9 +21,13 @@ spec:
 
       # the tls host is still needed to provide the hostname for the view server client
       ingress:
+        enabled: false
         tls:
           - hosts:
               - data-access.{{ workspace_name }}.demo.eoepca.org
+        prefix:
+          enabled: false
+          # value: "{{ workspace_name }}"
 
       storage:
         data:
@@ -31,7 +35,7 @@ spec:
           data:
             # TODO: this values are secret pass them as secret
             type: "S3"
-            endpoint_url: https://cf2.cloudferro.com:8080
+            endpoint_url: https://minio.demo.eoepca.org
             access_key_id: {{ access_key_id }}
             secret_access_key: {{ secret_access_key }}
             bucket: {{ bucket }}
@@ -66,18 +70,22 @@ spec:
         replicaCount: 1
         ingress:
           enabled: false
-        # resources:
-        #   limits:
-        #     cpu: 1.5
-        #     memory: 3Gi
-        #   requests:
-        #     cpu: 0.5
-        #     memory: 1Gi
+        resources:
+          requests:
+            cpu: 100m
+            memory: 300Mi
+          limits:
+            memory: 3Gi
 
       registrar:
         replicaCount: 1
         # image:
-        #   tag: "1.2.8"
+          # tag: "latest"
+          # pullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
         config:
           disableDefaultRoute: true
           routes:
@@ -92,11 +100,12 @@ spec:
                     instance_name: "pvs_instance"
                     product_types: []
                     auto_create_product_types: True
+                    automatic_visibilities: ["wms", "wcs"]
                 - path: "registrar_pycsw.backend.ItemBackend"
                   kwargs:
                     repository_database_uri: "postgresql://postgres:mypass@resource-catalogue-db/pycsw"
                     ows_url: "https://data-access.{{ workspace_name }}.demo.eoepca.org/ows"
-                    public_s3_url: "https://cf2.cloudferro.com:8080/{{ projectid }}:{{ bucket }}"
+                    public_s3_url: "https://minio.demo.eoepca.org/{{ bucket }}"
             collections:
               path: registrar.route.stac.CollectionRoute
               queue: register_collection_queue
@@ -124,9 +133,40 @@ spec:
                   kwargs:
                     repository_database_uri: "postgresql://postgres:mypass@resource-catalogue-db/pycsw"
                     ows_url: "https://data-access.{{ workspace_name }}.demo.eoepca.org/ows"
-                    public_s3_url: "https://cf2.cloudferro.com:8080/{{ projectid }}:{{ bucket }}"
+                    public_s3_url: "https://minio.demo.eoepca.org/{{ bucket }}"
+            catalogue:
+              path: registrar.route.json.JSONRoute
+              queue: register_catalogue_queue
+              replace: true
+              backends:
+                - path: registrar_pycsw.backend.CatalogueBackend
+                  kwargs:
+                    repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
+            json:
+              path: registrar.route.json.JSONRoute
+              queue: register_json_queue
+              replace: true
+              backends:
+                - path: registrar_pycsw.backend.JSONBackend
+                  kwargs:
+                    repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
+            xml:
+              path: registrar.route.json.JSONRoute
+              queue: register_xml_queue
+              replace: true
+              backends:
+                - path: registrar_pycsw.backend.XMLBackend
+                  kwargs:
+                    repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
 
       harvester:
+        # image:
+          # tag: "latest"
+          # pullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
         config:
           redis:
             host: vs-redis-master
@@ -142,7 +182,7 @@ spec:
                   bucket: bucket
                   access_key_id: {{ access_key_id }}
                   secret_access_key: {{ secret_access_key }}
-                  endpoint_url: https://cf2.cloudferro.com:8080
+                  endpoint_url: https://minio.demo.eoepca.org
                   region_name: RegionOne
                   validate_bucket_name: False
                   public: False
@@ -151,6 +191,7 @@ spec:
         ingress:
           enabled: false
         config:
+          serviceUrl: "//data-access.{{ workspace_name }}.demo.eoepca.org/"
           eoxserverDownloadEnabled: true
         #   timeDomain:
         #     - "2002-01-01T00:00:00Z"
@@ -188,19 +229,27 @@ spec:
         cluster:
           enabled: false
 
+      scheduler:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+
       ingestor:
         replicaCount: 0
         ingress:
-          enabled: false
+          enabled: false  # doesn't support subpaths yet
 
       preprocessor:
         replicaCount: 0
 
       cache:
+        replicaCount: 0
         ingress:
           enabled: false
 
       seeder:
+        replicaCount: 0
         config:
           minzoom: 0
           maxzoom: 6  # restrict to only 6 for testing for now

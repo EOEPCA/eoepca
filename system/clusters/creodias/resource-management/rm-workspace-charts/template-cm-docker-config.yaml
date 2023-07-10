@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: docker-config
+data:
+  docker-config: |
+    {
+      "auths": {
+        "{{ container_registry_host }}": {
+          "auth": "{{ container_registry_credentials }}"
+        }
+    }

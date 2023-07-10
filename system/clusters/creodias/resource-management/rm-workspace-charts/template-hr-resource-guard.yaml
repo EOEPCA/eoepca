@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: resource-guard
-      version: 1.2.4
+      version: 1.2.5
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -27,8 +27,6 @@ spec:
     # PEP values
     #---------------------------------------------------------------------------
     pep-engine:
-      image:
-        pullPolicy: Always
       configMap:
         asHostname: auth
         pdpHostname: auth
@@ -91,7 +89,6 @@ spec:
       logging:
         level: info
       unauthorizedResponse: 'Bearer realm="https://portal.demo.eoepca.org/oidc/authenticate/"'
-      openAccess: false
     #---------------------------------------------------------------------------
     # END values
     #---------------------------------------------------------------------------
