@@ -8,18 +8,18 @@ spec:
   chart:
     spec:
       chart: rm-workspace-api
-      version: 1.2.0
+      version: 1.3.5
       sourceRef:
         kind: HelmRepository
         name: eoepca
         namespace: common
   values:
     fullnameOverride: workspace-api
-    # image:
+    # image: # {}
       # repository: eoepca/rm-workspace-api
-      # pullPolicy: IfNotPresent
+      # pullPolicy: Always
       # Overrides the image tag whose default is the chart appVersion.
-      # tag: "1.2.0"
+      # tag: "latest"
 
     ingress:
       enabled: true
@@ -35,11 +35,16 @@ spec:
     prefixForName: "demo-user"
     workspaceSecretName: "bucket"
     namespaceForBucketResource: "rm"
-    s3Endpoint: "https://cf2.cloudferro.com:8080"
+    # s3Endpoint: "https://cf2.cloudferro.com:8080"
+    s3Endpoint: "https://minio.demo.eoepca.org"
     s3Region: "RegionOne"
     harborUrl: "https://harbor.demo.eoepca.org"
     harborUsername: "admin"
     harborPassword: "eoepcaHarborx83NX3tVpSLAgg9UuusQ"
+    # harborPasswordSecretName: "harbor"
     umaClientSecretName: "rm-uma-user-agent"
     umaClientSecretNamespace: "rm"
     workspaceChartsConfigMap: "workspace-charts"
+    bucketEndpointUrl: "http://minio-bucket-api:8080/bucket"
+    pepBaseUrl: "http://workspace-api-pep:5576/resources"
+    autoProtectionEnabled: "True"
