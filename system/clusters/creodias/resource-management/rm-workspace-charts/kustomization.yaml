@@ -10,5 +10,6 @@ configMapGenerator:
       - template-cm-aws-config.yaml
       - template-cm-aws-credentials.yaml
       - template-cm-docker-config.yaml
+      - template-pvc-pep.yaml
 generatorOptions:
   disableNameSuffixHash: true

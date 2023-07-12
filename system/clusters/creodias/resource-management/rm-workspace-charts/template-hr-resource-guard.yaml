@@ -34,7 +34,7 @@ spec:
         enabled: False
       volumeClaim:
         name: "{{ workspace_name }}-pep-pvc"
-        create: "true"
+        create: "false"
       defaultResources:
         - name: "Workspace {{ workspace_name }} Root"
           description: "Root URL of a users workspace"
