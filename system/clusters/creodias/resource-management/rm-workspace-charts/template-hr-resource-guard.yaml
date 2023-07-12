@@ -33,7 +33,7 @@ spec:
       nginxIntegration:
         enabled: False
       volumeClaim:
-        name: "{{ workspace_name }}-pep-pvc"
+        name: "{{ workspace_name }}-pep-1-pvc"
         create: "true"
       defaultResources:
         - name: "Workspace {{ workspace_name }} Root"
