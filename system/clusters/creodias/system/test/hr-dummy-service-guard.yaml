@@ -41,7 +41,7 @@ spec:
         description: "Protected Access for bob to his space in the dummy service"
         resource_uri: "/bobspace"
         scopes: []
-        default_owner: "5c82550f-ae47-4848-b682-8894c6e4a865"
+        default_owner: "bae7d271-af86-4392-9052-07a780ff4119"
       nginxIntegration:
         enabled: false
         # hostname: dummy-service-auth
