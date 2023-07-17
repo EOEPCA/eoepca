@@ -96,7 +96,7 @@ spec:
         STAGEOUT_AWS_SERVICEURL: https://minio.demo.eoepca.org
 
       useResourceManager: "true"
-      resourceManagerWorkspacePrefix: "develop-user"
+      resourceManagerWorkspacePrefix: "demo-user"
       resourceManagerEndpoint: "https://workspace-api.demo.eoepca.org"
       platformDomain: "https://auth.demo.eoepca.org"
 
