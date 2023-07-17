@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: ades
-      version: 2.0.18
+      version: 2.0.19
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -93,10 +93,10 @@ spec:
         STAGEIN_AWS_SECRET_ACCESS_KEY: test
         STAGEIN_AWS_REGION: RegionOne
 
-        STAGEOUT_AWS_SERVICEURL: https://minio.develop.eoepca.org
+        STAGEOUT_AWS_SERVICEURL: https://minio.demo.eoepca.org
 
       useResourceManager: "true"
-      resourceManagerWorkspacePrefix: "demo-user"
+      resourceManagerWorkspacePrefix: "develop-user"
       resourceManagerEndpoint: "https://workspace-api.demo.eoepca.org"
       platformDomain: "https://auth.demo.eoepca.org"
 
@@ -117,7 +117,7 @@ spec:
       processingMaxCores: "4"
       # if false the Ades will clean the volume after the workflow has successfully finished running
       processingKeepWorkspace: "false"
-      processingKeepWorkspaceIfFailed: "false"
+      processingKeepWorkspaceIfFailed: "True"
       # image pull secrects
       imagePullSecrets: []
 
