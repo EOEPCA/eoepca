@@ -126,7 +126,7 @@ spec:
         
     wps:
       pepBaseUrl: "http://ades-pep:5576"
-      usePep: "false"
+      usePep: "true"
       maincfgtpl: "files/main.cfg.tpl"
     persistence:
       enabled: true
