@@ -41,7 +41,7 @@ spec:
           - host: data-access.demo.eoepca.org
         tls:
           - hosts:
-              - data-access.develop.eoepca.org
+              - data-access.demo.eoepca.org
             secretName: data-access-tls
 
       storage:
