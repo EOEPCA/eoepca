@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: application-hub
-      version: 2.0.42
+      version: 2.0.43
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -36,13 +36,13 @@ spec:
             JUPYTERHUB_ENV: "dev"
             JUPYTERHUB_SINGLE_USER_IMAGE: "eoepca/pde-container:1.0.3"
             OAUTH_CALLBACK_URL: https://applicationhub.demo.eoepca.org/hub/oauth_callback
-            OAUTH2_USERDATA_URL: https://auth.develop.eoepca.org/oxauth/restv1/userinfo
-            OAUTH2_TOKEN_URL: https://auth.develop.eoepca.org/oxauth/restv1/token
-            OAUTH2_AUTHORIZE_URL: https://auth.develop.eoepca.org/oxauth/restv1/authorize
-            OAUTH_LOGOUT_REDIRECT_URL: "https://applicationhub.develop.eoepca.org"
+            OAUTH2_USERDATA_URL: https://auth.demo.eoepca.org/oxauth/restv1/userinfo
+            OAUTH2_TOKEN_URL: https://auth.demo.eoepca.org/oxauth/restv1/token
+            OAUTH2_AUTHORIZE_URL: https://auth.demo.eoepca.org/oxauth/restv1/authorize
+            OAUTH_LOGOUT_REDIRECT_URL: "https://applicationhub.demo.eoepca.org"
             OAUTH2_USERNAME_KEY: "user_name"
             STORAGE_CLASS: "managed-nfs-storage"
-            RESOURCE_MANAGER_WORKSPACE_PREFIX: "develop-user"
+            RESOURCE_MANAGER_WORKSPACE_PREFIX: "demo-user"
 
             JUPYTERHUB_CRYPT_KEY:
               valueFrom:
