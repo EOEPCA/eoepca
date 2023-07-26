@@ -27,6 +27,9 @@ spec:
           - applicationhub.demo.eoepca.org
 
     application-hub:
+      scheduling:
+        userScheduler:
+          enabled: false
       ingress:
         enabled: true
       fullnameOverride: "application-hub"
