@@ -26,10 +26,11 @@ spec:
           hosts:
           - applicationhub.demo.eoepca.org
 
+    scheduling:
+      userScheduler:
+        enabled: false
+
     application-hub:
-      scheduling:
-        userScheduler:
-          enabled: false
       ingress:
         enabled: true
       fullnameOverride: "application-hub"
