@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: application-hub
-      version: 2.0.43
+      version: 2.0.44
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -26,7 +26,7 @@ spec:
           hosts:
           - applicationhub.demo.eoepca.org
 
-    jupyterhub:
+    application-hub:
       ingress:
         enabled: true
       fullnameOverride: "application-hub"
