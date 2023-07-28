@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: application-hub
-      version: 2.0.45
+      version: 2.0.46
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -65,7 +65,7 @@ spec:
         image:
           #name: jupyterhub/k8s-hub
           #tag: "2.0.0"
-          name: eoepca/app-hub
+          name: eoepca/application-hub
           tag: "1.0.0"
           pullPolicy: Always
           pullSecrets: []
