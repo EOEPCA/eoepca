@@ -925,6 +925,7 @@ spec:
       client:
         image:
           repository: registry.gitlab.eox.at/vs/vs/client
+          tag: release-4.1.2
         config:
           eoxserverDownloadEnabled: true
           timeDomain:
