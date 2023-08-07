@@ -36,10 +36,10 @@ spec:
       # tls_host: resource-catalogue.develop.eoepca.org
       # tls_secret_name: resource-catalogue-open-tls
     pycsw:
-      # image:
-      #   repository: geopython/pycsw
-      #   pullPolicy: Always
-      #   tag: "eoepca-staging"
+      image:
+        repository: geopython/pycsw
+        pullPolicy: Always
+        tag: "eoepca-staging"
       config:
         server:
           url: https://resource-catalogue.develop.eoepca.org/
