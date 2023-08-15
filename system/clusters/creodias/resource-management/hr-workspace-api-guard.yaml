@@ -45,6 +45,12 @@ spec:
           scopes:
             - "public_access"
           default_owner: "0000000000000"
+        - name: "Workspace API OpenAPI JSON"
+          description: "Public access to workspace API openapi.json file"
+          resource_uri: "/openapi.json"
+          scopes:
+            - "public_access"
+          default_owner: "0000000000000"
       nginxIntegration:
         enabled: false
         # hostname: workspace-api-auth
