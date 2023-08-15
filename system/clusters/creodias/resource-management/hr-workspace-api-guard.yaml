@@ -31,17 +31,25 @@ spec:
         asHostname: auth
         pdpHostname: auth
         # limitUses: 100
-      # customDefaultResources:
-      # - name: "Eric's workspace"
-      #   description: "Protected Access for eric to his user workspace"
-      #   resource_uri: "/workspaces/develop-user-eric"
-      #   scopes: []
-      #   default_owner: "fad43ef3-23ef-48b0-86f0-1cf29d97908e"
-      # - name: "Bob's workspace"
-      #   description: "Protected Access for bob to his user workspace"
-      #   resource_uri: "/workspaces/develop-user-bob"
-      #   scopes: []
-      #   default_owner: "f0a19e32-5651-404e-8acd-128c2c284300"
+      defaultResources:
+        - name: "Workspace API Base Path"
+          description: "Protected root path for operators only"
+          resource_uri: "/"
+          scopes: []
+          default_owner: "0000000000000"
+      customDefaultResources:
+        - name: "Workspace API Swagger Docs"
+          description: "Public access to workspace API swagger docs"
+          resource_uri: "/docs"
+          scopes:
+            - "public_access"
+          default_owner: "0000000000000"
+        - name: "Workspace API OpenAPI JSON"
+          description: "Public access to workspace API openapi.json file"
+          resource_uri: "/openapi.json"
+          scopes:
+            - "public_access"
+          default_owner: "0000000000000"
       nginxIntegration:
         enabled: false
         # hostname: workspace-api-auth
