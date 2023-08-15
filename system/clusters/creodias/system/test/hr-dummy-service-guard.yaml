@@ -71,7 +71,7 @@ spec:
         credentialsSecretName: ""
       logging:
         level: "debug"
-      openAccess: true
+      # openAccess: true
       unauthorizedResponse: 'Bearer realm="https://portal.develop.eoepca.org/oidc/authenticate/"'
     #---------------------------------------------------------------------------
     # END values
