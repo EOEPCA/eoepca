@@ -160,9 +160,9 @@ spec:
                     repository_database_uri: postgresql://postgres:mypass@resource-catalogue-db/pycsw
 
       harvester:
-        # image:
-          # tag: "latest"
-          # pullPolicy: Always
+        image:
+          tag: "latest"
+          pullPolicy: Always
         resources:
           requests:
             cpu: 100m
