@@ -866,7 +866,7 @@ spec:
 
       harvester:
         image:
-          tag: "latest"
+          tag: "pr-4-merge"
           pullPolicy: Always
         resources:
           requests:
@@ -920,6 +920,27 @@ spec:
               filter: {}
               postprocess:
                 - type: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel1Postprocessor
+              queue: register
+            - name: Sentinel-3
+              resource:
+                url: https://datahub.creodias.eu/resto/api/collections/Sentinel3/describe.xml
+                type: OpenSearch
+                format_config:
+                  type: 'application/json'
+                  property_mapping:
+                    start_datetime: 'startDate'
+                    end_datetime: 'completionDate'
+                    productIdentifier: 'productIdentifier'
+                query:
+                  time:
+                    property: sensed
+                    begin: 2019-09-10T00:00:00Z
+                    end: 2019-09-11T00:00:00Z
+                  collection: null
+                  bbox: 14.9,47.7,16.4,48.7
+              filter: {}
+              postprocess:
+                - type: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel3Postprocessor
               queue: register
 
       client:
