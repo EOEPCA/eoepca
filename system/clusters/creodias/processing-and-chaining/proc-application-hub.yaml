@@ -65,8 +65,8 @@ spec:
         image:
           #name: jupyterhub/k8s-hub
           #tag: "2.0.0"
-          name: eoepca/app-hub
-          tag: "develop"
+          #name: eoepca/app-hub
+          #tag: "dev1.1.0"
           pullPolicy: Always
           pullSecrets: []
 
