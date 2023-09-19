@@ -202,6 +202,17 @@ spec:
             - name: WGS84
               zoom: 13
           parentLayer: L8L1GT
+        - id: S3A_OL_2_LFR
+          title: Sentinel-3 OL_2_LFR
+          abstract: Sentinel-3 Quicklooks
+          displayColor: '#eb3700'
+          grids:
+            - name: WGS84
+              zoom: 13
+          parentLayer: S3A_OL_2_LFR
+          search:
+            histogramBinCount: 15
+            histogramThreshold: 80
       collections:
         S2L1C:
           product_types:
