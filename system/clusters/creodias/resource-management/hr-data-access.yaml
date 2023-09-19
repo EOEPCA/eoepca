@@ -26,7 +26,7 @@ spec:
     global:
       env:
         REGISTRAR_REPLACE: "true"
-        CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .TIF,.TIFF,.tif,.tiff,.xml,.jp2,.jpg,.jpeg,.png
+        CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .TIF,.TIFF,.tif,.tiff,.xml,.jp2,.jpg,.jpeg,.png,.nc
         AWS_HTTPS: "FALSE"
         startup_scripts:
           - /registrar_pycsw/registrar_pycsw/initialize-collections.sh
@@ -267,6 +267,10 @@ spec:
         S1IWGRD1C:
           product_types:
             - S1IWGRD1C_VVVH
+          coverage_types: []
+        S3A_OL_2_LFR:
+          product_types:
+            - S3A_OL_2_LFR
           coverage_types: []
       coverageTypes:
         # Landsat-8 L1TP
@@ -777,7 +781,51 @@ spec:
                 expression: VV/VH
                 range: [5000, 12000]
                 nodata: 0
-
+        - name: S3A_OL_2_LFR
+          filter:
+            constellation: Sentinel-3
+            s3:productType: OL_2_LFR___
+          collections:
+            - S3A_OL_2_LFR
+          metadata_assets: []
+          coverages: {}
+            # OGVI:
+            #   assets:
+            #     - ogvi
+            # RCOGVI:
+            #   assets:
+            #     - rcOgvi
+            # OTCI:
+            #   assets:
+            #     - otci
+            # IWV:
+            #   assets:
+            #     - iwv
+            # LQSF:
+            #   assets:
+            #     - lqsf
+            # TIMECOORDINATES:
+            #   assets:
+            #     - timeCoordinates
+            # GEOCOORDINATES:
+            #   assets:
+            #     - geoCoordinates
+            # TIEGEOCOORDINATES:
+            #   assets:
+            #     - tieGeoCoordinates
+            # TIEGEOMETRIES:
+            #   assets:
+            #     - tieGeometries
+            # TIEMETEO:
+            #   assets:
+            #     - tieMeteo
+            # INSTRUMENTDATA:
+            #   assets:
+            #     - instrumentData
+          defaultBrowse: THUMBNAIL
+          browses:
+            THUMBNAIL:
+              asset: thumbnail
 
     vs:
       renderer:
