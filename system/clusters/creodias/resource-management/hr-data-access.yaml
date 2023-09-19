@@ -956,6 +956,7 @@ spec:
               filter: {}
               postprocess:
                 - type: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel2Postprocessor
+                - type: harvester_eoepca.postprocess.TitlePostprocessor
               queue: register
             - name: Creodias-Opensearch-Sentinel1
               resource:
