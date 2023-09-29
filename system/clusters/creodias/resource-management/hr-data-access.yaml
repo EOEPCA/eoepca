@@ -950,7 +950,6 @@ spec:
                         productIdentifier: 'productIdentifier'
                   query:
                     time:
-                      property: sensed
                       begin: 2019-09-10T00:00:00Z
                       end: 2019-09-11T00:00:00Z
                     collection: null
@@ -975,7 +974,6 @@ spec:
                         productIdentifier: 'productIdentifier'
                   query:
                     time:
-                      property: sensed
                       begin: 2019-09-10T00:00:00Z
                       end: 2019-09-11T00:00:00Z
                     collection: null
@@ -1002,7 +1000,6 @@ spec:
                         productIdentifier: 'productIdentifier'
                   query:
                     time:
-                      property: sensed
                       begin: 2019-09-10T00:00:00Z
                       end: 2019-09-11T00:00:00Z
                     collection: null
