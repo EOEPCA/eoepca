@@ -925,7 +925,7 @@ spec:
 
       harvester:
         image:
-          tag: "latest"
+          tag: "1.4.dev1"
           pullPolicy: Always
         resources:
           requests:
