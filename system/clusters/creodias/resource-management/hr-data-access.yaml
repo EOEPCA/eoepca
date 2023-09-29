@@ -940,12 +940,13 @@ spec:
               resource:
                 url: https://datahub.creodias.eu/resto/api/collections/Sentinel2/describe.xml
                 type: OpenSearch
-                format_config:
+                format:
                   type: 'application/json'
-                  property_mapping:
-                    start_datetime: 'startDate'
-                    end_datetime: 'completionDate'
-                    productIdentifier: 'productIdentifier'
+                  json:
+                    property_mapping:
+                      start_datetime: 'startDate'
+                      end_datetime: 'completionDate'
+                      productIdentifier: 'productIdentifier'
                 query:
                   time:
                     property: sensed
@@ -963,12 +964,13 @@ spec:
               resource:
                 url: https://datahub.creodias.eu/resto/api/collections/Sentinel1/describe.xml
                 type: OpenSearch
-                format_config:
+                format:
                   type: 'application/json'
-                  property_mapping:
-                    start_datetime: 'startDate'
-                    end_datetime: 'completionDate'
-                    productIdentifier: 'productIdentifier'
+                  json:
+                    property_mapping:
+                      start_datetime: 'startDate'
+                      end_datetime: 'completionDate'
+                      productIdentifier: 'productIdentifier'
                 query:
                   time:
                     property: sensed
@@ -988,12 +990,13 @@ spec:
               resource:
                 url: https://datahub.creodias.eu/resto/api/collections/Sentinel3/describe.xml
                 type: OpenSearch
-                format_config:
+                format:
                   type: 'application/json'
-                  property_mapping:
-                    start_datetime: 'startDate'
-                    end_datetime: 'completionDate'
-                    productIdentifier: 'productIdentifier'
+                  json:
+                    property_mapping:
+                      start_datetime: 'startDate'
+                      end_datetime: 'completionDate'
+                      productIdentifier: 'productIdentifier'
                 query:
                   time:
                     property: sensed
