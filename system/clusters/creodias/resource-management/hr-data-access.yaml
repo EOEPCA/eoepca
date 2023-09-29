@@ -938,22 +938,23 @@ spec:
           harvesters:
             Creodias-Opensearch:
               resource:
-                url: https://datahub.creodias.eu/resto/api/collections/Sentinel2/describe.xml
                 type: OpenSearch
-                format:
-                  type: 'application/json'
-                  json:
-                    property_mapping:
-                      start_datetime: 'startDate'
-                      end_datetime: 'completionDate'
-                      productIdentifier: 'productIdentifier'
-                query:
-                  time:
-                    property: sensed
-                    begin: 2019-09-10T00:00:00Z
-                    end: 2019-09-11T00:00:00Z
-                  collection: null
-                  bbox: 14.9,47.7,16.4,48.7
+                opensearch:
+                  url: https://datahub.creodias.eu/resto/api/collections/Sentinel2/describe.xml
+                  format:
+                    type: 'application/json'
+                    json:
+                      property_mapping:
+                        start_datetime: 'startDate'
+                        end_datetime: 'completionDate'
+                        productIdentifier: 'productIdentifier'
+                  query:
+                    time:
+                      property: sensed
+                      begin: 2019-09-10T00:00:00Z
+                      end: 2019-09-11T00:00:00Z
+                    collection: null
+                    bbox: 14.9,47.7,16.4,48.7
               filter: {}
               postprocessors:
                 - type: external
@@ -962,22 +963,23 @@ spec:
               queue: register
             Creodias-Opensearch-Sentinel1:
               resource:
-                url: https://datahub.creodias.eu/resto/api/collections/Sentinel1/describe.xml
                 type: OpenSearch
-                format:
-                  type: 'application/json'
-                  json:
-                    property_mapping:
-                      start_datetime: 'startDate'
-                      end_datetime: 'completionDate'
-                      productIdentifier: 'productIdentifier'
-                query:
-                  time:
-                    property: sensed
-                    begin: 2019-09-10T00:00:00Z
-                    end: 2019-09-11T00:00:00Z
-                  collection: null
-                  bbox: 14.9,47.7,16.4,48.7
+                opensearch:
+                  url: https://datahub.creodias.eu/resto/api/collections/Sentinel1/describe.xml
+                  format:
+                    type: 'application/json'
+                    json:
+                      property_mapping:
+                        start_datetime: 'startDate'
+                        end_datetime: 'completionDate'
+                        productIdentifier: 'productIdentifier'
+                  query:
+                    time:
+                      property: sensed
+                      begin: 2019-09-10T00:00:00Z
+                      end: 2019-09-11T00:00:00Z
+                    collection: null
+                    bbox: 14.9,47.7,16.4,48.7
                   extra_params:
                     productType: GRD-COG
               filter: {}
@@ -988,22 +990,23 @@ spec:
               queue: register
             Sentinel-3:
               resource:
-                url: https://datahub.creodias.eu/resto/api/collections/Sentinel3/describe.xml
                 type: OpenSearch
-                format:
-                  type: 'application/json'
-                  json:
-                    property_mapping:
-                      start_datetime: 'startDate'
-                      end_datetime: 'completionDate'
-                      productIdentifier: 'productIdentifier'
-                query:
-                  time:
-                    property: sensed
-                    begin: 2019-09-10T00:00:00Z
-                    end: 2019-09-11T00:00:00Z
-                  collection: null
-                  bbox: 14.9,47.7,16.4,48.7
+                opensearch:
+                  url: https://datahub.creodias.eu/resto/api/collections/Sentinel3/describe.xml
+                  format:
+                    type: 'application/json'
+                    json:
+                      property_mapping:
+                        start_datetime: 'startDate'
+                        end_datetime: 'completionDate'
+                        productIdentifier: 'productIdentifier'
+                  query:
+                    time:
+                      property: sensed
+                      begin: 2019-09-10T00:00:00Z
+                      end: 2019-09-11T00:00:00Z
+                    collection: null
+                    bbox: 14.9,47.7,16.4,48.7
                   extra_params:
                     productType: OL_2_LFR___
               filter: {}
