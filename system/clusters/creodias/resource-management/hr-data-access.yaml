@@ -957,7 +957,7 @@ spec:
               filter: {}
               postprocessors:
                 - type: external
-                  process: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel2Postprocessor
+                  process: harvester_eoepca.postprocess.postprocess_sentinel2
                   kwargs: {}
               queue: register
             Creodias-Opensearch-Sentinel1:
@@ -984,7 +984,7 @@ spec:
               filter: {}
               postprocessors:
                 - type: external
-                  process: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel1Postprocessor
+                  process: harvester_eoepca.postprocess.postprocess_sentinel1
                   kwargs: {}
               queue: register
             Sentinel-3:
@@ -1011,7 +1011,7 @@ spec:
               filter: {}
               postprocessors:
                 - type: external
-                  process: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel3Postprocessor
+                  process: harvester_eoepca.postprocess.postprocess_sentinel3
                   kwargs: {}
               queue: register
 
