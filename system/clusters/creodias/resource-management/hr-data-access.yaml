@@ -760,7 +760,7 @@ spec:
               validity: false
         - name: S1IWGRD1C_VVVH
           filter:
-            constellation: Sentinel-1
+            constellation: sentinel-1
             sar:instrument_mode: IW
             sar:product_type: GRD
             sar:polarizations: ["VV", "VH"]
@@ -925,7 +925,11 @@ spec:
 
       harvester:
         image:
+<<<<<<< Updated upstream
           tag: "1.4-dev1"
+=======
+          tag: "pr-4-merge"
+>>>>>>> Stashed changes
           pullPolicy: Always
         resources:
           requests:
