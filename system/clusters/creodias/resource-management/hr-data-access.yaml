@@ -954,8 +954,10 @@ spec:
                   collection: null
                   bbox: 14.9,47.7,16.4,48.7
               filter: {}
-              postprocess:
-                - type: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel2Postprocessor
+              postprocessors:
+                - type: external
+                  process: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel2Postprocessor
+                  kwargs: {}
               queue: register
             Creodias-Opensearch-Sentinel1:
               resource:
@@ -977,8 +979,10 @@ spec:
                   extra_params:
                     productType: GRD-COG
               filter: {}
-              postprocess:
-                - type: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel1Postprocessor
+              postprocessors:
+                - type: external
+                  process: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel1Postprocessor
+                  kwargs: {}
               queue: register
             Sentinel-3:
               resource:
@@ -1000,8 +1004,10 @@ spec:
                   extra_params:
                     productType: OL_2_LFR___
               filter: {}
-              postprocess:
-                - type: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel3Postprocessor
+              postprocessors:
+                - type: external
+                  process: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel3Postprocessor
+                  kwargs: {}
               queue: register
 
       client:
