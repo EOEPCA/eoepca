@@ -925,11 +925,7 @@ spec:
 
       harvester:
         image:
-<<<<<<< Updated upstream
           tag: "1.4-dev1"
-=======
-          tag: "pr-4-merge"
->>>>>>> Stashed changes
           pullPolicy: Always
         resources:
           requests:
