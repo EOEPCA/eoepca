@@ -925,7 +925,7 @@ spec:
 
       harvester:
         image:
-          tag: "1.4-dev1"
+          tag: latest
           pullPolicy: Always
         resources:
           requests:
@@ -936,7 +936,7 @@ spec:
             host: data-access-redis-master
             port: 6379
           harvesters:
-            - name: Creodias-Opensearch
+            Creodias-Opensearch:
               resource:
                 url: https://datahub.creodias.eu/resto/api/collections/Sentinel2/describe.xml
                 type: OpenSearch
@@ -957,7 +957,7 @@ spec:
               postprocess:
                 - type: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel2Postprocessor
               queue: register
-            - name: Creodias-Opensearch-Sentinel1
+            Creodias-Opensearch-Sentinel1:
               resource:
                 url: https://datahub.creodias.eu/resto/api/collections/Sentinel1/describe.xml
                 type: OpenSearch
@@ -980,7 +980,7 @@ spec:
               postprocess:
                 - type: harvester_eoepca.postprocess.CREODIASOpenSearchSentinel1Postprocessor
               queue: register
-            - name: Sentinel-3
+            Sentinel-3:
               resource:
                 url: https://datahub.creodias.eu/resto/api/collections/Sentinel3/describe.xml
                 type: OpenSearch
