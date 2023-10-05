@@ -44,6 +44,19 @@ EOF
   done
 }
 
+function worker_nodes_hm() {
+  worker_nodes_hm=$(terraform output -state=../creodias/terraform.tfstate -json | jq -r '.k8s_node_hm_ips.value[]' 2>/dev/null) || unset worker_nodes_hm
+  for node in $worker_nodes_hm
+  do
+    cat - <<EOF
+  - address: $node
+    user: eouser
+    role:
+      - worker
+EOF
+  done
+}
+
 function bastion_host() {
   bastion=$(terraform output -state=../creodias/terraform.tfstate -json | jq -r '.bastion_fips.value[]' 2>/dev/null) || unset bastion
   cat - <<EOF
@@ -70,6 +83,7 @@ kubernetes_version: "${KUBERNETES_VERSION}"
 nodes:
 $(master_nodes)
 $(worker_nodes)
+$(worker_nodes_hm)
 
 ingress:
   provider: none
