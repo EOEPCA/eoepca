@@ -4,6 +4,10 @@ variable "k8s_node_ips" {
   type = list
 }
 
+variable "k8s_node_hm_ips" {
+  type = list
+}
+
 variable "network_id" {}
 
 variable "floatingip_pool" {}

@@ -677,6 +677,65 @@ resource "openstack_compute_instance_v2" "k8s_node_no_floating_ip" {
   }
 }
 
+resource "openstack_compute_instance_v2" "k8s_node_high_memory" {
+  name              = "${var.cluster_name}-k8s-node-hm-${count.index + 1}"
+  count             = "${var.node_root_volume_size_in_gb == 0 ? var.number_of_k8s_nodes_hm : 0}"
+  availability_zone = "${element(var.az_list, count.index)}"
+  image_name        = "${var.image}"
+  flavor_id         = "25"
+  key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
+
+  lifecycle {
+     ignore_changes = [image_name]
+  }
+
+  network {
+    name = "${var.network_name}"
+  }
+
+  network {
+    name = "${var.eodata_network_name}"
+  }
+
+  security_groups = ["${openstack_networking_secgroup_v2.k8s.name}",
+    "${openstack_networking_secgroup_v2.worker.name}",
+  ]
+
+  dynamic "scheduler_hints" {
+    for_each = var.use_server_groups ? [openstack_compute_servergroup_v2.k8s_node[0]] : []
+    content {
+      group = "${openstack_compute_servergroup_v2.k8s_node[0].id}"
+    }
+  }
+
+  metadata = {
+    ssh_user         = "${var.ssh_user}"
+    kubespray_groups = "kube-node,k8s-cluster,no-floating,${var.supplementary_node_groups}"
+    depends_on       = "${var.network_id}"
+    use_access_ip    = "${var.use_access_ip}"
+  }
+
+  connection {
+    type         = "ssh"
+    user         = "${var.ssh_user}"
+    private_key  = "${chomp(file(trimsuffix(var.public_key_path, ".pub")))}"
+    host         = "${self.access_ip_v4}"
+    bastion_host = var.bastion_fips[0]
+  }
+
+  provisioner "file" {
+    source      = "${path.module}/rke-node-setup.sh"
+    destination = "/tmp/rke-node-setup.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo chmod +x /tmp/rke-node-setup.sh",
+      "sudo /tmp/rke-node-setup.sh ${var.ssh_user}",
+    ]
+  }
+}
+
 resource "openstack_compute_instance_v2" "k8s_node_no_floating_ip_custom_volume_size" {
   name              = "${var.cluster_name}-k8s-node-nf-${count.index + 1}"
   count             = "${var.node_root_volume_size_in_gb > 0 ? var.number_of_k8s_nodes_no_floating_ip : 0}"
