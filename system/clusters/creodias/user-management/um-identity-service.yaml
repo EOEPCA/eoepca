@@ -74,5 +74,31 @@ spec:
           - secretName: identity-proxy-tls-certificate
             hosts:
               - identity.proxy.develop.eoepca.org
+    identity-gateekeper:
+      ingress:
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt
+        hosts:
+          - host: identity.gatekeeper.develop.eoepca.org
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - secretName: identity-gatekeeper-tls-certificate
+            hosts:
+              - identity.gatekeeper.develop.eoepca.org
+    identity-dummy:
+      ingress:
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt
+        hosts:
+          - host: identity.dummy.develop.eoepca.org
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - secretName: identity-dummy-tls-certificate
+            hosts:
+              - identity.dummy.develop.eoepca.org
   timeout: 5m0s
   interval: 1m0s
