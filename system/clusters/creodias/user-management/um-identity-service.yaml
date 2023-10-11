@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: identity-service
-      version: 1.0.18
+      version: 1.0.19
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -61,19 +61,6 @@ spec:
           - secretName: identity-manager-tls-certificate
             hosts:
               - identity.manager.develop.eoepca.org
-    identity-proxy:
-      ingress:
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt
-        hosts:
-          - host: identity.proxy.develop.eoepca.org
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - secretName: identity-proxy-tls-certificate
-            hosts:
-              - identity.proxy.develop.eoepca.org
     identity-gateekeper:
       ingress:
         annotations:
@@ -87,18 +74,5 @@ spec:
           - secretName: identity-gatekeeper-tls-certificate
             hosts:
               - identity.gatekeeper.develop.eoepca.org
-    identity-dummy:
-      ingress:
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt
-        hosts:
-          - host: identity.dummy.develop.eoepca.org
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - secretName: identity-dummy-tls-certificate
-            hosts:
-              - identity.dummy.develop.eoepca.org
   timeout: 5m0s
   interval: 1m0s
