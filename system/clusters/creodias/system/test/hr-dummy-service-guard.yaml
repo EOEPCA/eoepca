@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: resource-guard
-      version: 1.4.1
+      version: 1.3.1
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -58,21 +58,15 @@ spec:
       #   pullPolicy: Always
       nginxIntegration:
         enabled: true
-        hosts:
-          # First part of the hostname - global.domain will be appended
-          - host: "identity.{{ .Values.global.context }}"
-            paths:
-              - path: /keycloak
-                service:
-                  name: "{{ .Values.global.context }}"
-                  port: 80
-          # First part of the hostname - global.domain will be appended
-          - host: "{{ .Values.global.context }}"
-            paths:
-              - path: /
-                service:
-                  name: "{{ .Values.global.context }}"
-                  port: 80
+        # The chart defaults use the value `global.context` (port `80`) to populate
+        # the host, so no need to bother.
+        # hosts:
+        #   - host: dummy-service
+        #     paths:
+        #       - path: /
+        #         service:
+        #           name: dummy-service
+        #           port: 80
       client:
         credentialsSecretName: ""
       logging:
