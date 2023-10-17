@@ -1012,7 +1012,32 @@ spec:
                   process: harvester_eoepca.postprocess.postprocess_sentinel3
                   kwargs: {}
               queue: register
-
+            Sentinel1-SLC:
+              resource:
+                type: OpenSearch
+                opensearch:
+                  url: https://datahub.creodias.eu/resto/api/collections/Sentinel1/describe.xml
+                  format:
+                    type: 'application/json'
+                    json:
+                      property_mapping:
+                        start_datetime: 'startDate'
+                        end_datetime: 'completionDate'
+                        productIdentifier: 'productIdentifier'
+                  query:
+                    time:
+                      begin: 2019-09-10T00:00:00Z
+                      end: 2019-09-11T00:00:00Z
+                    collection: null
+                    bbox: 14.9,47.7,16.4,48.7
+                    extra_params:
+                      productType: SLC
+              filter: {}
+              postprocessors:
+                - type: external
+                  process: harvester_eoepca.postprocess.postprocess_sentinel1
+                  kwargs: {}
+              queue: register
       client:
         image:
           repository: registry.gitlab.eox.at/vs/vs/client
