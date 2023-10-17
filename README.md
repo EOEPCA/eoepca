@@ -43,6 +43,8 @@
 - [Getting Started](#getting-started)
   - [Hostnames and DNS](#hostnames-and-dns)
 - [System Documentation](#system-documentation)
+  - [Current Documentation](#current-documentation)
+  - [Legacy Documentation](#legacy-documentation)
 - [Technical Domains](#technical-domains)
   - [User Management](#user-management)
   - [Processing and Chaining](#processing-and-chaining)
@@ -70,14 +72,14 @@ The system is designed for deployment to cloud infrastructure orchestrated by a 
 
 The EOEPCA system deployment comprises several steps. Instructions are provided for both cloud deployment, and local deployment for development purposes.
 
-For the latest release (v1.2) ensure that the [correct version](https://github.com/EOEPCA/eoepca/blob/v1.2/README.md "v1.2 README") of this README is followed.
+For the latest release (v1.3) ensure that the [correct version](https://github.com/EOEPCA/eoepca/blob/v1.3/README.md "v1.3 README") of this README is followed.
 
 The first step is to fork this repository into your GitHub account. Use of fork (rather than clone) is recommended to support our GitOps approach to deployment with Flux Continuous Delivery, which requires write access to your git repository for deployment configurations.<br>
 Having forked, clone the repository to your local platform...
 ```
 $ git clone git@github.com:<user>/eoepca.git
 $ cd eoepca
-$ git checkout v1.2
+$ git checkout v1.3
 ```
 NOTE that this clones the specific tag that is well tested. The `develop` branch should alternatively be used for the latest development.
 
@@ -89,7 +91,7 @@ EOEPCA System Deployment<br>(`flux`) | [EOEPCA GitOps](./system/clusters/README.
 EOEPCA System Deployment<br>([Deployment Guide](https://deployment-guide.docs.eoepca.org/)) | [Deployment Guide](https://deployment-guide.docs.eoepca.org/) | [Deployment Guide](https://deployment-guide.docs.eoepca.org/)
 Acceptance Test | [Run Test Suite](./test/acceptance/README.md) | [Run Test Suite](./test/acceptance/README.md)
 
-NOTE that, with release v1.2, the number of system components has been expanded to the point where it is more difficult to make a full system deployment in minikube, due to the required resource demands. Nevertheless, it is possible to make a minikube deployment to a single node with sufficient resources (4 cpu, 16GB) - as illustrated by the [Deployment Guide](https://deployment-guide.docs.eoepca.org/).
+NOTE that, with release v1.3, the number of system components has been expanded to the point where it is more difficult to make a full system deployment in minikube, due to the required resource demands. Nevertheless, it is possible to make a minikube deployment to a single node with sufficient resources (8 cpu, 32GB) - as illustrated by the [Deployment Guide](https://deployment-guide.docs.eoepca.org/).
 
 NOTE also that the [Deployment Guide](https://deployment-guide.docs.eoepca.org/) provides a more detailed description of the deployment and configuration of the components, supported by some shell scripts that deploy the components directly using `helm` (rather than using `flux` GitOps). The Deployment Guide represents a more informative introduction, and the supporting scripts assume `minikube` out-of-the-box.
 
@@ -97,18 +99,31 @@ NOTE also that the [Deployment Guide](https://deployment-guide.docs.eoepca.org/)
 
 To ease development/testing, the EOEPCA deployment is configured to use host/service names that embed IP-addresses - which avoids the need to configure public nameservers, (as would be necessary for a production deployment). Our services are exposed through Kubernetes ingress rules that use name-based routing, and so simple IP-addresses are insufficient. Therefore, we exploit the services of [nip.io](https://nip.io/) that provides dynamic DNS in which the hostname->IP-adress mapping is embedded in the hostname.
 
-Thus, we use host/service names of the form `<service-name>.<public-ip>.nip.io`, where the `<public-ip>` is the public-facing IP-address of the deployment. For cloud deployment the public IP is that of the cloud load-balancer, or for minikube it is the `minikube ip` - for example `workspace.192.168.49.2.nip.io`.
+Thus, we use host/service names of the form `<service-name>.<public-ip>.nip.io`, where the `<public-ip>` is the public-facing IP-address of the deployment (delimited with dashes `-`). For cloud deployment the public IP is that of the cloud load-balancer, or for minikube it is the `minikube ip` - for example `workspace.192-168-49-2.nip.io`.
 
-> NOTE that we also maintain deployments for development and test, under the domains `develop.eoepca.org` and `demo.eoepca.org`. 
+_NOTE: `nip.io` supports either dots `.` or dashes `-` to delimit the IP-address in the DNS name. We use dashes, which seem to work better with LetsEncrypt rate limits._
+
+> NOTES:<br>
+> We also maintain deployments for development and test, under the domains `develop.eoepca.org` and `demo.eoepca.org`. 
 
 Our public endpoint address is baked into our deployment configuration - in particular the Kubernetes Ingress resources. To re-use our deployment configuration these Ingress values must be updated to suit your deployment environment.
 
 ## System Documentation
 
-* [Deployment Guide](https://deployment-guide.docs.eoepca.org/v1.2/)
+### Current Documentation
+
+The following documentation supports the current release...
+
+* [Deployment Guide](https://deployment-guide.docs.eoepca.org/v1.3/)
+* [System Description](https://system-description.docs.eoepca.org/)
+
+### Legacy Documentation
+
+The following is the original documentation that was produced at the start of the project.<br>
+It is included here for context...
+
 * [Use Case Analysis Document](https://eoepca.github.io/use-case-analysis/)
 * [Master System Design Document](https://eoepca.github.io/master-system-design/)
-* [Master System ICD Document](https://eoepca.github.io/master-system-icd/)
 
 
 ## Technical Domains
@@ -117,27 +132,30 @@ Our public endpoint address is baked into our deployment configuration - in part
 
 Building Block | Repository | Documentation
 ---------------|------------|--------------
-Login Service | https://github.com/EOEPCA/um-login-service | https://eoepca.github.io/um-login-service/<br>https://github.com/EOEPCA/um-login-service/wiki
-User Profile | https://github.com/EOEPCA/um-user-profile | https://eoepca.github.io/um-user-profile/<br>https://github.com/EOEPCA/um-user-profile/wiki
-Policy Enforcement Point (PEP) | https://github.com/EOEPCA/um-pep-engine | https://eoepca.github.io/um-pep-engine/<br>https://github.com/EOEPCA/um-pep-engine/wiki
-Policy Decision Point (PDP) | https://github.com/EOEPCA/um-pep-engine | https://eoepca.github.io/um-pep-engine/<br>https://github.com/EOEPCA/um-pdp-engine/wiki
+Login Service | https://github.com/EOEPCA/um-login-service | https://github.com/EOEPCA/um-login-service/wiki<br>https://deployment-guide.docs.eoepca.org/v1.3/eoepca/login-service/<br>https://system-description.docs.eoepca.org/current/iam/login-service/
+User Profile | https://github.com/EOEPCA/um-user-profile | https://github.com/EOEPCA/um-user-profile/wiki<br>https://deployment-guide.docs.eoepca.org/v1.3/eoepca/user-profile//<br>https://system-description.docs.eoepca.org/current/iam/user-profile/
+Resource Protection | https://github.com/EOEPCA/uma-user-agent<br>https://github.com/EOEPCA/um-pep-engine | https://github.com/EOEPCA/um-pep-engine/wiki<br>https://deployment-guide.docs.eoepca.org/v1.3/eoepca/resource-protection/<br>https://system-description.docs.eoepca.org/current/iam/resource-guard/
+Policy Decision Point (PDP) | https://github.com/EOEPCA/um-pdp-engine | https://github.com/EOEPCA/um-pdp-engine/wiki<br>https://deployment-guide.docs.eoepca.org/v1.3/eoepca/pdp/<br>https://system-description.docs.eoepca.org/current/iam/pdp/
 
 ### Processing and Chaining
 
 Building Block | Repository | Documentation
 ---------------|------------|--------------
-Application Deployment & Execution Service (ADES) | https://github.com/EOEPCA/proc-ades | https://eoepca.github.io/proc-ades/<br>https://github.com/EOEPCA/proc-ades/wiki
-Processor Development Environment (PDE) | https://github.com/EOEPCA/proc-pde | https://github.com/EOEPCA/proc-pde/blob/master/README.md
+Application Deployment & Execution Service (ADES) | https://github.com/EOEPCA/proc-ades | https://github.com/EOEPCA/proc-ades/wiki<br>https://deployment-guide.docs.eoepca.org/v1.3/eoepca/ades/<br>https://system-description.docs.eoepca.org/current/processing/ades/
+Application Hub | https://github.com/EOEPCA/application-hub-chart<br>https://github.com/EOEPCA/application-hub-context | https://deployment-guide.docs.eoepca.org/v1.3/eoepca/application-hub/<br>https://system-description.docs.eoepca.org/current/processing/application-hub/
 Sample Application: s-expression | https://github.com/EOEPCA/app-s-expression | https://github.com/EOEPCA/app-s-expression/blob/main/README.md
+Sample Application: snuggs | https://github.com/EOEPCA/app-snuggs | https://github.com/EOEPCA/app-snuggs#readme
 Sample Application: nhi | https://github.com/EOEPCA/app-nhi | https://github.com/EOEPCA/app-nhi/blob/main/README.md
 
 ### Resource Management
 
 Building Block | Repository | Documentation
 ---------------|------------|--------------
-Resource Catalogue | https://github.com/geopython/pycsw | https://eoepca.github.io/rm-resource-catalogue/<br>https://docs.pycsw.org/en/latest/
-Data Access Services | https://github.com/EOEPCA/rm-data-access/ | https://eoepca.github.io/rm-data-access/
-User Workspace | https://github.com/EOEPCA/rm-workspace-api/ | https://eoepca.github.io/rm-workspace-api/
+Resource Catalogue | https://github.com/geopython/pycsw | https://docs.pycsw.org/en/latest/<br>https://deployment-guide.docs.eoepca.org/v1.3/eoepca/resource-catalogue/<br>https://system-description.docs.eoepca.org/current/resources/catalogue/
+Data Access Services | https://github.com/EOEPCA/rm-data-access/ | https://deployment-guide.docs.eoepca.org/v1.3/eoepca/data-access/<br>https://system-description.docs.eoepca.org/current/resources/data-access/
+Registration API | https://github.com/EOEPCA/rm-registration-api | https://deployment-guide.docs.eoepca.org/v1.3/eoepca/registration-api/<br>https://system-description.docs.eoepca.org/current/resources/registration-api/
+Workspace API | https://github.com/EOEPCA/rm-workspace-api/ | https://deployment-guide.docs.eoepca.org/v1.3/eoepca/workspace/<br>https://system-description.docs.eoepca.org/current/resources/workspace/
+Minio Bucket API | https://github.com/EOEPCA/rm-minio-bucket-api | https://deployment-guide.docs.eoepca.org/v1.3/eoepca/workspace/#minio-bucket-api-webhook | https://system-description.docs.eoepca.org/current/resources/workspace/
 
 
 <!-- Releases -->
@@ -147,6 +165,7 @@ EOEPCA system releases are made to provide integrated deployments of the develop
 
 | Date | Release |
 | :---: | :---: |
+| 25/09/2023 | [Release 1.3](https://github.com/EOEPCA/eoepca/releases/tag/v1.3) |
 | 20/12/2022 | [Release 1.2](https://github.com/EOEPCA/eoepca/blob/v1.2/release-notes/release-1.2.md) |
 | 31/05/2022 | [Release 1.1](https://github.com/EOEPCA/eoepca/blob/v1.1/release-notes/release-1.1.md) |
 | 24/12/2021 | [Release 1.0](https://github.com/EOEPCA/eoepca/blob/v1.0/release-notes/release-1.0.md) |
@@ -165,7 +184,7 @@ See the [open issues](https://github.com/EOEPCA/eoepca/issues) for a list of pro
 <!-- LICENSE -->
 ## License
 
-The EOEPCA SYSTEM is distributed under the European Space Agency - ESA Software Community Licence Permissive – v2.4. See `LICENSE` for more information.
+The EOEPCA SYSTEM is distributed under the Apache 2.0 Licence. See [`LICENSE`](https://github.com/EOEPCA/eoepca/blob/v1.3/LICENSE) for more information.
 
 Building-blocks and their sub-components are individually licensed. See their respective source repositories for details.
 
@@ -173,7 +192,7 @@ Building-blocks and their sub-components are individually licensed. See their re
 <!-- CONTACT -->
 ## Contact
 
-Project Link: [Project Home (https://eoepca.github.io/)](https://eoepca.github.io/)
+Project Link: [Project Home (https://eoepca.org/)](https://eoepca.org/)
 
 
 <!-- ACKNOWLEDGEMENTS -->
