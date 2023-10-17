@@ -1,0 +1,41 @@
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: test
+  name: identity-dummy-service
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      auth_request /auth;
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location ^~ /auth {
+        internal;
+        proxy_pass http://identity-gatekeeper.um.svc.cluster.local:3000/$request_uri;
+        proxy_pass_request_body off;
+        proxy_set_header Content-Length "";
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Method $request_method;
+        proxy_set_header X-Forwarded-URI $request_uri;
+        proxy_busy_buffers_size 64k;
+        proxy_buffers 8 32k;
+        proxy_buffer_size 32k;
+      }
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: identity.dummy-service.develop.eoepca.org
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: dummy-service
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - identity.dummy-service.develop.eoepca.org
+      secretName: identity-dummy-service-tls
