@@ -279,6 +279,10 @@ spec:
           product_types:
             - S1IWGRD1C_VVVH
           coverage_types: []
+        S1SLC:
+          product_types:
+            - S1SLC
+          coverage_types: []
         S3A_OL_2_LFR:
           product_types:
             - S3A_OL_2_LFR
@@ -792,6 +796,24 @@ spec:
                 expression: VV/VH
                 range: [5000, 12000]
                 nodata: 0
+        - name: S1SLC
+          filter:
+            constellation: sentinel-1
+            sar:product_type: SLC
+          collections:
+            - S1SLC
+          metadata_assets: []
+          coverages:
+            # S1IWGRD1C_VV:
+            #   assets:
+            #     - vv
+            # S1IWGRD1C_VH:
+            #   assets:
+            #     - vh
+          defaultBrowse: QUICKLOOK
+          browses:
+            QUICKLOOK:
+              asset: thumbnail
         - name: S3A_OL_2_LFR
           filter:
             constellation: Sentinel-3
@@ -1012,7 +1034,32 @@ spec:
                   process: harvester_eoepca.postprocess.postprocess_sentinel3
                   kwargs: {}
               queue: register
-
+            Sentinel1-SLC:
+              resource:
+                type: OpenSearch
+                opensearch:
+                  url: https://datahub.creodias.eu/resto/api/collections/Sentinel1/describe.xml
+                  format:
+                    type: 'application/json'
+                    json:
+                      property_mapping:
+                        start_datetime: 'startDate'
+                        end_datetime: 'completionDate'
+                        productIdentifier: 'productIdentifier'
+                  query:
+                    time:
+                      begin: 2019-09-10T00:00:00Z
+                      end: 2019-09-11T00:00:00Z
+                    collection: null
+                    bbox: 14.9,47.7,16.4,48.7
+                    extra_params:
+                      productType: SLC
+              filter: {}
+              postprocessors:
+                - type: external
+                  process: harvester_eoepca.postprocess.postprocess_sentinel1
+                  kwargs: {}
+              queue: register
       client:
         image:
           repository: registry.gitlab.eox.at/vs/vs/client
