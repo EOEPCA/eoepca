@@ -279,6 +279,10 @@ spec:
           product_types:
             - S1IWGRD1C_VVVH
           coverage_types: []
+        S1SLC:
+          product_types:
+            - S1SLC
+          coverage_types: []
         S3A_OL_2_LFR:
           product_types:
             - S3A_OL_2_LFR
@@ -792,6 +796,24 @@ spec:
                 expression: VV/VH
                 range: [5000, 12000]
                 nodata: 0
+        - name: S1SLC
+          filter:
+            constellation: sentinel-1
+            sar:product_type: SLC
+          collections:
+            - S1SLC
+          metadata_assets: []
+          coverages:
+            # S1IWGRD1C_VV:
+            #   assets:
+            #     - vv
+            # S1IWGRD1C_VH:
+            #   assets:
+            #     - vh
+          defaultBrowse: QUICKLOOK
+          browses:
+            QUICKLOOK:
+              asset: thumbnail
         - name: S3A_OL_2_LFR
           filter:
             constellation: Sentinel-3
