@@ -1,0 +1,31 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: django-portal
+  namespace: demo
+spec:
+  chart:
+    spec:
+      chart: django-portal
+      version: 1.0.7
+      sourceRef:
+        kind: HelmRepository
+        name: eoepca
+        namespace: common
+  values:
+    portalHost: identity.portal
+    authHost: identity.keycloak
+    domain: develop.eoepca.org
+    configmap:
+      user_prefix: develop-user
+      oidc_op_authorization_endpoint: https://{{authHost}}.{{domain}}/realms/master/protocol/openid-connect/auth
+      oidc_op_token_endpoint: https://{{authHost}}.{{domain}}/realms/master/protocol/openid-connect/token
+      oidc_op_user_endpoint: https://{{authHost}}.{{domain}}/realms/master/protocol/openid-connect/userinfo
+      oidc_op_jwks_endpoint: https://{{authHost}}.{{domain}}/realms/master/protocol/openid-connect/certs
+      oidc_op_logout_url_method: https://{{authHost}}.{{domain}}/realms/master/protocol/openid-connect/logout
+    ingress:
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        cert-manager.io/cluster-issuer: letsencrypt
+  interval: 1m0s
