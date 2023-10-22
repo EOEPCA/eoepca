@@ -803,7 +803,7 @@ spec:
           collections:
             - S1SLC
           metadata_assets: []
-          coverages:
+          coverages: {}
             # S1IWGRD1C_VV:
             #   assets:
             #     - vv
