@@ -8,13 +8,13 @@ spec:
   chart:
     spec:
       chart: django-portal
-      version: 1.0.7
+      version: 1.0.8
       sourceRef:
         kind: HelmRepository
         name: eoepca
         namespace: common
   values:
-    portalHost: identity.portal
+    portalHost: portal-keycloak
     authHost: identity.keycloak
     domain: develop.eoepca.org
     configmap:
