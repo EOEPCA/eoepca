@@ -22,11 +22,11 @@ spec:
     domain: develop.eoepca.org
     configmap:
       user_prefix: develop-user
-      oidc_op_authorization_endpoint: https://{{authHost}}.{{domain}}/realms/master/protocol/openid-connect/auth
-      oidc_op_token_endpoint: https://{{authHost}}.{{domain}}/realms/master/protocol/openid-connect/token
-      oidc_op_user_endpoint: https://{{authHost}}.{{domain}}/realms/master/protocol/openid-connect/userinfo
-      oidc_op_jwks_endpoint: https://{{authHost}}.{{domain}}/realms/master/protocol/openid-connect/certs
-      oidc_op_logout_url_method: https://{{authHost}}.{{domain}}/realms/master/protocol/openid-connect/logout
+      oidc_op_authorization_endpoint: https://identity.keycloak.develop.eoepca.org/realms/master/protocol/openid-connect/auth
+      oidc_op_token_endpoint: https://identity.keycloak.develop.eoepca.org/realms/master/protocol/openid-connect/token
+      oidc_op_user_endpoint: https://identity.keycloak.develop.eoepca.org/realms/master/protocol/openid-connect/userinfo
+      oidc_op_jwks_endpoint: https://identity.keycloak.develop.eoepca.org/realms/master/protocol/openid-connect/certs
+      oidc_op_logout_url_method: https://identity.keycloak.develop.eoepca.org/realms/master/protocol/openid-connect/logout
     ingress:
       annotations:
         kubernetes.io/ingress.class: nginx
