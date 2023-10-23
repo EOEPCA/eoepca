@@ -4,11 +4,14 @@ kind: HelmRelease
 metadata:
   name: django-portal-keycloak
   namespace: demo
+  annotations:
+    meta.helm.sh/release-name: django-portal-keycloak
+    meta.helm.sh/release-namespace: demo
 spec:
   chart:
     spec:
       chart: django-portal-keycloak
-      version: 1.0.0
+      version: 1.0.1
       sourceRef:
         kind: HelmRepository
         name: eoepca
