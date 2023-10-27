@@ -47,4 +47,4 @@ spec:
     workspaceChartsConfigMap: "workspace-charts"
     bucketEndpointUrl: "http://minio-bucket-api:8080/bucket"
     pepBaseUrl: "http://workspace-api-pep:5576/resources"
-    autoProtectionEnabled: "True"
+    autoProtectionEnabled: "False"
