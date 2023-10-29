@@ -8,6 +8,13 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt
     nginx.ingress.kubernetes.io/configuration-snippet: |
       auth_request /auth;
+      # Preflighted requests
+      if ($request_method = OPTIONS ) {
+        return 200;
+      }
+      add_header Access-Control-Allow-Origin $http_origin always;
+      add_header Access-Control-Allow-Methods "*";
+      add_header Access-Control-Allow-Headers "Authorization, Origin, Content-Type";
     nginx.ingress.kubernetes.io/server-snippet: |
       location ^~ /auth {
         internal;
