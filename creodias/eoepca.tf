@@ -42,6 +42,7 @@ module "compute" {
   number_of_bastions                           = "${var.number_of_bastions}"
   number_of_k8s_nodes_no_floating_ip           = "${var.number_of_k8s_nodes_no_floating_ip}"
   number_of_k8s_nodes_hm                       = "${var.number_of_k8s_nodes_hm}"
+  number_of_k8s_nodes_ws                       = "${var.number_of_k8s_nodes_ws}"
   number_of_gfs_nodes_no_floating_ip           = "${var.number_of_gfs_nodes_no_floating_ip}"
   bastion_root_volume_size_in_gb               = "${var.bastion_root_volume_size_in_gb}"
   etcd_root_volume_size_in_gb                  = "${var.etcd_root_volume_size_in_gb}"
@@ -85,6 +86,7 @@ module "loadbalancer" {
   network_id      = "${module.network.network_id}"
   k8s_node_ips    = "${module.compute.k8s_node_ips}"
   k8s_node_hm_ips    = "${module.compute.k8s_node_hm_ips}"
+  k8s_node_ws_ips    = "${module.compute.k8s_node_ws_ips}"
   floatingip_pool = "${var.floatingip_pool}"
   k8s_secgroup_id = "${module.compute.k8s_secgroup_id}"
   use_neutron     = "${var.use_neutron}"
@@ -132,6 +134,10 @@ output "k8s_node_ips" {
 
 output "k8s_node_hm_ips" {
   value = "${module.compute.k8s_node_hm_ips}"
+}
+
+output "k8s_node_ws_ips" {
+  value = "${module.compute.k8s_node_ws_ips}"
 }
 
 output "nfs_ip_address" {

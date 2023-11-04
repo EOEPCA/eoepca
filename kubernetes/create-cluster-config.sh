@@ -57,6 +57,19 @@ EOF
   done
 }
 
+function worker_nodes_ws() {
+  worker_nodes_ws=$(terraform output -state=../creodias/terraform.tfstate -json | jq -r '.k8s_node_ws_ips.value[]' 2>/dev/null) || unset worker_nodes_ws
+  for node in $worker_nodes_ws
+  do
+    cat - <<EOF
+  - address: $node
+    user: eouser
+    role:
+      - worker
+EOF
+  done
+}
+
 function bastion_host() {
   bastion=$(terraform output -state=../creodias/terraform.tfstate -json | jq -r '.bastion_fips.value[]' 2>/dev/null) || unset bastion
   cat - <<EOF
@@ -84,6 +97,7 @@ nodes:
 $(master_nodes)
 $(worker_nodes)
 $(worker_nodes_hm)
+$(worker_nodes_ws)
 
 ingress:
   provider: none
