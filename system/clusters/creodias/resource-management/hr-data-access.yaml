@@ -781,7 +781,7 @@ spec:
 
     vs:
       renderer:
-        replicaCount: 4
+        replicaCount: 10
         # image:
           # tag: "latest"
           # pullPolicy: Always
