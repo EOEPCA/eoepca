@@ -61,9 +61,9 @@ spec:
     # UMA User Agent values
     #---------------------------------------------------------------------------
     uma-user-agent:
-      # image:
-      #   tag: latest
-      #   pullPolicy: Always
+      image:
+        tag: develop
+        pullPolicy: Always
       nginxIntegration:
         enabled: true
         hosts:
