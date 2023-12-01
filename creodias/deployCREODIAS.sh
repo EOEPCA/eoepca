@@ -23,7 +23,7 @@ then
 fi
 
 # terraform
-export TF_LOG=DEBUG
+# export TF_LOG=DEBUG
 terraform init
 #
 # keypair first
