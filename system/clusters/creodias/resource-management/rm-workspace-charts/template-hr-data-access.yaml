@@ -173,19 +173,21 @@ spec:
             port: 6379
           harvesters:
             # Static STAC catalogue in the user's bucket storage
-            - name: harvest-bucket-catalog
+            harvest-bucket-catalog:
               queue: "register_queue"
               resource:
                 type: "STACCatalog"
-                source:
-                  type: "S3"
-                  bucket: bucket
-                  access_key_id: {{ access_key_id }}
-                  secret_access_key: {{ secret_access_key }}
-                  endpoint_url: https://minio.develop.eoepca.org
-                  region_name: RegionOne
-                  validate_bucket_name: False
-                  public: False
+                staccatalog:
+                  filesystem: s3bucket
+          filesystems:
+            s3bucket:
+              type: s3
+              s3:
+                access_key_id: {{ access_key_id }}
+                secret_access_key: {{ secret_access_key }}
+                endpoint_url: https://minio.develop.eoepca.org
+                region: RegionOne
+                public: False
 
       client:
         ingress:
