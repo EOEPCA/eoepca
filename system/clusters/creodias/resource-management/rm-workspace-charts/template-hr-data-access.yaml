@@ -179,6 +179,7 @@ spec:
                 type: "STACCatalog"
                 staccatalog:
                   filesystem: s3bucket
+                  root_path: "/home/catalog.json"
           filesystems:
             s3bucket:
               type: s3
