@@ -161,7 +161,7 @@ spec:
 
       harvester:
         image:
-          tag: "latest"
+          tag: "pr-8-merge"
           pullPolicy: Always
         resources:
           requests:
