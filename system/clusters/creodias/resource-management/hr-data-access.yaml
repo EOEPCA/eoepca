@@ -863,9 +863,9 @@ spec:
     vs:
       renderer:
         replicaCount: 4
-        # image:
-          # tag: "latest"
-          # pullPolicy: Always
+        image:
+          tag: "latest"
+          pullPolicy: Always
         resources:
           limits:
             cpu: 1.5
