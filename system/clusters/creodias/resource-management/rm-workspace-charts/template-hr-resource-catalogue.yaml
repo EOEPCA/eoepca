@@ -31,6 +31,7 @@ spec:
       config:
         server:
           url: "https://resource-catalogue.{{ workspace_name }}.develop.eoepca.org"
+          federatedcatalogues: https://resource-catalogue.develop.eoepca.org/collections/S2MSI2A
         metadata:
           identification_title: Resource Catalogue - {{ workspace_name }}
           identification_abstract: Based on pycsw, a Python OGC CSW server implementation
