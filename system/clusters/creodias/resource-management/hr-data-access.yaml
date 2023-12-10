@@ -1090,6 +1090,9 @@ spec:
       # vs.cache
       #-------------------------------------------------------------------------
       cache:
+        image:
+          repository: registry.gitlab.eox.at/vs/vs/cache
+          tag: release-4.1.3
         ingress:
           enabled: false
 
@@ -1097,6 +1100,9 @@ spec:
       # vs.scheduler
       #-------------------------------------------------------------------------
       scheduler:
+        image:
+          repository: registry.gitlab.eox.at/vs/vs/scheduler
+          tag: release-4.1.3
         resources:
           requests:
             cpu: 100m
