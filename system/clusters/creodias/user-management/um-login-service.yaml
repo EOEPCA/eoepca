@@ -27,12 +27,29 @@ spec:
       #   enabled: false
       volumeClaim:
         name: eoepca-userman-pvc
+      resources:
+        requests:
+          cpu: 100m
+          memory: 300Mi
     oxauth:
       volumeClaim:
         name: eoepca-userman-pvc
+      resources:
+        requests:
+          cpu: 100m
+          memory: 1000Mi
     oxtrust:
       volumeClaim:
         name: eoepca-userman-pvc
+      resources: 
+        requests:
+          cpu: 100m
+          memory: 1500Mi
+    oxpassport:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 100Mi
     global:
       domain: auth.demo.eoepca.org
       nginxIp: 185.52.195.19
