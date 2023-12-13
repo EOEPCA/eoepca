@@ -2,8 +2,3 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: proc
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: pde-hub
