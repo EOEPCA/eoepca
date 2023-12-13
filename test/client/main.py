@@ -11,7 +11,7 @@ def main():
     # domain = "185.52.193.87.nip.io"
     domain = "demo.eoepca.org"
 
-    base_url = "https://test." + domain
+    base_url = "https://auth." + domain
 
     # ades
     ades_resource_api_url = "http://ades-pepapi." + domain
