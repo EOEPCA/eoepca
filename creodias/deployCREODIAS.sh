@@ -23,9 +23,12 @@ then
 fi
 
 # terraform
+# export TF_LOG=DEBUG
 terraform init
 #
 # keypair first
+export TF_LOG_PATH="$PWD/debug-keypair.log"
+rm "${TF_LOG_PATH}"
 terraform ${ACTION} ${AUTO_APPROVE} -var-file=eoepca.tfvars -target=module.compute.openstack_compute_keypair_v2.k8s
 if test "$ACTION" = "apply"
 then
@@ -42,5 +45,7 @@ then
 fi
 #
 # after keypair - everything else
+export TF_LOG_PATH="$PWD/debug-deployment.log"
+rm "${TF_LOG_PATH}"
 echo "Proceeding with deployment..."
 terraform ${ACTION} ${AUTO_APPROVE} -var-file=eoepca.tfvars

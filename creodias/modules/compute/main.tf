@@ -1,10 +1,10 @@
-data "openstack_images_image_v2" "vm_image" {
-  name = "${var.image}"
-}
+# data "openstack_images_image_v2" "vm_image" {
+#   name = "${var.image}"
+# }
 
-data "openstack_images_image_v2" "gfs_image" {
-  name = "${var.image_gfs == "" ? var.image : var.image_gfs}"
-}
+# data "openstack_images_image_v2" "gfs_image" {
+#   name = "${var.image_gfs == "" ? var.image : var.image_gfs}"
+# }
 
 resource "openstack_compute_keypair_v2" "k8s" {
   name       = "kubernetes-${var.cluster_name}"
@@ -148,7 +148,7 @@ resource "openstack_compute_instance_v2" "bastion_custom_volume_size" {
   key_pair   = "${openstack_compute_keypair_v2.k8s.name}"
 
   block_device {
-    uuid                  = "${data.openstack_images_image_v2.vm_image.id}"
+    # uuid                  = "${data.openstack_images_image_v2.vm_image.id}"
     source_type           = "image"
     volume_size           = "${var.bastion_root_volume_size_in_gb}"
     boot_index            = 0
@@ -212,7 +212,7 @@ resource "openstack_compute_instance_v2" "k8s_master_custom_volume_size" {
   key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
 
   block_device {
-    uuid                  = "${data.openstack_images_image_v2.vm_image.id}"
+    # uuid                  = "${data.openstack_images_image_v2.vm_image.id}"
     source_type           = "image"
     volume_size           = "${var.master_root_volume_size_in_gb}"
     boot_index            = 0
@@ -283,7 +283,7 @@ resource "openstack_compute_instance_v2" "k8s_master_no_etcd_custom_volume_size"
   key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
 
   block_device {
-    uuid                  = "${data.openstack_images_image_v2.vm_image.id}"
+    # uuid                  = "${data.openstack_images_image_v2.vm_image.id}"
     source_type           = "image"
     volume_size           = "${var.master_root_volume_size_in_gb}"
     boot_index            = 0
@@ -352,7 +352,7 @@ resource "openstack_compute_instance_v2" "etcd_custom_volume_size" {
   key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
 
   block_device {
-    uuid                  = "${data.openstack_images_image_v2.vm_image.id}"
+    # uuid                  = "${data.openstack_images_image_v2.vm_image.id}"
     source_type           = "image"
     volume_size           = "${var.etcd_root_volume_size_in_gb}"
     boot_index            = 0
@@ -445,7 +445,7 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip_custom_volum
   key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
 
   block_device {
-    uuid                  = "${data.openstack_images_image_v2.vm_image.id}"
+    # uuid                  = "${data.openstack_images_image_v2.vm_image.id}"
     source_type           = "image"
     volume_size           = "${var.master_root_volume_size_in_gb}"
     boot_index            = 0
@@ -516,7 +516,7 @@ resource "openstack_compute_instance_v2" "k8s_master_no_floating_ip_no_etcd_cust
   key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
 
   block_device {
-    uuid                  = "${data.openstack_images_image_v2.vm_image.id}"
+    # uuid                  = "${data.openstack_images_image_v2.vm_image.id}"
     source_type           = "image"
     volume_size           = "${var.master_root_volume_size_in_gb}"
     boot_index            = 0
@@ -587,7 +587,7 @@ resource "openstack_compute_instance_v2" "k8s_node_custom_volume_size" {
   key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
 
   block_device {
-    uuid                  = "${data.openstack_images_image_v2.vm_image.id}"
+    # uuid                  = "${data.openstack_images_image_v2.vm_image.id}"
     source_type           = "image"
     volume_size           = "${var.node_root_volume_size_in_gb}"
     boot_index            = 0
@@ -677,6 +677,124 @@ resource "openstack_compute_instance_v2" "k8s_node_no_floating_ip" {
   }
 }
 
+resource "openstack_compute_instance_v2" "k8s_node_high_memory" {
+  name              = "${var.cluster_name}-k8s-node-hm-${count.index + 1}"
+  count             = "${var.node_root_volume_size_in_gb == 0 ? var.number_of_k8s_nodes_hm : 0}"
+  availability_zone = "${element(var.az_list, count.index)}"
+  image_name        = "${var.image}"
+  flavor_id         = "410fe469-8a3d-4fba-b078-5b436e585473"
+  key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
+
+  lifecycle {
+     ignore_changes = [image_name]
+  }
+
+  network {
+    name = "${var.network_name}"
+  }
+
+  network {
+    name = "${var.eodata_network_name}"
+  }
+
+  security_groups = ["${openstack_networking_secgroup_v2.k8s.name}",
+    "${openstack_networking_secgroup_v2.worker.name}",
+  ]
+
+  dynamic "scheduler_hints" {
+    for_each = var.use_server_groups ? [openstack_compute_servergroup_v2.k8s_node[0]] : []
+    content {
+      group = "${openstack_compute_servergroup_v2.k8s_node[0].id}"
+    }
+  }
+
+  metadata = {
+    ssh_user         = "${var.ssh_user}"
+    kubespray_groups = "kube-node,k8s-cluster,no-floating,${var.supplementary_node_groups}"
+    depends_on       = "${var.network_id}"
+    use_access_ip    = "${var.use_access_ip}"
+  }
+
+  connection {
+    type         = "ssh"
+    user         = "${var.ssh_user}"
+    private_key  = "${chomp(file(trimsuffix(var.public_key_path, ".pub")))}"
+    host         = "${self.access_ip_v4}"
+    bastion_host = var.bastion_fips[0]
+  }
+
+  provisioner "file" {
+    source      = "${path.module}/rke-node-setup.sh"
+    destination = "/tmp/rke-node-setup.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo chmod +x /tmp/rke-node-setup.sh",
+      "sudo /tmp/rke-node-setup.sh ${var.ssh_user}",
+    ]
+  }
+}
+
+resource "openstack_compute_instance_v2" "k8s_node_workshop" {
+  name              = "${var.cluster_name}-k8s-node-ws-${count.index + 1}"
+  count             = "${var.node_root_volume_size_in_gb == 0 ? var.number_of_k8s_nodes_ws : 0}"
+  availability_zone = "${element(var.az_list, count.index)}"
+  image_name        = "${var.image}"
+  flavor_id         = "125749a4-c1c9-43c1-915b-23f83ce1504b"
+  key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
+
+  lifecycle {
+     ignore_changes = [image_name]
+  }
+
+  network {
+    name = "${var.network_name}"
+  }
+
+  network {
+    name = "${var.eodata_network_name}"
+  }
+
+  security_groups = ["${openstack_networking_secgroup_v2.k8s.name}",
+    "${openstack_networking_secgroup_v2.worker.name}",
+  ]
+
+  dynamic "scheduler_hints" {
+    for_each = var.use_server_groups ? [openstack_compute_servergroup_v2.k8s_node[0]] : []
+    content {
+      group = "${openstack_compute_servergroup_v2.k8s_node[0].id}"
+    }
+  }
+
+  metadata = {
+    ssh_user         = "${var.ssh_user}"
+    kubespray_groups = "kube-node,k8s-cluster,no-floating,${var.supplementary_node_groups}"
+    depends_on       = "${var.network_id}"
+    use_access_ip    = "${var.use_access_ip}"
+  }
+
+  connection {
+    type         = "ssh"
+    user         = "${var.ssh_user}"
+    private_key  = "${chomp(file(trimsuffix(var.public_key_path, ".pub")))}"
+    host         = "${self.access_ip_v4}"
+    bastion_host = var.bastion_fips[0]
+  }
+
+  provisioner "file" {
+    source      = "${path.module}/rke-node-setup.sh"
+    destination = "/tmp/rke-node-setup.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo chmod +x /tmp/rke-node-setup.sh",
+      "sudo /tmp/rke-node-setup.sh ${var.ssh_user}",
+    ]
+  }
+}
+
 resource "openstack_compute_instance_v2" "k8s_node_no_floating_ip_custom_volume_size" {
   name              = "${var.cluster_name}-k8s-node-nf-${count.index + 1}"
   count             = "${var.node_root_volume_size_in_gb > 0 ? var.number_of_k8s_nodes_no_floating_ip : 0}"
@@ -686,7 +804,7 @@ resource "openstack_compute_instance_v2" "k8s_node_no_floating_ip_custom_volume_
   key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
 
   block_device {
-    uuid                  = "${data.openstack_images_image_v2.vm_image.id}"
+    # uuid                  = "${data.openstack_images_image_v2.vm_image.id}"
     source_type           = "image"
     volume_size           = "${var.node_root_volume_size_in_gb}"
     boot_index            = 0
@@ -827,7 +945,7 @@ resource "openstack_compute_instance_v2" "glusterfs_node_no_floating_ip_custom_v
   key_pair          = "${openstack_compute_keypair_v2.k8s.name}"
 
   block_device {
-    uuid                  = "${data.openstack_images_image_v2.gfs_image.id}"
+    # uuid                  = "${data.openstack_images_image_v2.gfs_image.id}"
     source_type           = "image"
     volume_size           = "${var.gfs_root_volume_size_in_gb}"
     boot_index            = 0

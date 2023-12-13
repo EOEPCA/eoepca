@@ -8,7 +8,7 @@ trap "cd '${ORIG_DIR}'" EXIT
 
 CLUSTER_NAME="${1}"
 CLUSTER_YML_FILE="${2:-cluster.yml}"
-KUBERNETES_VERSION="v1.22.5-rancher1-1"
+KUBERNETES_VERSION="v1.22.11-rancher1-1"
 
 if test -z "$CLUSTER_NAME"
 then
@@ -34,6 +34,32 @@ EOF
 function worker_nodes() {
   worker_nodes=$(terraform output -state=../creodias/terraform.tfstate -json | jq -r '.k8s_node_ips.value[]' 2>/dev/null) || unset worker_nodes
   for node in $worker_nodes
+  do
+    cat - <<EOF
+  - address: $node
+    user: eouser
+    role:
+      - worker
+EOF
+  done
+}
+
+function worker_nodes_hm() {
+  worker_nodes_hm=$(terraform output -state=../creodias/terraform.tfstate -json | jq -r '.k8s_node_hm_ips.value[]' 2>/dev/null) || unset worker_nodes_hm
+  for node in $worker_nodes_hm
+  do
+    cat - <<EOF
+  - address: $node
+    user: eouser
+    role:
+      - worker
+EOF
+  done
+}
+
+function worker_nodes_ws() {
+  worker_nodes_ws=$(terraform output -state=../creodias/terraform.tfstate -json | jq -r '.k8s_node_ws_ips.value[]' 2>/dev/null) || unset worker_nodes_ws
+  for node in $worker_nodes_ws
   do
     cat - <<EOF
   - address: $node
@@ -70,6 +96,8 @@ kubernetes_version: "${KUBERNETES_VERSION}"
 nodes:
 $(master_nodes)
 $(worker_nodes)
+$(worker_nodes_hm)
+$(worker_nodes_ws)
 
 ingress:
   provider: none

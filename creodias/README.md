@@ -81,7 +81,7 @@ The terraform deployment creates the following:
   * Master host<br>
     VM for Kubernetes control plane
   * Worker hosts<br>
-    VMs for Kubernetes worker nodes (2 by default)
+    VMs for Kubernetes worker nodes (5 by default)
   * NFS server<br>
     Shared persistence service for the k8s cluster
 * Network

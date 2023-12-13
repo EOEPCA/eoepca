@@ -103,6 +103,22 @@ resource "openstack_lb_members_v2" "https" {
       protocol_port = 31443
     }
   }
+
+  dynamic "member" {
+    for_each = var.k8s_node_hm_ips
+    content {
+      address = member.value
+      protocol_port = 31443
+    }
+  }
+
+  dynamic "member" {
+    for_each = var.k8s_node_ws_ips
+    content {
+      address = member.value
+      protocol_port = 31443
+    }
+  }
 }
 
 resource "openstack_lb_members_v2" "http" {
@@ -111,6 +127,22 @@ resource "openstack_lb_members_v2" "http" {
 
   dynamic "member" {
     for_each = var.k8s_node_ips
+    content {
+      address = member.value
+      protocol_port = 31080
+    }
+  }
+
+  dynamic "member" {
+    for_each = var.k8s_node_hm_ips
+    content {
+      address = member.value
+      protocol_port = 31080
+    }
+  }
+
+  dynamic "member" {
+    for_each = var.k8s_node_ws_ips
     content {
       address = member.value
       protocol_port = 31080

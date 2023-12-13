@@ -18,6 +18,10 @@ variable "number_of_k8s_nodes" {}
 
 variable "number_of_k8s_nodes_no_floating_ip" {}
 
+variable "number_of_k8s_nodes_hm" {}
+
+variable "number_of_k8s_nodes_ws" {}
+
 variable "number_of_bastions" {}
 
 variable "number_of_gfs_nodes_no_floating_ip" {}
