@@ -15,9 +15,11 @@ spec:
         namespace: common
   values:
     existingSecret: rm-minio-root-credentials
+    replicas: 6
 
     persistence:
       storageClass: managed-nfs-storage-retain
+      size: 50Gi
 
     ingress:
       enabled: true
