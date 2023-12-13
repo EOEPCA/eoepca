@@ -78,7 +78,7 @@ spec:
       logging:
         level: "info"
       unauthorizedResponse: 'Bearer realm="https://auth.demo.eoepca.org/oxauth/auth/passport/passportlogin.htm"'
-      openAccess: false
+      openAccess: true
     #---------------------------------------------------------------------------
     # END values
     #---------------------------------------------------------------------------
