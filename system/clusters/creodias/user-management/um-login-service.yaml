@@ -60,7 +60,6 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt
         hosts:
           - auth.demo.eoepca.org
-          - gluu.demo.eoepca.org
         tls:
           - hosts:
               - auth.demo.eoepca.org
