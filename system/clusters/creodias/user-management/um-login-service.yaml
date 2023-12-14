@@ -63,7 +63,6 @@ spec:
         tls:
           - hosts:
               - auth.demo.eoepca.org
-              - gluu.demo.eoepca.org
             secretName: login-service-tls
   timeout: 25m0s
   interval: 1m0s
