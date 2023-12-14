@@ -29,8 +29,8 @@ spec:
       image:
         pullPolicy: Always
       configMap:
-        asHostname: auth
-        pdpHostname: auth
+        asHostname: gluu
+        pdpHostname: gluu
       customDefaultResources:
       - name: "Eric's space"
         description: "Protected Access for eric to his space in the dummy service"

@@ -98,7 +98,7 @@ spec:
       useResourceManager: "true"
       resourceManagerWorkspacePrefix: "demo-user"
       resourceManagerEndpoint: "https://workspace-api.demo.eoepca.org"
-      platformDomain: "https://auth.demo.eoepca.org"
+      platformDomain: "https://gluu.demo.eoepca.org"
 
       pod_env_vars:
         yaml: "{}"

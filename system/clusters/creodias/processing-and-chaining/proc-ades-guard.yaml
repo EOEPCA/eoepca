@@ -29,8 +29,8 @@ spec:
       image:
         pullPolicy: Always
       configMap:
-        asHostname: auth
-        pdpHostname: auth
+        asHostname: gluu
+        pdpHostname: gluu
       customDefaultResources:
       - name: "ADES Service for user 'eric'"
         description: "Protected Access for eric to his space in the ADES"
@@ -77,7 +77,7 @@ spec:
         credentialsSecretName: "proc-uma-user-agent"
       logging:
         level: "info"
-      unauthorizedResponse: 'Bearer realm="https://auth.demo.eoepca.org/oxauth/auth/passport/passportlogin.htm"'
+      unauthorizedResponse: 'Bearer realm="https://gluu.demo.eoepca.org/oxauth/auth/passport/passportlogin.htm"'
       openAccess: true
     #---------------------------------------------------------------------------
     # END values

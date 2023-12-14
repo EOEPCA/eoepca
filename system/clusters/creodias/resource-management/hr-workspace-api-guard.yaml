@@ -29,8 +29,8 @@ spec:
       image:
         pullPolicy: Always
       configMap:
-        asHostname: auth
-        pdpHostname: auth
+        asHostname: gluu
+        pdpHostname: gluu
         # limitUses: 100
       defaultResources:
         - name: "Workspace API Base Path"

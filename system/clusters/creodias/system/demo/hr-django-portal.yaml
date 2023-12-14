@@ -15,7 +15,7 @@ spec:
         namespace: common
   values:
     domain: demo.eoepca.org
-    authHost: auth
+    authHost: gluu
     configmap:
       user_prefix: demo-user
     ingress:

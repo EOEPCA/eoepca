@@ -28,8 +28,8 @@ spec:
     #---------------------------------------------------------------------------
     pep-engine:
       configMap:
-        asHostname: auth
-        pdpHostname: auth
+        asHostname: gluu
+        pdpHostname: gluu
       nginxIntegration:
         enabled: False
       volumeClaim:

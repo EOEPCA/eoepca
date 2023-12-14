@@ -17,7 +17,7 @@ spec:
       name: eoepca-userman-pvc
       create: false
     config:
-      domain: auth.demo.eoepca.org
+      domain: gluu.demo.eoepca.org
       volumeClaim:
         name: eoepca-userman-pvc
     opendj:
@@ -51,7 +51,7 @@ spec:
           cpu: 100m
           memory: 100Mi
     global:
-      domain: auth.demo.eoepca.org
+      domain: gluu.demo.eoepca.org
       nginxIp: 185.52.195.19
       namespace: um
     nginx:
@@ -59,10 +59,10 @@ spec:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt
         hosts:
-          - auth.demo.eoepca.org
+          - gluu.demo.eoepca.org
         tls:
           - hosts:
-              - auth.demo.eoepca.org
+              - gluu.demo.eoepca.org
             secretName: login-service-tls
   timeout: 25m0s
   interval: 1m0s

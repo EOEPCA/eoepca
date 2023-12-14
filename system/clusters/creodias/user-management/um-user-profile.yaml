@@ -14,7 +14,7 @@ spec:
         namespace: common
   values:
     global:
-      domain: auth.demo.eoepca.org
+      domain: gluu.demo.eoepca.org
       nginxIp: 185.52.195.19
     volumeClaim:
       name: eoepca-userman-pvc
