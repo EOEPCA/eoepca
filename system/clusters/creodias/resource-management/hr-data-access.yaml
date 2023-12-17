@@ -876,9 +876,9 @@ spec:
 
       registrar:
         replicaCount: 1
-        image:
-          tag: "pr-10-merge"
-          pullPolicy: Always
+        # image:
+        #   tag: "latest"
+        #   pullPolicy: Always
         resources:
           requests:
             cpu: 100m
@@ -947,7 +947,7 @@ spec:
 
       harvester:
         image:
-          tag: latest
+          tag: pr-10-merge
           pullPolicy: Always
         resources:
           requests:
