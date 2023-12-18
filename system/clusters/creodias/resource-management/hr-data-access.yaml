@@ -947,7 +947,7 @@ spec:
 
       harvester:
         image:
-          tag: pr-10-merge
+          tag: "latest"
           pullPolicy: Always
         resources:
           requests:
