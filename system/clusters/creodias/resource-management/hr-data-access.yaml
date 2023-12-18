@@ -958,7 +958,7 @@ spec:
             host: data-access-redis-master
             port: 6379
           harvesters:
-            Creodias-Opensearch:
+            Sentinel2:
               resource:
                 type: OpenSearch
                 opensearch:
@@ -982,7 +982,31 @@ spec:
                   process: harvester_eoepca.postprocess.postprocess_sentinel2
                   kwargs: {}
               queue: register
-            Creodias-Opensearch-Sentinel1:
+            Landsat8:
+              filter: {}
+              postprocessors:
+              - kwargs: {}
+                process: harvester_eoepca.postprocess.postprocess_landsat8
+                type: external
+              queue: register
+              resource:
+                opensearch:
+                  format:
+                    json:
+                      property_mapping:
+                        end_datetime: completionDate
+                        productIdentifier: productIdentifier
+                        start_datetime: startDate
+                    type: application/json
+                  query:
+                    bbox: 19.7,34.7,28.5,42.0
+                    collection: null
+                    time:
+                      begin: 2020-09-01T00:00:00Z
+                      end: 2020-09-05T00:00:00Z
+                  url: https://datahub.creodias.eu/resto/api/collections/Landsat8/describe.xml
+                type: OpenSearch
+            Sentinel1-GRD:
               resource:
                 type: OpenSearch
                 opensearch:
@@ -1008,7 +1032,7 @@ spec:
                   process: harvester_eoepca.postprocess.postprocess_sentinel1
                   kwargs: {}
               queue: register
-            Sentinel-3:
+            Sentinel3:
               resource:
                 type: OpenSearch
                 opensearch:
@@ -1060,6 +1084,7 @@ spec:
                   process: harvester_eoepca.postprocess.postprocess_sentinel1
                   kwargs: {}
               queue: register
+
       client:
         # image:
         #   repository: registry.gitlab.eox.at/vs/vs/client
