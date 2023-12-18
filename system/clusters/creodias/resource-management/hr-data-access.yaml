@@ -671,7 +671,7 @@ spec:
         - name: L8MSI1TP
           filter:
             platform: landsat-8
-            landsat:processing_level: L1TP
+            landsat:correction: L1TP
           collections:
             - L8L1TP
           metadata_assets: []
@@ -718,7 +718,7 @@ spec:
         - name: L8MSI1GT
           filter:
             platform: landsat-8
-            landsat:processing_level: L1GT
+            landsat:correction: L1GT
           collections:
             - L8L1GT
           metadata_assets: []
