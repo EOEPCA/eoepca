@@ -17,6 +17,8 @@ spec:
         name: eoepca
         namespace: common
   values:
+    image:
+      tag: "demo"
     configmap:
       configuration: demo
     ingress:
