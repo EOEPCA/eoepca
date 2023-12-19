@@ -20,7 +20,16 @@ spec:
     configmap:
       configuration: demo
     ingress:
+      enabled: true
       annotations:
-        kubernetes.io/ingress.class: nginx
         cert-manager.io/cluster-issuer: letsencrypt
+      hosts:
+        - host: eoepca-portal.demo.eoepca.org
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - secretName: eoepca-portal-tls-certificate
+          hosts:
+            - eoepca-portal.demo.eoepca.org
   interval: 1m0s
