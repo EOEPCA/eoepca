@@ -27,6 +27,7 @@ spec:
       env:
         REGISTRAR_REPLACE: "true"
         CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .TIF,.TIFF,.tif,.tiff,.xml,.jp2,.jpg,.jpeg,.png,.nc
+        AWS_ENDPOINT_URL_S3: https://minio.develop.eoepca.org
         AWS_HTTPS: "FALSE"
         startup_scripts:
           - /registrar_pycsw/registrar_pycsw/initialize-collections.sh
