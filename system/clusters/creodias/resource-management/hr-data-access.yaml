@@ -26,7 +26,7 @@ spec:
     global:
       env:
         REGISTRAR_REPLACE: "true"
-        CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .TIF,.TIFF,.tif,.tiff,.xml,.jp2,.jpg,.jpeg,.png
+        CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .TIF,.TIFF,.tif,.tiff,.xml,.jp2,.jpg,.jpeg,.png,.nc
         AWS_ENDPOINT_URL_S3: https://minio.demo.eoepca.org
         AWS_HTTPS: "FALSE"
         startup_scripts:
@@ -203,6 +203,17 @@ spec:
             - name: WGS84
               zoom: 13
           parentLayer: L8L1GT
+        - id: S3A_OL_2_LFR
+          title: Sentinel-3 OL_2_LFR
+          abstract: Sentinel-3 Quicklooks
+          displayColor: '#eb3700'
+          grids:
+            - name: WGS84
+              zoom: 13
+          parentLayer: S3A_OL_2_LFR
+          search:
+            histogramBinCount: 15
+            histogramThreshold: 80
       collections:
         S2L1C:
           product_types:
@@ -754,7 +765,7 @@ spec:
               validity: false
         - name: S1IWGRD1C_VVVH
           filter:
-            constellation: Sentinel-1
+            constellation: sentinel-1
             sar:instrument_mode: IW
             sar:product_type: GRD
             sar:polarizations: ["VV", "VH"]
@@ -1088,6 +1099,14 @@ spec:
       ingestor:
         ingress:
           enabled: false
+
+      #-------------------------------------------------------------------------
+      # vs.seeder
+      #-------------------------------------------------------------------------
+      # seeder:
+      #   image:
+      #     repository: registry.gitlab.eox.at/vs/vs/seeder
+      #     tag: release-4.1.3
 
       #-------------------------------------------------------------------------
       # vs.cache
