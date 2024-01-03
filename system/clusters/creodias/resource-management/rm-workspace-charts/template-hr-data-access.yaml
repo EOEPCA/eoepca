@@ -16,7 +16,7 @@ spec:
     global:
       env:
         REGISTRAR_REPLACE: "true"
-        CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .TIF,.tif,.xml,.jp2,.jpg,.jpeg
+        CPL_VSIL_CURL_ALLOWED_EXTENSIONS: .TIF,.TIFF,.tif,.tiff,.xml,.jp2,.jpg,.jpeg,.png,.nc
         AWS_ENDPOINT_URL_S3: https://minio.develop.eoepca.org
         startup_scripts: []
 

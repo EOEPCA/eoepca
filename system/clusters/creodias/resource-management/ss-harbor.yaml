@@ -12,5 +12,3 @@ spec:
       creationTimestamp: null
       name: harbor
       namespace: rm
-    type: Opaque
-
