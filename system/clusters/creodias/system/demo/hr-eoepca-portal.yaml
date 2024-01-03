@@ -24,6 +24,7 @@ spec:
     ingress:
       enabled: true
       annotations:
+        kubernetes.io/ingress.class: nginx
         cert-manager.io/cluster-issuer: letsencrypt
       hosts:
         - host: eoepca-portal.demo.eoepca.org

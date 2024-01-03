@@ -1,7 +1,13 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+- identity-api-gatekeeper-sealedsecret.yaml
+- identity-api-sealedsecret.yaml
+- identity-gatekeeper-sealedsecret.yaml
+- identity-keycloak-sealedsecret.yaml
+- identity-postgres-sealedsecret.yaml
 - namespace.yaml
+- um-identity-service.yaml
 - um-login-service.yaml
 - um-pdp-engine.yaml
 # - um-user-profile.yaml
