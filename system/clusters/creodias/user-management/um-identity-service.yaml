@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: identity-service
-      version: 1.0.80
+      version: 1.0.82
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -21,6 +21,8 @@ spec:
       create: false
     identity-keycloak:
       ingress:
+        enabled: true
+        className: "nginx"
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt
         hosts:
@@ -32,17 +34,13 @@ spec:
           - secretName: identity-keycloak-tls-certificate
             hosts:
               - identity.keycloak.demo.eoepca.org
-      secrets:
-        kcDbPassword: AgBQw7v1IeoC/0ukBwe7xD08M+xJXVJeCQV5JJxZFfU7eeBKg1QA+S+doZF7ry44zdS9I67ABq5aa1kjcXK5pPNZBwYkOg2pySMc0OiFIYR6ihjl4rIijQXR0IDmnRrCufg8pohq9PYz0HYeQ9md9hF2UJzcYIZADdzhN3/1Td79tDQtrOUY2uVuhKULTFEYDT75C4eMAqMfzL9WRnjzvEkfEjRYQC9meYQhgLPiU/004t1wbd4aDffrN9ZdUNkicBvFt37ApgBmT7Xl3UhChDOTsQVuaDZE4bFOkghj0v2y+mtb3TcnWrdefLlheiqx2Jj02V1O5RQw9NqQ+skTKM0rRVvNpPd/IDZvtXEpzXYPL2UW0HqM/XelJcROnBDiuo6CYFuIhwp9KXsr2pFqvXbFxqCMG3dlQPiKHBnnNqHfEV3JKjVD/3Hj4lt3mJLZCwNeKQ0FfVENfooo5x4Gv3ZnHSvyeVfyNCj53D6o1Wj431MlJJJwVkA+e12hOzXviVTuees/eLcLafji0hAmJjvTan3our5msThiO0K+Ckm5VmBuOVbuUMSR+o9l3zrERvnWyD3vcKBqJq1a8gEyzFs2UyMQ1a7jGuU0J8o/EYCmR5Kcd9h0VvxaEny28dvW8Mv6l0aT2L67JOjGlJPQUrOewtF40sA8dRtV0w1DbkIlVBL+2lt8LgLZkdlTUY5ljvEwz5fwR5sMs4Xj4smLY4c=
-        keycloakAdminPassword: AgBUt4nRe9FCsMmDL9djFIlrgrmo8hGd09bOpsEqx39ub9+sq4/VPBYj1kDL7Dn+jkrbc1NL8XMVeBlKLlIysu8UtDWNgbJRY5uiGk82HdHKCmhnV4phWegO6VZScp26ISiyaa8xpNjFmjWxJYz5lqKjtzIV4Kt6q9SEABMJLu2He+v9uki6rRdI3wx5137yzixKM3BlrxWFWgX+u8scmyCQ+9z40c7Hx0K/GY6VfVUPYNwXcq38SJA3moq6MmL52O4g2OPWQ3ILL/DX+cfaKoY0F19o7tSlOf07UV3lRb3u2x1QRwXRZLdhZnE1jfH5aQUl1Kns3HI37gLXBvlyK9hKSZKInaRknMUGRDCFU5BdUI8jcNLDp4Caw+uT0CX8orISEio45afAbtu6oRplAfaDm7ahvF0AY9GFVy8eFAlFRbr/Bi68spRLoVbXYH5GZ1ByVu+OW1YOme/f8vLwfyIKGK1MCTBd1B8cAmQroNfcOsZWycvQGJaOsdbWllS/QBFoj4Cw87r/FeXZeo3/yVBVTtFNhqp2tKRsXGawYo2xcvNHOBdOqP6QRDic7T5XGRJU8S1Blkq03RgaHhr6f7Fkh3qenA4Tl0icf88AwzzzcOLJ6A+XU9fmM8PJh8MOUFANXmgdzLulezWswkLBZn/QuiSQEGJZ/pSbsdBwb9ywjx9U8yHR/EF5jtajDI4RJlHjay+RGG/FgJwPxeqKYVY=
     identity-postgres:
       volumeClaim:
         name: eoepca-userman-pvc
-      secrets:
-        postgresPassword: AgBm5H6dL9yaJuATwOzX2luUuvz2Qq6rgq+J4B2mG4wS4gQrjvXZpca55j5wQlSj3y+gsJgWQkQEbZyXkNXUUUYfvqCkb+Xc9ZeUPthv9C9aiUUA4+4xKXUyXjUkE3i1/+7kNkrjIwGFFxSRbc+uAgYu6BRYuoGtYdIqVINDCMJ8q7HkTm0yBJ3EjMDJ8sjFZu50famN5Pk4FiY7j6yyyaNDyN1DvIyfhd5B1nieJtWcMoQ4tyvh7gVcJtRrSuy96NyzeSVIU+P4Fjt3oO51PfOF2pTh5pyirh2Emsphn3F1jjd/gsXsfx2d6QUNf/IOwHUOBsgqzGw28uyOma+pvYeZOVQeFJLdLn0JI5ahC9JyQvSkK7ESuZqjDls/f2bMJGVuHBqy8sQwMeamLBkEU8r1CaJ5A6izB3JTB9AbqbMghroL385ZGa3eQLC4oVCNZSjGbK5ITLyN+rO3Dj7TKsNXK4AcYtod+UVlhbglyWe6DgZFQB6CxfsGIRYMgu+1KcRsJg9cvHXZOnT0+JBg2MnsZCEQQA49yP9gkTe3zBe+gtDCKnEjl19Ismxd8Q5RMfChStvocbsllLt1rueyak9m0m5WlViq7pMgAeiLpq9sPdrK15z/wJlJ+zaX5YaMLbl4u5zg5peQLJrMeCL8zFX8DlL3/kcjOOnx/Ij6b26qOF0iTNdzVOzK6S+Eh9kYVSP/OmEt5xBf8HIZzoYYA0k=
-        pgPassword: AgAt0CrASSc0tuW4h0jpclnCSn+jOmt/Q3qSHxZggK4HdhAbPCbyIGbWOBqN56lMgtY7BX8tqkq3If7gN0H16qS9ZPJQ48so2VJ+HdWNBJN2LAzvxCFeMscuC9/LcGJfH4M724dgQpjarxv2GdkMfzsDjouFVkaseK+3N3DURLANTVq117d500ORFC48Cd/tsy5kV83EjD0iH2NZLQPNENadEbvl+bKpADkdRksqj0JXPDo2JQf1dyGKsTRBlu5jP++81K/7Fxh5a+ManU57B9C0YNIiKep/5UyolhN2YfjN+t9rXpEZ9acnydVvUkCgvLHN3l84OWZmywlK6giDvoXpQu6I/5HXTK3tL5dpnNyP7EGVD2DN90olLN4+RjJughBpH7yobnunH2aKmMV4Qa4sqzVimDTbZhNfP0i/D3AZ43FoR+7Bij0Fr9LmItGJNrXzZ3rToE/9JzUG+oHZUzi0joUY/gSVOJ4E/RmmuEQJJHgq7gVsKoav9NxitgkkpJdywjx7ccwT09nNVadRAP+z5VwX9mQW2pofmkx672ojkmdwaIWN+o9oWaKHiU7eX9cnraq89kUz4H1SArC4ZCJna10lk5xPuIlCQjKHam0xontNe5dqqbUuAgTcWeb+NTvuoUSUaZGyxtT3M+FuLyg2uzZEPSak6OhAlCe12qlvIb7MK1Ga5eOlI6Ha9KJ9spjahMMC2BNUDAhnbkLs+JA=
     identity-api:
       ingress:
+        enabled: true
+        className: "nginx"
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt
         hosts:
@@ -56,31 +54,33 @@ spec:
               - identity.api.demo.eoepca.org
       configMap:
         authServerUrl: https://identity.keycloak.demo.eoepca.org
-      secrets:
-        adminPassword: AgARMLjWkexBIMQ5SX8TX0odCeJS1aBLxhWnv/ceEbtbWFMZu4IQuoXFXK0aFitpRR6otmEPISuxJIEP2cQmC22WeDyvEA+GBvEDvgTtqlvxVwNmToeSNQcHTtbrFmJH8GB8m85YnmeZZKGYtMnzMO2DYVh4lD0xS8HNkOaFxAcZmTTRXOvC4RqaKdjGHyDid2tzXWsf4oXn69v/ihjpKEhpFqKW3u36uChd0kG/efloC70eNaiYE3JTAdv6tItyuDDbdU1uQxKgg1gNLc2E/mixXViSxhRSbLOex+kJY/Nkjl+Zo55C+MJw5SrAdkr9hripctwirToxthuGegMMQj5unQrk+DDxbolW8+izYaKJ2U9aJtJh8lasEEdz/VZfBcVVMPMJf2te6oWGV7jYpEkN4P/ObR7XlpyPI/zOQoil4XFc7qGLzJpkN9ccA6LmuE5mjc1+ZirAwjaQNd+4QTnBWBFG02575pwECM7YYaONFH5+PQl7q/jubCxPYlUA9ftOhoKNHZMQsvK7lesJIsDLPQGX9ma717jqy3gQGa3KvV3QfbVHG8O1REtGKdwbubFOu4mTWzzksiJS8Gd7jn1Rl9sz7AzGb2u6JmxU+idkRDU+sI1XVrp+vF9ERvtpWx0BMWeZyijO3BGkNHEG1lkqIRAQTbGgzg4eTdAsoFSWYrOI4Dc4wx7QUJSSi6c+DZGayCWJN6ewopypJOa5Ib0=
     identity-api-gatekeeper:
       config:
         client-id: identity-api
         discovery-url: https://identity.keycloak.demo.eoepca.org/realms/master
-        no-redirects: true
-        no-proxy: true
-        enable-uma: true
         cookie-domain: demo.eoepca.org
-        cookie-access-name: auth_user_id
-        cookie-refresh-name: auth_refresh_token
-        enable-metrics: true
-        enable-logging: true
-        enable-request-id: true
-        enable-login-handler: true
-        enable-refresh-tokens: true
-        enable-logout-redirect: true
-        listen: :3000
-        listen-admin: :4000
-      secrets:
-        clientSecret: AgClDBQe7hqRlUZaKSaokWJ81tPyAzSUatTk34IvB3KJY032sip8KxY/s6c43clc/63vRWBcOC5WcbRKSxflYPU+nTzY88B0drdMENQaeWg2j57fmda1RUyOGMgADNtSadIkZoBjEfcppOQNTDmmctgVxlhYEnTMZ8XznqFWNUqZi36yNXabf5WVlZAHe0NuP87iQMuff/VZmNcRT0W3p/eKlrMAweJT3JvLocTO7b8PzKnvEe3VMBoWA1r4s9GqOWeCItf6rwIhtvYxUjYjGEuxhgDzHD55Y9icRwJLirh759Q9Ggej3gvM1FbCliOgkWSS7xos4cTWvMsvRUsMBOpxZLCwuYfcifTZ7gHAksGhk6PhRnGcHSvHN5fVmEoD62W97AITu53X8FlnlRuY8a/f/+FoXW+auYMIplLK8ej7ugrXkTEaZaX1guA4OoePH6rmwjTS0gyViE2mN8mOCLvoUA4xTyGdxy8eYwJVO6vQBttkW91qgukrdWAaqW/PFtHBK9R+1hsm0jkAwXzv60797Gf9Hw+GZU6EWPsGj5MuljDicL6b2beKDg+28qzpTb+9W8+h7rszfki9gFFUxrJeVxwLDtSbBpW6E0PBs8LSsm7QEs90lPVfA9xuHpql4VinX7Yo/VX4Y6uDXKcjwRPpQlVTS0OrnIRkkLE0RjnSk6objJMFJsjVJ4hYyqE3bEd+n8yIvkcufKzfOLd18QdPUiM01/p/IIrTQbVesCKzxw==
-        encryptionKey: AgBrCIjYsQpgr8xfaWPXbkaLvnAR03fWz1BY3vYvTBOxIkHBs8y8thEBjGPJ2whZOmFK3r8ePtuj9l+qGW66JRliZiTWMGiSEZH4SvPE1OKbiqja8DvhS84BbL8K4mLhthBfP/BtMhKSiPC/5ojiWKQLKAf5e8PnP2POR33FftvB9RIautKqt8xlAbXrL7IjnzD1dIclSQpVtTKpGLW8lIZO0YLUTTer53EMnkt7kRnmyHPjuuZIkUVkWcjppkYxPAkkG0DaU522JUAVzyyonJ+dydw5tFYarjFvYHkbXUnBYJZe7dQCxi1HW8CU12ITeSGt3bKkazbLrcOW2VPwfmnnY/QVvKrVTHaz8h2OcsJpr226KI9M1yCN2Bg2Fp/krFTXVcu49rdVI9yc/KcVgh6dzXoO8EeBuZkmVLtXIIrfG1KTvyQ7xKb5np+TJMNUA4+N4Ot5+L49xNGRJYYzBHnd63m8/J+lF89ghmCla72EdZERDi0vec36+8Sj/Xm8YmfEI4+bBMuyvJEMnqeKb9cTguLNB7l4p7YSvjJ5auZpg1cWOZ1dKA5TufJ56bjNJx9YdrAZ8gxBkkuNfkKTXqLP3utbl4pLbxyCbGbv/5d7lF4JAIP8iZBH7Rgkfar1b8PZXQuH44ZW3r8l9qJ1DzU/vBxf9VA3e5WVd3uFLcm+9809C22ElEAA8ZkXuNSJ24Hpa0ez1jCesDsnmqXLX7uXZ0Hlxn/n70cjCmCZ22Ncfw==
-    identity-gateekeper:
       ingress:
+        enabled: true
+        className: "nginx"
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt
+        hosts:
+          - host: identity.api-gatekeeper.demo.eoepca.org
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - secretName: identity-api-gatekeeper-tls-certificate
+            hosts:
+              - identity.gatekeeper.demo.eoepca.org
+    identity-gateekeper:
+      config:
+        client-id: dummy-service
+        discovery-url: https://identity.keycloak.demo.eoepca.org/realms/master
+        cookie-domain: demo.eoepca.org
+      ingress:
+        enabled: true
+        className: "nginx"
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt
         hosts:
@@ -92,25 +92,5 @@ spec:
           - secretName: identity-gatekeeper-tls-certificate
             hosts:
               - identity.gatekeeper.demo.eoepca.org
-      config:
-        client-id: dummy-service
-        discovery-url: https://identity.keycloak.demo.eoepca.org/realms/master
-        no-redirects: true
-        no-proxy: true
-        enable-uma: true
-        cookie-domain: demo.eoepca.org
-        cookie-access-name: auth_user_id
-        cookie-refresh-name: auth_refresh_token
-        enable-metrics: true
-        enable-logging: true
-        enable-request-id: true
-        enable-login-handler: true
-        enable-refresh-tokens: true
-        enable-logout-redirect: true
-        listen: :3000
-        listen-admin: :4000
-      secrets:
-        clientSecret: AgCgx2NClwfguTB2OhNeA0+/DlvsvgbJq5pkpg+hp6hsY/wp1a8q9dpU67Gepdzw33rujxFQnQH/YpJrM+pWJ4knAkS5CjD88t2q0vgmbhBTgPwQFDb0xZc2trZ26Ne39cQqWdyVHXFO8BorduJIWTEKRR2z9KJ1OOfOqap+mERK0mex2RyCQZDlo3dtPiFy1ftTpE/cunE/xPZUyeHmIFzMP/a/Cv5Be82g6fECZcl4wTe2n+8UOnau5KfHX4xkId6HCjRVheOXn2M8YSSCfnznc2sOwmtQG03PhkcBtOTuNkUjUs0807HtuMG87Jir9HWBmKKz0XSrMfJQ2JH8pBVrlX6Bx9UUyO0oQpa/kCiFfWkW8iklxLZasrPLb/q0DVTVpjH8EvXlDiNo9/acy3G2Ue2syeWJ2OjhecRt2Ws48kqFuHK8GJZyIvjt+aCZ/wbr+v9sIIew9B/8rCt9M1d5RN0Tjr7xI0xoPqvvLWZ5Ij2LUpAX8rCH9sTNUsEF44uRI+KSZdhhmtYDnpvcle0rLN1TC8MgSsupAw6p7BIm+mmpuELz+h6dVBxRP7VPdW7r6I1nTPqO1qGgUWBd2WYITkPYpoRJ6TrrFW4dLihEqanN+gTx7oYfPXIrvn7PIzLBEqVBssvdHm6ItCvI6NnOCXyI2dTSIrf2EQEcSDaO76ZEqV4tlwBFeZpHW4PlS4lIOC/TshOiT4SV6wKKpI/II+JA8JIpqaO8TJX9DhV/HA==
-        encryptionKey: AgCZXSn+WfaT2WLdZ590T4Xkz2ch9HZZavCyg94OqZjdrufn2zubpg7ZI6GbUvTYDXJMJIRhsJCkcPOlCfkVwT6zaJY+IWwCwLE1PrsrypG3FiIrHI9MJEgRkJ+HZKPG5BF+7uLyFVfrippEVghYkiMa5kaYrrA6+aH6PyfVSoWM0gR7elAOFLWivbrk8J8oLF1ZHKbqlCgkXITcN5YdMjUXOq4FwA7b6iGnh0YEVZTwFNCMNAatwnGtFxqTN0063qszjqj0VuyAAGpF3FsPvgRJPHtX+5rqENUhIw6ZqHAr0R+wPrRZyPYzsn4Br2yrel1FkO0uzjuc/AZgouEHbRD/9MilO+9ApsP7xJZaUdy73e5YmXR+8ufEtLNf9UOfnQAwt2SRd2qRFCPW4F9WsgmceK6bq+SLN89nI5LLgtGf+TP7KxlPEgfj7qrhgvtf1yOQowaTMT3hkaBfmMmzWZoviJMGnbM62Q0CLqQtKyGlLk8HQ4rV/bogi1g0zmP9DOxJiISYZ0Qqg03zAtIRHMyPUn+kznZWIF66GSnYkdtenPBJKFob6MurbSdAKpiC9TVITkeFGWAAwExmPXxGnFPK33iuxooHbsQ7Ds5fEtW/CaNsHImB/yrHYPsv4ze2O573PM4HDDC17jgT5IMs0gKOWprUKLcj2Df+AfsZz9SC25naDBCTbcu4SC//UNouq6n+CDZZR6rNf5STk8BubQT4I/sn6iDlyPL4CtTWncpnaA==
   timeout: 5m0s
   interval: 1m0s
