@@ -73,7 +73,7 @@ spec:
           - secretName: identity-api-gatekeeper-tls-certificate
             hosts:
               - identity.gatekeeper.demo.eoepca.org
-    identity-gateekeper:
+    identity-gatekeeper:
       config:
         client-id: dummy-service
         discovery-url: https://identity.keycloak.demo.eoepca.org/realms/master
