@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: identity-service
-      version: 1.0.82
+      version: 1.0.83
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -74,23 +74,20 @@ spec:
             hosts:
               - identity.gatekeeper.demo.eoepca.org
     identity-gatekeeper:
+      nameOverride: dummy-service-protection
       config:
         client-id: dummy-service
         discovery-url: https://identity.keycloak.demo.eoepca.org/realms/master
         cookie-domain: demo.eoepca.org
+      targetService:
+        host: dummy-service-protected.demo.eoepca.org
+        name: dummy-service
+        port:
+          number: 80
       ingress:
         enabled: true
         className: "nginx"
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt
-        hosts:
-          - host: identity.gatekeeper.demo.eoepca.org
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - secretName: identity-gatekeeper-tls-certificate
-            hosts:
-              - identity.gatekeeper.demo.eoepca.org
   timeout: 5m0s
   interval: 1m0s
