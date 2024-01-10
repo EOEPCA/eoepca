@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: identity-service
-      version: 1.0.84
+      version: 1.0.85
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -55,23 +55,20 @@ spec:
       configMap:
         authServerUrl: https://identity.keycloak.demo.eoepca.org
     identity-api-gatekeeper:
+      nameOverride: identity-api-protection
       config:
         client-id: identity-api
         discovery-url: https://identity.keycloak.demo.eoepca.org/realms/master
         cookie-domain: demo.eoepca.org
+      targetService:
+        host: identity-api-protected.demo.eoepca.org
+        name: identity-api
+        port:
+          number: 8080
       ingress:
         enabled: true
         className: "nginx"
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt
-        hosts:
-          - host: identity.api-gatekeeper.demo.eoepca.org
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - secretName: identity-api-gatekeeper-tls-certificate
-            hosts:
-              - identity.gatekeeper.demo.eoepca.org
   timeout: 5m0s
   interval: 1m0s
