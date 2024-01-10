@@ -14,11 +14,11 @@ PROXY_CLIENT_SECRET="${1:-tbd}"
 PROXY_ENCRYPTION_KEY="${2:-tbd}"
 
 secretYaml() {
-  kubectl -n test create secret generic dummy-service-protection \
+  kubectl -n um create secret generic um-identity-service-identity-api-protection \
     --from-literal="PROXY_CLIENT_SECRET=${PROXY_CLIENT_SECRET}" \
     --from-literal="PROXY_ENCRYPTION_KEY=${PROXY_ENCRYPTION_KEY}" \
     --dry-run=client -o yaml
 }
 
 # Create Secret and then pipe to kubeseal to create the SealedSecret
-secretYaml | kubeseal -o yaml --controller-name eoepca-sealed-secrets --controller-namespace infra > ss-dummy-service-protection.yaml
+secretYaml | kubeseal -o yaml --controller-name eoepca-sealed-secrets --controller-namespace infra > ss-identity-api-protection.yaml
