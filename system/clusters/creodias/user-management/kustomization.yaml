@@ -7,6 +7,7 @@ resources:
 - identity-keycloak-sealedsecret.yaml
 - identity-postgres-sealedsecret.yaml
 - namespace.yaml
+- ss-identity-api-protection.yaml
 - um-identity-service.yaml
 - um-login-service.yaml
 - um-pdp-engine.yaml
