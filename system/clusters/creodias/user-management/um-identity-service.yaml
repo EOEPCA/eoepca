@@ -74,6 +74,7 @@ spec:
             hosts:
               - identity.gatekeeper.demo.eoepca.org
     identity-gatekeeper:
+      enabled: false
       nameOverride: dummy-service-protection
       config:
         client-id: dummy-service
