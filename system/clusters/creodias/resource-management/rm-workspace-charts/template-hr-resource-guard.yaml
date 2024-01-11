@@ -86,8 +86,6 @@ spec:
           nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
           nginx.ingress.kubernetes.io/enable-cors: "true"
           nginx.ingress.kubernetes.io/rewrite-target: "/$1"
-          ingress.kubernetes.io/ssl-redirect: "false"
-          nginx.ingress.kubernetes.io/ssl-redirect: "false"
       client:
         credentialsSecretName: rm-uma-user-agent
       logging:
