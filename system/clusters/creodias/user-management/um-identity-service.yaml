@@ -39,21 +39,7 @@ spec:
         name: eoepca-userman-pvc
     identity-api:
       ingress:
-        enabled: true
-        className: "nginx"
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt
-        hosts:
-          - host: identity.api.demo.eoepca.org
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - secretName: identity-api-tls-certificate
-            hosts:
-              - identity.api.demo.eoepca.org
-      configMap:
-        authServerUrl: https://identity.keycloak.demo.eoepca.org
+        enabled: false  # ingress is provided by the associated gatekeeper instance
     identity-api-gatekeeper:
       nameOverride: identity-api-protection
       config:
