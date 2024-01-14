@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: identity-service
-      version: 1.0.89
+      version: 1.0.90
       sourceRef:
         kind: HelmRepository
         name: eoepca
@@ -58,5 +58,13 @@ spec:
         className: "nginx"
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt
+        serverSnippets:
+          custom: |-
+            #----------
+            # Custom server snippets
+            #----------
+            location ~ /(docs|openapi.json) {
+              proxy_pass {{ include "identity-gatekeeper.targetUrl" . }}$request_uri;
+            }
   timeout: 5m0s
   interval: 1m0s
