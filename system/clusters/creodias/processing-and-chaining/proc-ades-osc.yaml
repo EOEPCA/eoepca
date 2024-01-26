@@ -1,0 +1,186 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: proc-ades-osc
+  namespace: proc
+spec:
+  chart:
+    spec:
+      chart: ades
+      version: 2.0.24
+      sourceRef:
+        kind: HelmRepository
+        name: eoepca
+        namespace: common
+  values:
+    # values - start
+    replicaCount: 1
+    image:
+      pullPolicy: Always
+      # Overrides the image tag whose default is the chart appVersion.
+      #tag: "dev2.0.20"
+    nameOverride: ""
+    fullnameOverride: ""
+    serviceAccount:
+      # Specifies whether a service account should be created
+      create: true
+      # Annotations to add to the service account
+      annotations: {}
+      # The name of the service account to use.
+      # If not set and create is true, a name is generated using the fullname template
+      name: ""
+    podAnnotations: {}
+    podSecurityContext:
+      {}
+      # fsGroup: 2000
+    securityContext:
+      {}
+      # capabilities:
+      #   drop:
+      #   - ALL
+      # readOnlyRootFilesystem: true
+      # runAsNonRoot: true
+      # runAsUser: 1000
+    service:
+      type: ClusterIP
+      port: 80
+    ingress:
+      enabled: true
+      annotations: {}
+      hosts:
+        - host: ades-open-osc.demo.eoepca.org
+          paths:
+            - path: /
+              pathType: ImplementationSpecific    
+      tls: []
+      #  - secretName: chart-example-tls
+      #    hosts:
+      #      - chart-example.local
+    resources:
+      # We usually recommend not to specify default resources and to leave this as a conscious
+      # choice for the user. This also increases chances charts run on environments with little
+      # resources, such as Minikube. If you do want to specify resources, uncomment the following
+      # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+      limits:
+        cpu: 2
+        memory: 4Gi
+      requests:
+        cpu: 500m
+        memory: 2Gi
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 3
+      targetCPUUtilizationPercentage: 80
+      # targetMemoryUtilizationPercentage: 80
+    storageClassName: managed-nfs-storage
+    clusterAdminRoleName: cluster-admin
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+    useKubeProxy: True
+    workflowExecutor:
+      stagein:
+        cwl: |
+          cwlVersion: v1.0
+          doc: "Run Stars for staging input data"
+          class: CommandLineTool
+          hints:
+            DockerRequirement:
+              dockerPull: gr4n0t4/stagein:0.1.3
+            "cwltool:Secrets":
+              secrets:
+              - ADES_STAGEIN_AWS_SERVICEURL
+              - ADES_STAGEIN_AWS_ACCESS_KEY_ID
+              - ADES_STAGEIN_AWS_SECRET_ACCESS_KEY
+          id: stars
+          inputs:
+            ADES_STAGEIN_AWS_SERVICEURL:
+              type: string?
+            ADES_STAGEIN_AWS_ACCESS_KEY_ID:
+              type: string?
+            ADES_STAGEIN_AWS_SECRET_ACCESS_KEY:
+              type: string?
+          outputs: {}
+          baseCommand: ['/bin/bash', 'stagein.sh']
+          requirements:
+            InitialWorkDirRequirement:
+              listing:
+              - entryname: stagein.sh
+                entry: |-
+                  #!/bin/bash
+                  export AWS__ServiceURL=$(inputs.ADES_STAGEIN_AWS_SERVICEURL)
+                  export AWS_ACCESS_KEY_ID=$(inputs.ADES_STAGEIN_AWS_ACCESS_KEY_ID)
+                  export AWS_SECRET_ACCESS_KEY=$(inputs.ADES_STAGEIN_AWS_SECRET_ACCESS_KEY)
+                  url=$1
+                  if curl --output /dev/null --silent --head --fail "$url"; then
+                    echo "URL: $url"
+                  else
+                    echo "URL does not exist: $url"
+                    exit 1
+                  fi
+                  python /run.py $url
+            EnvVarRequirement:
+              envDef:
+                PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+            ResourceRequirement: {}
+      # Necessary if useKubeProxy set to false
+      # kubeconfig: "files/kubeconfig"
+
+      # Here specify fixed inputs to all workflows execution in all stages (main, stage-in/out)
+      # They will be prefixed with 'ADES_'. e.g. 'APP: ades' will be 'ADES_APP: ades'
+      inputs:
+        APP: ades
+
+        STAGEIN_AWS_SERVICEURL: http://data.cloudferro.com
+        STAGEIN_AWS_ACCESS_KEY_ID: test
+        STAGEIN_AWS_SECRET_ACCESS_KEY: test
+        STAGEIN_AWS_REGION: RegionOne
+
+        STAGEOUT_AWS_SERVICEURL: https://minio.demo.eoepca.org
+
+      useResourceManager: "true"
+      resourceManagerWorkspacePrefix: "demo-user"
+      resourceManagerEndpoint: "https://workspace-api.demo.eoepca.org"
+      platformDomain: "https://gluu.demo.eoepca.org"
+
+      pod_env_vars:
+        yaml: "{}"
+
+      usernameJwtJsonPath: "user_name"
+
+      # kubernetes storage class to be used for provisioning volumes. Must be a persistent volume claim compliant (glusterfs-storage)
+      processingStorageClass: managed-nfs-storage
+      # Size of the Kubernetes Tmp Volumes
+      processingVolumeTmpSize: "6Gi"
+      # Size of the Kubernetes Output Volumes
+      processingVolumeOutputSize: "6Gi"
+      # Max ram to use for a job
+      processingMaxRam: "8Gi"
+      # Max number of CPU cores to use concurrently for a job
+      processingMaxCores: "4"
+      # if false the Ades will clean the volume after the workflow has successfully finished running
+      processingKeepWorkspace: "false"
+      processingKeepWorkspaceIfFailed: "True"
+      # image pull secrects
+      imagePullSecrets: []
+
+      pod:
+        env: {}
+        
+    wps:
+      pepBaseUrl: "http://ades-pep:5576"
+      usePep: "false"
+      maincfgtpl: "files/main.cfg.tpl"
+    persistence:
+      enabled: true
+      # existingUserDataClaim:
+      # existingProcServicesClaim:
+      storageClass: "managed-nfs-storage"
+      userDataAccessMode: ReadWriteOnce
+      userDataSize: 10Gi
+      procServicesAccessMode: ReadWriteOnce
+      procServicesSize: 5Gi
+    # values - end
+  # timeout: 25m0s
+  interval: 1m0s
