@@ -184,7 +184,7 @@ See the [open issues](https://github.com/EOEPCA/eoepca/issues) for a list of pro
 <!-- LICENSE -->
 ## License
 
-The EOEPCA SYSTEM is distributed under the Apache 2.0 Licence. See [`LICENSE`](https://github.com/EOEPCA/eoepca/blob/v1.3/LICENSE) for more information.
+The EOEPCA SYSTEM is distributed under the OSI approved Apache 2.0 Licence. See [`LICENSE`](https://github.com/EOEPCA/eoepca/blob/v1.3/LICENSE) for more information.
 
 Building-blocks and their sub-components are individually licensed. See their respective source repositories for details.
 
