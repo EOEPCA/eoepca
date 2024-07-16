@@ -43,12 +43,10 @@
 - [Getting Started](#getting-started)
   - [Hostnames and DNS](#hostnames-and-dns)
 - [System Documentation](#system-documentation)
-  - [Current Documentation](#current-documentation)
+  - [Deployment Guide](#deployment-guide)
   - [Legacy Documentation](#legacy-documentation)
-- [Technical Domains](#technical-domains)
-  - [User Management](#user-management)
-  - [Processing and Chaining](#processing-and-chaining)
-  - [Resource Management](#resource-management)
+- [Building Blocks](#building-blocks)
+- [Implemented Standards](#implemented-standards)
 - [Releases](#releases)
 - [Issues](#issues)
 - [License](#license)
@@ -61,7 +59,11 @@
 
 EO Exploitation Platform Common Architecture (EOEPCA)
 
-The goal of the “Common Architecture” is to define and agree the technical interfaces for the future exploitation of Earth Observation data in a distributed environment. The Common Architecture will thus provide the interfaces to facilitate the federation of different EO resources into a “Network of EO Resources”. The “Common Architecture” will be defined using open interfaces that link the different Resource Servers (building blocks) so that a user can efficiently access and consume the disparate services of the “Network of EO Resources”.
+Earth Observation (EO) data has quickly evolved into an indispensable resource, directly facilitating solutions for society's most pressing challenges. This intensifying influx of data, oftentimes distributed across multiple independent platforms, presents a significant challenge for end-users in efficiently accessing and collaborating on critical geospatial tasks. Nevertheless, these platforms are more commonly collocated with cloud computing resources and applications such that users are now able to perform geospatial analysis tasks remotely. Working in the cloud bypasses traditional download, storage and performance limitations, however the distributed nature of these platform networks introduces complexities in the free and collective access to this remote geospatial data. 
+
+Our vision with EOEPCA then is for greater interoperability between such platforms, towards an open network of resources, whilst enabling current and future users to easily collaborate on geospatial analysis tasks at source. To this end we are helping to establish a consensus of best practice for EO Exploitation Platforms, based on open standards. Supporting that, we are developing a reference implementation of building blocks, as free open source software.
+
+The goal of the EOEPCA's “Common Architecture” is therefore to define and agree the technical interfaces for the future exploitation of Earth Observation data in a distributed environment. The Common Architecture will provide the interfaces to facilitate the federation of different EO resources into a “Network of EO Resources”. The “Common Architecture” will be defined using open interfaces that link the different Resource Servers (building blocks) so that a user can efficiently access and consume the disparate services of the “Network of EO Resources”.
 
 This repository represents the system integration of the building blocks that comprise the **Reference Implementation** of the Common Architecture.
 
@@ -72,14 +74,14 @@ The system is designed for deployment to cloud infrastructure orchestrated by a 
 
 The EOEPCA system deployment comprises several steps. Instructions are provided for both cloud deployment, and local deployment for development purposes.
 
-For the latest release (v1.3) ensure that the [correct version](https://github.com/EOEPCA/eoepca/blob/v1.3/README.md "v1.3 README") of this README is followed.
+For the latest release (v1.4) ensure that the [correct version](https://github.com/EOEPCA/eoepca/blob/v1.4/README.md "v1.4 README") of this README is followed.
 
 The first step is to fork this repository into your GitHub account. Use of fork (rather than clone) is recommended to support our GitOps approach to deployment with Flux Continuous Delivery, which requires write access to your git repository for deployment configurations.<br>
 Having forked, clone the repository to your local platform...
 ```
 $ git clone git@github.com:<user>/eoepca.git
 $ cd eoepca
-$ git checkout v1.3
+$ git checkout v1.4
 ```
 NOTE that this clones the specific tag that is well tested. The `develop` branch should alternatively be used for the latest development.
 
@@ -91,7 +93,7 @@ EOEPCA System Deployment<br>(`flux`) | [EOEPCA GitOps](./system/clusters/README.
 EOEPCA System Deployment<br>([Deployment Guide](https://deployment-guide.docs.eoepca.org/)) | [Deployment Guide](https://deployment-guide.docs.eoepca.org/) | [Deployment Guide](https://deployment-guide.docs.eoepca.org/)
 Acceptance Test | [Run Test Suite](./test/acceptance/README.md) | [Run Test Suite](./test/acceptance/README.md)
 
-NOTE that, with release v1.3, the number of system components has been expanded to the point where it is more difficult to make a full system deployment in minikube, due to the required resource demands. Nevertheless, it is possible to make a minikube deployment to a single node with sufficient resources (8 cpu, 32GB) - as illustrated by the [Deployment Guide](https://deployment-guide.docs.eoepca.org/).
+NOTE that, with release v1.4, the number of system components has been expanded to the point where it is more difficult to make a full system deployment in minikube, due to the required resource demands. Nevertheless, it is possible to make a minikube deployment to a single node with sufficient resources (8 cpu, 32GB) - as illustrated by the [Deployment Guide](https://deployment-guide.docs.eoepca.org/).
 
 NOTE also that the [Deployment Guide](https://deployment-guide.docs.eoepca.org/) provides a more detailed description of the deployment and configuration of the components, supported by some shell scripts that deploy the components directly using `helm` (rather than using `flux` GitOps). The Deployment Guide represents a more informative introduction, and the supporting scripts assume `minikube` out-of-the-box.
 
@@ -110,12 +112,9 @@ Our public endpoint address is baked into our deployment configuration - in part
 
 ## System Documentation
 
-### Current Documentation
+### Deployment Guide
 
-The following documentation supports the current release...
-
-* [Deployment Guide](https://deployment-guide.docs.eoepca.org/v1.3/)
-* [System Description](https://system-description.docs.eoepca.org/)
+The [Deployment Guide](https://eoepca.readthedocs.io/projects/deploy/en/1.4/) provides the best system-level introduction to the system.
 
 ### Legacy Documentation
 
@@ -126,37 +125,49 @@ It is included here for context...
 * [Master System Design Document](https://eoepca.github.io/master-system-design/)
 
 
-## Technical Domains
+## Building Blocks
 
-### User Management
+The following provides links to the resources for each building block - including documentaiton and source repositories...
 
-Building Block | Repository | Documentation
----------------|------------|--------------
-Login Service | https://github.com/EOEPCA/um-login-service | https://github.com/EOEPCA/um-login-service/wiki<br>https://deployment-guide.docs.eoepca.org/v1.3/eoepca/login-service/<br>https://system-description.docs.eoepca.org/current/iam/login-service/
-User Profile | https://github.com/EOEPCA/um-user-profile | https://github.com/EOEPCA/um-user-profile/wiki<br>https://deployment-guide.docs.eoepca.org/v1.3/eoepca/user-profile//<br>https://system-description.docs.eoepca.org/current/iam/user-profile/
-Resource Protection | https://github.com/EOEPCA/uma-user-agent<br>https://github.com/EOEPCA/um-pep-engine | https://github.com/EOEPCA/um-pep-engine/wiki<br>https://deployment-guide.docs.eoepca.org/v1.3/eoepca/resource-protection/<br>https://system-description.docs.eoepca.org/current/iam/resource-guard/
-Policy Decision Point (PDP) | https://github.com/EOEPCA/um-pdp-engine | https://github.com/EOEPCA/um-pdp-engine/wiki<br>https://deployment-guide.docs.eoepca.org/v1.3/eoepca/pdp/<br>https://system-description.docs.eoepca.org/current/iam/pdp/
+* [**ADES - ZOO-Project DRU (Application Deployment & Execution Service)**](https://github.com/ZOO-Project/ZOO-Project) - [[repository]](https://github.com/ZOO-Project/ZOO-Project) [[docs]](https://www.zoo-project.org/new/Resources/Documentation):
+  * [**Helm chart**](https://github.com/ZOO-Project/charts/tree/main/zoo-project-dru)
+  * [**eoepca-proc-service-template**](https://github.com/EOEPCA/eoepca-proc-service-template) - Cookie-cutter template for Application Package execution in Kubernetes
+  * [**zoo-calrissian-runner**](https://github.com/EOEPCA/zoo-calrissian-runner) - Python library used by the `eoepca-proc-service-template` to aid orchestration of CWL application packages running in Kubernetes via Calrissian
+  * [**pycalrissian**](https://github.com/terradue/pycalrissian) - Python library used by `zoo-calrissian-runner` to aid interfacing with Calrissian and Kubernetes
+* [**Application Hub**](https://github.com/EOEPCA/application-hub-chart) - [[repository]](https://github.com/EOEPCA/application-hub-context) [[docs]](https://eoepca.github.io/application-hub-context/):
+  * **ApplicationHub Applications:**
+    * **Processor Development Environment** [[repository]](https://github.com/EOEPCA/pde-code-server)
+    * **JupyterLab** [[repository]](https://github.com/EOEPCA/iat-jupyterlab)
+    * **Remote Desktop** [[repository]](https://github.com/EOEPCA/iga-remote-desktop)
+    * **Remote Desktop with QGIS** [[repository]](https://github.com/EOEPCA/iga-remote-desktop-qgis)
+    * **Remote Desktop with SNAP** [[repository]](https://github.com/EOEPCA/iga-remote-desktop-snap)
+    * **Dashboard with Streamlit** [[repository]](https://github.com/EOEPCA/iga-streamlit-demo)
+* [**Resource Catalogue**](https://github.com/EOEPCA/rm-resource-catalogue) - [[repository]](https://github.com/geopython/pycsw) - [[docs]](https://github.com/EOEPCA/rm-resource-catalogue)
+* [**Data Access**](https://github.com/EOEPCA/rm-data-access/) - [[repository]](https://gitlab.eox.at/vs/vs) - [[docs]](https://github.com/EOEPCA/rm-data-access/)
+* [**Registration API**](https://github.com/EOEPCA/rm-registration-api) - [[repository]](https://github.com/EOEPCA/rm-registration-api) - [[docs]](https://github.com/EOEPCA/rm-registration-api/wiki)
+* [**Workspace API**](https://github.com/EOEPCA/rm-workspace-api/) - [[repository]](https://github.com/EOEPCA/rm-workspace-api) - [[docs]](https://github.com/EOEPCA/rm-workspace-api/wiki)
+* [**Minio Bucket API**](https://github.com/EOEPCA/rm-minio-bucket-api) - [repository](https://github.com/EOEPCA/rm-minio-bucket-api) - [docs](https://github.com/EOEPCA/rm-minio-bucket-api#readme)
+* **Identity & Access Management...**
+  * **Keycloak Solution (NEW)**
+    * [**Identity Service**](https://github.com/EOEPCA/um-identity-service) - [[repository]](https://github.com/EOEPCA/um-identity-service) - [[docs]](https://deployment-guide.docs.eoepca.org/v1.4/eoepca/identity-service/) - [[keycloak]](https://www.keycloak.org/documentation)
+    * [**Identity API**](https://github.com/EOEPCA/um-identity-api) - [[repository]](https://github.com/EOEPCA/um-identity-api) - [[docs]](https://deployment-guide.docs.eoepca.org/v1.4/eoepca/identity-service/)
+    * [**Identity Gatekeeper**](https://github.com/gogatekeeper/gatekeeper) - [[repository]](https://github.com/gogatekeeper/gatekeeper) - [[docs]](https://deployment-guide.docs.eoepca.org/v1.4/eoepca/resource-protection-keycloak/) - [[gogatekeeper]](https://gogatekeeper.github.io/gatekeeper/userguide/)
+  * **Gluu Solution (deprecated)**
+    * [**Login Service**](https://github.com/EOEPCA/um-login-service) - [[repository]](https://github.com/EOEPCA/um-login-service) - [[docs]](https://github.com/EOEPCA/um-login-service/wiki) - [[gluu]](https://gluu.org/docs/gluu-server/4.1/)
+    * [**Resource Protection**](https://system-description.docs.eoepca.org/current/iam/resource-guard/) - [[repository]](https://github.com/EOEPCA/helm-charts/tree/main/charts/resource-guard) - [[docs]](https://github.com/EOEPCA/helm-charts/tree/main/charts/resource-guard#readme)
+    * [**Policy Decision Point**](https://github.com/EOEPCA/um-pdp-engine) - [[repository]](https://github.com/EOEPCA/um-pdp-engine) - [[docs]](https://github.com/EOEPCA/um-pdp-engine/wiki)
+    * [**User Profile**](https://github.com/EOEPCA/um-user-profile) - [[repository]](https://github.com/EOEPCA/um-user-profile) - [[docs]](https://github.com/EOEPCA/um-user-profile/wiki)
 
-### Processing and Chaining
 
-Building Block | Repository | Documentation
----------------|------------|--------------
-Application Deployment & Execution Service (ADES) | https://github.com/EOEPCA/proc-ades | https://github.com/EOEPCA/proc-ades/wiki<br>https://deployment-guide.docs.eoepca.org/v1.3/eoepca/ades/<br>https://system-description.docs.eoepca.org/current/processing/ades/
-Application Hub | https://github.com/EOEPCA/application-hub-chart<br>https://github.com/EOEPCA/application-hub-context | https://deployment-guide.docs.eoepca.org/v1.3/eoepca/application-hub/<br>https://system-description.docs.eoepca.org/current/processing/application-hub/
-Sample Application: s-expression | https://github.com/EOEPCA/app-s-expression | https://github.com/EOEPCA/app-s-expression/blob/main/README.md
-Sample Application: snuggs | https://github.com/EOEPCA/app-snuggs | https://github.com/EOEPCA/app-snuggs#readme
-Sample Application: nhi | https://github.com/EOEPCA/app-nhi | https://github.com/EOEPCA/app-nhi/blob/main/README.md
+<!-- Implemented-Standards -->
+## Implemented Standards
 
-### Resource Management
+The EOEPCA project aligns with OGC standards and best practices including:
 
-Building Block | Repository | Documentation
----------------|------------|--------------
-Resource Catalogue | https://github.com/geopython/pycsw | https://docs.pycsw.org/en/latest/<br>https://deployment-guide.docs.eoepca.org/v1.3/eoepca/resource-catalogue/<br>https://system-description.docs.eoepca.org/current/resources/catalogue/
-Data Access Services | https://github.com/EOEPCA/rm-data-access/ | https://deployment-guide.docs.eoepca.org/v1.3/eoepca/data-access/<br>https://system-description.docs.eoepca.org/current/resources/data-access/
-Registration API | https://github.com/EOEPCA/rm-registration-api | https://deployment-guide.docs.eoepca.org/v1.3/eoepca/registration-api/<br>https://system-description.docs.eoepca.org/current/resources/registration-api/
-Workspace API | https://github.com/EOEPCA/rm-workspace-api/ | https://deployment-guide.docs.eoepca.org/v1.3/eoepca/workspace/<br>https://system-description.docs.eoepca.org/current/resources/workspace/
-Minio Bucket API | https://github.com/EOEPCA/rm-minio-bucket-api | https://deployment-guide.docs.eoepca.org/v1.3/eoepca/workspace/#minio-bucket-api-webhook | https://system-description.docs.eoepca.org/current/resources/workspace/
+- OGC API: Coverages, Maps, Records, Features, Processing, Tiles
+- OGC Web Services: WFS, WMTS, WCS, WMS, WPS
 
+For full documentation on how EOEPCA implements these standards, visit the [EOEPCA](https://github.com/EOEPCA) repository. For further details on the OGC standards visit the official [API](https://ogcapi.ogc.org/) and [Web Services](https://www.ogc.org/standard/owc/) pages.
 
 <!-- Releases -->
 ## Releases
@@ -165,6 +176,7 @@ EOEPCA system releases are made to provide integrated deployments of the develop
 
 | Date | Release |
 | :---: | :---: |
+| 28/02/2024 | [Release 1.4](https://github.com/EOEPCA/eoepca/releases/tag/v1.4) |
 | 25/09/2023 | [Release 1.3](https://github.com/EOEPCA/eoepca/releases/tag/v1.3) |
 | 20/12/2022 | [Release 1.2](https://github.com/EOEPCA/eoepca/blob/v1.2/release-notes/release-1.2.md) |
 | 31/05/2022 | [Release 1.1](https://github.com/EOEPCA/eoepca/blob/v1.1/release-notes/release-1.1.md) |
@@ -184,7 +196,7 @@ See the [open issues](https://github.com/EOEPCA/eoepca/issues) for a list of pro
 <!-- LICENSE -->
 ## License
 
-The EOEPCA SYSTEM is distributed under the Apache 2.0 Licence. See [`LICENSE`](https://github.com/EOEPCA/eoepca/blob/v1.3/LICENSE) for more information.
+The EOEPCA SYSTEM is distributed under the OSI approved Apache 2.0 Licence. See [`LICENSE`](https://github.com/EOEPCA/eoepca/blob/v1.4/LICENSE) for more information.
 
 Building-blocks and their sub-components are individually licensed. See their respective source repositories for details.
 
