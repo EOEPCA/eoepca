@@ -52,5 +52,5 @@ trio==0.19.0
 trio-websocket==0.9.2
 urllib3==1.26.7
 WellKnownHandler==0.2.0
-Werkzeug==2.0.2
+Werkzeug==2.2.3
 wsproto==1.0.0
