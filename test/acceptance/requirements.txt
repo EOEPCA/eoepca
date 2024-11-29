@@ -7,7 +7,7 @@ certifi==2021.10.8
 cffi==1.15.0
 charset-normalizer==2.0.8
 click==8.0.3
-cryptography==36.0.0
+cryptography==39.0.1
 docutils==0.18.1
 eoepca-oidc==0.0.3
 eoepca-scim==2.8.0
